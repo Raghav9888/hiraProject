@@ -11,6 +11,7 @@ body{
 background-color: #FFFFFF;
 margin: 0;
 padding: 0;
+font-family: "Montserrat-Regular";
 }
 
 section{
@@ -768,7 +769,8 @@ text-align: center;
 
 .contact-us-wrrpr form label,
 .login-body form .input-group label,
-.login-checkbox label{
+.login-checkbox label,
+.add-offering-dv label{
 font-family: "Montserrat-Regular";
 font-size: 16px;
 font-weight: 400;
@@ -776,9 +778,14 @@ color: #FFFFFF;
 margin: 0;
 margin-bottom: 5px;
 }
+.add-offering-dv label{
+    color: #000;
+}
 .contact-us-wrrpr form input,
 .contact-us-wrrpr form textarea,
-.login-body form .input-group input{
+.login-body form .input-group input,
+.add-offering-dv input,
+.add-offering-dv textarea{
 font-family: "Montserrat-Regular";
 font-size: 16px;
 font-weight: 400;
@@ -788,13 +795,18 @@ border-radius: 24px;
 height: 46px;
 padding: 17px 21px;
 }
-.contact-us-wrrpr form textarea{
+.contact-us-wrrpr form textarea,
+.add-offering-dv textarea{
 height: 100px;
 }
 .contact-us-wrrpr form input:focus,
 .contact-us-wrrpr form textarea{
 box-shadow: none;
 border: none;
+}
+.add-offering-dv textarea:focus,
+.add-offering-dv input{
+    box-shadow: none !important;
 }
 
 .contact-us-right-dv form .form-check .form-check-input{
@@ -821,6 +833,33 @@ border-radius: 33px;
 height: 46px;
 width: 137px;
 border: 1.5px solid #FFFFFF
+}
+
+.stripe-text{
+    font-family: "Montserrat-Medium";
+font-size: 20px;
+font-weight: 600;
+color: #000;
+}
+.stripe-label{
+    font-family: "Montserrat-Regular";
+font-size: 16px;
+font-weight: 400;
+color: #666;
+}
+.stripe-btn{
+    padding: 12px;
+    height: 46px;
+    background: #1275ff;
+    background-image: linear-gradient(#7dc5ee, #008cdd 85%, #30a2e4);
+    font-size: 14px;
+    color: #fff;
+    font-weight: 700;
+    font-family: "Montserrat-Medium";
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, .2);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25);
+    border-radius: 3px;
+    border: none;
 }
 /* contact us css end */
 
@@ -904,7 +943,8 @@ padding: 5px 20px;
 margin-bottom: 5px;
 border: none;
 }
-.blog-section .resources-body p{
+.blog-section .resources-body p,
+.practitioner-profile p{
 font-family: "Montserrat-Regular";
 font-size: 16px;
 font-weight: 400;
@@ -1530,6 +1570,7 @@ color: #ba9b8b;
 .practitioner-profile-btns{
     padding: 0;
     display: flex;
+    flex-wrap: wrap;
     gap: 20px;
 }
 .practitioner-profile-btns{
@@ -1619,7 +1660,8 @@ padding: 0;
     outline: none;
   }
 
-  #resetCalendar {
+  #resetCalendar,
+  .export-btn {
     font-family: "Montserrat-Regular";
     font-size: 18px;
     font-weight: 700; 
@@ -1730,6 +1772,7 @@ padding: 0;
   .positioned-dv{
     position: absolute;
     top: 40%;
+    left: 0;
     background: #424E3E;
     border-radius: 0px 30px 30px 0;
   }
@@ -1750,9 +1793,116 @@ padding: 0;
 
    }
  
+.featured-image-tag{
+    font-family: "Montserrat-Medium";
+    font-size: 22px;
+    font-weight: 400; 
+    color: #000;
+}
 
-
+.image-preview {
+    width: 128px;
+    height: 128px;
+    background-color: #d1d5db;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.image-preview span {
+    color: #6b7280;
+    font-size: 2rem;
+}
+.text {
+    margin-top: 0.5rem;
+    color: #374151;
+}
 /* practitioner dashboard css end */
+
+/* earning css start */
+.earning-wrrpr .table{
+    border: 1px solid #dee2e6;
+}
+.earning-wrrpr .table th, .table td {
+    vertical-align: middle;
+    border-bottom: 1px solid #dee2e6;
+}
+
+
+
+.earning-wrrpr .table th{
+    font-family: "Montserrat-Medium";
+    font-size: 18px;
+    font-weight: 600; 
+    color: #555;
+}
+.earning-wrrpr .table td{
+    font-family: "Montserrat-Regular";
+    font-size: 16px;
+    font-weight: 400; 
+    color: #666;
+}
+.earning-wrrpr .table td a{
+    font-family: "Montserrat-Regular";
+    font-size: 16px;
+    font-weight: 700; 
+    color: #000;
+    text-decoration: none;
+}
+.earning-wrrpr label{
+    font-family: "Montserrat-Medium";
+font-size: 16px;
+font-weight: 400;
+    color: #424E3E;
+    margin-bottom: 5px;
+}
+
+.earning-wrrpr input{
+   width: 100%;
+   max-width: 500px;
+   border-radius: 33px;
+   padding: 0 10px;
+   border: 1px solid #333;
+}
+.earning-wrrpr .update-btn,
+.add-offering-dv .update-btn{
+    font-family: "Montserrat-Medium";
+font-size: 16px;
+font-weight: 400;
+    color: #424E3E;
+    background-color: #e9dccf;
+    border: none;
+    padding: 10px 30px;
+    border-radius: 33px;
+    height: 48px;
+    margin-left: 20px;
+}
+
+.no-request-text{
+    font-family: "Montserrat-Medium";
+font-size: 22px;
+font-weight: 600;
+    color: #424E3E; 
+}
+
+.add-offering-dv select{
+    border-radius: 33px;
+    height: 48px;
+}
+
+.add-offering-dv .offering-check input{
+    height: 10px;
+    width: 10px;
+    padding: 8px;
+}
+
+.add-offering-dv .nav-tabs .nav-link{
+    font-family: "Montserrat-Regular";
+    font-size: 18px;
+    font-weight: 400;
+    color: #666  
+}
+/* earning css end */
 
 /* footer css start */
 .footer{
