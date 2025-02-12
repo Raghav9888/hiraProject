@@ -16,27 +16,27 @@
                                 <div class="col-sm-12 col-md-6 col-lg-6">
                                     <div class="mb-3">
                                         <label for="exampleInputEmail1" class="form-label">First Name</label>
-                                        <input type="text" class="form-control" id="exampleInputEmail1"
+                                        <input type="text" class="form-control" name="first_name" id="exampleInputEmail1"
                                             aria-describedby="emailHelp" placeholder="First name">
                                     </div>
                                 </div>
                                 <div class="col-sm-12 col-md-6 col-lg-6">
                                     <div class="mb-3">
                                         <label for="exampleInputEmail1" class="form-label">Last Name</label>
-                                        <input type="text" class="form-control" id="exampleInputEmail1"
+                                        <input type="text" class="form-control" name="last_name" id="exampleInputEmail1"
                                             aria-describedby="emailHelp" placeholder="Last name">
                                     </div>
                                 </div>
                             </div>
                             <div class="mb-3">
                                 <label for="exampleInputPassword1" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="exampleInputPassword1"
+                                <input type="email" class="form-control" name="email" id="exampleInputPassword1"
                                     placeholder="Enter a valid email address">
                             </div>
                             <div class="mb-3">
                                 <label for="exampleInputPassword1" class="form-label">Password</label>
                                 <div class="input-group">
-                                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="password">
+                                    <input type="password" class="form-control" name="password" id="exampleInputPassword1" placeholder="password">
                                     <span class="input-group-text" id="togglePassword">
                                         <i class="fas fa-eye"></i>
                                     </span>
@@ -45,7 +45,7 @@
                             <div class="mb-3">
                                 <label for="floatingTextarea">Confirm Password</label>
                                 <div class="input-group">
-                                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="confirm password">
+                                    <input type="password" class="form-control" name="confirm_password" id="exampleInputPassword1" placeholder="confirm password">
                                     <span class="input-group-text" id="togglePassword">
                                         <i class="fas fa-eye"></i>
                                     </span>

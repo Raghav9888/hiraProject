@@ -13,7 +13,7 @@
                         @csrf
                                     <div class="mb-3">
                                         <label for="exampleInputEmail1" class="form-label mb-2">Username or Email Address</label>
-                                        <input type="text" class="form-control" id="exampleInputEmail1"
+                                        <input type="text" class="form-control" name="email" id="exampleInputEmail1"
                                             aria-describedby="emailHelp" placeholder="username or email">
                                             @error('email')
                                                 <span class="invalid-feedback" role="alert">
@@ -24,7 +24,7 @@
                                     <div class="mb-4">
                                         <label for="exampleInputPassword1" class="form-label mb-2">Password</label>
                                         <div class="input-group">
-                                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="password">
+                                            <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="password">
                                             <span class="input-group-text" id="togglePassword">
                                                 <i class="fas fa-eye"></i>
                                             </span>
