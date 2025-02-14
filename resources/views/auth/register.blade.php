@@ -10,42 +10,51 @@
                     </div>
                     <div class="contact-us-right-dv">
                         <h3 style="margin-bottom: 40px;">SignUp your account</h3>
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <form method="POST" action="{{ route('register') }}">
                         @csrf
                             <div class="row">
                                 <div class="col-sm-12 col-md-6 col-lg-6">
                                     <div class="mb-3">
-                                        <label for="exampleInputEmail1" class="form-label">First Name</label>
-                                        <input type="text" class="form-control" name="first_name" id="exampleInputEmail1"
+                                        <label for="first_name" class="form-label">First Name</label>
+                                        <input type="text" class="form-control" name="first_name" id="first_name"
                                             aria-describedby="emailHelp" placeholder="First name">
                                     </div>
                                 </div>
                                 <div class="col-sm-12 col-md-6 col-lg-6">
                                     <div class="mb-3">
-                                        <label for="exampleInputEmail1" class="form-label">Last Name</label>
-                                        <input type="text" class="form-control" name="last_name" id="exampleInputEmail1"
+                                        <label for="last_name" class="form-label">Last Name</label>
+                                        <input type="text" class="form-control" name="last_name" id="last_name"
                                             aria-describedby="emailHelp" placeholder="Last name">
                                     </div>
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label for="exampleInputPassword1" class="form-label">Email</label>
-                                <input type="email" class="form-control" name="email" id="exampleInputPassword1"
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" name="email" id="email"
                                     placeholder="Enter a valid email address">
                             </div>
                             <div class="mb-3">
-                                <label for="exampleInputPassword1" class="form-label">Password</label>
+                                <label for="password" class="form-label">Password</label>
                                 <div class="input-group">
-                                    <input type="password" class="form-control" name="password" id="exampleInputPassword1" placeholder="password">
+                                    <input type="password" class="form-control" name="password" id="password" placeholder="password">
                                     <span class="input-group-text" id="togglePassword">
                                         <i class="fas fa-eye"></i>
                                     </span>
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label for="floatingTextarea">Confirm Password</label>
+                                <label for="password_confirmation">Confirm Password</label>
                                 <div class="input-group">
-                                    <input type="password" class="form-control" name="confirm_password" id="exampleInputPassword1" placeholder="confirm password">
+                                    <input type="password" class="form-control" name="password_confirmation" id="password_confirmation" placeholder="confirm password">
                                     <span class="input-group-text" id="togglePassword">
                                         <i class="fas fa-eye"></i>
                                     </span>

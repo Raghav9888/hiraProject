@@ -89,7 +89,7 @@
     /* home main css start */
     
     .home-main-section{
-    background-image: url(./assets/images/home-banner.png);
+    background-image: url(/assets/images/home-banner.png);
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;

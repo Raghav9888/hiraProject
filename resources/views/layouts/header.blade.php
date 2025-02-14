@@ -1,0 +1,50 @@
+<header class="header">
+    <div class="container">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid">
+                <a href="./index.html">
+                    <img class="header-logo" src="{{url('./assets/images/header-logo.svg')}}" alt="header-logo">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">DIRECTORY</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/blog.html">ARTICLES & BLOGS</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                COMPANY
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="#">Press</a></li>
+                                <li><a class="dropdown-item" href="#">Contact Us</a></li>
+                                <li><a class="dropdown-item" href="#">Privacy Policy</a></li>
+                                <li><a class="dropdown-item" href="#">Terms & Conditions</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <div class="d-flex">                       
+                       
+                        @if(Auth::check())
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button class="login-btn" type="submit">Logout</button>
+                        </form>
+                        @else
+                            <button class="join-btn" type="submit">Join as a Practitioner</button>
+                            <button class="login-btn" type="submit">Login</button>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+</header>
