@@ -390,52 +390,52 @@
                                 incididunt ut labore.</p>
                             <h4>Robert Fox</h4>
                             <p class="mb-0">Yoga Student</p>
-                            <img class="shadow-quotes" src="../../../asserts/shadow-quotes.svg" alt="quotes">
+                            <img class="shadow-quotes" src="{{url('/assets/images/shadow-quotes.svg')}}" alt="quotes">
                         </div>
                         <div class="swiper-slide">
-                            <img src="../../../asserts/quotes.svg" alt="quotes">
+                            <img src="{{url('/assets/images/quotes.svg')}}" alt="quotes">
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
                                 ut labore. Lorem ipsum dolor sit amet, consect adipicing elit, sed do eiusmod tempor
                                 incididunt ut labore.</p>
                             <h4>Jenny Wilson</h4>
                             <p class="mb-0">Yoga Student</p>
-                            <img class="shadow-quotes" src="../../../asserts/shadow-quotes.svg" alt="quotes">
+                            <img class="shadow-quotes" src="{{url('/assets/images/shadow-quotes.svg')}}" alt="quotes">
                         </div>
                         <div class="swiper-slide">
-                            <img src="../../../asserts/quotes.svg" alt="quotes">
+                            <img src="{{url('/assets/images/quotes.svg')}}" alt="quotes">
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
                                 ut labore. Lorem ipsum dolor sit amet, consect adipicing elit, sed do eiusmod tempor
                                 incididunt ut labore.</p>
                             <h4>Guy Hawkins</h4>
                             <p class="mb-0">Yoga Student</p>
-                            <img class="shadow-quotes" src="../../../asserts/shadow-quotes.svg" alt="quotes">
+                            <img class="shadow-quotes" src="{{url('/assets/images/shadow-quotes.svg')}}" alt="quotes">
                         </div>
                         <div class="swiper-slide">
-                            <img src="../../../asserts/quotes.svg" alt="quotes">
+                            <img src="{{url('/assets/images/quotes.svg')}}" alt="quotes">
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
                                 ut labore. Lorem ipsum dolor sit amet, consect adipicing elit, sed do eiusmod tempor
                                 incididunt ut labore.</p>
                             <h4>Robert Fox</h4>
                             <p class="mb-0">Yoga Student</p>
-                            <img class="shadow-quotes" src="../../../asserts/shadow-quotes.svg" alt="quotes">
+                            <img class="shadow-quotes" src="{{url('/assets/images/shadow-quotes.svg')}}" alt="quotes">
                         </div>
                         <div class="swiper-slide">
-                            <img src="../../../asserts/quotes.svg" alt="quotes">
+                            <img src="{{url('/assets/images/quotes.svg')}}" alt="quotes">
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
                                 ut labore. Lorem ipsum dolor sit amet, consect adipicing elit, sed do eiusmod tempor
                                 incididunt ut labore.</p>
                             <h4>Jenny Wilson</h4>
                             <p class="mb-0">Yoga Student</p>
-                            <img class="shadow-quotes" src="../../../asserts/shadow-quotes.svg" alt="quotes">
+                            <img class="shadow-quotes" src="{{url('/assets/images/shadow-quotes.svg')}}" alt="quotes">
                         </div>
                         <div class="swiper-slide">
-                            <img src="../../../asserts/quotes.svg" alt="quotes">
+                            <img src="{{url('/assets/images/quotes.svg')}}" alt="quotes">
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
                                 ut labore. Lorem ipsum dolor sit amet, consect adipicing elit, sed do eiusmod tempor
                                 incididunt ut labore.</p>
                             <h4>Guy Hawkins</h4>
                             <p class="mb-0">Yoga Student</p>
-                            <img class="shadow-quotes" src="../../../asserts/shadow-quotes.svg" alt="quotes">
+                            <img class="shadow-quotes" src="{{url('/assets/images/shadow-quotes.svg')}}" alt="quotes">
                         </div>
                     </div>
                     <div class="swiper-pagination"></div>
@@ -448,7 +448,7 @@
                             <p>Explore expert-led Yoga, Reiki, and Energy Healing and more sessions. Connect with
                                 certified practitioners and start your journey today</p>
                             <button>Find a Practitioner</button>
-                            <img src="../../../asserts/footer-butterfly.svg" alt="">
+                            <img src="{{url('/assets/images/footer-butterfly.svg')}}" alt="">
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-6">
@@ -458,7 +458,7 @@
                             <p>List your services and connect with customers seeking wellness and healing. Expand your
                                 reach and build your client base effortlessly.</p>
                             <button>Apply as a Practitioner</button>
-                            <img src="../../../asserts/footer-butterfly.svg" alt="">
+                            <img src="{{url('/assets/images/footer-butterfly.svg')}}" alt="">
                         </div>
                     </div>
                 </div>
@@ -476,7 +476,7 @@
             <div class="row">
                 <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
                     <div class="home-blog-dv">
-                        <img src="../../../asserts/blog-yoga.png" alt="yoga">
+                        <img src="{{url('/assets/images/blog-yoga.png')}}" alt="yoga">
                         <div class="home-blog-label">
                             <h5>Yoga</h5>
                         </div>
@@ -488,7 +488,7 @@
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
                     <div class="home-blog-dv">
-                        <img src="../../../asserts/blog-rekki.png" alt="rekki">
+                        <img src="{{url('/assets/images/blog-rekki.png')}}" alt="rekki">
                         <div class="home-blog-label">
                             <h5>Reiki</h5>
                         </div>
@@ -500,7 +500,7 @@
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
                     <div class="home-blog-dv">
-                        <img src="../../../asserts/blog-energy.png" alt="energy-hearing">
+                        <img src="{{url('/assets/images/blog-energy.png')}}" alt="energy-hearing">
                         <div class="home-blog-label">
                             <h5>Energy Healing</h5>
                         </div>

@@ -39,8 +39,8 @@
                             <button class="login-btn" type="submit">Logout</button>
                         </form>
                         @else
-                            <button class="join-btn" type="submit">Join as a Practitioner</button>
-                            <button class="login-btn" type="submit">Login</button>
+                            <a href="{{ route('register') }}" class="btn join-btn" type="submit">Join as a Practitioner</a>
+                            <a href="{{ route('login') }}" class="btn login-btn" type="submit">Login</a>
                         @endif
                     </div>
                 </div>
