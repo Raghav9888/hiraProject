@@ -4,31 +4,31 @@
     <div class="container">
         <div class="row">
             <h1 style="text-transform: capitalize;" class="home-title mb-5">Welcome,<span
-                    style="color: #ba9b8b;">Reema</span></h1>
+                    style="color: #ba9b8b;">{{ $user->first_name ?? 'User' }}  {{ $user->last_name ?? '' }}</span></h1>
             <div class="col-sm-12 col-lg-5"></div>
             <ul class="practitioner-profile-btns">
                 <li class="active">
-                    <a href="/my-profile.html">
+                    <a href="{{ route('myprofile') }}">
                         My Profile
                     </a>
                 </li>
                 <li class="offering">
-                    <a href="">
+                    <a href="{{ route('Offering') }}">
                         Offering
                     </a>
                     <div class="dropdown">
-                        <a href="/discount.html">
+                        <a href="{{ route('discount') }}">
                             Discount
                         </a>
                     </div>
                 </li>
                 <li>
-                    <a href="/appoinement.html">
+                    <a href="{{ route('myprofile') }}">
                         Appointment
                     </a>
                 </li>
                 <li>
-                    <a href="/calendar.html">
+                    <a href="{{ route('myprofile') }}">
                         Calendar
                     </a>
                 </li>
@@ -37,7 +37,7 @@
                         Accounting
                     </a>
                     <div class="dropdown">
-                        <a href="/earning.html">
+                        <a href="{{ route('myprofile') }}">
                             Earnings
                         </a>
                         <a href="/refund-request.html">
@@ -73,31 +73,38 @@
                             <!-- General Tab Content -->
                             <div class="tab-pane fade show active" id="general" role="tabpanel"
                                 aria-labelledby="general-tab">
-
-                                <div class="mb-3">
-                                    <label for="floatingTextarea">First Name</label>
-                                    <input type="text" class="form-control" id="base-cost">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="floatingTextarea">Last Name</label>
-                                    <input type="text" class="form-control" id="base-cost">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="floatingTextarea">Company Name</label>
-                                    <input type="text" class="form-control" id="base-cost">
-                                    <p style="text-align: start;">Your shop name is public and must be unique.</p>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="floatingTextarea">Short Bio</label>
-                                    <textarea class="form-control" placeholder="" id="floatingTextarea"></textarea>
-                                </div>
-                                <hr>
-                                <div class="mb-4">
-                                    <label for="type" class="fw-bold">Location</label>
-                                    <select id="type" class="form-select">
-                                        <option>Select</option>
-                                    </select>
-                                </div>
+                                
+                                <div class="row">
+                                        <div class="col-sm-12 col-lg-6 mb-3">
+                                            <label for="first_name">First Name</label>
+                                            <input type="text" class="form-control" id="first_name" name="first_name" value="{{ $user->first_name ?? '' }}">
+                                        </div>
+                                        <div class="col-sm-12 col-lg-6 mb-3">
+                                            <label for="last_name">Last Name</label>
+                                            <input type="text" class="form-control" id="last_name" name="last_name" value="{{ $user->last_name ?? '' }}">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="company_name">Company Name</label>
+                                        <input type="text" class="form-control" id="company_name" name="company_name" value="{{ $userDetails->company_name ?? '' }}">
+                                        <p style="text-align: start;">Your shop name is public and must be unique.</p>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="short_bio">Short Bio</label>
+                                        <textarea class="form-control" id="short_bio" name="short_bio">{{ $userDetails->bio ?? '' }}</textarea>
+                                    </div>
+                                    
+                                    <div class="mb-4">
+                                        <label for="location" class="fw-bold">Location</label>
+                                        <select id="location" name="location" class="form-select">
+                                            <option>Select</option>
+                                            <option value="New York" {{ (isset($userDetails->location) && $userDetails->location == 'New York') ? 'selected' : '' }}>New York</option>
+                                            <option value="Los Angeles" {{ (isset($userDetails->location) && $userDetails->location == 'Los Angeles') ? 'selected' : '' }}>Los Angeles</option>
+                                            <option value="Chicago" {{ (isset($userDetails->location) && $userDetails->location == 'Chicago') ? 'selected' : '' }}>Chicago</option>
+                                        </select>
+                                    </div>
                                 <hr>
                                 <label for="type" class="fw-bold">Tags</label>
                                 <p style="text-align: start;">These are keywords used to help identify more specific versions of something. For example, a good tag for a massage could be "Deep Tissue".</p>

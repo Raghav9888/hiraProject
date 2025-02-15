@@ -53,10 +53,17 @@ class LoginController extends Controller
      
         if(Auth::attempt(array('email' => $input['email'], 'password' => $input['password'])))
         {
+            $user = Auth::user();            
             if (Auth::user()->role == 0) {
                 return redirect()->route('admin.dashboard');
             }else{
-                return redirect()->route('myprofile');
+                $userDetails = $user->userDetail;
+                echo '<pre>';
+                Print_r($user);
+                echo '</pre>';
+                exit();
+                //return redirect()->route('myprofile')->with(['user' => $user, 'userDetails' => $userDetails]);
+                return view('myprofile', compact('user', 'userDetails'));
             }
         }else{
             return redirect()->route('login')

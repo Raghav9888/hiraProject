@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PractitionerController extends Controller
 {
@@ -23,8 +24,9 @@ class PractitionerController extends Controller
      */
     public function index()
     {
-        
-        return view('user.myprofile');
+        $user = Auth::user();  
+        $userDetails = $user->userDetail;
+        return view('user.myprofile', compact('user', 'userDetails'));
     }
 
 }

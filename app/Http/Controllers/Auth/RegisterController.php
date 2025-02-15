@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\UserDetail;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -71,5 +72,26 @@ class RegisterController extends Controller
             'role' => 1,
             'password' => Hash::make($data['password']),
         ]);
+
+        UserDetail::create([
+            'user_id' => $user->id,
+            'bio' => $data['bio'] ?? null,
+            'location' => $data['location'] ?? null,
+            'tags' => $data['tags'] ?? json_encode([]),
+            'images' => $data['images'] ?? json_encode([]),
+            'about_me' => $data['about_me'] ?? null,
+            'help' => $data['help'] ?? null,
+            'specialities' => $data['specialities'] ?? null,
+            'certifications' => $data['certifications'] ?? null,
+            'endorsements' => $data['endorsements'] ?? null,
+            'timezone' => $data['timezone'] ?? null,
+            'is_opening_hours' => $data['is_opening_hours'] ?? false,
+            'is_notice' => $data['is_notice'] ?? false,
+            'is_google_analytics' => $data['is_google_analytics'] ?? false,
+            'privacy_policy' => $data['privacy_policy'] ?? null,
+            'terms_condition' => $data['terms_condition'] ?? null,
+        ]);
+    
+        return $user;
     }
 }
