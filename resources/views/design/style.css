@@ -1,10 +1,10 @@
 @font-face {
 font-family:Montserrat-Medium;
-src: url(./Montserrat/static/Montserrat-Medium.ttf);
+src: url(/Montserrat/static/Montserrat-Medium.ttf);
 }
 @font-face {
 font-family:Montserrat-Regular;
-src: url(./Montserrat/static/Montserrat-Regular.ttf);
+src: url(/Montserrat/static/Montserrat-Regular.ttf);
 }
 
 body{
@@ -84,6 +84,24 @@ border: 1.5px solid #D6CFBF;
 border-radius: 33px;
 margin-right: 10px;
 text-transform: uppercase;
+}
+
+.company-dropdown ul{
+    border-radius: 8px;
+}
+.company-dropdown ul li{
+   margin: 0;
+   padding: 0 10px;
+}
+.company-dropdown ul li a{
+    color: #424E3E;
+    font-weight: 600;
+    padding: 5px;
+}
+.company-dropdown ul li .active{
+    color: #fff;
+    background-color:#424E3E ;
+    border-radius: 8px;
 }
 /* header css end */
 /* home main css start */
@@ -226,37 +244,22 @@ background-color: #ebecea;
 border-radius: 24px;
 }
 
-.explore-img-dv:nth-child(1) {
-background-image: url('./asserts//Reiki.svg');
-}
-
-.explore-img-dv:nth-child(2) {
-background-image: url('./asserts/Yoga.svg');
-}
-
-.explore-img-dv:nth-child(3) {
-background-image: url('./asserts/Nutritional.svg');
-}
-
-.explore-img-dv:nth-child(4) {
-background-image: url('./asserts/Energy.svg');
-}
-
-.explore-img-dv:nth-child(5) {
-background-image: url('./asserts/Yoga.svg');
-}
-
-.explore-img-dv:nth-child(6) {
-background-image: url('./asserts/Energy.svg');
-}
-
-.explore-img-dv:nth-child(7) {
-background-image: url('./asserts/Nutritional.svg');
-}
-
-.explore-img-dv:nth-child(8) {
+.explore-img-dv.rekki {
 background-image: url('./asserts/Reiki.svg');
 }
+
+.explore-img-dv.yoga {
+background-image: url('./asserts/Yoga.svg');
+}
+
+.explore-img-dv.nutrition {
+background-image: url('./asserts/Nutritional.svg');
+}
+
+.explore-img-dv.energy {
+background-image: url('./asserts/Energy.svg');
+}
+
 
 .explore-img-dv p{
 font-family: "Montserrat-Regular";
@@ -548,7 +551,7 @@ padding: 20px;
 .faq-section .accordion-item{
 background-color: transparent;
 border: none;
-border-bottom: 2px solid #424E3E;
+border-bottom: 2px solid #e1e1e1;
 }
 .faq-section .accordion-item:last-child{
 border: none;
@@ -622,7 +625,8 @@ color: #4a5568;
 }
 .featured-section .dropdown-menu,
 .practitioner-detail-wrrpr .accordion-body .Currency-select .dropdown-menu,
-.review-dv-data .sort-by .dropdown-menu {
+.review-dv-data .sort-by .dropdown-menu,
+.home-search-wrrpr .dropdown-menu {
 position: absolute;
 margin-top: 8px;
 width: 192px;
@@ -633,24 +637,28 @@ display: none;
 }
 .featured-section .dropdown-menu ul,
 .practitioner-detail-wrrpr .accordion-body .Currency-select .dropdown-menu ul,
-.review-dv-data .sort-by .dropdown-menu ul {
+.review-dv-data .sort-by .dropdown-menu ul,
+.home-search-wrrpr .dropdown-menu ul {
 list-style: none;
 padding: 0;
 margin: 0;
 }
 .featured-section .dropdown-menu li,
 .practitioner-detail-wrrpr .accordion-body .Currency-select .dropdown-menu li,
-.review-dv-data .sort-by .dropdown-menu li {
+.review-dv-data .sort-by .dropdown-menu li,
+.home-search-wrrpr .dropdown-menu ul li {
 border-bottom: 1px solid #e2e8f0;
 }
 .featured-section .dropdown-menu li:last-child,
 .practitioner-detail-wrrpr .accordion-body .Currency-select .dropdown-menu li:last-child,
-.review-dv-data .sort-by .dropdown-menu li:last-child {
+.review-dv-data .sort-by .dropdown-menu li:last-child,
+.home-search-wrrpr .dropdown-menu ul li:last-child {
 border-bottom: none;
 }
 .featured-section .dropdown-menu a,
 .practitioner-detail-wrrpr .accordion-body .Currency-select .dropdown-menu a,
-.review-dv-data .sort-by .dropdown-menu a {
+.review-dv-data .sort-by .dropdown-menu a,
+.home-search-wrrpr .dropdown-menu a {
 display: block;
 padding: 8px 16px;
 font-size: 0.875rem;
@@ -659,7 +667,8 @@ text-decoration: none;
 }
 .featured-section .dropdown-menu a:hover,
 .practitioner-detail-wrrpr .accordion-body .Currency-select .dropdown-menu a:hover,
-.review-dv-data .sort-by .dropdown-menu a:hover {
+.review-dv-data .sort-by .dropdown-menu a:hover,
+.home-search-wrrpr .dropdown-menu a:hover {
 background-color: #f7fafc;
 }
 .featured-section{
@@ -1484,10 +1493,12 @@ color: #ba9b8b;
 }
 
 .roots-title{
-    font-family: "Montserrat-Medium";
+    font-family: "Montserrat-Regular";
     font-size: 32px;
-    font-weight: 700;
-        color: #FFFFFF;    
+    font-weight: 400;
+        color: #FFFFFF; 
+        letter-spacing: 4px;
+        text-transform: uppercase;
 }
 
 .practitioner-profile-text{
@@ -1594,7 +1605,7 @@ padding: 0;
 
 .practitioner-profile-btns .active{
     border: 1px solid #424E3E;
-    background-color: #FFE9CD;
+    background-color: #D6CFBF;
 }
 .practitioner-profile-btns .active a{
     color: #424E3E;
@@ -1672,9 +1683,12 @@ padding: 0;
     border-radius: 5px;
     cursor: pointer;
     transition: background 0.2s;
+    text-decoration: none;
   }
 
-
+.export-btn:hover{
+    color: #FFFFFF;
+}
 
   .calendar-grid {
     display: grid;
@@ -1817,6 +1831,28 @@ padding: 0;
     margin-top: 0.5rem;
     color: #374151;
 }
+.tag {
+    display: inline-block;
+    background-color: #2F382B;
+    color: white;
+    padding: 5px 20px;
+    margin: 5px;
+    border-radius: 5px;
+    position: relative;
+}
+
+.remove-tag {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 12px;
+    color: black;
+    cursor: pointer;
+    padding: 0 5px;
+    background-color: white;
+    border-radius: 50%;
+}
+
 /* practitioner dashboard css end */
 
 /* earning css start */
