@@ -71,6 +71,41 @@ border-radius: 33px;
 .header .login-btn{
     text-transform: uppercase;
 }
+.tag-selector {
+    display: flex;
+    flex-direction: column;
+}
+
+#tagInput {
+    border: 1px solid #ccc;
+    outline: none;
+    margin-bottom: 20px;
+}
+
+#tagInput:focus {
+    border-color: #424E3E;
+}
+
+#selectedTags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.tag {
+    background-color: #424E3E;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.tag span {
+    cursor: pointer;
+    font-weight: bold;
+}
 
 .header .join-btn{
 font-family: "Montserrat-Medium";
@@ -84,6 +119,31 @@ border: 1.5px solid #D6CFBF;
 border-radius: 33px;
 margin-right: 10px;
 text-transform: uppercase;
+text-decoration: none;
+}
+.company-dropdown ul{
+    border-radius: 6px;
+}
+.company-dropdown ul li{
+margin: 0;
+padding: 5px 10px;
+}
+.company-dropdown ul li a{
+    padding: 5px;
+    color: #17240B;
+}
+.company-dropdown ul li .active{
+    background-color: #424E3E !important;
+    color: #FFFFFF;
+    border-radius: 6px;
+
+}
+.company-dropdown ul li .active:hover{
+    color: #FFFFFF !important;
+}
+.company-dropdown ul li a:hover{
+background-color: transparent;
+color: #17240B;
 }
 /* header css end */
 /* home main css start */
@@ -1588,13 +1648,12 @@ padding: 0;
     font-family: "Montserrat-Regular";
     font-size: 20px;
     font-weight: 700; 
-    color: #FFE9CD ;
+    color: #FFFFFF ;
     text-decoration: none;
 }
 
 .practitioner-profile-btns .active{
-    border: 1px solid #424E3E;
-    background-color: #FFE9CD;
+    background-color: #D6CFBF;
 }
 .practitioner-profile-btns .active a{
     color: #424E3E;
@@ -1674,7 +1733,9 @@ padding: 0;
     transition: background 0.2s;
   }
 
-
+  .export-btn:hover{
+    color: #FFFFFF;
+}
 
   .calendar-grid {
     display: grid;
@@ -1870,7 +1931,7 @@ font-weight: 400;
 font-size: 16px;
 font-weight: 400;
     color: #424E3E;
-    background-color: #e9dccf;
+    background-color: #D6CFBF;
     border: none;
     padding: 10px 30px;
     border-radius: 33px;

@@ -42,13 +42,13 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="/resources/views/design/blog.html">ARTICLES & BLOGS</a>
                             </li>
-                            <li class="nav-item dropdown">
+                            <li class="nav-item dropdown company-dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                                     data-bs-toggle="dropdown" aria-expanded="false">
                                     COMPANY
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" href="#">Press</a></li>
+                                    <li><a class="dropdown-item active" href="#">Press</a></li>
                                     <li><a class="dropdown-item" href="#">Contact Us</a></li>
                                     <li><a class="dropdown-item" href="#">Privacy Policy</a></li>
                                     <li><a class="dropdown-item" href="#">Terms & Conditions</a></li>
@@ -81,15 +81,17 @@
                         </button>
                     </div>
                     <div class="dropdown">
-                        <button class=" dropdown-toggle" type="button" id="dropdownMenuButton1"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Virtual Practitioners Only
+                        <button onclick="toggleDropdown()" class="dropdown-button">
+                            <span>Virtual Practitioners Only</span>
+                            <i class="fas fa-chevron-down"></i>
                         </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        </ul>
+                        <div id="dropdownMenu" class="dropdown-menu">
+                            <ul>
+                                <li><a href="#">Category 1</a></li>
+                                <li><a href="#">Category 2</a></li>
+                                <li><a href="#">Category 3</a></li>
+                            </ul>
+                        </div>
                     </div>
                     <div class="search-container location-input">
                         <input type="text" class="search-input" placeholder="Select your preferred Location">
@@ -111,48 +113,48 @@
     </section>
     <!-- home banner section end -->
     <!-- explore categories section start -->
-    <section>
+    <section class="explore-categorie-section">
         <div class="container">
 
 
             <div class="row">
                 <div class="col-sm-12 col-md-4 col-lg-3 mb-4">
-                    <div class="explore-img-dv">
+                    <div class="explore-img-dv rekki-img">
                         <p>Reiki</p>
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-4 col-lg-3 mb-4">
-                    <div class="explore-img-dv">
+                    <div class="explore-img-dv yoga-img">
                         <p>Yoga</p>
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-4 col-lg-3 mb-4">
-                    <div class="explore-img-dv">
+                    <div class="explore-img-dv nutritiona-img">
                         <p>Nutritional </br>Support</p>
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-4 col-lg-3 mb-4">
-                    <div class="explore-img-dv">
+                    <div class="explore-img-dv energy-img">
                         <p>Energy </br>Healing</p>
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-4 col-lg-3 mb-4">
-                    <div class="explore-img-dv">
+                    <div class="explore-img-dv yoga-img">
                         <p>Yoga</p>
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-4 col-lg-3 mb-4">
-                    <div class="explore-img-dv">
+                    <div class="explore-img-dv energy-img">
                         <p>Energy </br>Healing</p>
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-4 col-lg-3 mb-4">
-                    <div class="explore-img-dv">
+                    <div class="explore-img-dv rekki-img">
                         <p>Reiki</p>
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-4 col-lg-3 mb-4">
-                    <div class="explore-img-dv">
+                    <div class="explore-img-dv nutritiona-img">
                         <p>Nutritional</br>
                             Support</p>
                     </div>
@@ -440,7 +442,7 @@
                     </div>
                 </div>
                 <div class="position-relative">
-                <h1 class="home-title mb-4">What our community says</h1>
+                <h1 class="home-title mb-4 mt-5">What our community says</h1>
                 <div class="swiper-button-next"></div>
                     <div class="swiper-button-prev"></div>
                 </div>
