@@ -58,10 +58,6 @@ class LoginController extends Controller
                 return redirect()->route('admin.dashboard');
             }else{
                 $userDetails = $user->userDetail;
-                echo '<pre>';
-                Print_r($user);
-                echo '</pre>';
-                exit();
                 //return redirect()->route('myprofile')->with(['user' => $user, 'userDetails' => $userDetails]);
                 return view('myprofile', compact('user', 'userDetails'));
             }
