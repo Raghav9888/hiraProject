@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('content')
+
     <section class="practitioner-profile">
         <div class="container">
             <div class="row">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\UserDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -27,6 +28,7 @@ class PractitionerController extends Controller
     {
         $user = Auth::user();
         $userDetails = $user->userDetail;
+
         return view('user.myprofile', compact('user', 'userDetails'));
     }
 
@@ -34,26 +36,41 @@ class PractitionerController extends Controller
     {
         $input = $request->all();
         $id = $input['id'];
-//        $user = user::find($id);
+
 //        if (!$user) {
 //            return redirect()->back()->with('error', 'User not found');
 //        }
-        dd($input);
-        $user = [
-            'first_name' => $input['first_name'],
-            'last_name' => $input['last_name'],
+        $user = User::find($id); // Find the user with ID 1
+        $user->name = ($input['first_name'] . ' ' . $input['last_name']);
+        $user->first_name = $input['first_name'];
+        $user->last_name = $input['last_name'];
+        $user->company = $input['company'];
+        $user->bio = $input['bio'];
+        $user->location = $input['location'];
+        $user->save();
+
+
+        $details = [
             'company' => $input['company'],
             'bio' => $input['bio'],
             'location' => $input['location'],
+//            'tags' => $input['tags'],
             'about_me' => $input['about_me'],
-            'term' => $input['term'],
-
+//            'help' => $input['help'],
+            'specialities' => $input['specialities'],
+            'certifications' => $input['certifications'],
+            'endorsements' => $input['endorsements'],
+            'timezone' => $input['timezone'],
+//            'is_opening_hours' => $input['is_opening_hours'],
+//            'is_notice' => $input['is_notice'],
+//            'is_google_analytics' => $input['is_google_analytics'],
+//            'privacy_policy' => $input['privacy_policy'],
+//            'terms_condition' => $input['terms_condition'],
         ];
-        $details = [
-            'company' => $input['company'],
 
-        ];
-        return view('user.myprofile', compact('user', 'userDetails'));
+        UserDetail::where('id', $id)->update($details);
+
+        return redirect()->back()->with('success', 'Profile updated successfully');
     }
 
 }
