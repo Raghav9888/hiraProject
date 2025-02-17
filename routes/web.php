@@ -21,8 +21,10 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
 });
 
 Route::middleware(['auth', 'user-access:user'])->group(function () {
-  
+
     Route::get('/myprofile', [PractitionerController::class, 'index'])->name('myprofile');
     Route::get('/Offering', [PractitionerController::class, 'index'])->name('Offering');
     Route::get('/discount', [PractitionerController::class, 'index'])->name('discount');
+    Route::post('/updateprofile', [PractitionerController::class, 'updateProfile'])->name('updateProfile');
+
 });
