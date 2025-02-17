@@ -11,8 +11,8 @@
                     <div class="earning-wrrpr mt-5">
                         <div class="container">
                             <div class="d-flex mb-3" style="gap: 20px;">
-                                <a href="./calendar.html" class="export-btn">Calendar</a>
-                                <a href="./add-offering.html"  class="export-btn">Add Offering</a>
+                                <a href="{{ route('calendar') }}" class="export-btn">Calendar</a>
+                                <a href="{{ route('addOffering')}}" class="export-btn">Add Offering</a>
                             </div>
                                 <div class="table-responsive">
                                     <table class="table">
