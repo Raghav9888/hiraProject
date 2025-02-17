@@ -115,21 +115,29 @@ class PractitionerController extends Controller
 
     public function blog()
     {
-        return view('user.blog');
+        $user = Auth::user();
+        $userDetails = $user->userDetail;
+        return view('user.blog', compact('user', 'userDetails'));
     }
     public function blogDetail()
     {
-        return view('user.blog');
+        $user = Auth::user();
+        $userDetails = $user->userDetail;
+        return view('user.blog', compact('user', 'userDetails'));
     }
 
     public function earning()
     {
-        return view('user.earning');
+        $user = Auth::user();
+        $userDetails = $user->userDetail;
+        return view('user.earning', compact('user', 'userDetails'));
     }
 
     public function refundRequest()
     {
-        return view('user.refund_request');
+        $user = Auth::user();
+        $userDetails = $user->userDetail;
+        return view('user.refund_request', compact('user', 'userDetails'));
     }
 
 
