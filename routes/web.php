@@ -29,5 +29,8 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::post('/updateprofile', [PractitionerController::class, 'updateProfile'])->name('updateProfile');
     Route::get('/appoinement', [PractitionerController::class, 'appoinement'])->name('appoinement');
     Route::get('/calendar', [PractitionerController::class, 'calendar'])->name('calendar');
+    Route::get('google/redirect', [GoogleAuthController::class, 'redirectToGoogle'])->name('google.redirect');
+    Route::get('google/callback', [GoogleAuthController::class, 'handleGoogleCallback']);
+    Route::get('calendar-list', [GoogleAuthController::class, 'getCalendarList']);
 
 });
