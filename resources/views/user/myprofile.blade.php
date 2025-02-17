@@ -3,10 +3,9 @@
 
     <section class="practitioner-profile">
         <div class="container">
+            @include('layouts.partitioner_sidebar')
             <div class="row">
-                
                 @include('layouts.partitioner_nav')
-                
                 <div class="add-offering-dv">
                     <div class="container">
                         <div class="mb-4 mt-4">
@@ -248,35 +247,6 @@
 {{--                        </div>--}}
                     </div>
                 </div>
-            </div>
-            <div class="positioned-dv">
-                <ul>
-                    <li>
-                        <img src="{{url('./assets/images/User.svg')}}" alt="">
-                        <p>Account</p>
-                    </li>
-                    <li>
-                        <img src="{{url('./assets/images/grid.svg')}}" alt="">
-                        <p>Dashboard</p>
-                    </li>
-                    <li>
-                        <img src="{{url('./assets/images/calendar.svg')}}" alt="">
-                        <p>Calendar</p>
-                    </li>
-                    <li>
-                        <img src="{{url('./assets/images/Shopping List.svg')}}" alt="">
-                        <p>Bookings</p>
-                    </li>
-                    <li>
-                        <img src="{{url('./assets/images/Chat.svg')}}" alt="">
-                        <p>Community</p>
-                    </li>
-                    <li>
-                        <img src="{{url('./assets/images/business.svg')}}" alt="">
-                        <p>Business<br/>
-                            Referals</p>
-                    </li>
-                </ul>
             </div>
         </div>
     </section>

@@ -22,23 +22,48 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
-    
+
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <!-- Scripts -->
-     
+
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
-    
+
 </head>
 <body>
 @include('layouts.header')
-     <div id="app"> 
+     <div id="app">
         <main class="">
             @yield('content')
         </main>
-    </div> 
+    </div>
 @include('layouts.footer')
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(".owl-carousel").owlCarousel({
+            items: 6,
+            loop: true,
+            margin: 10,
+            autoplay: true,
+            autoplayTimeout: 3000,
+            nav: true,
+            dots: true,
+            responsive: {
+                0: {
+                    items: 1
+                },
+                600: {
+                    items: 2
+                },
+                1000: {
+                    items: 6
+                }
+            }
+        });
+    });
+</script>
 </body>
 </html>

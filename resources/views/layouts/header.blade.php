@@ -16,7 +16,7 @@
                             <a class="nav-link active" aria-current="page" href="#">DIRECTORY</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/blog.html">ARTICLES & BLOGS</a>
+                            <a class="nav-link" href="{{route('blog')}}">ARTICLES & BLOGS</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -31,8 +31,8 @@
                             </ul>
                         </li>
                     </ul>
-                    <div class="d-flex">                       
-                       
+                    <div class="d-flex">
+
                         @if(Auth::check())
                         <form action="{{ route('logout') }}" method="POST">
                             @csrf

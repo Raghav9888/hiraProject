@@ -29,5 +29,7 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::post('/updateprofile', [PractitionerController::class, 'updateProfile'])->name('updateProfile');
     Route::get('/appoinement', [PractitionerController::class, 'appoinement'])->name('appoinement');
     Route::get('/calendar', [PractitionerController::class, 'calendar'])->name('calendar');
+    Route::get('/blog', [PractitionerController::class, 'blog'])->name('blog');
+    Route::get('/refund-request', [PractitionerController::class, 'refundRequest'])->name('refundRequest');
 
 });

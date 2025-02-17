@@ -112,4 +112,20 @@ class PractitionerController extends Controller
         return view('user.calendar', compact('user', 'userDetails'));
     }
 
+
+    public function blog()
+    {
+        return view('user.blog');
+    }
+    public function blogDetail()
+    {
+        return view('user.blog');
+    }
+
+    public function refundRequest()
+    {
+        return view('user.refund_request');
+    }
+
+
 }
