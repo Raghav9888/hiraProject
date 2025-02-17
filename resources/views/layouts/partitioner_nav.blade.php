@@ -4,32 +4,32 @@
 <div class="col-sm-12 col-lg-5"></div>
 
 <ul class="practitioner-profile-btns">
-    <li class="active">
+    <li class="{{ Request::is('my-profile') ? 'active' : '' }}">
         <a href="{{ route('myProfile') }}">
             My Profile
         </a>
     </li>
-    <li class="offering">
+    <li class="offering {{ Request::is('offering') ? 'active' : '' }} {{ Request::is('discount') ? 'active' : '' }}">
         <a href="{{ route('offering') }}">
             Offering
         </a>
-        <div class="dropdown">
+        <div class="dropdown {{ Request::is('discount') ? 'active' : '' }}">
             <a href="{{ route('discount') }}">
                 Discount
             </a>
         </div>
     </li>
-    <li>
+    <li class="{{ Request::is('appointment') ? 'active' : '' }}">
         <a href="{{ route('appointment') }}">
             Appointment
         </a>
     </li>
-    <li>
+    <li class="{{ Request::is('calendar') ? 'active' : '' }}">
         <a href="{{ route('calendar') }}">
             Calendar
         </a>
     </li>
-    <li class="offering">
+    <li class="offering {{ Request::is('earning') ? 'active' : '' }}">
         <a href="">
             Accounting
         </a>
