@@ -145,24 +145,24 @@
 {{--                                                <option>Select</option>--}}
 {{--                                            </select>--}}
 {{--                                        </div>--}}
-                                        <hr>
-                                        <button class="update-btn mb-2">Add New Term</button>
-                                        <div class="mb-4">
-                                            <label for="type" class="fw-bold">I help with:</label>
-                                            <select id="term" name="term" class="form-select">
-                                                <option>Select</option>
-                                            </select>
-                                        </div>
-                                        <hr>
-                                        <button class="update-btn mb-2">Add New Term</button>
-                                        <div class="mb-4">
-                                            <label for="type" class="fw-bold">How I help:</label>
-                                            <select id="help" name="help" class="form-select">
-                                                <option>Select</option>
-                                            </select>
-                                        </div>
-                                        <hr>
-                                        <button class="update-btn mb-2">Add New Term</button>
+{{--                                        <hr>--}}
+{{--                                        <button class="update-btn mb-2">Add New Term</button>--}}
+{{--                                        <div class="mb-4">--}}
+{{--                                            <label for="type" class="fw-bold">I help with:</label>--}}
+{{--                                            <select id="term" name="term" class="form-select">--}}
+{{--                                                <option>Select</option>--}}
+{{--                                            </select>--}}
+{{--                                        </div>--}}
+{{--                                        <hr>--}}
+{{--                                        <button class="update-btn mb-2">Add New Term</button>--}}
+{{--                                        <div class="mb-4">--}}
+{{--                                            <label for="type" class="fw-bold">How I help:</label>--}}
+{{--                                            <select id="help" name="help" class="form-select">--}}
+{{--                                                <option>Select</option>--}}
+{{--                                            </select>--}}
+{{--                                        </div>--}}
+{{--                                        <hr>--}}
+{{--                                        <button class="update-btn mb-2">Add New Term</button>--}}
                                         <div class="mb-4">
                                             <label for="specialities" class="fw-bold">Specialities</label>
                                             <select id="specialities" class="form-select" name="specialities">
@@ -200,8 +200,8 @@
                                         </div>
                                         <div class="mb-4">
                                             <div class="form-check offering-check">
-                                                <input type="checkbox" class="form-check-input" id="opening_hours" name="is_opening_hours">
-                                                <label class="form-check-label" for="opening_hours">Enable opening hours</label>
+                                                <input type="checkbox" class="form-check-input" id="is_opening_hours" name="is_opening_hours">
+                                                <label class="form-check-label" for="is_opening_hours">Enable opening hours</label>
                                             </div>
                                         </div>
                                         <div class="mb-4">

@@ -40,9 +40,17 @@ class PractitionerController extends Controller
 //        }
         dd($input);
         $user = [
+            'first_name' => $input['first_name'],
+            'last_name' => $input['last_name'],
+            'company' => $input['company'],
+            'bio' => $input['bio'],
+            'location' => $input['location'],
+            'about_me' => $input['about_me'],
+            'term' => $input['term'],
 
         ];
         $details = [
+            'company' => $input['company'],
 
         ];
         return view('user.myprofile', compact('user', 'userDetails'));
