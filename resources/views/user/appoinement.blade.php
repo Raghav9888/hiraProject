@@ -3,6 +3,7 @@
 
 <section class="practitioner-profile">
         <div class="container">
+            @include('layouts.partitioner_sidebar')
             <div class="row">
             @include('layouts.partitioner_nav')
                 <p style="text-align: start;">Invalid timezoneInvalid timezoneInvalid timezoneInvalid timezoneInvalid timezoneInvalid
@@ -93,34 +94,6 @@
                     </div>
             </div>
         </div>
-        <div class="positioned-dv">
-            <ul>
-                <li>
-                    <img src="./asserts/User.svg" alt="">
-                    <p>Account</p>
-                </li>
-                <li>
-                    <img src="./asserts/grid.svg" alt="">
-                    <p>Dashboard</p>
-                </li>
-                <li>
-                    <img src="./asserts/calendar.svg" alt="">
-                    <p>Calendar</p>
-                </li>
-                <li>
-                    <img src="./asserts/Shopping List.svg" alt="">
-                    <p>Bookings</p>
-                </li>
-                <li>
-                    <img src="./asserts/Chat.svg" alt="">
-                    <p>Community</p>
-                </li>
-                <li>
-                    <img src="./asserts/business.svg" alt="">
-                    <p>Business<br />
-                        Referals</p>
-                </li>
-            </ul>
-        </div>
+
     </section>
 @endsection

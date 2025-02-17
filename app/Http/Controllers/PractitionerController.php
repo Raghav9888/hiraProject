@@ -122,6 +122,11 @@ class PractitionerController extends Controller
         return view('user.blog');
     }
 
+    public function earning()
+    {
+        return view('user.earning');
+    }
+
     public function refundRequest()
     {
         return view('user.refund_request');

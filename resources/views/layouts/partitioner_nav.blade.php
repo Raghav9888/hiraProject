@@ -5,7 +5,7 @@
 
 <ul class="practitioner-profile-btns">
     <li class="active">
-        <a href="{{ route('myprofile') }}">
+        <a href="{{ route('myProfile') }}">
             My Profile
         </a>
     </li>
@@ -20,7 +20,7 @@
         </div>
     </li>
     <li>
-        <a href="{{ route('appoinement') }}">
+        <a href="{{ route('appointment') }}">
             Appointment
         </a>
     </li>
@@ -34,10 +34,10 @@
             Accounting
         </a>
         <div class="dropdown">
-            <a href="{{ route('myprofile') }}">
+            <a href="{{ route('myProfile') }}">
                 Earnings
             </a>
-            <a href="/refund-request.html">
+            <a href="{{ route('refundRequest') }}">
                 Refund request
             </a>
         </div>
