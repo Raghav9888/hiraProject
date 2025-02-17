@@ -73,4 +73,43 @@ class PractitionerController extends Controller
         return redirect()->back()->with('success', 'Profile updated successfully');
     }
 
+    public function offering()
+    {
+        $user = Auth::user();
+        $userDetails = $user->userDetail;
+
+        return view('user.offering', compact('user', 'userDetails'));
+    }
+
+    public function addoffering()
+    {
+        $user = Auth::user();
+        $userDetails = $user->userDetail;
+
+        return view('user.addoffering', compact('user', 'userDetails'));
+    }
+
+    public function discount()
+    {
+        $user = Auth::user();
+        $userDetails = $user->userDetail;
+
+        return view('user.discount', compact('user', 'userDetails'));
+    }
+
+    public function appoinement()
+    {
+        $user = Auth::user();
+        $userDetails = $user->userDetail;
+
+        return view('user.appoinement', compact('user', 'userDetails'));
+    }
+    public function calendar()
+    {
+        $user = Auth::user();
+        $userDetails = $user->userDetail;
+
+        return view('user.calendar', compact('user', 'userDetails'));
+    }
+
 }
