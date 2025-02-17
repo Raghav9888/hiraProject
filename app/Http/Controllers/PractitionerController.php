@@ -97,7 +97,7 @@ class PractitionerController extends Controller
         return view('user.discount', compact('user', 'userDetails'));
     }
 
-    public function appoinement()
+    public function appointment ()
     {
         $user = Auth::user();
         $userDetails = $user->userDetail;

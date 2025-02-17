@@ -34,7 +34,7 @@
             Accounting
         </a>
         <div class="dropdown">
-            <a href="{{ route('myProfile') }}">
+            <a href="{{ route('earning') }}">
                 Earnings
             </a>
             <a href="{{ route('refundRequest') }}">
