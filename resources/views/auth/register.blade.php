@@ -144,4 +144,15 @@
         </div>
     </div>
 </div> -->
+<script>
+    const togglePassword = document.getElementById("togglePassword");
+    const passwordField = document.getElementById("exampleInputPassword1");
+
+    togglePassword.addEventListener("click", function() {
+        const type = passwordField.type === "password" ? "text" : "password";
+        passwordField.type = type;
+
+        this.innerHTML = type === "password" ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+    });
+</script>
 @endsection
