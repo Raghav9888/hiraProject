@@ -29,7 +29,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/myprofile';
+    protected $redirectTo = '/my-profile';
 
     /**
      * Create a new controller instance.
@@ -64,10 +64,10 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['first_name'].' '.$data['last_name'],
+        $user = User::create([
+            'name' => $data['first_name'] . ' ' . $data['last_name'],
             'first_name' => $data['first_name'],
-            'last_name' => $data['last_name'],            
+            'last_name' => $data['last_name'],
             'email' => $data['email'],
             'role' => 1,
             'password' => Hash::make($data['password']),
@@ -77,8 +77,8 @@ class RegisterController extends Controller
             'user_id' => $user->id,
             'bio' => $data['bio'] ?? null,
             'location' => $data['location'] ?? null,
-            'tags' => $data['tags'] ?? json_encode([]),
-            'images' => $data['images'] ?? json_encode([]),
+            'tags' => isset($data['tags']) ? json_encode($data['tags']) : json_encode([]),
+            'images' => isset($data['images']) ? json_encode($data['images']) : json_encode([]),
             'about_me' => $data['about_me'] ?? null,
             'help' => $data['help'] ?? null,
             'specialities' => $data['specialities'] ?? null,
@@ -91,7 +91,8 @@ class RegisterController extends Controller
             'privacy_policy' => $data['privacy_policy'] ?? null,
             'terms_condition' => $data['terms_condition'] ?? null,
         ]);
-    
+
         return $user;
     }
+
 }

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<section class="home-main-section">
+    <section class="home-main-section">
         <div class="container">
             <div class="d-flex justify-content-center align-items-center flex-column">
                 <img class="hira-collective" src="{{url('/assets/images/hira-collective.svg')}}" alt="hira-collective">
@@ -12,14 +12,14 @@
                 <div class="search-dv-body">
                     <div class="search-container">
                         <input type="text" class="search-input"
-                            placeholder="search by modality, ailment, symptom or practitioner">
+                               placeholder="search by modality, ailment, symptom or practitioner">
                         <button class="search-button">
                             <i class="fas fa-search"></i>
                         </button>
                     </div>
                     <div class="dropdown">
                         <button class=" dropdown-toggle" type="button" id="dropdownMenuButton1"
-                            data-bs-toggle="dropdown" aria-expanded="false">
+                                data-bs-toggle="dropdown" aria-expanded="false">
                             Virtual Practitioners Only
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
@@ -377,8 +377,8 @@
                     </div>
                 </div>
                 <div class="position-relative">
-                <h1 class="home-title mb-4">What our community says</h1>
-                <div class="swiper-button-next"></div>
+                    <h1 class="home-title mb-4">What our community says</h1>
+                    <div class="swiper-button-next"></div>
                     <div class="swiper-button-prev"></div>
                 </div>
                 <div class="swiper mySwiper mb-5">
@@ -526,12 +526,12 @@
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="headingOne">
                         <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                             How can I book a session?
                         </button>
                     </h2>
                     <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
-                        data-bs-parent="#accordionExample">
+                         data-bs-parent="#accordionExample">
                         <div class="accordion-body">
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
                             labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
@@ -544,12 +544,12 @@
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="headingTwo">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                             How do I become a practitioner on The Hira Collective?
                         </button>
                     </h2>
                     <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
-                        data-bs-parent="#accordionExample">
+                         data-bs-parent="#accordionExample">
                         <div class="accordion-body">
                             <!-- Content for this section -->
                         </div>
@@ -558,12 +558,12 @@
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="headingThree">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                             Is there a fee to join as a practitioner?
                         </button>
                     </h2>
                     <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
-                        data-bs-parent="#accordionExample">
+                         data-bs-parent="#accordionExample">
                         <div class="accordion-body">
                             <!-- Content for this section -->
                         </div>
@@ -572,12 +572,12 @@
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="headingFour">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
                             How do I pay for a session?
                         </button>
                     </h2>
                     <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour"
-                        data-bs-parent="#accordionExample">
+                         data-bs-parent="#accordionExample">
                         <div class="accordion-body">
                             <!-- Content for this section -->
                         </div>
@@ -586,12 +586,12 @@
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="headingFive">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
                             Can I reschedule or cancel a booked session?
                         </button>
                     </h2>
                     <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive"
-                        data-bs-parent="#accordionExample">
+                         data-bs-parent="#accordionExample">
                         <div class="accordion-body">
                             <!-- Content for this section -->
                         </div>
@@ -600,12 +600,12 @@
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="headingSix">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                                data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
                             Is The Hira Collective available worldwide?
                         </button>
                     </h2>
                     <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix"
-                        data-bs-parent="#accordionExample">
+                         data-bs-parent="#accordionExample">
                         <div class="accordion-body">
                             <!-- Content for this section -->
                         </div>
@@ -614,12 +614,12 @@
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="headingSeven">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+                                data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
                             How do I contact support?
                         </button>
                     </h2>
                     <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingSeven"
-                        data-bs-parent="#accordionExample">
+                         data-bs-parent="#accordionExample">
                         <div class="accordion-body">
                             <!-- Content for this section -->
                         </div>
@@ -628,12 +628,12 @@
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="headingEight">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
+                                data-bs-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
                             How does The Hira Collective work?
                         </button>
                     </h2>
                     <div id="collapseEight" class="accordion-collapse collapse" aria-labelledby="headingEight"
-                        data-bs-parent="#accordionExample">
+                         data-bs-parent="#accordionExample">
                         <div class="accordion-body">
                             <!-- Content for this section -->
                         </div>

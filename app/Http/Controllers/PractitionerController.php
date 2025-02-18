@@ -28,8 +28,14 @@ class PractitionerController extends Controller
     {
         $user = Auth::user();
         $userDetails = $user->userDetail;
-
         return view('user.myprofile', compact('user', 'userDetails'));
+    }
+
+    public function dashboard()
+    {
+        $user = Auth::user();
+        $userDetails = $user->userDetail;
+        return view('user.dashboard', compact('user', 'userDetails'));
     }
 
     public function updateProfile(Request $request)
@@ -61,14 +67,12 @@ class PractitionerController extends Controller
             'certifications' => $input['certifications'],
             'endorsements' => $input['endorsements'],
             'timezone' => $input['timezone'],
-//            'is_opening_hours' => $input['is_opening_hours'],
-//            'is_notice' => $input['is_notice'],
-//            'is_google_analytics' => $input['is_google_analytics'],
-//            'privacy_policy' => $input['privacy_policy'],
-//            'terms_condition' => $input['terms_condition'],
+            'is_opening_hours' => isset($input['is_opening_hours']) && $input['is_opening_hours'] == 'on' ? 1 : 0,
+            'is_notice' => isset($input['is_notice']) && $input['is_notice'] == 'on' ? 1 : 0,
+            'is_google_analytics' => isset($input['is_google_analytics']) && $input['is_google_analytics'] == 'on' ? 1 : 0,
         ];
 
-        UserDetail::where('id', $id)->update($details);
+        UserDetail::where('user_id', $id)->update($details);
 
         return redirect()->back()->with('success', 'Profile updated successfully');
     }
@@ -97,7 +101,7 @@ class PractitionerController extends Controller
         return view('user.discount', compact('user', 'userDetails'));
     }
 
-    public function appoinement()
+    public function appointment ()
     {
         $user = Auth::user();
         $userDetails = $user->userDetail;
@@ -110,6 +114,47 @@ class PractitionerController extends Controller
         $userDetails = $user->userDetail;
 
         return view('user.calendar', compact('user', 'userDetails'));
+    }
+
+
+    public function blog()
+    {
+        $user = Auth::user();
+        $userDetails = $user->userDetail;
+        return view('user.blog', compact('user', 'userDetails'));
+    }
+    public function blogDetail()
+    {
+        $user = Auth::user();
+        $userDetails = $user->userDetail;
+        return view('user.blog', compact('user', 'userDetails'));
+    }
+
+    public function earning()
+    {
+        $user = Auth::user();
+        $userDetails = $user->userDetail;
+        return view('user.earning', compact('user', 'userDetails'));
+    }
+
+    public function refundRequest()
+    {
+        $user = Auth::user();
+        $userDetails = $user->userDetail;
+        return view('user.refund_request', compact('user', 'userDetails'));
+    }
+
+    public function updateClientPolicy(Request $request)
+    {
+        $input = $request->all();
+        $id = $input['id'];
+        UserDetail::where('user_id', $id)->update(
+            [
+                'privacy_policy' => $input['privacy_policy'],
+                'terms_condition' => $input['terms_condition'],
+            ]
+        );
+        return redirect()->back()->with('success', 'Profile updated successfully');
     }
 
 }

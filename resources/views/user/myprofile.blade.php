@@ -1,12 +1,10 @@
 @extends('layouts.app')
 @section('content')
-
     <section class="practitioner-profile">
         <div class="container">
+            @include('layouts.partitioner_sidebar')
             <div class="row">
-                
                 @include('layouts.partitioner_nav')
-                
                 <div class="add-offering-dv">
                     <div class="container">
                         <div class="mb-4 mt-4">
@@ -34,12 +32,14 @@
                                 <div class="tab-pane fade show active" id="general" role="tabpanel"
                                      aria-labelledby="general-tab">
 
-                                    <form method="post" action="{{ route('updateProfile') }}" enctype="multipart/form-data">
+                                    <form method="post" action="{{ route('updateProfile') }}"
+                                          enctype="multipart/form-data">
                                         @csrf
                                         <div class="row">
                                             <div class="col-sm-12 col-lg-6 mb-3">
                                                 <label for="first_name">First Name</label>
-                                                <input type="text" class="form-control" id="first_name" name="first_name"
+                                                <input type="text" class="form-control" id="first_name"
+                                                       name="first_name"
                                                        value="{{ $user->first_name ?? '' }}">
                                                 <input type="hidden" class="form-control" id="id" name="id"
                                                        value="{{ $user->id ?? '' }}">
@@ -55,7 +55,8 @@
                                             <label for="company_name">Company Name</label>
                                             <input type="text" class="form-control" id="company" name="company"
                                                    value="{{ $userDetails->company ?? '' }}">
-                                            <p style="text-align: start;">Your shop name is public and must be unique.</p>
+                                            <p style="text-align: start;">Your shop name is public and must be
+                                                unique.</p>
                                         </div>
 
                                         <div class="mb-3">
@@ -68,26 +69,31 @@
                                             <label for="location" class="fw-bold">Location</label>
                                             <select id="location" name="location" class="form-select">
                                                 <option>Select</option>
-                                                <option value="New York" {{ (isset($userDetails->location) && $userDetails->location == 'New York') ? 'selected' : '' }}>
+                                                <option
+                                                    value="New York" {{ (isset($userDetails->location) && $userDetails->location == 'New York') ? 'selected' : '' }}>
                                                     New York
                                                 </option>
-                                                <option value="Los Angeles" {{ (isset($userDetails->location) && $userDetails->location == 'Los Angeles') ? 'selected' : '' }}>
+                                                <option
+                                                    value="Los Angeles" {{ (isset($userDetails->location) && $userDetails->location == 'Los Angeles') ? 'selected' : '' }}>
                                                     Los Angeles
                                                 </option>
-                                                <option value="Chicago" {{ (isset($userDetails->location) && $userDetails->location == 'Chicago') ? 'selected' : '' }}>
+                                                <option
+                                                    value="Chicago" {{ (isset($userDetails->location) && $userDetails->location == 'Chicago') ? 'selected' : '' }}>
                                                     Chicago
                                                 </option>
                                             </select>
                                         </div>
                                         <hr>
                                         <label for="type" class="fw-bold">Tags</label>
-                                        <p style="text-align: start;">These are keywords used to help identify more specific
+                                        <p style="text-align: start;">These are keywords used to help identify more
+                                            specific
                                             versions of something. For example, a good tag for a massage could be "Deep
                                             Tissue".</p>
                                         <hr>
                                         <div class="mb-3">
                                             <p style="text-align: start;" class="text">Images</p>
-                                            <input type="file" id="fileInput" class="hidden" name="images" accept="image/*"
+                                            <input type="file" id="fileInput" class="hidden" name="images"
+                                                   accept="image/*"
                                                    onchange="previewImage(event)" style="display: none;">
                                             <label for="fileInput" class="image-preview" id="imagePreview">
                                                 <span>+</span>
@@ -96,33 +102,34 @@
                                         <div class="mb-3">
                                             <label for="floatingTextarea">About Me</label>
                                             <p>Maximum length of 500 words</p>
-                                            <textarea class="form-control" name="about_me" placeholder="" id="floatingTextarea"></textarea>
+                                            <textarea class="form-control" name="about_me" placeholder=""
+                                                      id="floatingTextarea">{{$userDetails->about_me ?? ''}}</textarea>
                                         </div>
                                         <hr>
-{{--                                        <div class="mb-4">--}}
-{{--                                            <label for="type" class="fw-bold">I help with:</label>--}}
-{{--                                            <select id="type" name="type" class="form-select">--}}
-{{--                                                <option>Select</option>--}}
-{{--                                            </select>--}}
-{{--                                        </div>--}}
-{{--                                        <hr>--}}
-{{--                                        <button class="update-btn mb-2">Add New Term</button>--}}
-{{--                                        <div class="mb-4">--}}
-{{--                                            <label for="type" class="fw-bold">I help with:</label>--}}
-{{--                                            <select id="term" name="term" class="form-select">--}}
-{{--                                                <option>Select</option>--}}
-{{--                                            </select>--}}
-{{--                                        </div>--}}
-{{--                                        <hr>--}}
-{{--                                        <button class="update-btn mb-2">Add New Term</button>--}}
-{{--                                        <div class="mb-4">--}}
-{{--                                            <label for="type" class="fw-bold">How I help:</label>--}}
-{{--                                            <select id="help" name="help" class="form-select">--}}
-{{--                                                <option>Select</option>--}}
-{{--                                            </select>--}}
-{{--                                        </div>--}}
-{{--                                        <hr>--}}
-{{--                                        <button class="update-btn mb-2">Add New Term</button>--}}
+                                        <div class="mb-4">
+                                            <label for="type" class="fw-bold">I help with:</label>
+                                            <select id="type" name="type" class="form-select">
+                                                <option>Select</option>
+                                            </select>
+                                        </div>
+                                        <hr>
+                                        <button class="update-btn mb-2">Add New Term</button>
+                                        <div class="mb-4">
+                                            <label for="type" class="fw-bold">I help with:</label>
+                                            <select id="term" name="term" class="form-select">
+                                                <option>Select</option>
+                                            </select>
+                                        </div>
+                                        <hr>
+                                        <button class="update-btn mb-2">Add New Term</button>
+                                        <div class="mb-4">
+                                            <label for="type" class="fw-bold">How I help:</label>
+                                            <select id="help" name="help" class="form-select">
+                                                <option>Select</option>
+                                            </select>
+                                        </div>
+                                        <hr>
+                                        <button class="update-btn mb-2">Add New Term</button>
                                         <div class="mb-4">
                                             <label for="specialities" class="fw-bold">Specialities</label>
                                             <select id="specialities" class="form-select" name="specialities">
@@ -132,8 +139,10 @@
                                         <hr>
                                         <div class="mb-4">
                                             <div class="form-check offering-check">
-                                                <input type="checkbox" class="form-check-input" id="can-be-cancelled" name="amentities">
-                                                <label class="form-check-label" for="can-be-cancelled">Amentities</label>
+                                                <label class="form-check-label" for="amentities">Amentities</label>
+                                                <select id="amentities" class="form-select" name="amentities">
+                                                    <option>Select</option>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="mb-4">
@@ -160,20 +169,25 @@
                                         </div>
                                         <div class="mb-4">
                                             <div class="form-check offering-check">
-                                                <input type="checkbox" class="form-check-input" id="is_opening_hours" name="is_opening_hours">
-                                                <label class="form-check-label" for="is_opening_hours">Enable opening hours</label>
+                                                <input type="checkbox" class="form-check-input" id="is_opening_hours"
+                                                       name="is_opening_hours">
+                                                <label class="form-check-label" for="is_opening_hours">Enable opening
+                                                    hours</label>
                                             </div>
                                         </div>
                                         <div class="mb-4">
                                             <div class="form-check offering-check">
-                                                <input type="checkbox" class="form-check-input" id="is_notice" name="is_notice">
+                                                <input type="checkbox" class="form-check-input" id="is_notice"
+                                                       name="is_notice">
                                                 <label class="form-check-label" for="is_notice">Enable notice</label>
                                             </div>
                                         </div>
                                         <div class="mb-4">
                                             <div class="form-check offering-check">
-                                                <input type="checkbox" class="form-check-input" id="is_google_analytics" name="is_google_analytics">
-                                                <label class="form-check-label" for="is_google_analytics">Enable Google Analytics</label>
+                                                <input type="checkbox" class="form-check-input" id="is_google_analytics"
+                                                       name="is_google_analytics">
+                                                <label class="form-check-label" for="is_google_analytics">Enable Google
+                                                    Analytics</label>
                                             </div>
                                         </div>
                                         <div class="d-flex" style="gap: 20px;">
@@ -231,52 +245,34 @@
                                     </div>
                                 </div>
                                 <div class="tab-pane fade" id="client" role="tabpanel" aria-labelledby="clint-tab">
-                                    <div class="mb-3">
-                                        <label for="floatingTextarea">Privacy Policy</label>
-                                        <textarea class="form-control" placeholder="" id="floatingTextarea"></textarea>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="floatingTextarea">Terms & Condition</label>
-                                        <textarea class="form-control" placeholder="" id="floatingTextarea"></textarea>
-                                    </div>
+                                    <form method="post" action="{{ route('updateClientPolicy') }}">
+                                        <div class="mb-3">
+                                            <label for="floatingTextarea">Privacy Policy</label>
+                                            <textarea class="form-control" placeholder="" name="privacy_policy"
+                                                      id="floatingTextarea">{{ $userDetails->privacy_policy ?? '' }}</textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="floatingTextarea">Terms & Condition</label>
+                                            <textarea class="form-control" name="terms_condition" placeholder=""
+                                                      id="floatingTextarea">{{ $userDetails->terms_condition ?? '' }}</textarea>
+                                        </div>
+                                        <input type="hidden" name="id" value="{{ $user->id ?? '' }}">
+                                        <div class="d-flex" style="gap: 20px;">
+                                            <button class="update-btn m-0">Add Offering</button>
+                                            <button class="update-btn">Save Draft</button>
+                                        </div>
+                                        @csrf
+                                    </form>
+
                                 </div>
                             </div>
                         </div>
-{{--                        <div class="d-flex" style="gap: 20px;">--}}
-{{--                            <button class="update-btn m-0">Add Offering</button>--}}
-{{--                            <button class="update-btn">Save Draft</button>--}}
-{{--                        </div>--}}
+                        {{--                        <div class="d-flex" style="gap: 20px;">--}}
+                        {{--                            <button class="update-btn m-0">Add Offering</button>--}}
+                        {{--                            <button class="update-btn">Save Draft</button>--}}
+                        {{--                        </div>--}}
                     </div>
                 </div>
-            </div>
-            <div class="positioned-dv">
-                <ul>
-                    <li>
-                        <img src="{{url('./assets/images/User.svg')}}" alt="">
-                        <p>Account</p>
-                    </li>
-                    <li>
-                        <img src="{{url('./assets/images/grid.svg')}}" alt="">
-                        <p>Dashboard</p>
-                    </li>
-                    <li>
-                        <img src="{{url('./assets/images/calendar.svg')}}" alt="">
-                        <p>Calendar</p>
-                    </li>
-                    <li>
-                        <img src="{{url('./assets/images/Shopping List.svg')}}" alt="">
-                        <p>Bookings</p>
-                    </li>
-                    <li>
-                        <img src="{{url('./assets/images/Chat.svg')}}" alt="">
-                        <p>Community</p>
-                    </li>
-                    <li>
-                        <img src="{{url('./assets/images/business.svg')}}" alt="">
-                        <p>Business<br/>
-                            Referals</p>
-                    </li>
-                </ul>
             </div>
         </div>
     </section>

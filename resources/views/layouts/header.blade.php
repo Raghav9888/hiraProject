@@ -2,7 +2,7 @@
     <div class="container">
         <nav class="navbar navbar-expand-lg">
             <div class="container-fluid">
-                <a href="./index.html">
+                <a href="{{route('home')}}">
                     <img class="header-logo" src="{{url('./assets/images/header-logo.svg')}}" alt="header-logo">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -16,7 +16,7 @@
                             <a class="nav-link active" aria-current="page" href="#">DIRECTORY</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/blog.html">ARTICLES & BLOGS</a>
+                            <a class="nav-link" href="{{route('blog')}}">ARTICLES & BLOGS</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -31,8 +31,13 @@
                             </ul>
                         </li>
                     </ul>
-                    <div class="d-flex">                       
-                       
+                    <div class="d-flex">
+                        <nav class="et-menu-nav">
+                            <ul id="menu-practitioner-menu me-5" class="et-menu nav">
+                                <li id="menu-item-5395" class="et_pb_menu_page_id-4726 menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-4726 current_page_item menu-item-5395">
+                                    <a href="{{route('myProfile')}}" aria-current="page">Profile</a></li>
+                            </ul>
+                        </nav>
                         @if(Auth::check())
                         <form action="{{ route('logout') }}" method="POST">
                             @csrf
