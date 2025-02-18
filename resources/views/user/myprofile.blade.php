@@ -208,7 +208,7 @@
                                 <!-- Costs Tab Content -->
                                 <div class="tab-pane fade" id="costs" role="tabpanel" aria-labelledby="costs-tab">
                                     <div class="d-flex justify-content-end mb-4">
-                                        <button class="update-btn">Google calendar setting</button>
+                                        <a href="{{route('redirectToGoogle')}}" class="update-btn">Google calendar setting</a>
                                     </div>
                                     <div class="calendar">
                                         <div class="controls">

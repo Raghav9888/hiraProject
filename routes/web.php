@@ -32,7 +32,7 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::post('/update-client-policy', [PractitionerController::class, 'updateClientPolicy'])->name('updateClientPolicy');
     Route::get('/appointment', [PractitionerController::class, 'appointment'])->name('appointment');
     Route::get('/calendar', [PractitionerController::class, 'calendar'])->name('calendar');
-    Route::get('google/redirect', [GoogleAuthController::class, 'redirectToGoogle'])->name('google.redirect');
+    Route::get('google/redirect', [GoogleAuthController::class, 'redirectToGoogle'])->name('redirectToGoogle');
     Route::get('google/callback', [GoogleAuthController::class, 'handleGoogleCallback']);
     Route::get('calendar-list', [GoogleAuthController::class, 'getCalendarList']);
     Route::get('/blog', [PractitionerController::class, 'blog'])->name('blog');
