@@ -28,7 +28,6 @@ class PractitionerController extends Controller
     {
         $user = Auth::user();
         $userDetails = $user->userDetail;
-
         return view('user.myprofile', compact('user', 'userDetails'));
     }
 
@@ -68,7 +67,7 @@ class PractitionerController extends Controller
 //            'terms_condition' => $input['terms_condition'],
         ];
 
-        UserDetail::where('id', $id)->update($details);
+        UserDetail::where('user_id', $id)->update($details);
 
         return redirect()->back()->with('success', 'Profile updated successfully');
     }

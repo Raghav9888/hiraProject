@@ -1,6 +1,5 @@
 @extends('layouts.app')
 @section('content')
-
     <section class="practitioner-profile">
         <div class="container">
             @include('layouts.partitioner_sidebar')
