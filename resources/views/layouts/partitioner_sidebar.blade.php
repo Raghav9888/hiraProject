@@ -1,8 +1,10 @@
 <div class="positioned-dv">
     <ul>
         <li>
-            <img src="{{url('./assets/images/grid.svg')}}" alt="">
-            <p>Dashboard</p>
+            <a href="{{route('dashboard')}}">
+                <img src="{{url('./assets/images/grid.svg')}}" alt="">
+                <p>Dashboard</p>
+            </a>
         </li>
         <li>
             <img src="{{url('./assets/images/User.svg')}}" alt="">

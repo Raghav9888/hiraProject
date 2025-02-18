@@ -23,6 +23,7 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
 Route::middleware(['auth', 'user-access:user'])->group(function () {
 
     Route::get('/my-profile', [PractitionerController::class, 'index'])->name('myProfile');
+    Route::get('/dashboard', [PractitionerController::class, 'dashboard'])->name('dashboard');
     Route::get('/offering', [PractitionerController::class, 'offering'])->name('offering');
     Route::get('/add-offering', [PractitionerController::class, 'addOffering'])->name('addOffering');
     Route::get('/discount', [PractitionerController::class, 'discount'])->name('discount');

@@ -31,6 +31,13 @@ class PractitionerController extends Controller
         return view('user.myprofile', compact('user', 'userDetails'));
     }
 
+    public function dashboard()
+    {
+        $user = Auth::user();
+        $userDetails = $user->userDetail;
+        return view('user.dashboard', compact('user', 'userDetails'));
+    }
+
     public function updateProfile(Request $request)
     {
         $input = $request->all();

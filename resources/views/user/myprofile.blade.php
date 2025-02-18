@@ -106,30 +106,30 @@
                                                       id="floatingTextarea">{{$userDetails->about_me ?? ''}}</textarea>
                                         </div>
                                         <hr>
-                                        {{--                                        <div class="mb-4">--}}
-                                        {{--                                            <label for="type" class="fw-bold">I help with:</label>--}}
-                                        {{--                                            <select id="type" name="type" class="form-select">--}}
-                                        {{--                                                <option>Select</option>--}}
-                                        {{--                                            </select>--}}
-                                        {{--                                        </div>--}}
-                                        {{--                                        <hr>--}}
-                                        {{--                                        <button class="update-btn mb-2">Add New Term</button>--}}
-                                        {{--                                        <div class="mb-4">--}}
-                                        {{--                                            <label for="type" class="fw-bold">I help with:</label>--}}
-                                        {{--                                            <select id="term" name="term" class="form-select">--}}
-                                        {{--                                                <option>Select</option>--}}
-                                        {{--                                            </select>--}}
-                                        {{--                                        </div>--}}
-                                        {{--                                        <hr>--}}
-                                        {{--                                        <button class="update-btn mb-2">Add New Term</button>--}}
-                                        {{--                                        <div class="mb-4">--}}
-                                        {{--                                            <label for="type" class="fw-bold">How I help:</label>--}}
-                                        {{--                                            <select id="help" name="help" class="form-select">--}}
-                                        {{--                                                <option>Select</option>--}}
-                                        {{--                                            </select>--}}
-                                        {{--                                        </div>--}}
-                                        {{--                                        <hr>--}}
-                                        {{--                                        <button class="update-btn mb-2">Add New Term</button>--}}
+                                        <div class="mb-4">
+                                            <label for="type" class="fw-bold">I help with:</label>
+                                            <select id="type" name="type" class="form-select">
+                                                <option>Select</option>
+                                            </select>
+                                        </div>
+                                        <hr>
+                                        <button class="update-btn mb-2">Add New Term</button>
+                                        <div class="mb-4">
+                                            <label for="type" class="fw-bold">I help with:</label>
+                                            <select id="term" name="term" class="form-select">
+                                                <option>Select</option>
+                                            </select>
+                                        </div>
+                                        <hr>
+                                        <button class="update-btn mb-2">Add New Term</button>
+                                        <div class="mb-4">
+                                            <label for="type" class="fw-bold">How I help:</label>
+                                            <select id="help" name="help" class="form-select">
+                                                <option>Select</option>
+                                            </select>
+                                        </div>
+                                        <hr>
+                                        <button class="update-btn mb-2">Add New Term</button>
                                         <div class="mb-4">
                                             <label for="specialities" class="fw-bold">Specialities</label>
                                             <select id="specialities" class="form-select" name="specialities">
@@ -139,10 +139,10 @@
                                         <hr>
                                         <div class="mb-4">
                                             <div class="form-check offering-check">
-                                                <input type="checkbox" class="form-check-input" id="can-be-cancelled"
-                                                       name="amentities">
-                                                <label class="form-check-label"
-                                                       for="can-be-cancelled">Amentities</label>
+                                                <label class="form-check-label" for="amentities">Amentities</label>
+                                                <select id="amentities" class="form-select" name="amentities">
+                                                    <option>Select</option>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="mb-4">
