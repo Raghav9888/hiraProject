@@ -137,5 +137,17 @@ class PractitionerController extends Controller
         return view('user.refund_request', compact('user', 'userDetails'));
     }
 
+    public function updateClientPolicy(Request $request)
+    {
+        $input = $request->all();
+        $id = $input['id'];
+        UserDetail::where('user_id', $id)->update(
+            [
+                'privacy_policy' => $input['privacy_policy'],
+                'terms_condition' => $input['terms_condition'],
+            ]
+        );
+        return redirect()->back()->with('success', 'Profile updated successfully');
+    }
 
 }
