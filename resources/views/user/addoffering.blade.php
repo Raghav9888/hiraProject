@@ -13,32 +13,32 @@
                     free to “copy
                     and paste” descriptions from each service offering.</p>
                 <div class="add-offering-dv">
-                    <form>
+                    <form method="post" action="">
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="exampleInputEmail1"
+                            <input type="text" class="form-control" name="name" id="exampleInputEmail1"
                                    aria-describedby="emailHelp"
                                    placeholder="">
                         </div>
                         <div class="mb-3">
                             <label for="floatingTextarea">Description</label>
-                            <textarea class="form-control" placeholder="please add a full description here"
+                            <textarea class="form-control" name="long_description" placeholder="please add a full description here"
                                       id="floatingTextarea"></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="floatingTextarea">Shoret Description</label>
-                            <textarea class="form-control" placeholder="please add a full description here"
+                            <textarea class="form-control" name="short_description" placeholder="please add a full description here"
                                       id="floatingTextarea"></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Location</label>
-                            <input type="text" class="form-control" id="exampleInputEmail1"
+                            <input type="text" name="location" class="form-control" id="exampleInputEmail1"
                                    aria-describedby="emailHelp"
                                    placeholder="">
                         </div>
                         <div class="mb-3">
                             <label for="exampleInputPassword1" class="form-label">I help with:</label>
-                            <input type="text" class="form-control" id="exampleInputPassword1"
+                            <input type="text" name="help" class="form-control" id="exampleInputPassword1"
                                    placeholder="">
                         </div>
                         <div class="mb-3">
@@ -49,20 +49,20 @@
                                 would be Ayuvedic massage and hot stone massage)
                                 Practitioner Offerings
                             </label>
-                            <input type="text" class="form-control" id="exampleInputPassword1"
+                            <input type="text" name="categories" class="form-control" id=""
                                    placeholder="">
                         </div>
                         <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label">Tags - Used to highlight
+                            <label for="" class="form-label">Tags - Used to highlight
                                 specific
                                 features of a service/offering and help get found in search, e.g., [related
                                 to services
                                 of massage as the category] Ayuvedic, hot stone, back ache, back pain,
-                                muscle tension)
+                                muscle tension
                             </label>
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" id="exampleInputPassword1"
+                            <input type="text" name="tags" class="form-control" id=""
                                    placeholder="Search or add a tag">
                             <div id="tags-container"></div>
                         </div>
@@ -331,3 +331,33 @@
     </section>
 
 @endsection
+
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+    const inputField = document.querySelector('input[name="tags"]');
+
+    function createTag(value) {
+        value = value.trim();
+        if (!value) return;
+
+        let tags = inputField.value.split(",").map(tag => tag.trim()).filter(tag => tag !== "");
+        if (tags.includes(value)) return; // Prevent duplicate tags
+
+        tags.push(value);
+        inputField.value = tags.join(", ");
+    }
+
+    inputField.addEventListener("keydown", function (event) {
+        if ([13, 44, 32].includes(event.keyCode)) { // Enter (13), Comma (44), Space (32)
+            event.preventDefault();
+            createTag(inputField.value);
+        }
+    });
+
+    inputField.addEventListener("blur", function () {
+        createTag(inputField.value);
+    });
+});
+</script>
