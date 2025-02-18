@@ -60,11 +60,9 @@ class PractitionerController extends Controller
             'certifications' => $input['certifications'],
             'endorsements' => $input['endorsements'],
             'timezone' => $input['timezone'],
-//            'is_opening_hours' => $input['is_opening_hours'],
-//            'is_notice' => $input['is_notice'],
-//            'is_google_analytics' => $input['is_google_analytics'],
-//            'privacy_policy' => $input['privacy_policy'],
-//            'terms_condition' => $input['terms_condition'],
+            'is_opening_hours' => isset($input['is_opening_hours']) && $input['is_opening_hours'] == 'on' ? 1 : 0,
+            'is_notice' => isset($input['is_notice']) && $input['is_notice'] == 'on' ? 1 : 0,
+            'is_google_analytics' => isset($input['is_google_analytics']) && $input['is_google_analytics'] == 'on' ? 1 : 0,
         ];
 
         UserDetail::where('user_id', $id)->update($details);
