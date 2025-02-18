@@ -103,7 +103,7 @@
                                             <label for="floatingTextarea">About Me</label>
                                             <p>Maximum length of 500 words</p>
                                             <textarea class="form-control" name="about_me" placeholder=""
-                                                      id="floatingTextarea"></textarea>
+                                                      id="floatingTextarea">{{$userDetails->about_me ?? ''}}</textarea>
                                         </div>
                                         <hr>
                                         {{--                                        <div class="mb-4">--}}
