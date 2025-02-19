@@ -142,10 +142,6 @@ class PractitionerController extends Controller
         ]);
     }
 
-
-
-
-
     public function blog()
     {
         $user = Auth::user();
