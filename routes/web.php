@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PractitionerController;
+use App\Http\Controllers\OfferingController;
 use Illuminate\Support\Facades\Auth;
 
 /* Route::get('/', function () {
@@ -40,5 +41,12 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::get('/earning', [PractitionerController::class, 'earning'])->name('earning');
     Route::get('/refund-request', [PractitionerController::class, 'refundRequest'])->name('refundRequest');
     Route::get('/google/events', [GoogleAuthController::class, 'getCalendarEvents'])->name('calendarEvents');
+    Route::prefix('offerings')->group(function () {
+        Route::get('/', [OfferingController::class, 'index']);
+        Route::post('/', [OfferingController::class, 'store'])->name('addoffering');
+        Route::get('/{id}', [OfferingController::class, 'show']);
+        Route::put('/{id}', [OfferingController::class, 'update']);
+        Route::delete('/{id}', [OfferingController::class, 'destroy']);
+    });
 
 });
