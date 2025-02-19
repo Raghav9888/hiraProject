@@ -41,7 +41,7 @@
     </div>
 @include('layouts.footer')
 
-<script type="text/javascript">
+<script type="module">
     $(document).ready(function(){
         $(".owl-carousel").owlCarousel({
             items: 6,

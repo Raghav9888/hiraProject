@@ -13,19 +13,24 @@ use Illuminate\Support\Facades\Session;
 
 class GoogleAuthController extends Controller
 {
+    private Google_Client $googleClient;
+
+    public function __construct()
+    {
+        $this->googleClient = new Google_Client();
+        $this->googleClient->setAuthConfig(config('services.google.client_secret_path'));
+        $this->googleClient->setScopes([Google_Service_Calendar::CALENDAR_READONLY]);
+        $this->googleClient->setRedirectUri(config('services.google.redirect'));
+        $this->googleClient->setAccessType('offline'); // Allows refreshing tokens
+        $this->googleClient->setPrompt('select_account consent');
+    }
+
     /**
      * Redirect to Google for authentication.
      */
     public function redirectToGoogle(): RedirectResponse
     {
-        $googleClient = new Google_Client();
-        $googleClient->setAuthConfig(config('services.google.client_secret_path'));
-        $googleClient->setScopes([Google_Service_Calendar::CALENDAR_READONLY]);
-        $googleClient->setRedirectUri(config('services.google.redirect'));
-        $googleClient->setAccessType('offline'); // Allows refreshing tokens
-        $googleClient->setPrompt('select_account consent');
-
-        return redirect()->away($googleClient->createAuthUrl());
+        return redirect()->away($this->googleClient->createAuthUrl());
     }
 
     /**
@@ -33,23 +38,20 @@ class GoogleAuthController extends Controller
      */
     public function handleGoogleCallback(Request $request): RedirectResponse
     {
-        $googleClient = new Google_Client();
-        $googleClient->setAuthConfig(config('services.google.client_secret_path'));
-        $googleClient->setRedirectUri(config('services.google.redirect'));
-
         if (!$request->has('code')) {
             return redirect()->route('redirectToGoogle')->with('error', 'Authorization failed.');
         }
 
-        $token = $googleClient->fetchAccessTokenWithAuthCode($request->get('code'));
+        $token = $this->googleClient->fetchAccessTokenWithAuthCode($request->get('code'));
 
         if (isset($token['error'])) {
             return redirect()->route('redirectToGoogle')->with('error', 'Failed to get access token.');
         }
 
+        // Store token in session
         Session::put('google_token', $token);
 
-        return redirect()->route('calendarList');
+        return redirect()->route('calendarEvents');
     }
 
     /**
@@ -57,23 +59,67 @@ class GoogleAuthController extends Controller
      */
     public function getCalendarList(): JsonResponse|RedirectResponse
     {
-        $token = session('google_token');
-
-        if (!$token) {
+        $service = $this->getGoogleService();
+        if (!$service) {
             return redirect()->route('redirectToGoogle');
         }
 
-        $googleClient = new Google_Client();
-        $googleClient->setAuthConfig(config('services.google.client_secret_path'));
-        $googleClient->setAccessToken($token);
-
-        if ($googleClient->isAccessTokenExpired()) {
-            return redirect()->route('redirectToGoogle');
-        }
-
-        $service = new Google_Service_Calendar($googleClient);
         $calendarList = $service->calendarList->listCalendarList();
 
         return response()->json($calendarList);
     }
+
+    public static function getCalendarEvents(): JsonResponse
+    {
+        $service = (new self())->getGoogleService();
+
+        if (!$service) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        $events = $service->events->listEvents('primary');
+
+        $formattedEvents = array_map(function ($event) {
+            return [
+                'id' => $event->getId(),
+                'title' => $event->getSummary(),
+                'start' => $event->getStart()->getDateTime() ?: $event->getStart()->getDate(),
+                'end' => $event->getEnd()->getDateTime() ?: $event->getEnd()->getDate(),
+            ];
+        }, iterator_to_array($events->getItems()));
+
+        return response()->json($formattedEvents);
+    }
+
+
+    /**
+     * Get Google Service instance with valid token.
+     */
+    private function getGoogleService(): ?Google_Service_Calendar
+    {
+        $token = session('google_token');
+
+        if (!$token) {
+            return null;
+        }
+
+        $this->googleClient->setAccessToken($token);
+
+        if ($this->googleClient->isAccessTokenExpired()) {
+            if (isset($token['refresh_token'])) {
+                $newToken = $this->googleClient->fetchAccessTokenWithRefreshToken($token['refresh_token']);
+                if (!isset($newToken['error'])) {
+                    Session::put('google_token', $newToken);
+                    $this->googleClient->setAccessToken($newToken);
+                } else {
+                    return null;
+                }
+            } else {
+                return null;
+            }
+        }
+
+        return new Google_Service_Calendar($this->googleClient);
+    }
+
 }

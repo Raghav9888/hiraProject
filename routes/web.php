@@ -31,12 +31,14 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::post('/update-profile', [PractitionerController::class, 'updateProfile'])->name('updateProfile');
     Route::post('/update-client-policy', [PractitionerController::class, 'updateClientPolicy'])->name('updateClientPolicy');
     Route::get('/appointment', [PractitionerController::class, 'appointment'])->name('appointment');
-    Route::get('/calendar', [PractitionerController::class, 'calendar'])->name('calendar');
+    Route::get('/calendar', [PractitionerController::class, 'showCalendar'])->name('calendar');
     Route::get('google/redirect', [GoogleAuthController::class, 'redirectToGoogle'])->name('redirectToGoogle');
     Route::get('google/callback', [GoogleAuthController::class, 'handleGoogleCallback']);
+//    Route::get('google/events', [GoogleAuthController::class, 'getCalendarEvents'])->name('calendarEvents');
     Route::get('calendar-list', [GoogleAuthController::class, 'getCalendarList']);
     Route::get('/blog', [PractitionerController::class, 'blog'])->name('blog');
     Route::get('/earning', [PractitionerController::class, 'earning'])->name('earning');
     Route::get('/refund-request', [PractitionerController::class, 'refundRequest'])->name('refundRequest');
+    Route::get('/google/events', [GoogleAuthController::class, 'getCalendarEvents'])->name('calendarEvents');
 
 });

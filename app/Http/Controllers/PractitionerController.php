@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\UserDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\GoogleAuthController;
 
 class PractitionerController extends Controller
 {
@@ -108,13 +109,41 @@ class PractitionerController extends Controller
 
         return view('user.appoinement', compact('user', 'userDetails'));
     }
-    public function calendar()
+//    public function calendar()
+//    {
+//        $user = Auth::user();
+//        $userDetails = $user->userDetail;
+//
+//        return view('user.calendar', compact('user', 'userDetails'));
+//    }
+
+
+
+    public function showCalendar(GoogleAuthController $googleAuthController)
     {
         $user = Auth::user();
-        $userDetails = $user->userDetail;
 
-        return view('user.calendar', compact('user', 'userDetails'));
+        $response = $googleAuthController->getCalendarEvents();
+
+        $events = json_decode($response->getContent(), true);
+
+        $formattedEvents = collect($events)->map(function ($event) {
+            return [
+                'id' => $event['id'],
+                'title' => $event['title'],
+                'start' => $event['start'],
+                'end' => $event['end'],
+            ];
+        })->toArray();
+
+        return view('user.calendar', [
+            'events' => json_encode($formattedEvents),
+            'user' => $user,
+        ]);
     }
+
+
+
 
 
     public function blog()
