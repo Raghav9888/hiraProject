@@ -1,6 +1,6 @@
    <!-- footer start -->
 <div class="footer">
-    <img class="footer-butterfly" src="./asserts/footer-butterfly.svg" alt="">
+    <img class="footer-butterfly" src="{{url('./assets/images/footer-butterfly.svg')}}" alt="">
     <div class="footer-list-wrrpr">
         <div class="container">       
             <div class="row">
@@ -49,7 +49,6 @@
                     </div>
                 </div>
             </div>
-        </div>
         <div class="language-translator-dv">
             <div class="row">
                 <div class="col-sm-12 col-md-10 col-lg-10">
@@ -60,6 +59,7 @@
                     <button><i class="fa-solid fa-globe"></i>English</button>
                 </div>
             </div>
+        </div>
         </div>
     </div>
     <div class="footer-botom-dv-wrrpr">

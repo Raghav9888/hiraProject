@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Offering;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OfferingController extends Controller
 {
@@ -17,6 +18,29 @@ class OfferingController extends Controller
     // Store a new offering
     public function store(Request $request)
     {
+        $input = $request->all();
+       /*  echo '<pre>';
+        Print_r($input);
+        echo '</pre>';
+        exit(); */
+        $user = Auth::user();
+        $user_id = $user->id;
+
+        $details = [
+            'user_id' => $input['user_id'],
+            'name' => $input['name'],
+            'long_description' => $input['long_description'],
+            'short_description' => $input['short_description'],
+            'location' => $input['location'],
+            'help' => $input['help'],
+            'categories' => $input['categories'],
+            'tags' => $input['tags'],
+            'type' => $input['type'],
+            'is_opening_hours' => isset($input['is_opening_hours']) && $input['is_opening_hours'] == 'on' ? 1 : 0,
+            'is_notice' => isset($input['is_notice']) && $input['is_notice'] == 'on' ? 1 : 0,
+            'is_google_analytics' => isset($input['is_google_analytics']) && $input['is_google_analytics'] == 'on' ? 1 : 0,
+        ];
+
         $validated = $request->validate([
             'user_id' => 'required|exists:users,id',
             'name' => 'required|string|max:255',
