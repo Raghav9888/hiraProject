@@ -18,6 +18,8 @@ Auth::routes();
 Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::namespace('Admin')->group(function () {
         Route::get('admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+        Route::get('admin/users', [DashboardController::class, 'Users'])->name('admin.users');
+        Route::get('admin/blogs', [DashboardController::class, 'blogs'])->name('admin.blogs');
     });
 });
 
