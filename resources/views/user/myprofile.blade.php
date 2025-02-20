@@ -32,8 +32,7 @@
                                 <div class="tab-pane fade show active" id="general" role="tabpanel"
                                      aria-labelledby="general-tab">
 
-                                    <form method="post" action="{{ route('updateProfile') }}"
-                                          enctype="multipart/form-data">
+                                    <form method="post" action="{{ route('updateProfile') }}" enctype="multipart/form-data">
                                         @csrf
                                         <div class="row">
                                             <div class="col-sm-12 col-lg-6 mb-3">
@@ -140,7 +139,7 @@
                                         <div class="mb-4">
                                             <div class="form-check offering-check">
                                                 <label class="form-check-label" for="amentities">Amentities</label>
-                                                <select id="amentities" class="form-select" name="amentities">
+                                                <select id="amentities" class="form-select select2" name="amentities">
                                                     <option>Select</option>
                                                 </select>
                                             </div>
@@ -192,7 +191,7 @@
                                         </div>
                                         <div class="d-flex" style="gap: 20px;">
                                             <button class="update-btn m-0">Add Offering</button>
-                                            <button class="update-btn">Save Draft</button>
+                                            <button type="submit" class="update-btn">Save Draft</button>
                                         </div>
                                     </form>
                                 </div>

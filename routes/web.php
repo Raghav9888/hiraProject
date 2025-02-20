@@ -25,7 +25,7 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
 
     Route::get('/my-profile', [PractitionerController::class, 'index'])->name('myProfile');
     Route::get('/dashboard', [PractitionerController::class, 'dashboard'])->name('dashboard');
-    Route::get('/offering', [PractitionerController::class, 'offering'])->name('offering');
+   // Route::get('/offering', [PractitionerController::class, 'offering'])->name('offering');
     Route::get('/add-offering', [PractitionerController::class, 'addOffering'])->name('addOffering');
     Route::get('/discount', [PractitionerController::class, 'discount'])->name('discount');
     Route::post('/update-profile', [PractitionerController::class, 'updateProfile'])->name('updateProfile');
@@ -36,9 +36,9 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::get('/earning', [PractitionerController::class, 'earning'])->name('earning');
     Route::get('/refund-request', [PractitionerController::class, 'refundRequest'])->name('refundRequest');
 
-    Route::prefix('offerings')->group(function () {
-        Route::get('/', [OfferingController::class, 'index']); // Get all offerings
-        Route::post('/', [OfferingController::class, 'store'])->name('addoffering'); // Create offering
+    Route::prefix('offering')->group(function () {
+        Route::get('/', [OfferingController::class, 'index'])->name('offering'); // Get all offerings
+        Route::post('/', [OfferingController::class, 'store'])->name('storeoffering'); // Create offering
         Route::get('/{id}', [OfferingController::class, 'show']); // Get a single offering
         Route::put('/{id}', [OfferingController::class, 'update']); // Update an offering
         Route::delete('/{id}', [OfferingController::class, 'destroy']); // Delete an offering

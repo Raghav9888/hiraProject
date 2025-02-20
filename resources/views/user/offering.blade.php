@@ -1,6 +1,11 @@
 @extends('layouts.app')
 @section('content')
-
+<?php
+    /* echo '<pre>';
+    Print_r($offerings);
+    echo '</pre>';
+    exit(); */
+?>
     <section class="practitioner-profile">
         <div class="container">
             <div class="row">

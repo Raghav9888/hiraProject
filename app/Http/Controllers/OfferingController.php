@@ -12,22 +12,18 @@ class OfferingController extends Controller
     public function index()
     {
         $offerings = Offering::with('user')->get();
-        return response()->json($offerings);
+        return view('user.offering', compact('offerings'));
     }
 
     // Store a new offering
     public function store(Request $request)
     {
-        $input = $request->all();
-       /*  echo '<pre>';
-        Print_r($input);
-        echo '</pre>';
-        exit(); */
+        $input = $request->all();        
         $user = Auth::user();
         $user_id = $user->id;
 
-        $details = [
-            'user_id' => $input['user_id'],
+        $offeringdata = [
+            'user_id' => $user_id,
             'name' => $input['name'],
             'long_description' => $input['long_description'],
             'short_description' => $input['short_description'],
@@ -36,40 +32,34 @@ class OfferingController extends Controller
             'categories' => $input['categories'],
             'tags' => $input['tags'],
             'type' => $input['type'],
-            'is_opening_hours' => isset($input['is_opening_hours']) && $input['is_opening_hours'] == 'on' ? 1 : 0,
-            'is_notice' => isset($input['is_notice']) && $input['is_notice'] == 'on' ? 1 : 0,
-            'is_google_analytics' => isset($input['is_google_analytics']) && $input['is_google_analytics'] == 'on' ? 1 : 0,
+            'booking-duration' => $input['booking-duration'],
+            'booking-duration_time' => $input['booking-duration_time'],
+            'calendar-display-mode' => $input['calendar-display-mode'],
+            'max_bookings_per_block' => $input['max_bookings_per_block'],
+            'minimum_block_bookable' => $input['minimum_block_bookable'],
+            'into_future' => $input['into_future'],
+            'buffer_period' => $input['buffer_period'],
+            'all_dates' => $input['all_dates'],
+            'confirmation_required' => isset($input['confirmation_required']) && $input['confirmation_required'] == 'on' ? 1 : 0,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
         ];
 
-        $validated = $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'name' => 'required|string|max:255',
-            'long_description' => 'nullable|string',
-            'short_description' => 'nullable|string|max:500',
-            'location' => 'nullable|array',
-            'help' => 'nullable|string',
-            'categories' => 'nullable|string',
-            'tags' => 'nullable|string',
-            'featured_image' => 'nullable|string',
-            'type' => 'nullable|string',
-            'booking_duration' => 'nullable|array',
-            'calendar_display_mode' => 'nullable|string',
-            'confirmation_requires' => 'boolean',
-            'cancel' => 'boolean',
-            'maximum_block' => 'nullable|array',
-            'period_booking_period' => 'nullable|string',
-            'booking_default_date_availability' => 'nullable|string',
-            'booking_check_availability_against' => 'nullable|string',
-            'restrict_days' => 'nullable|array',
-            'block_start' => 'nullable|string',
-            'range' => 'nullable|array',
-            'cost' => 'nullable|array',
-            'cost_range' => 'nullable|array',
-        ]);
+        if ($request->hasFile('images')) {
+            $image = $request->file('images');
+            $fileName = $image->getClientOriginalName();
+            $imageName = time().'.'.$image->getClientOriginalExtension();
+            $image->move(public_path('uploads/offering/'), $fileName);
+            $offeringdata['images'] = json_encode($fileName);   
+            
+        }
 
-        $offering = Offering::create($validated);
+        
 
-        return response()->json(['message' => 'Offering created successfully!', 'data' => $offering], 201);
+        $offering = Offering::create($offeringdata);
+        return redirect()->route('offering')->with('success', 'Offering created successfully!');
+
+       
     }
 
     // Show a single offering
