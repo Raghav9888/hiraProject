@@ -924,7 +924,7 @@
                                                             class="fas fa-question-circle text-muted"></i>
                                                     </th>
                                                     <th scope="col">Block cost <i
-                                                            class="fas fa-question-circle text-muted"></i>
+                                                         w   class="fas fa-question-circle text-muted"></i>
                                                     </th>
                                                 </tr>
                                                 </thead>
