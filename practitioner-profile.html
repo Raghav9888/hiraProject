@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calendar</title>
+    <title>Practitioner Profile</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
@@ -75,10 +75,14 @@
             <div class="row">
                 <h1 style="text-transform: capitalize;" class="home-title mb-5">Welcome, <span
                         style="color: #ba9b8b;">Reema</span></h1>
+                <div class="px-0 community-text col-sm-12 col-lg-7">
+                    <h5 class="practitioner-profile-text">Upcoming <span style="font-weight: 800;">community
+                            events</span></h5>
+                        </div>
                         <div class="col-sm-12 col-lg-5"></div>
                         <ul class="practitioner-profile-btns">
                             <li class="active">
-                                <a href="/practitioner-profile.html">
+                                <a href="/my-profile.html">
                                     My Profile
                                 </a>
                             </li>
@@ -116,7 +120,71 @@
                                 </div>
                             </li>
                         </ul>
-                <h5 class="practitioner-profile-text mb-2 mt-5">Booking Calendar</span></h5>
+                <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
+                    <div class="event-name-dv">
+                        <h5>Event Name</h5>
+                        <h6>Online/In-Person</h6>
+                        <div class="d-flex">
+                            <img src="./asserts/Clock.svg" alt="">
+                            <p class="ms-2">09:00 AM</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
+                    <div class="event-name-dv">
+                        <h5>Event Name</h5>
+                        <h6>Online/In-Person</h6>
+                        <div class="d-flex">
+                            <img src="./asserts/Clock.svg" alt="">
+                            <p class="ms-2">09:00 AM</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="px-0" style="border-bottom: 2px solid#BA9B8B; margin-bottom: 20px;">
+                    <h5 class="practitioner-profile-text mb-2">Upcoming <span
+                            style="font-weight: 800;">appointments</span></h5>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
+                    <div class="event-name-dv">
+                        <h5>John Doe</h5>
+                        <h6>Name of Service Booked</h6>
+                        <div class="d-flex">
+                            <img src="./asserts/Clock.svg" alt="">
+                            <p class="ms-2">09:00 AM</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
+                    <div class="event-name-dv">
+                        <h5>Client Name</h5>
+                        <h6>Type</h6>
+                        <div class="d-flex">
+                            <img src="./asserts/Clock.svg" alt="">
+                            <p class="ms-2">09:00 AM</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
+                    <div class="event-name-dv">
+                        <h5>Client Name</h5>
+                        <h6>Online</h6>
+                        <div class="d-flex">
+                            <img src="./asserts/Clock.svg" alt="">
+                            <p class="ms-2">09:00 AM</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
+                    <div class="event-name-dv">
+                        <h5>Client/Event Name</h5>
+                        <h6>Online</h6>
+                        <div class="d-flex">
+                            <img src="./asserts/Clock.svg" alt="">
+                            <p class="ms-2">09:00 AM</p>
+                        </div>
+                    </div>
+                </div>
+                <h5 class="practitioner-profile-text mb-2">This month for you</span></h5>
                 <div class="calendar">
                     <div class="controls">
                       <select id="monthSelect">
@@ -151,6 +219,52 @@
                       <button id="saveNote">Save Note</button>
                     </div>
                   </div>
+                <h5 class="practitioner-profile-text mb-2">Browse other practitioners</span></h5>
+                <div class="search-container mb-5">
+                    <input type="text" class="search-input">
+                    <button class="search-button">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-4">
+                    <div class="browser-other-dv">
+                        <div class="d-flex justify-content-center">
+                            <img class="mt-5 mb-3" src="./asserts/question-mark.svg" alt="">
+                        </div>
+                        <h5>John Doe</h5>
+                        <h6>Alternative and Holistic <br />Health Practitioner</h6>
+                        <div class="d-flex justify-content-between">
+                            <div class="endrose">Endrose</div>
+                            <div class="miles"><i class="fa-solid fa-location-dot me-2"></i>0.3 km</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-4">
+                    <div class="browser-other-dv">
+                        <div class="d-flex justify-content-center">
+                            <img class="mt-5 mb-3" src="./asserts/question-mark.svg" alt="">
+                        </div>
+                        <h5>John Doe</h5>
+                        <h6>Alternative and Holistic <br />Health Practitioner</h6>
+                        <div class="d-flex justify-content-between">
+                            <div class="endrose">Endrose</div>
+                            <div class="miles"><i class="fa-solid fa-location-dot me-2"></i>0.3 km</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-4">
+                    <div class="browser-other-dv">
+                        <div class="d-flex justify-content-center">
+                            <img class="mt-5 mb-3" src="./asserts/question-mark.svg" alt="">
+                        </div>
+                        <h5>John Doe</h5>
+                        <h6>Alternative and Holistic <br />Health Practitioner</h6>
+                        <div class="d-flex justify-content-between">
+                            <div class="endrose">Endrose</div>
+                            <div class="miles"><i class="fa-solid fa-location-dot me-2"></i>0.3 km</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="positioned-dv">
