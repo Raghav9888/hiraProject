@@ -2065,6 +2065,13 @@
         background-color: #FFFFFF;
         border-radius: 33px;
     }
+
+    li#menu-item-5395 a {
+        font-size: 18px;
+        text-decoration: none;
+        padding: 0 35px;
+        margin-top: 9px;
+    }
     
     
     /* login css end */

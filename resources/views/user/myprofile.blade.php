@@ -66,7 +66,7 @@
 
                                         <div class="mb-4">
                                             <label for="location" class="fw-bold">Location</label>
-                                            <select id="location" name="location" class="form-select">
+                                            <select id="location" name="location" class="form-select select2" multiple="multiple">
                                                 <option>Select</option>
                                                 <option
                                                     value="New York" {{ (isset($userDetails->location) && $userDetails->location == 'New York') ? 'selected' : '' }}>
@@ -88,6 +88,7 @@
                                             specific
                                             versions of something. For example, a good tag for a massage could be "Deep
                                             Tissue".</p>
+                                            <select name="tags" multiple="multiple" class="form-select select2"></select>
                                         <hr>
                                         <div class="mb-3">
                                             <p style="text-align: start;" class="text">Images</p>
@@ -107,16 +108,18 @@
                                         <hr>
                                         <div class="mb-4">
                                             <label for="type" class="fw-bold">I help with:</label>
-                                            <select id="type" name="type" class="form-select">
+                                            <select id="type" name="type" class="form-select select2" multiple="multiple">
                                                 <option>Select</option>
+                                                <option value="Lack of confidence">Lack of confidence</option>
                                             </select>
                                         </div>
                                         <hr>
                                         <button class="update-btn mb-2">Add New Term</button>
                                         <div class="mb-4">
                                             <label for="type" class="fw-bold">I help with:</label>
-                                            <select id="term" name="term" class="form-select">
+                                            <select id="term" name="term" class="form-select select2" multiple="multiple">
                                                 <option>Select</option>
+                                                <option value="Transitions Coaching">Transitions Coaching</option>
                                             </select>
                                         </div>
                                         <hr>
@@ -131,8 +134,9 @@
                                         <button class="update-btn mb-2">Add New Term</button>
                                         <div class="mb-4">
                                             <label for="specialities" class="fw-bold">Specialities</label>
-                                            <select id="specialities" class="form-select" name="specialities">
+                                            <select id="specialities" class="form-select select2" multiple="multiple" name="specialities">
                                                 <option>Select</option>
+                                                <option>Complimentary initial consultations</option>
                                             </select>
                                         </div>
                                         <hr>
@@ -141,6 +145,7 @@
                                                 <label class="form-check-label" for="amentities">Amentities</label>
                                                 <select id="amentities" class="form-select select2" name="amentities">
                                                     <option>Select</option>
+                                                    <option>Neurolinguistic Programming</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -148,6 +153,7 @@
                                             <label for="certifications" class="fw-bold">Certifications</label>
                                             <select id="certifications" class="form-select" name="certifications">
                                                 <option>Select</option>
+                                                <option>Neurolinguistic Programming</option>
                                             </select>
                                         </div>
                                         <hr>
@@ -190,8 +196,8 @@
                                             </div>
                                         </div>
                                         <div class="d-flex" style="gap: 20px;">
-                                            <button class="update-btn m-0">Add Offering</button>
-                                            <button type="submit" class="update-btn">Save Draft</button>
+                                            
+                                            <button type="submit" class="update-btn">Save Changes</button>
                                         </div>
                                     </form>
                                 </div>
