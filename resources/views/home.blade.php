@@ -127,12 +127,13 @@
 
             </div>
             <div class="row">
+                @foreach($users as $user)
                 <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
                     <div class="featured-dv">
                         <img src="{{url('/assets/images/person.png')}}" alt="person">
                         <label for="">0.4 Km Away</label>
                         <div class="d-flex justify-content-between align-items-center mb-2">
-                            <h4>Brigitta Ziemba</h4>
+                            <h4>{{ $user->name }}</h4>
                             <i class="fa-regular fa-heart"></i>
                         </div>
                         <h5><i class="fa-solid fa-location-dot"></i>Los Angeles, US</h5>
@@ -149,6 +150,7 @@
                         </div>
                     </div>
                 </div>
+                @endforeach
                 <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
                     <div class="featured-dv">
                         <img src="{{url('/assets/images/person.png')}}" alt="person">
