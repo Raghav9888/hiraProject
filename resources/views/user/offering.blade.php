@@ -2,8 +2,8 @@
 
 @section('content')
     <section class="practitioner-profile">
+        @include('layouts.partitioner_sidebar')
         <div class="container">
-            @include('layouts.partitioner_sidebar')
             <div class="row">
                 @include('layouts.partitioner_nav')
             </div>
