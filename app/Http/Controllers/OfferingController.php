@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Offering;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OfferingController extends Controller
 {
@@ -11,41 +12,68 @@ class OfferingController extends Controller
     public function index()
     {
         $offerings = Offering::with('user')->get();
-        return response()->json($offerings);
+        $user = Auth::user();
+        $userDetails = $user->userDetail;
+        return view('user.offering', ['offerings' => $offerings,
+            'user' => $user,
+            'userDetails' => $userDetails]);
     }
+
+
+    public function addOffering()
+    {
+        $user = Auth::user();
+        $userDetails = $user->userDetail;
+
+        return view('user.add_offering', compact('user', 'userDetails'));
+    }
+
 
     // Store a new offering
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'name' => 'required|string|max:255',
-            'long_description' => 'nullable|string',
-            'short_description' => 'nullable|string|max:500',
-            'location' => 'nullable|array',
-            'help' => 'nullable|string',
-            'categories' => 'nullable|string',
-            'tags' => 'nullable|string',
-            'featured_image' => 'nullable|string',
-            'type' => 'nullable|string',
-            'booking_duration' => 'nullable|array',
-            'calendar_display_mode' => 'nullable|string',
-            'confirmation_requires' => 'boolean',
-            'cancel' => 'boolean',
-            'maximum_block' => 'nullable|array',
-            'period_booking_period' => 'nullable|string',
-            'booking_default_date_availability' => 'nullable|string',
-            'booking_check_availability_against' => 'nullable|string',
-            'restrict_days' => 'nullable|array',
-            'block_start' => 'nullable|string',
-            'range' => 'nullable|array',
-            'cost' => 'nullable|array',
-            'cost_range' => 'nullable|array',
-        ]);
+        $input = $request->all();
+        $user = Auth::user();
+        $user_id = $user->id;
 
-        $offering = Offering::create($validated);
+        $offeringdata = [
+            'user_id' => $user_id,
+            'name' => $input['name'],
+            'long_description' => $input['long_description'],
+            'short_description' => $input['short_description'],
+            'location' => $input['location'],
+            'help' => $input['help'],
+            'categories' => $input['categories'],
+            'tags' => $input['tags'],
+            'type' => $input['type'],
+            'booking-duration' => $input['booking-duration'],
+            'booking-duration_time' => $input['booking-duration_time'],
+            'calendar-display-mode' => $input['calendar-display-mode'],
+            'max_bookings_per_block' => $input['max_bookings_per_block'],
+            'minimum_block_bookable' => $input['minimum_block_bookable'],
+            'into_future' => $input['into_future'],
+            'buffer_period' => $input['buffer_period'],
+            'all_dates' => $input['all_dates'],
+            'confirmation_required' => isset($input['confirmation_required']) && $input['confirmation_required'] == 'on' ? 1 : 0,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
+        ];
 
-        return response()->json(['message' => 'Offering created successfully!', 'data' => $offering], 201);
+        if ($request->hasFile('images')) {
+            $image = $request->file('images');
+            $fileName = $image->getClientOriginalName();
+            $imageName = time().'.'.$image->getClientOriginalExtension();
+            $image->move(public_path('uploads/offering/'), $fileName);
+            $offeringdata['images'] = json_encode($fileName);
+
+        }
+
+
+
+        $offering = Offering::create($offeringdata);
+        return redirect()->route('offering')->with('success', 'Offering created successfully!');
+
+
     }
 
     // Show a single offering

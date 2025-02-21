@@ -1,5 +1,5 @@
 <h1 style="text-transform: capitalize;" class="home-title mb-5">Welcome,<span
-        style="color: #ba9b8b;">{{ $user->first_name ?? 'User' }}  {{ $user->last_name ?? '' }}</span>
+        style="color: #ba9b8b;"> {{ $user->first_name ?? 'User' }}  {{ $user->last_name ?? '' }}</span>
 </h1>
 <div class="col-sm-12 col-lg-5"></div>
 

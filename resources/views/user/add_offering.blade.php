@@ -13,7 +13,8 @@
                     free to “copy
                     and paste” descriptions from each service offering.</p>
                 <div class="add-offering-dv">
-                    <form method="post" action="{{route('addoffering')}}">
+                    <form method="post" action="{{route('storeOffering')}}">
+                    @csrf
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Name</label>
                             <input type="text" class="form-control" name="name" id="exampleInputEmail1"
@@ -32,7 +33,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Location</label>
-                            <select name="location" multiple="multiple"  class="form-control select2"> 
+                            <select name="location" multiple="multiple"  class="form-control select2">
                             <option class="level-0" value="370">Montreal</option>
                             <option class="level-0" value="386">Austin</option>
                             <option class="level-0" value="891">Mississauga, ON</option>
@@ -579,8 +580,8 @@
                         </div>
                         <div class="mb-3">
                             <label for="exampleInputPassword1" class="form-label">I help with:</label>
-                           
-                            <select name="help" multiple="multiple"   class="form-control select2">
+
+                            <select name="help" multiple="multiple" class="form-control select2">
                                 <option class="level-0" value="255">Anemia in pregnancy</option>
                                 <option class="level-0" value="271">Depression</option>
                                 <option class="level-0" value="287">Hormonal birth control transition</option>
@@ -675,7 +676,7 @@
                                 would be Ayuvedic massage and hot stone massage)
                                 Practitioner Offerings
                             </label>
-                            <select name="categories" multiple="multiple"   class="form-control select2" id="">
+                            <select name="categories" multiple="multiple" class="form-control select2" id="">
                                 <option class="level-0" value="100">Practitioner Offerings</option>
                             </select>
                         </div>
@@ -689,11 +690,11 @@
                             </label>
                         </div>
                         <div class="form-group">
-                        <select name="tags" multiple="multiple"   class="form-control select2" id="">
+                        <select name="tags" multiple="multiple" class="form-control select2" id="">
                                 <option value="156">energybalancing</option>
                                 <option value="2991">ASD</option>
                         </select>
-                            
+
                         </div>
 
                         <h4 class="mb-4 featured-image-tag">Featured Image</h4>
@@ -709,7 +710,7 @@
                         <div class="container">
                             <div class="mb-4">
                                 <label for="type" class="fw-bold">Type</label>
-                                <select id="type" class="form-select">
+                                <select id="type" name="type" class="form-select ">
                                     <option>Bookable Product</option>
                                 </select>
                             </div>
@@ -739,16 +740,16 @@
                                         <div class="mb-4">
                                             <label for="booking-duration" class="fw-bold">Booking
                                                 duration</label>
-                                            <select id="booking-duration" class="form-select">
+                                            <select id="booking-duration" name="booking-duration" class="form-select">
                                                 <option>Fixed blocks of</option>
                                             </select>
                                         </div>
                                         <div class="row mb-4">
                                             <div class="col">
-                                                <input type="text" class="form-control" placeholder="">
+                                                <input type="text" class="form-control" name="booking-duration_time" placeholder="">
                                             </div>
                                             <div class="col">
-                                                <select class="form-select">
+                                                <select class="form-select" name="booking-duration_unit">
                                                     <option value="month">Month(s)</option>
                                                     <option value="day">Day(s)</option>
                                                     <option value="hour">Hour(s)</option>
@@ -760,7 +761,7 @@
                                             <label for="calendar-display-mode" class="fw-bold">Calendar
                                                 display
                                                 mode</label>
-                                            <select id="calendar-display-mode" class="form-select">
+                                            <select id="calendar-display-mode" name="calendar-display-mode" class="form-select">
                                                 <option value="" selected="selected">Display calendar on click</option>
                                                 <option value="always_visible">Calendar always visible</option>
                                             </select>
@@ -770,8 +771,7 @@
                                         </div>
                                         <div class="mb-4">
                                             <div class="form-check offering-check">
-                                                <input type="checkbox" class="form-check-input"
-                                                       id="requires-confirmation">
+                                                <input type="checkbox" class="form-check-input" id="requires-confirmation" name="confirmation_required">
                                                 <label class="form-check-label" for="requires-confirmation">Requires
                                                     confirmation?</label>
                                             </div>
@@ -783,11 +783,8 @@
                                         </div>
                                         <div class="mb-4">
                                             <div class="form-check offering-check">
-                                                <input type="checkbox" class="form-check-input"
-                                                       id="can-be-cancelled">
-                                                <label class="form-check-label" for="can-be-cancelled">Can
-                                                    be
-                                                    cancelled?</label>
+                                                <input type="checkbox" class="form-check-input" id="can-be-cancelled" name="can-be-cancelled">
+                                                <label class="form-check-label" for="can-be-cancelled">Can be cancelled?</label>
                                             </div>
                                             <small class="form-text text-muted">Check this box if the
                                                 booking can be
@@ -802,18 +799,18 @@
                                          aria-labelledby="availability-tab">
                                         <div class="col mb-3">
                                             <label for="booking">Max bookings per block</label>
-                                            <input type="number" class="form-control" placeholder="">
+                                            <input type="number" class="form-control" placeholder="" name="max_bookings_per_block">
                                             <p style="text-align: start;">The maximum bookings allowed for
                                                 each block. Can be overridden at resource level.</p>
                                         </div>
                                         <div class="row mb-4">
                                             <div class="col">
                                                 <label for="minimum">Minimum block bookable</label>
-                                                <input type="text" class="form-control" placeholder="">
+                                                <input type="text" class="form-control" placeholder="" name="minimum_block_bookable">
                                             </div>
                                             <div class="col">
                                                 <label for="into-future">Into the future</label>
-                                                <select class="form-select">
+                                                <select class="form-select" name="into_future">
                                                     <option>Month(s)</option>
                                                 </select>
                                             </div>
@@ -821,24 +818,23 @@
                                         <div class="row mb-4">
                                             <div class="col">
                                                 <label for="maximum">Maximum block bookable</label>
-                                                <input type="text" class="form-control" placeholder="">
+                                                <input type="text" class="form-control" placeholder="" name="maximum_block_bookable">
                                             </div>
                                             <div class="col">
                                                 <label for="into-future">Into the future</label>
-                                                <select class="form-select">
+                                                <select class="form-select" name="into_future">
                                                     <option>Month(s)</option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col mb-3">
-                                            <label for="booking">Require a buffer period between
-                                                bookings</label>
-                                            <input type="number" class="form-control" placeholder="">
+                                            <label for="booking">Require a buffer period between bookings</label>
+                                            <input type="number" class="form-control" placeholder="" name="buffer_period">
 
                                         </div>
                                         <div class="col- mb-3">
                                             <label for="dates">All dates are...</label>
-                                            <select class="form-select">
+                                            <select class="form-select" name="all_dates">
                                                 <option>available by default</option>
                                                 <option>not-available by default</option>
                                                 <p>This option affects how you use the rules below.</p>
@@ -846,7 +842,7 @@
                                         </div>
                                         <div class="col- mb-3">
                                             <label for="dates">Check rules against...</label>
-                                            <select class="form-select">
+                                            <select class="form-select" name="check_rules">
                                                 <option>All blocks being booked</option>
                                                 <option>The sgtarting block only</option>
                                                 <p>This option affects how bookings are checked for
@@ -854,14 +850,12 @@
                                             </select>
                                         </div>
                                         <div class="form-check offering-check mb-3">
-                                            <input type="checkbox" class="form-check-input"
-                                                   id="can-be-cancelled">
-                                            <label class="form-check-label" for="can-be-cancelled">Restrict
-                                                start days?</label>
+                                            <input type="checkbox" class="form-check-input" id="can-be-cancelled" name="can-be-cancelled">
+                                            <label class="form-check-label" for="can-be-cancelled">Restrict start days?</label>
                                         </div>
                                         <div class=" mb-4">
                                             <label for="minimum">First block starts at...</label>
-                                            <input type="tdateext" class="form-control" placeholder="">
+                                            <input type="tdateext" class="form-control" placeholder="" name="first_block_starts_at">
                                         </div>
                                         <div class="table-responsive">
                                             <table class="table table-bordered">
@@ -896,14 +890,14 @@
                                          aria-labelledby="costs-tab">
                                         <div class="mb-3">
                                             <label for="base-cost" class="form-label">Base Cost</label>
-                                            <input type="text" class="form-control" id="base-cost">
+                                            <input type="text" class="form-control" id="base-cost" name="base_cost">
                                             <div class="form-text">One-off cost for the booking as a
                                                 whole.
                                             </div>
                                         </div>
                                         <div class="mb-3">
                                             <label for="block-cost" class="form-label">Block Cost</label>
-                                            <input type="text" class="form-control" id="block-cost">
+                                            <input type="text" class="form-control" id="block-cost" name="block_cost">
                                             <div class="form-text">This is the cost per block booked. All
                                                 other costs
                                                 (for resources and persons) are added to this.
@@ -912,7 +906,7 @@
                                         <div class="mb-3">
                                             <label for="display-cost" class="form-label">Display
                                                 Cost</label>
-                                            <input type="text" class="form-control" id="display-cost">
+                                            <input type="text" class="form-control" id="display-cost" name="display_cost">
                                             <div class="form-text">The cost is displayed to the user on the
                                                 frontend.
                                                 Leave blank to have it calculated for you. If a booking has
@@ -930,7 +924,7 @@
                                                             class="fas fa-question-circle text-muted"></i>
                                                     </th>
                                                     <th scope="col">Block cost <i
-                                                            class="fas fa-question-circle text-muted"></i>
+                                                         w   class="fas fa-question-circle text-muted"></i>
                                                     </th>
                                                 </tr>
                                                 </thead>
