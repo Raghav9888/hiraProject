@@ -3,7 +3,7 @@
         <nav class="navbar navbar-expand-lg">
             <div class="container-fluid">
                 <a href="{{route('home')}}">
-                    <img class="header-logo" src="{{url('./assets/images/header-logo.svg')}}" alt="header-logo">
+                    <img class="header-logo" src="{{ url('./assets/images/header-logo.svg') }}" alt="header-logo">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"

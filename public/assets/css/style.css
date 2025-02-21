@@ -118,7 +118,7 @@ section{
 /* home main css start */
 
 .home-main-section{
-    background-image: url(./asserts/home-banner.png);
+    background-image: url('../images/home-banner.png');
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -256,19 +256,19 @@ section{
 }
 
 .explore-img-dv.rekki {
-    background-image: url('./asserts/Reiki.svg');
+    background-image: url('../images/Reiki.svg');
 }
 
 .explore-img-dv.yoga {
-    background-image: url('./asserts/Yoga.svg');
+    background-image: url('../images/Yoga.svg');
 }
 
 .explore-img-dv.nutrition {
-    background-image: url('./asserts/Nutritional.svg');
+    background-image: url('../images/Nutritional.svg');
 }
 
 .explore-img-dv.energy {
-    background-image: url('./asserts/Energy.svg');
+    background-image: url('../images/Energy.svg');
 }
 
 
@@ -601,7 +601,7 @@ section{
 }
 
 .faq-section .accordion-button::after{
-    background-image: url(./asserts/plus.svg);
+    background-image: url(../images/plus.svg);
     background-color: #FFFFFF;
     padding: 20px;
     border-radius: 50%;
@@ -609,7 +609,7 @@ section{
 }
 .faq-section .accordion-button:not(.collapsed)::after
 {
-    background-image: url(./asserts/cross.svg);
+    background-image: url('../images/cross.svg');
     transform: rotate(0deg);
 }
 /* faq css end */
@@ -788,7 +788,7 @@ section{
 /* contact us css start */
 
 .contact-us-wrrpr{
-    background-image: url(./asserts/home-banner.png);
+    background-image: url('../images/home-banner.png');
     background-repeat: no-repeat;
 }
 
@@ -914,7 +914,7 @@ section{
 /* blog css start */
 
 .blog-banner{
-    background-image: url(./asserts/blog-banner.png);
+    background-image: url(../images/blog-banner.png);
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -1041,7 +1041,7 @@ section{
     padding: 30px 0 60px ;
 }
 .blog-detail-banner{
-    background-image: url(./asserts/blog-detail-banner.png);
+    background-image: url(../images/blog-detail-banner.png);
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -1257,7 +1257,7 @@ section{
     border: none;
 }
 .practitioner-detail-wrrpr .accordion-button::after{
-    background-image: url(./asserts/chevron.svg);
+    background-image: url(../images/chevron.svg);
 }
 .practitioner-detail-wrrpr .accordian-body-data{
     border-bottom: 2px solid #F5F6F5;
