@@ -60,7 +60,7 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
     });
 
 
-    Route::get('/auth/google', [EventController::class, 'redirectToGoogle'])->name('google.auth');
+    Route::get('/auth/google', [EventController::class, 'redirectToGoogle'])->name('redirectToGoogle');
     Route::get('/callback', [EventController::class, 'handleGoogleCallback']);
     Route::get('/fetch-events', [EventController::class, 'fetchGoogleCalendarEvents']);
     Route::post('/sync-event', [EventController::class, 'syncEventToGoogle']);
