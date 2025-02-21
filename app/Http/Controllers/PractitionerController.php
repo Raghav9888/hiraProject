@@ -183,5 +183,11 @@ class PractitionerController extends Controller
         return view('user.contact', compact('user', 'userDetails'));
     }
 
+    public function practitionerDetail()
+    {
+        $user = Auth::user();
+        $userDetails = $user->userDetail;
+        return view('user.practitioner_detail', compact('user', 'userDetails'));
+    }
 
 }
