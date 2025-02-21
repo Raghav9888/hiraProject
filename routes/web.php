@@ -39,9 +39,9 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
 
     Route::prefix('offering')->group(function () {
         Route::get('/', [OfferingController::class, 'index'])->name('offering');
-        Route::post('/', [OfferingController::class, 'store'])->name('storeoffering');
-        Route::get('/{id}', [OfferingController::class, 'show']);
-        Route::put('/{id}', [OfferingController::class, 'update']);
+        Route::post('/', [OfferingController::class, 'store'])->name('storeOffering');
+        Route::get('/{id}', [OfferingController::class, 'show'])->name('showOffering');
+        Route::put('/{id}', [OfferingController::class, 'update'])->name('updateOffering');
         Route::delete('/{id}', [OfferingController::class, 'destroy']);
     });
 });
