@@ -66,7 +66,6 @@
 
     </style>
 
-    {{-- JavaScript --}}
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var calendarEl = document.getElementById('calendar');
@@ -89,7 +88,10 @@
                 selectable: true,
                 selectMirror: true,
 
-                // Add Event
+                // Load events from backend
+                events: '/google/events',
+
+                // Select event (Add New Event)
                 select: function (arg) {
                     selectedEvent = null;
                     document.getElementById('modalTitle').textContent = "Add Note";
@@ -100,25 +102,42 @@
                     deleteEventBtn.style.display = 'none';
                     noteModal.style.display = 'flex';
 
-                    // Save event
                     saveNoteBtn.onclick = function () {
                         let time = document.getElementById('time').value;
                         let note = document.getElementById('note').value;
 
                         if (time && note.trim() !== '') {
-                            let event = {
+                            let eventData = {
                                 title: note,
                                 start: arg.startStr + 'T' + time,
-                                allDay: false
                             };
-                            calendar.addEvent(event);
-                            noteModal.style.display = 'none';
+
+                            fetch('/google/events', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                                },
+                                body: JSON.stringify(eventData)
+                            })
+                                .then(response => response.json())
+                                .then(event => {
+                                    calendar.addEvent({
+                                        id: event.id, // Assign ID from backend
+                                        title: event.title,
+                                        start: event.start,
+                                        end: event.end
+                                    });
+                                    noteModal.style.display = 'none';
+                                })
+                                .catch(error => console.error('Error:', error));
                         } else {
                             alert('Please enter a valid note and time.');
                         }
                     };
                 },
 
+                // Click on existing event (Edit/Delete)
                 eventClick: function (arg) {
                     selectedEvent = arg.event;
                     document.getElementById('modalTitle').textContent = "Edit Event";
@@ -129,33 +148,60 @@
                     deleteEventBtn.style.display = 'block';
                     noteModal.style.display = 'flex';
 
-                    // Update event
+                    // Update Event
                     saveNoteBtn.onclick = function () {
                         let updatedTime = document.getElementById('time').value;
                         let updatedNote = document.getElementById('note').value;
 
                         if (updatedTime.trim() !== '' && updatedNote.trim() !== '') {
-                            selectedEvent.setProp('title', updatedNote);
-                            selectedEvent.setStart(selectedEvent.start.toISOString().split('T')[0] + 'T' + updatedTime);
-                            noteModal.style.display = 'none';
+                            let updatedData = {
+                                title: updatedNote,
+                                start: selectedEvent.start.toISOString().split('T')[0] + 'T' + updatedTime,
+                            };
+
+                            fetch(`/events/${selectedEvent.id}`, {
+                                method: 'PUT',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                                },
+                                body: JSON.stringify(updatedData)
+                            })
+                                .then(response => response.json())
+                                .then(updatedEvent => {
+                                    selectedEvent.setProp('title', updatedEvent.title);
+                                    selectedEvent.setStart(updatedEvent.start);
+                                    noteModal.style.display = 'none';
+                                })
+                                .catch(error => console.error('Error:', error));
                         } else {
                             alert('Please enter a valid note and time.');
                         }
                     };
 
+                    // Delete Event
                     deleteEventBtn.onclick = function () {
                         if (confirm('Are you sure you want to delete this event?')) {
-                            selectedEvent.remove();
-                            noteModal.style.display = 'none';
+                            fetch(`/events/${selectedEvent.id}`, {
+                                method: 'DELETE',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                                }
+                            })
+                                .then(() => {
+                                    selectedEvent.remove();
+                                    noteModal.style.display = 'none';
+                                })
+                                .catch(error => console.error('Error:', error));
                         }
                     };
-                },
-
-                events: 'https://fullcalendar.io/api/demo-feeds/events.json?overload-day'
+                }
             });
 
             calendar.render();
 
+            // Close modal logic
             closeModal.addEventListener('click', function () {
                 noteModal.style.display = 'none';
             });
@@ -167,5 +213,5 @@
             });
         });
     </script>
-
+    
 @endsection

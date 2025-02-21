@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\GoogleAuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController;
@@ -55,4 +56,10 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
         Route::delete('/{id}', [OfferingController::class, 'destroy']);
     });
 
+
+    Route::get('/auth/google', [EventController::class, 'redirectToGoogle'])->name('google.auth');
+    Route::get('/callback', [EventController::class, 'handleGoogleCallback']);
+    Route::get('/fetch-events', [EventController::class, 'fetchGoogleCalendarEvents']);
+    Route::post('/sync-event', [EventController::class, 'syncEventToGoogle']);
+    Route::delete('/delete-event/{eventId}', [EventController::class, 'deleteGoogleCalendarEvent']);
 });
