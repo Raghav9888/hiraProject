@@ -6,8 +6,8 @@
                     <img class="header-logo" src="{{ url('./assets/images/header-logo.svg') }}" alt="header-logo">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -20,7 +20,7 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
+                               data-bs-toggle="dropdown" aria-expanded="false">
                                 COMPANY
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -32,19 +32,21 @@
                         </li>
                     </ul>
                     <div class="d-flex align-items-center">
-                        <nav class="et-menu-nav">
-                            <ul id="menu-practitioner-menu me-5" class="et-menu nav">
-                                <li id="menu-item-5395" class="et_pb_menu_page_id-4726 menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-4726 current_page_item menu-item-5395">
-                                    <a href="{{route('myProfile')}}" aria-current="page">Profile</a></li>
-                            </ul>
-                        </nav>
                         @if(Auth::check())
-                        <form action="{{ route('logout') }}" method="POST">
-                            @csrf
-                            <button class="login-btn" type="submit">Logout</button>
-                        </form>
+                            <nav class="et-menu-nav">
+                                <ul id="menu-practitioner-menu me-5" class="et-menu nav">
+                                    <li id="menu-item-5395"
+                                        class="me-5 et_pb_menu_page_id-4726 menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-4726 current_page_item menu-item-5395">
+                                        <a href="{{route('myProfile')}}" aria-current="page">Profile</a></li>
+                                </ul>
+                            </nav>
+                            <form action="{{ route('logout') }}" method="POST">
+                                @csrf
+                                <button class="login-btn" type="submit">Logout</button>
+                            </form>
                         @else
-                            <a href="{{ route('register') }}" class="btn join-btn" type="submit">Join as a Practitioner</a>
+                            <a href="{{ route('register') }}" class="btn join-btn" type="submit">Join as a
+                                Practitioner</a>
                             <a href="{{ route('login') }}" class="btn login-btn" type="submit">Login</a>
                         @endif
                     </div>
