@@ -167,4 +167,12 @@ class PractitionerController extends Controller
         return redirect()->back()->with('success', 'Profile updated successfully');
     }
 
+
+    public function accounting(Request $request)
+    {
+        $user = Auth::user();
+        $userDetails = $user->userDetail;
+        return view('user.accounting', compact('user', 'userDetails'));
+    }
+
 }
