@@ -30,6 +30,7 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::get('/dashboard', [PractitionerController::class, 'dashboard'])->name('dashboard');
     Route::get('/add-offering', [PractitionerController::class, 'addOffering'])->name('addOffering');
     Route::get('/discount', [PractitionerController::class, 'discount'])->name('discount');
+    Route::get('/add-discount', [PractitionerController::class, 'addDiscount'])->name('addDiscount');
     Route::post('/update-profile', [PractitionerController::class, 'updateProfile'])->name('updateProfile');
     Route::post('/update-client-policy', [PractitionerController::class, 'updateClientPolicy'])->name('updateClientPolicy');
     Route::get('/appointment', [PractitionerController::class, 'appointment'])->name('appointment');

@@ -29,7 +29,7 @@ class PractitionerController extends Controller
     {
         $user = Auth::user();
         $userDetails = $user->userDetail;
-        return view('user.myprofile', compact('user', 'userDetails'));
+        return view('user.my_profile', compact('user', 'userDetails'));
     }
 
     public function dashboard()
@@ -101,6 +101,13 @@ class PractitionerController extends Controller
         $userDetails = $user->userDetail;
 
         return view('user.discount', compact('user', 'userDetails'));
+    }
+
+    public function addDiscount()
+    {
+        $user = Auth::user();
+        $userDetails = $user->userDetail;
+        return view('user.add_discount', compact('user', 'userDetails'));
     }
 
     public function appointment ()
