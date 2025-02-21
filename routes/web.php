@@ -39,8 +39,10 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::get('/accounting', [PractitionerController::class, 'accounting'])->name('accounting');
 
     Route::get('/blog', [PractitionerController::class, 'blog'])->name('blog');
+    Route::get('/blog-details', [PractitionerController::class, 'blogDetail'])->name('blogDetail');
     Route::get('/earning', [PractitionerController::class, 'earning'])->name('earning');
     Route::get('/refund-request', [PractitionerController::class, 'refundRequest'])->name('refundRequest');
+    Route::get('/contact-us', [PractitionerController::class, 'contact'])->name('contact');
 
     Route::get('/calendar', [CalendarController::class, 'showCalendar'])->name('calendar');
     Route::get('/calendar-settings', [CalendarController::class, 'calendarSettings'])->name('calendarSettings');

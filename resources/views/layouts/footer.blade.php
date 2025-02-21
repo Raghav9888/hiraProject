@@ -2,7 +2,7 @@
 <div class="footer">
     <img class="footer-butterfly" src="{{url('./assets/images/footer-butterfly.svg')}}" alt="">
     <div class="footer-list-wrrpr">
-        <div class="container">       
+        <div class="container">
             <div class="row">
                 <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
                     <div class="footer-lists">
@@ -32,7 +32,7 @@
                     <div class="footer-lists">
                         <h4>Support</h4>
                         <ul>
-                            <li><a href="./contact.html">Contact Us</a></li>
+                            <li><a href="{{route('contact')}}">Contact Us</a></li>
                             <li>FAQs Join as Practitioner</li>
                             <li>Terms and Conditions</li>
                         </ul>
@@ -100,14 +100,14 @@ const saveNoteBtn = document.getElementById("saveNote");
 const resetBtn = document.getElementById("resetCalendar");
 const monthSelect = document.getElementById("monthSelect");
 let currentMonth = 0;
-const notes = {}; 
+const notes = {};
 
 function daysInMonth(month, year) {
 return new Date(year, month + 1, 0).getDate();
 }
 
 function renderCalendar(month) {
-calendarGrid.innerHTML = ""; 
+calendarGrid.innerHTML = "";
 const days = daysInMonth(month, 2025);
 
 for (let i = 1; i <= days; i++) {

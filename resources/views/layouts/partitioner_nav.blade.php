@@ -33,13 +33,5 @@
         <a href="{{ route('accounting') }}">
             Accounting
         </a>
-{{--        <div class="dropdown">--}}
-{{--            <a href="{{ route('earning') }}">--}}
-{{--                Earnings--}}
-{{--            </a>--}}
-{{--            <a href="{{ route('refundRequest') }}">--}}
-{{--                Refund request--}}
-{{--            </a>--}}
-{{--        </div>--}}
     </li>
 </ul>

@@ -7,6 +7,7 @@ use App\Models\UserDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\GoogleAuthController;
+use Illuminate\View\View;
 
 class PractitionerController extends Controller
 {
@@ -137,7 +138,7 @@ class PractitionerController extends Controller
     {
         $user = Auth::user();
         $userDetails = $user->userDetail;
-        return view('user.blog', compact('user', 'userDetails'));
+        return view('user.blog_detail', compact('user', 'userDetails'));
     }
 
     public function earning()
@@ -174,5 +175,13 @@ class PractitionerController extends Controller
         $userDetails = $user->userDetail;
         return view('user.accounting', compact('user', 'userDetails'));
     }
+
+    public function contact():View
+    {
+        $user = Auth::user();
+        $userDetails = $user->userDetail;
+        return view('user.contact', compact('user', 'userDetails'));
+    }
+
 
 }
