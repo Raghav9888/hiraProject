@@ -31,7 +31,7 @@
                             </ul>
                         </li>
                     </ul>
-                    <div class="d-flex">
+                    <div class="d-flex align-items-center">
                         <nav class="et-menu-nav">
                             <ul id="menu-practitioner-menu me-5" class="et-menu nav">
                                 <li id="menu-item-5395" class="et_pb_menu_page_id-4726 menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-4726 current_page_item menu-item-5395">
