@@ -77,28 +77,21 @@ class PractitionerController extends Controller
             $fileName = $image->getClientOriginalName();
             $imageName = time().'.'.$image->getClientOriginalExtension();
             $image->move(public_path('uploads/practitioners/'.$id), $fileName);
-            $details['images'] = json_encode($fileName);   
-            
+            $details['images'] = json_encode($fileName);
+
         }
         UserDetail::where('user_id', $id)->update($details);
 
         return redirect()->back()->with('success', 'Profile updated successfully');
     }
 
-    public function offering()
+
+    public function addOffering()
     {
         $user = Auth::user();
         $userDetails = $user->userDetail;
 
-        return view('user.offering', compact('user', 'userDetails'));
-    }
-
-    public function addoffering()
-    {
-        $user = Auth::user();
-        $userDetails = $user->userDetail;
-
-        return view('user.addoffering', compact('user', 'userDetails'));
+        return view('user.add_offering', compact('user', 'userDetails'));
     }
 
     public function discount()

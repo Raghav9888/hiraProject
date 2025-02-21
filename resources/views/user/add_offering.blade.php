@@ -13,7 +13,7 @@
                     free to “copy
                     and paste” descriptions from each service offering.</p>
                 <div class="add-offering-dv">
-                    <form method="post" action="{{route('addoffering')}}">
+                    <form method="post" action="{{route('addOffering')}}">
                     @csrf
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Name</label>

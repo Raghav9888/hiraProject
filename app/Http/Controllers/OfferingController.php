@@ -19,6 +19,16 @@ class OfferingController extends Controller
             'userDetails' => $userDetails]);
     }
 
+
+    public function addOffering()
+    {
+        $user = Auth::user();
+        $userDetails = $user->userDetail;
+
+        return view('user.add_offering', compact('user', 'userDetails'));
+    }
+
+
     // Store a new offering
     public function store(Request $request)
     {
