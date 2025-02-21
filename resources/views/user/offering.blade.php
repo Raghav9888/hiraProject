@@ -1,11 +1,47 @@
 @extends('layouts.app')
 
 @section('content')
-    <section class="practitioner-profile my-5">
+    <section class="practitioner-profile">
         <div class="container">
             @include('layouts.partitioner_sidebar')
             <div class="row">
                 @include('layouts.partitioner_nav')
+            </div>
+            <div class="offering-wrrpr">
+                <div class="d-flex mb-5" style="gap: 20px;">
+                    <div class="search-container">
+                        <input type="text" class="search-input"
+                               placeholder="">
+                        <button class="search-button">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    <button class="category-load-more">Search</button>
+                </div>
+                <p style="text-align: start;" class="mb-3">All offering must be shared on your Hira collective
+                    profile.</p>
+                <div class="offering-btn-drop mb-4">
+                    <a style="text-decoration: none;" href="./add-offering.html" class="category-load-more">Add
+                        Offering</a>
+                    <div class="dropdown">
+                        <button onclick="toggleDropdown()" class="dropdown-button">
+                            <span>Discount</span>
+                            <i class="fas fa-chevron-down ms-2"></i>
+                        </button>
+                        <div id="dropdownMenu" class="dropdown-menu">
+                            <ul>
+                                <li><a href="#">All offering</a></li>
+                                <li><a href="#">Specific offering</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="form-check offering-check">
+                        <input type="checkbox" class="form-check-input"
+                               id="requires-confirmation">
+                        <label class="form-check-label" for="requires-confirmation">folx</label>
+                    </div>
+                </div>
+
                 <div class="earning-wrrpr mt-5">
                     <div class="container">
                         <div class="d-flex mb-3" style="gap: 20px;">
@@ -61,7 +97,8 @@
                                             <td class="status">
                                                 <span class="status online">Online</span><br>
                                                 <span class="product_type bookable-product">Bookable Product</span><br>
-                                                <span class="product_date">{{ $offering->created_at->format('F j, Y') }}</span><br>
+                                                <span
+                                                    class="product_date">{{ $offering->created_at->format('F j, Y') }}</span><br>
                                                 <span class="stock_status"></span>
                                             </td>
                                         </tr>
@@ -75,6 +112,7 @@
 
                     </div>
                 </div>
+                <button type="submit" class="category-load-more">Submit</button>
             </div>
         </div>
     </section>
