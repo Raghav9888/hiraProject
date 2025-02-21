@@ -34,6 +34,20 @@
 
                                     <form method="post" action="{{ route('updateProfile') }}" enctype="multipart/form-data">
                                         @csrf
+                                        <div style="position: relative;" class="d-flex justify-content-center flex-column align-items-center">
+                                            <div class="mb-4" >
+                                                <p style="text-align: start;" class="text">Images</p>
+                                                <input type="file" id="fileInput" class="hidden" accept="image/*"
+                                                       onchange="previewImage(event)" style="display: none;">
+                                                <label style="border-radius: 50%;" for="fileInput" class="image-preview" id="imagePreview">
+                                                    <span>+</span>
+                                                </label>
+                                                <div class="preview-div">
+                                                    <img src="../../../public/assets/images/Laptop.svg" alt="">
+                                                    <p>preview</p>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="row">
                                             <div class="col-sm-12 col-lg-6 mb-3">
                                                 <label for="first_name">First Name</label>
@@ -90,14 +104,21 @@
                                             Tissue".</p>
                                             <select name="tags" multiple="multiple" class="form-select select2"></select>
                                         <hr>
-                                        <div class="mb-3">
-                                            <p style="text-align: start;" class="text">Images</p>
-                                            <input type="file" id="fileInput" class="hidden" name="images"
-                                                   accept="image/*"
-                                                   onchange="previewImage(event)" style="display: none;">
-                                            <label for="fileInput" class="image-preview" id="imagePreview">
-                                                <span>+</span>
+                                        <div class="mb-4 mt-4">
+                                            <label for="media" class="fw-bold">Media</label>
+                                            <label class="add-media-btn" for="media-upload">
+                                                <i class="fas fa-plus"></i>
+                                                Add media
                                             </label>
+                                            <input type="file" id="media-upload" class="hidden" accept="image/*" multiple="">
+                                            <div class="media-container" id="media-container">
+                                                <div class="media-item">
+                                                    <i class="fas fa-times"></i>
+                                                </div>
+                                                <div class="media-item">
+                                                    <i class="fas fa-times"></i>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="mb-3">
                                             <label for="floatingTextarea">About Me</label>
@@ -196,7 +217,7 @@
                                             </div>
                                         </div>
                                         <div class="d-flex" style="gap: 20px;">
-                                            
+
                                             <button type="submit" class="update-btn">Save Changes</button>
                                         </div>
                                     </form>
@@ -281,5 +302,6 @@
             </div>
         </div>
     </section>
+
 @endsection
 
