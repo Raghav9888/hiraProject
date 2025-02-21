@@ -127,29 +127,6 @@ class PractitionerController extends Controller
 
 
 
-    public function showCalendar(GoogleAuthController $googleAuthController)
-    {
-        $user = Auth::user();
-
-//        $response = $googleAuthController->getCalendarEvents();
-
-//        $events = json_decode($response->getContent(), true);
-
-//        $formattedEvents = collect($events)->map(function ($event) {
-//            return [
-//                'id' => $event['id'],
-//                'title' => $event['title'],
-//                'start' => $event['start'],
-//                'end' => $event['end'],
-//            ];
-//        })->toArray();
-
-        return view('user.calendar', [
-//            'events' => json_encode($formattedEvents),
-            'user' => $user,
-        ]);
-    }
-
     public function blog()
     {
         $user = Auth::user();

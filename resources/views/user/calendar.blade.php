@@ -6,8 +6,14 @@
             @include('layouts.partitioner_sidebar')
             <div class="row">
                 @include('layouts.partitioner_nav')
-
-                <h5 class="practitioner-profile-text mb-2 mt-5">Booking Calendar</h5>
+                <div class="col-md-9">
+                    <h5 class="practitioner-profile-text mb-2 mt-5">Booking Calendar</h5>
+                </div>
+                <div class="col-md-3">
+                    <a class="button" style="float:right" href="{{route('calendarSettings')}}">
+                        Google Calendar Settings
+                    </a>
+                </div>
 
                 <div class="card">
                     <div class="card-body">
@@ -46,6 +52,7 @@
             justify-content: center;
             align-items: center;
         }
+
         .modal-content {
             background: white;
             padding: 20px;
@@ -55,6 +62,7 @@
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
             position: relative;
         }
+
         .close {
             position: absolute;
             right: 10px;
@@ -213,5 +221,5 @@
             });
         });
     </script>
-    
+
 @endsection

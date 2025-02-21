@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Calendar\CalendarController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\GoogleAuthController;
 use Illuminate\Support\Facades\Route;
@@ -39,12 +40,14 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::get('/blog', [PractitionerController::class, 'blog'])->name('blog');
     Route::get('/earning', [PractitionerController::class, 'earning'])->name('earning');
     Route::get('/refund-request', [PractitionerController::class, 'refundRequest'])->name('refundRequest');
-    Route::get('/calendar', [PractitionerController::class, 'showCalendar'])->name('calendar');
 
-    Route::get('google/redirect', [GoogleAuthController::class, 'redirectToGoogle'])->name('redirectToGoogle');
-    Route::get('google/callback', [GoogleAuthController::class, 'handleGoogleCallback']);
-    Route::get('/google/events', [GoogleAuthController::class, 'getCalendarEvents'])->name('calendarEvents');
-    Route::get('calendar-list', [GoogleAuthController::class, 'getCalendarList']);
+    Route::get('/calendar', [CalendarController::class, 'showCalendar'])->name('calendar');
+    Route::get('/calendar-settings', [CalendarController::class, 'calendarSettings'])->name('calendarSettings');
+
+//    Route::get('google/redirect', [GoogleAuthController::class, 'redirectToGoogle'])->name('redirectToGoogle');
+//    Route::get('google/callback', [GoogleAuthController::class, 'handleGoogleCallback']);
+//    Route::get('/google/events', [GoogleAuthController::class, 'getCalendarEvents'])->name('calendarEvents');
+//    Route::get('calendar-list', [GoogleAuthController::class, 'getCalendarList']);
 //    Route::get('google/events', [GoogleAuthController::class, 'getCalendarEvents'])->name('calendarEvents');
 
     Route::prefix('offering')->group(function () {
