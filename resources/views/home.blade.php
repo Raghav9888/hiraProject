@@ -131,7 +131,7 @@
                 <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
 
                         <div class="featured-dv">
-                            <a href="">
+                            <a href="{{route('practitionerDetail', $user->id)}}">
                             <img src="{{url('/assets/images/person.png')}}" alt="person">
                             <label for="">0.4 Km Away</label>
                             <div class="d-flex justify-content-between align-items-center mb-2">
