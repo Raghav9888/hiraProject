@@ -242,16 +242,16 @@
                                 incididunt ut labore.</p>
                             <h4>Robert Fox</h4>
                             <p class="mb-0">Yoga Student</p>
-                            <img class="shadow-quotes" src="../../../asserts/shadow-quotes.svg" alt="quotes">
+                            <img class="shadow-quotes" src="{{ url('/assets/images/shadow-quotes.svg') }}"  alt="quotes">
                         </div>
                         <div class="swiper-slide">
-                            <img src="{{url('assets/images/quotes.svg')}}" alt="quotes">
+                            <img src="{{ url('assets/images/quotes.svg') }}" alt="quotes">
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
                                 ut labore. Lorem ipsum dolor sit amet, consect adipicing elit, sed do eiusmod tempor
                                 incididunt ut labore.</p>
                             <h4>Jenny Wilson</h4>
                             <p class="mb-0">Yoga Student</p>
-                            <img class="shadow-quotes" src="../../../asserts/shadow-quotes.svg" alt="quotes">
+                            <img class="shadow-quotes" src="{{ url('/assets/images/shadow-quotes.svg') }}" alt="quotes">
                         </div>
                         <div class="swiper-slide">
                             <img src="{{url('assets/images/quotes.svg')}}" alt="quotes">
@@ -260,7 +260,7 @@
                                 incididunt ut labore.</p>
                             <h4>Guy Hawkins</h4>
                             <p class="mb-0">Yoga Student</p>
-                            <img class="shadow-quotes" src="{{url('assets/images/quotes.svg')}}" alt="quotes">
+                            <img class="shadow-quotes" src="{{ url('/assets/images/shadow-quotes.svg') }}" alt="quotes">
                         </div>
                         <div class="swiper-slide">
                             <img src="{{url('assets/images/quotes.svg')}}" alt="quotes">
@@ -269,7 +269,7 @@
                                 incididunt ut labore.</p>
                             <h4>Robert Fox</h4>
                             <p class="mb-0">Yoga Student</p>
-                            <img class="shadow-quotes" src="{{url('assets/images/quotes.svg')}}" alt="quotes">
+                            <img class="shadow-quotes" src="{{ url('/assets/images/shadow-quotes.svg') }}" alt="quotes">
                         </div>
                         <div class="swiper-slide">
                             <img src="{{url('assets/images/quotes.svg')}}" alt="quotes">
@@ -278,7 +278,7 @@
                                 incididunt ut labore.</p>
                             <h4>Jenny Wilson</h4>
                             <p class="mb-0">Yoga Student</p>
-                            <img class="shadow-quotes" src="{{url('assets/images/quotes.svg')}}" alt="quotes">
+                            <img class="shadow-quotes" src="{{ url('/assets/images/shadow-quotes.svg') }}" alt="quotes">
                         </div>
                         <div class="swiper-slide">
                             <img src="{{url('assets/images/quotes.svg')}}" alt="quotes">
@@ -287,7 +287,7 @@
                                 incididunt ut labore.</p>
                             <h4>Guy Hawkins</h4>
                             <p class="mb-0">Yoga Student</p>
-                            <img class="shadow-quotes" src="{{url('assets/images/quotes.svg')}}" alt="quotes">
+                            <img class="shadow-quotes" src="{{ url('/assets/images/shadow-quotes.svg') }}" alt="quotes">
                         </div>
                     </div>
                     <div class="swiper-pagination"></div>
