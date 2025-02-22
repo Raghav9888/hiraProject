@@ -4,11 +4,11 @@
     <section class="home-main-section">
         <div class="container">
             <div class="d-flex justify-content-center align-items-center flex-column">
-                <img class="hira-collective" src="{{url('/assets/images/hira-collective.svg')}}" alt="hira-collective">
+                <img class="hira-collective" src="{{ url('/assets/images/hira-collective.svg') }}" alt="hira-collective">
                 <h5 class="roots-title text-center mb-4">Honouring Roots, Nurturing Growth.</h5>
             </div>
             <div class="home-search-wrrpr">
-                <p>Search for Best Practitioners</p>
+                <p>Search for what you seek</p>
                 <div class="search-dv-body">
                     <div class="search-container">
                         <input type="text" class="search-input"
@@ -20,14 +20,14 @@
                     <div class="dropdown">
                         <button class=" dropdown-toggle" type="button" id="dropdownMenuButton1"
                                 data-bs-toggle="dropdown" aria-expanded="false">
-                            Virtual Practitioners Only
+                            Select option
                         </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" role="menu">
+                            <li><a class="dropdown-item" href="#">Virtual Practitioners Only</a></li>
+                            <li><a class="dropdown-item" href="#">In person</a></li>
                         </ul>
                     </div>
+
                     <div class="search-container location-input">
                         <input type="text" class="search-input" placeholder="Select your preferred Location">
                         <button class="search-button">
@@ -128,32 +128,32 @@
             </div>
             <div class="row">
                 @foreach($users as $user)
-                <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
+                    <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
 
                         <div class="featured-dv">
                             <a href="{{route('practitionerDetail', $user->id)}}">
-                            <img src="{{url('/assets/images/person.png')}}" alt="person">
-                            <label for="">0.4 Km Away</label>
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <h4>{{ $user->name }}</h4>
-                                <i class="fa-regular fa-heart"></i>
-                            </div>
-                            <h5><i class="fa-solid fa-location-dot"></i>Los Angeles, US</h5>
-                            <p>Alternative and Holistic Health Practitioner</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <i class="fa-regular fa-gem"></i>
-                                    <i class="fa-regular fa-gem"></i>
-                                    <i class="fa-regular fa-gem"></i>
-                                    <i class="fa-regular fa-gem"></i>
-                                    <i class="fa-regular fa-gem"></i>
+                                <img src="{{url('/assets/images/person.png')}}" alt="person">
+                                <label for="">0.4 Km Away</label>
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h4>{{ $user->name }}</h4>
+                                    <i class="fa-regular fa-heart"></i>
                                 </div>
-                                <h6>5.0 Ratings</h6>
-                            </div>
+                                <h5><i class="fa-solid fa-location-dot"></i>Los Angeles, US</h5>
+                                <p>Alternative and Holistic Health Practitioner</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <i class="fa-regular fa-gem"></i>
+                                        <i class="fa-regular fa-gem"></i>
+                                        <i class="fa-regular fa-gem"></i>
+                                        <i class="fa-regular fa-gem"></i>
+                                        <i class="fa-regular fa-gem"></i>
+                                    </div>
+                                    <h6>5.0 Ratings</h6>
+                                </div>
                             </a>
 
                         </div>
-                </div>
+                    </div>
                 @endforeach
                 <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
                     <div class="featured-dv">
@@ -325,7 +325,7 @@
                     <div class="col-sm-12 col-md-6 col-lg-4 mb-5">
                         <div class="choose-us-dv">
                             <div class="choose-us-img-dv">
-                                <img src="{{url('/assets/images/trusted-practitioners.svg')}}" alt="">
+                                <img src="../../../asserts/trusted-practitioners.svg" alt="">
                             </div>
                             <h6>Trusted Practitioners</h6>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor. </p>
@@ -334,7 +334,7 @@
                     <div class="col-sm-12 col-md-6 col-lg-4 mb-5">
                         <div class="choose-us-dv">
                             <div class="choose-us-img-dv">
-                                <img src="{{url('/assets/images/personalized-wellness.svg')}}" alt="">
+                                <img src="../../../asserts/personalized-wellness.svg" alt="">
                             </div>
                             <h6>Personalized Wellness</h6>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor. </p>
@@ -343,7 +343,7 @@
                     <div class="col-sm-12 col-md-6 col-lg-4 mb-5">
                         <div class="choose-us-dv">
                             <div class="choose-us-img-dv">
-                                <img src="{{url('/assets/images/spiritual-growth.svg')}}" alt="">
+                                <img src="../../../asserts/spiritual-growth.svg" alt="">
                             </div>
                             <h6>Spiritual Growth</h6>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor. </p>
@@ -351,7 +351,7 @@
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-6 mb-5">
                         <div class="vision-about-img-dv">
-                            <img src="{{url('/assets/images/our-vision.png')}}" alt="our-vision">
+                            <img src="../../../asserts/our-vision.png" alt="our-vision">
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-6 mb-5">
@@ -378,70 +378,70 @@
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-6 mb-5">
                         <div class="vision-about-img-dv">
-                            <img src="{{url('/assets/images/choose-about.png')}}" alt="about-us">
+                            <img src="../../../asserts/choose-about.png" alt="about-us">
                         </div>
                     </div>
                 </div>
                 <div class="position-relative">
-                    <h1 class="home-title mb-4">What our community says</h1>
+                    <h1 class="home-title mb-4 mt-5">What our community says</h1>
                     <div class="swiper-button-next"></div>
                     <div class="swiper-button-prev"></div>
                 </div>
                 <div class="swiper mySwiper mb-5">
                     <div class="swiper-wrapper">
                         <div class="swiper-slide">
-                            <img src="{{url('/assets/images/quotes.svg')}}" alt="quotes">
+                            <img src="../../../asserts/quotes.svg" alt="quotes">
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
                                 ut labore. Lorem ipsum dolor sit amet, consect adipicing elit, sed do eiusmod tempor
                                 incididunt ut labore.</p>
                             <h4>Robert Fox</h4>
                             <p class="mb-0">Yoga Student</p>
-                            <img class="shadow-quotes" src="{{url('/assets/images/shadow-quotes.svg')}}" alt="quotes">
+                            <img class="shadow-quotes" src="../../../asserts/shadow-quotes.svg" alt="quotes">
                         </div>
                         <div class="swiper-slide">
-                            <img src="{{url('/assets/images/quotes.svg')}}" alt="quotes">
+                            <img src="../../../asserts/quotes.svg" alt="quotes">
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
                                 ut labore. Lorem ipsum dolor sit amet, consect adipicing elit, sed do eiusmod tempor
                                 incididunt ut labore.</p>
                             <h4>Jenny Wilson</h4>
                             <p class="mb-0">Yoga Student</p>
-                            <img class="shadow-quotes" src="{{url('/assets/images/shadow-quotes.svg')}}" alt="quotes">
+                            <img class="shadow-quotes" src="../../../asserts/shadow-quotes.svg" alt="quotes">
                         </div>
                         <div class="swiper-slide">
-                            <img src="{{url('/assets/images/quotes.svg')}}" alt="quotes">
+                            <img src="../../../asserts/quotes.svg" alt="quotes">
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
                                 ut labore. Lorem ipsum dolor sit amet, consect adipicing elit, sed do eiusmod tempor
                                 incididunt ut labore.</p>
                             <h4>Guy Hawkins</h4>
                             <p class="mb-0">Yoga Student</p>
-                            <img class="shadow-quotes" src="{{url('/assets/images/shadow-quotes.svg')}}" alt="quotes">
+                            <img class="shadow-quotes" src="../../../asserts/shadow-quotes.svg" alt="quotes">
                         </div>
                         <div class="swiper-slide">
-                            <img src="{{url('/assets/images/quotes.svg')}}" alt="quotes">
+                            <img src="../../../asserts/quotes.svg" alt="quotes">
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
                                 ut labore. Lorem ipsum dolor sit amet, consect adipicing elit, sed do eiusmod tempor
                                 incididunt ut labore.</p>
                             <h4>Robert Fox</h4>
                             <p class="mb-0">Yoga Student</p>
-                            <img class="shadow-quotes" src="{{url('/assets/images/shadow-quotes.svg')}}" alt="quotes">
+                            <img class="shadow-quotes" src="../../../asserts/shadow-quotes.svg" alt="quotes">
                         </div>
                         <div class="swiper-slide">
-                            <img src="{{url('/assets/images/quotes.svg')}}" alt="quotes">
+                            <img src="../../../asserts/quotes.svg" alt="quotes">
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
                                 ut labore. Lorem ipsum dolor sit amet, consect adipicing elit, sed do eiusmod tempor
                                 incididunt ut labore.</p>
                             <h4>Jenny Wilson</h4>
                             <p class="mb-0">Yoga Student</p>
-                            <img class="shadow-quotes" src="{{url('/assets/images/shadow-quotes.svg')}}" alt="quotes">
+                            <img class="shadow-quotes" src="../../../asserts/shadow-quotes.svg" alt="quotes">
                         </div>
                         <div class="swiper-slide">
-                            <img src="{{url('/assets/images/quotes.svg')}}" alt="quotes">
+                            <img src="../../../asserts/quotes.svg" alt="quotes">
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
                                 ut labore. Lorem ipsum dolor sit amet, consect adipicing elit, sed do eiusmod tempor
                                 incididunt ut labore.</p>
                             <h4>Guy Hawkins</h4>
                             <p class="mb-0">Yoga Student</p>
-                            <img class="shadow-quotes" src="{{url('/assets/images/shadow-quotes.svg')}}" alt="quotes">
+                            <img class="shadow-quotes" src="../../../asserts/shadow-quotes.svg" alt="quotes">
                         </div>
                     </div>
                     <div class="swiper-pagination"></div>
@@ -454,7 +454,7 @@
                             <p>Explore expert-led Yoga, Reiki, and Energy Healing and more sessions. Connect with
                                 certified practitioners and start your journey today</p>
                             <button>Find a Practitioner</button>
-                            <img src="{{url('/assets/images/footer-butterfly.svg')}}" alt="">
+                            <img src="../../../asserts/footer-butterfly.svg" alt="">
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-6">
@@ -464,7 +464,7 @@
                             <p>List your services and connect with customers seeking wellness and healing. Expand your
                                 reach and build your client base effortlessly.</p>
                             <button>Apply as a Practitioner</button>
-                            <img src="{{url('/assets/images/footer-butterfly.svg')}}" alt="">
+                            <img src="../../../asserts/footer-butterfly.svg" alt="">
                         </div>
                     </div>
                 </div>
@@ -650,4 +650,38 @@
     </section>
 
     <!-- FAQ end -->
+
+    <script>
+        var swiper = new Swiper(".mySwiper", {
+            spaceBetween: 30,
+            breakpoints: {
+                640: {
+                    slidesPerView: 1,
+                    spaceBetween: 20,
+                },
+                768: {
+                    slidesPerView: 2,
+                    spaceBetween: 40,
+                },
+                1024: {
+                    slidesPerView: 3,
+                    spaceBetween: 50,
+                },
+            },
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+        });
+    </script>
+    <script>
+        function toggleDropdown() {
+            var dropdownMenu = document.getElementById("dropdownMenu");
+            if (dropdownMenu.style.display === "none" || dropdownMenu.style.display === "") {
+                dropdownMenu.style.display = "block";
+            } else {
+                dropdownMenu.style.display = "none";
+            }
+        }
+    </script>
 @endsection

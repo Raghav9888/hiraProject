@@ -20,6 +20,7 @@
     "dependencies": {
         "@fullcalendar/bootstrap5": "^6.1.15",
         "@fullcalendar/core": "^6.1.15",
+        "alertifyjs": "^1.14.0",
         "bootstrap-icons": "^1.11.3",
         "jquery": "^3.7.1"
     }

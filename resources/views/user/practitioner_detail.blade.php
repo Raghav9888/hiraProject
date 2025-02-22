@@ -5,7 +5,7 @@
         <div class="container">
             <div class="practitioner-search-dv">
                 <div class="d-flex justify-content-between flex-wrap align-items-center mb-4">
-                    <a href="blog-detail.html" class="blog-view-more"><i
+                    <a href="{{ route('home') }}" class="blog-view-more"><i
                             class="fa-solid fa-chevron-left me-2"></i>Back</a>
                     <div class="search-container location-input">
                         <input type="text" class="search-input" placeholder="Search Articles, Blogs and Videos">
@@ -36,7 +36,8 @@
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-3 col-lg-3">
-                        <img style="width: 100%;" class="mb-4" src="../../../public/assets/images/darrel.png" alt="darrel">
+                        <img style="width: 100%;" class="mb-4" src="{{ url('/assets/images/darrel.png') }}"
+                             alt="darrel">
                         <div class="d-flex justify-content-between flex-wrap align-items-center">
                             <div>
                                 <i class="fa-regular fa-gem"></i>
@@ -53,16 +54,16 @@
             <div class="swiper mySwiper mb-5">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide">
-                        <img src="../../../public/assets/images/yoga-persons.png" alt="">
+                        <img src="{{url('assets/images/yoga-persons.png')}}" alt="">
                     </div>
                     <div class="swiper-slide">
-                        <img src="../../../public/assets/images/girl-with-bowl.png" alt="">
+                        <img src="{{ url('assets/images/girl-with-bowl.png') }}" alt="">
                     </div>
                     <div class="swiper-slide">
-                        <img src="../../../public/assets/images/yoga-persons.png" alt="">
+                        <img src="{{url('assets/images/yoga-persons.png')}}" alt="">
                     </div>
                     <div class="swiper-slide">
-                        <img src="../../../public/assets/images/girl-with-bowl.png" alt="">
+                        <img src="{{url('assets/images/girl-with-bowl.png')}}" alt="">
                     </div>
                 </div>
                 <!-- <div class="swiper-pagination"></div> -->
@@ -97,77 +98,99 @@
                                         </div>
                                     </div>
                                     @foreach($offerings as $offering)
-                                    <div class="accordian-body-data">
-                                        <div class="d-flex justify-content-between flex-wrap align-items-center">
-                                            <h4 class="mb-2">{{$offering->name}}</h4>
-                                            <div class="d-flex align-items-center">
-                                                <h6 class="offer-prize me-2 m-0">$1,444.00</h6>
-                                                <a href="{{ route('offerDetail',$offering->id)}}" class="home-blog-btn">BOOK NOW</a>
-                                            </div>
-                                        </div>
-                                        <ul class="practitioner-accordian-lists">
-                                            <li>7 Hours</li>
-                                            <li>7 Sessions</li>
-                                        </ul>
-                                        <p class="m-0 mb-1">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                                            do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                                            minim veniam quis nostrud exercitation.Lorem ipsum dolor sit amet,
-                                            consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                                            dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation.</p>
-                                        <button id="view-more-btn" class="blog-view-more mb-2"
-                                                style="color:#9F8B72;">More Info<i
-                                                class="fas fa-chevron-down ms-2"></i></button>
-
-                                        <div id="lorem-text" class="lorem-text">
-                                            <div class="toggle-data-dv">
-                                                <div class="toggle-dv-desc">
-                                                    <img src="../../../public/assets/images/bowl-girl.png" alt="">
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                                        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                                                        enim ad minim veniam quis nostrud exercitation. Lorem ipsum
-                                                        dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                                        tempor incididunt. Ut enim ad minim veniam quis nostrud
-                                                        exercitation. Lorem ipsum dolor sit amet, consectetur adipiscing
-                                                        elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-                                                        aliqua. Ut enim ad minim veniam quis nostrud exercitation.</p>
+                                        <div class="accordian-body-data">
+                                            <div class="d-flex justify-content-between flex-wrap align-items-center">
+                                                <h4 class="mb-2">{{$offering->name}}</h4>
+                                                <div class="d-flex align-items-center">
+                                                    <h6 class="offer-prize me-2 m-0">$1,444.00</h6>
+                                                    {{--                                                <a href="{{ route('offerDetail',$offering->id)}}" class="home-blog-btn">BOOK NOW</a>--}}
                                                 </div>
-                                                <div class="toggle-dv-review">
-                                                    <div class="d-flex mb-2" style="gap: 20px;">
-                                                        <button>Description</button>
-                                                        <button
-                                                            style="background-color: transparent;color: #9F8B72;">Reviews</button>
+                                            </div>
+                                            <ul class="practitioner-accordian-lists">
+                                                <li>7 Hours</li>
+                                                <li>7 Sessions</li>
+                                            </ul>
+                                            <p class="m-0 mb-1">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                                                sed
+                                                do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+                                                ad
+                                                minim veniam quis nostrud exercitation.Lorem ipsum dolor sit amet,
+                                                consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                                                et
+                                                dolore magna aliqua. Ut enim ad minim veniam quis nostrud
+                                                exercitation.</p>
+                                            <button id="view-more-btn" class="blog-view-more mb-2"
+                                                    style="color:#9F8B72;">More Info<i
+                                                    class="fas fa-chevron-down ms-2"></i></button>
+
+                                            <div id="lorem-text" class="lorem-text">
+                                                <div class="toggle-data-dv">
+                                                    <div class="toggle-dv-desc">
+                                                        <img src="{{url('assets/images/bowl-girl.png')}}" alt="">
+                                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                                                            do
+                                                            eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                                                            Ut
+                                                            enim ad minim veniam quis nostrud exercitation. Lorem ipsum
+                                                            dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                                                            tempor incididunt. Ut enim ad minim veniam quis nostrud
+                                                            exercitation. Lorem ipsum dolor sit amet, consectetur
+                                                            adipiscing
+                                                            elit, sed do eiusmod tempor incididunt ut labore et dolore
+                                                            magna
+                                                            aliqua. Ut enim ad minim veniam quis nostrud
+                                                            exercitation.</p>
                                                     </div>
-                                                    <ul>
-                                                        <li class="m-0">Lorem ipsum dolor sit amet, consectetur
-                                                            adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                                                            et dolore magna aliqua. Ut enim ad minim veniam quis nostrud
-                                                            exercitation. Lorem ipsum dolor sit amet, consectetur
-                                                            adipiscing elit, sed do eiusmod tempor incididunt. dolor sit
-                                                            amet Ut enim ad minim veniam quis nostrud exercitation.</li>
-                                                        <li class="m-0">Lorem ipsum dolor sit amet, consectetur
-                                                            adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                                                            et dolore magna aliqua. Ut enim ad minim veniam quis nostrud
-                                                            exercitation. Lorem ipsum dolor sit amet, consectetur
-                                                            adipiscing elit, sed do Ut enim ad minim eiusmod tempor
-                                                            incididunt. Ut enim ad minim veniam quis nostrud
-                                                            exercitation.</li>
-                                                        <li class="m-0">Lorem ipsum dolor sit amet, consectetur
-                                                            adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                                                            et dolore magna aliqua. Ut enim ad minim veniam quis nostrud
-                                                            exercitation. Lorem ipsum dolor sit amet, consectetur
-                                                            adipiscing elit, sed do eiusmod sed do eiusmod tempor
-                                                            incididunt tempor incididunt. Ut enim ad minim veniam quis
-                                                            nostrud exercitation.</li>
-                                                    </ul>
+                                                    <div class="toggle-dv-review">
+                                                        <div class="d-flex mb-2" style="gap: 20px;">
+                                                            <button>Description</button>
+                                                            <button
+                                                                style="background-color: transparent;color: #9F8B72;">
+                                                                Reviews
+                                                            </button>
+                                                        </div>
+                                                        <ul>
+                                                            <li class="m-0">Lorem ipsum dolor sit amet, consectetur
+                                                                adipiscing elit, sed do eiusmod tempor incididunt ut
+                                                                labore
+                                                                et dolore magna aliqua. Ut enim ad minim veniam quis
+                                                                nostrud
+                                                                exercitation. Lorem ipsum dolor sit amet, consectetur
+                                                                adipiscing elit, sed do eiusmod tempor incididunt. dolor
+                                                                sit
+                                                                amet Ut enim ad minim veniam quis nostrud exercitation.
+                                                            </li>
+                                                            <li class="m-0">Lorem ipsum dolor sit amet, consectetur
+                                                                adipiscing elit, sed do eiusmod tempor incididunt ut
+                                                                labore
+                                                                et dolore magna aliqua. Ut enim ad minim veniam quis
+                                                                nostrud
+                                                                exercitation. Lorem ipsum dolor sit amet, consectetur
+                                                                adipiscing elit, sed do Ut enim ad minim eiusmod tempor
+                                                                incididunt. Ut enim ad minim veniam quis nostrud
+                                                                exercitation.
+                                                            </li>
+                                                            <li class="m-0">Lorem ipsum dolor sit amet, consectetur
+                                                                adipiscing elit, sed do eiusmod tempor incididunt ut
+                                                                labore
+                                                                et dolore magna aliqua. Ut enim ad minim veniam quis
+                                                                nostrud
+                                                                exercitation. Lorem ipsum dolor sit amet, consectetur
+                                                                adipiscing elit, sed do eiusmod sed do eiusmod tempor
+                                                                incididunt tempor incididunt. Ut enim ad minim veniam
+                                                                quis
+                                                                nostrud exercitation.
+                                                            </li>
+                                                        </ul>
+                                                    </div>
                                                 </div>
                                             </div>
+
+                                            <button id="view-less-btn" class="blog-view-more"
+                                                    style="color:#9F8B72; display: none;">
+                                                Less Info<i class="fa-solid fa-chevron-up ms-2"></i></button>
+
                                         </div>
-
-                                        <button id="view-less-btn" class="blog-view-more"
-                                                style="color:#9F8B72; display: none;">
-                                            Less Info<i class="fa-solid fa-chevron-up ms-2"></i></button>
-
-                                    </div>
                                     @endforeach
                                     <div class="accordian-body-data">
                                         <div class="d-flex justify-content-between flex-wrap align-items-center">
@@ -193,7 +216,7 @@
                                         <div id="lorem-text" class="lorem-text">
                                             <div class="toggle-data-dv">
                                                 <div class="toggle-dv-desc">
-                                                    <img src="../../../public/assets/images/bowl-girl.png" alt="">
+                                                    <img src="{{url('assets/images/bowl-girl.png')}}" alt="">
                                                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                                                         eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
                                                         enim ad minim veniam quis nostrud exercitation. Lorem ipsum
@@ -264,7 +287,7 @@
                                         <div id="lorem-text" class="lorem-text">
                                             <div class="toggle-data-dv">
                                                 <div class="toggle-dv-desc">
-                                                    <img src="../../../public/assets/images/bowl-girl.png" alt="">
+                                                    <img src="{{url('assets/images/bowl-girl.png')}}" alt="">
                                                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                                                         eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
                                                         enim ad minim veniam quis nostrud exercitation. Lorem ipsum
@@ -539,7 +562,7 @@
                 <div class="row">
                     <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
                         <div class="featured-dv">
-                            <img src="../../../public/assets/images/person.png" alt="person">
+                            <img src="{{url('assets/images/person.png')}}" alt="person">
                             <label for="">0.4 Km Away</label>
                             <div class="d-flex justify-content-between flex-wrap align-items-center mb-2">
                                 <h4>Brigitta Ziemba</h4>
@@ -561,7 +584,7 @@
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
                         <div class="featured-dv">
-                            <img src="../../../public/assets/images/person.png" alt="person">
+                            <img src="{{url('assets/images/person.png')}}" alt="person">
                             <label for="">0.4 Km Away</label>
                             <div class="d-flex justify-content-between flex-wrap align-items-center mb-2">
                                 <h4>Brigitta Ziemba</h4>
@@ -583,7 +606,7 @@
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
                         <div class="featured-dv">
-                            <img src="../../../public/assets/images/person.png" alt="person">
+                            <img src="{{url('assets/images/person.png')}}" alt="person">
                             <label for="">0.4 Km Away</label>
                             <div class="d-flex justify-content-between flex-wrap align-items-center mb-2">
                                 <h4>Brigitta Ziemba</h4>
@@ -605,7 +628,7 @@
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
                         <div class="featured-dv">
-                            <img src="../../../public/assets/images/person.png" alt="person">
+                            <img src="{{url('assets/images/person.png')}}" alt="person">
                             <label for="">0.4 Km Away</label>
                             <div class="d-flex justify-content-between flex-wrap align-items-center mb-2">
                                 <h4>Brigitta Ziemba</h4>

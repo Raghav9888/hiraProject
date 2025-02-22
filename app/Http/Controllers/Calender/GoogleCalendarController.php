@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Calender;
 
 use App\Http\Controllers\Controller;
 use App\Models\GoogleAccount;
+use Google\Client;
+use Google\Service\Calendar;
+use Google\Service\Calendar\Event;
 use Google_Client;
 use Google_Service_Calendar;
 use Google_Service_Calendar_Event;
@@ -48,20 +51,38 @@ class GoogleCalendarController extends Controller
     }
 
 
-    public function createEvent(Request $request)
+    public function createEvednt(Request $request)
     {
         $client = $this->getClient();
+
+        if ($client->isAccessTokenExpired()) {
+            return back()->with('error', 'Google Token Expired. Please reauthorize.');
+        }
+
         $service = new Google_Service_Calendar($client);
 
+        $title = $request->input('title');
+        $start = $request->input('start_time');
+        $end = $request->input('end_time');
+
+        if (!$title || !$start || !$end) {
+            return back()->with('error', 'Invalid event data received.');
+        }
+
         $event = new Google_Service_Calendar_Event([
-            'summary' => $request->title,
-            'start' => ['dateTime' => date('c', strtotime($request->start_time)), 'timeZone' => 'Asia/Kolkata'],
-            'end' => ['dateTime' => date('c', strtotime($request->end_time)), 'timeZone' => 'Asia/Kolkata'],
+            'summary' => $title,
+            'start' => ['dateTime' => date('c', strtotime($start)), 'timeZone' => 'Asia/Kolkata'],
+            'end' => ['dateTime' => date('c', strtotime($end)), 'timeZone' => 'Asia/Kolkata'],
         ]);
 
-        $service->events->insert('primary', $event);
-        return back()->with('success', 'Event added to Google Calendar!');
+        try {
+            $service->events->insert('primary', $event);
+            return back()->with('success', 'Event added to Google Calendar!');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Failed to add event: ' . $e->getMessage());
+        }
     }
+
 
     public function deleteEvent(Request $request)
     {
@@ -79,4 +100,61 @@ class GoogleCalendarController extends Controller
             return back()->with('error', 'Failed to delete event: ' . $e->getMessage());
         }
     }
+
+    public function createEvent(Request $request)
+    {
+        // Validate request data
+        $request->validate([
+            'title' => 'required|string',
+            'start_time' => 'required|date',
+            'end_time' => 'required|date|after:start_time',
+        ]);
+
+        // Retrieve authenticated user's Google token
+        $user = Auth::user();
+        $googleAccount = GoogleAccount::where('user_id', $user->id)->first();
+        $accessToken = $googleAccount->access_token;
+
+        // Initialize Google Client
+        $client = new Google_Client();
+        $client->setAuthConfig(storage_path('app/google-calendar/google-calendar.json'));
+        $client->setAccessToken($accessToken);
+
+        // Refresh token if expired
+        if ($client->isAccessTokenExpired()) {
+            if (isset($googleAccount->refresh_token)) {
+                $client->fetchAccessTokenWithRefreshToken($googleAccount->refresh_token);
+                $newAccessToken = $client->getAccessToken();
+
+                $googleAccount->access_token = json_encode($newAccessToken);
+                $googleAccount->save();
+            } else {
+                return redirect()->route('google.auth')->with('error', 'Google Token Expired. Please reauthorize.');
+            }
+        }
+
+        // Initialize Google Calendar service
+        $calendarService = new Google_Service_Calendar($client);
+
+        // Create Event
+        $event = new Google_Service_Calendar_Event([
+            'summary' => $request->title,
+            'start' => [
+                'dateTime' => date('c', strtotime($request->start_time)),
+                'timeZone' => 'Asia/Kolkata',
+            ],
+            'end' => [
+                'dateTime' => date('c', strtotime($request->end_time)),
+                'timeZone' => 'Asia/Kolkata',
+            ],
+        ]);
+
+        try {
+            $calendarService->events->insert('primary', $event);
+            return back()->with('success', 'Event added to Google Calendar!');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Failed to add event: ' . $e->getMessage());
+        }
+    }
 }
+

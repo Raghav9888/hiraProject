@@ -32,14 +32,17 @@
                                 <div class="tab-pane fade show active" id="general" role="tabpanel"
                                      aria-labelledby="general-tab">
 
-                                    <form method="post" action="{{ route('updateProfile') }}" enctype="multipart/form-data">
+                                    <form method="post" action="{{ route('updateProfile') }}"
+                                          enctype="multipart/form-data">
                                         @csrf
-                                        <div style="position: relative;" class="d-flex justify-content-center flex-column align-items-center">
-                                            <div class="mb-4" >
+                                        <div style="position: relative;"
+                                             class="d-flex justify-content-center flex-column align-items-center">
+                                            <div class="mb-4">
                                                 <p style="text-align: start;" class="text">Images</p>
                                                 <input type="file" id="fileInput" class="hidden" accept="image/*"
                                                        onchange="previewImage(event)" style="display: none;">
-                                                <label style="border-radius: 50%;" for="fileInput" class="image-preview" id="imagePreview">
+                                                <label style="border-radius: 50%;" for="fileInput" class="image-preview"
+                                                       id="imagePreview">
                                                     <span>+</span>
                                                 </label>
                                                 <div class="preview-div">
@@ -80,7 +83,8 @@
 
                                         <div class="mb-4">
                                             <label for="location" class="fw-bold">Location</label>
-                                            <select id="location" name="location" class="form-select select2" multiple="multiple">
+                                            <select id="location" name="location" class="form-select select2"
+                                                    multiple="multiple">
                                                 <option>Select</option>
                                                 <option
                                                     value="New York" {{ (isset($userDetails->location) && $userDetails->location == 'New York') ? 'selected' : '' }}>
@@ -102,7 +106,7 @@
                                             specific
                                             versions of something. For example, a good tag for a massage could be "Deep
                                             Tissue".</p>
-                                            <select name="tags" multiple="multiple" class="form-select select2"></select>
+                                        <select name="tags" multiple="multiple" class="form-select select2"></select>
                                         <hr>
                                         <div class="mb-4 mt-4">
                                             <label for="media" class="fw-bold">Media</label>
@@ -110,7 +114,8 @@
                                                 <i class="fas fa-plus"></i>
                                                 Add media
                                             </label>
-                                            <input type="file" id="media-upload" class="hidden" accept="image/*" multiple="">
+                                            <input type="file" id="media-upload" class="hidden" accept="image/*"
+                                                   multiple="">
                                             <div class="media-container" id="media-container">
                                                 <div class="media-item">
                                                     <i class="fas fa-times"></i>
@@ -129,7 +134,8 @@
                                         <hr>
                                         <div class="mb-4">
                                             <label for="type" class="fw-bold">I help with:</label>
-                                            <select id="type" name="type" class="form-select select2" multiple="multiple">
+                                            <select id="type" name="type" class="form-select select2"
+                                                    multiple="multiple">
                                                 <option>Select</option>
                                                 <option value="Lack of confidence">Lack of confidence</option>
                                             </select>
@@ -138,7 +144,8 @@
                                         <button class="update-btn mb-2">Add New Term</button>
                                         <div class="mb-4">
                                             <label for="type" class="fw-bold">I help with:</label>
-                                            <select id="term" name="term" class="form-select select2" multiple="multiple">
+                                            <select id="term" name="term" class="form-select select2"
+                                                    multiple="multiple">
                                                 <option>Select</option>
                                                 <option value="Transitions Coaching">Transitions Coaching</option>
                                             </select>
@@ -155,7 +162,8 @@
                                         <button class="update-btn mb-2">Add New Term</button>
                                         <div class="mb-4">
                                             <label for="specialities" class="fw-bold">Specialities</label>
-                                            <select id="specialities" class="form-select select2" multiple="multiple" name="specialities">
+                                            <select id="specialities" class="form-select select2" multiple="multiple"
+                                                    name="specialities">
                                                 <option>Select</option>
                                                 <option>Complimentary initial consultations</option>
                                             </select>
@@ -228,46 +236,47 @@
                                      aria-labelledby="availability-tab">
                                     <h4 class="stripe-text">Connect with Stripe</h4>
                                     <h5 class="stripe-label">Your account is not yet connected with Stripe.</h5>
-                                    <a href="{{ route('stripe.connect') }}" class="stripe-btn mt-3">Connect with stripe</button>
+                                    <a href="{{ route('stripe.connect') }}" class="stripe-btn mt-3">Connect with
+                                        stripe</a>
                                 </div>
 
                                 <!-- Costs Tab Content -->
                                 <div class="tab-pane fade" id="costs" role="tabpanel" aria-labelledby="costs-tab">
-                                    <div class="d-flex justify-content-end mb-4">
-                                        <a href="{{route('redirectToGoogle')}}" class="update-btn">Google calendar setting</a>
-                                    </div>
-                                    <div class="calendar">
-                                        <div class="controls">
-                                            <select id="monthSelect">
-                                                <option value="0">January</option>
-                                                <option value="1">February</option>
-                                                <option value="2">March</option>
-                                                <option value="3">April</option>
-                                                <option value="4">May</option>
-                                                <option value="5">June</option>
-                                                <option value="6">July</option>
-                                                <option value="7">August</option>
-                                                <option value="8">September</option>
-                                                <option value="9">October</option>
-                                                <option value="10">November</option>
-                                                <option value="11">December</option>
-                                            </select>
-                                            <button id="resetCalendar">Reset Calendar</button>
+                                    <div class="container-fluid calendar-integration practitioner-profil">
+                                        <div class=" integration-wrrpr">
+                                            <div class="integration-header">
+                                                <h4>Authorization</h4>
+                                                <div class="form-group flex-column d-flex align-items-start">
+                                                    <a href="{{route('redirectToGoogle')}}"
+                                                       class="export-btn">Connect</a>
+{{--                                                    <h6>Successfully authenticated.</h6>--}}
+{{--                                                    <button class="export-btn" >Disconnect</button>--}}
+                                                </div>
+                                            </div>
+{{--                                            <div class="form-group">--}}
+{{--                                                <div>--}}
+{{--                                                    <label>Calendar</label>--}}
+{{--                                                    <p>Enter with your Calendar.</p>--}}
+{{--                                                </div>--}}
+{{--                                                <select>--}}
+{{--                                                    <option>mohitmmv02@gmail.com</option>--}}
+{{--                                                </select>--}}
+{{--                                            </div>--}}
+{{--                                            <div class="form-group" style="border: none;">--}}
+{{--                                                <div>--}}
+{{--                                                    <label>Sync Preference <i--}}
+{{--                                                            class="fas fa-question-circle icon"></i></label>--}}
+{{--                                                    <p>Manage the sync flow between your Store calendar and Google--}}
+{{--                                                        calendar.</p>--}}
+{{--                                                </div>--}}
+{{--                                                <select>--}}
+{{--                                                    <option>Sync both ways - between Store and Google calendar--}}
+{{--                                                    </option>--}}
+{{--                                                </select>--}}
+{{--                                            </div>--}}
                                         </div>
-                                        <div class="calendar-grid">
-                                        </div>
-                                    </div>
-                                    <div id="noteModal" class="modal">
-                                        <div class="modal-content">
-                                            <span class="close">&times;</span>
-                                            <h3>Add Note</h3>
-                                            <p id="selectedDate"></p>
-                                            <label for="time">Select Time:</label>
-                                            <input type="time" id="time" required>
-                                            <label for="note">Note:</label>
-                                            <textarea id="note" rows="2" placeholder="Enter your note..."></textarea>
-                                            <button id="saveNote">Save Note</button>
-                                        </div>
+{{--                                        <button class="export-btn mt-4" style="margin-left: 50px;">Save Changes--}}
+{{--                                        </button>--}}
                                     </div>
                                 </div>
                                 <div class="tab-pane fade" id="client" role="tabpanel" aria-labelledby="clint-tab">

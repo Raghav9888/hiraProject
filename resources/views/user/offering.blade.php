@@ -21,19 +21,18 @@
                 <p style="text-align: start;" class="mb-3">All offering must be shared on your Hira collective
                     profile.</p>
                 <div class="offering-btn-drop mb-4">
-                    <a style="text-decoration: none;" href="./add-offering.html" class="category-load-more">Add
-                        Offering</a>
+                    <a href="{{ route('addOffering') }}" class="category-load-more">Add Offering</a>
                     <div class="dropdown">
                         <button onclick="toggleDropdown()" class="dropdown-button">
                             <span>Discount</span>
                             <i class="fas fa-chevron-down ms-2"></i>
                         </button>
-                        <div id="dropdownMenu" class="dropdown-menu">
-                            <ul>
-                                <li><a href="#">All offering</a></li>
-                                <li><a href="#">Specific offering</a></li>
-                            </ul>
-                        </div>
+{{--                        <div id="dropdownMenu" class="dropdown-menu">--}}
+{{--                            <ul>--}}
+{{--                                <li><a href="#">All offering</a></li>--}}
+{{--                                <li><a href="#">Specific offering</a></li>--}}
+{{--                            </ul>--}}
+{{--                        </div>--}}
                     </div>
                     <div class="form-check offering-check">
                         <input type="checkbox" class="form-check-input"
@@ -44,9 +43,6 @@
 
                 <div class="earning-wrrpr mt-5">
                     <div class="container">
-                        <div class="d-flex mb-3" style="gap: 20px;">
-                            <a href="{{ route('addOffering') }}" class="export-btn">Add Offering</a>
-                        </div>
                         @if($offerings->isNotEmpty())
                             <div class="table-responsive">
                                 <table class="table">

@@ -1,0 +1,87 @@
+/*.calendar-card{*/
+/*    margin-left: 40px;*/
+/*}*/
+/*.fc .fc-col-header-cell-cushion{*/
+/*    text-decoration: none;*/
+/*    color: #424E3E;*/
+/*    font-family: "Montserrat-Medium";*/
+/*}*/
+/*.fc .fc-daygrid-day-frame{*/
+/*    text-decoration: none;*/
+/*    background-color: #f0f3f7;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*}*/
+/*.fc .fc-daygrid-day-number{*/
+/*    color: #000;*/
+/*    text-decoration: none;*/
+/*    font-family: "Montserrat-Regular";*/
+/*}*/
+/*.fc .fc-button-primary:disabled{*/
+/*    background-color: #D6CFBF;*/
+/*    color: #424E3E;*/
+/*    border: none;*/
+/*    font-family: "Montserrat-Regular";*/
+/*    font-weight: 800;*/
+/*}*/
+/*.fc .fc-button{*/
+/*    background-color: #424E3E;*/
+/*}*/
+/*.fc .fc-toolbar-title{*/
+/*    font-family: "Montserrat-Regular";*/
+/*}*/
+
+.integration-wrrpr{
+    border: 1px solid #eee;
+    margin-left: 50px;
+}
+.calendar-integration .integration-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+}
+.calendar-integration .integration-header h4 {
+    font-family: "Montserrat-Medium";
+    font-size: 18px;
+    font-weight: 600;
+    color: #555;
+    margin: 0;
+}
+.calendar-integration .integration-header h6 {
+    font-family: "Montserrat-Regular";
+    font-weight: 600;
+    font-size: 146x;
+    color: #4b5563;
+    margin-bottom: 30px;
+}
+.calendar-integration .form-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+}
+.calendar-integration .form-group label {
+    font-family: "Montserrat-Regular";
+    display: block;
+    font-weight: 500;
+    color: #1f2937;
+    margin-bottom: 5px;
+}
+.form-group p {
+    font-family: "Montserrat-Regular";
+    color: #4b5563;
+    margin-bottom: 10px;
+}
+.calendar-integration .form-group select {
+    font-family: "Montserrat-Regular";
+    padding: 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+}
+.calendar-integration .icon {
+    color: #6b7280;
+}
