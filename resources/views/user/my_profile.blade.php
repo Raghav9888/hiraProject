@@ -38,15 +38,15 @@
                                         <div style="position: relative;"
                                              class="d-flex justify-content-center flex-column align-items-center">
                                             <div class="mb-4">
-                                                <p style="text-align: start;" class="text">Images</p>
-                                                <input type="file" id="fileInput" class="hidden" accept="image/*"
+                                                <p style="text-align: start;" class="text">Image</p>
+                                                <input type="file" id="fileInput" name="image" class="hidden" accept="image/*"
                                                        onchange="previewImage(event)" style="display: none;">
                                                 <label style="border-radius: 50%;" for="fileInput" class="image-preview"
                                                        id="imagePreview">
                                                     <span>+</span>
                                                 </label>
                                                 <div class="preview-div">
-                                                    <img src="../../../public/assets/images/Laptop.svg" alt="">
+                                                    <img src="{{ url('/images/Laptop.svg') }}" alt="">
                                                     <p>preview</p>
                                                 </div>
                                             </div>
