@@ -35,9 +35,10 @@
                         @if(Auth::check())
                             <nav class="et-menu-nav">
                                 <ul id="menu-practitioner-menu me-5" class="et-menu nav">
-                                    <li id="menu-item-5395"
-                                        class="me-5 et_pb_menu_page_id-4726 menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-4726 current_page_item menu-item-5395">
-                                        <a href="{{route('myProfile')}}" aria-current="page">Profile</a></li>
+                                    <a href="{{ route('register') }}" class="btn join-btn" type="submit">My Practitioner dashboard</a>
+{{--                                    <li id="menu-item-5395"--}}
+{{--                                        class="me-5 et_pb_menu_page_id-4726 menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-4726 current_page_item menu-item-5395">--}}
+{{--                                        <a href="{{route('myProfile')}}" aria-current="page"></a></li>--}}
                                 </ul>
                             </nav>
                             <form action="{{ route('logout') }}" method="POST">
