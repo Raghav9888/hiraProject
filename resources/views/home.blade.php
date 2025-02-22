@@ -18,15 +18,16 @@
                         </button>
                     </div>
                     <div class="dropdown">
-                        <button class=" dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-
+                        <button class=" dropdown-toggle" type="button" id="dropdownMenuButton1"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                            Select option
                         </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li><a class="dropdown-item" href="#"> Virtual Practitioners Only </a></li>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" role="menu">
+                            <li><a class="dropdown-item" href="#">Virtual Practitioners Only</a></li>
                             <li><a class="dropdown-item" href="#">In person</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
                         </ul>
                     </div>
+
                     <div class="search-container location-input">
                         <input type="text" class="search-input" placeholder="Select your preferred Location">
                         <button class="search-button">
@@ -127,32 +128,32 @@
             </div>
             <div class="row">
                 @foreach($users as $user)
-                <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
+                    <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
 
                         <div class="featured-dv">
                             <a href="{{route('practitionerDetail', $user->id)}}">
-                            <img src="{{url('/assets/images/person.png')}}" alt="person">
-                            <label for="">0.4 Km Away</label>
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <h4>{{ $user->name }}</h4>
-                                <i class="fa-regular fa-heart"></i>
-                            </div>
-                            <h5><i class="fa-solid fa-location-dot"></i>Los Angeles, US</h5>
-                            <p>Alternative and Holistic Health Practitioner</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <i class="fa-regular fa-gem"></i>
-                                    <i class="fa-regular fa-gem"></i>
-                                    <i class="fa-regular fa-gem"></i>
-                                    <i class="fa-regular fa-gem"></i>
-                                    <i class="fa-regular fa-gem"></i>
+                                <img src="{{url('/assets/images/person.png')}}" alt="person">
+                                <label for="">0.4 Km Away</label>
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h4>{{ $user->name }}</h4>
+                                    <i class="fa-regular fa-heart"></i>
                                 </div>
-                                <h6>5.0 Ratings</h6>
-                            </div>
+                                <h5><i class="fa-solid fa-location-dot"></i>Los Angeles, US</h5>
+                                <p>Alternative and Holistic Health Practitioner</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <i class="fa-regular fa-gem"></i>
+                                        <i class="fa-regular fa-gem"></i>
+                                        <i class="fa-regular fa-gem"></i>
+                                        <i class="fa-regular fa-gem"></i>
+                                        <i class="fa-regular fa-gem"></i>
+                                    </div>
+                                    <h6>5.0 Ratings</h6>
+                                </div>
                             </a>
 
                         </div>
-                </div>
+                    </div>
                 @endforeach
                 <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
                     <div class="featured-dv">
