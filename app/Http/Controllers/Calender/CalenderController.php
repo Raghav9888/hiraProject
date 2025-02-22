@@ -23,19 +23,18 @@ class CalenderController extends Controller
     public function getGoogleCalendarEvents()
     {
         $user = Auth::user();
-        // Get the Google account linked to this user
+
         $googleAccount = GoogleAccount::where('user_id', $user->id)->first();
 
         if (!$googleAccount || !$googleAccount->refresh_token) {
-            return []; // No Google Calendar linked
+            return [];
         }
 
-        // Initialize Google Client
         $client = new Google_Client();
         $client->setAuthConfig(storage_path('app/google-calendar/google-calendar.json'));
         $client->setAccessToken($googleAccount->access_token);
 
-        // Refresh token if expired
+
         if ($client->isAccessTokenExpired()) {
             $client->fetchAccessTokenWithRefreshToken($googleAccount->refresh_token);
             $newToken = $client->getAccessToken();
@@ -46,7 +45,6 @@ class CalenderController extends Controller
             ]);
         }
 
-        // Get Google Calendar events
         $service = new Google_Service_Calendar($client);
         $events = $service->events->listEvents('primary');
         $userEvents = [];
