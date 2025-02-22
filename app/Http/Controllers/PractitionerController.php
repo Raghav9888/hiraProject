@@ -45,7 +45,7 @@ class PractitionerController extends Controller
     {
         $input = $request->all();
         $id = $input['id'];
-        dd($input);
+
 
 //        if (!$user) {
 //            return redirect()->back()->with('error', 'User not found');
@@ -200,10 +200,5 @@ class PractitionerController extends Controller
         return view('user.practitioner_detail', compact('offerDetail'));
     }
 
-
-    public function imageStore()
-    {
-
-    }
 
 }

@@ -4,11 +4,11 @@
     <section class="home-main-section">
         <div class="container">
             <div class="d-flex justify-content-center align-items-center flex-column">
-                <img class="hira-collective" src="{{ url('/assets/images/hira-collective.svg') }}" alt="hira-collective">
+                <img class="hira-collective" src="{{url('/assets/images/hira-collective.svg')}}" alt="hira-collective">
                 <h5 class="roots-title text-center mb-4">Honouring Roots, Nurturing Growth.</h5>
             </div>
             <div class="home-search-wrrpr">
-                <p>Search for what you seek</p>
+                <p>Search for Best Practitioners</p>
                 <div class="search-dv-body">
                     <div class="search-container">
                         <input type="text" class="search-input"
@@ -17,17 +17,19 @@
                             <i class="fas fa-search"></i>
                         </button>
                     </div>
-                    <div class="dropdown">
-                        <button class=" dropdown-toggle" type="button" id="dropdownMenuButton1"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                            Select option
+                    <div  class="dropdown">
+                        <button style="width: 250px;" onclick="toggleDropdown()" class="dropdown-button">
+                            <span>Virtual Practitioners Only</span>
+                            <i class="fas fa-chevron-down"></i>
                         </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" role="menu">
-                            <li><a class="dropdown-item" href="#">Virtual Practitioners Only</a></li>
-                            <li><a class="dropdown-item" href="#">In person</a></li>
-                        </ul>
+                        <div id="dropdownMenu" class="dropdown-menu">
+                            <ul>
+                                <li><a href="#">Category 1</a></li>
+                                <li><a href="#">Category 2</a></li>
+                                <li><a href="#">Category 3</a></li>
+                            </ul>
+                        </div>
                     </div>
-
                     <div class="search-container location-input">
                         <input type="text" class="search-input" placeholder="Select your preferred Location">
                         <button class="search-button">
@@ -54,42 +56,42 @@
 
             <div class="row">
                 <div class="col-sm-12 col-md-4 col-lg-3 mb-4">
-                    <div class="explore-img-dv">
+                    <div class="explore-img-dv rekki">
                         <p>Reiki</p>
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-4 col-lg-3 mb-4">
-                    <div class="explore-img-dv">
+                    <div class="explore-img-dv yoga">
                         <p>Yoga</p>
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-4 col-lg-3 mb-4">
-                    <div class="explore-img-dv">
+                    <div class="explore-img-dv nutrition">
                         <p>Nutritional </br>Support</p>
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-4 col-lg-3 mb-4">
-                    <div class="explore-img-dv">
+                    <div class="explore-img-dv energy">
                         <p>Energy </br>Healing</p>
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-4 col-lg-3 mb-4">
-                    <div class="explore-img-dv">
+                    <div class="explore-img-dv yoga">
                         <p>Yoga</p>
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-4 col-lg-3 mb-4">
-                    <div class="explore-img-dv">
+                    <div class="explore-img-dv energy">
                         <p>Energy </br>Healing</p>
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-4 col-lg-3 mb-4">
-                    <div class="explore-img-dv">
+                    <div class="explore-img-dv rekki">
                         <p>Reiki</p>
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-4 col-lg-3 mb-4">
-                    <div class="explore-img-dv">
+                    <div class="explore-img-dv nutrition">
                         <p>Nutritional</br>
                             Support</p>
                     </div>
