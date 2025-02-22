@@ -25,7 +25,7 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="#">Press</a></li>
-                                <li><a class="dropdown-item" href="#">Contact Us</a></li>
+                                <li><a class="dropdown-item" href="{{ route('contact') }}">Contact Us</a></li>
                                 <li><a class="dropdown-item" href="#">Privacy Policy</a></li>
                                 <li><a class="dropdown-item" href="#">Terms & Conditions</a></li>
                             </ul>

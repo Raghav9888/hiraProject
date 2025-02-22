@@ -20,7 +20,7 @@
                     <div class="col-sm-12 col-md-6 col-lg-6 mb-4">
                         <a href="blog-detail.html" style="text-decoration: none;">
                             <div class="resources-body">
-                                <img src="../../../public/assets/images/calm.png" alt="calm">
+                                <img src="{{url('assets/images/calm.png')}}" alt="calm">
                                 <div>
                                     <h5>Finding Calm in Chaos: The Ancient Wisdom of Mindfulness Practices for Anxiety
                                     </h5>
@@ -32,7 +32,7 @@
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-6 mb-4">
                         <div class="resources-body">
-                            <img src="../../../public/assets/images/calm.png" alt="calm">
+                            <img src="{{url('assets/images/calm.png')}}" alt="calm">
                             <div>
                                 <h5>Finding Calm in Chaos: The Ancient Wisdom of Mindfulness Practices for Anxiety</h5>
                                 <button>Spirituality</button>
@@ -42,7 +42,7 @@
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-6 mb-4">
                         <div class="resources-body">
-                            <img src="../../../public/assets/images/calm.png" alt="calm">
+                            <img src="{{url('assets/images/calm.png')}}" alt="calm">
                             <div>
                                 <h5>Finding Calm in Chaos: The Ancient Wisdom of Mindfulness Practices for Anxiety</h5>
                                 <button>Spirituality</button>
@@ -52,7 +52,7 @@
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-6 mb-4">
                         <div class="resources-body">
-                            <img src="../../../public/assets/images/calm.png" alt="calm">
+                            <img src="{{url('assets/images/calm.png')}}" alt="calm">
                             <div>
                                 <h5>Finding Calm in Chaos: The Ancient Wisdom of Mindfulness Practices for Anxiety</h5>
                                 <button>Spirituality</button>
@@ -82,7 +82,7 @@
             <div class="row">
                 <div class="col-sm-12 col-md-6 col-lg-6 mb-4">
                     <div class="resources-body">
-                        <img src="../../../public/assets/images/calm.png" alt="calm">
+                        <img src="{{url('assets/images/calm.png')}}" alt="calm">
                         <div>
                             <h5>Finding Calm in Chaos: The Ancient Wisdom of Mindfulness Practices for Anxiety</h5>
                             <button>Spirituality</button>
@@ -92,7 +92,7 @@
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-6 mb-4">
                     <div class="resources-body">
-                        <img src="../../../public/assets/images/calm.png" alt="calm">
+                        <img src="{{url('assets/images/calm.png')}}" alt="calm">
                         <div>
                             <h5>Finding Calm in Chaos: The Ancient Wisdom of Mindfulness Practices for Anxiety</h5>
                             <button>Spirituality</button>
@@ -102,7 +102,7 @@
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-6 mb-4">
                     <div class="resources-body">
-                        <img src="../../../public/assets/images/calm.png" alt="calm">
+                        <img src="{{url('assets/images/calm.png')}}" alt="calm">
                         <div>
                             <h5>Finding Calm in Chaos: The Ancient Wisdom of Mindfulness Practices for Anxiety</h5>
                             <button>Spirituality</button>
@@ -112,7 +112,7 @@
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-6 mb-4">
                     <div class="resources-body">
-                        <img src="../../../public/assets/images/calm.png" alt="calm">
+                        <img src="{{url('assets/images/calm.png')}}" alt="calm">
                         <div>
                             <h5>Finding Calm in Chaos: The Ancient Wisdom of Mindfulness Practices for Anxiety</h5>
                             <button>Spirituality</button>
