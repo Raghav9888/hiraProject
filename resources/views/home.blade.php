@@ -112,7 +112,7 @@
                 <div class="d-flex align-items-center" style="gap: 20px;">
                     <p class="selected-category">Select by Categories</p>
                     <div class="dropdown">
-                        <button onclick="toggleDropdown()" class="dropdown-button">
+                        <button onclick="toggleDropdown()" class="dropdown-button" >
                             <span>ALL CATEGORIES</span>
                             <i class="fas fa-chevron-down"></i>
                         </button>
@@ -125,8 +125,6 @@
                         </div>
                     </div>
                 </div>
-
-
             </div>
             <div class="row">
                 @foreach($users as $user)
