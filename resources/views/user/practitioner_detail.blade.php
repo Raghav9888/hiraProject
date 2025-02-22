@@ -5,7 +5,7 @@
         <div class="container">
             <div class="practitioner-search-dv">
                 <div class="d-flex justify-content-between flex-wrap align-items-center mb-4">
-                    <a href="blog-detail.html" class="blog-view-more"><i
+                    <a href="{{ route('home') }}" class="blog-view-more"><i
                             class="fa-solid fa-chevron-left me-2"></i>Back</a>
                     <div class="search-container location-input">
                         <input type="text" class="search-input" placeholder="Search Articles, Blogs and Videos">
