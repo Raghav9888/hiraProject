@@ -177,12 +177,6 @@ class PractitionerController extends Controller
         return view('user.accounting', compact('user', 'userDetails'));
     }
 
-    public function contact():View
-    {
-        $user = Auth::user();
-        $userDetails = $user->userDetail;
-        return view('user.contact', compact('user', 'userDetails'));
-    }
 
     public function practitionerDetail($id)
     {
@@ -198,5 +192,5 @@ class PractitionerController extends Controller
         
         return view('user.practitioner_detail', compact('offerDetail'));
     }
-    
+
 }
