@@ -60,4 +60,31 @@ class CalenderController extends Controller
 
         return $userEvents;
     }
+
+    public function upComingEvents()
+    {
+        $user = Auth::user();
+        $googleAccount = GoogleAccount::where('user_id', $user->id)->first();
+
+        if (!$googleAccount || $googleAccount->access_token == null) {
+            return [];
+        }
+
+        $events = $this->getGoogleCalendarEvents();
+        $now = new \DateTime();
+ $filterEvents = array_filter($events, function ($event) use ($now) {
+     // Check if start or end date is null
+     if (empty($event['start']) || empty($event['end'])) {
+         return false; // Skip event if any date is missing
+     }
+
+     $eventStart = new \DateTime($event['start']);
+     return $eventStart >= $now;
+ });
+        return [
+            'events' => $filterEvents,
+        ];
+    }
+
+
 }

@@ -55,6 +55,7 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
 
     Route::get('/calendar', [CalenderController::class, 'showCalendar'])->name('calendar');
     Route::get('/calendar/events', [CalenderController::class, 'getGoogleCalendarEvents'])->name('getGoogleCalendarEvents');
+    Route::get('/calendar/up-coming-events', [CalenderController::class, 'upComingEvents'])->name('upComingEvents');
 
     Route::prefix('offering')->group(function () {
         Route::get('/', [OfferingController::class, 'index'])->name('offering');

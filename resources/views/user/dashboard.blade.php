@@ -11,27 +11,11 @@
                     <h5 class="practitioner-profile-text">Upcoming <span style="font-weight: 800;">community
                             events</span></h5>
                 </div>
-
-                <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
-                    <div class="event-name-dv">
-                        <h5>Event Name</h5>
-                        <h6>Online/In-Person</h6>
-                        <div class="d-flex">
-                            <img src="{{url('./assets/images/Clock.svg')}}" alt="">
-                            <p class="ms-2">09:00 AM</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
-                    <div class="event-name-dv">
-                        <h5>Event Name</h5>
-                        <h6>Online/In-Person</h6>
-                        <div class="d-flex">
-                            <img src="{{url('./assets/images/Clock.svg')}}" alt="">
-                            <p class="ms-2">09:00 AM</p>
-                        </div>
-                    </div>
-                </div>
+            </div>
+            <div class="row" id="upcomingEventsRowDiv">
+                {{-- We show the data by ajax --}}
+            </div>
+            <div class="row" id="upcomingAppointmentsRowDiv">
                 <div class="px-0" style="border-bottom: 2px solid#BA9B8B; margin-bottom: 20px;">
                     <h5 class="practitioner-profile-text mb-2">Upcoming <span
                             style="font-weight: 800;">appointments</span></h5>
@@ -124,7 +108,7 @@
                             <img class="mt-5 mb-3" src="{{ url('/assets/images/question-mark.svg') }}" alt="">
                         </div>
                         <h5>John Doe</h5>
-                        <h6>Alternative and Holistic <br />Health Practitioner</h6>
+                        <h6>Alternative and Holistic <br/>Health Practitioner</h6>
                         <div class="d-flex justify-content-between">
                             <div class="endrose">Endrose</div>
                             <div class="miles"><i class="fa-solid fa-location-dot me-2"></i>0.3 km</div>
@@ -137,7 +121,7 @@
                             <img class="mt-5 mb-3" src="{{ url('/assets/images/question-mark.svg') }}" alt="">
                         </div>
                         <h5>John Doe</h5>
-                        <h6>Alternative and Holistic <br />Health Practitioner</h6>
+                        <h6>Alternative and Holistic <br/>Health Practitioner</h6>
                         <div class="d-flex justify-content-between">
                             <div class="endrose">Endrose</div>
                             <div class="miles"><i class="fa-solid fa-location-dot me-2"></i>0.3 km</div>
@@ -150,7 +134,7 @@
                             <img class="mt-5 mb-3" src="{{ url('/assets/images/question-mark.svg') }}" alt="">
                         </div>
                         <h5>John Doe</h5>
-                        <h6>Alternative and Holistic <br />Health Practitioner</h6>
+                        <h6>Alternative and Holistic <br/>Health Practitioner</h6>
                         <div class="d-flex justify-content-between">
                             <div class="endrose">Endrose</div>
                             <div class="miles"><i class="fa-solid fa-location-dot me-2"></i>0.3 km</div>
