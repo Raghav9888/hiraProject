@@ -33,8 +33,8 @@
     <link rel="stylesheet" href="{{ asset('assets/plugin/OwlCarousel2-2.3.4/dist/assets/owl.theme.default.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugin/OwlCarousel2-2.3.4/dist/assets/owl.carousel.css') }}">
     <script src="{{ asset('assets/plugin/OwlCarousel2-2.3.4/dist/owl.carousel.js') }}"></script>
+    <script src="{{ asset('assets/js/calendar.js') }}"></script>
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
-
 </head>
 <body>
 @include('layouts.header')

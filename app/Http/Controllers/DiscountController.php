@@ -18,7 +18,7 @@ class DiscountController extends Controller
 
     public function store(Request $request)
     {
-        $input = $request->all();        
+        $input = $request->all();
         $user = Auth::user();
         $user_id = $user->id;
        

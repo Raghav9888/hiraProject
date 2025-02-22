@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\GoogleAccount;
 use App\Models\User;
 use App\Models\UserDetail;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -44,7 +45,7 @@ class RegisterController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param array $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
@@ -59,7 +60,7 @@ class RegisterController extends Controller
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param array $data
      * @return \App\Models\User
      */
     protected function create(array $data)
@@ -91,6 +92,11 @@ class RegisterController extends Controller
             'privacy_policy' => $data['privacy_policy'] ?? null,
             'terms_condition' => $data['terms_condition'] ?? null,
         ]);
+
+        GoogleAccount::create([
+                'user_id' => $user->id,
+            ]
+        );
 
         return $user;
     }
