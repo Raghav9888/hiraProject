@@ -247,34 +247,36 @@
                                             <div class="integration-header">
                                                 <h4>Authorization</h4>
                                                 <div class="form-group flex-column d-flex align-items-start">
-                                                    <h6>Successfully authenticated.</h6>
-                                                    <button class="export-btn">Disconnect</button>
+                                                    <a href="{{route('redirectToGoogle')}}"
+                                                       class="export-btn">Connect</a>
+{{--                                                    <h6>Successfully authenticated.</h6>--}}
+{{--                                                    <button class="export-btn" >Disconnect</button>--}}
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <div>
-                                                    <label>Calendar</label>
-                                                    <p>Enter with your Calendar.</p>
-                                                </div>
-                                                <select>
-                                                    <option>mohitmmv02@gmail.com</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group" style="border: none;">
-                                                <div>
-                                                    <label>Sync Preference <i
-                                                            class="fas fa-question-circle icon"></i></label>
-                                                    <p>Manage the sync flow between your Store calendar and Google
-                                                        calendar.</p>
-                                                </div>
-                                                <select>
-                                                    <option>Sync both ways - between Store and Google calendar
-                                                    </option>
-                                                </select>
-                                            </div>
+{{--                                            <div class="form-group">--}}
+{{--                                                <div>--}}
+{{--                                                    <label>Calendar</label>--}}
+{{--                                                    <p>Enter with your Calendar.</p>--}}
+{{--                                                </div>--}}
+{{--                                                <select>--}}
+{{--                                                    <option>mohitmmv02@gmail.com</option>--}}
+{{--                                                </select>--}}
+{{--                                            </div>--}}
+{{--                                            <div class="form-group" style="border: none;">--}}
+{{--                                                <div>--}}
+{{--                                                    <label>Sync Preference <i--}}
+{{--                                                            class="fas fa-question-circle icon"></i></label>--}}
+{{--                                                    <p>Manage the sync flow between your Store calendar and Google--}}
+{{--                                                        calendar.</p>--}}
+{{--                                                </div>--}}
+{{--                                                <select>--}}
+{{--                                                    <option>Sync both ways - between Store and Google calendar--}}
+{{--                                                    </option>--}}
+{{--                                                </select>--}}
+{{--                                            </div>--}}
                                         </div>
-                                        <button class="export-btn mt-4" style="margin-left: 50px;">Save Changes
-                                        </button>
+{{--                                        <button class="export-btn mt-4" style="margin-left: 50px;">Save Changes--}}
+{{--                                        </button>--}}
                                     </div>
                                 </div>
                                 <div class="tab-pane fade" id="client" role="tabpanel" aria-labelledby="clint-tab">

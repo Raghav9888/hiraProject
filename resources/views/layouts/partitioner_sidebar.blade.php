@@ -1,5 +1,5 @@
 <div class="positioned-dv">
-    <ul>
+    <ul class="text-center">
         <li>
             <a href="{{route('dashboard')}}">
                 <img src="{{url('./assets/images/grid.svg')}}" alt="">
