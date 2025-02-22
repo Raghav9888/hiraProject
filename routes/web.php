@@ -40,7 +40,7 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::post('/update-client-policy', [PractitionerController::class, 'updateClientPolicy'])->name('updateClientPolicy');
     Route::get('/appointment', [PractitionerController::class, 'appointment'])->name('appointment');
     Route::get('/accounting', [PractitionerController::class, 'accounting'])->name('accounting');
-    
+
 
     Route::get('/blog', [PractitionerController::class, 'blog'])->name('blog');
     Route::get('/blog-details', [PractitionerController::class, 'blogDetail'])->name('blogDetail');
@@ -50,7 +50,6 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
 
     Route::get('/calendar', [CalenderController::class, 'showCalendar'])->name('calendar');
     Route::get('/calendar/events', [CalenderController::class, 'getGoogleCalendarEvents'])->name('getGoogleCalendarEvents');
-    Route::get('/calendar-settings', [CalenderController::class, 'calendarSettings'])->name('calendarSettings');
 
     Route::prefix('offering')->group(function () {
         Route::get('/', [OfferingController::class, 'index'])->name('offering');
