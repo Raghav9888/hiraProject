@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\GoogleAccount;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
@@ -51,19 +52,18 @@ class LoginController extends Controller
             'password' => 'required',
         ]);
 
-        if(Auth::attempt(array('email' => $input['email'], 'password' => $input['password'])))
-        {
+        if (Auth::attempt(array('email' => $input['email'], 'password' => $input['password']))) {
             $user = Auth::user();
             if (Auth::user()->role == 0) {
                 return redirect()->route('admin.dashboard');
-            }else{
+            } else {
                 $userDetails = $user->userDetail;
                 return redirect()->route('myProfile')->with(['user' => $user, 'userDetails' => $userDetails]);
 //                return view('user.myprofile', compact('user', 'userDetails'));
             }
-        }else{
+        } else {
             return redirect()->route('login')
-                ->with('error','Email-Address And Password Are Wrong.');
+                ->with('error', 'Email-Address And Password Are Wrong.');
         }
 
     }

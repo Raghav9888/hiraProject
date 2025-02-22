@@ -18,19 +18,18 @@ class DiscountController extends Controller
 
     public function store(Request $request)
     {
-        $input = $request->all();        
+        $input = $request->all();
         $user = Auth::user();
         $user_id = $user->id;
 
         $discountdata = [
             'user_id' => $user_id,
-            
         ];
-      
+
 
         $discount = Discount::create($discountdata);
         return redirect()->route('discount')->with('success', 'Discount created successfully!');
 
-       
+
     }
 }
