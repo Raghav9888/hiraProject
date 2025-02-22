@@ -25,6 +25,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+
+    </style>
 </head>
 
 <body>
@@ -108,16 +111,16 @@
                     </a>
                 </li>
             </ul>
-            <div class="col-md-9">
-                <h5 class="practitioner-profile-text mb-2 mt-5">Booking Calendar</h5>
-            </div>
-            <div class="col-md-3">
-                <a class="button" style="float:right" href="{{route('calendarSettings')}}">
+            <div class="d-flex justify-content-between align-items-center ps-5 mt-4">
+                <h5 class="practitioner-profile-text mb-0">Booking Calendar</h5>
+
+            <div>
+                <a class="export-btn" style="float:right" href="{{route('calendarSettings')}}">
                     Google Calendar Settings
                 </a>
             </div>
-
-            <div class="card">
+        </div>
+            <div class="card calendar-card mt-5">
                 <div class="card-body">
                     <div id="calendar"></div>
                 </div>

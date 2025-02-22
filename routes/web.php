@@ -3,6 +3,7 @@
 use App\Http\Controllers\Calender\CalenderController;
 
 use App\Http\Controllers\Calender\GoogleAuthController;
+use App\Http\Controllers\Calender\GoogleCalendarController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\HomeController;
@@ -73,11 +74,9 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::get('/google/login', [GoogleAuthController::class, 'redirectToGoogle'])->name('redirectToGoogle');
     Route::get('/google/callback', [GoogleAuthController::class, 'handleGoogleCallback'])->name('google.callback');
 
-//    Route::middleware(['auth'])->group(function () {
-//        Route::get('/calendar', [GoogleCalendarController::class, 'listEvents'])->name('calendar.index');
-//        Route::post('/calendar/event', [GoogleCalendarController::class, 'createEvent'])->name('calendar.create');
-//        Route::post('/calendar/delete', [GoogleCalendarController::class, 'deleteEvent'])->name('calendar.delete');
-//    });
+    Route::post('/calendar/create-events', [GoogleCalendarController::class, 'createEvent'])->name('calendar.create');
+    Route::post('/calendar/delete', [GoogleCalendarController::class, 'deleteEvent'])->name('calendar.delete');
+
 
     /**** Stripe route */
 

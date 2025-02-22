@@ -10,11 +10,10 @@
                     <h5 class="practitioner-profile-text mb-2 mt-5">Booking Calendar</h5>
                 </div>
                 <div class="col-md-3">
-                    <a class="button" style="float:right" href="{{route('calendarSettings')}}">
+{{--                    <a class="button" style="float:right" href="{{route('calendarSettings')}}">--}}
                         Google Calendar Settings
-                    </a>
+{{--                    </a>--}}
                 </div>
-
                 <div class="card">
                     <div class="card-body">
                         <div id="calendar"></div>
