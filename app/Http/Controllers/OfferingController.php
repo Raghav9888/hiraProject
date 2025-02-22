@@ -12,27 +12,13 @@ class OfferingController extends Controller
     public function index()
     {
         $offerings = Offering::with('user')->get();
-        $user = Auth::user();
-        $userDetails = $user->userDetail;
-        return view('user.offering', ['offerings' => $offerings,
-            'user' => $user,
-            'userDetails' => $userDetails]);
+        return view('user.offering', compact('offerings'));
     }
-
-
-    public function addOffering()
-    {
-        $user = Auth::user();
-        $userDetails = $user->userDetail;
-
-        return view('user.add_offering', compact('user', 'userDetails'));
-    }
-
 
     // Store a new offering
     public function store(Request $request)
     {
-        $input = $request->all();
+        $input = $request->all();        
         $user = Auth::user();
         $user_id = $user->id;
 
@@ -64,16 +50,14 @@ class OfferingController extends Controller
             $fileName = $image->getClientOriginalName();
             $imageName = time().'.'.$image->getClientOriginalExtension();
             $image->move(public_path('uploads/offering/'), $fileName);
-            $offeringdata['images'] = json_encode($fileName);
-
-        }
-
-
+            $offeringdata['images'] = json_encode($fileName);   
+            
+        }       
 
         $offering = Offering::create($offeringdata);
         return redirect()->route('offering')->with('success', 'Offering created successfully!');
 
-
+       
     }
 
     // Show a single offering

@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PractitionerController;
 use App\Http\Controllers\OfferingController;
+use App\Http\Controllers\DiscountController;
 use Illuminate\Support\Facades\Auth;
 
 /* Route::get('/', function () {
@@ -60,6 +61,14 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
         Route::put('/{id}', [OfferingController::class, 'update'])->name('updateOffering');
 
         Route::delete('/{id}', [OfferingController::class, 'destroy']);
+    });
+
+    Route::prefix('discount')->group(function () {
+        Route::get('/', [DiscountController::class, 'index'])->name('discount');
+        Route::post('/', [DiscountController::class, 'store'])->name('storediscount');
+        Route::get('/{id}', [DiscountController::class, 'show'])->name('showdiscount');
+        Route::put('/{id}', [DiscountController::class, 'update'])->name('updatediscount');
+        Route::delete('/{id}', [DiscountController::class, 'destroy']);
     });
 
 
