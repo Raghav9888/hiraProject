@@ -20,6 +20,9 @@ use Illuminate\Support\Facades\Auth;
 Auth::routes();
 
  Route::get('/', [HomeController::class, 'index'])->name('home');
+ Route::get('/contact-us', [HomeController::class, 'contact'])->name('contact');
+ Route::post('/contact', [HomeController::class, 'sendContactMail'])->name('sendContactMail');
+
  Route::get('/practitioner-detail/{id}', [PractitionerController::class, 'practitionerDetail'])->name('practitionerDetail');
  Route::get('/offering/{id}',[PractitionerController::class, 'offerDetail'])->name('offerDetail');
 
@@ -48,8 +51,7 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::get('/blog-details', [PractitionerController::class, 'blogDetail'])->name('blogDetail');
     Route::get('/earning', [PractitionerController::class, 'earning'])->name('earning');
     Route::get('/refund-request', [PractitionerController::class, 'refundRequest'])->name('refundRequest');
-    Route::get('/contact-us', [PractitionerController::class, 'contact'])->name('contact');
-    Route::get('/contact-us', [PractitionerController::class, 'contact'])->name('contact');
+   
 
     Route::get('/calendar', [CalenderController::class, 'showCalendar'])->name('calendar');
     Route::get('/calendar/events', [CalenderController::class, 'getGoogleCalendarEvents'])->name('getGoogleCalendarEvents');
