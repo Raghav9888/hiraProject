@@ -7,6 +7,8 @@ use App\Models\GoogleAccount;
 use Google_Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Session;
 
 class GoogleAuthController extends Controller
 {
@@ -37,6 +39,11 @@ class GoogleAuthController extends Controller
             return redirect()->route('dashboard')->with('error', 'Google authentication failed.');
         }
 
+        Session::put('googleAuthSuccess', false);
+        if ($token['access_token'] && $token['refresh_token']) {
+            Session::put('googleAuthSuccess', true);
+        }
+
         $user = Auth::user();
         GoogleAccount::updateOrCreate(
             ['user_id' => $user->id],
@@ -50,11 +57,32 @@ class GoogleAuthController extends Controller
         return redirect()->route('calendar')->with('success', 'Google Calendar connected successfully!');
     }
 
-    public function disconnectGoogle()
+    public function disconnectToGoogle()
     {
         $user = Auth::user();
-        GoogleAccount::where('user_id', $user->id)->delete();
+        $googleAccount = GoogleAccount::where('user_id', $user->id)->first();
 
-        return redirect()->route('dashboard')->with('success', 'Google Calendar disconnected.');
+        if ($googleAccount) {
+            if ($googleAccount->access_token) {
+                $response = Http::asForm()->post('https://accounts.google.com/o/oauth2/revoke', [
+                    'token' => $googleAccount->access_token
+                ]);
+
+                if ($response->failed()) {
+                    \Log::error('Failed to revoke Google token', ['response' => $response->body()]);
+                    return redirect()->route('dashboard')->with('error', 'Failed to revoke Google access.');
+                }
+            }
+
+            $googleAccount->update([
+                'access_token' => null,
+                'expires_at' => null
+            ]);
+            Session::forget('googleAuthSuccess');
+        }
+
+        return redirect()->route('myProfile')->with('success', 'Google Calendar access revoked.');
     }
 }
+
+

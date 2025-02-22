@@ -51,7 +51,7 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::get('/blog-details', [PractitionerController::class, 'blogDetail'])->name('blogDetail');
     Route::get('/earning', [PractitionerController::class, 'earning'])->name('earning');
     Route::get('/refund-request', [PractitionerController::class, 'refundRequest'])->name('refundRequest');
-   
+
 
     Route::get('/calendar', [CalenderController::class, 'showCalendar'])->name('calendar');
     Route::get('/calendar/events', [CalenderController::class, 'getGoogleCalendarEvents'])->name('getGoogleCalendarEvents');
@@ -75,6 +75,7 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
 
 
     Route::get('/google/login', [GoogleAuthController::class, 'redirectToGoogle'])->name('redirectToGoogle');
+    Route::get('/google/disconnect', [GoogleAuthController::class, 'disconnectToGoogle'])->name('disconnectToGoogle');
     Route::get('/google/callback', [GoogleAuthController::class, 'handleGoogleCallback'])->name('google.callback');
 
     Route::post('/calendar/create-events', [GoogleCalendarController::class, 'createEvent'])->name('calendar.create');
