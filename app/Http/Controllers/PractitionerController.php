@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Calender\CalenderController;
 use App\Models\User;
 use App\Models\UserDetail;
 use App\Models\Offering;
@@ -38,6 +39,7 @@ class PractitionerController extends Controller
     {
         $user = Auth::user();
         $userDetails = $user->userDetail;
+
         return view('user.dashboard', compact('user', 'userDetails'));
     }
 

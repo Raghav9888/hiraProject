@@ -17,7 +17,7 @@
                         <h5>Event Name</h5>
                         <h6>Online/In-Person</h6>
                         <div class="d-flex">
-                            <img src="./asserts/Clock.svg" alt="">
+                            <img src="{{url('./assets/images/Clock.svg')}}" alt="">
                             <p class="ms-2">09:00 AM</p>
                         </div>
                     </div>
@@ -27,7 +27,7 @@
                         <h5>Event Name</h5>
                         <h6>Online/In-Person</h6>
                         <div class="d-flex">
-                            <img src="./asserts/Clock.svg" alt="">
+                            <img src="{{url('./assets/images/Clock.svg')}}" alt="">
                             <p class="ms-2">09:00 AM</p>
                         </div>
                     </div>
@@ -41,7 +41,7 @@
                         <h5>John Doe</h5>
                         <h6>Name of Service Booked</h6>
                         <div class="d-flex">
-                            <img src="./asserts/Clock.svg" alt="">
+                            <img src="{{url('./assets/images/Clock.svg')}}" alt="">
                             <p class="ms-2">09:00 AM</p>
                         </div>
                     </div>
@@ -51,7 +51,7 @@
                         <h5>Client Name</h5>
                         <h6>Type</h6>
                         <div class="d-flex">
-                            <img src="./asserts/Clock.svg" alt="">
+                            <img src="{{url('./assets/images/Clock.svg')}}" alt="">
                             <p class="ms-2">09:00 AM</p>
                         </div>
                     </div>
@@ -61,7 +61,7 @@
                         <h5>Client Name</h5>
                         <h6>Online</h6>
                         <div class="d-flex">
-                            <img src="./asserts/Clock.svg" alt="">
+                            <img src="{{url('./assets/images/Clock.svg')}}" alt="">
                             <p class="ms-2">09:00 AM</p>
                         </div>
                     </div>
@@ -71,7 +71,7 @@
                         <h5>Client/Event Name</h5>
                         <h6>Online</h6>
                         <div class="d-flex">
-                            <img src="./asserts/Clock.svg" alt="">
+                            <img src="{{url('./assets/images/Clock.svg')}}" alt="">
                             <p class="ms-2">09:00 AM</p>
                         </div>
                     </div>
@@ -121,7 +121,7 @@
                 <div class="col-sm-12 col-md-6 col-lg-4">
                     <div class="browser-other-dv">
                         <div class="d-flex justify-content-center">
-                            <img class="mt-5 mb-3" src="./asserts/question-mark.svg" alt="">
+                            <img class="mt-5 mb-3" src="{{ url('/assets/images/question-mark.svg') }}" alt="">
                         </div>
                         <h5>John Doe</h5>
                         <h6>Alternative and Holistic <br />Health Practitioner</h6>
@@ -134,7 +134,7 @@
                 <div class="col-sm-12 col-md-6 col-lg-4">
                     <div class="browser-other-dv">
                         <div class="d-flex justify-content-center">
-                            <img class="mt-5 mb-3" src="./asserts/question-mark.svg" alt="">
+                            <img class="mt-5 mb-3" src="{{ url('/assets/images/question-mark.svg') }}" alt="">
                         </div>
                         <h5>John Doe</h5>
                         <h6>Alternative and Holistic <br />Health Practitioner</h6>
@@ -147,7 +147,7 @@
                 <div class="col-sm-12 col-md-6 col-lg-4">
                     <div class="browser-other-dv">
                         <div class="d-flex justify-content-center">
-                            <img class="mt-5 mb-3" src="./asserts/question-mark.svg" alt="">
+                            <img class="mt-5 mb-3" src="{{ url('/assets/images/question-mark.svg') }}" alt="">
                         </div>
                         <h5>John Doe</h5>
                         <h6>Alternative and Holistic <br />Health Practitioner</h6>
