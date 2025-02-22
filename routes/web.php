@@ -9,6 +9,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PractitionerController;
 use App\Http\Controllers\OfferingController;
 use App\Http\Controllers\DiscountController;
+use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Auth;
 
 /* Route::get('/', function () {
@@ -78,5 +79,11 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
 //        Route::post('/calendar/event', [GoogleCalendarController::class, 'createEvent'])->name('calendar.create');
 //        Route::post('/calendar/delete', [GoogleCalendarController::class, 'deleteEvent'])->name('calendar.delete');
 //    });
+
+    /**** Stripe route */
+
+    Route::get('/admin/stripe-settings', [PaymentController::class, 'stripeSettings'])->name('stripe.settings');
+    Route::get('/admin/stripe-connect', [PaymentController::class, 'connectToStripe'])->name('stripe.connect');
+    Route::get('/admin/stripe-callback', [PaymentController::class, 'handleStripeCallback'])->name('stripe.callback');
 
 });

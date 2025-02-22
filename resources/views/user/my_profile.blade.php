@@ -228,7 +228,7 @@
                                      aria-labelledby="availability-tab">
                                     <h4 class="stripe-text">Connect with Stripe</h4>
                                     <h5 class="stripe-label">Your account is not yet connected with Stripe.</h5>
-                                    <button class="stripe-btn mt-3">Connect with stripe</button>
+                                    <a href="{{ route('stripe.connect') }}" class="stripe-btn mt-3">Connect with stripe</button>
                                 </div>
 
                                 <!-- Costs Tab Content -->
