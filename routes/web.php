@@ -51,7 +51,7 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::get('/blog-details', [PractitionerController::class, 'blogDetail'])->name('blogDetail');
     Route::get('/earning', [PractitionerController::class, 'earning'])->name('earning');
     Route::get('/refund-request', [PractitionerController::class, 'refundRequest'])->name('refundRequest');
-    
+   
 
     Route::get('/calendar', [CalenderController::class, 'showCalendar'])->name('calendar');
     Route::get('/calendar/events', [CalenderController::class, 'getGoogleCalendarEvents'])->name('getGoogleCalendarEvents');
