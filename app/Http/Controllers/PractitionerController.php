@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\UserDetail;
+use App\Models\Offering;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\GoogleAuthController;
@@ -183,11 +184,19 @@ class PractitionerController extends Controller
         return view('user.contact', compact('user', 'userDetails'));
     }
 
-    public function practitionerDetail()
+    public function practitionerDetail($id)
     {
-        $user = Auth::user();
+        $user = User::findOrFail($id);
         $userDetails = $user->userDetail;
-        return view('user.practitioner_detail', compact('user', 'userDetails'));
+        $offerings = Offering::where('user_id', $user->id)->get();
+        return view('user.practitioner_detail', compact('user', 'userDetails','offerings'));
+    }
+
+    public function offerDetail($id)
+    {
+        $offerDetail = Offering::findOrFail($id);
+        
+        return view('user.practitioner_detail', compact('user', 'userDetails','offerings'));
     }
 
 }

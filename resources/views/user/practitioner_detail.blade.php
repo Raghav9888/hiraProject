@@ -20,19 +20,14 @@
                 <div class="row">
                     <div class="col-sm-12 col-md-9 col-lg-9">
                         <div class="d-flex justify-content-between flex-wrap">
-                            <h4>Darrell Steward</h4>
+                            <h4>{{$user->name}}</h4>
                             <div style="display: flex; gap: 10px;">
                                 <i class="fa-regular fa-heart"></i>
                                 <i class="fa-solid fa-share-nodes"></i>
                             </div>
                         </div>
                         <h5>Alternative and Holistic Health Practitioner</h5>
-                        <p class="mb-4">Brigitta is a quantum healer of brains, pains and traumas. As a Naturopathic
-                            Medical Graduate and retired Paramedic with over a decade of experience. Her focus is in
-                            concussion recovery, chronic pain and gentle trauma resolution having worked with first
-                            responders, retired military and pro athletes. Brigitta has advanced training in
-                            CranioSacral Therapy, Neurochemistry and Nutrition and has mentored extensively and
-                            internationally with some of the leading concussion and brain training experts.</p>
+                        <p class="mb-4">{{$userDetails->bio}}</p>
                         <div class="practitioner-location-dv">
                             <button><i class="fa-solid fa-location-dot me-2"></i>Los Angeles, US</button>
                             <ul class="m-0">
@@ -101,12 +96,13 @@
                                             </div>
                                         </div>
                                     </div>
+                                    @foreach($offerings as $offering)
                                     <div class="accordian-body-data">
                                         <div class="d-flex justify-content-between flex-wrap align-items-center">
-                                            <h4 class="mb-2">Alchemical Rebirth Journey</h4>
+                                            <h4 class="mb-2">{{$offering->name}}</h4>
                                             <div class="d-flex align-items-center">
                                                 <h6 class="offer-prize me-2 m-0">$1,444.00</h6>
-                                                <button class="home-blog-btn">BOOK NOW</button>
+                                                <a href="{{ route('offerDetail',$offering->id)}}" class="home-blog-btn">BOOK NOW</a>
                                             </div>
                                         </div>
                                         <ul class="practitioner-accordian-lists">
@@ -172,6 +168,7 @@
                                             Less Info<i class="fa-solid fa-chevron-up ms-2"></i></button>
 
                                     </div>
+                                    @endforeach
                                     <div class="accordian-body-data">
                                         <div class="d-flex justify-content-between flex-wrap align-items-center">
                                             <h4 class="mb-2">Alchemical Rebirth Journey</h4>

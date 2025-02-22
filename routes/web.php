@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Auth;
 Auth::routes();
 
  Route::get('/', [HomeController::class, 'index'])->name('home');
+ Route::get('/practitioner-detail/{id}', [PractitionerController::class, 'practitionerDetail'])->name('practitionerDetail');
+ Route::get('/offering/{id}',[PractitionerController::class, 'offerDetail'])->name('offerDetail');
 
 Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::namespace('Admin')->group(function () {
@@ -38,7 +40,7 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::post('/update-client-policy', [PractitionerController::class, 'updateClientPolicy'])->name('updateClientPolicy');
     Route::get('/appointment', [PractitionerController::class, 'appointment'])->name('appointment');
     Route::get('/accounting', [PractitionerController::class, 'accounting'])->name('accounting');
-    Route::get('/practitioner-detail/{practitionerId}', [PractitionerController::class, 'practitionerDetail'])->name('practitionerDetail');
+    
 
     Route::get('/blog', [PractitionerController::class, 'blog'])->name('blog');
     Route::get('/blog-details', [PractitionerController::class, 'blogDetail'])->name('blogDetail');
