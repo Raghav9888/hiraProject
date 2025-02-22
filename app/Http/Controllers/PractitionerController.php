@@ -196,7 +196,7 @@ class PractitionerController extends Controller
     {
         $offerDetail = Offering::findOrFail($id);
         
-        return view('user.practitioner_detail', compact('user', 'userDetails','offerings'));
+        return view('user.practitioner_detail', compact('offerDetail'));
     }
-
+    
 }
