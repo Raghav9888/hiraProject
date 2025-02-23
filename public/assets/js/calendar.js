@@ -89,9 +89,13 @@ function upComingEvents() {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         success: function (response) {
-            console.log(response); // Debugging output
+           if (response)
+           {
+                let eventDiv = `<div class="col-sm-12 col-md-6 col-lg-3 mb-4">no results</div>`;
+               $('#upcomingEventsRowDiv').append(eventDiv);
+           }
 
-            $('#upcomingEventsRowDiv').empty(); // Clear previous events
+            $('#upcomingEventsRowDiv').empty();
 
             // Convert event object to an array and iterate
             if (response.events && typeof response.events === 'object') {
@@ -122,11 +126,13 @@ function upComingEvents() {
                             </div>
                         </div>`;
 
-                    $('#upcomingEventsRowDiv').append(eventDiv);
+
                 });
             } else {
-                console.error("Unexpected response structure:", response);
+                let eventDiv = `<div class="col-sm-12 col-md-6 col-lg-3 mb-4">no results</div>`;
             }
+
+            $('#upcomingEventsRowDiv').append(eventDiv);
         },
         error: function (xhr, status, error) {
             console.error("Error fetching events:", error);

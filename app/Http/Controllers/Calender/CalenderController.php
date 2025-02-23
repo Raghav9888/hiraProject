@@ -27,7 +27,7 @@ class CalenderController extends Controller
         $googleAccount = GoogleAccount::where('user_id', $user->id)->first();
 
         if (!$googleAccount || !$googleAccount->refresh_token) {
-            return [];
+            return;
         }
 
         $client = new Google_Client();
@@ -67,20 +67,19 @@ class CalenderController extends Controller
         $googleAccount = GoogleAccount::where('user_id', $user->id)->first();
 
         if (!$googleAccount || $googleAccount->access_token == null) {
-            return [];
+            return;
         }
 
         $events = $this->getGoogleCalendarEvents();
         $now = new \DateTime();
- $filterEvents = array_filter($events, function ($event) use ($now) {
-     // Check if start or end date is null
-     if (empty($event['start']) || empty($event['end'])) {
-         return false; // Skip event if any date is missing
-     }
+        $filterEvents = array_filter($events, function ($event) use ($now) {
+            if (empty($event['start']) || empty($event['end'])) {
+                return false;
+            }
 
-     $eventStart = new \DateTime($event['start']);
-     return $eventStart >= $now;
- });
+            $eventStart = new \DateTime($event['start']);
+            return $eventStart >= $now;
+        });
         return [
             'events' => $filterEvents,
         ];
