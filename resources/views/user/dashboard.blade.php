@@ -7,7 +7,7 @@
             <div class="row">
                 <div class="col-sm-12 col-lg-5"></div>
                 @include('layouts.partitioner_nav')
-                <div class="px-0 community-text col-sm-12">
+                <div class="px-0 my-3 community-text col-sm-12">
                     <h5 class="practitioner-profile-text">Upcoming <span style="font-weight: 800;">community
                             events</span></h5>
                 </div>

@@ -94,7 +94,7 @@ function upComingEvents() {
             // Check if response is empty or events array is empty
             if (!response || !response.events || response.events.length === 0) {
                 $('#upcomingEventsRowDiv').append(`
-                    <div class="col-sm-12 mb-4 text-center">
+                    <div class="col-sm-12 my-4 text-center">
                        No results found
                     </div>
                 `);
