@@ -39,6 +39,8 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::get('/my-profile', [PractitionerController::class, 'index'])->name('myProfile');
     Route::get('/dashboard', [PractitionerController::class, 'dashboard'])->name('dashboard');
     Route::get('/add-offering', [PractitionerController::class, 'addOffering'])->name('addOffering');
+    Route::post('/add_term', [PractitionerController::class, 'add_term'])->name('add_term');
+    Route::post('/save_term', [PractitionerController::class, 'save_term'])->name('save_term');
    /*  Route::get('/discount', [PractitionerController::class, 'discount'])->name('discount');*/
     Route::get('/add-discount', [PractitionerController::class, 'addDiscount'])->name('addDiscount'); 
     Route::post('/update-profile', [PractitionerController::class, 'updateProfile'])->name('updateProfile');

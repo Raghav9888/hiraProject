@@ -47,7 +47,7 @@
                                                     <span>+</span>
                                                 </label>
                                                 <div class="preview-div">
-                                                    <img src="{{ url('/images/Laptop.svg') }}" alt="">
+                                                    <img src="{{ url('/assets/images/Laptop.svg') }}" alt="">
                                                     <p>preview</p>
                                                 </div>
                                             </div>
@@ -84,7 +84,7 @@
 
                                         <div class="mb-4">
                                             <label for="location" class="fw-bold">Location</label>
-                                            <select id="location" name="location" class="form-select select2"
+                                            <select id="location" name="location[]" class="form-select select2"
                                                     multiple="multiple">
                                                 <option>Select</option>
                                                 <option
@@ -135,38 +135,50 @@
                                         <hr>
                                         <div class="mb-4">
                                             <label for="type" class="fw-bold">I help with:</label>
-                                            <select id="type" name="type" class="form-select select2"
+                                            <select id="type" name="IHelpWith[]" class="form-select select2"
                                                     multiple="multiple">
-                                                <option>Select</option>
-                                                <option value="Lack of confidence">Lack of confidence</option>
+                                                @foreach($IHelpWith as $term)
+                                                <option value="{{$term->id}}">{{$term->name}}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                         <hr>
-                                        <button class="update-btn mb-2">Add New Term</button>
-                                        <div class="mb-4">
+                                        <button class="update-btn mb-2 addterm" data-type="IHelpWith">Add New Term</button>
+                                        <div id="IHelpWith-container">
+                                            
+                                        </div>
+                                        <!-- <div class="mb-4">
                                             <label for="type" class="fw-bold">I help with:</label>
                                             <select id="term" name="term" class="form-select select2"
                                                     multiple="multiple">
                                                 <option>Select</option>
-                                                <option value="Transitions Coaching">Transitions Coaching</option>
+                                                @foreach($HowIHelp as $term)
+                                                    <option value="{{$term->id}}">{{$term->name}}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                         <hr>
-                                        <button class="update-btn mb-2">Add New Term</button>
+                                        <button class="update-btn mb-2">Add New Term</button> -->
                                         <div class="mb-4">
                                             <label for="type" class="fw-bold">How I help:</label>
-                                            <select id="help" name="help" class="form-select">
-                                                <option>Select</option>
+                                            <select id="HowIHelp" name="HowIHelp[]" class="form-select">
+                                                @foreach($HowIHelp as $term)
+                                                    <option value="{{$term->id}}">{{$term->name}}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                         <hr>
-                                        <button class="update-btn mb-2">Add New Term</button>
+                                        <button class="update-btn mb-2 addterm" data-type="HowIHelp">Add New Term</button>
+                                        <div id="HowIHelp-container">
+                                            
+                                            </div>
                                         <div class="mb-4">
                                             <label for="specialities" class="fw-bold">Specialities</label>
-                                            <select id="specialities" class="form-select select2" multiple="multiple"
-                                                    name="specialities">
-                                                <option>Select</option>
-                                                <option>Complimentary initial consultations</option>
+                                            <select id="specialities" class="form-control form-select select2" multiple="multiple"
+                                                    name="specialities[]">
+                                                @foreach($Categories as $term)
+                                                    <option value="{{$term->id}}">{{$term->name}}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                         <hr>
@@ -316,4 +328,62 @@
             </div>
         </div>
     </section>
+    <script>
+    $('.addterm').on('click', function (e) {
+        e.preventDefault();
+        var termType = $(this).data('type'); // Get the data-type attribute value
+        
+         $.ajax({
+            url: '{{route("add_term")}}', // Change this to your server-side script
+            type: 'POST',
+            data: {
+                 type: termType,
+                 _token: $('meta[name="csrf-token"]').attr('content')
+                 },
+            dataType: 'json',
+            success: function (response) {
+                if (response.success) {
+                    $('#'+termType+'-container').html(response.inputField);
+                } else {
+                    alert('Error: ' + response.message);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('AJAX Error:', error);
+            }
+        }); 
+    });
+
+    $(document).on('click', '.save_term', function (e) {
+        e.preventDefault();
+        var termType = $(this).data('type'); // Get the data-type attribute value
+        var name = $('.'+termType+'_term').val();
+         $.ajax({
+            url: '{{route("save_term")}}', // Change this to your server-side script
+            type: 'POST',
+            data: {
+                 type: termType,
+                 name: name,
+                 _token: $('meta[name="csrf-token"]').attr('content')
+                 },
+            dataType: 'json',
+            success: function (response) {
+                if (response.success) {
+                    $('#'+termType+'-container').html('');
+                    var newOption = `<option value="${response.term.id}" selected>${response.term.name}</option>`;
+                    $("#"+termType).append(newOption).trigger('change');
+                    alert('term add sucessfully');
+                   /*  $('#'+termType+'-container').html(response.inputField); */
+                } else {
+                    alert('Error: ' + response.message);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('AJAX Error:', error);
+            }
+        }); 
+    });
+
+    </script>
 @endsection
+

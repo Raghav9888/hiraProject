@@ -5,10 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\UserDetail;
 use App\Models\Offering;
+use App\Models\Category;
+use App\Models\PractitionerTag;
+use App\Models\IHelpWith;
+use App\Models\HowIHelp;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\GoogleAuthController;
 use Illuminate\View\View;
+use Illuminate\Support\Str;
 
 class PractitionerController extends Controller
 {
@@ -31,7 +36,13 @@ class PractitionerController extends Controller
     {
         $user = Auth::user();
         $userDetails = $user->userDetail;
-        return view('user.my_profile', compact('user', 'userDetails'));
+
+        $Categories = Category::get();
+        $PractitionerTag = PractitionerTag::get();
+        $IHelpWith = IHelpWith::get();
+        $HowIHelp = HowIHelp::get();
+        
+        return view('user.my_profile', compact('user', 'userDetails','Categories','PractitionerTag','IHelpWith','HowIHelp'));
     }
 
     public function dashboard()
@@ -46,8 +57,6 @@ class PractitionerController extends Controller
     {
         $input = $request->all();
         $id = $input['id'];
-
-
 //        if (!$user) {
 //            return redirect()->back()->with('error', 'User not found');
 //        }
@@ -102,7 +111,7 @@ class PractitionerController extends Controller
     public function discount()
     {
         $user = Auth::user();
-        $userDetails = $user->userDetail;
+        $userDetails = $user->userDetail;        
 
         return view('user.discount', compact('user', 'userDetails'));
     }
@@ -195,5 +204,57 @@ class PractitionerController extends Controller
         return view('user.practitioner_detail', compact('offerDetail'));
     }
 
+    public function add_term(Request $request){
+
+        $type = $request->type;
+
+        if($type == 'IHelpWith'){
+
+            $inputField = '<input type="text" class="'.$type.'_term" id="term" name="'.$type.'_term" id="term" placeholder="Enter term"><button data-type="'.$type.'" class="update-btn mb-2 save_term">Add Term</button';
+            return response()->json(['success' => true, 'inputField' => $inputField]);
+        }
+
+        if($type == 'HowIHelp'){
+
+            $inputField = '<input type="text" class="'.$type.'_term" id="term" name="'.$type.'_term" id="term" placeholder="Enter term"><button data-type="'.$type.'" class="update-btn mb-2 save_term">Add Term</button';
+            return response()->json(['success' => true, 'inputField' => $inputField]);
+        }
+        return response()->json(['success' => false, 'message' => 'Invalid request']);
+    }
+
+    public function save_term(Request $request){
+
+        $user = Auth::user();
+        $type = $request->type;
+        $name = $request->name;
+        
+        if (!$name) {
+            return response()->json(['success' => false, 'message' => 'Name is required']);
+        }
+        
+        $slug = Str::slug($name); // Generate slug from name
+        
+        if($type == 'IHelpWith'){
+            $term = IHelpWith::create([
+                'name' => $name,
+                'slug' => $slug,
+                'created_by' => $user->id,
+                'updated_by' => $user->id,
+            ]);
+            return response()->json(['success' => true, 'message' => 'IHelpWith term saved successfully','term' => $term]);
+        }
+
+        if($type == 'HowIHelp'){
+            $term = HowIHelp::create([
+                'name' => $name,
+                'slug' => $slug,
+                'created_by' => $user->id,
+                'updated_by' => $user->id,
+            ]);
+            return response()->json(['success' => true, 'message' => 'HowIHelp term saved successfully', 'term' => $term]);
+        }
+        
+        return response()->json(['success' => false, 'message' => 'Invalid request']);
+    }
 
 }
