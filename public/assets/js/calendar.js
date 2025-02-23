@@ -89,27 +89,24 @@ function upComingEvents() {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         success: function (response) {
-           if (response)
-           {
-                let eventDiv = `<div class="col-sm-12 col-md-6 col-lg-3 mb-4">no results</div>`;
-               $('#upcomingEventsRowDiv').append(eventDiv);
-           }
+            $('#upcomingEventsRowDiv').empty(); // Clear the div before appending new content
 
-            $('#upcomingEventsRowDiv').empty();
+            // Check if response is empty or events array is empty
+            if (!response || !response.events || response.events.length === 0) {
+                $('#upcomingEventsRowDiv').append(`
+                    <div class="col-sm-12 mb-4 text-center">
+                       No results found
+                    </div>
+                `);
+                return;
+            }
 
-            // Convert event object to an array and iterate
-            if (response.events && typeof response.events === 'object') {
+            if (typeof response.events === 'object') {
                 Object.values(response.events).forEach(event => {
                     if (!event.start || !event.end) return; // Skip events with null start or end date
 
                     let eventStart = new Date(event.start);
-                    let eventEnd = new Date(event.end);
-
                     let formattedStartTime = eventStart.toLocaleTimeString([], {
-                        hour: '2-digit', minute: '2-digit', hour12: true
-                    });
-
-                    let formattedEndTime = eventEnd.toLocaleTimeString([], {
                         hour: '2-digit', minute: '2-digit', hour12: true
                     });
 
@@ -120,23 +117,19 @@ function upComingEvents() {
                                 <h6>${event.description ?? 'Online/In-Person'}</h6>
                                 <div class="d-flex">
                                     <img src="${window.location.origin}/assets/images/Clock.svg" alt="">
-                                    <p class="ms-2">start: ${formattedStartTime}</p>
-<!--                                    <p class="ms-2">end: ${formattedEndTime}</p>-->
+                                    <p class="ms-2">Start: ${formattedStartTime}</p>
                                 </div>
                             </div>
                         </div>`;
 
-
+                    $('#upcomingEventsRowDiv').append(eventDiv);
                 });
-            } else {
-                let eventDiv = `<div class="col-sm-12 col-md-6 col-lg-3 mb-4">no results</div>`;
             }
-
-            $('#upcomingEventsRowDiv').append(eventDiv);
         },
         error: function (xhr, status, error) {
             console.error("Error fetching events:", error);
         }
     });
 }
+
 
