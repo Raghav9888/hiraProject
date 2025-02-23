@@ -17,7 +17,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+//        $this->middleware('auth');
     }
 
     /**
@@ -28,7 +28,7 @@ class HomeController extends Controller
     public function index()
     {
 
-        $users = User::where('role', 1)->with('userDetail')->get();        
+        $users = User::where('role', 1)->with('userDetail')->get();
         return view('home', compact('users'));
     }
 
@@ -37,14 +37,14 @@ class HomeController extends Controller
         return view('admin.dashboard');
     }
 
-    
+
     public function contact()
     {
-        
+
         return view('contact');
     }
 
-    
+
     public function sendContactMail(Request $request)
     {
         $input = $request->all();
