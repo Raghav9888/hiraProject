@@ -32,7 +32,7 @@
                                 <div class="tab-pane fade show active" id="general" role="tabpanel"
                                      aria-labelledby="general-tab">
 
-                                    <form method="post" action="{{ route('updateProfile') }}"
+                                    <form method="post" action="{{ route('update_profile') }}"
                                           enctype="multipart/form-data">
                                         @csrf
                                         <div style="position: relative;"
@@ -138,12 +138,13 @@
                                             <select id="type" name="IHelpWith[]" class="form-select select2"
                                                     multiple="multiple">
                                                 @foreach($IHelpWith as $term)
-                                                <option value="{{$term->id}}">{{$term->name}}</option>
+                                                    <option value="{{$term->id}}">{{$term->name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
                                         <hr>
-                                        <button class="update-btn mb-2 addterm" data-type="IHelpWith">Add New Term</button>
+                                        <button class="update-btn mb-2 addterm" data-type="IHelpWith">Add New Term
+                                        </button>
                                         <div id="IHelpWith-container">
 
                                         </div>
@@ -153,12 +154,16 @@
                                                     multiple="multiple">
                                                 <option>Select</option>
                                                 @foreach($HowIHelp as $term)
-                                                    <option value="{{$term->id}}">{{$term->name}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <hr>
-                                        <button class="update-btn mb-2">Add New Term</button> -->
+                                            <option value="{{$term->id}}">{{$term->name}}</option>
+
+
+
+
+                                        @endforeach
+                                        </select>
+                                    </div>
+                                    <hr>
+                                    <button class="update-btn mb-2">Add New Term</button> -->
                                         <div class="mb-4">
                                             <label for="type" class="fw-bold">How I help:</label>
                                             <select id="HowIHelp" name="HowIHelp[]" class="form-select">
@@ -168,13 +173,15 @@
                                             </select>
                                         </div>
                                         <hr>
-                                        <button class="update-btn mb-2 addterm" data-type="HowIHelp">Add New Term</button>
+                                        <button class="update-btn mb-2 addterm" data-type="HowIHelp">Add New Term
+                                        </button>
                                         <div id="HowIHelp-container">
 
-                                            </div>
+                                        </div>
                                         <div class="mb-4">
                                             <label for="specialities" class="fw-bold">Specialities</label>
-                                            <select id="specialities" class="form-control form-select select2" multiple="multiple"
+                                            <select id="specialities" class="form-control form-select select2"
+                                                    multiple="multiple"
                                                     name="specialities[]">
                                                 @foreach($Categories as $term)
                                                     <option value="{{$term->id}}">{{$term->name}}</option>
@@ -247,34 +254,45 @@
                                 <!-- Availability Tab Content -->
                                 <div class="tab-pane fade" id="availability" role="tabpanel"
                                      aria-labelledby="availability-tab">
-                                    <h4 class="stripe-text">Connect with Stripe</h4>
-                                    <h5 class="stripe-label">Your account is not yet connected with Stripe.</h5>
-                                    @if($stripeAccount && $stripeAccount->stripe_access_token && $stripeAccount->stripe_refresh_token)
-                                        <h6>Successfully authenticated.</h6>
-                                        <a href="{{ route('disconnectToStripe') }}" class="stripe-btn mt-3">Disconnect</a>
-                                    @else
-                                        <a href="{{ route('stripe.connect') }}" class="stripe-btn mt-3">Connect with
-                                            stripe</a>
-                                    @endif
+                                    <div class="container-fluid calendar-integration practitioner-profil">
+                                        <div class="integration-wrrpr">
+                                            <h4 class="stripe-text m-2">Connect with Stripe</h4>
+                                            <h5 class="stripe-label m-2">{{($stripeAccount && $stripeAccount->stripe_access_token && $stripeAccount->stripe_refresh_token) ?'Successfully authenticated.': 'Your account is not yet connected
+                                                with Stripe.'}}</h5>
+                                            <div class="border-1 border-bottom"></div>
+                                            <div class="integration-header">
+                                                <h4>Authorization</h4>
+                                                <div class="form-group flex-column d-flex align-items-start">
+                                                    @if($stripeAccount && $stripeAccount->stripe_access_token && $stripeAccount->stripe_refresh_token)
+                                                        <a href="{{ route('disconnect_to_stripe') }}" class="export-btn">Disconnect</a>
+                                                    @else
+                                                        <a href="{{ route('stripe_connect') }}" class="export-btn">Connect</a>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <!-- Costs Tab Content -->
                                 <div class="tab-pane fade" id="costs" role="tabpanel" aria-labelledby="costs-tab">
                                     <div class="container-fluid calendar-integration practitioner-profil">
-                                        <div class=" integration-wrrpr">
+                                        <div class="integration-wrrpr">
+                                            <h4 class="stripe-text m-2">Connect with Google Account</h4>
+                                            <h5 class="stripe-label m-2">{{($googleAccount && $googleAccount->access_token && $googleAccount->refresh_token) ? 'Successfully authenticated.': 'Your account is not yet connected
+                                                with Google.'}}</h5>
+                                            <div class="border-1 border-bottom"></div>
                                             <div class="integration-header">
                                                 <h4>Authorization</h4>
                                                 <div class="form-group flex-column d-flex align-items-start">
-
-                                                    @if(session()->has('googleAuthSuccess'))
-                                                        <h6>Successfully authenticated.</h6>
-                                                        <a href="{{ route('disconnectToGoogle') }}" class="export-btn">Disconnect</a>
+                                                    @if($googleAccount && $googleAccount->access_token && $googleAccount->refresh_token)
+                                                        <a href="{{ route('disconnect_to_google') }}" class="export-btn">Disconnect</a>
                                                     @else
-                                                        <a href="{{ route('redirectToGoogle') }}" class="export-btn">Connect</a>
+                                                        <a href="{{ route('redirect_to_google') }}" class="export-btn">Connect</a>
                                                     @endif
-
                                                 </div>
                                             </div>
+
                                             {{--                                            <div class="form-group">--}}
                                             {{--                                                <div>--}}
                                             {{--                                                    <label>Calendar</label>--}}
@@ -297,12 +315,10 @@
                                             {{--                                                </select>--}}
                                             {{--                                            </div>--}}
                                         </div>
-                                        {{--                                        <button class="export-btn mt-4" style="margin-left: 50px;">Save Changes--}}
-                                        {{--                                        </button>--}}
                                     </div>
                                 </div>
                                 <div class="tab-pane fade" id="client" role="tabpanel" aria-labelledby="clint-tab">
-                                    <form method="post" action="{{ route('updateClientPolicy') }}">
+                                    <form method="post" action="{{ route('update_client_policy') }}">
                                         <div class="mb-3">
                                             <label for="floatingTextarea">Privacy Policy</label>
                                             <textarea class="form-control" placeholder="" name="privacy_policy"
@@ -334,60 +350,60 @@
         </div>
     </section>
     <script>
-    $('.addterm').on('click', function (e) {
-        e.preventDefault();
-        var termType = $(this).data('type'); // Get the data-type attribute value
+        $('.addterm').on('click', function (e) {
+            e.preventDefault();
+            var termType = $(this).data('type'); // Get the data-type attribute value
 
-         $.ajax({
-            url: '{{route("add_term")}}', // Change this to your server-side script
-            type: 'POST',
-            data: {
-                 type: termType,
-                 _token: $('meta[name="csrf-token"]').attr('content')
-                 },
-            dataType: 'json',
-            success: function (response) {
-                if (response.success) {
-                    $('#'+termType+'-container').html(response.inputField);
-                } else {
-                    alert('Error: ' + response.message);
+            $.ajax({
+                url: '{{route("add_term")}}', // Change this to your server-side script
+                type: 'POST',
+                data: {
+                    type: termType,
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                },
+                dataType: 'json',
+                success: function (response) {
+                    if (response.success) {
+                        $('#' + termType + '-container').html(response.inputField);
+                    } else {
+                        alert('Error: ' + response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('AJAX Error:', error);
                 }
-            },
-            error: function (xhr, status, error) {
-                console.error('AJAX Error:', error);
-            }
+            });
         });
-    });
 
-    $(document).on('click', '.save_term', function (e) {
-        e.preventDefault();
-        var termType = $(this).data('type'); // Get the data-type attribute value
-        var name = $('.'+termType+'_term').val();
-         $.ajax({
-            url: '{{route("save_term")}}', // Change this to your server-side script
-            type: 'POST',
-            data: {
-                 type: termType,
-                 name: name,
-                 _token: $('meta[name="csrf-token"]').attr('content')
-                 },
-            dataType: 'json',
-            success: function (response) {
-                if (response.success) {
-                    $('#'+termType+'-container').html('');
-                    var newOption = `<option value="${response.term.id}" selected>${response.term.name}</option>`;
-                    $("#"+termType).append(newOption).trigger('change');
-                    alert('term add sucessfully');
-                   /*  $('#'+termType+'-container').html(response.inputField); */
-                } else {
-                    alert('Error: ' + response.message);
+        $(document).on('click', '.save_term', function (e) {
+            e.preventDefault();
+            var termType = $(this).data('type'); // Get the data-type attribute value
+            var name = $('.' + termType + '_term').val();
+            $.ajax({
+                url: '{{route("save_term")}}', // Change this to your server-side script
+                type: 'POST',
+                data: {
+                    type: termType,
+                    name: name,
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                },
+                dataType: 'json',
+                success: function (response) {
+                    if (response.success) {
+                        $('#' + termType + '-container').html('');
+                        var newOption = `<option value="${response.term.id}" selected>${response.term.name}</option>`;
+                        $("#" + termType).append(newOption).trigger('change');
+                        alert('term add sucessfully');
+                        /*  $('#'+termType+'-container').html(response.inputField); */
+                    } else {
+                        alert('Error: ' + response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('AJAX Error:', error);
                 }
-            },
-            error: function (xhr, status, error) {
-                console.error('AJAX Error:', error);
-            }
+            });
         });
-    });
 
     </script>
 @endsection
