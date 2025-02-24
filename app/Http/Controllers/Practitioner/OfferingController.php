@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Practitioner;
 
+use App\Http\Controllers\Controller;
 use App\Models\Offering;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,7 +19,7 @@ class OfferingController extends Controller
     // Store a new offering
     public function store(Request $request)
     {
-        $input = $request->all();        
+        $input = $request->all();
         $user = Auth::user();
         $user_id = $user->id;
 
@@ -50,14 +51,14 @@ class OfferingController extends Controller
             $fileName = $image->getClientOriginalName();
             $imageName = time().'.'.$image->getClientOriginalExtension();
             $image->move(public_path('uploads/offering/'), $fileName);
-            $offeringdata['images'] = json_encode($fileName);   
-            
-        }       
+            $offeringdata['images'] = json_encode($fileName);
+
+        }
 
         $offering = Offering::create($offeringdata);
         return redirect()->route('offering')->with('success', 'Offering created successfully!');
 
-       
+
     }
 
     // Show a single offering

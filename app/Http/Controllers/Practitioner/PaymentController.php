@@ -1,8 +1,9 @@
 <?php
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Practitioner;
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Models\UserStripeSetting;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
@@ -10,9 +11,9 @@ class PaymentController extends Controller
 {
     public function connectToStripe()
     {
-        $client_id = env('STRIPE_CLIENT_ID'); // Store in .env
+        $client_id = env('STRIPE_CLIENT_ID');
         $redirect_uri = route('stripe.callback');
-        $state = csrf_token(); // Security measure
+        $state = csrf_token();
 
         $stripe_url = "https://connect.stripe.com/oauth/v2/authorize?"
             . "scope=read_write"
@@ -65,6 +66,17 @@ class PaymentController extends Controller
         $settings = UserStripeSetting::where('user_id', Auth::id())->first();
         return view('user.my_profile', compact('settings'));
     }
+
+    public function disconnectToStripe()
+    {
+        UserStripeSetting::where('user_id', Auth::id())->update([
+            'stripe_access_token' => null,
+            'stripe_refresh_token' => null,
+            'stripe_publishable_key' => null,
+        ]);
+
+        return redirect()->route('myProfile')->with('success', 'Stripe disconnected successfully!');
+    }
+
 }
 
-?>

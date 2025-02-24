@@ -1,19 +1,21 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Practitioner;
 
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\GoogleAuthController;
+use App\Models\Category;
+use App\Models\HowIHelp;
+use App\Models\IHelpWith;
+use App\Models\Offering;
+use App\Models\PractitionerTag;
 use App\Models\User;
 use App\Models\UserDetail;
-use App\Models\Offering;
-use App\Models\Category;
-use App\Models\PractitionerTag;
-use App\Models\IHelpWith;
-use App\Models\HowIHelp;
+use App\Models\UserStripeSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\GoogleAuthController;
-use Illuminate\View\View;
 use Illuminate\Support\Str;
+
 
 class PractitionerController extends Controller
 {
@@ -41,8 +43,17 @@ class PractitionerController extends Controller
         $PractitionerTag = PractitionerTag::get();
         $IHelpWith = IHelpWith::get();
         $HowIHelp = HowIHelp::get();
+        $stripeAccount =  $settings = UserStripeSetting::where('user_id', Auth::id())->first();
 
-        return view('user.my_profile', compact('user', 'userDetails','Categories','PractitionerTag','IHelpWith','HowIHelp'));
+        return view('user.my_profile', compact(
+            'user',
+            'userDetails',
+            'Categories',
+            'PractitionerTag',
+            'IHelpWith',
+            'HowIHelp',
+            'stripeAccount'
+        ));
     }
 
     public function dashboard()
@@ -89,8 +100,8 @@ class PractitionerController extends Controller
         if ($request->hasFile('images')) {
             $image = $request->file('images');
             $fileName = $image->getClientOriginalName();
-            $imageName = time().'.'.$image->getClientOriginalExtension();
-            $image->move(public_path('uploads/practitioners/'.$id), $fileName);
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('uploads/practitioners/' . $id), $fileName);
             $details['images'] = json_encode($fileName);
 
         }
@@ -123,21 +134,13 @@ class PractitionerController extends Controller
         return view('user.add_discount', compact('user', 'userDetails'));
     }
 
-    public function appointment ()
+    public function appointment()
     {
         $user = Auth::user();
         $userDetails = $user->userDetail;
 
         return view('user.appoinement', compact('user', 'userDetails'));
     }
-//    public function calendar()
-//    {
-//        $user = Auth::user();
-//        $userDetails = $user->userDetail;
-//
-//        return view('user.calendar', compact('user', 'userDetails'));
-//    }
-
 
     public function earning()
     {
@@ -180,7 +183,7 @@ class PractitionerController extends Controller
         $user = User::findOrFail($id);
         $userDetails = $user->userDetail;
         $offerings = Offering::where('user_id', $user->id)->get();
-        return view('user.practitioner_detail', compact('user', 'userDetails','offerings'));
+        return view('user.practitioner_detail', compact('user', 'userDetails', 'offerings'));
     }
 
     public function offerDetail($id)
@@ -190,25 +193,27 @@ class PractitionerController extends Controller
         return view('user.practitioner_detail', compact('offerDetail'));
     }
 
-    public function add_term(Request $request){
+    public function add_term(Request $request)
+    {
 
         $type = $request->type;
 
-        if($type == 'IHelpWith'){
+        if ($type == 'IHelpWith') {
 
-            $inputField = '<input type="text" class="'.$type.'_term" id="term" name="'.$type.'_term" id="term" placeholder="Enter term"><button data-type="'.$type.'" class="update-btn mb-2 save_term">Add Term</button';
+            $inputField = '<input type="text" class="' . $type . '_term" id="term" name="' . $type . '_term" id="term" placeholder="Enter term"><button data-type="' . $type . '" class="update-btn mb-2 save_term">Add Term</button';
             return response()->json(['success' => true, 'inputField' => $inputField]);
         }
 
-        if($type == 'HowIHelp'){
+        if ($type == 'HowIHelp') {
 
-            $inputField = '<input type="text" class="'.$type.'_term" id="term" name="'.$type.'_term" id="term" placeholder="Enter term"><button data-type="'.$type.'" class="update-btn mb-2 save_term">Add Term</button';
+            $inputField = '<input type="text" class="' . $type . '_term" id="term" name="' . $type . '_term" id="term" placeholder="Enter term"><button data-type="' . $type . '" class="update-btn mb-2 save_term">Add Term</button';
             return response()->json(['success' => true, 'inputField' => $inputField]);
         }
         return response()->json(['success' => false, 'message' => 'Invalid request']);
     }
 
-    public function save_term(Request $request){
+    public function save_term(Request $request)
+    {
 
         $user = Auth::user();
         $type = $request->type;
@@ -220,17 +225,17 @@ class PractitionerController extends Controller
 
         $slug = Str::slug($name); // Generate slug from name
 
-        if($type == 'IHelpWith'){
+        if ($type == 'IHelpWith') {
             $term = IHelpWith::create([
                 'name' => $name,
                 'slug' => $slug,
                 'created_by' => $user->id,
                 'updated_by' => $user->id,
             ]);
-            return response()->json(['success' => true, 'message' => 'IHelpWith term saved successfully','term' => $term]);
+            return response()->json(['success' => true, 'message' => 'IHelpWith term saved successfully', 'term' => $term]);
         }
 
-        if($type == 'HowIHelp'){
+        if ($type == 'HowIHelp') {
             $term = HowIHelp::create([
                 'name' => $name,
                 'slug' => $slug,

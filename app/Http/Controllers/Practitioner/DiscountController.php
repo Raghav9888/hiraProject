@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Practitioner;
 
+use App\Http\Controllers\Controller;
 use App\Models\Discount;
-use App\Models\Offering;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,7 +13,7 @@ class DiscountController extends Controller
     public function index()
     {
         $discounts = Discount::with('user')->get();
-        
+
         return view('user.discount', compact('discounts'));
     }
 
@@ -22,7 +22,7 @@ class DiscountController extends Controller
         $input = $request->all();
         $user = Auth::user();
         $user_id = $user->id;
-       
+
         $discountdata = [
             'user_id' => $user_id,
             'coupon_code' => $input['coupon_code'],
@@ -42,9 +42,9 @@ class DiscountController extends Controller
             'usage_limit_to_x_items' => $input['usage_limit_to_x_items'],
             'usage_limit_per_user' => $input['usage_limit_per_user'],
         ];
-      
+
         $discount = Discount::create($discountdata);
         return redirect()->route('discount')->with('success', 'Discount created successfully!');
-       
+
     }
 }

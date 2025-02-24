@@ -1,18 +1,17 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Blog\BlogController;
 use App\Http\Controllers\Calender\CalenderController;
-
 use App\Http\Controllers\Calender\GoogleAuthController;
 use App\Http\Controllers\Calender\GoogleCalendarController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\PractitionerController;
-use App\Http\Controllers\OfferingController;
-use App\Http\Controllers\DiscountController;
-use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\Practitioner\DiscountController;
+use App\Http\Controllers\Practitioner\OfferingController;
+use App\Http\Controllers\Practitioner\PaymentController;
+use App\Http\Controllers\Practitioner\PractitionerController;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 /* Route::get('/', function () {
     return view('home');
@@ -91,6 +90,6 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::get('/admin/stripe-settings', [PaymentController::class, 'stripeSettings'])->name('stripe.settings');
     Route::get('/admin/stripe-connect', [PaymentController::class, 'connectToStripe'])->name('stripe.connect');
     Route::get('/admin/stripe-callback', [PaymentController::class, 'handleStripeCallback'])->name('stripe.callback');
-    Route::get('/admin/stripe-disconnect', [PaymentController::class, 'disconnectStripConnect'])->name('disconnect_stripe');
+    Route::get('/admin/stripe-disconnect', [PaymentController::class, 'disconnectToStripe'])->name('disconnectToStripe');
 
 });
