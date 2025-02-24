@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Practitioner;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\GoogleAuthController;
 use App\Models\Category;
+use App\Models\GoogleAccount;
 use App\Models\HowIHelp;
 use App\Models\IHelpWith;
 use App\Models\Offering;
@@ -43,7 +44,8 @@ class PractitionerController extends Controller
         $PractitionerTag = PractitionerTag::get();
         $IHelpWith = IHelpWith::get();
         $HowIHelp = HowIHelp::get();
-        $stripeAccount =  $settings = UserStripeSetting::where('user_id', Auth::id())->first();
+        $stripeAccount = UserStripeSetting::where('user_id', Auth::id())->first();
+        $googleAccount = GoogleAccount::where('user_id', Auth::id())->first();
 
         return view('user.my_profile', compact(
             'user',
@@ -52,7 +54,8 @@ class PractitionerController extends Controller
             'PractitionerTag',
             'IHelpWith',
             'HowIHelp',
-            'stripeAccount'
+            'stripeAccount',
+            'googleAccount'
         ));
     }
 
@@ -77,19 +80,19 @@ class PractitionerController extends Controller
         $user->last_name = $input['last_name'];
         $user->company = $input['company'];
         $user->bio = $input['bio'];
-        $user->location = $input['location'];
+        $user->location = isset($input['location']) && $input['location'] ? $input['location'] : [];
         $user->save();
 
 
         $details = [
             'company' => $input['company'],
             'bio' => $input['bio'],
-            'location' => $input['location'],
+            'location' => isset($input['location']) && $input['location'] ? $input['location'] : [],
 //            'tags' => $input['tags'],
             'about_me' => $input['about_me'],
 //            'help' => $input['help'],
-            'specialities' => $input['specialities'],
-            'certifications' => $input['certifications'],
+            'specialities' => isset($input['specialities']) && $input['specialities'] ? $input['specialities'] : [],
+            'certifications' => isset($input['certifications']) && $input['certifications'] ? $input['certifications'] : [],
             'endorsements' => $input['endorsements'],
             'timezone' => $input['timezone'],
             'is_opening_hours' => isset($input['is_opening_hours']) && $input['is_opening_hours'] == 'on' ? 1 : 0,
