@@ -221,6 +221,7 @@ class PractitionerController extends Controller
         $images = json_decode($userDetails->images, true);
         $image = isset($images['profile_image']) ? $images['profile_image'] : null;
         $mediaImages = isset($images['media_images']) && is_array($images['media_images']) ? $images['media_images'] : [];
+        $locations = json_decode($user->location, true);
         return view('user.practitioner_detail', compact('user', 'userDetails', 'offerings','image','mediaImages','locations'));
     }
 
