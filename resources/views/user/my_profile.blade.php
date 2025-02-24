@@ -39,7 +39,7 @@
                                         @csrf
                                         <div style="position: relative;"
                                              class="d-flex justify-content-center flex-column align-items-center">
-                                            <div class="mb-4">
+                                            <div class="mb-4" id="imageDiv">
                                                 <p style="text-align: start;" class="text">Image</p>
                                                 <input type="file" id="fileInput" name="image" class="hidden"
                                                        accept="image/*"
@@ -47,23 +47,31 @@
 
                                                 @if(isset($image))
                                                     @php
-                                                        $imageUrl = asset(env('media_path') . '/practitioners/' . $userDetails->id . '/' .
-                                                        $image);
+                                                        $imageUrl = asset(env('media_path') . '/practitioners/' . $userDetails->id . '/' . $image);
                                                     @endphp
-                                                    <label for="fileInput" class="image-preview" id="imagePreview" style="border-radius: 50%;background-image: url('{{$imageUrl}}');background-size: cover;
-    background-position: center center;">
+                                                    <label class="image-preview" id="imagePreview"
+                                                           style="border-radius: 50%; background-image: url('{{$imageUrl}}'); background-size: cover; background-position: center center;">
+                                                        <i class="fas fa-trash text-danger fs-3"
+                                                           data-image="{{ $image }}"
+                                                           data-user-id="{{ $userDetails->id }}"
+                                                           data-profile-image="true"
+                                                           onclick="removeImage(this);" style="cursor: pointer;"></i>
                                                     </label>
                                                 @else
-                                                    <label style="border-radius: 50%;" for="fileInput" class="image-preview"
-                                                           id="imagePreview">
+                                                    <label onclick="document.getElementById('fileInput').click();"
+                                                           class="image-preview" id="imagePreview"
+                                                           style="border-radius: 50%;">
                                                         <span>+</span>
                                                     </label>
+
                                                 @endif
+
                                                 <div class="preview-div">
                                                     <img src="{{ url('/assets/images/Laptop.svg') }}" alt="">
                                                     <p>preview</p>
                                                 </div>
                                             </div>
+
                                         </div>
                                         <div class="row">
                                             <div class="col-sm-12 col-lg-6 mb-3">
@@ -140,7 +148,9 @@
                                                                 alt="Practitioner Image"
                                                                 style="width: 100px; height: 100px; object-fit: cover; display: block;">
                                                             <i class="fas fa-times" style="cursor: pointer;"
-                                                               onclick="this.parentElement.remove();"></i>
+                                                               data-image="{{ $image }}"
+                                                               data-user-id="{{ $userDetails->id }}"
+                                                               onclick="removeImage(this);"></i>
                                                         </div>
                                                     @endforeach
                                                 @else
@@ -177,6 +187,10 @@
                                                 <option>Select</option>
                                                 @foreach($HowIHelp as $term)
                                             <option value="{{$term->id}}">{{$term->name}}</option>
+
+
+
+
 
                                         @endforeach
                                         </select>
@@ -459,6 +473,49 @@
                 reader.readAsDataURL(file);
             }
         });
+
+        function removeImage(element) {
+            const imageName = $(element).data('image');
+            const userId = $(element).data('user-id');
+            const profileImage = $(element).data('profile-image');
+
+            $.ajax({
+                url: '/delete/image',
+                type: 'POST',
+                data: {
+                    image: imageName,
+                    user_id: userId,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function (response) {
+                    // Check if the profile image is being deleted
+                    if (profileImage) {
+                        // Remove the existing image preview
+                        $('#imagePreview').remove();
+
+                        // Add the new label for image upload
+                        const uploadLabel = `
+                    <label onclick="document.getElementById('fileInput').click();" class="image-preview" id="imagePreview" style="border-radius: 50%;">
+                        <span>+</span>
+                    </label>
+                `;
+
+                        $('#imageDiv').append(uploadLabel);
+                    } else {
+                        $(element).parent().remove();
+                    }
+
+                    console.log('Image removed successfully', response);
+                },
+                error: function (xhr, status, error) {
+                    // Handle error
+                    console.error('Error removing image:', error);
+                }
+            });
+
+        }
+
+
     </script>
 @endsection
 

@@ -42,6 +42,7 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::get('/discount/create', [PractitionerController::class, 'addDiscount'])->name('add_discount');
     Route::post('/profile/update', [PractitionerController::class, 'updateProfile'])->name('update_profile');
     Route::post('/client-policy/update', [PractitionerController::class, 'updateClientPolicy'])->name('update_client_policy');
+    Route::post('/delete/image', [PractitionerController::class, 'deleteImage'])->name('delete_image');
     Route::get('/appointment', [PractitionerController::class, 'appointment'])->name('appointment');
     Route::get('/accounting', [PractitionerController::class, 'accounting'])->name('accounting');
 
