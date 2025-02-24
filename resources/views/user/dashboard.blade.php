@@ -14,6 +14,9 @@
             </div>
             <div class="row" id="upcomingEventsRowDiv">
                 {{-- We show the data by ajax --}}
+                <div class="col-sm-12 my-4 text-center">
+                    loading...
+                </div>
             </div>
             <div class="row" id="upcomingAppointmentsRowDiv">
                 <div class="px-0" style="border-bottom: 2px solid#BA9B8B; margin-bottom: 20px;">
