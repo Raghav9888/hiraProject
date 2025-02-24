@@ -65,7 +65,7 @@
                         </div>
                         </form>
                         <div class="links justify-content-end mt-4">
-                                <p>Already have an account? <a style="text-decoration: underline;" href="login.html" class="login-link">Login</a></p>
+                                <p>Already have an account? <a style="text-decoration: underline;" href="{{route('login')}}" class="login-link">Login</a></p>
                         </div>
                     </div>
                 </div>
