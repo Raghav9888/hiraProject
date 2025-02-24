@@ -222,7 +222,8 @@ class PractitionerController extends Controller
         $image = isset($images['profile_image']) ? $images['profile_image'] : null;
         $mediaImages = isset($images['media_images']) && is_array($images['media_images']) ? $images['media_images'] : [];
         $locations = json_decode($user->location, true);
-        return view('user.practitioner_detail', compact('user', 'userDetails', 'offerings','image','mediaImages','locations'));
+        $users = User::where('role', 1)->with('userDetail')->get();
+        return view('user.practitioner_detail', compact('user','users', 'userDetails', 'offerings','image','mediaImages','locations'));
     }
 
     public function offerDetail($id)
