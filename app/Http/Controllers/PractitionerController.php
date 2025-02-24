@@ -41,7 +41,7 @@ class PractitionerController extends Controller
         $PractitionerTag = PractitionerTag::get();
         $IHelpWith = IHelpWith::get();
         $HowIHelp = HowIHelp::get();
-        
+
         return view('user.my_profile', compact('user', 'userDetails','Categories','PractitionerTag','IHelpWith','HowIHelp'));
     }
 
@@ -111,7 +111,7 @@ class PractitionerController extends Controller
     public function discount()
     {
         $user = Auth::user();
-        $userDetails = $user->userDetail;        
+        $userDetails = $user->userDetail;
 
         return view('user.discount', compact('user', 'userDetails'));
     }
@@ -138,20 +138,6 @@ class PractitionerController extends Controller
 //        return view('user.calendar', compact('user', 'userDetails'));
 //    }
 
-
-
-    public function blog()
-    {
-        $user = Auth::user();
-        $userDetails = $user->userDetail;
-        return view('user.blog', compact('user', 'userDetails'));
-    }
-    public function blogDetail()
-    {
-        $user = Auth::user();
-        $userDetails = $user->userDetail;
-        return view('user.blog_detail', compact('user', 'userDetails'));
-    }
 
     public function earning()
     {
@@ -227,13 +213,13 @@ class PractitionerController extends Controller
         $user = Auth::user();
         $type = $request->type;
         $name = $request->name;
-        
+
         if (!$name) {
             return response()->json(['success' => false, 'message' => 'Name is required']);
         }
-        
+
         $slug = Str::slug($name); // Generate slug from name
-        
+
         if($type == 'IHelpWith'){
             $term = IHelpWith::create([
                 'name' => $name,
@@ -253,7 +239,7 @@ class PractitionerController extends Controller
             ]);
             return response()->json(['success' => true, 'message' => 'HowIHelp term saved successfully', 'term' => $term]);
         }
-        
+
         return response()->json(['success' => false, 'message' => 'Invalid request']);
     }
 

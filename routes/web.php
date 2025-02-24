@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Blog\BlogController;
 use App\Http\Controllers\Calender\CalenderController;
 
 use App\Http\Controllers\Calender\GoogleAuthController;
@@ -19,12 +20,14 @@ use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
 
- Route::get('/', [HomeController::class, 'index'])->name('home');
- Route::get('/contact-us', [HomeController::class, 'contact'])->name('contact');
- Route::post('/contact', [HomeController::class, 'sendContactMail'])->name('sendContactMail');
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/contact-us', [HomeController::class, 'contact'])->name('contact');
+Route::post('/contact', [HomeController::class, 'sendContactMail'])->name('sendContactMail');
+Route::get('/blog', [HomeController::class, 'blog'])->name('blog');
+Route::get('/blog-details', [HomeController::class, 'blogDetail'])->name('blogDetail');
 
- Route::get('/practitioner-detail/{id}', [PractitionerController::class, 'practitionerDetail'])->name('practitionerDetail');
- Route::get('/offering/{id}',[PractitionerController::class, 'offerDetail'])->name('offerDetail');
+Route::get('/practitioner-detail/{id}', [PractitionerController::class, 'practitionerDetail'])->name('practitionerDetail');
+Route::get('/offering/{id}', [PractitionerController::class, 'offerDetail'])->name('offerDetail');
 
 Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::namespace('Admin')->group(function () {
@@ -41,16 +44,14 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::get('/add-offering', [PractitionerController::class, 'addOffering'])->name('addOffering');
     Route::post('/add_term', [PractitionerController::class, 'add_term'])->name('add_term');
     Route::post('/save_term', [PractitionerController::class, 'save_term'])->name('save_term');
-   /*  Route::get('/discount', [PractitionerController::class, 'discount'])->name('discount');*/
-    Route::get('/add-discount', [PractitionerController::class, 'addDiscount'])->name('addDiscount'); 
+    /*  Route::get('/discount', [PractitionerController::class, 'discount'])->name('discount');*/
+    Route::get('/add-discount', [PractitionerController::class, 'addDiscount'])->name('addDiscount');
     Route::post('/update-profile', [PractitionerController::class, 'updateProfile'])->name('updateProfile');
     Route::post('/update-client-policy', [PractitionerController::class, 'updateClientPolicy'])->name('updateClientPolicy');
     Route::get('/appointment', [PractitionerController::class, 'appointment'])->name('appointment');
     Route::get('/accounting', [PractitionerController::class, 'accounting'])->name('accounting');
 
 
-    Route::get('/blog', [PractitionerController::class, 'blog'])->name('blog');
-    Route::get('/blog-details', [PractitionerController::class, 'blogDetail'])->name('blogDetail');
     Route::get('/earning', [PractitionerController::class, 'earning'])->name('earning');
     Route::get('/refund-request', [PractitionerController::class, 'refundRequest'])->name('refundRequest');
 
@@ -90,5 +91,6 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::get('/admin/stripe-settings', [PaymentController::class, 'stripeSettings'])->name('stripe.settings');
     Route::get('/admin/stripe-connect', [PaymentController::class, 'connectToStripe'])->name('stripe.connect');
     Route::get('/admin/stripe-callback', [PaymentController::class, 'handleStripeCallback'])->name('stripe.callback');
+    Route::get('/admin/stripe-disconnect', [PaymentController::class, 'disconnectStripConnect'])->name('disconnect_stripe');
 
 });

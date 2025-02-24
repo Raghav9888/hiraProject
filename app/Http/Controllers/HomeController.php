@@ -10,15 +10,6 @@ use App\Mail\ContactUsMail;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-//        $this->middleware('auth');
-    }
 
     /**
      * Show the application dashboard.
@@ -60,5 +51,14 @@ class HomeController extends Controller
         Mail::to('joshiraghav282@gmail.com')->send(new ContactUsMail($contactData));
 
         return back()->with('success', 'Your message has been sent successfully!');
+    }
+
+    public function blog()
+    {
+        return view('user.blog');
+    }
+    public function blogDetail()
+    {
+        return view('user.blog_detail');
     }
 }
