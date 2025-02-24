@@ -133,7 +133,7 @@
                                                     @else
                                                         <p>No images available</p>
                                                     @endif
-                                              
+
                                             </div>
                                         </div>
                                         <div class="mb-3">

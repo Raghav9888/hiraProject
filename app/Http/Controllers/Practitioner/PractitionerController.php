@@ -82,7 +82,7 @@ class PractitionerController extends Controller
         $user->bio = $input['bio'];
         $user->location = isset($input['location']) && $input['location'] ? $input['location'] : [];
         $user->save();
-
+        $userDetails = $user->userDetail;
 
         $details = [
             'company' => $input['company'],
@@ -107,7 +107,13 @@ class PractitionerController extends Controller
                 $images = [$images];
             }
 
-            $imagePaths = [];
+            
+            $existingImages = [];
+            if ($userDetails->images) {
+                $existingImages = json_decode($userDetails->images, true);
+            }
+
+            $imagePaths = $existingImages;
 
             foreach ($images as $image) {
                 if ($image->isValid()) {
@@ -117,9 +123,10 @@ class PractitionerController extends Controller
                 }
             }
 
-
+            // Store updated image paths as JSON
             $details['images'] = json_encode($imagePaths);
         }
+
 
         UserDetail::where('user_id', $id)->update($details);
 
