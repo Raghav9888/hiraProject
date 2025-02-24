@@ -21,7 +21,7 @@
                 <p style="text-align: start;" class="mb-3">All offering must be shared on your Hira collective
                     profile.</p>
                 <div class="offering-btn-drop mb-4">
-                    <a href="{{ route('addOffering') }}" class="category-load-more">Add Offering</a>
+                    <a href="{{ route('add_offering') }}" class="category-load-more">Add Offering</a>
                     <div class="dropdown">
                         <button onclick="toggleDropdown()" class="dropdown-button">
                             <span>Discount</span>
@@ -76,12 +76,12 @@
                                                        rel="tag">{{$offering->tags}}</a>
                                                 </div>
                                                 <div class="row-actions row-actions-product">
-                                                    <a href="{{route('updateOffering',$offering->id)}}">Edit</a>
+                                                    <a href="{{route('update_offering',$offering->id)}}">Edit</a>
                                                     <a href="https://thehiracollective.com/dashboard/product/duplicate/9694">Duplicate</a>
                                                     <a href="https://thehiracollective.com/dashboard/product/delete/9694"
                                                        class="confirm_delete"
                                                        data-confirm_text="Delete product?">Delete</a>
-                                                    <a href="{{route('showOffering', $offering->id)}}"
+                                                    <a href="{{route('show_offering', $offering->id)}}"
                                                        target="_blank">View</a>
                                                 </div>
                                             </td>

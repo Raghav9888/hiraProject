@@ -58,7 +58,7 @@ class LoginController extends Controller
                 return redirect()->route('admin.dashboard');
             } else {
                 $userDetails = $user->userDetail;
-                return redirect()->route('myProfile')->with(['user' => $user, 'userDetails' => $userDetails]);
+                return redirect()->route('my_profile')->with(['user' => $user, 'userDetails' => $userDetails]);
 //                return view('user.myprofile', compact('user', 'userDetails'));
             }
         } else {

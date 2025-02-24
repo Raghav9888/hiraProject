@@ -113,15 +113,6 @@ class PractitionerController extends Controller
         return redirect()->back()->with('success', 'Profile updated successfully');
     }
 
-
-    public function addOffering()
-    {
-        $user = Auth::user();
-        $userDetails = $user->userDetail;
-
-        return view('user.add_offering', compact('user', 'userDetails'));
-    }
-
     public function discount()
     {
         $user = Auth::user();
