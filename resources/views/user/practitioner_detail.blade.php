@@ -36,8 +36,10 @@
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-3 col-lg-3">
-                        <img style="width: 100%;" class="mb-4" src="{{ url('/assets/images/darrel.png') }}"
-                             alt="darrel">
+                        @php
+                            $imageUrl = asset(env('media_path') . '/practitioners/' . $userDetails->id . '/' . $image);
+                        @endphp
+                        <img style="width: 100%;" class="mb-4" src="{{ $imageUrl }}" alt="darrel">
                         <div class="d-flex justify-content-between flex-wrap align-items-center">
                             <div>
                                 <i class="fa-regular fa-gem"></i>
@@ -53,18 +55,18 @@
             </div>
             <div class="swiper mySwiper mb-5">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <img src="{{url('assets/images/yoga-persons.png')}}" alt="">
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="{{ url('assets/images/girl-with-bowl.png') }}" alt="">
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="{{url('assets/images/yoga-persons.png')}}" alt="">
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="{{url('assets/images/girl-with-bowl.png')}}" alt="">
-                    </div>
+                    @if(count($mediaImages) > 0)
+                        @foreach ($mediaImages as $image)
+                            <div class="swiper-slide">
+                                <img
+                                    src="{{ asset(env('media_path') . '/practitioners/' . $userDetails->id . '/' . $image) }}"
+                                    alt="media image">
+
+                            </div>
+                        @endforeach
+                    @else
+                        <p>No images available</p>
+                    @endif
                 </div>
                 <!-- <div class="swiper-pagination"></div> -->
             </div>
@@ -652,4 +654,62 @@
             </div>
         </div>
     </div>
+
+    <script>
+        var swiper = new Swiper(".mySwiper", {
+            spaceBetween: 30,
+            breakpoints: {
+                640: {
+                    slidesPerView: 1,
+                    spaceBetween: 20,
+                },
+                768: {
+                    slidesPerView: 2,
+                    spaceBetween: 40,
+                },
+                1024: {
+                    slidesPerView: 4,
+                    spaceBetween: 50,
+                },
+            },
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+        });
+    </script>
+    </script>
+    <script>
+        function toggleDropdown() {
+            var dropdownMenu = document.getElementById("dropdownMenu");
+            if (dropdownMenu.style.display === "none" || dropdownMenu.style.display === "") {
+                dropdownMenu.style.display = "block";
+            } else {
+                dropdownMenu.style.display = "none";
+            }
+        }
+    </script>
+    <script>
+        document.getElementById("view-more-btn").addEventListener("click", function () {
+            document.getElementById("lorem-text").style.display = "block";
+            document.getElementById("view-more-btn").style.display = "none";
+            document.getElementById("view-less-btn").style.display = "inline-block";
+        });
+
+        document.getElementById("view-less-btn").addEventListener("click", function () {
+            document.getElementById("lorem-text").style.display = "none";
+            document.getElementById("view-more-btn").style.display = "inline-block";
+            document.getElementById("view-less-btn").style.display = "none";
+        });
+    </script>
+    <script>
+        function toggleDropdown() {
+            var dropdownMenuData = document.getElementById("dropdownMenuData");
+            if (dropdownMenuData.style.display === "none" || dropdownMenuData.style.display === "") {
+                dropdownMenuData.style.display = "block";
+            } else {
+                dropdownMenuData.style.display = "none";
+            }
+        }
+    </script>
 @endsection
