@@ -13,9 +13,6 @@ use App\Http\Controllers\Practitioner\PractitionerController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-/* Route::get('/', function () {
-    return view('home');
-}); */
 
 Auth::routes();
 
@@ -38,58 +35,54 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
 
 Route::middleware(['auth', 'user-access:user'])->group(function () {
 
-    Route::get('/my-profile', [PractitionerController::class, 'index'])->name('myProfile');
+    Route::get('/my-profile', [PractitionerController::class, 'index'])->name('my_profile');
     Route::get('/dashboard', [PractitionerController::class, 'dashboard'])->name('dashboard');
-    Route::get('/add-offering', [PractitionerController::class, 'addOffering'])->name('addOffering');
-    Route::post('/add_term', [PractitionerController::class, 'add_term'])->name('add_term');
-    Route::post('/save_term', [PractitionerController::class, 'save_term'])->name('save_term');
-    /*  Route::get('/discount', [PractitionerController::class, 'discount'])->name('discount');*/
-    Route::get('/add-discount', [PractitionerController::class, 'addDiscount'])->name('addDiscount');
-    Route::post('/update-profile', [PractitionerController::class, 'updateProfile'])->name('updateProfile');
-    Route::post('/update-client-policy', [PractitionerController::class, 'updateClientPolicy'])->name('updateClientPolicy');
+    Route::get('/offering/add', [PractitionerController::class, 'addOffering'])->name('add_offering');
+    Route::post('/term/add', [PractitionerController::class, 'add_term'])->name('add_term');
+    Route::post('/term/save', [PractitionerController::class, 'save_term'])->name('save_term');
+
+    Route::get('/discount/create', [PractitionerController::class, 'addDiscount'])->name('add_discount');
+    Route::post('/profile/update', [PractitionerController::class, 'updateProfile'])->name('update_profile');
+    Route::post('/client-policy/update', [PractitionerController::class, 'updateClientPolicy'])->name('update_client_policy');
     Route::get('/appointment', [PractitionerController::class, 'appointment'])->name('appointment');
     Route::get('/accounting', [PractitionerController::class, 'accounting'])->name('accounting');
 
-
     Route::get('/earning', [PractitionerController::class, 'earning'])->name('earning');
-    Route::get('/refund-request', [PractitionerController::class, 'refundRequest'])->name('refundRequest');
-
+    Route::get('/refund/request', [PractitionerController::class, 'refundRequest'])->name('refund_request');
 
     Route::get('/calendar', [CalenderController::class, 'showCalendar'])->name('calendar');
-    Route::get('/calendar/events', [CalenderController::class, 'getGoogleCalendarEvents'])->name('getGoogleCalendarEvents');
-    Route::get('/calendar/up-coming-events', [CalenderController::class, 'upComingEvents'])->name('upComingEvents');
+    Route::get('/calendar/events', [CalenderController::class, 'getGoogleCalendarEvents'])->name('get_google_calendar_events');
+    Route::get('/calendar/up-coming-events', [CalenderController::class, 'upComingEvents'])->name('up_coming_events');
 
     Route::prefix('offering')->group(function () {
         Route::get('/', [OfferingController::class, 'index'])->name('offering');
-        Route::post('/', [OfferingController::class, 'store'])->name('storeOffering');
-        Route::get('/{id}', [OfferingController::class, 'show'])->name('showOffering');
-        Route::put('/{id}', [OfferingController::class, 'update'])->name('updateOffering');
+        Route::post('/', [OfferingController::class, 'store'])->name('store_offering');
+        Route::get('/{id}', [OfferingController::class, 'show'])->name('show_offering');
+        Route::put('/{id}', [OfferingController::class, 'update'])->name('update_offering');
 
         Route::delete('/{id}', [OfferingController::class, 'destroy']);
     });
 
     Route::prefix('discount')->group(function () {
         Route::get('/', [DiscountController::class, 'index'])->name('discount');
-        Route::post('/', [DiscountController::class, 'store'])->name('storediscount');
-        Route::get('/{id}', [DiscountController::class, 'show'])->name('showdiscount');
-        Route::put('/{id}', [DiscountController::class, 'update'])->name('updatediscount');
+        Route::post('/', [DiscountController::class, 'store'])->name('store_discount');
+        Route::get('/{id}', [DiscountController::class, 'show'])->name('show_discount');
+        Route::put('/{id}', [DiscountController::class, 'update'])->name('update_discount');
         Route::delete('/{id}', [DiscountController::class, 'destroy']);
     });
 
 
-    Route::get('/google/login', [GoogleAuthController::class, 'redirectToGoogle'])->name('redirectToGoogle');
-    Route::get('/google/disconnect', [GoogleAuthController::class, 'disconnectToGoogle'])->name('disconnectToGoogle');
-    Route::get('/google/callback', [GoogleAuthController::class, 'handleGoogleCallback'])->name('google.callback');
-
-    Route::post('/calendar/create-events', [GoogleCalendarController::class, 'createEvent'])->name('calendar.create');
-    Route::post('/calendar/delete', [GoogleCalendarController::class, 'deleteEvent'])->name('calendar.delete');
+    Route::get('/google/login', [GoogleAuthController::class, 'redirectToGoogle'])->name('redirect_to_google');
+    Route::get('/google/disconnect', [GoogleAuthController::class, 'disconnectToGoogle'])->name('disconnect_to_google');
+    Route::get('/google/callback', [GoogleAuthController::class, 'handleGoogleCallback'])->name('google_callback');
+    Route::post('/calendar/create-events', [GoogleCalendarController::class, 'createEvent'])->name('calendar_create');
+    Route::post('/calendar/delete', [GoogleCalendarController::class, 'deleteEvent'])->name('calendar_delete');
 
 
     /**** Stripe route */
 
-    Route::get('/admin/stripe-settings', [PaymentController::class, 'stripeSettings'])->name('stripe.settings');
-    Route::get('/admin/stripe-connect', [PaymentController::class, 'connectToStripe'])->name('stripe.connect');
-    Route::get('/admin/stripe-callback', [PaymentController::class, 'handleStripeCallback'])->name('stripe.callback');
-    Route::get('/admin/stripe-disconnect', [PaymentController::class, 'disconnectToStripe'])->name('disconnectToStripe');
+    Route::get('/stripe/connect', [PaymentController::class, 'connectToStripe'])->name('stripe_connect');
+    Route::get('/stripe/callback', [PaymentController::class, 'handleStripeCallback'])->name('stripe_callback');
+    Route::get('/stripe/disconnect', [PaymentController::class, 'disconnectToStripe'])->name('disconnect_to_stripe');
 
 });
