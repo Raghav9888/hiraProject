@@ -16,10 +16,10 @@ class GoogleAuthController extends Controller
     {
         $client = new Google_Client();
         $client->setAuthConfig(storage_path('app/google-calendar/google-calendar.json'));
-        $client->setRedirectUri(route('google.callback'));
+        $client->setRedirectUri(route('google_callback'));
 
-        $client->setAccessType('offline'); // Get refresh token
-        $client->setPrompt('consent'); // Always ask for permissions
+        $client->setAccessType('offline');
+        $client->setPrompt('consent');
         $client->addScope('https://www.googleapis.com/auth/calendar.events');
 
         return redirect()->away($client->createAuthUrl());
@@ -81,7 +81,7 @@ class GoogleAuthController extends Controller
             Session::forget('googleAuthSuccess');
         }
 
-        return redirect()->route('myProfile')->with('success', 'Google Calendar access revoked.');
+        return redirect()->route('my_profile')->with('success', 'Google Calendar access revoked.');
     }
 }
 
