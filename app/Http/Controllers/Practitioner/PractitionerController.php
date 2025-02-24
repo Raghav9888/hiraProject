@@ -101,13 +101,26 @@ class PractitionerController extends Controller
         ];
 
         if ($request->hasFile('images')) {
-            $image = $request->file('images');
-            $fileName = $image->getClientOriginalName();
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('uploads/practitioners/' . $id), $fileName);
-            $details['images'] = json_encode($fileName);
+            $images = $request->file('images');
 
+            if (!is_array($images)) {
+                $images = [$images];
+            }
+
+            $imagePaths = [];
+
+            foreach ($images as $image) {
+                if ($image->isValid()) {
+                    $fileName = time() . '_' . $image->getClientOriginalName();
+                    $image->move(public_path('uploads/practitioners/' . $id), $fileName);
+                    $imagePaths[] = $fileName;
+                }
+            }
+
+
+            $details['images'] = json_encode($imagePaths);
         }
+        
         UserDetail::where('user_id', $id)->update($details);
 
         return redirect()->back()->with('success', 'Profile updated successfully');

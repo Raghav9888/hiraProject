@@ -115,10 +115,10 @@
                                                 <i class="fas fa-plus"></i>
                                                 Add media
                                             </label>
-                                            <input type="file" id="media-upload" class="hidden" accept="image/*"
-                                                   multiple="">
+                                            <input type="file" id="media-upload" name="images[]" class="hidden" accept="image/*" multiple>
+
                                             <div class="media-container" id="media-container">
-                                                
+
                                             </div>
                                         </div>
                                         <div class="mb-3">
