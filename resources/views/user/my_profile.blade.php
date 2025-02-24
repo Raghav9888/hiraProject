@@ -2,7 +2,7 @@
 
 @section('content')
 
-<section class="practitioner-profile">
+    <section class="practitioner-profile">
         <div class="container">
             @include('layouts.partitioner_sidebar')
             <div class="row">
@@ -44,10 +44,21 @@
                                                 <input type="file" id="fileInput" name="image" class="hidden"
                                                        accept="image/*"
                                                        onchange="previewImage(event)" style="display: none;">
-                                                <label style="border-radius: 50%;" for="fileInput" class="image-preview"
-                                                       id="imagePreview">
-                                                    <span>+</span>
-                                                </label>
+
+                                                @if(isset($image))
+                                                    @php
+                                                        $imageUrl = asset(env('media_path') . '/practitioners/' . $userDetails->id . '/' .
+                                                        $image);
+                                                    @endphp
+                                                    <label for="fileInput" class="image-preview" id="imagePreview" style="border-radius: 50%;background-image: url('{{$imageUrl}}');background-size: cover;
+    background-position: center center;">
+                                                    </label>
+                                                @else
+                                                    <label style="border-radius: 50%;" for="fileInput" class="image-preview"
+                                                           id="imagePreview">
+                                                        <span>+</span>
+                                                    </label>
+                                                @endif
                                                 <div class="preview-div">
                                                     <img src="{{ url('/assets/images/Laptop.svg') }}" alt="">
                                                     <p>preview</p>
@@ -121,11 +132,15 @@
                                                    accept="image/*" multiple>
 
                                             <div class="media-container" id="media-container">
-                                                @if(count($imagesArray) > 0)
-                                                    @foreach ($imagesArray as $image)
+                                                @if(count($mediaImages) > 0)
+                                                    @foreach ($mediaImages as $image)
                                                         <div class="media-item">
-                                                            <img src="{{ asset(env('media_path') . '/practitioners/' . $userDetails->id . '/' . $image) }}" alt="Practitioner Image" style="width: 100px; height: 100px; object-fit: cover; display: block;">
-                                                            <i class="fas fa-times" style="cursor: pointer;" onclick="this.parentElement.remove();"></i>
+                                                            <img
+                                                                src="{{ asset(env('media_path') . '/practitioners/' . $userDetails->id . '/' . $image) }}"
+                                                                alt="Practitioner Image"
+                                                                style="width: 100px; height: 100px; object-fit: cover; display: block;">
+                                                            <i class="fas fa-times" style="cursor: pointer;"
+                                                               onclick="this.parentElement.remove();"></i>
                                                         </div>
                                                     @endforeach
                                                 @else
@@ -162,6 +177,7 @@
                                                 <option>Select</option>
                                                 @foreach($HowIHelp as $term)
                                             <option value="{{$term->id}}">{{$term->name}}</option>
+
                                         @endforeach
                                         </select>
                                     </div>

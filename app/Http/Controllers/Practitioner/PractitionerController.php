@@ -47,8 +47,8 @@ class PractitionerController extends Controller
         $stripeAccount = UserStripeSetting::where('user_id', Auth::id())->first();
         $googleAccount = GoogleAccount::where('user_id', Auth::id())->first();
         $images = json_decode($userDetails->images, true);
-        $imagesArray = isset($images['media_images']) && is_array($images['media_images']) ? $images['media_images'] : [];
-
+        $mediaImages = isset($images['media_images']) && is_array($images['media_images']) ? $images['media_images'] : [];
+        $image = isset($images['profile_image']) ? $images['profile_image'] : null;
         return view('user.my_profile', compact(
             'user',
             'userDetails',
@@ -58,7 +58,8 @@ class PractitionerController extends Controller
             'HowIHelp',
             'stripeAccount',
             'googleAccount',
-            'imagesArray',
+            'mediaImages',
+            'image'
         ));
     }
 
@@ -106,27 +107,44 @@ class PractitionerController extends Controller
         if ($request->hasFile('media_images')) {
             $images = $request->file('media_images');
 
+            // Ensure that $images is an array
             if (!is_array($images)) {
                 $images = [$images];
             }
 
-            $existingImages = [];
-            if ($userDetails->images) {
-                $existingImages = json_decode($userDetails->images, true);
+            // Initialize existing images
+            $existingImages = $userDetails->images ? json_decode($userDetails->images, true) : [];
+
+            // Initialize media_images to an empty array if it doesn't exist
+            if (!isset($existingImages['media_images'])) {
+                $existingImages['media_images'] = [];
             }
 
-            $imagePaths = $existingImages;
-
+            // Add new media images
             foreach ($images as $image) {
                 if ($image->isValid()) {
                     $fileName = time() . '_' . $image->getClientOriginalName();
-                    $image->move(public_path('uploads/practitioners/' . $id), $fileName);
-                    $imagePaths[] = $fileName;
+                    $image->move(public_path('uploads/practitioners/' . $userDetails->id), $fileName);
+                    $existingImages['media_images'][] = $fileName; // Add the new image to the existing array
                 }
             }
 
+            // Prepare the details for storing in the database, preserving existing data
+            $details['images'] = json_encode($existingImages);
+        } elseif ($request->hasFile('image')) {
+            $image = $request->file('image');
 
-            $details['images'] = json_encode(['media_images' => $imagePaths]);
+            if ($image->isValid()) {
+                $fileName = time() . '_' . $image->getClientOriginalName();
+                $image->move(public_path('uploads/practitioners/' . $userDetails->id), $fileName);
+
+                // Initialize existing images and add profile image
+                $existingImages = $userDetails->images ? json_decode($userDetails->images, true) : [];
+                $existingImages['profile_image'] = $fileName; // Update or add the profile image
+
+                // Save the updated details in JSON format
+                $details['images'] = json_encode($existingImages);
+            }
         }
 
 
