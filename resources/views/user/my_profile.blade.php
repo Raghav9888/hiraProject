@@ -42,10 +42,10 @@
                                                 <input type="file" id="fileInput" name="image" class="hidden"
                                                        accept="image/*"
                                                        onchange="previewImage(event)" style="display: none;">
-                                                <label style="border-radius: 50%;" for="fileInput" class="image-preview"
-                                                       id="imagePreview">
-                                                    <span>+</span>
-                                                </label>
+                                                    <label style="border-radius: 50%;" for="fileInput" class="image-preview"
+                                                           id="imagePreview">
+                                                        <span>+</span>
+                                                    </label>
                                                 <div class="preview-div">
                                                     <img src="{{ url('/assets/images/Laptop.svg') }}" alt="">
                                                     <p>preview</p>
@@ -118,12 +118,7 @@
                                             <input type="file" id="media-upload" class="hidden" accept="image/*"
                                                    multiple="">
                                             <div class="media-container" id="media-container">
-                                                <div class="media-item">
-                                                    <i class="fas fa-times"></i>
-                                                </div>
-                                                <div class="media-item">
-                                                    <i class="fas fa-times"></i>
-                                                </div>
+                                                
                                             </div>
                                         </div>
                                         <div class="mb-3">
@@ -404,6 +399,42 @@
                 }
             });
         });
+        document.getElementById('media-upload').addEventListener('change', function (event) {
+            const container = document.getElementById('media-container');
+            const files = event.target.files;
+
+            for (let file of files) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    const div = document.createElement('div');
+                    div.classList.add('media-item');
+
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.style.width = "100px";
+                    img.style.height = "100px";
+                    img.style.objectFit = "cover";
+                    img.style.display = "block";
+
+                    const removeBtn = document.createElement('i');
+                    removeBtn.classList.add('fas', 'fa-times');
+                    removeBtn.style.cursor = "pointer";
+
+                    removeBtn.addEventListener('click', function () {
+                        div.remove();
+                    });
+
+                    div.appendChild(img);
+                    div.appendChild(removeBtn);
+                    container.appendChild(div);
+                };
+
+                reader.readAsDataURL(file);
+            }
+        });
+
+
 
     </script>
 @endsection
