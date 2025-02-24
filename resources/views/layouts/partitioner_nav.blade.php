@@ -5,7 +5,7 @@
 
 <ul class="practitioner-profile-btns">
     <li class="{{ Request::is('my-profile') ? 'active' : '' }}">
-        <a href="{{ route('myProfile') }}">
+        <a href="{{ route('my_profile') }}">
             My Profile
         </a>
     </li>
