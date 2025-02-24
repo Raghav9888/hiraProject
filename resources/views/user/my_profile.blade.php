@@ -42,10 +42,10 @@
                                                 <input type="file" id="fileInput" name="image" class="hidden"
                                                        accept="image/*"
                                                        onchange="previewImage(event)" style="display: none;">
-                                                    <label style="border-radius: 50%;" for="fileInput" class="image-preview"
-                                                           id="imagePreview">
-                                                        <span>+</span>
-                                                    </label>
+                                                <label style="border-radius: 50%;" for="fileInput" class="image-preview"
+                                                       id="imagePreview">
+                                                    <span>+</span>
+                                                </label>
                                                 <div class="preview-div">
                                                     <img src="{{ url('/assets/images/Laptop.svg') }}" alt="">
                                                     <p>preview</p>
@@ -115,10 +115,25 @@
                                                 <i class="fas fa-plus"></i>
                                                 Add media
                                             </label>
-                                            <input type="file" id="media-upload" name="images[]" class="hidden" accept="image/*" multiple>
+                                            <input type="file" id="media-upload" name="images[]" class="hidden"
+                                                   accept="image/*" multiple>
 
                                             <div class="media-container" id="media-container">
 
+                                                    @if($userDetails->images)
+                                                        @php
+                                                            $imagePaths = json_decode($userDetails->images);
+                                                        @endphp
+                                                        @foreach ($imagePaths as $image)
+                                                            <div class="media-item">
+                                                                <img src="{{ asset('uploads/practitioners/' . $userDetails->id . '/' . $image) }}" alt="Practitioner Image" style="width: 100px; height: 100px; object-fit: cover; display: block;">
+                                                                <i class="fas fa-times" style="cursor: pointer;" onclick="this.parentElement.remove();"></i>
+                                                            </div>
+                                                        @endforeach
+                                                    @else
+                                                        <p>No images available</p>
+                                                    @endif
+                                              
                                             </div>
                                         </div>
                                         <div class="mb-3">
@@ -150,10 +165,6 @@
                                                 <option>Select</option>
                                                 @foreach($HowIHelp as $term)
                                             <option value="{{$term->id}}">{{$term->name}}</option>
-
-
-
-
                                         @endforeach
                                         </select>
                                     </div>
@@ -259,7 +270,8 @@
                                                 <h4>Authorization</h4>
                                                 <div class="form-group flex-column d-flex align-items-start">
                                                     @if($stripeAccount && $stripeAccount->stripe_access_token && $stripeAccount->stripe_refresh_token)
-                                                        <a href="{{ route('disconnect_to_stripe') }}" class="export-btn">Disconnect</a>
+                                                        <a href="{{ route('disconnect_to_stripe') }}"
+                                                           class="export-btn">Disconnect</a>
                                                     @else
                                                         <a href="{{ route('stripe_connect') }}" class="export-btn">Connect</a>
                                                     @endif
@@ -281,7 +293,8 @@
                                                 <h4>Authorization</h4>
                                                 <div class="form-group flex-column d-flex align-items-start">
                                                     @if($googleAccount && $googleAccount->access_token && $googleAccount->refresh_token)
-                                                        <a href="{{ route('disconnect_to_google') }}" class="export-btn">Disconnect</a>
+                                                        <a href="{{ route('disconnect_to_google') }}"
+                                                           class="export-btn">Disconnect</a>
                                                     @else
                                                         <a href="{{ route('redirect_to_google') }}" class="export-btn">Connect</a>
                                                     @endif
@@ -433,9 +446,6 @@
                 reader.readAsDataURL(file);
             }
         });
-
-
-
     </script>
 @endsection
 

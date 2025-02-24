@@ -120,7 +120,7 @@ class PractitionerController extends Controller
 
             $details['images'] = json_encode($imagePaths);
         }
-        
+
         UserDetail::where('user_id', $id)->update($details);
 
         return redirect()->back()->with('success', 'Profile updated successfully');
