@@ -107,7 +107,7 @@ class PractitionerController extends Controller
                 $images = [$images];
             }
 
-            
+
             $existingImages = [];
             if ($userDetails->images) {
                 $existingImages = json_decode($userDetails->images, true);
@@ -123,7 +123,7 @@ class PractitionerController extends Controller
                 }
             }
 
-            // Store updated image paths as JSON
+
             $details['images'] = json_encode($imagePaths);
         }
 
@@ -237,7 +237,7 @@ class PractitionerController extends Controller
             return response()->json(['success' => false, 'message' => 'Name is required']);
         }
 
-        $slug = Str::slug($name); // Generate slug from name
+        $slug = Str::slug($name);
 
         if ($type == 'IHelpWith') {
             $term = IHelpWith::create([

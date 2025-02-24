@@ -126,7 +126,7 @@
                                                         @endphp
                                                         @foreach ($imagePaths as $image)
                                                             <div class="media-item">
-                                                                <img src="{{ asset('uploads/practitioners/' . $userDetails->id . '/' . $image) }}" alt="Practitioner Image" style="width: 100px; height: 100px; object-fit: cover; display: block;">
+                                                                <img src="{{ asset(env('media_path').'/practitioners/' . $userDetails->id . '/' . $image) }}" alt="Practitioner Image" style="width: 100px; height: 100px; object-fit: cover; display: block;">
                                                                 <i class="fas fa-times" style="cursor: pointer;" onclick="this.parentElement.remove();"></i>
                                                             </div>
                                                         @endforeach
