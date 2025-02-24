@@ -145,7 +145,7 @@
                                         <hr>
                                         <button class="update-btn mb-2 addterm" data-type="IHelpWith">Add New Term</button>
                                         <div id="IHelpWith-container">
-                                            
+
                                         </div>
                                         <!-- <div class="mb-4">
                                             <label for="type" class="fw-bold">I help with:</label>
@@ -170,7 +170,7 @@
                                         <hr>
                                         <button class="update-btn mb-2 addterm" data-type="HowIHelp">Add New Term</button>
                                         <div id="HowIHelp-container">
-                                            
+
                                             </div>
                                         <div class="mb-4">
                                             <label for="specialities" class="fw-bold">Specialities</label>
@@ -249,8 +249,13 @@
                                      aria-labelledby="availability-tab">
                                     <h4 class="stripe-text">Connect with Stripe</h4>
                                     <h5 class="stripe-label">Your account is not yet connected with Stripe.</h5>
-                                    <a href="{{ route('stripe.connect') }}" class="stripe-btn mt-3">Connect with
-                                        stripe</a>
+                                    @if($stripeAccount && $stripeAccount->stripe_access_token && $stripeAccount->stripe_refresh_token)
+                                        <h6>Successfully authenticated.</h6>
+                                        <a href="{{ route('disconnectToStripe') }}" class="stripe-btn mt-3">Disconnect</a>
+                                    @else
+                                        <a href="{{ route('stripe.connect') }}" class="stripe-btn mt-3">Connect with
+                                            stripe</a>
+                                    @endif
                                 </div>
 
                                 <!-- Costs Tab Content -->
@@ -332,7 +337,7 @@
     $('.addterm').on('click', function (e) {
         e.preventDefault();
         var termType = $(this).data('type'); // Get the data-type attribute value
-        
+
          $.ajax({
             url: '{{route("add_term")}}', // Change this to your server-side script
             type: 'POST',
@@ -351,7 +356,7 @@
             error: function (xhr, status, error) {
                 console.error('AJAX Error:', error);
             }
-        }); 
+        });
     });
 
     $(document).on('click', '.save_term', function (e) {
@@ -381,7 +386,7 @@
             error: function (xhr, status, error) {
                 console.error('AJAX Error:', error);
             }
-        }); 
+        });
     });
 
     </script>
