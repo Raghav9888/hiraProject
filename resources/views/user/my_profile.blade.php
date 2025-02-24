@@ -1,6 +1,8 @@
 @extends('layouts.app')
+
 @section('content')
-    <section class="practitioner-profile">
+
+<section class="practitioner-profile">
         <div class="container">
             @include('layouts.partitioner_sidebar')
             <div class="row">
@@ -115,25 +117,20 @@
                                                 <i class="fas fa-plus"></i>
                                                 Add media
                                             </label>
-                                            <input type="file" id="media-upload" name="images[]" class="hidden"
+                                            <input type="file" id="media-upload" name="media_images[]" class="hidden"
                                                    accept="image/*" multiple>
 
                                             <div class="media-container" id="media-container">
-
-                                                    @if($userDetails->images)
-                                                        @php
-                                                            $imagePaths = json_decode($userDetails->images);
-                                                        @endphp
-                                                        @foreach ($imagePaths as $image)
-                                                            <div class="media-item">
-                                                                <img src="{{ asset(env('media_path').'/practitioners/' . $userDetails->id . '/' . $image) }}" alt="Practitioner Image" style="width: 100px; height: 100px; object-fit: cover; display: block;">
-                                                                <i class="fas fa-times" style="cursor: pointer;" onclick="this.parentElement.remove();"></i>
-                                                            </div>
-                                                        @endforeach
-                                                    @else
-                                                        <p>No images available</p>
-                                                    @endif
-
+                                                @if(count($imagesArray) > 0)
+                                                    @foreach ($imagesArray as $image)
+                                                        <div class="media-item">
+                                                            <img src="{{ asset(env('media_path') . '/practitioners/' . $userDetails->id . '/' . $image) }}" alt="Practitioner Image" style="width: 100px; height: 100px; object-fit: cover; display: block;">
+                                                            <i class="fas fa-times" style="cursor: pointer;" onclick="this.parentElement.remove();"></i>
+                                                        </div>
+                                                    @endforeach
+                                                @else
+                                                    <p>No images available</p>
+                                                @endif
                                             </div>
                                         </div>
                                         <div class="mb-3">

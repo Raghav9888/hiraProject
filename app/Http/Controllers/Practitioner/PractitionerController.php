@@ -46,6 +46,8 @@ class PractitionerController extends Controller
         $HowIHelp = HowIHelp::get();
         $stripeAccount = UserStripeSetting::where('user_id', Auth::id())->first();
         $googleAccount = GoogleAccount::where('user_id', Auth::id())->first();
+        $images = json_decode($userDetails->images, true);
+        $imagesArray = isset($images['media_images']) && is_array($images['media_images']) ? $images['media_images'] : [];
 
         return view('user.my_profile', compact(
             'user',
@@ -55,7 +57,8 @@ class PractitionerController extends Controller
             'IHelpWith',
             'HowIHelp',
             'stripeAccount',
-            'googleAccount'
+            'googleAccount',
+            'imagesArray',
         ));
     }
 
@@ -100,13 +103,12 @@ class PractitionerController extends Controller
             'is_google_analytics' => isset($input['is_google_analytics']) && $input['is_google_analytics'] == 'on' ? 1 : 0,
         ];
 
-        if ($request->hasFile('images')) {
-            $images = $request->file('images');
+        if ($request->hasFile('media_images')) {
+            $images = $request->file('media_images');
 
             if (!is_array($images)) {
                 $images = [$images];
             }
-
 
             $existingImages = [];
             if ($userDetails->images) {
@@ -124,7 +126,7 @@ class PractitionerController extends Controller
             }
 
 
-            $details['images'] = json_encode($imagePaths);
+            $details['images'] = json_encode(['media_images' => $imagePaths]);
         }
 
 
