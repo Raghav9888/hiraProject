@@ -15,7 +15,13 @@ class OfferingController extends Controller
         $offerings = Offering::with('user')->get();
         return view('user.offering', compact('offerings'));
     }
+    public function addOffering()
+    {
+        $user = Auth::user();
+        $userDetails = $user->userDetail;
 
+        return view('user.add_offering');
+    }
     // Store a new offering
     public function store(Request $request)
     {
@@ -57,8 +63,6 @@ class OfferingController extends Controller
 
         $offering = Offering::create($offeringdata);
         return redirect()->route('offering')->with('success', 'Offering created successfully!');
-
-
     }
 
     // Show a single offering

@@ -37,10 +37,8 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
 
     Route::get('/my-profile', [PractitionerController::class, 'index'])->name('my_profile');
     Route::get('/dashboard', [PractitionerController::class, 'dashboard'])->name('dashboard');
-    Route::get('/offering/add', [PractitionerController::class, 'addOffering'])->name('add_offering');
     Route::post('/term/add', [PractitionerController::class, 'add_term'])->name('add_term');
     Route::post('/term/save', [PractitionerController::class, 'save_term'])->name('save_term');
-
     Route::get('/discount/create', [PractitionerController::class, 'addDiscount'])->name('add_discount');
     Route::post('/profile/update', [PractitionerController::class, 'updateProfile'])->name('update_profile');
     Route::post('/client-policy/update', [PractitionerController::class, 'updateClientPolicy'])->name('update_client_policy');
@@ -53,14 +51,14 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::get('/calendar', [CalenderController::class, 'showCalendar'])->name('calendar');
     Route::get('/calendar/events', [CalenderController::class, 'getGoogleCalendarEvents'])->name('get_google_calendar_events');
     Route::get('/calendar/up-coming-events', [CalenderController::class, 'upComingEvents'])->name('up_coming_events');
-
+   ;
     Route::prefix('offering')->group(function () {
         Route::get('/', [OfferingController::class, 'index'])->name('offering');
-        Route::post('/', [OfferingController::class, 'store'])->name('store_offering');
-        Route::get('/{id}', [OfferingController::class, 'show'])->name('show_offering');
-        Route::put('/{id}', [OfferingController::class, 'update'])->name('update_offering');
-
-        Route::delete('/{id}', [OfferingController::class, 'destroy']);
+        Route::get('/add/new', [OfferingController::class, 'addOffering'])->name('add_offering');
+        Route::post('/store/', [OfferingController::class, 'store'])->name('store_offering');
+        Route::get('/show/{id}/', [OfferingController::class, 'show'])->name('show_offering');
+        Route::put('/update/{id}/', [OfferingController::class, 'update'])->name('update_offering');
+        Route::delete('/destroy/{id}/', [OfferingController::class, 'destroy']);
     });
 
     Route::prefix('discount')->group(function () {
