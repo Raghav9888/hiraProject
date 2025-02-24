@@ -28,12 +28,15 @@
                         </div>
                         <h5>Alternative and Holistic Health Practitioner</h5>
                         <p class="mb-4">{{$userDetails->bio}}</p>
-                        <div class="practitioner-location-dv">
-                            <button><i class="fa-solid fa-location-dot me-2"></i>Los Angeles, US</button>
-                            <ul class="m-0">
-                                <li>Virtual Offerings Available</li>
-                            </ul>
-                        </div>
+                        @foreach($locations as $location)
+                            <div class="practitioner-location-dv mb-4">
+                                <button><i class="fa-solid fa-location-dot me-2"></i>{{$location}}</button>
+                                <ul class="m-0">
+                                    <li>Virtual Offerings Available</li>
+                                </ul>
+                            </div>
+                        @endforeach
+
                     </div>
                     <div class="col-sm-12 col-md-3 col-lg-3">
                         @php
@@ -570,6 +573,7 @@
                                 <h4>Brigitta Ziemba</h4>
                                 <i class="fa-regular fa-heart"></i>
                             </div>
+
                             <h5><i class="fa-solid fa-location-dot"></i>Los Angeles, US</h5>
                             <p>Alternative and Holistic Health Practitioner</p>
                             <div class="d-flex justify-content-between flex-wrap align-items-center">
