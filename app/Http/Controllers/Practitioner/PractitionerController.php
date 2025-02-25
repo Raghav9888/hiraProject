@@ -214,25 +214,7 @@ class PractitionerController extends Controller
     }
 
 
-    public function practitionerDetail($id)
-    {
-        $user = User::findOrFail($id);
-        $userDetails = $user->userDetail;
-        $offerings = Offering::where('user_id', $user->id)->get();
-        $images = json_decode($userDetails->images, true);
-        $image = isset($images['profile_image']) ? $images['profile_image'] : null;
-        $mediaImages = isset($images['media_images']) && is_array($images['media_images']) ? $images['media_images'] : [];
-        $locations = json_decode($user->location, true);
-        $users = User::where('role', 1)->with('userDetail')->get();
-        return view('user.practitioner_detail', compact('user','users', 'userDetails', 'offerings','image','mediaImages','locations'));
-    }
-
-    public function offerDetail($id)
-    {
-        $offerDetail = Offering::findOrFail($id);
-
-        return view('user.practitioner_detail', compact('offerDetail'));
-    }
+    
 
     public function add_term(Request $request)
     {

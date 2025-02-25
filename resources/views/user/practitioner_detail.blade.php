@@ -108,7 +108,7 @@
                                                 <h4 class="mb-2">{{$offering->name}}</h4>
                                                 <div class="d-flex align-items-center">
                                                     <h6 class="offer-prize me-2 m-0">$1,444.00</h6>
-                                                    {{--                                                <a href="{{ route('offerDetail',$offering->id)}}" class="home-blog-btn">BOOK NOW</a>--}}
+                                                     <a href="{{ route('offerDetail',$offering->id)}}" class="home-blog-btn">BOOK NOW</a>
                                                 </div>
                                             </div>
                                             <ul class="practitioner-accordian-lists">
@@ -197,148 +197,7 @@
 
                                         </div>
                                     @endforeach
-                                    <div class="accordian-body-data">
-                                        <div class="d-flex justify-content-between flex-wrap align-items-center">
-                                            <h4 class="mb-2">Alchemical Rebirth Journey</h4>
-                                            <div class="d-flex align-items-center">
-                                                <h6 class="offer-prize me-2 m-0">$1,444.00</h6>
-                                                <button class="home-blog-btn">BOOK NOW</button>
-                                            </div>
-                                        </div>
-                                        <ul class="practitioner-accordian-lists">
-                                            <li>7 Hours</li>
-                                            <li>7 Sessions</li>
-                                        </ul>
-                                        <p class="m-0 mb-1">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                                            do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                                            minim veniam quis nostrud exercitation.Lorem ipsum dolor sit amet,
-                                            consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                                            dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation.</p>
-                                        <button id="view-more-btn" class="blog-view-more mb-2"
-                                                style="color:#9F8B72;">More Info<i
-                                                class="fas fa-chevron-down ms-2"></i></button>
-
-                                        <div id="lorem-text" class="lorem-text">
-                                            <div class="toggle-data-dv">
-                                                <div class="toggle-dv-desc">
-                                                    <img src="{{url('assets/images/bowl-girl.png')}}" alt="">
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                                        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                                                        enim ad minim veniam quis nostrud exercitation. Lorem ipsum
-                                                        dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                                        tempor incididunt. Ut enim ad minim veniam quis nostrud
-                                                        exercitation. Lorem ipsum dolor sit amet, consectetur adipiscing
-                                                        elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-                                                        aliqua. Ut enim ad minim veniam quis nostrud exercitation.</p>
-                                                </div>
-                                                <div class="toggle-dv-review">
-                                                    <div class="d-flex mb-2" style="gap: 20px;">
-                                                        <button>Description</button>
-                                                        <button
-                                                            style="background-color: transparent;color: #9F8B72;">Reviews</button>
-                                                    </div>
-                                                    <ul>
-                                                        <li class="m-0">Lorem ipsum dolor sit amet, consectetur
-                                                            adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                                                            et dolore magna aliqua. Ut enim ad minim veniam quis nostrud
-                                                            exercitation. Lorem ipsum dolor sit amet, consectetur
-                                                            adipiscing elit, sed do eiusmod tempor incididunt. dolor sit
-                                                            amet Ut enim ad minim veniam quis nostrud exercitation.</li>
-                                                        <li class="m-0">Lorem ipsum dolor sit amet, consectetur
-                                                            adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                                                            et dolore magna aliqua. Ut enim ad minim veniam quis nostrud
-                                                            exercitation. Lorem ipsum dolor sit amet, consectetur
-                                                            adipiscing elit, sed do Ut enim ad minim eiusmod tempor
-                                                            incididunt. Ut enim ad minim veniam quis nostrud
-                                                            exercitation.</li>
-                                                        <li class="m-0">Lorem ipsum dolor sit amet, consectetur
-                                                            adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                                                            et dolore magna aliqua. Ut enim ad minim veniam quis nostrud
-                                                            exercitation. Lorem ipsum dolor sit amet, consectetur
-                                                            adipiscing elit, sed do eiusmod sed do eiusmod tempor
-                                                            incididunt tempor incididunt. Ut enim ad minim veniam quis
-                                                            nostrud exercitation.</li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <button id="view-less-btn" class="blog-view-more"
-                                                style="color:#9F8B72; display: none;">View
-                                            Less<i class="fa-solid fa-chevron-up ms-2"></i></button>
-
-                                    </div>
-                                    <div class="accordian-body-data">
-                                        <div class="d-flex justify-content-between flex-wrap align-items-center">
-                                            <h4 class="mb-2">Alchemical Rebirth Journey</h4>
-                                            <div class="d-flex align-items-center">
-                                                <h6 class="offer-prize me-2 m-0">$1,444.00</h6>
-                                                <button class="home-blog-btn">BOOK NOW</button>
-                                            </div>
-                                        </div>
-                                        <ul class="practitioner-accordian-lists">
-                                            <li>7 Hours</li>
-                                            <li>7 Sessions</li>
-                                        </ul>
-                                        <p class="m-0 mb-1">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                                            do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                                            minim veniam quis nostrud exercitation.Lorem ipsum dolor sit amet,
-                                            consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                                            dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation.</p>
-                                        <button id="view-more-btn" class="blog-view-more mb-2"
-                                                style="color:#9F8B72;">More Info<i
-                                                class="fas fa-chevron-down ms-2"></i></button>
-
-                                        <div id="lorem-text" class="lorem-text">
-                                            <div class="toggle-data-dv">
-                                                <div class="toggle-dv-desc">
-                                                    <img src="{{url('assets/images/bowl-girl.png')}}" alt="">
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                                        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                                                        enim ad minim veniam quis nostrud exercitation. Lorem ipsum
-                                                        dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                                        tempor incididunt. Ut enim ad minim veniam quis nostrud
-                                                        exercitation. Lorem ipsum dolor sit amet, consectetur adipiscing
-                                                        elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-                                                        aliqua. Ut enim ad minim veniam quis nostrud exercitation.</p>
-                                                </div>
-                                                <div class="toggle-dv-review">
-                                                    <div class="d-flex mb-2" style="gap: 20px;">
-                                                        <button>Description</button>
-                                                        <button
-                                                            style="background-color: transparent;color: #9F8B72;">Reviews</button>
-                                                    </div>
-                                                    <ul>
-                                                        <li class="m-0">Lorem ipsum dolor sit amet, consectetur
-                                                            adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                                                            et dolore magna aliqua. Ut enim ad minim veniam quis nostrud
-                                                            exercitation. Lorem ipsum dolor sit amet, consectetur
-                                                            adipiscing elit, sed do eiusmod tempor incididunt. dolor sit
-                                                            amet Ut enim ad minim veniam quis nostrud exercitation.</li>
-                                                        <li class="m-0">Lorem ipsum dolor sit amet, consectetur
-                                                            adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                                                            et dolore magna aliqua. Ut enim ad minim veniam quis nostrud
-                                                            exercitation. Lorem ipsum dolor sit amet, consectetur
-                                                            adipiscing elit, sed do Ut enim ad minim eiusmod tempor
-                                                            incididunt. Ut enim ad minim veniam quis nostrud
-                                                            exercitation.</li>
-                                                        <li class="m-0">Lorem ipsum dolor sit amet, consectetur
-                                                            adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                                                            et dolore magna aliqua. Ut enim ad minim veniam quis nostrud
-                                                            exercitation. Lorem ipsum dolor sit amet, consectetur
-                                                            adipiscing elit, sed do eiusmod sed do eiusmod tempor
-                                                            incididunt tempor incididunt. Ut enim ad minim veniam quis
-                                                            nostrud exercitation.</li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <button id="view-less-btn" class="blog-view-more"
-                                                style="color:#9F8B72; display: none;">View
-                                            Less<i class="fa-solid fa-chevron-up ms-2"></i></button>
-
-                                    </div>
+                                   
                                 </div>
                             </div>
                         </div>
