@@ -713,13 +713,9 @@
                         </div>
                         <hr>
                         <div class="container">
+                            
                             <div class="mb-4">
                                 <label for="type" class="fw-bold">Type</label>
-                                <select id="type" name="type" class="form-select ">
-                                    <option>Bookable Product</option>
-                                </select>
-                            </div>
-                            <div class="mb-4">
                                 <ul class="nav nav-tabs" id="tabs" role="tablist">
                                     <li class="nav-item">
                                         <a class="nav-link active" id="general-tab" data-bs-toggle="tab" href="#general"
