@@ -68,13 +68,13 @@ class HomeController extends Controller
         $user = User::findOrFail($id);
         $userDetails = $user->userDetail;
       //  $userDetails = UserDetail::where('user_id', $id)->first();
-        
+
         $offerings = Offering::where('user_id', $user->id)->get();
-        
+
         $images = json_decode($userDetails->images, true);
         $image = isset($images['profile_image']) ? $images['profile_image'] : null;
         $mediaImages = isset($images['media_images']) && is_array($images['media_images']) ? $images['media_images'] : [];
-        
+
         $locations = json_decode($user->location, true);
         $users = User::where('role', 1)->with('userDetail')->get();
         return view('user.practitioner_detail', compact('user','users', 'userDetails', 'offerings','image','mediaImages','locations'));
@@ -85,5 +85,13 @@ class HomeController extends Controller
         $offerDetail = Offering::findOrFail($id);
 
         return view('user.offering_detail', compact('offerDetail'));
+    }
+
+    public function getTimeSlots(Request $request ,$date)
+    {
+        $timeSlots = [];
+        $date = date('Y-m-d', strtotime($date));
+
+
     }
 }

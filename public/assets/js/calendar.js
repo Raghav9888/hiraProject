@@ -103,7 +103,7 @@ function upComingEvents() {
 
             if (typeof response.events === 'object') {
                 Object.values(response.events).forEach(event => {
-                    if (!event.start || !event.end) return; // Skip events with null start or end date
+                    if (!event.start || !event.end) return;
 
                     let eventStart = new Date(event.start);
                     let formattedStartTime = eventStart.toLocaleTimeString([], {
@@ -131,5 +131,45 @@ function upComingEvents() {
         }
     });
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('booking_calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        selectable: true,
+        dateClick: function(info) {
+            var selectedDate = info.dateStr;
+            fetchTimeSlots(selectedDate);
+        }
+    });
+    calendar.render();
+});
+
+fetchTimeSlots = (selectedDate) => {
+    $.ajax({
+        url: `/calendar/time-slots/${selectedDate}`,
+        type: 'GET',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(response) {
+            console.log(response);
+        //     render html here
+        //     $('#timeSlotsModal').html(response);
+        },
+        error: function(xhr) {
+            console.log(xhr);
+        }
+    });
+};
+
+
+$(document).ready(function () {
+    $(document).on('change', '[data-type="hide"]', function () {
+      let id = $(this).attr('id')
+        console.log(id)
+    })
+})
+
 
 
