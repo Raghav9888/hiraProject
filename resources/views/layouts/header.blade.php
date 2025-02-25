@@ -31,7 +31,7 @@
                             </ul>
                         </li>
                     </ul>
-                    <div class="d-flex align-items-center">
+                    <div class="d-md-flex align-items-center justify-content-center">
                         @if(Auth::check())
                             <nav class="et-menu-nav">
                                 <ul id="menu-practitioner-menu me-5" class="et-menu nav">
@@ -46,9 +46,9 @@
                                 <button class="login-btn" type="submit">Logout</button>
                             </form>
                         @else
-                            <a href="{{ route('register') }}" class="btn join-btn" type="submit">Join as a
+                            <a href="{{ route('register') }}" class="btn join-btn my-2 d-flex align-items-center justify-content-center" type="submit">Join as a
                                 Practitioner</a>
-                            <a href="{{ route('login') }}" class="btn login-btn" type="submit">Login</a>
+                            <a href="{{ route('login') }}" class="btn login-btn my-2  d-flex align-items-center justify-content-center" type="submit">Login</a>
                         @endif
                     </div>
                 </div>
