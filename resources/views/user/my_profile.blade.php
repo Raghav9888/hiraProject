@@ -166,11 +166,13 @@
                                         </div>
                                         <hr>
                                         <div class="mb-4">
-                                            <label for="type" class="fw-bold">I help with:</label>
-                                            <select id="type" name="IHelpWith[]" class="form-select select2"
-                                                    multiple="multiple">
+                                            <label for="IHelpWith" class="fw-bold">I help with:</label>
+                                            <select id="IHelpWith" name="IHelpWith[]" class="form-select select2" multiple>
+                                                    @php
+                                                    $selectedTerms = explode(',', $userDetails->IHelpWith ?? '');
+                                                @endphp
                                                 @foreach($IHelpWith as $term)
-                                                    <option value="{{$term->id}}">{{$term->name}}</option>
+                                                    <option value="{{$term->id}}" {{ in_array($term->id, $selectedTerms) ? 'selected' : '' }} >{{$term->name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -199,9 +201,12 @@
                                     <button class="update-btn mb-2">Add New Term</button> -->
                                         <div class="mb-4">
                                             <label for="type" class="fw-bold">How I help:</label>
-                                            <select id="HowIHelp" name="HowIHelp[]" class="form-select">
+                                            <select id="HowIHelp" name="HowIHelp[]" class="form-select select2" multiple>
+                                            @php
+                                                    $selectedTerms = explode(',', $userDetails->HowIHelp ?? '');
+                                                @endphp
                                                 @foreach($HowIHelp as $term)
-                                                    <option value="{{$term->id}}">{{$term->name}}</option>
+                                                    <option value="{{$term->id}}" {{ in_array($term->id, $selectedTerms) ? 'selected' : '' }} >{{$term->name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -217,7 +222,7 @@
                                                     multiple="multiple"
                                                     name="specialities[]">
                                                 @foreach($Categories as $term)
-                                                    <option value="{{$term->id}}">{{$term->name}}</option>
+                                                    <option value="{{$term->id}}" {{ in_array($term->id, json_decode($userDetails->specialities)) ? 'selected' : '' }}>{{$term->name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -425,20 +430,42 @@
                 dataType: 'json',
                 success: function (response) {
                     if (response.success) {
+                        var selectElement = $("#" + termType);
+
+                        // Append the new option
+                        var newOption = `<option value="${response.term.id}" selected>${response.term.name}</option>`;
+                        selectElement.append(newOption);
+
+                        // Get previously selected values and add the new one
+                        var selectedValues = selectElement.val() || [];
+                        selectedValues.push(response.term.id);
+
+                        // Reapply selected values
+                        selectElement.val(selectedValues).trigger('change');
+                        alert('Term added successfully');
+                    } else {
+                        alert('Error: ' + response.message);
+                    }
+                    $('#' + termType + '-container').html('');
+                },
+               /*  success: function (response) {
+                    if (response.success) {
                         $('#' + termType + '-container').html('');
                         var newOption = `<option value="${response.term.id}" selected>${response.term.name}</option>`;
                         $("#" + termType).append(newOption).trigger('change');
                         alert('term add sucessfully');
-                        /*  $('#'+termType+'-container').html(response.inputField); */
+                        
                     } else {
                         alert('Error: ' + response.message);
                     }
-                },
+                }, */
                 error: function (xhr, status, error) {
                     console.error('AJAX Error:', error);
                 }
             });
         });
+
+        /*** media upload */
         document.getElementById('media-upload').addEventListener('change', function (event) {
             const container = document.getElementById('media-container');
             const files = event.target.files;

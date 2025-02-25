@@ -94,7 +94,8 @@ class PractitionerController extends Controller
             'location' => isset($input['location']) && $input['location'] ? $input['location'] : [],
 //            'tags' => $input['tags'],
             'about_me' => $input['about_me'],
-//            'help' => $input['help'],
+            'IHelpWith' => implode(',', $input['IHelpWith']),
+            'HowIHelp' => implode(',', $input['HowIHelp']),
             'specialities' => isset($input['specialities']) && $input['specialities'] ? $input['specialities'] : [],
             'certifications' => isset($input['certifications']) && $input['certifications'] ? $input['certifications'] : [],
             'endorsements' => $input['endorsements'],
@@ -235,15 +236,10 @@ class PractitionerController extends Controller
 
         $type = $request->type;
 
-        if ($type == 'IHelpWith') {
-
-            $inputField = '<input type="text" class="' . $type . '_term" id="term" name="' . $type . '_term" id="term" placeholder="Enter term"><button data-type="' . $type . '" class="update-btn mb-2 save_term">Add Term</button';
-            return response()->json(['success' => true, 'inputField' => $inputField]);
-        }
-
-        if ($type == 'HowIHelp') {
-
-            $inputField = '<input type="text" class="' . $type . '_term" id="term" name="' . $type . '_term" id="term" placeholder="Enter term"><button data-type="' . $type . '" class="update-btn mb-2 save_term">Add Term</button';
+        if (in_array($type, ['IHelpWith', 'HowIHelp'])) {
+            $inputField = '<input type="text" class="' . $type . '_term" id="' . $type . '_term" name="' . $type . '_term" placeholder="Enter term">
+            <button data-type="' . $type . '" class="update-btn mb-2 save_term">Add Term</button>';
+            
             return response()->json(['success' => true, 'inputField' => $inputField]);
         }
         return response()->json(['success' => false, 'message' => 'Invalid request']);
