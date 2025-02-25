@@ -1,6 +1,6 @@
 <header class="header">
     <div class="container">
-        <nav class="navbar navbar-expand-lg">
+        <nav class="navbar navbar-expand-lg navbar-dark sticky-top" >
             <div class="container-fluid">
                 <a href="{{route('home')}}">
                     <img class="header-logo" src="{{ url('./assets/images/header-logo.svg') }}" alt="header-logo">
