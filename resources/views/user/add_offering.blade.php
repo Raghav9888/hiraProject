@@ -716,8 +716,8 @@
                             <div class="mb-4">
                                 <label for="type" class="fw-bold">Type of offering</label>
                                 <select id="type" name="type" class="form-select ">
-                                    <option value="in-person">In person</option>
-                                    <option value="virtual">Virtual</option>
+                                    <option value="in-person">In person Offering</option>
+                                    <option value="virtual">Virtual Offering</option>
                                 </select>
                             </div>
                             <div class="mb-4">
@@ -744,10 +744,14 @@
                                         <div class="mb-4">
                                             <label for="booking-duration" class="fw-bold">Duration of offering</label>
                                             <select id="booking-duration" class="form-select">
-                                                <option>15</option>
-                                                <option>30</option>
-                                                <option>45</option>
-                                                <option>50</option>
+                                                <option>15 minutes</option>
+                                                <option>30 minutes</option>
+                                                <option>45 minutes</option>
+                                                <option>1 hour</option>
+                                                <option>1:15 hour</option>
+                                                <option>1:30 hour</option>
+                                                <option>1:45 hour</option>
+                                                <option>2 hour</option>
                                             </select>
                                         </div>
                                         <div class="row mb-4">
