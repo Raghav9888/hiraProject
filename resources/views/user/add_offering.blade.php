@@ -760,11 +760,11 @@
                                                 <div class="d-flex" style="gap: 20px;">
                                                     <div>
                                                         <label for="service-hours" class="fw-bold">From</label>
-                                                        <input type="number" class="form-control" placeholder="">
+                                                        <input type="datetime-local" class="form-control" placeholder="">
                                                     </div>
                                                     <div>
                                                         <label for="service-hours" class="fw-bold">To</label>
-                                                        <input type="number" class="form-control" placeholder="">
+                                                        <input type="datetime-local" class="form-control" placeholder="">
                                                     </div>
                                                 </div>
                                             </div>
@@ -787,7 +787,7 @@
                                         <div class="row">
                                             <div class="col mb-4">
                                                 <label for="service-hours" class="fw-bold">Client price</label>
-                                                <input type="number" class="form-control" placeholder="">
+                                                <input type="text" class="form-control" placeholder="">
                                             </div>
                                             <div class=" col mb-4">
                                                 <label for="tax" class="fw-bold">what % of tax</label>
