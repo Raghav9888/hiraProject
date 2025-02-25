@@ -760,11 +760,13 @@
                                                 <div class="d-flex" style="gap: 20px;">
                                                     <div>
                                                         <label for="service-hours" class="fw-bold">From</label>
-                                                        <input type="datetime-local" class="form-control" placeholder="">
+                                                        <input type="datetime-local" class="form-control"
+                                                               placeholder="">
                                                     </div>
                                                     <div>
                                                         <label for="service-hours" class="fw-bold">To</label>
-                                                        <input type="datetime-local" class="form-control" placeholder="">
+                                                        <input type="datetime-local" class="form-control"
+                                                               placeholder="">
                                                     </div>
                                                 </div>
                                             </div>
@@ -774,13 +776,15 @@
                                                            id="can-be-cancelled">
                                                     <label class="form-check-label mb-3 fw-bold"
                                                            for="can-be-cancelled">Availability</label><br>
-                                                      <input type="radio" id="hours" name="fav_language" value="hours">
-                                                      <label for="hours">Following store hours</label><br>
-                                                      <input type="radio" id="date" name="fav_language" value="date">
-                                                      <label for="date">Specific date and time</label><br>
-                                                      <input type="radio" id="monday" name="fav_language"
-                                                             value="monday">
-                                                      <label for="monday">Every (Monday)</label>
+                                                    <select id="type" class="form-select">
+                                                        <option>Monday</option>
+                                                        <option>Tuesday</option>
+                                                        <option>Wednesday</option>
+                                                        <option>Thursday</option>
+                                                        <option>Friday</option>
+                                                        <option>All week days</option>
+                                                        <option>Weekends only</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
@@ -798,23 +802,30 @@
                                             <div class="col mb-4">
                                                 <label for="type" class="fw-bold">Scheduling window</label>
                                                 <select id="type" class="form-select">
-                                                    <option>60 days advanced</option>
-                                                    <option>24 hours before</option>
+                                                    <option>15 minutes</option>
+                                                    <option>30 minutes</option>
+                                                    <option>45 minutes</option>
+                                                    <option>1 hour</option>
+                                                    <option>1:15 hour</option>
+                                                    <option>1:30 hour</option>
+                                                    <option>1:45 hour</option>
+                                                    <option>2 hour</option>
                                                 </select>
                                             </div>
                                             <div class="col mb-4">
-                                                <label for="type" class="fw-bold">Buffer time between appointment</label>
+                                                <label for="type" class="fw-bold">Buffer time between
+                                                    appointment</label>
                                                 <input type="number" class="form-control" placeholder="">
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col mb-4">
                                                 <label for="service-hours" class="fw-bold">Email template</label>
-                                                <input type="number" class="form-control" placeholder="">
+                                                <textarea class="form-control"></textarea>
                                             </div>
                                             <div class="col mb-4">
                                                 <label for="service-hours" class="fw-bold">Intake form</label>
-                                                <input type="number" class="form-control" placeholder="">
+                                                <input type="text" class="form-control" placeholder="enter your link">
                                             </div>
                                         </div>
                                         <div class="mb-4">
@@ -845,7 +856,8 @@
                                             <input type="date" class="form-control" placeholder="">
                                         </div>
                                         <div class="mb-4">
-                                            <label for="booking-duration" class="fw-bold">How many sports are available</label>
+                                            <label for="booking-duration" class="fw-bold">How many sports are
+                                                available</label>
                                             <select id="booking-duration" class="form-select">
                                                 <option>1</option>
                                                 <option>2</option>
@@ -901,7 +913,8 @@
                                                 </select>
                                             </div>
                                             <div class="col mb-4">
-                                                <label for="type" class="fw-bold">Buffer time between appointment</label>
+                                                <label for="type" class="fw-bold">Buffer time between
+                                                    appointment</label>
                                                 <input type="number" class="form-control" placeholder="">
                                             </div>
                                         </div>
@@ -917,7 +930,7 @@
                                         </div>
                                         <div class="mb-4">
                                             <div class="form-check offering-check">
-                                                <input type="checkbox" class="form-check-input" id="can-be-cancelled">
+                                                <input type="checkbox" class="form-check-input" id="can-be-cancelled" data-type="hide">
                                                 <label class="form-check-label mb-3 fw-bold"
                                                        for="can-be-cancelled">Cancellation</label>
                                             </div>
@@ -945,6 +958,14 @@
             </div>
         </div>
     </section>
-
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('change', function (event) {
+            if (event.target.matches('[data-type="hide"]')) {
+                alert('hi');
+            }
+        });
+    });
+</script>
 @endsection
 
