@@ -59,7 +59,7 @@ class PractitionerController extends Controller
             'stripeAccount',
             'googleAccount',
             'mediaImages',
-            'image'
+            'image',
         ));
     }
 
@@ -78,13 +78,14 @@ class PractitionerController extends Controller
 //        if (!$user) {
 //            return redirect()->back()->with('error', 'User not found');
 //        }
+
         $user = User::find($id); // Find the user with ID 1
         $user->name = ($input['first_name'] . ' ' . $input['last_name']);
         $user->first_name = $input['first_name'];
         $user->last_name = $input['last_name'];
         $user->company = $input['company'];
         $user->bio = $input['bio'];
-        $user->location = isset($input['location']) && $input['location'] ? $input['location'] : [];
+        $user->location = isset($input['location']) && $input['location'] ? json_encode($input['location']): [];
         $user->save();
         $userDetails = $user->userDetail;
 
@@ -221,7 +222,9 @@ class PractitionerController extends Controller
         $images = json_decode($userDetails->images, true);
         $image = isset($images['profile_image']) ? $images['profile_image'] : null;
         $mediaImages = isset($images['media_images']) && is_array($images['media_images']) ? $images['media_images'] : [];
-        return view('user.practitioner_detail', compact('user', 'userDetails', 'offerings','image','mediaImages'));
+        $locations = json_decode($user->location, true);
+        $users = User::where('role', 1)->with('userDetail')->get();
+        return view('user.practitioner_detail', compact('user','users', 'userDetails', 'offerings','image','mediaImages','locations'));
     }
 
     public function offerDetail($id)

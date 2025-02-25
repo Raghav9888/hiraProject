@@ -28,12 +28,15 @@
                         </div>
                         <h5>Alternative and Holistic Health Practitioner</h5>
                         <p class="mb-4">{{$userDetails->bio}}</p>
-                        <div class="practitioner-location-dv">
-                            <button><i class="fa-solid fa-location-dot me-2"></i>Los Angeles, US</button>
-                            <ul class="m-0">
-                                <li>Virtual Offerings Available</li>
-                            </ul>
-                        </div>
+                        @foreach($locations as $location)
+                            <div class="practitioner-location-dv mb-4">
+                                <button><i class="fa-solid fa-location-dot me-2"></i>{{$location}}</button>
+                                <ul class="m-0">
+                                    <li>Virtual Offerings Available</li>
+                                </ul>
+                            </div>
+                        @endforeach
+
                     </div>
                     <div class="col-sm-12 col-md-3 col-lg-3">
                         @php
@@ -562,94 +565,34 @@
         <div class="endorsment-dv">
             <div class="container">
                 <div class="row">
-                    <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
-                        <div class="featured-dv">
-                            <img src="{{url('assets/images/person.png')}}" alt="person">
-                            <label for="">0.4 Km Away</label>
-                            <div class="d-flex justify-content-between flex-wrap align-items-center mb-2">
-                                <h4>Brigitta Ziemba</h4>
-                                <i class="fa-regular fa-heart"></i>
-                            </div>
-                            <h5><i class="fa-solid fa-location-dot"></i>Los Angeles, US</h5>
-                            <p>Alternative and Holistic Health Practitioner</p>
-                            <div class="d-flex justify-content-between flex-wrap align-items-center">
-                                <div>
-                                    <i class="fa-regular fa-gem"></i>
-                                    <i class="fa-regular fa-gem"></i>
-                                    <i class="fa-regular fa-gem"></i>
-                                    <i class="fa-regular fa-gem"></i>
-                                    <i class="fa-regular fa-gem"></i>
-                                </div>
-                                <h6>5.0 Ratings</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
-                        <div class="featured-dv">
-                            <img src="{{url('assets/images/person.png')}}" alt="person">
-                            <label for="">0.4 Km Away</label>
-                            <div class="d-flex justify-content-between flex-wrap align-items-center mb-2">
-                                <h4>Brigitta Ziemba</h4>
-                                <i class="fa-regular fa-heart"></i>
-                            </div>
-                            <h5><i class="fa-solid fa-location-dot"></i>Los Angeles, US</h5>
-                            <p>Alternative and Holistic Health Practitioner</p>
-                            <div class="d-flex justify-content-between flex-wrap align-items-center">
-                                <div>
-                                    <i class="fa-regular fa-gem"></i>
-                                    <i class="fa-regular fa-gem"></i>
-                                    <i class="fa-regular fa-gem"></i>
-                                    <i class="fa-regular fa-gem"></i>
-                                    <i class="fa-regular fa-gem"></i>
-                                </div>
-                                <h6>5.0 Ratings</h6>
+                    @foreach($users as $user)
+                        <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
+
+                            <div class="featured-dv">
+                                <a href="{{route('practitioner_detail', $user->id)}}">
+                                    <img src="{{url('/assets/images/person.png')}}" alt="person">
+                                    <label for="">0.4 Km Away</label>
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <h4>{{ $user->name }}</h4>
+                                        <i class="fa-regular fa-heart"></i>
+                                    </div>
+                                    <h5><i class="fa-solid fa-location-dot"></i>Los Angeles, US</h5>
+                                    <p>Alternative and Holistic Health Practitioner</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <i class="fa-regular fa-gem"></i>
+                                            <i class="fa-regular fa-gem"></i>
+                                            <i class="fa-regular fa-gem"></i>
+                                            <i class="fa-regular fa-gem"></i>
+                                            <i class="fa-regular fa-gem"></i>
+                                        </div>
+                                        <h6>5.0 Ratings</h6>
+                                    </div>
+                                </a>
+
                             </div>
                         </div>
-                    </div>
-                    <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
-                        <div class="featured-dv">
-                            <img src="{{url('assets/images/person.png')}}" alt="person">
-                            <label for="">0.4 Km Away</label>
-                            <div class="d-flex justify-content-between flex-wrap align-items-center mb-2">
-                                <h4>Brigitta Ziemba</h4>
-                                <i class="fa-regular fa-heart"></i>
-                            </div>
-                            <h5><i class="fa-solid fa-location-dot"></i>Los Angeles, US</h5>
-                            <p>Alternative and Holistic Health Practitioner</p>
-                            <div class="d-flex justify-content-between flex-wrap align-items-center">
-                                <div>
-                                    <i class="fa-regular fa-gem"></i>
-                                    <i class="fa-regular fa-gem"></i>
-                                    <i class="fa-regular fa-gem"></i>
-                                    <i class="fa-regular fa-gem"></i>
-                                    <i class="fa-regular fa-gem"></i>
-                                </div>
-                                <h6>5.0 Ratings</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
-                        <div class="featured-dv">
-                            <img src="{{url('assets/images/person.png')}}" alt="person">
-                            <label for="">0.4 Km Away</label>
-                            <div class="d-flex justify-content-between flex-wrap align-items-center mb-2">
-                                <h4>Brigitta Ziemba</h4>
-                                <i class="fa-regular fa-heart"></i>
-                            </div>
-                            <h5><i class="fa-solid fa-location-dot"></i>Los Angeles, US</h5>
-                            <p>Alternative and Holistic Health Practitioner</p>
-                            <div class="d-flex justify-content-between flex-wrap align-items-center">
-                                <div>
-                                    <i class="fa-regular fa-gem"></i>
-                                    <i class="fa-regular fa-gem"></i>
-                                    <i class="fa-regular fa-gem"></i>
-                                    <i class="fa-regular fa-gem"></i>
-                                    <i class="fa-regular fa-gem"></i>
-                                </div>
-                                <h6>5.0 Ratings</h6>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>
