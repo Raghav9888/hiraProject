@@ -28,7 +28,7 @@
                                       id="floatingTextarea"></textarea>
                         </div>
                         <div class="mb-3">
-                            <label for="floatingTextarea">Shoret Description</label>
+                            <label for="floatingTextarea">Short Description</label>
                             <textarea class="form-control" name="short_description"
                                       placeholder="please add a full description here"
                                       id="floatingTextarea"></textarea>
@@ -713,9 +713,15 @@
                         </div>
                         <hr>
                         <div class="container">
-                            
                             <div class="mb-4">
-                                <label for="type" class="fw-bold">Type</label>
+                                <label for="type" class="fw-bold">Type of offering</label>
+                                <select id="type" name="type" class="form-select ">
+                                    <option value="in-person">In person</option>
+                                    <option value="virtual">Virtual</option>
+                                </select>
+                            </div>
+                            <div class="mb-4">
+
                                 <ul class="nav nav-tabs" id="tabs" role="tablist">
                                     <li class="nav-item">
                                         <a class="nav-link active" id="general-tab" data-bs-toggle="tab" href="#general"
@@ -738,9 +744,10 @@
                                         <div class="mb-4">
                                             <label for="booking-duration" class="fw-bold">Duration of offering</label>
                                             <select id="booking-duration" class="form-select">
-                                                <option>option 1</option>
-                                                <option>option 2</option>
-                                                <option>option 3</option>
+                                                <option>15</option>
+                                                <option>30</option>
+                                                <option>45</option>
+                                                <option>50</option>
                                             </select>
                                         </div>
                                         <div class="row mb-4">
