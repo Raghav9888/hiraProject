@@ -137,7 +137,7 @@ class OfferingController extends Controller
         $user = Auth::user();
         $userDetails = $user->userDetail;
         $offering = Offering::findOrFail($id);
-        return view('user.offering_edit', compact('user', 'userDetails', 'offering'));
+        return view('user.edit_offering', compact('user', 'userDetails', 'offering'));
     }
 
     // Delete an offering
