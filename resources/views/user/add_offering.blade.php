@@ -12,8 +12,8 @@
                     free to “copy
                     and paste” descriptions from each service offering.</p>
                 <div class="add-offering-dv">
-                    <form method="post" action="{{route('store_offering')}}">
-                        @csrf
+                    <form method="POST" action="{{ route('store_offering') }}" enctype="multipart/form-data">
+                    @csrf
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Name</label>
                             <input type="text" class="form-control" name="name" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="">
@@ -32,7 +32,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Location</label>
-                            <select name="location" multiple="multiple" class="form-control select2">
+                            <select name="location[]" multiple="multiple" class="form-control select2">
                                 <option class="level-0" value="370">Montreal</option>
                                 <option class="level-0" value="386">Austin</option>
                                 <option class="level-0" value="891">Mississauga, ON</option>
@@ -581,7 +581,7 @@
                         <div class="mb-3">
                             <label for="exampleInputPassword1" class="form-label">I help with:</label>
 
-                            <select name="help" multiple="multiple" class="form-control select2">
+                            <select name="help[]" multiple="multiple" class="form-control select2">
                                 <option class="level-0" value="255">Anemia in pregnancy</option>
                                 <option class="level-0" value="271">Depression</option>
                                 <option class="level-0" value="287">Hormonal birth control transition</option>
@@ -678,7 +678,7 @@
                                 would be Ayuvedic massage and hot stone massage)
                                 Practitioner Offerings
                             </label>
-                            <select name="categories" multiple="multiple" class="form-control select2" id="">
+                            <select name="categories[]" multiple="multiple" class="form-control select2" id="">
                                 <option class="level-0" value="100">Practitioner Offerings</option>
                             </select>
                         </div>
@@ -692,17 +692,15 @@
                             </label>
                         </div>
                         <div class="form-group">
-                            <select name="tags" multiple="multiple" class="form-control select2" id="">
+                            <select name="tags[]" multiple="multiple" class="form-control select2" id="">
                                 <option value="156">energybalancing</option>
                                 <option value="2991">ASD</option>
                             </select>
-
                         </div>
 
                         <h4 class="mb-4 featured-image-tag">Featured Image</h4>
                         <div class="mb-3">
-                            <input type="file" name="featured_image" id="fileInput" class="hidden" accept="image/*"
-                                   onchange="previewImage(event)" style="display: none;">
+                            <input type="file" id="fileInput" name="featured_image" class="hidden" accept="image/*" onchange="previewImage(event)" style="display: none;">
                             <label for="fileInput" class="image-preview" id="imagePreview">
                                 <span>+</span>
                             </label>
@@ -805,7 +803,7 @@
                                             </div>
                                             <div class="col mb-4">
                                                 <label for="type" class="fw-bold">Buffer time between appointment</label>
-                                                <input type="number" class="form-control" placeholder="" name="buffer_time">
+                                                <input type="datetime-local" class="form-control" placeholder="" name="buffer_time">
                                             </div>
                                         </div>
                                         <div class="row">
@@ -837,8 +835,7 @@
                                                    for="can-be-cancelled">Requires Confirmation</label>
                                         </div>
                                         <div class="d-flex" style="gap: 20px;">
-                                            <button class="update-btn m-0">Add Offering</button>
-                                            <button class="update-btn">Save Draft</button>
+                                            <button class="update-btn">Save</button>
                                         </div>
                                     </div>
                                     <div class="tab-pane fade" id="events" role="tabpanel" aria-labelledby="events-tab" tabindex="0">

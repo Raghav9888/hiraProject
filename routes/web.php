@@ -64,8 +64,10 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
         Route::get('/add/new', [OfferingController::class, 'addOffering'])->name('add_offering');
         Route::post('/store/', [OfferingController::class, 'store'])->name('store_offering');
         Route::get('/show/{id}/', [OfferingController::class, 'show'])->name('show_offering');
-        Route::put('/update/{id}/', [OfferingController::class, 'update'])->name('update_offering');
-        Route::delete('/destroy/{id}/', [OfferingController::class, 'destroy']);
+        Route::get('/edit/{id}/', [OfferingController::class, 'edit'])->name('edit_offering');
+//        Route::put('/update/{id}/', [OfferingController::class, 'update'])->name('update_offering');
+        Route::post('/update/', [OfferingController::class, 'update'])->name('update_offering');
+        Route::post('/delete/{id}/', [OfferingController::class, 'delete'])->name('delete_offering');
     });
 
     Route::prefix('discount')->group(function () {

@@ -95,8 +95,8 @@ class PractitionerController extends Controller
             'location' => isset($input['location']) && $input['location'] ? $input['location'] : [],
 //            'tags' => $input['tags'],
             'about_me' => $input['about_me'],
-            'IHelpWith' => implode(',', $input['IHelpWith']),
-            'HowIHelp' => implode(',', $input['HowIHelp']),
+            'IHelpWith' => isset($input['IHelpWith']) && $input ? implode(',', $input['IHelpWith']) : [],
+            'HowIHelp' => isset($input['HowIHelp']) && $input ? implode(',', $input['HowIHelp']) : [],
             'specialities' => isset($input['specialities']) && $input['specialities'] ? $input['specialities'] : [],
             'certifications' => isset($input['certifications']) && $input['certifications'] ? $input['certifications'] : [],
             'endorsements' => $input['endorsements'],
@@ -126,8 +126,8 @@ class PractitionerController extends Controller
             foreach ($images as $image) {
                 if ($image->isValid()) {
                     $fileName = time() . '_' . $image->getClientOriginalName();
-                    $image->move(public_path('uploads/practitioners/' . $userDetails->id), $fileName);
-                    $existingImages['media_images'][] = $fileName; // Add the new image to the existing array
+                    $image->move(public_path('uploads/practitioners/' . $userDetails->id. '/media/'), $fileName);
+                    $existingImages['media_images'][] = $fileName;
                 }
             }
 
@@ -138,7 +138,7 @@ class PractitionerController extends Controller
 
             if ($image->isValid()) {
                 $fileName = time() . '_' . $image->getClientOriginalName();
-                $image->move(public_path('uploads/practitioners/' . $userDetails->id), $fileName);
+                $image->move(public_path('uploads/practitioners/' . $userDetails->id.'/profile/'), $fileName);
 
                 // Initialize existing images and add profile image
                 $existingImages = $userDetails->images ? json_decode($userDetails->images, true) : [];
@@ -214,7 +214,7 @@ class PractitionerController extends Controller
     }
 
 
-    
+
 
     public function add_term(Request $request)
     {
@@ -224,7 +224,7 @@ class PractitionerController extends Controller
         if (in_array($type, ['IHelpWith', 'HowIHelp'])) {
             $inputField = '<input type="text" class="' . $type . '_term" id="' . $type . '_term" name="' . $type . '_term" placeholder="Enter term">
             <button data-type="' . $type . '" class="update-btn mb-2 save_term">Add Term</button>';
-            
+
             return response()->json(['success' => true, 'inputField' => $inputField]);
         }
         return response()->json(['success' => false, 'message' => 'Invalid request']);

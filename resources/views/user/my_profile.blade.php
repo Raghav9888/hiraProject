@@ -47,7 +47,8 @@
 
                                                 @if(isset($image))
                                                     @php
-                                                        $imageUrl = asset(env('media_path') . '/practitioners/' . $userDetails->id . '/' . $image);
+                                                        $imageUrl = asset(env('media_path') . '/practitioners/' . $userDetails->id . '/profile/' . $image);
+
                                                     @endphp
                                                     <label class="image-preview" id="imagePreview"
                                                            style="border-radius: 50%; background-image: url('{{$imageUrl}}'); background-size: cover; background-position: center center;">
@@ -144,10 +145,10 @@
                                                     @foreach ($mediaImages as $image)
                                                         <div class="media-item">
                                                             <img
-                                                                src="{{ asset(env('media_path') . '/practitioners/' . $userDetails->id . '/' . $image) }}"
+                                                                src="{{ asset(env('media_path') . '/practitioners/' . $userDetails->id . '/media/' . $image) }}"
                                                                 alt="Practitioner Image"
                                                                 style="width: 100px; height: 100px; object-fit: cover; display: block;">
-                                                            <i class="fas fa-times" style="cursor: pointer;"
+                                                            <i class="fas fa-times text-danger" style="cursor: pointer;"
                                                                data-image="{{ $image }}"
                                                                data-user-id="{{ $userDetails->id }}"
                                                                onclick="removeImage(this);"></i>
@@ -454,7 +455,7 @@
                         var newOption = `<option value="${response.term.id}" selected>${response.term.name}</option>`;
                         $("#" + termType).append(newOption).trigger('change');
                         alert('term add sucessfully');
-                        
+
                     } else {
                         alert('Error: ' + response.message);
                     }
