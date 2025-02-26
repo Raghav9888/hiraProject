@@ -24,6 +24,9 @@ Route::get('/blog-details', [HomeController::class, 'blogDetail'])->name('blogDe
 
 Route::get('/practitioner/detail/{id}', [HomeController::class, 'practitionerDetail'])->name('practitioner_detail');
 Route::get('/offering/{id}', [HomeController::class, 'offerDetail'])->name('offerDetail');
+Route::get('/checkout', [HomeController::class, 'checkout'])->name('checkout');
+
+Route::post('/create-payment', [PaymentController::class, 'createPayment'])->name('create.payment');
 
 Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::namespace('Admin')->group(function () {

@@ -6,6 +6,9 @@ use App\Models\UserStripeSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Stripe\Stripe;
+use Stripe\Charge;
+use Stripe\PaymentIntent;
 
 class PaymentController extends Controller
 {
@@ -76,6 +79,43 @@ class PaymentController extends Controller
         ]);
 
         return redirect()->route('myProfile')->with('success', 'Stripe disconnected successfully!');
+    }
+
+
+    public function createPayment(Request $request)
+    {
+        // Set Stripe secret key
+        Stripe::setApiKey(env('STRIPE_SECRET'));
+
+        // Vendor's Stripe account ID (Get from your database)
+        $vendorStripeAccountId = "acct_1QvE6qSGd6Vpe1yc"; // Replace with vendor's actual Stripe account ID
+
+        try {
+            // Create a PaymentIntent with application_fee_amount for admin's cut
+            $paymentIntent = PaymentIntent::create([
+                'amount' => 10000, // ₹100 in paisa (100 * 100)
+                'currency' => 'inr',
+                'payment_method' => $request->payment_method, // Get payment method ID from frontend
+                'confirm' => true, // Automatically confirm the payment
+                'transfer_data' => [
+                    'destination' => $vendorStripeAccountId, // Send funds to vendor
+                    'amount' => 7500, // ₹75 to vendor (75% of ₹100)
+                ],
+                'application_fee_amount' => 2500, // ₹25 admin commission (25% of ₹100)
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Payment Successful',
+                'paymentIntent' => $paymentIntent
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 
 }
