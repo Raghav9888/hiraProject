@@ -12,8 +12,8 @@
                     free to “copy
                     and paste” descriptions from each service offering.</p>
                 <div class="add-offering-dv">
-                    <form method="post" action="{{route('store_offering')}}">
-                        @csrf
+                    <form method="POST" action="{{ route('store_offering') }}" enctype="multipart/form-data">
+                    @csrf
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Name</label>
                             <input type="text" class="form-control" name="name" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="">
@@ -701,8 +701,7 @@
 
                         <h4 class="mb-4 featured-image-tag">Featured Image</h4>
                         <div class="mb-3">
-                            <input type="file" name="featured_image" id="fileInput" class="hidden" accept="image/*"
-                                   onchange="previewImage(event)" style="display: none;">
+                            <input type="file" id="fileInput" name="featured_image" class="hidden" accept="image/*" onchange="previewImage(event)" style="display: none;">
                             <label for="fileInput" class="image-preview" id="imagePreview">
                                 <span>+</span>
                             </label>

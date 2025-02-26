@@ -15,8 +15,9 @@ class OfferingController extends Controller
         $user = Auth::user();
         $userDetails = $user->userDetail;
         $offerings = Offering::with('user')->get();
-        return view('user.offering', compact('user','userDetails','offerings'));
+        return view('user.offering', compact('user', 'userDetails', 'offerings'));
     }
+
     public function addOffering()
     {
         $user = Auth::user();
@@ -24,6 +25,7 @@ class OfferingController extends Controller
 
         return view('user.add_offering');
     }
+
     // Store a new offering
     public function store(Request $request)
     {
@@ -31,39 +33,46 @@ class OfferingController extends Controller
         $user = Auth::user();
         $user_id = $user->id;
 
-        $offeringdata = [
+
+        $offeringData = [
             'user_id' => $user_id,
-            'name' => $input['name'],
-            'long_description' => $input['long_description'],
-            'short_description' => $input['short_description'],
-            'location' => $input['location'],
-            'help' => $input['help'],
-            'categories' => $input['categories'],
-            'tags' => $input['tags'],
-            'type' => $input['type'],
-            'booking-duration' => $input['booking-duration'],
-            'booking-duration_time' => $input['booking-duration_time'],
-            'calendar-display-mode' => $input['calendar-display-mode'],
-            'max_bookings_per_block' => $input['max_bookings_per_block'],
-            'minimum_block_bookable' => $input['minimum_block_bookable'],
-            'into_future' => $input['into_future'],
-            'buffer_period' => $input['buffer_period'],
-            'all_dates' => $input['all_dates'],
-            'confirmation_required' => isset($input['confirmation_required']) && $input['confirmation_required'] == 'on' ? 1 : 0,
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s'),
+
+            "name" => $input['name'],
+            "long_description" => $input['long_description'],
+            "short_description" => $input['short_description'],
+            "location" => json_encode($input['location']),
+            "help" => json_encode($input['help']),
+            "categories" => json_encode($input['categories']),
+            "tags" => json_encode($input['tags']),
+            "offering_type" => $input['offering_type'],
+            "booking_duration" => json_encode($input['booking_duration']),
+            "from_date" => $input['from_date'],
+            "to_date" => $input['to_date'],
+            "availability" => $input['availability'],
+            "availability_type" => $input['availability_type'],
+            "client_price" => $input['client_price'],
+            "tax_amount" => $input['tax_amount'],
+            "scheduling_window" => $input['scheduling_window'],
+            "buffer_time" => $input['buffer_time'],
+            "email_template" => $input['email_template'],
+            "intake_form" => $input['intake_form'],
+            "is_cancelled" => $input['is_cancelled'],
+            "cancellation_time_slot" => $input['cancellation_time_slot'],
+            "is_confirmation" => $input['is_confirmation'] == 'on',
+//            remove from database
+            'type' => 'null',
         ];
 
-        if ($request->hasFile('images')) {
-            $image = $request->file('images');
-            $fileName = $image->getClientOriginalName();
-            $imageName = time().'.'.$image->getClientOriginalExtension();
-            $image->move(public_path('uploads/offering/'), $fileName);
-            $offeringdata['images'] = json_encode($fileName);
-
+        if ($request->hasFile('featured_image')) {
+            $image = $request->file('featured_image');
+            $extension = $image->getClientOriginalExtension();
+            $imageName = time() . '.' . $extension;
+            $image->move(public_path('uploads/practitioners/' . $user_id . '/feature'), $imageName);
+            $offeringData['featured_image'] = $imageName;
         }
 
-        $offering = Offering::create($offeringdata);
+
+        $offering = Offering::create($offeringData);
         return redirect()->route('offering')->with('success', 'Offering created successfully!');
     }
 
