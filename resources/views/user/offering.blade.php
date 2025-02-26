@@ -23,21 +23,13 @@
                 <div class="offering-btn-drop mb-4">
                     <a href="{{ route('add_offering') }}" class="category-load-more">Add Offering</a>
                     <div class="dropdown">
-                        <button onclick="toggleDropdown()" class="dropdown-button">
-                            <span>Discount</span>
-                            <i class="fas fa-chevron-down ms-2"></i>
+                        <button class="dropdown-button dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                           Discount
                         </button>
-{{--                        <div id="dropdownMenu" class="dropdown-menu">--}}
-{{--                            <ul>--}}
-{{--                                <li><a href="#">All offering</a></li>--}}
-{{--                                <li><a href="#">Specific offering</a></li>--}}
-{{--                            </ul>--}}
-{{--                        </div>--}}
-                    </div>
-                    <div class="form-check offering-check">
-                        <input type="checkbox" class="form-check-input"
-                               id="requires-confirmation">
-                        <label class="form-check-label" for="requires-confirmation">folx</label>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">All offering</a></li>
+                            <li><a class="dropdown-item" href="#">Specific offering</a></li>
+                        </ul>
                     </div>
                 </div>
 
