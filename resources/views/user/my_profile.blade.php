@@ -47,7 +47,8 @@
 
                                                 @if(isset($image))
                                                     @php
-                                                        $imageUrl = asset(env('media_path') . '/practitioners/' . $userDetails->id . '/media/' . $image);
+                                                        $imageUrl = asset(env('media_path') . '/practitioners/' . $userDetails->id . '/profile/' . $image);
+
                                                     @endphp
                                                     <label class="image-preview" id="imagePreview"
                                                            style="border-radius: 50%; background-image: url('{{$imageUrl}}'); background-size: cover; background-position: center center;">
@@ -144,7 +145,7 @@
                                                     @foreach ($mediaImages as $image)
                                                         <div class="media-item">
                                                             <img
-                                                                src="{{ asset(env('media_path') . '/practitioners/' . $userDetails->id . '/' . $image) }}"
+                                                                src="{{ asset(env('media_path') . '/practitioners/' . $userDetails->id . '/media/' . $image) }}"
                                                                 alt="Practitioner Image"
                                                                 style="width: 100px; height: 100px; object-fit: cover; display: block;">
                                                             <i class="fas fa-times" style="cursor: pointer;"
