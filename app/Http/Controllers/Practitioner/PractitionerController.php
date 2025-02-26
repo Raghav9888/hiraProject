@@ -40,10 +40,10 @@ class PractitionerController extends Controller
         $user = Auth::user();
         $userDetails = $user->userDetail;
 
-        $Categories = Category::get();
-        $PractitionerTag = PractitionerTag::get();
+        $categories = Category::get();
+        $practitionerTag = PractitionerTag::get();
         $IHelpWith = IHelpWith::get();
-        $HowIHelp = HowIHelp::get();
+        $howIHelp = HowIHelp::get();
         $stripeAccount = UserStripeSetting::where('user_id', Auth::id())->first();
         $googleAccount = GoogleAccount::where('user_id', Auth::id())->first();
         $images = json_decode($userDetails->images, true);
@@ -52,10 +52,10 @@ class PractitionerController extends Controller
         return view('user.my_profile', compact(
             'user',
             'userDetails',
-            'Categories',
-            'PractitionerTag',
+            'categories',
+            'practitionerTag',
             'IHelpWith',
-            'HowIHelp',
+            'howIHelp',
             'stripeAccount',
             'googleAccount',
             'mediaImages',

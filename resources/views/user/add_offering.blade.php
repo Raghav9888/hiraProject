@@ -13,10 +13,11 @@
                     and paste” descriptions from each service offering.</p>
                 <div class="add-offering-dv">
                     <form method="POST" action="{{ route('store_offering') }}" enctype="multipart/form-data">
-                    @csrf
+                        @csrf
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Name</label>
-                            <input type="text" class="form-control" name="name" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="">
+                            <input type="text" class="form-control" name="name" id="exampleInputEmail1"
+                                   aria-describedby="emailHelp" placeholder="">
                         </div>
                         <div class="mb-3">
                             <label for="floatingTextarea">Description</label>
@@ -582,93 +583,10 @@
                             <label for="exampleInputPassword1" class="form-label">I help with:</label>
 
                             <select name="help[]" multiple="multiple" class="form-control select2">
-                                <option class="level-0" value="255">Anemia in pregnancy</option>
-                                <option class="level-0" value="271">Depression</option>
-                                <option class="level-0" value="287">Hormonal birth control transition</option>
-                                <option class="level-0" value="303">Multiple sclerosis</option>
-                                <option class="level-0" value="396">Example Ailment</option>
-                                <option class="level-0" value="2663">Behavioral issues</option>
-                                <option class="level-0" value="2679">Headaches</option>
-                                <option class="level-0" value="2703">Pregnancy Loss</option>
-                                <option class="level-0" value="2720">Restlessness</option>
-                                <option class="level-0" value="2736">Hyperemesis Gravidarum</option>
-                                <option class="level-0" value="2880">Frustration</option>
-                                <option class="level-0" value="3104">Hot Flashes and Night sweast</option>
-                                <option class="level-0" value="3148">Persistent Postural Perceptual Dizziness (PPPD)
-                                </option>
-                                <option class="level-0" value="3297">pityriasis Alba</option>
-                                <option class="level-0" value="123">Dropsy</option>
-                                <option class="level-0" value="256">Ankylosing Spondylitis</option>
-                                <option class="level-0" value="272">Digestive issues</option>
-                                <option class="level-0" value="288">Hormone health</option>
-                                <option class="level-0" value="304">Nervous system dysregulation</option>
-                                <option class="level-0" value="2623">Liver health</option>
-                                <option class="level-0" value="2664">Birth trauma</option>
-                                <option class="level-0" value="2680">Hemorrhoids</option>
-                                <option class="level-0" value="2704">Pregnancy</option>
-                                <option class="level-0" value="2721">Reflux (GERD)</option>
-                                <option class="level-0" value="2737">Morning Sickness</option>
-                                <option class="level-0" value="2881">Mood</option>
-                                <option class="level-0" value="3111">Exhaustion</option>
-                                <option class="level-0" value="3149">Repetitive Strain</option>
-                                <option class="level-0" value="3298">weight loss</option>
-                                <option class="level-0" value="125">Tremors</option>
-                                <option class="level-0" value="257">Anxieties</option>
-                                <option class="level-0" value="273">Disconnection</option>
-                                <option class="level-0" value="289">Insomnia</option>
-                                <option class="level-0" value="305">Nervous system regulation</option>
-                                <option class="level-0" value="2627">bloating</option>
-                                <option class="level-0" value="2665">Breech</option>
-                                <option class="level-0" value="2681">High blood pressure</option>
-                                <option class="level-0" value="2705">Neurological tics</option>
-                                <option class="level-0" value="2722">Separation anxiety</option>
-                                <option class="level-0" value="2747">Menopause</option>
-                                <option class="level-0" value="2882">Relationships</option>
-                                <option class="level-0" value="3112">Perfectionism</option>
-                                <option class="level-0" value="3150">neck pain</option>
-                                <option class="level-0" value="3299">Pityriasis folliculitis (Malassezia) Weight loss
-                                </option>
-                                <option class="level-0" value="134">Nervous System Reset</option>
-                                <option class="level-0" value="258">Anxiety</option>
-                                <option class="level-0" value="274">Emotional balance and release</option>
-                                <option class="level-0" value="290">Joint pain</option>
-                                <option class="level-0" value="306">Overwhelm</option>
-                                <option class="level-0" value="2628">Fatty liver</option>
-                                <option class="level-0" value="2666">Colic</option>
-                                <option class="level-0" value="2682">Hyperactivity</option>
-                                <option class="level-0" value="2706">Nightmares</option>
-                                <option class="level-0" value="2723">Seizures</option>
-                                <option class="level-0" value="2750">Stress</option>
-                                <option class="level-0" value="2883">Sleep</option>
-                                <option class="level-0" value="3113">Leadership skills</option>
-                                <option class="level-0" value="3151">Scoliosis</option>
-                                <option class="level-0" value="3300">coaching</option>
-                                <option class="level-0" value="135">Concussion Recovery</option>
-                                <option class="level-0" value="259">Body image</option>
-                                <option class="level-0" value="275">Emotional blocks</option>
-                                <option class="level-0" value="291">Lack of clarity</option>
-                                <option class="level-0" value="307">PCOS (Polycystic Ovary Syndrome)</option>
-                                <option class="level-0" value="2648">Muscle Tension</option>
-                                <option class="level-0" value="2667">Developmental delays</option>
-                                <option class="level-0" value="2683">Immune deficiencies</option>
-                                <option class="level-0" value="2707">Night Terrors</option>
-                                <option class="level-0" value="2724">Sensory issues</option>
-                                <option class="level-0" value="2751">migraines</option>
-                                <option class="level-0" value="2884">Work</option>
-                                <option class="level-0" value="3114">Money mindset</option>
-                                <option class="level-0" value="3152">Skin Issues</option>
-                                <option class="level-0" value="3301">health coaching</option>
-                                <option class="level-0" value="136">Trauma Recovery</option>
-                                <option class="level-0" value="260">Burnout</option>
-                                <option class="level-0" value="276">Emotional distress</option>
-                                <option class="level-0" value="292">Lack of confidence</option>
-                                <option class="level-0" value="308">Perimenopause</option>
-                                <option class="level-0" value="2649">Limited Mobility</option>
-                                <option class="level-0" value="2668">Eczema</option>
-                                <option class="level-0" value="2692">Infertility</option>
-                                <option class="level-0" value="2708">Ovarian cysts</option>
+                                @foreach($IHelpWith as $term)
+                                    <option value="{{$term->id}}">{{$term->name}}</option>
+                                @endforeach
                             </select>
-
                         </div>
                         <div class="mb-3">
                             <label for="exampleInputPassword1" class="form-label">Categories - Specifies the
@@ -679,7 +597,9 @@
                                 Practitioner Offerings
                             </label>
                             <select name="categories[]" multiple="multiple" class="form-control select2" id="">
-                                <option class="level-0" value="100">Practitioner Offerings</option>
+                                @foreach($categories as $term)
+                                    <option value="{{$term->id}}">{{$term->name}}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="mb-3">
@@ -700,7 +620,8 @@
 
                         <h4 class="mb-4 featured-image-tag">Featured Image</h4>
                         <div class="mb-3">
-                            <input type="file" id="fileInput" name="featured_image" class="hidden" accept="image/*" onchange="previewImage(event)" style="display: none;">
+                            <input type="file" id="fileInput" name="featured_image" class="hidden" accept="image/*"
+                                   onchange="previewImage(event)" style="display: none;">
                             <label for="fileInput" class="image-preview" id="imagePreview">
                                 <span>+</span>
                             </label>
@@ -719,20 +640,28 @@
                                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                                     <li class="nav-item" role="presentation">
                                         <button class="nav-link active" id="offering-tab"
-                                                data-bs-toggle="tab" data-bs-target="#offering" type="button" role="tab" aria-controls="offering-tab-pane" aria-selected="true">Offering</button>
+                                                data-bs-toggle="tab" data-bs-target="#offering" type="button" role="tab"
+                                                aria-controls="offering-tab-pane" aria-selected="true">Offering
+                                        </button>
                                     </li>
                                     <li class="nav-item" role="presentation">
                                         <button class="nav-link" id="events-tab" data-bs-toggle="tab"
-                                                data-bs-target="#events" type="button" role="tab" aria-controls="events-tab-pane" aria-selected="false">Events</button>
+                                                data-bs-target="#events" type="button" role="tab"
+                                                aria-controls="events-tab-pane" aria-selected="false">Events
+                                        </button>
                                     </li>
                                     <li class="nav-item" role="presentation">
                                         <button class="nav-link" id="package-offering-tab" data-bs-toggle="tab"
-                                                data-bs-target="#package_offering" type="button" role="tab" aria-controls="package-offering-tab-pane" aria-selected="false">Package offering</button>
+                                                data-bs-target="#package_offering" type="button" role="tab"
+                                                aria-controls="package-offering-tab-pane" aria-selected="false">Package
+                                            offering
+                                        </button>
                                     </li>
 
                                 </ul>
                                 <div class="tab-content" id="myTabContent">
-                                    <div class="tab-pane fade show active" id="offering" role="tabpanel" aria-labelledby="offering-tab" tabindex="0">
+                                    <div class="tab-pane fade show active" id="offering" role="tabpanel"
+                                         aria-labelledby="offering-tab" tabindex="0">
                                         <div class="my-4">
                                             <label for="booking-duration" class="fw-bold">Duration of offering</label>
                                             <select id="booking-duration" name="booking_duration" class="form-select">
@@ -752,39 +681,40 @@
                                                 <div class="d-flex" style="gap: 20px;">
                                                     <div>
                                                         <label for="service-hours" class="fw-bold">From</label>
-                                                        <input type="datetime-local" class="form-control" name="from_date" placeholder="">
+                                                        <input type="datetime-local" class="form-control"
+                                                               name="from_date" placeholder="">
                                                     </div>
                                                     <div>
                                                         <label for="service-hours" class="fw-bold">To</label>
-                                                        <input type="datetime-local" class="form-control" name="to_date" placeholder="">
+                                                        <input type="datetime-local" class="form-control" name="to_date"
+                                                               placeholder="">
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col">
-                                                <div class="form-check offering-check">
-                                                    <input type="checkbox" class="form-check-input" id="availability" name="availability">
-                                                    <label class="form-check-label mb-3 fw-bold"
-                                                           for="availability">Availability</label><br>
-                                                    <select id="type" class="form-select" name="availability_type">
-                                                        <option>Monday</option>
-                                                        <option>Tuesday</option>
-                                                        <option>Wednesday</option>
-                                                        <option>Thursday</option>
-                                                        <option>Friday</option>
-                                                        <option>All week days</option>
-                                                        <option>Weekends only</option>
-                                                    </select>
-                                                </div>
+                                                <label class="form-check-label mb-3 fw-bold"
+                                                       for="availability">Availability</label><br>
+                                                <select id="type" class="form-select" name="availability_type">
+                                                    <option>Monday</option>
+                                                    <option>Tuesday</option>
+                                                    <option>Wednesday</option>
+                                                    <option>Thursday</option>
+                                                    <option>Friday</option>
+                                                    <option>All week days</option>
+                                                    <option>Weekends only</option>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col mb-4">
                                                 <label for="service-hours" class="fw-bold">Client price</label>
-                                                <input type="text" class="form-control" placeholder="" name="client_price">
+                                                <input type="text" class="form-control" placeholder=""
+                                                       name="client_price">
                                             </div>
                                             <div class=" col mb-4">
                                                 <label for="tax" class="fw-bold">what % of tax</label>
-                                                <input type="text" class="form-control" placeholder="" name="tax_amount">
+                                                <input type="text" class="form-control" placeholder=""
+                                                       name="tax_amount">
                                             </div>
                                         </div>
                                         <div class="row">
@@ -802,8 +732,10 @@
                                                 </select>
                                             </div>
                                             <div class="col mb-4">
-                                                <label for="type" class="fw-bold">Buffer time between appointment</label>
-                                                <input type="datetime-local" class="form-control" placeholder="" name="buffer_time">
+                                                <label for="type" class="fw-bold">Buffer time between
+                                                    appointment</label>
+                                                <input type="datetime-local" class="form-control" placeholder=""
+                                                       name="buffer_time">
                                             </div>
                                         </div>
                                         <div class="row">
@@ -813,7 +745,8 @@
                                             </div>
                                             <div class="col mb-4">
                                                 <label for="service-hours" class="fw-bold">Intake form</label>
-                                                <input type="text" class="form-control" name="intake_form" placeholder="enter your link">
+                                                <input type="text" class="form-control" name="intake_form"
+                                                       placeholder="enter your link">
                                             </div>
                                         </div>
                                         <div class="mb-4">
@@ -830,7 +763,8 @@
                                             </div>
                                         </div>
                                         <div class="form-check offering-check">
-                                            <input type="checkbox" class="form-check-input" id="can-be-cancelled" name="is_confirmation">
+                                            <input type="checkbox" class="form-check-input" id="can-be-cancelled"
+                                                   name="is_confirmation">
                                             <label class="form-check-label mb-3 fw-bold"
                                                    for="can-be-cancelled">Requires Confirmation</label>
                                         </div>
@@ -838,10 +772,106 @@
                                             <button class="update-btn">Save</button>
                                         </div>
                                     </div>
-                                    <div class="tab-pane fade" id="events" role="tabpanel" aria-labelledby="events-tab" tabindex="0">
-                                        <h5>Coming soon</h5>
+                                    <div class="tab-pane fade" id="events" role="tabpanel" aria-labelledby="events-tab"
+                                         tabindex="0">
+                                        <div class="my-4">
+                                            <label for="booking-duration" class="fw-bold">Specific</label>
+                                            <select id="booking-duration" class="form-select">
+                                                <option>1 time event or reoccuring</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-4">
+                                            <label for="service-hours" class="fw-bold">Date and time</label>
+                                            <input type="datetime-local" class="form-control" placeholder="" name="">
+                                        </div>
+                                        <div class="mb-4">
+                                            <label for="booking-duration" class="fw-bold">How many sports are
+                                                available</label>
+                                            <select id="booking-duration" class="form-select"  >
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                            </select>
+                                        </div>
+                                        <div class="row mb-4">
+                                            <div class="col">
+                                                <label for="service-hours" class="fw-bold mb-4">Service hours</label>
+                                                <div class="d-flex" style="gap: 20px;">
+                                                    <div>
+                                                        <label for="service-hours" class="fw-bold">From</label>
+                                                        <input type="number" class="form-control" placeholder="">
+                                                    </div>
+                                                    <div>
+                                                        <label for="service-hours" class="fw-bold">To</label>
+                                                        <input type="number" class="form-control" placeholder="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="form-check offering-check">
+                                                    <input type="checkbox" class="form-check-input"
+                                                           id="can-be-cancelled">
+                                                    <label class="form-check-label mb-3 fw-bold"
+                                                           for="can-be-cancelled">Availability</label><br>
+                                                      <input type="radio" id="hours" name="fav_language" value="hours">
+                                                      <label for="hours">Following store hours</label><br>
+                                                      <input type="radio" id="date" name="fav_language" value="date">
+                                                      <label for="date">Specific date and time</label><br>
+                                                      <input type="radio" id="monday" name="fav_language"
+                                                             value="monday">
+                                                      <label for="monday">Every (Monday)</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col mb-4">
+                                                <label for="service-hours" class="fw-bold">Client price</label>
+                                                <input type="number" class="form-control" placeholder="">
+                                            </div>
+                                            <div class=" col mb-4">
+                                                <label for="tax" class="fw-bold">what % of tax</label>
+                                                <input type="text" class="form-control" placeholder="">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col mb-4">
+                                                <label for="type" class="fw-bold">Scheduling window</label>
+                                                <select id="type" class="form-select">
+                                                    <option>60 days advanced</option>
+                                                    <option>24 hours before</option>
+                                                </select>
+                                            </div>
+                                            <div class="col mb-4">
+                                                <label for="type" class="fw-bold">Buffer time between
+                                                    appointment</label>
+                                                <input type="number" class="form-control" placeholder="">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col mb-4">
+                                                <label for="service-hours" class="fw-bold">Email template</label>
+                                                <input type="number" class="form-control" placeholder="">
+                                            </div>
+                                            <div class="col mb-4">
+                                                <label for="service-hours" class="fw-bold">Intake form</label>
+                                                <input type="number" class="form-control" placeholder="">
+                                            </div>
+                                        </div>
+                                        <div class="mb-4">
+                                            <div class="form-check offering-check">
+                                                <input type="checkbox" class="form-check-input" id="can-be-cancelled">
+                                                <label class="form-check-label mb-3 fw-bold"
+                                                       for="can-be-cancelled">Cancellation</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-check offering-check">
+                                            <input type="checkbox" class="form-check-input" id="can-be-cancelled">
+                                            <label class="form-check-label mb-3 fw-bold"
+                                                   for="can-be-cancelled">Requires Confirmation</label>
+                                        </div>
                                     </div>
-                                    <div class="tab-pane fade" id="package_offering" role="tabpanel" aria-labelledby="package-offering-tab" tabindex="0">
+                                    <div class="tab-pane fade" id="package_offering" role="tabpanel"
+                                         aria-labelledby="package-offering-tab" tabindex="0">
                                         <h5>Coming soon</h5>
                                     </div>
 

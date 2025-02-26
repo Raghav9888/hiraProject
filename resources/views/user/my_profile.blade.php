@@ -129,7 +129,10 @@
                                             specific
                                             versions of something. For example, a good tag for a massage could be "Deep
                                             Tissue".</p>
-                                        <select name="tags" multiple="multiple" class="form-select select2"></select>
+                                        <select name="tags[]" multiple="multiple" class="form-select select2">
+                                            <option value="156">energybalancing</option>
+                                            <option value="2991">ASD</option>
+                                        </select>
                                         <hr>
                                         <div class="mb-4 mt-4">
                                             <label for="media" class="fw-bold">Media</label>
@@ -218,7 +221,7 @@
 
                                         </div>
                                         <div class="mb-4">
-                                            <label for="specialities" class="fw-bold">Specialities</label>
+                                            <label for="specialities" class="fw-bold">Categories</label>
                                             <select id="specialities" class="form-control form-select select2"
                                                     multiple="multiple"
                                                     name="specialities[]">

@@ -4,7 +4,7 @@
         <div class="container">
             @include('layouts.partitioner_sidebar')
 
-            <div class="row">
+            <div class="row ms-5">
                 <div class="col-sm-12 col-lg-5"></div>
                 @include('layouts.partitioner_nav')
                 <div class="px-0 my-3 community-text col-sm-12">
@@ -12,13 +12,13 @@
                             events</span></h5>
                 </div>
             </div>
-            <div class="row" id="upcomingEventsRowDiv">
+            <div class="row ms-5" id="upcomingEventsRowDiv">
                 {{-- We show the data by ajax --}}
                 <div class="col-sm-12 my-4 text-center">
                     loading...
                 </div>
             </div>
-            <div class="row" id="upcomingAppointmentsRowDiv">
+            <div class="row ms-5" id="upcomingAppointmentsRowDiv">
                 <div class="px-0" style="border-bottom: 2px solid#BA9B8B; margin-bottom: 20px;">
                     <h5 class="practitioner-profile-text mb-2">Upcoming <span
                             style="font-weight: 800;">appointments</span></h5>

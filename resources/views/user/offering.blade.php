@@ -60,7 +60,11 @@
                                                 </div>
                                                 <div class="cat_tags">
                                                     Categories:
-                                                    {{ $offering->categories }}
+
+                                                    @if($categories->contains('categories', $offering->categories))
+                                                        {{ $offering->categories }}
+                                                    @endif
+
                                                     <br>
                                                     Tags:
                                                     {{$offering->tags}}
