@@ -141,7 +141,7 @@ class OfferingController extends Controller
     }
 
     // Delete an offering
-    public function destroy($id)
+    public function delete($id)
     {
         $offering = Offering::findOrFail($id);
         $offering->delete();

@@ -22,15 +22,15 @@
                     profile.</p>
                 <div class="offering-btn-drop mb-4">
                     <a href="{{ route('add_offering') }}" class="category-load-more">Add Offering</a>
-{{--                    <div class="dropdown">--}}
-{{--                        <button class="dropdown-button dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">--}}
-{{--                           Discount--}}
-{{--                        </button>--}}
-{{--                        <ul class="dropdown-menu">--}}
-{{--                            <li><a class="dropdown-item" href="#">All offering</a></li>--}}
-{{--                            <li><a class="dropdown-item" href="#">Specific offering</a></li>--}}
-{{--                        </ul>--}}
-{{--                    </div>--}}
+                    {{--                    <div class="dropdown">--}}
+                    {{--                        <button class="dropdown-button dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">--}}
+                    {{--                           Discount--}}
+                    {{--                        </button>--}}
+                    {{--                        <ul class="dropdown-menu">--}}
+                    {{--                            <li><a class="dropdown-item" href="#">All offering</a></li>--}}
+                    {{--                            <li><a class="dropdown-item" href="#">Specific offering</a></li>--}}
+                    {{--                        </ul>--}}
+                    {{--                    </div>--}}
                 </div>
 
                 <div class="earning-wrrpr mt-5">
@@ -60,27 +60,23 @@
                                                 </div>
                                                 <div class="cat_tags">
                                                     Categories:
-                                                    <a href="https://thehiracollective.com/product-category/offerings/"
-                                                       rel="tag">{{ $offering->categories }}</a>
+                                                    {{ $offering->categories }}
                                                     <br>
                                                     Tags:
-                                                    <a href="https://thehiracollective.com/product-tag/egg/"
-                                                       rel="tag">{{$offering->tags}}</a>
+                                                    {{$offering->tags}}
                                                 </div>
                                                 <div class="row-actions row-actions-product">
                                                     <a href="{{route('edit_offering',$offering->id)}}">Edit</a>
-                                                    <a href="https://thehiracollective.com/dashboard/product/duplicate/9694">Duplicate</a>
-                                                    <a href="https://thehiracollective.com/dashboard/product/delete/9694"
-                                                       class="confirm_delete"
-                                                       data-confirm_text="Delete product?">Delete</a>
+                                                    {{--                                                    <a href="https://thehiracollective.com/dashboard/product/duplicate/9694">Duplicate</a>--}}
+                                                    <a onclick="deleteOffering({{ $offering->id }})" style="cursor: pointer">Delete</a>
                                                     <a href="{{route('show_offering', $offering->id)}}"
                                                        target="_blank">View</a>
                                                 </div>
                                             </td>
                                             <td class="price">
-                                                    <span class="woocommerce-Price-amount amount">
-                                                        <bdi><span class="woocommerce-Price-currencySymbol">$</span>{{ $offering->cost ?? 0 }}</bdi>
-                                                    </span>
+                                                <span class="woocommerce-Price-amount amount">
+                                                    <bdi><span class="woocommerce-Price-currencySymbol">$</span>{{ $offering->client_price ?? 0 }}</bdi>
+                                                </span>
                                             </td>
                                             <td class="status">
                                                 <span class="status online">Online</span><br>
@@ -100,8 +96,25 @@
 
                     </div>
                 </div>
-{{--                <button type="submit" class="category-load-more">Submit</button>--}}
+                {{--                <button type="submit" class="category-load-more">Submit</button>--}}
             </div>
         </div>
     </section>
+
+    <script>
+        function deleteOffering(id) {
+            if (confirm("Are you sure you want to delete this?")) {
+                fetch(`/offering/delete/${id}/`, {
+                    method: "POST",
+                    headers: {
+                        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
+                    }
+                }).then(response => response.json())
+                    .then(data => {
+                        location.reload();
+                    }).catch(error => console.error("Error:", error));
+            }
+        }
+
+    </script>
 @endsection
