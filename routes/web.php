@@ -10,6 +10,7 @@ use App\Http\Controllers\Practitioner\DiscountController;
 use App\Http\Controllers\Practitioner\OfferingController;
 use App\Http\Controllers\Practitioner\PaymentController;
 use App\Http\Controllers\Practitioner\PractitionerController;
+use App\Http\Controllers\BookingController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -24,12 +25,16 @@ Route::get('/blog-details', [HomeController::class, 'blogDetail'])->name('blogDe
 
 Route::get('/practitioner/detail/{id}', [HomeController::class, 'practitionerDetail'])->name('practitioner_detail');
 Route::get('/offering/{id}', [HomeController::class, 'offerDetail'])->name('offerDetail');
-Route::get('/checkout', [HomeController::class, 'checkout'])->name('checkout');
+//Route::get('/checkout', [HomeController::class, 'checkout'])->name('checkout');
 
 Route::post('/create-payment', [PaymentController::class, 'createPayment'])->name('create.payment');
 Route::get('/payment-success', [PaymentController::class, 'sucess'])->name('payment.sucess');
 Route::get('/payment-failed', [PaymentController::class, 'failed'])->name('payment.failed');
 Route::get('/calendar/time-slots/{date}', [HomeController::class, 'getTimeSlots'])->name('get_time_slots');
+
+Route::post('/storeBooking', [BookingController::class, 'storeBooking'])->name('storeBooking');
+Route::get('/checkout', [BookingController::class, 'checkout'])->name('checkout');
+
 
 Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::namespace('Admin')->group(function () {
