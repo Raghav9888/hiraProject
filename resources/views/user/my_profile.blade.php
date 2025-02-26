@@ -238,7 +238,7 @@
                                                     name="specialities[]">
                                                 @foreach($Categories as $term)
                                                     <option
-                                                        value="{{$term->id}}" {{ in_array($term->id, json_decode($userDetails->specialities)) ? 'selected' : '' }}>{{$term->name}}</option>
+                                                        value="{{$term->id}}" {{ (isset($userDetails->specialities) && in_array($term->id, json_decode($userDetails->specialities))) ? 'selected' : '' }}>{{$term->name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
