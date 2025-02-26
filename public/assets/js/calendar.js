@@ -1,3 +1,4 @@
+console.log('calendar.js');
 document.addEventListener('DOMContentLoaded', function () {
     let calendarEl = document.getElementById('calendar');
 
@@ -81,6 +82,7 @@ $(document).ready(function () {
         upComingEvents();
     }
 });
+
 function upComingEvents() {
     $.ajax({
         url: '/calendar/up-coming-events',
@@ -132,12 +134,12 @@ function upComingEvents() {
     });
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     var calendarEl = document.getElementById('booking_calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
         selectable: true,
-        dateClick: function(info) {
+        dateClick: function (info) {
             var selectedDate = info.dateStr;
             fetchTimeSlots(selectedDate);
         }
@@ -152,12 +154,12 @@ fetchTimeSlots = (selectedDate) => {
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
-        success: function(response) {
+        success: function (response) {
             console.log(response);
-        //     render html here
-        //     $('#timeSlotsModal').html(response);
+            //     render html here
+            //     $('#timeSlotsModal').html(response);
         },
-        error: function(xhr) {
+        error: function (xhr) {
             console.log(xhr);
         }
     });
@@ -165,11 +167,14 @@ fetchTimeSlots = (selectedDate) => {
 
 
 $(document).ready(function () {
-    $(document).on('change', '[data-type="hide"]', function () {
-      let id = $(this).attr('id')
-        console.log(id)
-    })
-})
+    $(document).on('click', '[data-type="hide"]', function () {
+
+        let id = $(this).data('id');
+       $(`#${id}`).toggleClass('d-none');
+    });
+});
+
+
 
 
 

@@ -830,9 +830,13 @@
                                         </div>
                                         <div class="mb-4">
                                             <div class="form-check offering-check">
-                                                <input type="checkbox" class="form-check-input" id="can-be-cancelled" data-type="hide">
+                                                <input type="checkbox" class="form-check-input" id="can-be-cancelled" data-type="hide" data-id="cancellation_time">
                                                 <label class="form-check-label mb-3 fw-bold"
                                                        for="can-be-cancelled">Cancellation</label>
+                                            </div>
+                                            <div class="col-md-6 mb-4 d-none" id="cancellation_time">
+                                                <label class="fw-bold">Cancellation time</label>
+                                                <input type="datetime-local" name="cancellation_time_slot" class="form-control">
                                             </div>
                                         </div>
                                         <div class="form-check offering-check">
@@ -930,8 +934,7 @@
                                         </div>
                                         <div class="mb-4">
                                             <div class="form-check offering-check">
-                                                <input type="checkbox" class="form-check-input" id="can-be-cancelled"
-                                                       data-type="hide">
+                                                <input type="checkbox" class="form-check-input" id="can-be-cancelled">
                                                 <label class="form-check-label mb-3 fw-bold"
                                                        for="can-be-cancelled">Cancellation</label>
                                             </div>
