@@ -87,6 +87,12 @@ class HomeController extends Controller
         return view('user.offering_detail', compact('offerDetail'));
     }
 
+    public function checkout()
+    {
+       // $offerDetail = Offering::findOrFail($id);
+
+        return view('checkout');
+    }
     public function getTimeSlots(Request $request ,$date)
     {
         $timeSlots = [];
