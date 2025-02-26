@@ -27,7 +27,9 @@ Route::get('/offering/{id}', [HomeController::class, 'offerDetail'])->name('offe
 Route::get('/checkout', [HomeController::class, 'checkout'])->name('checkout');
 
 Route::post('/create-payment', [PaymentController::class, 'createPayment'])->name('create.payment');
-Route::get('//calendar/time-slots/{date}', [HomeController::class, 'getTimeSlots'])->name('get_time_slots');
+Route::get('/payment-success', [PaymentController::class, 'sucess'])->name('payment.sucess');
+Route::get('/payment-failed', [PaymentController::class, 'failed'])->name('payment.failed');
+Route::get('/calendar/time-slots/{date}', [HomeController::class, 'getTimeSlots'])->name('get_time_slots');
 
 Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::namespace('Admin')->group(function () {

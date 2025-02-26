@@ -83,40 +83,89 @@ class PaymentController extends Controller
 
 
     public function createPayment(Request $request)
-    {
-        // Set Stripe secret key
-        Stripe::setApiKey(env('STRIPE_SECRET'));
+{
+    Stripe::setApiKey(env('STRIPE_SECRET'));
 
-        // Vendor's Stripe account ID (Get from your database)
-        $vendorStripeAccountId = "acct_1QvE6qSGd6Vpe1yc"; // Replace with vendor's actual Stripe account ID
+    $vendorStripeAccountId = "acct_1QvE6qSGd6Vpe1yc"; // Replace with actual vendor's Stripe account ID
 
-        try {
-            // Create a PaymentIntent with application_fee_amount for admin's cut
-            $paymentIntent = PaymentIntent::create([
-                'amount' => 10000, // ₹100 in paisa (100 * 100)
-                'currency' => 'inr',
-                'payment_method' => $request->payment_method, // Get payment method ID from frontend
-                'confirm' => true, // Automatically confirm the payment
-                'transfer_data' => [
-                    'destination' => $vendorStripeAccountId, // Send funds to vendor
-                    'amount' => 7500, // ₹75 to vendor (75% of ₹100)
-                ],
-                'application_fee_amount' => 2500, // ₹25 admin commission (25% of ₹100)
-            ]);
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Payment Successful',
-                'paymentIntent' => $paymentIntent
-            ]);
-
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage()
-            ], 500);
-        }
+    if (!$request->has('payment_method') || empty($request->payment_method)) {
+        return redirect()->route('payment.failed', ['message' => 'Payment method is required.']);
     }
+
+    try {
+        // Customer details (required for export transactions in India)
+        $customerName = $request->input('customer_name', 'John Doe'); // Default if not provided
+        $customerEmail = $request->input('customer_email', 'john@example.com');
+        $customerAddress = [
+            'line1'       => $request->input('address_line1', '123 Export Street'),
+            'line2'       => $request->input('address_line2', ''),
+            'city'        => $request->input('city', 'Mumbai'),
+            'state'       => $request->input('state', 'MH'),
+            'postal_code' => $request->input('postal_code', '400001'),
+            'country'     => $request->input('country', 'IN'),
+        ];
+
+        // Create a PaymentIntent with required export details
+        $paymentIntent = PaymentIntent::create([
+            'amount' => 10000, // ₹100 in paisa (100 * 100)
+            'currency' => 'inr',
+            'payment_method' => $request->payment_method,
+            'confirm' => true,
+            'transfer_data' => [
+                'destination' => $vendorStripeAccountId, // Send funds to vendor
+            ],
+            'application_fee_amount' => 2500, // ₹25 admin commission (25% of ₹100)
+            'description' => 'Export transaction for digital services', // Required for Indian exports
+            'shipping' => [
+                'name' => $customerName,
+                'address' => $customerAddress,
+            ],
+            'receipt_email' => $customerEmail, // Optional, sends Stripe receipt
+            'return_url' => url('/payment-success'), // Required for redirect-based payment methods
+        ]);
+
+        return redirect()->route('payment.success', [
+            'payment_id' => $paymentIntent->id,
+            'amount' => $paymentIntent->amount / 100,
+            'currency' => strtoupper($paymentIntent->currency),
+            'status' => $paymentIntent->status,
+        ]);
+
+    } catch (\Exception $e) {
+        return redirect()->route('payment.failed', ['message' => $e->getMessage()]);
+    }
+}
+
+
+    public function sucess(Request $request){
+
+        $input =$request->all();
+        echo '<pre>';
+        Print_r($input);
+        echo '</pre>';
+        exit();
+        /* return view('payment.success', [
+            'payment_id' => $request->payment_id,
+            'amount' => $request->amount,
+            'currency' => $request->currency,
+            'status' => $request->status
+        ]); */
+    }   
+
+    public function failed(Request $request){
+
+        $input =$request->all();
+        echo '<pre>';
+        Print_r($input);
+        echo '</pre>';
+        exit();
+        /* return view('payment.success', [
+            'payment_id' => $request->payment_id,
+            'amount' => $request->amount,
+            'currency' => $request->currency,
+            'status' => $request->status
+        ]); */
+    } 
 
 }
 

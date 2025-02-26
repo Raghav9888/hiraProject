@@ -25,7 +25,7 @@
             </div>
             <div class="card calendar-card mt-5 mb-5">
                 <div class="card-body">
-                    <div id="calendar"></div>
+                    <!-- <div id="calendar"></div> -->
                    
                     <div id="booking_calendar"></div>
                     <div class="mt-4 text-center">
@@ -34,7 +34,7 @@
                             no time slots available
                         </div>
                     </div>
-                    <a href="{{route('checkout')}}" class="btn btn-primary" >Book </a>
+                    <a href="{{route('checkout')}}" class="btn btn-primary booking" >Book </a>
                 </div>
             </div>
             </div>
