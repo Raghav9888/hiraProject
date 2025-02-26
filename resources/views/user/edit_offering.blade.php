@@ -2601,7 +2601,7 @@
                                    onchange="previewImage(event)" style="display: none;">
                             @if(isset($offering->featured_image))
                                 @php
-                                    $imageUrl = asset(env('media_path') . '/practitioners/' . $userDetails->id . '/feature/'  . $offering->featured_image);
+                                    $imageUrl = asset(env('media_path') . '/practitioners/' . $userDetails->id . '/offering/'  . $offering->featured_image);
                                 @endphp
                                 <label class="image-preview" id="imagePreview"
                                        style="background-image: url('{{$imageUrl}}'); background-size: cover; background-position: center center;">
