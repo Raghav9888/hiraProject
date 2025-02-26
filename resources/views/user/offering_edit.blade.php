@@ -2650,14 +2650,15 @@
                                         <div class="my-4">
                                             <label for="booking-duration" class="fw-bold">Duration of offering</label>
                                             <select id="booking-duration" name="booking_duration" class="form-select">
-                                                <option>15 minutes</option>
-                                                <option>30 minutes</option>
-                                                <option>45 minutes</option>
-                                                <option>1 hour</option>
-                                                <option>1:15 hour</option>
-                                                <option>1:30 hour</option>
-                                                <option>1:45 hour</option>
-                                                <option>2 hour</option>
+                                                <option value="">Select</option>
+                                                <option value="15 minutes" {{ $offering->offering_type  == '15 minutes' ? 'selected' : ''}}>15 minutes</option>
+                                                <option value="30 minutes" {{ $offering->offering_type  == '30 minutes' ? 'selected' : ''}}>30 minutes</option>
+                                                <option value="45 minutes" {{ $offering->offering_type  == '45 minutes' ? 'selected' : ''}}>45 minutes</option>
+                                                <option value="1 hour" {{ $offering->offering_type  == '1 hour' ? 'selected' : ''}}>1 hour</option>
+                                                <option value="1:15 hour" {{ $offering->offering_type  == '1:15 hour' ? 'selected' : ''}}>1:15 hour</option>
+                                                <option value="1:30 hour" {{ $offering->offering_type  == '1:30 hour' ? 'selected' : ''}}>1:30 hour</option>
+                                                <option value="1:45 hour" {{ $offering->offering_type  == '1:45 hour' ? 'selected' : ''}}>1:45 hour</option>
+                                                <option value="2 hour" {{ $offering->offering_type  == '2 hour' ? 'selected' : ''}}>2 hour</option>
                                             </select>
                                         </div>
                                         <div class="row mb-4">
