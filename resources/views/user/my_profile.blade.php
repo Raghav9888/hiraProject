@@ -264,7 +264,7 @@
                                                 <option>Select</option>
                                             </select>
                                         </div>
-                                      
+
                                         <div class="mb-4">
                                             <label for="timezone" class="fw-bold">Timezone</label>
                                             <select id="timezone" name="timezone" class="form-select">
