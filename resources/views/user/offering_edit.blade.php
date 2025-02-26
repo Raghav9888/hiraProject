@@ -2747,15 +2747,14 @@
                                                 <label class="form-check-label mb-3 fw-bold"
                                                        for="can-be-cancelled">Cancellation</label>
                                             </div>
-                                            <div class="col-md-6 mb-4 {{$offering->is_cancelled ? 'd-none' : ''}}" id="cancellation_time">
+                                            <div class="col-md-6 mb-4 {{$offering->is_cancelled ? '' :'d-none'}}" id="cancellation_time">
                                                 <label class="fw-bold">Cancellation time</label>
                                                 <input type="datetime-local" name="cancellation_time_slot"
                                                        class="form-control">
                                             </div>
                                         </div>
                                         <div class="form-check offering-check">
-                                            <input type="checkbox" class="form-check-input" id="can-be-cancelled"
-                                                   name="is_confirmation">
+                                            <input type="checkbox" class="form-check-input" id="can-be-cancelled" name="is_confirmation" {{$offering->is_confirmation ? 'checked' : ''}}>
                                             <label class="form-check-label mb-3 fw-bold"
                                                    for="can-be-cancelled">Requires Confirmation</label>
                                         </div>
