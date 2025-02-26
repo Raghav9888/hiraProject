@@ -171,12 +171,14 @@
                                         <hr>
                                         <div class="mb-4">
                                             <label for="IHelpWith" class="fw-bold">I help with:</label>
-                                            <select id="IHelpWith" name="IHelpWith[]" class="form-select select2" multiple>
-                                                    @php
+                                            <select id="IHelpWith" name="IHelpWith[]" class="form-select select2"
+                                                    multiple>
+                                                @php
                                                     $selectedTerms = explode(',', $userDetails->IHelpWith ?? '');
                                                 @endphp
                                                 @foreach($IHelpWith as $term)
-                                                    <option value="{{$term->id}}" {{ in_array($term->id, $selectedTerms) ? 'selected' : '' }} >{{$term->name}}</option>
+                                                    <option
+                                                        value="{{$term->id}}" {{ in_array($term->id, $selectedTerms) ? 'selected' : '' }} >{{$term->name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -198,6 +200,7 @@
 
 
 
+
                                         @endforeach
                                         </select>
                                     </div>
@@ -205,12 +208,14 @@
                                     <button class="update-btn mb-2">Add New Term</button> -->
                                         <div class="mb-4">
                                             <label for="type" class="fw-bold">How I help:</label>
-                                            <select id="HowIHelp" name="HowIHelp[]" class="form-select select2" multiple>
-                                            @php
+                                            <select id="HowIHelp" name="HowIHelp[]" class="form-select select2"
+                                                    multiple>
+                                                @php
                                                     $selectedTerms = explode(',', $userDetails->HowIHelp ?? '');
                                                 @endphp
                                                 @foreach($HowIHelp as $term)
-                                                    <option value="{{$term->id}}" {{ in_array($term->id, $selectedTerms) ? 'selected' : '' }} >{{$term->name}}</option>
+                                                    <option
+                                                        value="{{$term->id}}" {{ in_array($term->id, $selectedTerms) ? 'selected' : '' }} >{{$term->name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -226,19 +231,21 @@
                                                     multiple="multiple"
                                                     name="specialities[]">
                                                 @foreach($Categories as $term)
-                                                    <option value="{{$term->id}}" {{ in_array($term->id, json_decode($userDetails->specialities)) ? 'selected' : '' }}>{{$term->name}}</option>
+                                                    <option
+                                                        value="{{$term->id}}" {{ in_array($term->id, json_decode($userDetails->specialities)) ? 'selected' : '' }}>{{$term->name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
                                         <hr>
                                         <div class="mb-4">
-                                            <div class="form-check offering-check">
-                                                <label class="form-check-label" for="amentities">Amentities</label>
-                                                <select id="amentities" class="form-select select2" name="amentities">
-                                                    <option>Select</option>
-                                                    <option>Neurolinguistic Programming</option>
-                                                </select>
-                                            </div>
+
+                                            <label class="form-check-label" for="amentities">Amentities</label>
+                                            <select id="amentities" class="form-control form-select select2"
+                                                    name="amentities" multiple="multiple">
+                                                <option>Select</option>
+                                                <option>Neurolinguistic Programming</option>
+                                            </select>
+                                        
                                         </div>
                                         <div class="mb-4">
                                             <label for="certifications" class="fw-bold">Certifications</label>
@@ -452,17 +459,17 @@
                     }
                     $('#' + termType + '-container').html('');
                 },
-               /*  success: function (response) {
-                    if (response.success) {
-                        $('#' + termType + '-container').html('');
-                        var newOption = `<option value="${response.term.id}" selected>${response.term.name}</option>`;
-                        $("#" + termType).append(newOption).trigger('change');
-                        alert('term add sucessfully');
+                /*  success: function (response) {
+                     if (response.success) {
+                         $('#' + termType + '-container').html('');
+                         var newOption = `<option value="${response.term.id}" selected>${response.term.name}</option>`;
+                         $("#" + termType).append(newOption).trigger('change');
+                         alert('term add sucessfully');
 
-                    } else {
-                        alert('Error: ' + response.message);
-                    }
-                }, */
+                     } else {
+                         alert('Error: ' + response.message);
+                     }
+                 }, */
                 error: function (xhr, status, error) {
                     console.error('AJAX Error:', error);
                 }
