@@ -1,6 +1,5 @@
 @extends('layouts.app')
 @section('content')
-
     <section class="practitioner-profile">
         <div class="container">
             @include('layouts.partitioner_sidebar')
@@ -17,9 +16,7 @@
                         @csrf
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Name</label>
-                            <input type="text" class="form-control" name="name" id="exampleInputEmail1"
-                                   aria-describedby="emailHelp"
-                                   placeholder="">
+                            <input type="text" class="form-control" name="name" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="">
                         </div>
                         <div class="mb-3">
                             <label for="floatingTextarea">Description</label>
@@ -704,7 +701,7 @@
 
                         <h4 class="mb-4 featured-image-tag">Featured Image</h4>
                         <div class="mb-3">
-                            <input type="file" id="fileInput" class="hidden" accept="image/*"
+                            <input type="file" name="featured_image" id="fileInput" class="hidden" accept="image/*"
                                    onchange="previewImage(event)" style="display: none;">
                             <label for="fileInput" class="image-preview" id="imagePreview">
                                 <span>+</span>
@@ -715,35 +712,32 @@
                         <div class="container">
                             <div class="mb-4">
                                 <label for="type" class="fw-bold">Type of offering</label>
-                                <select id="type" name="type" class="form-select ">
+                                <select id="type" name="offering_type" class="form-select ">
                                     <option value="in-person">In person Offering</option>
                                     <option value="virtual">Virtual Offering</option>
                                 </select>
                             </div>
                             <div class="mb-4">
+                                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="offering-tab"
+                                                data-bs-toggle="tab" data-bs-target="#offering" type="button" role="tab" aria-controls="offering-tab-pane" aria-selected="true">Offering</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="events-tab" data-bs-toggle="tab"
+                                                data-bs-target="#events" type="button" role="tab" aria-controls="events-tab-pane" aria-selected="false">Events</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="package-offering-tab" data-bs-toggle="tab"
+                                                data-bs-target="#package_offering" type="button" role="tab" aria-controls="package-offering-tab-pane" aria-selected="false">Package offering</button>
+                                    </li>
 
-                                <ul class="nav nav-tabs" id="tabs" role="tablist">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" id="general-tab" data-bs-toggle="tab" href="#general"
-                                           role="tab" aria-controls="general" aria-selected="true">Offering</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="availability-tab" data-bs-toggle="tab"
-                                           href="#availability" role="tab" aria-controls="availability"
-                                           aria-selected="false">Event</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="costs-tab" data-bs-toggle="tab" href="#costs" role="tab"
-                                           aria-controls="costs" aria-selected="false">Package Offering</a>
-                                    </li>
                                 </ul>
-                                <div class="tab-content mt-3" id="myTabContent">
-                                    <!-- General Tab Content -->
-                                    <div class="tab-pane fade show active" id="general" role="tabpanel"
-                                         aria-labelledby="general-tab">
-                                        <div class="mb-4">
+                                <div class="tab-content" id="myTabContent">
+                                    <div class="tab-pane fade show active" id="offering" role="tabpanel" aria-labelledby="offering-tab" tabindex="0">
+                                        <div class="my-4">
                                             <label for="booking-duration" class="fw-bold">Duration of offering</label>
-                                            <select id="booking-duration" class="form-select">
+                                            <select id="booking-duration" name="booking_duration" class="form-select">
                                                 <option>15 minutes</option>
                                                 <option>30 minutes</option>
                                                 <option>45 minutes</option>
@@ -760,23 +754,20 @@
                                                 <div class="d-flex" style="gap: 20px;">
                                                     <div>
                                                         <label for="service-hours" class="fw-bold">From</label>
-                                                        <input type="datetime-local" class="form-control"
-                                                               placeholder="">
+                                                        <input type="datetime-local" class="form-control" name="from_date" placeholder="">
                                                     </div>
                                                     <div>
                                                         <label for="service-hours" class="fw-bold">To</label>
-                                                        <input type="datetime-local" class="form-control"
-                                                               placeholder="">
+                                                        <input type="datetime-local" class="form-control" name="to_date" placeholder="">
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div class="form-check offering-check">
-                                                    <input type="checkbox" class="form-check-input"
-                                                           id="can-be-cancelled">
+                                                    <input type="checkbox" class="form-check-input" id="availability" name="availability">
                                                     <label class="form-check-label mb-3 fw-bold"
-                                                           for="can-be-cancelled">Availability</label><br>
-                                                    <select id="type" class="form-select">
+                                                           for="availability">Availability</label><br>
+                                                    <select id="type" class="form-select" name="availability_type">
                                                         <option>Monday</option>
                                                         <option>Tuesday</option>
                                                         <option>Wednesday</option>
@@ -791,17 +782,17 @@
                                         <div class="row">
                                             <div class="col mb-4">
                                                 <label for="service-hours" class="fw-bold">Client price</label>
-                                                <input type="text" class="form-control" placeholder="">
+                                                <input type="text" class="form-control" placeholder="" name="client_price">
                                             </div>
                                             <div class=" col mb-4">
                                                 <label for="tax" class="fw-bold">what % of tax</label>
-                                                <input type="text" class="form-control" placeholder="">
+                                                <input type="text" class="form-control" placeholder="" name="tax_amount">
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col mb-4">
                                                 <label for="type" class="fw-bold">Scheduling window</label>
-                                                <select id="type" class="form-select">
+                                                <select id="type" class="form-select" name="scheduling_window">
                                                     <option>15 minutes</option>
                                                     <option>30 minutes</option>
                                                     <option>45 minutes</option>
@@ -813,144 +804,51 @@
                                                 </select>
                                             </div>
                                             <div class="col mb-4">
-                                                <label for="type" class="fw-bold">Buffer time between
-                                                    appointment</label>
-                                                <input type="number" class="form-control" placeholder="">
+                                                <label for="type" class="fw-bold">Buffer time between appointment</label>
+                                                <input type="number" class="form-control" placeholder="" name="buffer_time">
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col mb-4">
                                                 <label for="service-hours" class="fw-bold">Email template</label>
-                                                <textarea class="form-control"></textarea>
+                                                <textarea class="form-control" name="email_template"></textarea>
                                             </div>
                                             <div class="col mb-4">
                                                 <label for="service-hours" class="fw-bold">Intake form</label>
-                                                <input type="text" class="form-control" placeholder="enter your link">
+                                                <input type="text" class="form-control" name="intake_form" placeholder="enter your link">
                                             </div>
                                         </div>
                                         <div class="mb-4">
                                             <div class="form-check offering-check">
-                                                <input type="checkbox" class="form-check-input" id="can-be-cancelled">
+                                                <input type="checkbox" class="form-check-input" id="can-be-cancelled"
+                                                       data-type="hide" data-id="cancellation_time" name="is_cancelled">
                                                 <label class="form-check-label mb-3 fw-bold"
                                                        for="can-be-cancelled">Cancellation</label>
                                             </div>
-                                        </div>
-                                        <div class="form-check offering-check">
-                                            <input type="checkbox" class="form-check-input" id="can-be-cancelled">
-                                            <label class="form-check-label mb-3 fw-bold"
-                                                   for="can-be-cancelled">Requires Confirmation</label>
-                                        </div>
-                                    </div>
-
-                                    <!-- Availability Tab Content -->
-                                    <div class="tab-pane fade" id="availability" role="tabpanel"
-                                         aria-labelledby="availability-tab">
-                                        <div class="mb-4">
-                                            <label for="booking-duration" class="fw-bold">Specific</label>
-                                            <select id="booking-duration" class="form-select">
-                                                <option>1 time event or reoccuring</option>
-                                            </select>
-                                        </div>
-                                        <div class="mb-4">
-                                            <label for="service-hours" class="fw-bold">Date and duration</label>
-                                            <input type="date" class="form-control" placeholder="">
-                                        </div>
-                                        <div class="mb-4">
-                                            <label for="booking-duration" class="fw-bold">How many sports are
-                                                available</label>
-                                            <select id="booking-duration" class="form-select">
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                            </select>
-                                        </div>
-                                        <div class="row mb-4">
-                                            <div class="col">
-                                                <label for="service-hours" class="fw-bold mb-4">Service hours</label>
-                                                <div class="d-flex" style="gap: 20px;">
-                                                    <div>
-                                                        <label for="service-hours" class="fw-bold">From</label>
-                                                        <input type="number" class="form-control" placeholder="">
-                                                    </div>
-                                                    <div>
-                                                        <label for="service-hours" class="fw-bold">To</label>
-                                                        <input type="number" class="form-control" placeholder="">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col">
-                                                <div class="form-check offering-check">
-                                                    <input type="checkbox" class="form-check-input"
-                                                           id="can-be-cancelled">
-                                                    <label class="form-check-label mb-3 fw-bold"
-                                                           for="can-be-cancelled">Availability</label><br>
-                                                      <input type="radio" id="hours" name="fav_language" value="hours">
-                                                      <label for="hours">Following store hours</label><br>
-                                                      <input type="radio" id="date" name="fav_language" value="date">
-                                                      <label for="date">Specific date and time</label><br>
-                                                      <input type="radio" id="monday" name="fav_language"
-                                                             value="monday">
-                                                      <label for="monday">Every (Monday)</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col mb-4">
-                                                <label for="service-hours" class="fw-bold">Client price</label>
-                                                <input type="number" class="form-control" placeholder="">
-                                            </div>
-                                            <div class=" col mb-4">
-                                                <label for="tax" class="fw-bold">what % of tax</label>
-                                                <input type="text" class="form-control" placeholder="">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col mb-4">
-                                                <label for="type" class="fw-bold">Scheduling window</label>
-                                                <select id="type" class="form-select">
-                                                    <option>60 days advanced</option>
-                                                    <option>24 hours before</option>
-                                                </select>
-                                            </div>
-                                            <div class="col mb-4">
-                                                <label for="type" class="fw-bold">Buffer time between
-                                                    appointment</label>
-                                                <input type="number" class="form-control" placeholder="">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col mb-4">
-                                                <label for="service-hours" class="fw-bold">Email template</label>
-                                                <input type="number" class="form-control" placeholder="">
-                                            </div>
-                                            <div class="col mb-4">
-                                                <label for="service-hours" class="fw-bold">Intake form</label>
-                                                <input type="number" class="form-control" placeholder="">
-                                            </div>
-                                        </div>
-                                        <div class="mb-4">
-                                            <div class="form-check offering-check">
-                                                <input type="checkbox" class="form-check-input" id="can-be-cancelled" data-type="hide">
-                                                <label class="form-check-label mb-3 fw-bold"
-                                                       for="can-be-cancelled">Cancellation</label>
+                                            <div class="col-md-6 mb-4 d-none" id="cancellation_time">
+                                                <label class="fw-bold">Cancellation time</label>
+                                                <input type="datetime-local" name="cancellation_time_slot"
+                                                       class="form-control">
                                             </div>
                                         </div>
                                         <div class="form-check offering-check">
-                                            <input type="checkbox" class="form-check-input" id="can-be-cancelled">
+                                            <input type="checkbox" class="form-check-input" id="can-be-cancelled" name="is_confirmation">
                                             <label class="form-check-label mb-3 fw-bold"
                                                    for="can-be-cancelled">Requires Confirmation</label>
                                         </div>
+                                        <div class="d-flex" style="gap: 20px;">
+                                            <button class="update-btn m-0">Add Offering</button>
+                                            <button class="update-btn">Save Draft</button>
+                                        </div>
                                     </div>
-
-                                    <!-- Costs Tab Content -->
-                                    <div class="tab-pane fade" id="costs" role="tabpanel" aria-labelledby="costs-tab">
+                                    <div class="tab-pane fade" id="events" role="tabpanel" aria-labelledby="events-tab" tabindex="0">
                                         <h5>Coming soon</h5>
                                     </div>
+                                    <div class="tab-pane fade" id="package_offering" role="tabpanel" aria-labelledby="package-offering-tab" tabindex="0">
+                                        <h5>Coming soon</h5>
+                                    </div>
+
                                 </div>
-                            </div>
-                            <div class="d-flex" style="gap: 20px;">
-                                <button class="update-btn m-0">Add Offering</button>
-                                <button class="update-btn">Save Draft</button>
                             </div>
                         </div>
                     </form>
@@ -958,14 +856,5 @@
             </div>
         </div>
     </section>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        document.addEventListener('change', function (event) {
-            if (event.target.matches('[data-type="hide"]')) {
-                alert('hi');
-            }
-        });
-    });
-</script>
 @endsection
 

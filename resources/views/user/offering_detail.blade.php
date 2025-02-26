@@ -26,6 +26,14 @@
             <div class="card calendar-card mt-5 mb-5">
                 <div class="card-body">
                     <div id="calendar"></div>
+                   
+                    <div id="booking_calendar"></div>
+                    <div class="mt-4 text-center">
+                        <h4>Available Time Slots</h4>
+                        <div id="showTimeSlot">
+                            no time slots available
+                        </div>
+                    </div>
                     <a href="{{route('checkout')}}" class="btn btn-primary" >Book </a>
                 </div>
             </div>
@@ -81,7 +89,6 @@
         </div>
     </div>
 </section>
-
 
 </section>
 
