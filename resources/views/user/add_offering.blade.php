@@ -773,9 +773,9 @@
                                             <div class="col">
                                                 <div class="form-check offering-check">
                                                     <input type="checkbox" class="form-check-input"
-                                                           id="can-be-cancelled">
+                                                           id="availability">
                                                     <label class="form-check-label mb-3 fw-bold"
-                                                           for="can-be-cancelled">Availability</label><br>
+                                                           for="availability">Availability</label><br>
                                                     <select id="type" class="form-select">
                                                         <option>Monday</option>
                                                         <option>Tuesday</option>
@@ -830,7 +830,7 @@
                                         </div>
                                         <div class="mb-4">
                                             <div class="form-check offering-check">
-                                                <input type="checkbox" class="form-check-input" id="can-be-cancelled">
+                                                <input type="checkbox" class="form-check-input" id="can-be-cancelled" data-type="hide">
                                                 <label class="form-check-label mb-3 fw-bold"
                                                        for="can-be-cancelled">Cancellation</label>
                                             </div>
@@ -930,7 +930,8 @@
                                         </div>
                                         <div class="mb-4">
                                             <div class="form-check offering-check">
-                                                <input type="checkbox" class="form-check-input" id="can-be-cancelled" data-type="hide">
+                                                <input type="checkbox" class="form-check-input" id="can-be-cancelled"
+                                                       data-type="hide">
                                                 <label class="form-check-label mb-3 fw-bold"
                                                        for="can-be-cancelled">Cancellation</label>
                                             </div>
@@ -958,14 +959,6 @@
             </div>
         </div>
     </section>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        document.addEventListener('change', function (event) {
-            if (event.target.matches('[data-type="hide"]')) {
-                alert('hi');
-            }
-        });
-    });
-</script>
+
 @endsection
 
