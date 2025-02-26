@@ -41,7 +41,7 @@ class PractitionerController extends Controller
         $userDetails = $user->userDetail;
 
         $Categories = Category::get();
-        $PractitionerTag = PractitionerTag::get();
+        $practitionerTag = PractitionerTag::get();
         $IHelpWith = IHelpWith::get();
         $HowIHelp = HowIHelp::get();
         $stripeAccount = UserStripeSetting::where('user_id', Auth::id())->first();
@@ -53,7 +53,7 @@ class PractitionerController extends Controller
             'user',
             'userDetails',
             'Categories',
-            'PractitionerTag',
+            'practitionerTag',
             'IHelpWith',
             'HowIHelp',
             'stripeAccount',

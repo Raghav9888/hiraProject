@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\Practitioner;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
+use App\Models\HowIHelp;
+use App\Models\IHelpWith;
 use App\Models\Offering;
+use App\Models\PractitionerTag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,15 +19,22 @@ class OfferingController extends Controller
         $user = Auth::user();
         $userDetails = $user->userDetail;
         $offerings = Offering::with('user')->get();
-        return view('user.offering', compact('user', 'userDetails', 'offerings'));
+        $categories = Category::get();
+        $PractitionerTag = PractitionerTag::get();
+        $IHelpWith = IHelpWith::get();
+        $HowIHelp = HowIHelp::get();
+        return view('user.offering', compact('user', 'userDetails', 'offerings','categories'));
     }
 
     public function addOffering()
     {
         $user = Auth::user();
         $userDetails = $user->userDetail;
-
-        return view('user.add_offering');
+        $categories = Category::get();
+        $PractitionerTag = PractitionerTag::get();
+        $IHelpWith = IHelpWith::get();
+        $HowIHelp = HowIHelp::get();
+        return view('user.add_offering', compact('user', 'userDetails', 'categories','PractitionerTag','IHelpWith','HowIHelp'));
     }
 
     // Store a new offering
@@ -137,7 +148,11 @@ class OfferingController extends Controller
         $user = Auth::user();
         $userDetails = $user->userDetail;
         $offering = Offering::findOrFail($id);
-        return view('user.edit_offering', compact('user', 'userDetails', 'offering'));
+        $categories = Category::get();
+        $practitionerTag = PractitionerTag::get();
+        $IHelpWith = IHelpWith::get();
+        $HowIHelp = HowIHelp::get();
+        return view('user.edit_offering', compact('user', 'userDetails', 'offering', 'categories','practitionerTag','IHelpWith','HowIHelp'));
     }
 
     // Delete an offering

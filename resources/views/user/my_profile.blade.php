@@ -105,7 +105,7 @@
                                         </div>
 
                                         <div class="mb-4">
-                                            <label for="location" class="fw-bold">Location</label>
+                                            <label for="location">Location</label>
                                             <select id="location" name="location[]" class="form-select select2"
                                                     multiple="multiple">
                                                 <option>Select</option>
@@ -123,16 +123,17 @@
                                                 </option>
                                             </select>
                                         </div>
-                                        <hr>
-                                        <label for="type" class="fw-bold">Tags</label>
+                                        <label for="type">Tags</label>
                                         <p style="text-align: start;">These are keywords used to help identify more
                                             specific
                                             versions of something. For example, a good tag for a massage could be "Deep
                                             Tissue".</p>
-                                        <select name="tags" multiple="multiple" class="form-select select2"></select>
-                                        <hr>
+                                        <select name="tags[]" multiple="multiple" class="form-select select2">
+                                            <option value="156">energybalancing</option>
+                                            <option value="2991">ASD</option>
+                                        </select>
                                         <div class="mb-4 mt-4">
-                                            <label for="media" class="fw-bold">Media</label>
+                                            <label for="media">Media</label>
                                             <label class="add-media-btn" for="media-upload">
                                                 <i class="fas fa-plus"></i>
                                                 Add media
@@ -165,21 +166,30 @@
                                             <textarea class="form-control" name="about_me" placeholder=""
                                                       id="floatingTextarea">{{$userDetails->about_me ?? ''}}</textarea>
                                         </div>
-                                        <hr>
                                         <div class="mb-4">
                                             <label for="IHelpWith" class="fw-bold">I help with:</label>
-                                            <select id="IHelpWith" name="IHelpWith[]" class="form-select select2" multiple>
-                                                    @php
-                                                    $selectedTerms = explode(',', $userDetails->IHelpWith ?? '');
-                                                @endphp
-                                                @foreach($IHelpWith as $term)
-                                                    <option value="{{$term->id}}" {{ in_array($term->id, $selectedTerms) ? 'selected' : '' }} >{{$term->name}}</option>
-                                                @endforeach
-                                            </select>
+                                            <div class="row align-items-center">
+                                                <div class="col-md-6">
+                                                    <select id="IHelpWith" name="IHelpWith[]"
+                                                            class="form-select select2"
+                                                            multiple>
+                                                        @php
+                                                            $selectedTerms = explode(',', $userDetails->IHelpWith ?? '');
+                                                        @endphp
+                                                        @foreach($IHelpWith as $term)
+                                                            <option
+                                                                value="{{$term->id}}" {{ in_array($term->id, $selectedTerms) ? 'selected' : '' }} >{{$term->name}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <button class="update-btn mb-2 addterm" data-type="IHelpWith">Add
+                                                        New Term
+                                                    </button>
+                                                </div>
+                                            </div>
+
                                         </div>
-                                        <hr>
-                                        <button class="update-btn mb-2 addterm" data-type="IHelpWith">Add New Term
-                                        </button>
                                         <div id="IHelpWith-container">
 
                                         </div>
@@ -190,52 +200,54 @@
                                                 <option>Select</option>
                                                 @foreach($HowIHelp as $term)
                                             <option value="{{$term->id}}">{{$term->name}}</option>
-
-
-
-
-
                                         @endforeach
                                         </select>
                                     </div>
                                     <hr>
                                     <button class="update-btn mb-2">Add New Term</button> -->
-                                        <div class="mb-4">
-                                            <label for="type" class="fw-bold">How I help:</label>
-                                            <select id="HowIHelp" name="HowIHelp[]" class="form-select select2" multiple>
-                                            @php
-                                                    $selectedTerms = explode(',', $userDetails->HowIHelp ?? '');
-                                                @endphp
-                                                @foreach($HowIHelp as $term)
-                                                    <option value="{{$term->id}}" {{ in_array($term->id, $selectedTerms) ? 'selected' : '' }} >{{$term->name}}</option>
-                                                @endforeach
-                                            </select>
+                                        <div class="row mb-4 align-items-center">
+                                            <div class="col-md-6">
+                                                <label for="type" class="fw-bold">How I help:</label>
+                                                <select id="HowIHelp" name="HowIHelp[]" class="form-select select2"
+                                                        multiple>
+                                                    @php
+                                                        $selectedTerms = explode(',', $userDetails->HowIHelp ?? '');
+                                                    @endphp
+                                                    @foreach($HowIHelp as $term)
+                                                        <option
+                                                            value="{{$term->id}}" {{ in_array($term->id, $selectedTerms) ? 'selected' : '' }} >{{$term->name}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <button class="update-btn mb-2 addterm" data-type="HowIHelp">Add New Term
+                                                </button>
+                                            </div>
                                         </div>
-                                        <hr>
-                                        <button class="update-btn mb-2 addterm" data-type="HowIHelp">Add New Term
-                                        </button>
                                         <div id="HowIHelp-container">
 
                                         </div>
+
                                         <div class="mb-4">
-                                            <label for="specialities" class="fw-bold">Specialities</label>
+                                            <label for="specialities" class="fw-bold">Categories</label>
                                             <select id="specialities" class="form-control form-select select2"
                                                     multiple="multiple"
                                                     name="specialities[]">
                                                 @foreach($Categories as $term)
-                                                    <option value="{{$term->id}}" {{ in_array($term->id, json_decode($userDetails->specialities)) ? 'selected' : '' }}>{{$term->name}}</option>
+                                                    <option
+                                                        value="{{$term->id}}" {{ in_array($term->id, json_decode($userDetails->specialities)) ? 'selected' : '' }}>{{$term->name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <hr>
                                         <div class="mb-4">
-                                            <div class="form-check offering-check">
-                                                <label class="form-check-label" for="amentities">Amentities</label>
-                                                <select id="amentities" class="form-select select2" name="amentities">
-                                                    <option>Select</option>
-                                                    <option>Neurolinguistic Programming</option>
-                                                </select>
-                                            </div>
+
+                                            <label class="form-check-label" for="amentities">Amentities</label>
+                                            <select id="amentities" class="form-control form-select select2"
+                                                    name="amentities" multiple="multiple">
+                                                <option>Select</option>
+                                                <option>Neurolinguistic Programming</option>
+                                            </select>
+
                                         </div>
                                         <div class="mb-4">
                                             <label for="certifications" class="fw-bold">Certifications</label>
@@ -244,7 +256,7 @@
                                                 <option>Neurolinguistic Programming</option>
                                             </select>
                                         </div>
-                                        <hr>
+
                                         <button class="update-btn mb-2">Add New Term</button>
                                         <div class="mb-4">
                                             <label for="endorsements" class="fw-bold">Endorsements</label>
@@ -252,7 +264,7 @@
                                                 <option>Select</option>
                                             </select>
                                         </div>
-                                        <hr>
+
                                         <div class="mb-4">
                                             <label for="timezone" class="fw-bold">Timezone</label>
                                             <select id="timezone" name="timezone" class="form-select">
@@ -449,17 +461,17 @@
                     }
                     $('#' + termType + '-container').html('');
                 },
-               /*  success: function (response) {
-                    if (response.success) {
-                        $('#' + termType + '-container').html('');
-                        var newOption = `<option value="${response.term.id}" selected>${response.term.name}</option>`;
-                        $("#" + termType).append(newOption).trigger('change');
-                        alert('term add sucessfully');
+                /*  success: function (response) {
+                     if (response.success) {
+                         $('#' + termType + '-container').html('');
+                         var newOption = `<option value="${response.term.id}" selected>${response.term.name}</option>`;
+                         $("#" + termType).append(newOption).trigger('change');
+                         alert('term add sucessfully');
 
-                    } else {
-                        alert('Error: ' + response.message);
-                    }
-                }, */
+                     } else {
+                         alert('Error: ' + response.message);
+                     }
+                 }, */
                 error: function (xhr, status, error) {
                     console.error('AJAX Error:', error);
                 }
