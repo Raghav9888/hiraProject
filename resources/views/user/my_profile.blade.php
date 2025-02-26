@@ -193,7 +193,6 @@
                                         <div id="IHelpWith-container">
 
                                         </div>
-                                        <hr>
                                         <!-- <div class="mb-4">
                                             <label for="type" class="fw-bold">I help with:</label>
                                             <select id="term" name="term" class="form-select select2"
@@ -228,7 +227,6 @@
                                         <div id="HowIHelp-container">
 
                                         </div>
-                                        <hr>
 
                                         <div class="mb-4">
                                             <label for="specialities" class="fw-bold">Categories</label>
@@ -241,7 +239,6 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <hr>
                                         <div class="mb-4">
 
                                             <label class="form-check-label" for="amentities">Amentities</label>
@@ -259,7 +256,7 @@
                                                 <option>Neurolinguistic Programming</option>
                                             </select>
                                         </div>
-                                        <hr>
+
                                         <button class="update-btn mb-2">Add New Term</button>
                                         <div class="mb-4">
                                             <label for="endorsements" class="fw-bold">Endorsements</label>
@@ -267,7 +264,7 @@
                                                 <option>Select</option>
                                             </select>
                                         </div>
-                                        <hr>
+                                      
                                         <div class="mb-4">
                                             <label for="timezone" class="fw-bold">Timezone</label>
                                             <select id="timezone" name="timezone" class="form-select">
