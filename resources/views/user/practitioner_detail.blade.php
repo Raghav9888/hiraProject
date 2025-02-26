@@ -62,7 +62,7 @@
                         @foreach ($mediaImages as $image)
                             <div class="swiper-slide">
                                 <img
-                                    src="{{ asset(env('media_path') . '/practitioners/' . $userDetails->id . '/' . $image) }}"
+                                    src="{{ asset(env('media_path') . '/practitioners/' . $userDetails->id . '/media/' . $image) }}"
                                     alt="media image">
 
                             </div>
@@ -189,7 +189,7 @@
 
                                         </div>
                                     @endforeach
-                                   
+
                                 </div>
                             </div>
                         </div>

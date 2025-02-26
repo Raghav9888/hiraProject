@@ -131,7 +131,6 @@
                                             <option value="asd" {{ in_array('asd', $tags) ? 'selected' : '' }}>
                                                 ASD
                                             </option>
-
                                         </select>
                                         <div class="mb-4 mt-4">
                                             <label for="media">Media</label>
