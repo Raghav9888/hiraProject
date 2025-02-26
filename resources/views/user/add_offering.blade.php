@@ -837,8 +837,7 @@
                                                    for="can-be-cancelled">Requires Confirmation</label>
                                         </div>
                                         <div class="d-flex" style="gap: 20px;">
-                                            <button class="update-btn m-0">Add Offering</button>
-                                            <button class="update-btn">Save Draft</button>
+                                            <button class="update-btn">Save</button>
                                         </div>
                                     </div>
                                     <div class="tab-pane fade" id="events" role="tabpanel" aria-labelledby="events-tab" tabindex="0">
