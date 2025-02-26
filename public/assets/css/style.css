@@ -1,40 +1,47 @@
 @font-face {
-    font-family:Montserrat-Medium;
+    font-family: Montserrat-Medium;
     src: url('../Montserrat/static/Montserrat-Medium.ttf');
 }
+
 @font-face {
-    font-family:Montserrat-Regular;
+    font-family: Montserrat-Regular;
     src: url('../Montserrat/static/Montserrat-Regular.ttf');
 }
 
-body{
+body {
     background-color: #FFFFFF;
     margin: 0;
     padding: 0;
     font-family: "Montserrat-Regular";
 }
-a{
+
+a {
     text-decoration: none !important;
 }
-section{
+
+section {
     padding: 80px 0;
 }
-.offering-wrrpr{
+
+.offering-wrrpr {
     padding: 0 50px;
 }
+
 /* header css start */
-.header{
+.header {
     background-color: #424E3E;
     border-bottom: 2px solid #FFFFFF33
 }
-.header .header-logo{
+
+.header .header-logo {
     margin-right: 30px;
 }
 
 .header ul li {
     margin-left: 20px;
 }
-.header ul li a{
+
+.header ul li a {
     font-family: "Montserrat-Medium";
     font-size: 16px;
     font-weight: 500;
@@ -42,14 +49,14 @@ section{
     margin: 0;
 }
 
-.header ul li .dropdown a{
+.header ul li .dropdown a {
     font-family: "Montserrat-Medium";
     font-size: 16px;
     font-weight: 500;
     color: #424E3E !important;
 }
 
-.header ul li .dropdown{
+.header ul li .dropdown {
     font-family: "Montserrat-Medium";
     font-size: 16px;
     font-weight: 500;
@@ -59,29 +66,33 @@ section{
 .header ul li .dropdown:hover,
 .header ul li a:hover,
 .header ul li .dropdown:focus,
-.header ul li a:focus{
+.header ul li a:focus {
     color: #D6CFBF;
 }
-.header .login-btn{
+
+.header .login-btn {
     font-family: "Montserrat-Medium";
     font-size: 16px;
     font-weight: 600;
     color: #424E3E;
     background-color: #D6CFBF;
     height: 48px;
-    width: 134px;border: none;
+    width: 134px;
+    border: none;
     border-radius: 33px;
 }
-.header .login-btn{
+
+.header .login-btn {
     text-transform: uppercase;
 }
 
-.header .login-btn:hover{
+.header .login-btn:hover {
     background-color: transparent;
     color: #D6CFBF;
     border: 1.5px solid #D6CFBF;
 }
-.header .join-btn{
+
+.header .join-btn {
     font-family: "Montserrat-Medium";
     font-size: 16px;
     font-weight: 600;
@@ -95,31 +106,36 @@ section{
     text-transform: uppercase;
 }
 
-.header .join-btn:hover{
+.header .join-btn:hover {
     background-color: #D6CFBF;
     color: #424E3E;
 }
-.company-dropdown ul{
+
+.company-dropdown ul {
     border-radius: 8px;
 }
-.company-dropdown ul li{
+
+.company-dropdown ul li {
     margin: 0;
     padding: 0 10px;
 }
-.company-dropdown ul li a{
+
+.company-dropdown ul li a {
     color: #424E3E;
     font-weight: 600;
     padding: 5px;
 }
-.company-dropdown ul li .active{
+
+.company-dropdown ul li .active {
     color: #fff;
-    background-color:#424E3E ;
+    background-color: #424E3E;
     border-radius: 8px;
 }
+
 /* header css end */
 /* home main css start */
 
-.home-main-section{
+.home-main-section {
     background-image: url('../images/home-banner.png');
     background-position: center;
     background-size: cover;
@@ -128,18 +144,20 @@ section{
     padding: 0 0 150px;
 }
 
-.home-main-section .arrows-down{
+.home-main-section .arrows-down {
     position: absolute;
     bottom: 20px;
     left: 0;
     right: 0;
     margin: auto;
 }
-.home-main-section .hira-collective{
+
+.home-main-section .hira-collective {
     width: 100%;
     max-width: 600px;
 }
-.home-search-wrrpr{
+
+.home-search-wrrpr {
     background-color: #FFFFFF12;
     backdrop-filter: blur(30px);
     box-shadow: 0px 0px 15px 0px #00000026 inset;
@@ -147,22 +165,23 @@ section{
     border-radius: 24px;
     padding: 25px;
 }
-.search-dv-body{
+
+.search-dv-body {
     display: flex;
     gap: 15px;
     margin-bottom: 20px;
 }
 
-.home-search-wrrpr p{
-    font-family:"Montserrat-Regular";
+.home-search-wrrpr p {
+    font-family: "Montserrat-Regular";
     font-size: 16px;
     font-weight: 500;
     color: #FFFFFF;
     margin-bottom: 5px;
 }
 
-.home-main-section .home-search-btn{
-    font-family:"Montserrat-Regular";
+.home-main-section .home-search-btn {
+    font-family: "Montserrat-Regular";
     font-size: 16px;
     font-weight: 600;
     width: 137px;
@@ -196,21 +215,24 @@ section{
     border: none;
     background-color: #FFFFFF;
 }
-.home-main-section .dropdown button{
+
+.home-main-section .dropdown button {
     padding: 10px;
     height: 48px;
 }
-.home-main-section .location-input{
+
+.home-main-section .location-input {
     width: 100%;
     max-width: 300px;
     padding: 0;
 }
+
 .search-button {
     border: none;
     cursor: pointer;
     background-color: transparent;
     position: absolute;
-    left:10px ;
+    left: 10px;
     top: 0;
     bottom: 0;
     margin: auto;
@@ -221,14 +243,14 @@ section{
     color: #17240B;
 }
 
-.searched-category{
+.searched-category {
     display: flex;
     align-items: center;
     gap: 15px;
 }
 
-.searched-category button{
-    font-family:"Montserrat-Regular";
+.searched-category button {
+    font-family: "Montserrat-Regular";
     font-size: 16px;
     font-weight: 400;
     color: #FFFFFF;
@@ -237,14 +259,16 @@ section{
     border: none;
     border-radius: 33px;
 }
+
 /* home main css end */
-.home-title{
-    font-family:"Montserrat-Medium";
+.home-title {
+    font-family: "Montserrat-Medium";
     font-size: 40px;
     font-weight: 700;
     color: #424E3E;
     text-transform: uppercase;
 }
+
 .explore-img-dv {
     background-repeat: no-repeat;
     background-position: center;
@@ -274,7 +298,7 @@ section{
 }
 
 
-.explore-img-dv p{
+.explore-img-dv p {
     font-family: "Montserrat-Regular";
     font-size: 24px;
     font-weight: 600;
@@ -284,7 +308,7 @@ section{
 
 .category-load-more,
 .home-blog-btn,
-.review-dv-data .home-blog-btn{
+.review-dv-data .home-blog-btn {
     font-family: "Montserrat-Regular";
     font-size: 16px;
     font-weight: 600;
@@ -298,25 +322,29 @@ section{
     justify-content: center;
     align-items: center;
 }
+
 .category-load-more:hover,
 .home-blog-btn:hover,
-.review-dv-data .home-blog-btn:hover{
+.review-dv-data .home-blog-btn:hover {
     color: #FFFFFF;
 }
-.why-us-wrrpr .swiper-wrapper{
+
+.why-us-wrrpr .swiper-wrapper {
     padding-bottom: 50px;
 }
 
-.why-us-wrrpr .swiper-slide{
+.why-us-wrrpr .swiper-slide {
     border: 2px solid #EDEEEC;
     padding: 30px;
     border-radius: 24px;
     position: relative;
 }
-.why-us-wrrpr .swiper-slide img{
+
+.why-us-wrrpr .swiper-slide img {
     margin-bottom: 25px;
 }
-.why-us-wrrpr .swiper-slide p{
+
+.why-us-wrrpr .swiper-slide p {
     font-family: "Montserrat-Regular";
     font-size: 16px;
     font-weight: 500;
@@ -326,7 +354,8 @@ section{
     z-index: 1;
     position: relative;
 }
-.why-us-wrrpr .swiper-slide h4{
+
+.why-us-wrrpr .swiper-slide h4 {
     font-family: "Montserrat-Medium";
     font-size: 24px;
     font-weight: 700;
@@ -335,28 +364,31 @@ section{
     margin-bottom: 13px;
 }
 
-.why-us-wrrpr .swiper-slide .shadow-quotes{
+.why-us-wrrpr .swiper-slide .shadow-quotes {
     position: absolute;
     bottom: 10px;
     right: 15px;
 }
-.why-us-wrrpr .swiper-button-prev{
+
+.why-us-wrrpr .swiper-button-prev {
     right: 70px;
     left: auto;
 }
 
 .why-us-wrrpr .swiper-button-prev,
-.why-us-wrrpr .swiper-button-next{
+.why-us-wrrpr .swiper-button-next {
     border: 1.5px solid #9F8B72;
     height: 40px;
     width: 40px;
     border-radius: 50px;
 }
+
 .swiper-button-prev::after,
-.swiper-button-next::after{
+.swiper-button-next::after {
     display: none;
 }
-.swiper-button-prev::before{
+
+.swiper-button-prev::before {
     content: "\f104";
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
@@ -369,23 +401,25 @@ section{
     font-weight: 900;
     color: #9F8B72;
 }
-.why-us-wrrpr .swiper-pagination{
+
+.why-us-wrrpr .swiper-pagination {
     bottom: -5x;
 }
 
-.swiper-pagination-bullet-active{
+.swiper-pagination-bullet-active {
     background: #9F8B72;
 
 }
 
-.find-apply-dv{
+.find-apply-dv {
     background: linear-gradient(180deg, #576752 0%, #3C4639 100%);
     border-radius: 24px;
     padding: 40px;
     position: relative;
     overflow: hidden;
 }
-.find-apply-dv img{
+
+.find-apply-dv img {
     position: absolute;
     bottom: -60px;
     right: -20px;
@@ -393,7 +427,7 @@ section{
     max-width: 350px;
 }
 
-.find-apply-dv h2{
+.find-apply-dv h2 {
     font-family: "Montserrat-Medium";
     font-size: 40px;
     font-weight: 700;
@@ -402,7 +436,7 @@ section{
     margin-bottom: 17px;
 }
 
-.find-apply-dv p{
+.find-apply-dv p {
     font-family: "Montserrat-Regular";
     font-size: 16px;
     font-weight: 400;
@@ -411,7 +445,7 @@ section{
     margin-bottom: 28px;
 }
 
-.find-apply-dv button{
+.find-apply-dv button {
     font-family: "Montserrat-Regular";
     font-size: 16px;
     font-weight: 400;
@@ -423,14 +457,15 @@ section{
     width: 233px;
     border: none;
 }
-.choose-us-dv{
+
+.choose-us-dv {
     background-color: #ebecea;
     border-radius: 24px;
     padding: 30px;
     height: 100%;
 }
 
-.choose-us-img-dv{
+.choose-us-img-dv {
     background-color: #FFFFFF;
     border-radius: 12px;
     padding: 20px;
@@ -438,7 +473,7 @@ section{
     margin-bottom: 25px;
 }
 
-.choose-us-dv h6{
+.choose-us-dv h6 {
     font-family: "Montserrat-Medium";
     font-size: 24px;
     font-weight: 700;
@@ -447,7 +482,7 @@ section{
     margin-bottom: 20px;
 }
 
-.choose-us-dv p{
+.choose-us-dv p {
     font-family: "Montserrat-Regular";
     font-size: 16px;
     font-weight: 400;
@@ -455,10 +490,11 @@ section{
     margin: 0;
 }
 
-.vision-about-img-dv img{
+.vision-about-img-dv img {
     width: 100%;
 }
-.vision-and-about-dv h2{
+
+.vision-and-about-dv h2 {
     font-family: "Montserrat-Medium";
     font-size: 36px;
     font-weight: 700;
@@ -467,7 +503,7 @@ section{
     margin-bottom: 25px;
 }
 
-.vision-and-about-dv p{
+.vision-and-about-dv p {
     font-family: "Montserrat-Regular";
     font-size: 18px;
     font-weight: 400;
@@ -476,7 +512,7 @@ section{
     margin-bottom: 25px;
 }
 
-.vision-and-about-dv button{
+.vision-and-about-dv button {
     font-family: "Montserrat-Regular";
     font-size: 16px;
     font-weight: 500;
@@ -489,26 +525,28 @@ section{
     height: 48px;
 }
 
-.about-dv{
+.about-dv {
     display: flex;
     flex-direction: column;
     align-items: end;
 }
 
-.home-blog-wrrpr{
+.home-blog-wrrpr {
     background-color: #F5F6F5;
 }
-.home-blog-dv{
+
+.home-blog-dv {
     background-color: #FFFFFF;
     border-radius: 24px;
     padding: 24px;
 }
-.home-blog-dv img{
+
+.home-blog-dv img {
     width: 100%;
     margin-bottom: 20px;
 }
 
-.home-blog-dv h4{
+.home-blog-dv h4 {
     font-family: "Montserrat-Medium";
     font-size: 24px;
     font-weight: 700;
@@ -517,7 +555,7 @@ section{
     margin-bottom: 20px;
 }
 
-.home-blog-dv p{
+.home-blog-dv p {
     font-family: "Montserrat-Regular";
     font-size: 16px;
     font-weight: 400;
@@ -526,7 +564,7 @@ section{
     margin-bottom: 20px;
 }
 
-.home-blog-label{
+.home-blog-label {
     background-color: #9F8B721F;
     border-radius: 42px;
     width: fit-content;
@@ -538,7 +576,7 @@ section{
     margin-bottom: 20px;
 }
 
-.home-blog-label h5{
+.home-blog-label h5 {
     font-family: "Montserrat-Regular";
     font-size: 15px;
     font-weight: 500;
@@ -546,7 +584,7 @@ section{
     margin: 0;
 }
 
-.home-blog-dv button{
+.home-blog-dv button {
     font-family: "Montserrat-Regular";
     font-size: 16px;
     font-weight: 500;
@@ -563,22 +601,24 @@ section{
 
 /* faq css start */
 
-.faq-section .accordion{
+.faq-section .accordion {
     background-color: #F5F6F5;
     border-radius: 24px;
     padding: 20px;
 }
 
-.faq-section .accordion-item{
+.faq-section .accordion-item {
     background-color: transparent;
     border: none;
     border-bottom: 2px solid #e1e1e1;
 }
-.faq-section .accordion-item:last-child{
+
+.faq-section .accordion-item:last-child {
     border: none;
 }
-.faq-section .accordion-button{
-    font-family:"Montserrat-Regular" ;
+
+.faq-section .accordion-button {
+    font-family: "Montserrat-Regular";
     font-size: 18px;
     font-weight: 600;
     color: #424E3E;
@@ -586,15 +626,15 @@ section{
     border: none;
 }
 
-.faq-section .accordion-button:focus{
+.faq-section .accordion-button:focus {
     box-shadow: none;
 }
 
-.faq-section .accordion-button:not(.collapsed){
+.faq-section .accordion-button:not(.collapsed) {
     box-shadow: none;
 }
 
-.faq-section .accordion-body{
+.faq-section .accordion-body {
     font-family: "Montserrat-Regular";
     font-size: 16px;
     font-weight: 400;
@@ -602,24 +642,26 @@ section{
     padding: 10px 20px 20px;
 }
 
-.faq-section .accordion-button::after{
+.faq-section .accordion-button::after {
     background-image: url(../images/plus.svg);
     background-color: #FFFFFF;
     padding: 20px;
     border-radius: 50%;
     background-position: center;
 }
-.faq-section .accordion-button:not(.collapsed)::after
-{
+
+.faq-section .accordion-button:not(.collapsed)::after {
     background-image: url('../images/cross.svg');
     transform: rotate(0deg);
 }
+
 /* faq css end */
 
 /* features css start */
 .featured-section .dropdown {
     position: relative;
 }
+
 .featured-section .dropdown-button,
 .offering-btn-drop .dropdown-button {
     background-color: white;
@@ -632,11 +674,13 @@ section{
     border: none;
     outline: none;
 }
-.offering-btn-drop .dropdown-button{
+
+.offering-btn-drop .dropdown-button {
     background-color: #424E3E !important;
     color: #FFFFFF !important;
     height: 48px !important;
 }
+
 .featured-section .dropdown-button span,
 .offering-btn-drop .dropdown-button span {
     color: #4a5568;
@@ -647,14 +691,17 @@ section{
     font-weight: 500;
     color: #424E3E;
 }
-.offering-btn-drop .dropdown-button span{
+
+.offering-btn-drop .dropdown-button span {
     color: #fff !important;
     font-weight: 600 !important;
 }
+
 .featured-section .dropdown-button i {
     margin-left: 8px;
     color: #4a5568;
 }
+
 .featured-section .dropdown-menu,
 .practitioner-detail-wrrpr .accordion-body .Currency-select .dropdown-menu,
 .review-dv-data .sort-by .dropdown-menu,
@@ -668,9 +715,11 @@ section{
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     display: none;
 }
+
 .offering-btn-drop .dropdown-menu {
     width: 150px !important;
 }
+
 .featured-section .dropdown-menu ul,
 .practitioner-detail-wrrpr .accordion-body .Currency-select .dropdown-menu ul,
 .review-dv-data .sort-by .dropdown-menu ul,
@@ -680,6 +729,7 @@ section{
     padding: 0;
     margin: 0;
 }
+
 .featured-section .dropdown-menu li,
 .practitioner-detail-wrrpr .accordion-body .Currency-select .dropdown-menu li,
 .review-dv-data .sort-by .dropdown-menu li,
@@ -687,6 +737,7 @@ section{
 .offering-btn-drop .dropdown-menu li {
     border-bottom: 1px solid #e2e8f0;
 }
+
 .featured-section .dropdown-menu li:last-child,
 .practitioner-detail-wrrpr .accordion-body .Currency-select .dropdown-menu li:last-child,
 .review-dv-data .sort-by .dropdown-menu li:last-child,
@@ -694,6 +745,7 @@ section{
 .offering-btn-drop .dropdown-menu ul li:last-child {
     border-bottom: none;
 }
+
 .featured-section .dropdown-menu a,
 .practitioner-detail-wrrpr .accordion-body .Currency-select .dropdown-menu a,
 .review-dv-data .sort-by .dropdown-menu a,
@@ -705,6 +757,7 @@ section{
     color: #4a5568;
     text-decoration: none;
 }
+
 .featured-section .dropdown-menu a:hover,
 .practitioner-detail-wrrpr .accordion-body .Currency-select .dropdown-menu a:hover,
 .review-dv-data .sort-by .dropdown-menu a:hover,
@@ -712,27 +765,32 @@ section{
 .offering-btn-drop .dropdown-menu a:hover {
     background-color: #f7fafc;
 }
-.featured-section{
+
+.featured-section {
     background-color: #F5F6F5;
 }
-.selected-category{
+
+.selected-category {
     font-family: "Montserrat-Regular";
     font-size: 16px;
     font-weight: 500;
     color: #424E3E;
     margin: 0;
 }
-.featured-dv{
+
+.featured-dv {
     background-color: #FFFFFF;
     border-radius: 24px;
     padding: 20px;
     position: relative;
 }
-.featured-dv img{
+
+.featured-dv img {
     width: 100%;
     margin-bottom: 13px;
 }
-.featured-dv label{
+
+.featured-dv label {
     position: absolute;
     top: 35px;
     right: 30px;
@@ -749,14 +807,16 @@ section{
     border-radius: 30px;
 
 }
-.featured-dv h4{
+
+.featured-dv h4 {
     font-family: "Montserrat-Medium";
     font-size: 20px;
     font-weight: 600;
     color: #424E3E;
     margin: 0;
 }
-.featured-dv h5{
+
+.featured-dv h5 {
     font-family: "Montserrat-Regular";
     font-size: 15px;
     font-weight: 400;
@@ -764,10 +824,12 @@ section{
     margin: 0;
     margin-bottom: 10px;
 }
-.featured-dv h5 i{
+
+.featured-dv h5 i {
     margin-right: 5px;
 }
-.featured-dv p{
+
+.featured-dv p {
     font-family: "Montserrat-Regular";
     font-size: 16px;
     font-weight: 400;
@@ -775,26 +837,29 @@ section{
     margin: 0;
     margin-bottom: 10px;
 }
-.featured-dv i{
+
+.featured-dv i {
     color: #9F9361;
 }
-.featured-dv h6{
+
+.featured-dv h6 {
     font-family: "Montserrat-Regular";
     font-size: 16px;
     font-weight: 500;
     color: #9F9361;
     margin: 0;
 }
+
 /* features css end */
 
 /* contact us css start */
 
-.contact-us-wrrpr{
+.contact-us-wrrpr {
     background-image: url('../images/home-banner.png');
     background-repeat: no-repeat;
 }
 
-.contact-us-right-dv{
+.contact-us-right-dv {
     background-color: #FFFFFF12;
     backdrop-filter: blur(30px);
     padding: 27px 33px 33px;
@@ -802,12 +867,14 @@ section{
     border-radius: 24px;
     position: relative;
 }
-.contact-us-right-dv .star-2{
+
+.contact-us-right-dv .star-2 {
     position: absolute;
     left: -200px;
     bottom: 50px;
 }
-.contact-us-right-dv h3{
+
+.contact-us-right-dv h3 {
     font-family: "Montserrat-Medium";
     font-size: 36px;
     font-weight: 700;
@@ -820,7 +887,7 @@ section{
 .contact-us-wrrpr form label,
 .login-body form .input-group label,
 .login-checkbox label,
-.add-offering-dv label{
+.add-offering-dv label {
     font-family: "Montserrat-Regular";
     font-size: 16px;
     font-weight: 400;
@@ -828,14 +895,16 @@ section{
     margin: 0;
     margin-bottom: 5px;
 }
-.add-offering-dv label{
+
+.add-offering-dv label {
     color: #585757;
 }
+
 .contact-us-wrrpr form input,
 .contact-us-wrrpr form textarea,
 .login-body form .input-group input,
 .add-offering-dv input,
-.add-offering-dv textarea{
+.add-offering-dv textarea {
     font-family: "Montserrat-Regular";
     font-size: 16px;
     font-weight: 400;
@@ -845,34 +914,39 @@ section{
     height: 46px;
     padding: 17px 21px;
 }
+
 .contact-us-wrrpr form textarea,
-.add-offering-dv textarea{
+.add-offering-dv textarea {
     height: 100px;
 }
+
 .contact-us-wrrpr form input:focus,
-.contact-us-wrrpr form textarea{
+.contact-us-wrrpr form textarea {
     box-shadow: none;
     border: none;
 }
+
 .add-offering-dv textarea:focus,
-.add-offering-dv input{
+.add-offering-dv input {
     box-shadow: none !important;
 }
 
-.contact-us-right-dv form .form-check .form-check-input{
+.contact-us-right-dv form .form-check .form-check-input {
     height: 21px;
     width: 21px;
     padding: 0;
 }
 
-.contact-us-left-dv{
+.contact-us-left-dv {
     height: 100%;
     display: flex;
 }
-.contact-us-left-dv img{
+
+.contact-us-left-dv img {
     width: 100%;
 }
-.contact-us-wrrpr form button{
+
+.contact-us-wrrpr form button {
     font-family: "Montserrat-Regular";
     font-size: 16px;
     font-weight: 400;
@@ -885,19 +959,21 @@ section{
     border: 1.5px solid #FFFFFF
 }
 
-.stripe-text{
+.stripe-text {
     font-family: "Montserrat-Medium";
     font-size: 20px;
     font-weight: 600;
     color: #000;
 }
-.stripe-label{
+
+.stripe-label {
     font-family: "Montserrat-Regular";
     font-size: 16px;
     font-weight: 400;
     color: #666;
 }
-.stripe-btn{
+
+.stripe-btn {
     padding: 12px;
     height: 46px;
     background: #1275ff;
@@ -911,11 +987,12 @@ section{
     border-radius: 3px;
     border: none;
 }
+
 /* contact us css end */
 
 /* blog css start */
 
-.blog-banner{
+.blog-banner {
     background-image: url(../images/blog-banner.png);
     background-position: center;
     background-size: cover;
@@ -927,7 +1004,7 @@ section{
 }
 
 
-.blog-banner h2{
+.blog-banner h2 {
     font-family: "Montserrat-Medium";
     font-size: 40px;
     font-weight: 700;
@@ -936,7 +1013,8 @@ section{
     color: #FFFFFF;
     text-align: center;
 }
-.blog-banner p{
+
+.blog-banner p {
     font-family: "Montserrat-Medium";
     font-size: 20px;
     font-weight: 400;
@@ -946,16 +1024,17 @@ section{
     text-align: center;
 }
 
-.blog-banner .search-container{
+.blog-banner .search-container {
     max-width: 800px;
 }
+
 .blog-banner .search-container .blog-search-btn,
 .blog-detail-left-dv .search-container .blog-search-btn,
-.practitioner-search-dv .search-container .blog-search-btn{
+.practitioner-search-dv .search-container .blog-search-btn {
     font-family: "Montserrat-Regular";
     font-size: 16px;
     font-weight: 400;
-    color:#FFFFFF ;
+    color: #FFFFFF;
     background-color: #424E3E;
     height: 40px;
     width: 137px;
@@ -964,85 +1043,97 @@ section{
     margin: 5px;
 }
 
-.blog-section .recent-resources{
+.blog-section .recent-resources {
     padding: 70px 0;
     background-color: #F5F6F5;
 }
-.blog-section .resources-body{
+
+.blog-section .resources-body {
     padding: 20px;
     border-radius: 24px;
     background-color: #FFFFFF;
     display: flex;
     gap: 15px;
 }
-.blog-section .resources-body h5{
+
+.blog-section .resources-body h5 {
     font-family: "Montserrat-Medium";
     font-size: 21px;
     font-weight: 600;
-    color:#424E3E;
+    color: #424E3E;
     margin-bottom: 15px;
 }
-.blog-section .resources-body button{
+
+.blog-section .resources-body button {
     font-family: "Montserrat-Regular";
     font-size: 15px;
     font-weight: 500;
-    color:#9F8B72;
+    color: #9F8B72;
     background-color: #F3F1EE;
     border-radius: 42px;
     padding: 5px 20px;
     margin-bottom: 5px;
     border: none;
 }
+
 .blog-section .resources-body p,
-.practitioner-profile p{
+.practitioner-profile p {
     font-family: "Montserrat-Regular";
     font-size: 16px;
     font-weight: 400;
-    color:#565656 ;
+    color: #565656;
     margin: 0;
     text-align: end;
 }
-.blog-category-wrrpr{
+
+.blog-category-wrrpr {
     padding: 53px 0 80px;
 }
 
-.blog-category-wrrpr .resources-body{
+.blog-category-wrrpr .resources-body {
     background-color: #ebecea;
 }
-.blog-category-wrrpr .owl-carousel{
+
+.blog-category-wrrpr .owl-carousel {
     border-bottom: 2px solid #F5F6F5;
     border-top: 2px solid #F5F6F5;
     margin: 20px 0;
     padding: 20px 0;
 }
-.blog-category-wrrpr .owl-stage{
+
+.blog-category-wrrpr .owl-stage {
     display: flex;
     align-items: center;
 }
+
 .blog-category-wrrpr .owl-carousel .owl-nav,
-.blog-category-wrrpr .owl-carousel .owl-dots{
+.blog-category-wrrpr .owl-carousel .owl-dots {
     display: none;
 }
-.blog-category-wrrpr .owl-carousel .item{
+
+.blog-category-wrrpr .owl-carousel .item {
     font-family: "Montserrat-Regular";
     font-size: 18px;
     font-weight: 500;
-    color:#424E3E ;
+    color: #424E3E;
     text-align: center;
 }
-.blog-category-wrrpr .owl-carousel .active-dv{
+
+.blog-category-wrrpr .owl-carousel .active-dv {
     background: #EDEEEC;
     border-radius: 33px;
     padding: 5px 20px;
 }
+
 /* blog css end */
 
 /* blog detail css start */
 .blog-detail-section,
-.practitioner-detail-wrrpr{
-    padding: 30px 0 60px ;
+.practitioner-detail-wrrpr {
+    padding: 30px 0 60px;
 }
-.blog-detail-banner{
+
+.blog-detail-banner {
     background-image: url(../images/blog-detail-banner.png);
     background-position: center;
     background-size: cover;
@@ -1055,91 +1146,101 @@ section{
     flex-direction: column;
     justify-content: space-between;
 }
-.blog-detail-banner p{
+
+.blog-detail-banner p {
     font-family: "Montserrat-Regular";
     font-size: 16x;
     font-weight: 400;
-    color:#FFFFFF75;
+    color: #FFFFFF75;
     margin: 0;
 }
-.blog-detail-banner p span{
+
+.blog-detail-banner p span {
     color: #FFFFFF;
 }
-.blog-detail-banner button{
+
+.blog-detail-banner button {
     font-family: "Montserrat-Medium";
     font-size: 16px;
     font-weight: 500;
-    color:#FFFFFF;
+    color: #FFFFFF;
     background-color: #0000004D;
     border-radius: 30px;
     width: 130px;
     height: 34px;
     border: none;
 }
-.blog-detail-banner h6{
+
+.blog-detail-banner h6 {
     font-family: "Montserrat-Medium";
     font-size: 18px;
     font-weight: 500;
-    color:#FFFFFF;
+    color: #FFFFFF;
     margin: 0;
 }
-.blog-detail-left-dv h2{
+
+.blog-detail-left-dv h2 {
     font-family: "Montserrat-Medium";
     font-size: 36px;
     font-weight: 700;
-    color:#424E3E;
+    color: #424E3E;
     margin: 0;
     margin-bottom: 25px;
 }
+
 .blog-detail-left-dv h4,
-.practitioner-detail-wrrpr .accordion-body h4{
+.practitioner-detail-wrrpr .accordion-body h4 {
     font-family: "Montserrat-Medium";
     font-size: 24px;
     font-weight: 700;
-    color:#424E3E;
+    color: #424E3E;
     margin: 0;
     margin-bottom: 25px;
 }
+
 .blog-detail-left-dv p,
 .blog-detail-left-dv ul li,
 .blog-detail-left-dv ol li,
 .practitioner-detail-dv p,
 .practitioner-detail-wrrpr .accordion-body p,
 .practitioner-detail-wrrpr .accordian-body-data .toggle-dv-review ul li,
-.review-dv-data .review-text{
+.review-dv-data .review-text {
     font-family: "Montserrat-Regular";
     font-size: 16px;
     font-weight: 400;
-    color:#565656;
+    color: #565656;
     margin: 0;
     margin-bottom: 50px;
 }
+
 .blog-detail-left-dv ul li,
 .blog-detail-left-dv ul,
 .blog-detail-left-dv ol li,
-.blog-detail-left-dv ol{
+.blog-detail-left-dv ol {
     margin-bottom: 0;
 }
-.blog-detail-right-dv{
+
+.blog-detail-right-dv {
     margin-bottom: 60px;
     margin-top: 10px;
 }
 
-.blog-detail-right-dv .related-blog-title{
+.blog-detail-right-dv .related-blog-title {
     border-bottom: 2px solid #424E3E;
     margin-bottom: 18px;
 }
 
-.blog-detail-right-dv .related-blog-title h4{
+.blog-detail-right-dv .related-blog-title h4 {
     font-family: "Montserrat-Regular";
     font-size: 22px;
     font-weight: 700;
-    color:#424E3E ;
+    color: #424E3E;
     margin: 0;
     margin-bottom: 18px;
 }
+
 .related-practitioners-dv,
-.practitioner-detail-dv{
+.practitioner-detail-dv {
     display: flex;
     gap: 10px;
     background-color: #F5F6F5;
@@ -1148,81 +1249,88 @@ section{
     margin-bottom: 15px;
 }
 
-.related-practitioners-dv h5{
+.related-practitioners-dv h5 {
     font-family: "Montserrat-Medium";
     font-size: 18px;
     font-weight: 700;
-    color:#424E3E ;
+    color: #424E3E;
     margin: 0;
     margin-bottom: 8px;
 }
-.related-practitioners-dv h6{
+
+.related-practitioners-dv h6 {
     font-family: "Montserrat-Regular";
     font-size: 16px;
     font-weight: 400;
-    color:#565656 ;
+    color: #565656;
     margin: 0;
     margin-bottom: 8px;
 }
 
 .related-practitioners-dv i,
-.practitioner-detail-dv i{
+.practitioner-detail-dv i {
     color: #9F8B72;
 }
 
 .blog-detail-right-dv .blog-view-more,
 .blog-detail-left-dv .blog-view-more,
 .practitioner-search-dv .blog-view-more,
-.practitioner-detail-wrrpr .accordian-body-data .blog-view-more{
+.practitioner-detail-wrrpr .accordian-body-data .blog-view-more {
     font-family: "Montserrat-Regular";
     font-size: 16px;
     font-weight: 500;
-    color:#424E3E ;
+    color: #424E3E;
     border: none;
     background-color: transparent;
     text-decoration: none;
 }
+
 .blog-detail-left-dv .search-container,
-.practitioner-search-dv .search-container{
+.practitioner-search-dv .search-container {
     background: #F5F6F5;
     max-width: 630px;
 }
+
 .blog-detail-left-dv .search-input,
-.practitioner-search-dv .search-input{
+.practitioner-search-dv .search-input {
     background: #F5F6F5;
 }
+
 /* blog detail css end */
 
 /* practitioner css start */
-.practitioner-detail-wrrpr{
+.practitioner-detail-wrrpr {
     padding-bottom: 0;
 }
 
-.practitioner-detail-dv{
+.practitioner-detail-dv {
     padding: 35px;
     display: block;
 }
-.practitioner-detail-dv h4{
+
+.practitioner-detail-dv h4 {
     font-family: "Montserrat-Medium";
     font-size: 40px;
     font-weight: 700;
-    color:#424E3E;
+    color: #424E3E;
     margin-bottom: 10px;
 }
 
-.practitioner-detail-dv h5{
+.practitioner-detail-dv h5 {
     font-family: "Montserrat-Regular";
     font-size: 20px;
     font-weight: 600;
     color: #9F8B72;
     margin-bottom: 10px;
 }
+
 .practitioner-location-dv {
     display: flex;
     align-items: center;
     gap: 20px;
 }
-.practitioner-location-dv button{
+
+.practitioner-location-dv button {
     font-family: "Montserrat-Regular";
     font-size: 16px;
     font-weight: 500;
@@ -1233,16 +1341,19 @@ section{
     border: none;
     border-radius: 30px;
 }
-.practitioner-location-dv ul li{
+
+.practitioner-location-dv ul li {
     font-family: "Montserrat-Regular";
     font-size: 16px;
     font-weight: 500;
     color: #424E3E;
 }
-.practitioner-detail-wrrpr .swiper-slide img{
+
+.practitioner-detail-wrrpr .swiper-slide img {
     width: 100%;
 }
-.practitioner-detail-wrrpr .accordion-button{
+
+.practitioner-detail-wrrpr .accordion-button {
     font-family: "Montserrat-Medium";
     font-size: 20px;
     font-weight: 700;
@@ -1252,22 +1363,25 @@ section{
     margin-bottom: 20px;
 }
 
-.practitioner-detail-wrrpr .accordion-button:focus{
+.practitioner-detail-wrrpr .accordion-button:focus {
     box-shadow: none;
 }
-.practitioner-detail-wrrpr .accordion-item{
+
+.practitioner-detail-wrrpr .accordion-item {
     border: none;
 }
-.practitioner-detail-wrrpr .accordion-button::after{
+
+.practitioner-detail-wrrpr .accordion-button::after {
     background-image: url(../images/chevron.svg);
 }
-.practitioner-detail-wrrpr .accordian-body-data{
+
+.practitioner-detail-wrrpr .accordian-body-data {
     border-bottom: 2px solid #F5F6F5;
     margin-bottom: 20px;
 }
 
 .practitioner-detail-wrrpr .accordion-body .Currency-select button,
-.review-dv-data .sort-by .dropdown button{
+.review-dv-data .sort-by .dropdown button {
     font-family: "Montserrat-Medium";
     font-size: 16px;
     font-weight: 500;
@@ -1278,52 +1392,61 @@ section{
     height: 48px;
     border: none;
 }
-.review-dv-data .sort-by .dropdown button{
+
+.review-dv-data .sort-by .dropdown button {
     width: 206px;
 }
-.practitioner-accordian-lists{
+
+.practitioner-accordian-lists {
     display: flex;
     gap: 30px;
     margin-bottom: 10px;
     padding: 0;
 }
+
 .practitioner-accordian-lists li,
 .offer-prize,
-.practitioner-detail-wrrpr .help-you-dv ul li{
+.practitioner-detail-wrrpr .help-you-dv ul li {
     font-family: "Montserrat-Regular";
     font-size: 18px;
     font-weight: 600;
     color: #9F8B72;
 }
-.practitioner-accordian-lists li:first-child{
+
+.practitioner-accordian-lists li:first-child {
     list-style-type: none;
 }
+
 .lorem-text {
     display: none;
 }
+
 .practitioner-detail-wrrpr .accordian-body-data .toggle-data-dv {
     padding: 20px;
     background: #F5F6F5;
     border-radius: 12px;
     margin-bottom: 10px;
 }
-.practitioner-detail-wrrpr .accordian-body-data .toggle-data-dv img{
+
+.practitioner-detail-wrrpr .accordian-body-data .toggle-data-dv img {
     width: 100%;
     height: 261px;
     max-width: 361px;
 }
-.practitioner-detail-wrrpr .accordian-body-data .toggle-data-dv .toggle-dv-desc{
+
+.practitioner-detail-wrrpr .accordian-body-data .toggle-data-dv .toggle-dv-desc {
     display: flex;
     gap: 15px;
     border-radius: 12px;
 }
-.practitioner-detail-wrrpr .accordian-body-data .toggle-data-dv .toggle-dv-review{
+
+.practitioner-detail-wrrpr .accordian-body-data .toggle-data-dv .toggle-dv-review {
     background-color: #FFFFFF;
     padding: 20px;
     border-radius: 12px;
 }
 
-.practitioner-detail-wrrpr .accordian-body-data .toggle-data-dv .toggle-dv-review button{
+.practitioner-detail-wrrpr .accordian-body-data .toggle-data-dv .toggle-dv-review button {
     font-family: "Montserrat-Regular";
     font-size: 16px;
     font-weight: 600;
@@ -1333,41 +1456,50 @@ section{
     border: 1.5px solid #9F8B724D;
     border-radius: 33px;
 }
-.practitioner-detail-wrrpr .help-you-dv ul{
+
+.practitioner-detail-wrrpr .help-you-dv ul {
     padding: 0;
     display: flex;
     flex-wrap: wrap;
 }
-.practitioner-detail-wrrpr .help-you-dv ul li{
+
+.practitioner-detail-wrrpr .help-you-dv ul li {
     color: #565656;
     margin-right: 60px;
     margin-bottom: 20px;
 }
-.practitioner-detail-wrrpr .certificate-dv ul{
+
+.practitioner-detail-wrrpr .certificate-dv ul {
     display: block;
 }
-.practitioner-detail-wrrpr .certificate-dv ul li{
+
+.practitioner-detail-wrrpr .certificate-dv ul li {
     margin-right: 0;
     padding-bottom: 20px;
     border-bottom: 2px solid #F5F6F5;
 }
-.practitioner-detail-wrrpr .certificate-dv ul li:last-child{
+
+.practitioner-detail-wrrpr .certificate-dv ul li:last-child {
     padding: 0;
     margin: 0;
     border: none;
 }
-.review-dv-data .progress{
+
+.review-dv-data .progress {
     width: 248px;
     height: 12.34px;
     border-radius: 21px;
 }
+
 .review-dv-data .progress-bar {
     background: #9F8B72;
 }
+
 .review-dv-data .reviewer {
     display: flex;
     align-items: center;
 }
+
 .review-dv-data .reviewer img {
     width: 40px;
     height: 40px;
@@ -1379,7 +1511,8 @@ section{
     color: white;
     font-weight: bold;
 }
-.review-dv-data .reviewer-img-text{
+
+.review-dv-data .reviewer-img-text {
     font-family: "Montserrat-Regular";
     font-size: 20px;
     font-weight: 600;
@@ -1392,9 +1525,11 @@ section{
     justify-content: center;
     align-items: center;
 }
+
 .review-dv-data .reviewer-info {
     margin-left: 16px;
 }
+
 .review-dv-data .reviewer-info .name {
     font-family: "Montserrat-Regular";
     font-size: 22px;
@@ -1402,10 +1537,12 @@ section{
     color: #9F8B72;
     margin: 0;
 }
+
 .review-dv-data .reviewer-info .stars {
     color: #9F8B72;
 }
-.person-review-dv h3{
+
+.person-review-dv h3 {
     font-family: "Montserrat-Medium";
     font-size: 26px;
     font-weight: 700;
@@ -1419,13 +1556,15 @@ section{
     align-items: center;
     gap: 10px;
 }
-.review-dv-data .sort-by p{
+
+.review-dv-data .sort-by p {
     font-family: "Montserrat-Regular";
     font-size: 18px;
     font-weight: 400;
     color: #565656;
     margin: 0;
 }
+
 .review-dv-data .sort-by select {
     font-family: "Montserrat-Regular";
     font-size: 16px;
@@ -1436,7 +1575,7 @@ section{
     border-radius: 24px;
     border: none;
     background: #F5F6F5;
-    padding:0px 20px;
+    padding: 0px 20px;
 
 }
 
@@ -1445,31 +1584,37 @@ section{
     font-size: 1.125rem;
     font-weight: 600;
 }
-.review-dv-data .text-right i{
+
+.review-dv-data .text-right i {
     color: #9F9361;
 }
-.review-dv-data .text-right h2{
+
+.review-dv-data .text-right h2 {
     font-family: "Montserrat-Medium";
     font-size: 36px;
     font-weight: 700;
     color: #9F9361;
     margin-bottom: 10px;
 }
-.review-dv-data .text-right p{
+
+.review-dv-data .text-right p {
     font-family: "Montserrat-Regular";
     font-size: 15px;
     font-weight: 500;
     color: #9F9361;
     margin: 0;
 }
-.person-review-dv{
+
+.person-review-dv {
     border-bottom: 2px solid #e2e8f0;
 }
-.person-review-dv:last-child{
+
+.person-review-dv:last-child {
     border: none;
 }
+
 .review-dv-data .review-count-text,
-.review-dv-data h6{
+.review-dv-data h6 {
     font-family: "Montserrat-Regular";
     font-size: 16px;
     font-weight: 500;
@@ -1477,16 +1622,18 @@ section{
     margin: 0;
     text-decoration: underline;
 }
-.review-dv-data h6{
+
+.review-dv-data h6 {
     text-decoration: none;
 }
-.practitioner-detail-right-dv-lists{
+
+.practitioner-detail-right-dv-lists {
     background: #F5F6F5;
     border-radius: 12px;
     padding: 15px;
 }
 
-.practitioner-detail-right-dv-lists h5{
+.practitioner-detail-right-dv-lists h5 {
     font-family: "Montserrat-Regular";
     font-size: 18px;
     font-weight: 500;
@@ -1495,45 +1642,53 @@ section{
     align-items: center;
     padding: 10px;
 }
-.practitioner-detail-right-dv-lists h5:last-child{
+
+.practitioner-detail-right-dv-lists h5:last-child {
     margin-bottom: 0;
     padding-bottom: 0;
 }
-.practitioner-detail-right-dv-lists .active{
+
+.practitioner-detail-right-dv-lists .active {
     background-color: #FFFFFF;
     border-radius: 6px;
 }
-.practitioner-detail-right-dv-lists i{
+
+.practitioner-detail-right-dv-lists i {
     font-size: 5px;
 }
-.practitioner-detail-right-dv h4{
+
+.practitioner-detail-right-dv h4 {
     font-family: "Montserrat-Medium";
     font-size: 18px;
     font-weight: 700;
     color: #424E3E;
     margin-bottom: 10px;
 }
-.practitioner-detail-dv .video{
+
+.practitioner-detail-dv .video {
     border-radius: 12px;
 }
-.endorsment-dv{
+
+.endorsment-dv {
     background: #F5F6F5;
     padding: 50px;
 }
+
 /* practitioner css end */
 
 /* practitioner dashboard css start */
-.welcome-text{
+.welcome-text {
     font-family: "Montserrat-Regular";
     font-size: 24px;
     font-weight: 700;
     color: #FFFFFF;
 }
-.welcome-text span{
+
+.welcome-text span {
     color: #ba9b8b;
 }
 
-.roots-title{
+.roots-title {
     font-family: "Montserrat-Regular";
     font-size: 32px;
     font-weight: 400;
@@ -1542,26 +1697,28 @@ section{
     text-transform: uppercase;
 }
 
-.practitioner-profile-text{
+.practitioner-profile-text {
     font-family: "Montserrat-Medium";
     font-size: 26px;
     font-weight: 400;
     color: #333;
 }
-.practitioner-profile .event-name-dv{
+
+.practitioner-profile .event-name-dv {
     border: 2px solid #19474E36;
     border-radius: 20px;
     padding: 17px;
 }
 
-.practitioner-profile .event-name-dv h5{
+.practitioner-profile .event-name-dv h5 {
     font-family: "Montserrat-Regular";
     font-size: 20px;
     font-weight: 400;
     color: #424E3E;
     margin-bottom: 10px;
 }
-.practitioner-profile .event-name-dv h6{
+
+.practitioner-profile .event-name-dv h6 {
     font-family: "Montserrat-Regular";
     font-size: 15px;
     font-weight: 400;
@@ -1569,7 +1726,8 @@ section{
     margin-bottom: 20px;
 
 }
-.practitioner-profile .event-name-dv p{
+
+.practitioner-profile .event-name-dv p {
     font-family: "Montserrat-Regular";
     font-size: 13px;
     font-weight: 400;
@@ -1577,58 +1735,68 @@ section{
     margin-bottom: 20px;
     margin: 0;
 }
-.practitioner-profile .search-container{
+
+.practitioner-profile .search-container {
     border: 1px solid #424E3E;
     width: 100%;
     max-width: 100%;
     border-radius: 18px;
 }
-.browser-other-dv{
+
+.browser-other-dv {
     background-color: #BA9B8B;
     padding: 20px;
     border-radius: 12px;
 }
-.browser-other-dv h5{
+
+.browser-other-dv h5 {
     font-family: "Montserrat-Regular";
     font-size: 20px;
     font-weight: 700;
-    color:#424E3E;
+    color: #424E3E;
 }
-.browser-other-dv h6{
+
+.browser-other-dv h6 {
     font-family: "Montserrat-Regular";
     font-size: 16px;
     font-weight: 400;
-    color:#FFFFFF;
+    color: #FFFFFF;
     margin-bottom: 5px;
 }
+
 .browser-other-dv .endrose,
-.browser-other-dv .miles{
+.browser-other-dv .miles {
     font-family: "Montserrat-Regular";
     font-size: 16px;
     font-weight: 400;
-    color:#FFFFFF;
+    color: #FFFFFF;
     background: #424E3E;
     border-radius: 6px;
     padding: 5px;
 }
-.browser-other-dv .miles{
-    color:#424E3E ;
-    background-color:#FFFFFF ;
+
+.browser-other-dv .miles {
+    color: #424E3E;
+    background-color: #FFFFFF;
 }
-.community-text{
-    border-bottom: 2px solid#BA9B8B;
+
+.community-text {
+    border-bottom: 2px solid #BA9B8B;
     margin-bottom: 20px;
 }
-.practitioner-profile-btns{
+
+.practitioner-profile-btns {
     padding: 0;
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
 }
-.practitioner-profile-btns{
+
+.practitioner-profile-btns {
     padding: 0 50px;
 }
-.practitioner-profile-btns li{
+
+.practitioner-profile-btns li {
     border-radius: 0.9rem !important;
     padding: 10px 30px;
     background-color: #424E3E;
@@ -1636,20 +1804,22 @@ section{
     list-style-type: none;
 }
 
-.practitioner-profile-btns  li a{
+.practitioner-profile-btns li a {
     font-family: "Montserrat-Regular";
     font-size: 18px;
     font-weight: 700;
-    color: #FFE9CD ;
+    color: #FFE9CD;
     text-decoration: none;
 }
 
-.practitioner-profile-btns .active{
+.practitioner-profile-btns .active {
     background-color: #D6CFBF;
 }
-.practitioner-profile-btns .active a{
+
+.practitioner-profile-btns .active a {
     color: #424E3E;
 }
+
 .practitioner-profile-btns .offering {
     position: relative;
 }
@@ -1665,7 +1835,8 @@ section{
     z-index: 1000;
     width: 100%;
 }
-.practitioner-profile-btns .offering .dropdown a{
+
+.practitioner-profile-btns .offering .dropdown a {
     font-size: 16px;
     color: #2F382B;
     width: 100%;
@@ -1673,9 +1844,11 @@ section{
     border-bottom: 2px solid #333;
     padding-bottom: 5px;
 }
-.practitioner-profile-btns .offering .dropdown a:last-child{
+
+.practitioner-profile-btns .offering .dropdown a:last-child {
     border: none;
 }
+
 .practitioner-profile-btns .offering:hover .dropdown {
     display: block;
 }
@@ -1689,7 +1862,6 @@ section{
     padding: 20px;
     margin-bottom: 30px;
 }
-
 
 
 .controls {
@@ -1726,7 +1898,7 @@ section{
     text-decoration: none;
 }
 
-.export-btn:hover{
+.export-btn:hover {
     color: #FFFFFF;
 }
 
@@ -1823,27 +1995,31 @@ textarea, input[type="time"] {
     background-color: #43a047;
 }
 
-.positioned-dv{
+.positioned-dv {
     position: absolute;
     top: 40%;
     left: 0;
     background: #424E3E;
     border-radius: 0px 30px 30px 0;
 }
-.positioned-dv ul{
+
+.positioned-dv ul {
     padding: 20px 5px;
 }
-.positioned-dv ul li{
+
+.positioned-dv ul li {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     margin-bottom: 10px;
 }
-.positioned-dv ul li:last-child{
+
+.positioned-dv ul li:last-child {
     margin-bottom: 0;
 }
-.positioned-dv ul li p{
+
+.positioned-dv ul li p {
     font-family: "Montserrat-Regular";
     font-size: 14px;
     font-weight: 400;
@@ -1851,10 +2027,11 @@ textarea, input[type="time"] {
 
 }
 
-.positioned-dv ul li img{
+.positioned-dv ul li img {
     width: 45px;
 }
-.featured-image-tag{
+
+.featured-image-tag {
     font-family: "Montserrat-Medium";
     font-size: 22px;
     font-weight: 400;
@@ -1870,14 +2047,17 @@ textarea, input[type="time"] {
     justify-content: center;
     cursor: pointer;
 }
+
 .image-preview span {
     color: #6b7280;
     font-size: 2rem;
 }
+
 .text {
     margin-top: 0.5rem;
     color: #374151;
 }
+
 .tag {
     display: inline-block;
     background-color: #2F382B;
@@ -1900,7 +2080,7 @@ textarea, input[type="time"] {
     border-radius: 50%;
 }
 
-.appointment-data{
+.appointment-data {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -1909,14 +2089,15 @@ textarea, input[type="time"] {
     padding-bottom: 30px;
 }
 
-.appointment-data h6{
+.appointment-data h6 {
     font-family: "Montserrat-Regular";
     font-size: 26px;
     font-weight: 600;
     color: #424E3E;
     margin-bottom: 10px;
 }
-.appointment-data p{
+
+.appointment-data p {
     font-family: "Montserrat-Regular";
     font-size: 22px;
     font-weight: 400;
@@ -1924,18 +2105,20 @@ textarea, input[type="time"] {
     margin-bottom: 10px;
     margin: 0;
 }
+
 .offering-table th,
-.offering-table td{
+.offering-table td {
     padding: 10px !important;
 }
 
-.offering-data h4{
+.offering-data h4 {
     font-family: "Montserrat-Medium";
     font-size: 24px;
     font-weight: 600;
     color: #404040;
 }
-.offering-data button{
+
+.offering-data button {
     font-family: "Montserrat-Regular";
     font-size: 18px;
     font-weight: 400;
@@ -1944,46 +2127,49 @@ textarea, input[type="time"] {
     background-color: transparent;
 }
 
-.offering-btn-drop{
+.offering-btn-drop {
     display: flex;
     align-items: center;
     gap: 20px;
 }
+
 /* practitioner dashboard css end */
 
 
-
 /* earning css start */
-.earning-wrrpr .table{
+.earning-wrrpr .table {
     border: 1px solid #dee2e6;
 }
+
 .earning-wrrpr .table th, .table td {
     vertical-align: middle;
     border-bottom: 1px solid #dee2e6;
 }
 
 
-
-.earning-wrrpr .table th{
+.earning-wrrpr .table th {
     font-family: "Montserrat-Medium";
     font-size: 18px;
     font-weight: 600;
     color: #555;
 }
-.earning-wrrpr .table td{
+
+.earning-wrrpr .table td {
     font-family: "Montserrat-Regular";
     font-size: 16px;
     font-weight: 400;
     color: #666;
 }
-.earning-wrrpr .table td a{
+
+.earning-wrrpr .table td a {
     font-family: "Montserrat-Regular";
     font-size: 16px;
     font-weight: 700;
     color: #000;
     text-decoration: none;
 }
-.earning-wrrpr label{
+
+.earning-wrrpr label {
     font-family: "Montserrat-Medium";
     font-size: 16px;
     font-weight: 400;
@@ -1991,7 +2177,7 @@ textarea, input[type="time"] {
     margin-bottom: 5px;
 }
 
-.earning-wrrpr input{
+.earning-wrrpr input {
     width: 100%;
     max-width: 500px;
     border-radius: 33px;
@@ -1999,8 +2185,9 @@ textarea, input[type="time"] {
     border: 1px solid #333;
     height: 48px;
 }
+
 .earning-wrrpr .update-btn,
-.add-offering-dv .update-btn{
+.add-offering-dv .update-btn {
     font-family: "Montserrat-Medium";
     font-size: 16px;
     font-weight: 400;
@@ -2013,7 +2200,7 @@ textarea, input[type="time"] {
     margin-left: 20px;
 }
 
-.no-request-text{
+.no-request-text {
     font-family: "Montserrat-Medium";
     font-size: 22px;
     font-weight: 600;
@@ -2021,18 +2208,18 @@ textarea, input[type="time"] {
 }
 
 
-.add-offering-dv select{
+.add-offering-dv select {
     border-radius: 33px;
     height: 48px;
 }
 
-.add-offering-dv .offering-check input{
+.add-offering-dv .offering-check input {
     height: 10px;
     width: 10px;
     padding: 8px;
 }
 
-.add-offering-dv .nav-tabs .nav-link{
+.add-offering-dv .nav-tabs .nav-link {
     font-family: "Montserrat-Regular";
     font-size: 18px;
     font-weight: 400;
@@ -2044,24 +2231,29 @@ textarea, input[type="time"] {
     width: 48%;
     margin-bottom: 20px;
 }
+
 .earnings-section h2 {
     font-family: "Montserrat-Medium";
     font-size: 1.25rem;
     font-weight: 600;
     margin-bottom: 1rem;
 }
+
 .earnings-section table {
     width: 100%;
     text-align: left;
     border: 1px solid #dee2e6;
 }
+
 .earnings-section td {
     font-family: "Montserrat-Regular";
     padding: 0.5rem
 }
+
 .earnings-section .border-bottom {
     border-bottom: 1px solid #dee2e6;
 }
+
 .earnings-section .font-semibold {
     font-weight: 600;
 }
@@ -2078,14 +2270,17 @@ textarea, input[type="time"] {
     max-width: 300px;
 
 }
+
 .add-media-btn i {
     color: #1e3a8a;
     margin-right: 8px;
 }
+
 .media-container {
     display: flex;
     gap: 16px;
 }
+
 .media-item {
     position: relative;
     width: 96px;
@@ -2096,6 +2291,7 @@ textarea, input[type="time"] {
     align-items: center;
     justify-content: center;
 }
+
 .media-item i {
     color: white;
     position: absolute;
@@ -2103,17 +2299,19 @@ textarea, input[type="time"] {
     left: 4px;
     cursor: pointer;
 }
+
 .media-item img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     border-radius: 8px;
 }
+
 .hidden {
     display: none;
 }
 
-.preview-div{
+.preview-div {
     position: absolute;
     right: 0;
     top: 0;
@@ -2121,28 +2319,32 @@ textarea, input[type="time"] {
     flex-direction: column;
     align-items: center;
 }
-.preview-div img{
+
+.preview-div img {
     width: 50px;
 }
+
 .add-offering-dv,
-.appointment-wrrpr{
+.appointment-wrrpr {
     padding: 0 50px;
 }
+
 /* earning css end */
 
 /* footer css start */
-.footer{
+.footer {
     background-color: #2F382B;
     padding-top: 60px;
     position: relative;
     overflow: hidden;
 }
-.footer-list-wrrpr{
+
+.footer-list-wrrpr {
     border-bottom: 2px solid #FFFFFF;
     padding-bottom: 45px;
 }
 
-.footer-lists h4{
+.footer-lists h4 {
     font-family: "Montserrat-Medium";
     font-size: 20px;
     font-weight: 600;
@@ -2151,12 +2353,13 @@ textarea, input[type="time"] {
     margin-bottom: 20px;
 }
 
-.footer-lists ul{
+.footer-lists ul {
     padding: 0;
     margin: 0;
 }
+
 .footer-lists ul li a,
-.footer-lists ul li{
+.footer-lists ul li {
     font-family: "Montserrat-Regular";
     font-size: 16px;
     font-weight: 400;
@@ -2166,12 +2369,13 @@ textarea, input[type="time"] {
     text-decoration: none
 }
 
-.footer-social-media-icon{
+.footer-social-media-icon {
     padding: 0;
     display: flex;
     gap: 14px;
 }
-.footer-social-media-icon li{
+
+.footer-social-media-icon li {
     list-style-type: none;
     border: 1.5px solid #FFFFFF4D;
     color: #FFFFFF;
@@ -2184,33 +2388,36 @@ textarea, input[type="time"] {
 }
 
 
-.footer-botom-dv-wrrpr{
+.footer-botom-dv-wrrpr {
     box-shadow: 0px 0px 26px 0px #00000059;
     z-index: 9;
     position: relative;
 }
 
-.footer-botom-dv{
+.footer-botom-dv {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 20px 0;
 }
+
 .footer-botom-dv p,
-.footer-botom-dv p a{
+.footer-botom-dv p a {
     font-family: "Montserrat-Regular";
     font-size: 16px;
     font-weight: 400;
     color: #FFFFFF;
     margin: 0;
 }
-.footer-botom-dv ul{
+
+.footer-botom-dv ul {
     padding: 0;
     display: flex;
     gap: 40px;
     margin: 0;
 }
-.footer-botom-dv ul li{
+
+.footer-botom-dv ul li {
     font-family: "Montserrat-Regular";
     font-size: 16px;
     font-weight: 400;
@@ -2219,11 +2426,11 @@ textarea, input[type="time"] {
     list-style-type: none;
 }
 
-.language-translator-dv{
+.language-translator-dv {
     padding: 30px 0;
 }
 
-.language-translator-dv p{
+.language-translator-dv p {
     font-family: "Montserrat-Regular";
     font-size: 16px;
     font-weight: 400;
@@ -2231,7 +2438,7 @@ textarea, input[type="time"] {
     margin: 0;
 }
 
-.language-translator-dv button{
+.language-translator-dv button {
     font-family: "Montserrat-Regular";
     font-size: 16px;
     font-weight: 500;
@@ -2249,7 +2456,7 @@ textarea, input[type="time"] {
     position: relative;
 }
 
-.footer .footer-butterfly{
+.footer .footer-butterfly {
     position: absolute;
     right: -90px;
     bottom: 30px;
@@ -2260,81 +2467,99 @@ textarea, input[type="time"] {
 /* footer css end */
 
 /* login css start */
-.login-wrrpr{
+.login-wrrpr {
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: center;
 }
 
-.login-body{
+.login-body {
     width: 100%;
     max-width: 600px;
 }
-.login-wrrpr .links{
+
+.login-wrrpr .links {
     display: flex;
     justify-content: space-between;
 }
 
 .login-wrrpr .links .login-link,
-.login-wrrpr .links p{
+.login-wrrpr .links p {
     font-family: "Montserrat-Regular";
     font-size: 16px;
     font-weight: 400;
     color: #FFFFFF;
     text-decoration: none;
 }
-.register-data{
+
+.register-data {
     padding: 60px 0;
 }
-.login-wrrpr .input-group-text{
+
+.login-wrrpr .input-group-text {
     background-color: #FFFFFF;
     border-radius: 33px;
 }
 
-.login-wrrpr .login-button{
+.login-wrrpr .login-button {
     background-color: #424E3E;
 }
 
 /* login css end */
 
 /* responsive css  */
-@media screen and (max-width:1023px) {
-    section{
+@media screen and (max-width: 1023px) {
+    section {
         padding: 30px 20px;
     }
-    .home-title{
+
+    .home-title {
         font-size: 30px;
         margin-bottom: 20px;
     }
+
     .search-dv-body,
-    .searched-category{
+    .searched-category {
         flex-wrap: wrap;
     }
 
 }
 
-@media screen and (max-width:767px) {
-    .about-dv{
+@media screen and (max-width: 767px) {
+    .about-dv {
         align-items: center;
     }
-    .vision-and-about-dv p{
+
+    .vision-and-about-dv p {
         text-align: center !important;
     }
-    .why-us-wrrpr .swiper-slide .shadow-quotes{
+
+    .why-us-wrrpr .swiper-slide .shadow-quotes {
         display: none;
     }
-    .find-apply-dv{
+
+    .find-apply-dv {
         padding: 10px;
         margin-bottom: 20px;
     }
-    .faq-section .accordion-button{
+
+    .faq-section .accordion-button {
         font-size: 14px;
     }
-    .blog-section .resources-body{
+
+    .blog-section .resources-body {
         flex-wrap: wrap;
     }
-    .endorsment-dv{
+
+    .endorsment-dv {
         padding: 20px;
     }
 }
+
+.select2-selection--multiple{
+    border-radius: 20px !important;
+    padding: 15px;
+    margin-top: 10px;
+}
+
