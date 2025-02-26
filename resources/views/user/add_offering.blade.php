@@ -32,7 +32,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Location</label>
-                            <select name="location" multiple="multiple" class="form-control select2">
+                            <select name="location[]" multiple="multiple" class="form-control select2">
                                 <option class="level-0" value="370">Montreal</option>
                                 <option class="level-0" value="386">Austin</option>
                                 <option class="level-0" value="891">Mississauga, ON</option>
@@ -581,7 +581,7 @@
                         <div class="mb-3">
                             <label for="exampleInputPassword1" class="form-label">I help with:</label>
 
-                            <select name="help" multiple="multiple" class="form-control select2">
+                            <select name="help[]" multiple="multiple" class="form-control select2">
                                 <option class="level-0" value="255">Anemia in pregnancy</option>
                                 <option class="level-0" value="271">Depression</option>
                                 <option class="level-0" value="287">Hormonal birth control transition</option>
@@ -678,7 +678,7 @@
                                 would be Ayuvedic massage and hot stone massage)
                                 Practitioner Offerings
                             </label>
-                            <select name="categories" multiple="multiple" class="form-control select2" id="">
+                            <select name="categories[]" multiple="multiple" class="form-control select2" id="">
                                 <option class="level-0" value="100">Practitioner Offerings</option>
                             </select>
                         </div>
@@ -692,11 +692,10 @@
                             </label>
                         </div>
                         <div class="form-group">
-                            <select name="tags" multiple="multiple" class="form-control select2" id="">
+                            <select name="tags[]" multiple="multiple" class="form-control select2" id="">
                                 <option value="156">energybalancing</option>
                                 <option value="2991">ASD</option>
                             </select>
-
                         </div>
 
                         <h4 class="mb-4 featured-image-tag">Featured Image</h4>

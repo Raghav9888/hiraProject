@@ -36,7 +36,6 @@ class OfferingController extends Controller
 
         $offeringData = [
             'user_id' => $user_id,
-
             "name" => $input['name'],
             "long_description" => $input['long_description'],
             "short_description" => $input['short_description'],
@@ -48,7 +47,7 @@ class OfferingController extends Controller
             "booking_duration" => $input['booking_duration'],
             "from_date" => $input['from_date'],
             "to_date" => $input['to_date'],
-            "availability" => $input['availability'],
+            "availability" => (isset($input['availability']) && $input['availability'] == 'on') ? 1 : 0,
             "availability_type" => $input['availability_type'],
             "client_price" => $input['client_price'],
             "tax_amount" => $input['tax_amount'],
@@ -56,11 +55,10 @@ class OfferingController extends Controller
             "buffer_time" => $input['buffer_time'],
             "email_template" => $input['email_template'],
             "intake_form" => $input['intake_form'],
-            "is_cancelled" => $input['is_cancelled'],
-            "cancellation_time_slot" => $input['cancellation_time_slot'],
-            "is_confirmation" => $input['is_confirmation'] == 'on',
-//            remove from database
-            'type' => 'null',
+            "is_cancelled" => (isset($input['is_cancelled']) && ($input['is_cancelled'] == 'on')) ? 1 : 0 ,
+            "cancellation_time_slot" =>  $input['cancellation_time_slot'] ?? null,
+            "is_confirmation" => (isset($input['is_confirmation']) && $input['is_confirmation'] == 'on') ? 1 :0 ,
+
         ];
 
         if ($request->hasFile('featured_image')) {
