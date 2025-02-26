@@ -803,7 +803,7 @@
                                             </div>
                                             <div class="col mb-4">
                                                 <label for="type" class="fw-bold">Buffer time between appointment</label>
-                                                <input type="number" class="form-control" placeholder="" name="buffer_time">
+                                                <input type="datetime-local" class="form-control" placeholder="" name="buffer_time">
                                             </div>
                                         </div>
                                         <div class="row">
