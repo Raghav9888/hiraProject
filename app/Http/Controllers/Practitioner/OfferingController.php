@@ -67,7 +67,7 @@ class OfferingController extends Controller
             $image = $request->file('featured_image');
             $extension = $image->getClientOriginalExtension();
             $imageName = time() . '.' . $extension;
-            $image->move(public_path('uploads/practitioners/' . $user_id . '/feature'), $imageName);
+            $image->move(public_path('uploads/practitioners/' . $user_id . '/feature/'), $imageName);
             $offeringData['featured_image'] = $imageName;
         }
 

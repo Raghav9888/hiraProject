@@ -47,7 +47,7 @@
 
                                                 @if(isset($image))
                                                     @php
-                                                        $imageUrl = asset(env('media_path') . '/practitioners/' . $userDetails->id . '/' . $image);
+                                                        $imageUrl = asset(env('media_path') . '/practitioners/' . $userDetails->id . '/media/' . $image);
                                                     @endphp
                                                     <label class="image-preview" id="imagePreview"
                                                            style="border-radius: 50%; background-image: url('{{$imageUrl}}'); background-size: cover; background-position: center center;">
@@ -454,7 +454,7 @@
                         var newOption = `<option value="${response.term.id}" selected>${response.term.name}</option>`;
                         $("#" + termType).append(newOption).trigger('change');
                         alert('term add sucessfully');
-                        
+
                     } else {
                         alert('Error: ' + response.message);
                     }

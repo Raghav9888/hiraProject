@@ -2566,7 +2566,7 @@
                                 Practitioner Offerings
                             </label>
                             <select name="categories" multiple="multiple" class="form-control select2" id="">
-                                <option class="level-0" value="100">Practitioner Offerings</option>
+                                <option class="level-0" value="100" {{ in_array('100', (array) json_decode($offering->categories)) ? 'selected' : '' }}>Practitioner Offerings</option>
                             </select>
                         </div>
                         <div class="mb-3">
@@ -2580,8 +2580,8 @@
                         </div>
                         <div class="form-group">
                             <select name="tags" multiple="multiple" class="form-control select2" id="">
-                                <option value="156">energybalancing</option>
-                                <option value="2991">ASD</option>
+                                <option value="156" {{ in_array('156', (array) json_decode($offering->tags)) ? 'selected' : '' }}>energybalancing</option>
+                                <option value="2991" {{ in_array('2991', (array) json_decode($offering->tags)) ? 'selected' : '' }}>ASD</option>
                             </select>
 
                         </div>
@@ -2590,9 +2590,25 @@
                         <div class="mb-3">
                             <input type="file" id="fileInput" name="featured_image" class="hidden" accept="image/*"
                                    onchange="previewImage(event)" style="display: none;">
-                            <label for="fileInput" class="image-preview" id="imagePreview">
-                                <span>+</span>
-                            </label>
+                            @if(isset($offering->featured_image))
+                                @php
+                                    $imageUrl = asset(env('media_path') . '/practitioners/' . $userDetails->id . '/feature/'  . $offering->featured_image);
+                                @endphp
+                                <label class="image-preview" id="imagePreview"
+                                       style="background-image: url('{{$imageUrl}}'); background-size: cover; background-position: center center;">
+                                    <i class="fas fa-trash text-danger fs-3"
+                                       data-image="{{ $offering->featured_image }}"
+                                       data-user-id="{{ $userDetails->id }}"
+                                       data-profile-image="true"
+                                       onclick="removeImage(this);" style="cursor: pointer;"></i>
+                                </label>
+                            @else
+                                <label onclick="document.getElementById('fileInput').click();"
+                                       class="image-preview" id="imagePreview"
+                                       style="border-radius: 50%;">
+                                    <span>+</span>
+                                </label>
+                            @endif
                             <p style="text-align: start;" class="text">Set featured image</p>
                         </div>
                         <hr>
@@ -2600,8 +2616,9 @@
                             <div class="mb-4">
                                 <label for="type" class="fw-bold">Type of offering</label>
                                 <select id="type" name="offering_type" class="form-select ">
-                                    <option value="in-person">In person Offering</option>
-                                    <option value="virtual">Virtual Offering</option>
+                                    <option value="">Select Offering Type</option>
+                                    <option value="in-person" {{ $offering->offering_type  == 'in-person' ? 'selected' : ''}}>In person Offering</option>
+                                    <option value="virtual" {{ $offering->offering_type  == 'virtual' ? 'selected' : ''}}>Virtual Offering</option>
                                 </select>
                             </div>
                             <div class="mb-4">

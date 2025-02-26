@@ -126,7 +126,7 @@ class PractitionerController extends Controller
             foreach ($images as $image) {
                 if ($image->isValid()) {
                     $fileName = time() . '_' . $image->getClientOriginalName();
-                    $image->move(public_path('uploads/practitioners/' . $userDetails->id. '/media'), $fileName);
+                    $image->move(public_path('uploads/practitioners/' . $userDetails->id. '/media/'), $fileName);
                     $existingImages['media_images'][] = $fileName;
                 }
             }
@@ -138,7 +138,7 @@ class PractitionerController extends Controller
 
             if ($image->isValid()) {
                 $fileName = time() . '_' . $image->getClientOriginalName();
-                $image->move(public_path('uploads/practitioners/' . $userDetails->id.'/profile'), $fileName);
+                $image->move(public_path('uploads/practitioners/' . $userDetails->id.'/profile/'), $fileName);
 
                 // Initialize existing images and add profile image
                 $existingImages = $userDetails->images ? json_decode($userDetails->images, true) : [];
