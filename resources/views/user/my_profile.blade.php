@@ -205,23 +205,26 @@
                                     </div>
                                     <hr>
                                     <button class="update-btn mb-2">Add New Term</button> -->
-                                        <div class="row mb-4 align-items-center">
-                                            <div class="col-md-6">
-                                                <label for="type" class="fw-bold">How I help:</label>
-                                                <select id="HowIHelp" name="HowIHelp[]" class="form-select select2"
-                                                        multiple>
-                                                    @php
-                                                        $selectedTerms = explode(',', $userDetails->HowIHelp ?? '');
-                                                    @endphp
-                                                    @foreach($HowIHelp as $term)
-                                                        <option
-                                                            value="{{$term->id}}" {{ in_array($term->id, $selectedTerms) ? 'selected' : '' }} >{{$term->name}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <button class="update-btn mb-2 addterm" data-type="HowIHelp">Add New Term
-                                                </button>
+                                        <div class="mb-4">
+                                            <label for="type" class="fw-bold">How I help:</label>
+
+                                            <div class="row align-items-center">
+                                                <div class="col-md-6">
+                                                    <select id="HowIHelp" name="HowIHelp[]" class="form-select select2"
+                                                            multiple>
+                                                        @php
+                                                            $selectedTerms = explode(',', $userDetails->HowIHelp ?? '');
+                                                        @endphp
+                                                        @foreach($HowIHelp as $term)
+                                                            <option
+                                                                value="{{$term->id}}" {{ in_array($term->id, $selectedTerms) ? 'selected' : '' }} >{{$term->name}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <button class="update-btn mb-2 addterm" data-type="HowIHelp">Add New Term
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                         <div id="HowIHelp-container">
@@ -251,13 +254,20 @@
                                         </div>
                                         <div class="mb-4">
                                             <label for="certifications" class="fw-bold">Certifications</label>
-                                            <select id="certifications" class="form-select" name="certifications">
-                                                <option>Select</option>
-                                                <option>Neurolinguistic Programming</option>
-                                            </select>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <select id="certifications" class="form-select" name="certifications">
+                                                        <option>Select</option>
+                                                        <option>Neurolinguistic Programming</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <button class="update-btn mb-2">Add New Term</button>
+                                                </div>
+                                            </div>
                                         </div>
 
-                                        <button class="update-btn mb-2">Add New Term</button>
+
                                         <div class="mb-4">
                                             <label for="endorsements" class="fw-bold">Endorsements</label>
                                             <select id="endorsements" name="endorsements" class="form-select">
