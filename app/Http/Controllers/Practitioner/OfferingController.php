@@ -12,8 +12,10 @@ class OfferingController extends Controller
     // Show all offerings
     public function index()
     {
+        $user = Auth::user();
+        $userDetails = $user->userDetail;
         $offerings = Offering::with('user')->get();
-        return view('user.offering', compact('offerings'));
+        return view('user.offering', compact('user','userDetails','offerings'));
     }
     public function addOffering()
     {
