@@ -2651,14 +2651,14 @@
                                             <label for="booking-duration" class="fw-bold">Duration of offering</label>
                                             <select id="booking-duration" name="booking_duration" class="form-select">
                                                 <option value="">Select</option>
-                                                <option value="15 minutes" {{ $offering->offering_type  == '15 minutes' ? 'selected' : ''}}>15 minutes</option>
-                                                <option value="30 minutes" {{ $offering->offering_type  == '30 minutes' ? 'selected' : ''}}>30 minutes</option>
-                                                <option value="45 minutes" {{ $offering->offering_type  == '45 minutes' ? 'selected' : ''}}>45 minutes</option>
-                                                <option value="1 hour" {{ $offering->offering_type  == '1 hour' ? 'selected' : ''}}>1 hour</option>
-                                                <option value="1:15 hour" {{ $offering->offering_type  == '1:15 hour' ? 'selected' : ''}}>1:15 hour</option>
-                                                <option value="1:30 hour" {{ $offering->offering_type  == '1:30 hour' ? 'selected' : ''}}>1:30 hour</option>
-                                                <option value="1:45 hour" {{ $offering->offering_type  == '1:45 hour' ? 'selected' : ''}}>1:45 hour</option>
-                                                <option value="2 hour" {{ $offering->offering_type  == '2 hour' ? 'selected' : ''}}>2 hour</option>
+                                                <option value="15 minutes" {{ $offering->booking_duration  == '15 minutes' ? 'selected' : ''}}>15 minutes</option>
+                                                <option value="30 minutes" {{ $offering->booking_duration  == '30 minutes' ? 'selected' : ''}}>30 minutes</option>
+                                                <option value="45 minutes" {{ $offering->booking_duration  == '45 minutes' ? 'selected' : ''}}>45 minutes</option>
+                                                <option value="1 hour" {{ $offering->booking_duration  == '1 hour' ? 'selected' : ''}}>1 hour</option>
+                                                <option value="1:15 hour" {{ $offering->booking_duration  == '1:15 hour' ? 'selected' : ''}}>1:15 hour</option>
+                                                <option value="1:30 hour" {{ $offering->booking_duration  == '1:30 hour' ? 'selected' : ''}}>1:30 hour</option>
+                                                <option value="1:45 hour" {{ $offering->booking_duration  == '1:45 hour' ? 'selected' : ''}}>1:45 hour</option>
+                                                <option value="2 hour" {{ $offering->booking_duration  == '2 hour' ? 'selected' : ''}}>2 hour</option>
                                             </select>
                                         </div>
                                         <div class="row mb-4">
@@ -2711,14 +2711,15 @@
                                             <div class="col mb-4">
                                                 <label for="type" class="fw-bold">Scheduling window</label>
                                                 <select id="type" class="form-select" name="scheduling_window">
-                                                    <option>15 minutes</option>
-                                                    <option>30 minutes</option>
-                                                    <option>45 minutes</option>
-                                                    <option>1 hour</option>
-                                                    <option>1:15 hour</option>
-                                                    <option>1:30 hour</option>
-                                                    <option>1:45 hour</option>
-                                                    <option>2 hour</option>
+                                                        <option value="">Select</option>
+                                                        <option value="15 minutes" {{ $offering->scheduling_window  == '15 minutes' ? 'selected' : ''}}>15 minutes</option>
+                                                        <option value="30 minutes" {{ $offering->scheduling_window  == '30 minutes' ? 'selected' : ''}}>30 minutes</option>
+                                                        <option value="45 minutes" {{ $offering->scheduling_window  == '45 minutes' ? 'selected' : ''}}>45 minutes</option>
+                                                        <option value="1 hour" {{ $offering->scheduling_window  == '1 hour' ? 'selected' : ''}}>1 hour</option>
+                                                        <option value="1:15 hour" {{ $offering->scheduling_window  == '1:15 hour' ? 'selected' : ''}}>1:15 hour</option>
+                                                        <option value="1:30 hour" {{ $offering->scheduling_window  == '1:30 hour' ? 'selected' : ''}}>1:30 hour</option>
+                                                        <option value="1:45 hour" {{ $offering->scheduling_window  == '1:45 hour' ? 'selected' : ''}}>1:45 hour</option>
+                                                        <option value="2 hour" {{ $offering->scheduling_window  == '2 hour' ? 'selected' : ''}}>2 hour</option>
                                                 </select>
                                             </div>
                                             <div class="col mb-4">
@@ -2731,7 +2732,7 @@
                                         <div class="row">
                                             <div class="col mb-4">
                                                 <label for="service-hours" class="fw-bold">Email template</label>
-                                                <textarea class="form-control" name="email_template"></textarea>
+                                                <textarea class="form-control" name="email_template">{{$offering->email_template}}</textarea>
                                             </div>
                                             <div class="col mb-4">
                                                 <label for="service-hours" class="fw-bold">Intake form</label>

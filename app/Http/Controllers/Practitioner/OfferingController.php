@@ -45,7 +45,7 @@ class OfferingController extends Controller
             "categories" => json_encode($input['categories']),
             "tags" => json_encode($input['tags']),
             "offering_type" => $input['offering_type'],
-            "booking_duration" => json_encode($input['booking_duration']),
+            "booking_duration" => $input['booking_duration'],
             "from_date" => $input['from_date'],
             "to_date" => $input['to_date'],
             "availability" => $input['availability'],

@@ -9,7 +9,7 @@ class Offering extends Model
 {
     use HasFactory;
     protected $table = 'offerings';
-    
+
     protected $fillable = [
         'user_id',
         'name',
@@ -20,32 +20,27 @@ class Offering extends Model
         'categories',
         'tags',
         'featured_image',
-        'type',
+        'offering_type',
         'booking_duration',
-        'calendar_display_mode',
-        'confirmation_requires',
-        'cancel',
-        'maximum_block',
-        'period_booking_period',
-        'booking_default_date_availability',
-        'booking_check_availability_against',
-        'restrict_days',
-        'block_start',
-        'range',
-        'cost',
-        'cost_range',
+        'from_date',
+        'to_date',
+        'availability',
+        'availability_type',
+        'client_price',
+        'tax_amount',
+        'scheduling_window',
+        'buffer_time',
+        'email_template',
+        'intake_form',
+        'is_cancelled',
+        'cancellation_time_slot',
+        'is_confirmation',
     ];
 
     protected $casts = [
         'location' => 'array',
-        'booking_duration' => 'array',
-        'maximum_block' => 'array',
-        'restrict_days' => 'array',
-        'range' => 'array',
-        'cost' => 'array',
-        'cost_range' => 'array',
-        'confirmation_requires' => 'boolean',
-        'cancel' => 'boolean',
+        'is_cancelled' => 'boolean',
+        'is_confirmation' => 'boolean',
     ];
 
     public function user()
