@@ -68,7 +68,7 @@
                                                        rel="tag">{{$offering->tags}}</a>
                                                 </div>
                                                 <div class="row-actions row-actions-product">
-                                                    <a href="{{route('update_offering',$offering->id)}}">Edit</a>
+                                                    <a href="{{route('edit_offering',$offering->id)}}">Edit</a>
                                                     <a href="https://thehiracollective.com/dashboard/product/duplicate/9694">Duplicate</a>
                                                     <a href="https://thehiracollective.com/dashboard/product/delete/9694"
                                                        class="confirm_delete"

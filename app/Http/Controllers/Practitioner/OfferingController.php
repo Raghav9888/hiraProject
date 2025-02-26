@@ -118,6 +118,14 @@ class OfferingController extends Controller
         return response()->json(['message' => 'Offering updated successfully!', 'data' => $offering]);
     }
 
+    public function edit(Request $request, $id)
+    {
+        $user = Auth::user();
+        $userDetails = $user->userDetail;
+        $offering = Offering::findOrFail($id);
+        return view('user.offering_edit', compact('user', 'userDetails', 'offering'));
+    }
+
     // Delete an offering
     public function destroy($id)
     {
