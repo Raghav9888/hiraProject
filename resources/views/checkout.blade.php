@@ -88,22 +88,22 @@
                                     <div class="d-flex align-items-center">
                                        
                                         <div>
-                                            <p class="mb-0">cjk 11</p>
-                                            <p class="mb-0 text-muted small"><span>Booking Date:</span> April 2, 2025</p>
-                                            <p class="mb-0 text-muted small"><span>Booking Time:</span> 12:00 am</p>
-                                            <p class="mb-0 text-muted small"<span>>Time Zone:</span> Asia/Calcutta</p>
+                                            <p class="mb-0">{{$product->name}}</p>
+                                            <p class="mb-0 text-muted small"><span>Booking Date:</span> {{ \Carbon\Carbon::parse($booking['booking_date'])->format('F j, Y') }}</p>
+                                            <p class="mb-0 text-muted small"><span>Booking Time:</span> {{ \Carbon\Carbon::parse($booking['booking_time'])->format('h:i A') }}</p>
+                                            <p class="mb-0 text-muted small"<span>Time Zone:</span> Asia/Calcutta</p>
                                         </div>
                                     </div>
                                 </td>
-                                <td class="text-end">$0.00</td>
+                                <td class="text-end">${{$product->client_price}}</td>
                             </tr>
                             <tr>
                                 <td class=" fw-bold">Subtotal</td>
-                                <td class="text-end">$0.00</td>
+                                <td class="text-end">${{$product->client_price}}</td>
                             </tr>
                             <tr>
                                 <td class=" fw-bold">Total</td>
-                                <td class="text-end">$0.00</td>
+                                <td class="text-end">${{$product->client_price}}</td>
                             </tr>
                         </tbody>
                     </table>

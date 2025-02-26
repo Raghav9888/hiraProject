@@ -107,7 +107,7 @@
                                             <div class="d-flex justify-content-between flex-wrap align-items-center">
                                                 <h4 class="mb-2">{{$offering->name}}</h4>
                                                 <div class="d-flex align-items-center">
-                                                    <h6 class="offer-prize me-2 m-0">$1,444.00</h6>
+                                                    <h6 class="offer-prize me-2 m-0">${{$offering->client_price}}</h6>
                                                      <a href="{{ route('offerDetail',$offering->id)}}" class="home-blog-btn">BOOK NOW</a>
                                                 </div>
                                             </div>
@@ -115,15 +115,7 @@
                                                 <li>7 Hours</li>
                                                 <li>7 Sessions</li>
                                             </ul>
-                                            <p class="m-0 mb-1">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                                                sed
-                                                do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-                                                ad
-                                                minim veniam quis nostrud exercitation.Lorem ipsum dolor sit amet,
-                                                consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                                                et
-                                                dolore magna aliqua. Ut enim ad minim veniam quis nostrud
-                                                exercitation.</p>
+                                            <p class="m-0 mb-1">{{$offering->short_description}}</p>
                                             <button id="view-more-btn" class="blog-view-more mb-2"
                                                     style="color:#9F8B72;">More Info<i
                                                     class="fas fa-chevron-down ms-2"></i></button>
