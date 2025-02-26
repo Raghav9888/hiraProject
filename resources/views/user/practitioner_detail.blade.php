@@ -28,15 +28,16 @@
                         </div>
                         <h5>Alternative and Holistic Health Practitioner</h5>
                         <p class="mb-4">{{$userDetails->bio}}</p>
-                        @foreach($locations as $location)
-                            <div class="practitioner-location-dv mb-4">
-                                <button><i class="fa-solid fa-location-dot me-2"></i>{{$location}}</button>
-                                <ul class="m-0">
-                                    <li>Virtual Offerings Available</li>
-                                </ul>
-                            </div>
-                        @endforeach
-
+                        @if($locations)
+                            @foreach($locations as $location)
+                                <div class="practitioner-location-dv mb-4">
+                                    <button><i class="fa-solid fa-location-dot me-2"></i>{{$location}}</button>
+                                    <ul class="m-0">
+                                        <li>Virtual Offerings Available</li>
+                                    </ul>
+                                </div>
+                            @endforeach
+                        @endif
                     </div>
                     <div class="col-sm-12 col-md-3 col-lg-3">
                         @php
