@@ -106,22 +106,18 @@
 
                                         <div class="mb-4">
                                             <label for="location">Location</label>
-                                            <select id="location" name="location[]" class="form-select select2"
-                                                    multiple="multiple">
+                                            <select id="location" name="location[]" class="form-select select2" multiple="multiple">
                                                 <option>Select</option>
-                                                <option
-                                                    value="New York" {{ (isset($userDetails->location) && $userDetails->location == 'New York') ? 'selected' : '' }}>
+                                                <option value="New York" {{ in_array('New York', $locations) ? 'selected' : '' }}>
                                                     New York
                                                 </option>
-                                                <option
-                                                    value="Los Angeles" {{ (isset($userDetails->location) && $userDetails->location == 'Los Angeles') ? 'selected' : '' }}>
+                                                <option value="Los Angeles" {{ in_array('Los Angeles', $locations) ? 'selected' : '' }}>
                                                     Los Angeles
                                                 </option>
-                                                <option
-                                                    value="Chicago" {{ (isset($userDetails->location) && $userDetails->location == 'Chicago') ? 'selected' : '' }}>
+                                                <option value="Chicago" {{ in_array('Chicago', $locations) ? 'selected' : '' }}>
                                                     Chicago
                                                 </option>
-                                            </select>
+                                                       </select>
                                         </div>
                                         <label for="type">Tags</label>
                                         <p style="text-align: start;">These are keywords used to help identify more
@@ -129,8 +125,13 @@
                                             versions of something. For example, a good tag for a massage could be "Deep
                                             Tissue".</p>
                                         <select name="tags[]" multiple="multiple" class="form-select select2">
-                                            <option value="156">energybalancing</option>
-                                            <option value="2991">ASD</option>
+                                            <option value="energy_balancing" {{ in_array('energy_balancing', $tags) ? 'selected' : '' }}>
+                                                energy balancing
+                                            </option>
+                                            <option value="asd" {{ in_array('asd', $tags) ? 'selected' : '' }}>
+                                                ASD
+                                            </option>
+
                                         </select>
                                         <div class="mb-4 mt-4">
                                             <label for="media">Media</label>

@@ -49,6 +49,9 @@ class PractitionerController extends Controller
         $images = json_decode($userDetails->images, true);
         $mediaImages = isset($images['media_images']) && is_array($images['media_images']) ? $images['media_images'] : [];
         $image = isset($images['profile_image']) ? $images['profile_image'] : null;
+        $locations = json_decode($userDetails->location, true);
+        $tags = json_decode($userDetails->tags, true);
+
         return view('user.my_profile', compact(
             'user',
             'userDetails',
@@ -59,6 +62,8 @@ class PractitionerController extends Controller
             'stripeAccount',
             'googleAccount',
             'mediaImages',
+            'locations',
+            'tags',
             'image',
         ));
     }
@@ -93,7 +98,7 @@ class PractitionerController extends Controller
             'company' => $input['company'],
             'bio' => $input['bio'],
             'location' => isset($input['location']) && $input['location'] ? $input['location'] : [],
-//            'tags' => $input['tags'],
+            'tags' => isset($input['tags']) && $input['tags'] ? $input['tags'] : [],
             'about_me' => $input['about_me'],
             'IHelpWith' => isset($input['IHelpWith']) && $input ? implode(',', $input['IHelpWith']) : [],
             'HowIHelp' => isset($input['HowIHelp']) && $input ? implode(',', $input['HowIHelp']) : [],
