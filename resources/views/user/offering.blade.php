@@ -22,15 +22,15 @@
                     profile.</p>
                 <div class="offering-btn-drop mb-4">
                     <a href="{{ route('add_offering') }}" class="category-load-more">Add Offering</a>
-                    <div class="dropdown">
-                        <button class="dropdown-button dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                           Discount
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">All offering</a></li>
-                            <li><a class="dropdown-item" href="#">Specific offering</a></li>
-                        </ul>
-                    </div>
+{{--                    <div class="dropdown">--}}
+{{--                        <button class="dropdown-button dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">--}}
+{{--                           Discount--}}
+{{--                        </button>--}}
+{{--                        <ul class="dropdown-menu">--}}
+{{--                            <li><a class="dropdown-item" href="#">All offering</a></li>--}}
+{{--                            <li><a class="dropdown-item" href="#">Specific offering</a></li>--}}
+{{--                        </ul>--}}
+{{--                    </div>--}}
                 </div>
 
                 <div class="earning-wrrpr mt-5">
@@ -100,7 +100,7 @@
 
                     </div>
                 </div>
-                <button type="submit" class="category-load-more">Submit</button>
+{{--                <button type="submit" class="category-load-more">Submit</button>--}}
             </div>
         </div>
     </section>
