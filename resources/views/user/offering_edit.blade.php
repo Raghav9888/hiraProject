@@ -12,9 +12,9 @@
                     free to “copy
                     and paste” descriptions from each service offering.</p>
                 <div class="add-offering-dv">
-                    <form method="POST" action="{{ route('store_offering') }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('update_offering') }}" enctype="multipart/form-data">
                         @csrf
-                        @method('PUT')
+                        <input type="hidden" name="id" value="{{$offering->id}}">
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Name</label>
                             <input type="text" class="form-control" name="name" id="exampleInputEmail1"
@@ -34,7 +34,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Location</label>
-                            <select name="location" multiple="multiple" class="form-control select2">
+                            <select name="location[]" multiple="multiple" class="form-control select2">
                                 <option class="level-0"
                                         value="370" {{ in_array('370', (array) json_decode($offering->location)) ? 'selected' : '' }}>
                                     Montreal
@@ -2224,7 +2224,7 @@
                         <div class="mb-3">
                             <label for="exampleInputPassword1" class="form-label">I help with:</label>
 
-                            <select name="help" multiple="multiple" class="form-control select2">
+                            <select name="help[]" multiple="multiple" class="form-control select2">
                                 <option class="level-0"
                                         value="255" {{ in_array('255', (array) json_decode($offering->help)) ? 'selected' : '' }}>
                                     Anemia in pregnancy
@@ -2565,7 +2565,7 @@
                                 would be Ayuvedic massage and hot stone massage)
                                 Practitioner Offerings
                             </label>
-                            <select name="categories" multiple="multiple" class="form-control select2" id="">
+                            <select name="categories[]" multiple="multiple" class="form-control select2" id="">
                                 <option class="level-0"
                                         value="100" {{ in_array('100', (array) json_decode($offering->categories)) ? 'selected' : '' }}>
                                     Practitioner Offerings
@@ -2582,7 +2582,7 @@
                             </label>
                         </div>
                         <div class="form-group">
-                            <select name="tags" multiple="multiple" class="form-control select2" id="">
+                            <select name="tags[]" multiple="multiple" class="form-control select2" id="">
                                 <option
                                     value="156" {{ in_array('156', (array) json_decode($offering->tags)) ? 'selected' : '' }}>
                                     energybalancing
@@ -2707,18 +2707,19 @@
                                                     <div>
                                                         <label for="service-hours" class="fw-bold">From</label>
                                                         <input type="datetime-local" class="form-control"
-                                                               name="from_date" placeholder="">
+                                                               name="from_date" placeholder="" value="{{$offering->from_date}}">
                                                     </div>
                                                     <div>
                                                         <label for="service-hours" class="fw-bold">To</label>
                                                         <input type="datetime-local" class="form-control" name="to_date"
-                                                               placeholder="">
+                                                               placeholder="" value="{{$offering->to_date}}">
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div class="form-check offering-check">
-                                                    <input type="checkbox" class="form-check-input" id="availability" name="availability" {{$offering->availability ? 'checked': ''}}>
+                                                    <input type="checkbox" class="form-check-input" id="availability"
+                                                           name="availability" {{$offering->availability ? 'checked': ''}}>
                                                     <label class="form-check-label mb-3 fw-bold"
                                                            for="availability">Availability</label><br>
                                                     <select id="type" class="form-select" name="availability_type">

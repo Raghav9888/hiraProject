@@ -55,17 +55,16 @@ class OfferingController extends Controller
             "buffer_time" => $input['buffer_time'],
             "email_template" => $input['email_template'],
             "intake_form" => $input['intake_form'],
-            "is_cancelled" => (isset($input['is_cancelled']) && ($input['is_cancelled'] == 'on')) ? 1 : 0 ,
-            "cancellation_time_slot" =>  $input['cancellation_time_slot'] ?? null,
-            "is_confirmation" => (isset($input['is_confirmation']) && $input['is_confirmation'] == 'on') ? 1 :0 ,
-
+            "is_cancelled" => (isset($input['is_cancelled']) && ($input['is_cancelled'] == 'on')) ? 1 : 0,
+            "cancellation_time_slot" => $input['cancellation_time_slot'] ?? null,
+            "is_confirmation" => (isset($input['is_confirmation']) && $input['is_confirmation'] == 'on') ? 1 : 0,
         ];
 
         if ($request->hasFile('featured_image')) {
             $image = $request->file('featured_image');
             $extension = $image->getClientOriginalExtension();
             $imageName = time() . '.' . $extension;
-            $image->move(public_path('uploads/practitioners/' . $user_id . '/feature/'), $imageName);
+            $image->move(public_path('uploads/practitioners/' . $user_id . '/offering/'), $imageName);
             $offeringData['featured_image'] = $imageName;
         }
 
@@ -81,40 +80,57 @@ class OfferingController extends Controller
         return response()->json($offering);
     }
 
-    // Update an offering
-    public function update(Request $request, $id)
+// Update an offering
+    public function update(Request $request)
     {
-        $offering = Offering::findOrFail($id);
 
-        $validated = $request->validate([
-            'name' => 'sometimes|string|max:255',
-            'long_description' => 'sometimes|string',
-            'short_description' => 'sometimes|string|max:500',
-            'location' => 'sometimes|array',
-            'help' => 'sometimes|string',
-            'categories' => 'sometimes|string',
-            'tags' => 'sometimes|string',
-            'featured_image' => 'sometimes|string',
-            'type' => 'sometimes|string',
-            'booking_duration' => 'sometimes|array',
-            'calendar_display_mode' => 'sometimes|string',
-            'confirmation_requires' => 'sometimes|boolean',
-            'cancel' => 'sometimes|boolean',
-            'maximum_block' => 'sometimes|array',
-            'period_booking_period' => 'sometimes|string',
-            'booking_default_date_availability' => 'sometimes|string',
-            'booking_check_availability_against' => 'sometimes|string',
-            'restrict_days' => 'sometimes|array',
-            'block_start' => 'sometimes|string',
-            'range' => 'sometimes|array',
-            'cost' => 'sometimes|array',
-            'cost_range' => 'sometimes|array',
-        ]);
+        $input = $request->all();
 
-        $offering->update($validated);
+        $user = Auth::user();
+        $user_id = $user->id;
 
-        return response()->json(['message' => 'Offering updated successfully!', 'data' => $offering]);
+        $offeringId = $input['id'];
+
+        $offering = Offering::findOrFail($offeringId);
+
+        $offeringData = [
+            "name" => $input['name'],
+            "long_description" => $input['long_description'],
+            "short_description" => $input['short_description'],
+            "location" => json_encode($input['location']),
+            "help" => json_encode($input['help']),
+            "categories" => json_encode($input['categories']),
+            "tags" => json_encode($input['tags']),
+            "offering_type" => $input['offering_type'],
+            "booking_duration" => $input['booking_duration'],
+            "from_date" => $input['from_date'],
+            "to_date" => $input['to_date'],
+            "availability" => (isset($input['availability']) && $input['availability'] == 'on') ? 1 : 0,
+            "availability_type" => $input['availability_type'],
+            "client_price" => $input['client_price'],
+            "tax_amount" => $input['tax_amount'],
+            "scheduling_window" => $input['scheduling_window'],
+            "buffer_time" => $input['buffer_time'],
+            "email_template" => $input['email_template'],
+            "intake_form" => $input['intake_form'],
+            "is_cancelled" => (isset($input['is_cancelled']) && ($input['is_cancelled'] == 'on')) ? 1 : 0,
+            "cancellation_time_slot" => $input['cancellation_time_slot'] ?? null,
+            "is_confirmation" => (isset($input['is_confirmation']) && $input['is_confirmation'] == 'on') ? 1 : 0,
+        ];
+
+        if ($request->hasFile('featured_image')) {
+            $image = $request->file('featured_image');
+            $extension = $image->getClientOriginalExtension();
+            $imageName = time() . '.' . $extension;
+            $image->move(public_path('uploads/practitioners/' . $user_id . '/offering/'), $imageName);
+            $offeringData['featured_image'] = $imageName;
+        }
+
+        $offering->update($offeringData);
+
+        return redirect()->route('offering')->with('success', 'Offering updated successfully!');
     }
+
 
     public function edit(Request $request, $id)
     {
