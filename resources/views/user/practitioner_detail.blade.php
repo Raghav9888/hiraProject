@@ -41,7 +41,7 @@
                     </div>
                     <div class="col-sm-12 col-md-3 col-lg-3">
                         @php
-                            $imageUrl = asset(env('media_path') . '/practitioners/' . $userDetails->id . '/' . $image);
+                            $imageUrl = asset(env('media_path') . '/practitioners/' . $userDetails->id . '/profile/' . $image);
                         @endphp
                         <img style="width: 100%;" class="mb-4" src="{{ $imageUrl }}" alt="darrel">
                         <div class="d-flex justify-content-between flex-wrap align-items-center">
