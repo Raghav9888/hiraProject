@@ -5,7 +5,7 @@
             @include('layouts.partitioner_sidebar')
             <div class="row">
                 @include('layouts.partitioner_nav')
-                <h3 class="no-request-text mb-4">Add Offering</h3>
+                <h3 class="no-request-text mb-4">Edit Offering</h3>
                 <p style="text-align: start;">Remember, when creating services, you must create separate
                     services for
                     virtual and in-person. This will allow ease for YOU and your potential clients. Feel
