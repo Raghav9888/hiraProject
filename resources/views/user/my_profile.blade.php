@@ -148,7 +148,7 @@
                                                                 src="{{ asset(env('media_path') . '/practitioners/' . $userDetails->id . '/media/' . $image) }}"
                                                                 alt="Practitioner Image"
                                                                 style="width: 100px; height: 100px; object-fit: cover; display: block;">
-                                                            <i class="fas fa-times" style="cursor: pointer;"
+                                                            <i class="fas fa-times text-danger" style="cursor: pointer;"
                                                                data-image="{{ $image }}"
                                                                data-user-id="{{ $userDetails->id }}"
                                                                onclick="removeImage(this);"></i>
