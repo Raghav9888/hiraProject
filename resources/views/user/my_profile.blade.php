@@ -108,13 +108,13 @@
                                             <label for="location">Location</label>
                                             <select id="location" name="location[]" class="form-select select2" multiple="multiple">
                                                 <option>Select</option>
-                                                <option value="New York" {{ in_array('New York', $locations) ? 'selected' : '' }}>
+                                                <option value="New York" {{ (isset($locations) &&  in_array('New York', $locations)) ? 'selected' : '' }}>
                                                     New York
                                                 </option>
-                                                <option value="Los Angeles" {{ in_array('Los Angeles', $locations) ? 'selected' : '' }}>
+                                                <option value="Los Angeles" {{ (isset($locations)  && in_array('Los Angeles', $locations)) ? 'selected' : '' }}>
                                                     Los Angeles
                                                 </option>
-                                                <option value="Chicago" {{ in_array('Chicago', $locations) ? 'selected' : '' }}>
+                                                <option value="Chicago" {{ (isset($locations) && in_array('Chicago', $locations)) ? 'selected' : '' }}>
                                                     Chicago
                                                 </option>
                                                        </select>
