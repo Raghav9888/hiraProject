@@ -2704,16 +2704,20 @@
                                             <div class="col">
                                                 <label for="service-hours" class="fw-bold mb-4">Service hours</label>
                                                 <div class="d-flex" style="gap: 20px;">
+
                                                     <div>
                                                         <label for="service-hours" class="fw-bold">From</label>
                                                         <input type="datetime-local" class="form-control"
-                                                               name="from_date" placeholder="" value="{{$offering->from_date}}">
+                                                               name="from_date"
+                                                               value="{{ $offering->from_date ? $offering->from_date) : '' }}">
                                                     </div>
                                                     <div>
                                                         <label for="service-hours" class="fw-bold">To</label>
-                                                        <input type="datetime-local" class="form-control" name="to_date"
-                                                               placeholder="" value="{{$offering->to_date}}">
+                                                        <input type="datetime-local" class="form-control"
+                                                               name="to_date"
+                                                               value="{{ $offering->to_date ? $offering->to_date : '' }}">
                                                     </div>
+
                                                 </div>
                                             </div>
                                             <div class="col">
