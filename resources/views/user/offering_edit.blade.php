@@ -2749,8 +2749,7 @@
                                             </div>
                                             <div class="col-md-6 mb-4 {{$offering->is_cancelled ? '' :'d-none'}}" id="cancellation_time">
                                                 <label class="fw-bold">Cancellation time</label>
-                                                <input type="datetime-local" name="cancellation_time_slot"
-                                                       class="form-control">
+                                                <input type="datetime-local" name="cancellation_time_slot" class="form-control" value="{{$offering->cancellation_time_slot}}">
                                             </div>
                                         </div>
                                         <div class="form-check offering-check">
