@@ -17,8 +17,9 @@ class DiscountController extends Controller
         return view('user.discount', compact('discounts'));
     }
 
-    public function store(Request $request)
+    public function add(Request $request)
     {
+
         $input = $request->all();
         $user = Auth::user();
         $user_id = $user->id;
@@ -27,7 +28,6 @@ class DiscountController extends Controller
             'user_id' => $user_id,
             'coupon_code' => $input['coupon_code'],
             'coupon_description' => $input['coupon_description'],
-            'discount_type' => $input['discount_type'],
             'apply_all_services' => $input['apply_all_services'],
             'coupon_amount' => $input['coupon_amount'],
             'discount_type' => $input['discount_type'],

@@ -77,7 +77,7 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
 
     Route::prefix('discount')->group(function () {
         Route::get('/', [DiscountController::class, 'index'])->name('discount');
-        Route::post('/', [DiscountController::class, 'store'])->name('store_discount');
+        Route::post('/add', [DiscountController::class, 'add'])->name('add_discount');
         Route::get('/{id}', [DiscountController::class, 'show'])->name('show_discount');
         Route::put('/{id}', [DiscountController::class, 'update'])->name('update_discount');
         Route::delete('/{id}', [DiscountController::class, 'destroy']);

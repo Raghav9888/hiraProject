@@ -7,7 +7,8 @@
                 @include('layouts.partitioner_nav')
                 <div class="add-offering-dv my-5">
                     <h3 class="no-request-text mb-4">Add Discount</h3>
-                    <form >
+                    <form method="POST" action="{{route('add_discount')}}">
+                        @csrf
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Coupon code</label>
                             <input type="text" class="form-control" id="coupon_code" name="coupon_code" aria-describedby="emailHelp" placeholder="Coupon code">
