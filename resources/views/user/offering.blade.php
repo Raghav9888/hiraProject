@@ -77,8 +77,8 @@
                                                     <a href="{{route('edit_offering',$offering->id)}}">Edit</a>
                                                     {{--                                                    <a href="https://thehiracollective.com/dashboard/product/duplicate/9694">Duplicate</a>--}}
                                                     <a onclick="deleteOffering({{ $offering->id }})" style="cursor: pointer">Delete</a>
-                                                    <a href="{{route('show_offering', $offering->id)}}"
-                                                       target="_blank">View</a>
+{{--                                                    <a href="{{route('show_offering', $offering->id)}}"--}}
+{{--                                                       target="_blank">View</a>--}}
                                                 </div>
                                             </td>
                                             <td class="price">
