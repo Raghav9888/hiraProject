@@ -20,10 +20,10 @@ class OfferingController extends Controller
         $userDetails = $user->userDetail;
         $offerings = Offering::with('user')->get();
         $categories = Category::get();
-        $PractitionerTag = PractitionerTag::get();
+        $practitionerTag = PractitionerTag::get();
         $IHelpWith = IHelpWith::get();
         $HowIHelp = HowIHelp::get();
-        return view('user.offering', compact('user', 'userDetails', 'offerings','categories'));
+        return view('user.offering', compact('user', 'userDetails', 'offerings','categories','practitionerTag'));
     }
 
     public function addOffering()
