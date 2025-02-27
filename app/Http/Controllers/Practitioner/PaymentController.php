@@ -3,10 +3,14 @@ namespace App\Http\Controllers\Practitioner;
 
 use App\Http\Controllers\Controller;
 use App\Models\UserStripeSetting;
+use App\Models\Payment;
+use App\Models\Booking;
+use App\Models\Offering;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Stripe\Stripe;
+use Stripe\Checkout\Session as StripeSession;
 use Stripe\Charge;
 use Stripe\PaymentIntent;
 
@@ -81,67 +85,142 @@ class PaymentController extends Controller
         return redirect()->route('myProfile')->with('success', 'Stripe disconnected successfully!');
     }
 
+    public function storeCheckout(Request $request)
+    {
+        /* $request->validate([
+            'name' => 'required|string',
+            'address' => 'required|string',
+            'country' => 'required|string',
+            'city' => 'required|string',
+            'postcode' => 'required|string',
+            'phone' => 'required|string',
+            'email' => 'required|email',
+        ]); */
 
-    public function createPayment(Request $request)
-{
-    Stripe::setApiKey(env('STRIPE_SECRET'));
+       // $user_id = auth()->id();
 
-    $vendorStripeAccountId = "acct_1QvE6qSGd6Vpe1yc"; // Replace with actual vendor's Stripe account ID
+        $booking = session('booking');
+        if (!$booking) {
+            return redirect()->route('home')->with('error', 'Booking session expired.');
+        }
+        
+        /* $Offering = Offering::find($booking['offering_id']);
+        echo '<pre>';
+        Print_r($Offering->price);
+        echo '</pre>';
+        exit(); */
+        
+        // Save Booking
+        $order = Booking::create([
+             'user_id' => 0, 
+            'offering_id' => $booking['offering_id'],
+            'booking_date' => $booking['booking_date'],
+            'time_slot' => $booking['booking_time'],
+            'total_amount' => Offering::find($booking['offering_id'])->client_price,
+            'price' => Offering::find($booking['offering_id'])->client_price,
+            'status' => 'pending',
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'billing_company' => $request->billing_company,
+            'billing_address' => $request->billing_address,
+            'billing_address2' => $request->billing_address2,
+            'billing_country' => $request->billing_country,
+            'billing_city' => $request->billing_city,
+            'billing_state' => $request->billing_state,
+            'billing_postcode' => $request->billing_postcode,
+            'billing_phone' => $request->billing_phone,
+            'billing_email' => $request->billing_email,
+            'notes' => $request->notes,
+        ]);
 
-    if (!$request->has('payment_method') || empty($request->payment_method)) {
-        return redirect()->route('payment.failed', ['message' => 'Payment method is required.']);
+        session()->forget('booking');
+
+        return redirect()->route('payment', ['order_id' => $order->id]);
     }
 
+    public function showPaymentPage($order_id)
+    {
+        $order = Booking::findOrFail($order_id);
+        return view('payment', compact('order'));
+    }
+
+    public function processStripePayment(Request $request)
+{
     try {
-        // Customer details (required for export transactions in India)
-        $customerName = $request->input('customer_name', 'John Doe'); // Default if not provided
-        $customerEmail = $request->input('customer_email', 'john@example.com');
-        $customerAddress = [
-            'line1'       => $request->input('address_line1', '123 Export Street'),
-            'line2'       => $request->input('address_line2', ''),
-            'city'        => $request->input('city', 'Mumbai'),
-            'state'       => $request->input('state', 'MH'),
-            'postal_code' => $request->input('postal_code', '400001'),
-            'country'     => $request->input('country', 'IN'),
-        ];
+        Stripe::setApiKey(env('STRIPE_SECRET'));
 
-        // Create a PaymentIntent with required export details
-        $paymentIntent = PaymentIntent::create([
-            'amount' => 10000, // ₹100 in paisa (100 * 100)
-            'currency' => 'inr',
-            'payment_method' => $request->payment_method,
-            'confirm' => true,
-            'transfer_data' => [
-                'destination' => $vendorStripeAccountId, // Send funds to vendor
+        $order = Booking::findOrFail($request->order_id);
+        
+        // Stripe Checkout Session
+        $session = StripeSession::create([
+            'payment_method_types' => ['card'],
+            'line_items' => [[
+                'price_data' => [
+                    'currency' => 'usd',
+                    'product_data' => ['name' => 'Booking Payment'],
+                    'unit_amount' => $order->total_amount * 100, // Convert to cents
+                ],
+                'quantity' => 1,
+            ]],
+            'mode' => 'payment',
+            'payment_intent_data' => [
+                'application_fee_amount' => intval($order->total_amount * 0.22 * 100), // 22% to admin
+                'transfer_data' => [
+                    'destination' => 'acct_1QvE6qSGd6Vpe1yc', // 78% to vendor
+                ],
             ],
-            'application_fee_amount' => 2500, // ₹25 admin commission (25% of ₹100)
-            'description' => 'Export transaction for digital services', // Required for Indian exports
-            'shipping' => [
-                'name' => $customerName,
-                'address' => $customerAddress,
-            ],
-            'receipt_email' => $customerEmail, // Optional, sends Stripe receipt
-            'return_url' => url('/payment-success'), // Required for redirect-based payment methods
+            'success_url' => route('thankyou', ['order_id' => $order->id]),
+            'cancel_url' => route('payment.cancel', ['order_id' => $order->id]),
         ]);
 
-        return redirect()->route('payment.success', [
-            'payment_id' => $paymentIntent->id,
-            'amount' => $paymentIntent->amount / 100,
-            'currency' => strtoupper($paymentIntent->currency),
-            'status' => $paymentIntent->status,
+        
+
+        // Save Payment Data
+        Payment::create([
+            'order_id' => $order->id,
+            'payment_method' => 'stripe',
+            'amount' => $order->total_amount,
+            'transaction_id' => $session->id,
+            'response' => json_encode($session),
+            'status' => 'pending', // Change to "completed" after Stripe confirmation
         ]);
 
+        return redirect($session->url);
+        
     } catch (\Exception $e) {
-        return redirect()->route('payment.failed', ['message' => $e->getMessage()]);
+        echo '<pre>';
+        Print_r($e->getMessage());
+        echo '</pre>';
+        exit();
+        return back()->with('error', 'Payment failed: ' . $e->getMessage());
     }
 }
+
+    public function confirmPayment(Request $request)
+    {
+        $order = Booking::findOrFail($request->order_id);
+
+        $payment = Payment::create([
+            'order_id' => $order->id,
+            'payment_method' => $request->payment_method,
+            'amount' => $order->total_amount,
+            'transaction_id' => $request->transaction_id, // From Stripe/PayPal
+            'status' => 'completed'
+        ]);
+
+        // Update order status
+        $order->update(['status' => 'paid']);
+
+        return redirect()->route('thankyou')->with('success', 'Payment successful!');
+    }
+
 
 
     public function sucess(Request $request){
 
         $input =$request->all();
         echo '<pre>';
-        Print_r($input);
+        Print_r("payment sucessfull");
         echo '</pre>';
         exit();
         /* return view('payment.success', [

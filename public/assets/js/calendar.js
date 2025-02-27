@@ -147,17 +147,37 @@ document.addEventListener('DOMContentLoaded', function () {
     calendar.render();
 });
 
+
 fetchTimeSlots = (selectedDate) => {
+    id = $('.product_id').val();
+    
     $.ajax({
         url: `/calendar/time-slots/${selectedDate}`,
         type: 'GET',
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
+        data: {
+            id:id,
+            selectedDate:selectedDate,
+        },
         success: function (response) {
             console.log(response);
-            //     render html here
-            //     $('#timeSlotsModal').html(response);
+            $('.booking_date').val(selectedDate);
+            
+            let options = '<option value="">Select a Time Slot</option>';
+            response.availableSlots.forEach(slot => {
+                options += `<option value="${slot}">${slot}</option>`;
+            });
+
+            let selectHtml = `
+                <label for="time_slot">Choose a Time Slot:</label>
+                <select id="time_slot" name="booking_time" class="form-control">
+                    ${options}
+                </select>
+            `;
+            
+            $('#showTimeSlot').html(selectHtml);
         },
         error: function (xhr) {
             console.log(xhr);
