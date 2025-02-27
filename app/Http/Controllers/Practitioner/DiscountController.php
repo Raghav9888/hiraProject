@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\Practitioner;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Discount;
+use App\Models\HowIHelp;
+use App\Models\IHelpWith;
+use App\Models\PractitionerTag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,7 +21,18 @@ class DiscountController extends Controller
         return view('user.discount', compact('discounts'));
     }
 
-    public function add(Request $request)
+    public function add()
+    {
+        $user = Auth::user();
+        $userDetails = $user->userDetail;
+        $categories = Category::get();
+        $PractitionerTag = PractitionerTag::get();
+        $IHelpWith = IHelpWith::get();
+        $HowIHelp = HowIHelp::get();
+        return view('user.add_discount', compact('user', 'userDetails', 'categories','PractitionerTag','IHelpWith','HowIHelp'));
+
+    }
+    public function store(Request $request)
     {
 
         $input = $request->all();
