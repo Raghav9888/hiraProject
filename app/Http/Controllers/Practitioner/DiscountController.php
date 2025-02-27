@@ -29,7 +29,8 @@ class DiscountController extends Controller
         $PractitionerTag = PractitionerTag::get();
         $IHelpWith = IHelpWith::get();
         $HowIHelp = HowIHelp::get();
-        return view('user.add_discount', compact('user', 'userDetails', 'categories','PractitionerTag','IHelpWith','HowIHelp'));
+        $offerings = Offering::where('user_id', $user->id)->get();
+        return view('user.add_discount', compact('user', 'userDetails', 'categories','PractitionerTag','offerings','IHelpWith','HowIHelp'));
 
     }
     public function store(Request $request)

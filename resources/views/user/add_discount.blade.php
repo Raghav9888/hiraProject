@@ -93,7 +93,11 @@
                                         </div>
                                         <div class="mb-4">
                                             <label for="coupne-amount">Offerings</label>
-                                            <input type="text" class="form-control" id="offerings" name="offerings" placeholder="">
+                                            <select name="offerings" class="form-select">
+                                                @foreach($offerings as $offering)
+                                                    <option value="{{$offering->id}}">{{$offering->name}}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                         <div class="mb-4">
                                             <label for="coupne-amount">Exclude services</label>
