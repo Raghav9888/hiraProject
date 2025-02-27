@@ -7,7 +7,8 @@
                 @include('layouts.partitioner_nav')
                 <div class="add-offering-dv my-5">
                     <h3 class="no-request-text mb-4">Add Discount</h3>
-                    <form >
+                    <form method="POST" action="{{route('add_discount')}}">
+                        @csrf
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Coupon code</label>
                             <input type="text" class="form-control" id="coupon_code" name="coupon_code" aria-describedby="emailHelp" placeholder="Coupon code">
@@ -92,7 +93,11 @@
                                         </div>
                                         <div class="mb-4">
                                             <label for="coupne-amount">Offerings</label>
-                                            <input type="text" class="form-control" id="offerings" name="offerings" placeholder="">
+                                            <select name="offerings" class="form-select">
+                                                @foreach($offerings as $offering)
+                                                    <option value="{{$offering->id}}">{{$offering->name}}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                         <div class="mb-4">
                                             <label for="coupne-amount">Exclude services</label>

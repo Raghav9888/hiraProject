@@ -54,7 +54,6 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::get('/dashboard', [PractitionerController::class, 'dashboard'])->name('dashboard');
     Route::post('/term/add', [PractitionerController::class, 'add_term'])->name('add_term');
     Route::post('/term/save', [PractitionerController::class, 'save_term'])->name('save_term');
-    Route::get('/discount/create', [PractitionerController::class, 'addDiscount'])->name('add_discount');
     Route::post('/profile/update', [PractitionerController::class, 'updateProfile'])->name('update_profile');
     Route::post('/client-policy/update', [PractitionerController::class, 'updateClientPolicy'])->name('update_client_policy');
     Route::post('/delete/image', [PractitionerController::class, 'deleteImage'])->name('delete_image');
@@ -81,10 +80,10 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
 
     Route::prefix('discount')->group(function () {
         Route::get('/', [DiscountController::class, 'index'])->name('discount');
-        Route::post('/', [DiscountController::class, 'store'])->name('store_discount');
-        Route::get('/{id}', [DiscountController::class, 'show'])->name('show_discount');
-        Route::put('/{id}', [DiscountController::class, 'update'])->name('update_discount');
-        Route::delete('/{id}', [DiscountController::class, 'destroy']);
+        Route::get('/add', [DiscountController::class, 'add'])->name('add_discount');
+        Route::post('/store', [DiscountController::class, 'store'])->name('store_discount');
+//        Route::put('/{id}', [DiscountController::class, 'update'])->name('update_discount');
+//        Route::delete('/{id}', [DiscountController::class, 'destroy']);
     });
 
 

@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\Practitioner;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Discount;
+use App\Models\HowIHelp;
+use App\Models\IHelpWith;
+use App\Models\PractitionerTag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,8 +21,21 @@ class DiscountController extends Controller
         return view('user.discount', compact('discounts'));
     }
 
+    public function add()
+    {
+        $user = Auth::user();
+        $userDetails = $user->userDetail;
+        $categories = Category::get();
+        $PractitionerTag = PractitionerTag::get();
+        $IHelpWith = IHelpWith::get();
+        $HowIHelp = HowIHelp::get();
+        $offerings = Offering::where('user_id', $user->id)->get();
+        return view('user.add_discount', compact('user', 'userDetails', 'categories','PractitionerTag','offerings','IHelpWith','HowIHelp'));
+
+    }
     public function store(Request $request)
     {
+
         $input = $request->all();
         $user = Auth::user();
         $user_id = $user->id;
@@ -27,7 +44,6 @@ class DiscountController extends Controller
             'user_id' => $user_id,
             'coupon_code' => $input['coupon_code'],
             'coupon_description' => $input['coupon_description'],
-            'discount_type' => $input['discount_type'],
             'apply_all_services' => $input['apply_all_services'],
             'coupon_amount' => $input['coupon_amount'],
             'discount_type' => $input['discount_type'],

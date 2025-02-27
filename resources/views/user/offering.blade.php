@@ -59,22 +59,26 @@
                                                         </span>
                                                 </div>
                                                 <div class="cat_tags">
-                                                    Categories:
-
-                                                    @if($categories->contains('categories', $offering->categories))
-                                                        {{ $offering->categories }}
-                                                    @endif
-
+                                                    Categories:@foreach($categories as $term)
+                                                        @if(isset($offering->categories) && in_array($term->id, json_decode($offering->categories)))
+                                                            {{ $term->name }} ,
+                                                        @endif
+                                                    @endforeach
                                                     <br>
+
                                                     Tags:
-                                                    {{$offering->tags}}
+                                                    @foreach([['id' => '156', 'name' => 'energybalancing'], ['id' => '2991', 'name' => 'ASD']] as $tag)
+                                                        @if(isset($offering->tags) && in_array($tag['id'], json_decode($offering->tags)))
+                                                            {{ $tag['name'] }}{{ !$loop->last ? ', ' : '' }}
+                                                        @endif
+                                                    @endforeach
                                                 </div>
                                                 <div class="row-actions row-actions-product">
                                                     <a href="{{route('edit_offering',$offering->id)}}">Edit</a>
                                                     {{--                                                    <a href="https://thehiracollective.com/dashboard/product/duplicate/9694">Duplicate</a>--}}
                                                     <a onclick="deleteOffering({{ $offering->id }})" style="cursor: pointer">Delete</a>
-                                                    <a href="{{route('show_offering', $offering->id)}}"
-                                                       target="_blank">View</a>
+{{--                                                    <a href="{{route('show_offering', $offering->id)}}"--}}
+{{--                                                       target="_blank">View</a>--}}
                                                 </div>
                                             </td>
                                             <td class="price">

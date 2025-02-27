@@ -168,13 +168,6 @@ class PractitionerController extends Controller
         return view('user.discount', compact('user', 'userDetails'));
     }
 
-    public function addDiscount()
-    {
-        $user = Auth::user();
-        $userDetails = $user->userDetail;
-        return view('user.add_discount', compact('user', 'userDetails'));
-    }
-
     public function appointment()
     {
         $user = Auth::user();
