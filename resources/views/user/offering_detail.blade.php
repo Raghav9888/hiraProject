@@ -29,9 +29,9 @@
                    <form method="post" action="{{route('storeBooking')}}">
                     @csrf
                     <div id="booking_calendar"></div>
-                    <input type="text" name="product_id" class="form-control" value="{{$offerDetail->id}}">
-                    <input type="date" name="booking_date" class="form-control">
-                    <input type="time" name="booking_time" class="form-control">
+                    <input type="hidden" name="offering_id" class="form-control product_id" value="{{$offerDetail->id}}">
+                    <input type="hidden" name="booking_date" class="form-control booking_date">
+                    <!-- <input type="time" name="booking_time" class="form-control"> -->
                     <div class="mt-4 text-center">
                         <h4>Available Time Slots</h4>
                         <div id="showTimeSlot">
@@ -39,7 +39,7 @@
                         </div>
                     </div>
                     <input type="submit" value="Book">
-                  <!--   <a href="{{route('checkout')}}" class="btn btn-primary booking" >Book </a> -->
+                    <!-- <a href="{{route('checkout')}}" class="btn btn-primary booking" >Book </a> --> 
                     </form>
                 </div>
             </div>

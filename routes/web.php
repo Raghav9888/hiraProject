@@ -29,12 +29,16 @@ Route::get('/offering/{id}', [HomeController::class, 'offerDetail'])->name('offe
 //Route::get('/checkout', [HomeController::class, 'checkout'])->name('checkout');
 
 Route::post('/create-payment', [PaymentController::class, 'createPayment'])->name('create.payment');
-Route::get('/payment-success', [PaymentController::class, 'sucess'])->name('payment.sucess');
-Route::get('/payment-failed', [PaymentController::class, 'failed'])->name('payment.failed');
+Route::post('/storeCheckout', [PaymentController::class, 'storeCheckout'])->name('storeCheckout');
+Route::get('/payment/{order_id}', [PaymentController::class, 'showPaymentPage'])->name('payment');
+Route::post('/stripe/payment', [PaymentController::class, 'processStripePayment'])->name('stripe.payment');
+Route::get('/payment-success', [PaymentController::class, 'sucess'])->name('thankyou');
+Route::get('/payment-failed', [PaymentController::class, 'failed'])->name('payment.cancel');
 Route::get('/calendar/time-slots/{date}', [HomeController::class, 'getTimeSlots'])->name('get_time_slots');
 
 Route::post('/storeBooking', [BookingController::class, 'storeBooking'])->name('storeBooking');
 Route::get('/checkout', [BookingController::class, 'checkout'])->name('checkout');
+
 
 
 Route::middleware(['auth', 'user-access:admin'])->group(function () {

@@ -8,7 +8,7 @@
             <div class="coupon p-3 mb-4">
                 <a href="#">Have a coupon? Click here to enter your code</a>
             </div>
-            <form id="payment-form" method="post" action="{{ route('create.payment') }}">
+            <form id="payment-form" method="post" action="{{ route('storeCheckout') }}">
                 @csrf
                 <div class="row mb-4">
                     <div class="col-md-6">
@@ -27,42 +27,42 @@
                     </div>
                         <div class="mb-3">
                             <label for="company-name" class="form-label">Company name (optional)</label>
-                            <input type="text" name="company" class="form-control" id="company-name">
+                            <input type="text" name="billing_company" class="form-control" id="company-name">
                         </div>
                         <div class="mb-3">
                             <label for="country" class="form-label">Country / Region <span
                                     class="text-danger">*</span></label>
-                            <select class="form-select" name="country" id="country">
-                                <option>India</option>
+                            <select class="form-select" name="billing_country" id="country">
+                                <option value="India">India</option>
                             </select>
                         </div>
                         <div class="mb-3">
                             <label for="street-address" class="form-label">Street address <span
                                     class="text-danger">*</span></label>
-                                    <input type="text" class="form-control mb-3" name="address1" id="street-address" placeholder="Ludhiana">
-                                     <input type="text" class="form-control" name="address2" id="street-address" placeholder="Shaheed bhagat singh nagar">
+                                    <input type="text" class="form-control mb-3" name="billing_address" id="street-address" placeholder="Ludhiana">
+                                     <input type="text" class="form-control" name="billing_address2" id="street-address" placeholder="Shaheed bhagat singh nagar">
                         </div>
                         <div class="mb-3">
                             <label for="town-city" class="form-label">Town / City <span
                                     class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="city" id="town-city" placeholder="Ludhiana">
+                            <input type="text" class="form-control" name="billing_city" id="town-city" placeholder="Ludhiana">
                         </div>
                         <div class="mb-3">
                             <label for="state" class="form-label">State <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="state" id="state" placeholder="Punjab">
+                            <input type="text" class="form-control" name="billing_state" id="state" placeholder="Punjab">
                         </div>
                         <div class="mb-3">
                             <label for="pin-code" class="form-label">PIN Code <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="zip" id="pin-code" placeholder="11234">
+                            <input type="text" class="form-control" name="billing_postcode" id="pin-code" placeholder="11234">
                         </div>
                         <div class="mb-3">
                             <label for="phone" class="form-label">Phone <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="phone" id="phone" placeholder="984674323">
+                            <input type="text" class="form-control" name="billing_phone" id="phone" placeholder="984674323">
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Email address <span
                                     class="text-danger">*</span></label>
-                            <input type="email" name="email" class="form-control" id="email" placeholder="mohit@gmail.com">
+                            <input type="email" name="billing_email" class="form-control" id="email" placeholder="mohit@gmail.com">
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -73,6 +73,9 @@
                         </div>
                     </div>
                 </div>
+                <input type="hidden" name="offering_id" value="{{$booking['offering_id']}}">
+                <input type="hidden" name="booking_date" value="{{$booking['booking_date']}}">
+                <input type="hidden" name="booking_time" value="{{$booking['booking_time']}}">
                 <div class="mb-4">
                     <h2 class="checkout-title">Your order</h2>
                     <table class="table table-bordered">
@@ -91,7 +94,7 @@
                                             <p class="mb-0">{{$product->name}}</p>
                                             <p class="mb-0 text-muted small"><span>Booking Date:</span> {{ \Carbon\Carbon::parse($booking['booking_date'])->format('F j, Y') }}</p>
                                             <p class="mb-0 text-muted small"><span>Booking Time:</span> {{ \Carbon\Carbon::parse($booking['booking_time'])->format('h:i A') }}</p>
-                                            <p class="mb-0 text-muted small"<span>Time Zone:</span> Asia/Calcutta</p>
+                                            <p class="mb-0 text-muted small">Time Zone:</span> Asia/Calcutta</p>
                                         </div>
                                     </div>
                                 </td>
@@ -107,6 +110,7 @@
                             </tr>
                         </tbody>
                     </table>
+                    <input type="hidden" name="total_amount" value="{{$product->price}}">
                 </div>
                 <div class="mb-4">
                     <p class="text-p">Your personal data will be used to process your order, support your
@@ -118,28 +122,17 @@
                         </label>
                     </div>
                 </div>
-                <div id="card-element"></div>
+                <!-- <div id="card-element"></div> -->
                 <div class="d-flex justify-content-end">
                 <button type="submit" class="export-btn"  id="pay-btn">Place order</button>
             </div>
             </form>
         </main>
     </section>
-<!-- <div class="container">
-    <div class="row">
-        <div class="col-md-6">
-            <form id="payment-form" method="post" action="{{ route('create.payment') }}">
-                @csrf
-                    <div id="card-element"></div>
-                    <button type="submit" id="pay-btn">Pay ₹100</button>
-            </form>
-        </div>
-    </div>
-</div> -->
 <script src="https://js.stripe.com/v3/"></script>
 
 <script>
-     var stripe = Stripe("{{ env('STRIPE_PUBLIC_KEY') }}");
+   /*   var stripe = Stripe("{{ env('STRIPE_PUBLIC_KEY') }}");
     var elements = stripe.elements();
     var card = elements.create("card");
     card.mount("#card-element");
@@ -152,15 +145,14 @@
             card: card
         }).then(function (result) {
             if (result.error) {
-                alert(result.error.message);
+                alert(result.error.message);                
             } else {
+                var formData = $("#payment-form").serializeArray();
+                formData.push({ name: "payment_method", value: result.paymentMethod.id });
                 $.ajax({
                     url: "{{ route('create.payment') }}",
                     method: "POST",
-                    data: {
-                        _token: "{{ csrf_token() }}",
-                        payment_method : result.paymentMethod.id
-                    },
+                    data: formData,
                     dataType: "json",
                     success: function (response) {
                         if (response.success) {
@@ -176,7 +168,7 @@
                 });
             }
         });
-    }); 
+    });  */
 </script>
 
 @endsection

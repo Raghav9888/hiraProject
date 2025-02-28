@@ -13,16 +13,16 @@ class BookingController extends Controller
 {
 
     public function storeBooking(Request $request)
-    {       
+    {    
         $request->validate([
-            'product_id' => 'required|exists:offerings,id',
+            'offering_id' => 'required|exists:offerings,id',
             'booking_date' => 'required|date',
             'booking_time' => 'required'
-        ]);
+        ]); 
 
         session([
             'booking' => [
-                'product_id' => $request->product_id,
+                'offering_id' => $request->offering_id,
                 'booking_date' => $request->booking_date,
                 'booking_time' => $request->booking_time,
             ]
@@ -35,13 +35,14 @@ class BookingController extends Controller
 
     public function checkout()
     {
-        $booking = session('booking');
+        $booking = session('booking');  
+        
 
         if (!$booking) {
             return redirect()->route('home')->with('error', 'No booking details found.');
         }
 
-        $product = Offering::findOrFail($booking['product_id']);
+        $product = Offering::findOrFail($booking['offering_id']);
         
 
         return view('checkout', compact('booking', 'product'));

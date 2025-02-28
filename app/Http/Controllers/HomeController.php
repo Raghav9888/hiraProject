@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\UserDetail;
 use App\Models\Offering;
+use App\Models\Booking;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ContactUsMail;
 
@@ -97,7 +98,33 @@ class HomeController extends Controller
     {
         $timeSlots = [];
         $date = date('Y-m-d', strtotime($date));
+        $offering_id = $request->id;
+        $offering = Offering::find($offering_id);
 
+        // Define available time slots based on booking duration (assuming 1-hour slots)
+        $startTime = strtotime($offering->from_date);
+       // $endTime = strtotime($offering->from_date . ' 23:59:59'); 
+        $endTime = strtotime($offering->to_date);
+        $bookingDuration = $offering->booking_duration ?? 60; // Default 60 mins
+    
+        $allSlots = [];
+        while ($startTime < $endTime) {
+            $slot = date('h:i A', $startTime);
+            $allSlots[] = $slot;
+            $startTime += $bookingDuration * 60;
+        }
+    
+        // Get booked slots for this offering on the selected date
+        $bookedSlots = Booking::where('offering_id', $offering_id)
+            ->whereDate('booking_date', $date)
+            ->pluck('time_slot')
+            ->toArray();
+        
+           
+        // Return only available slots
+        $availableSlots = array_diff($allSlots, $bookedSlots);
+        
+        return response()->json(['availableSlots' => $availableSlots]);
 
     }
 }
