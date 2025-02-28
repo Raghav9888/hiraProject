@@ -15,9 +15,9 @@ class WordpressUserController extends Controller
         $wordpressUsers = WordpressUser::all();
 
         foreach ($wordpressUsers as $wpUser) {
+            dump($wpUser);
+//            if (!User::where('email', $wpUser->user_email)->exists()) {
 
-            if (!User::where('email', $wpUser->user_email)->exists()) {
-dump($wpUser);
 //                $user = User::create([
 //                    'name' => $wpUser->user_login,
 //                    'email' => $wpUser->user_email,
@@ -29,7 +29,7 @@ dump($wpUser);
 //                    'user_id' => $user->id,
 //                    'email' => $wpUser->user_email,
 //                ]);
-            }
+//            }
 
         }
         exit();
