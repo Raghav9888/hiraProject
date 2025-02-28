@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\UserDetail;
 use App\Models\WordpressUser;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -10,21 +11,28 @@ class WordpressUserController extends Controller
 {
     public function importUsers()
     {
-        // Fetch all users from WordPress database
+
         $wordpressUsers = WordpressUser::all();
 
         foreach ($wordpressUsers as $wpUser) {
 
             if (!User::where('email', $wpUser->user_email)->exists()) {
-                // Save user to Laravel database
-                User::create([
-                    'name' => $wpUser->user_login,
-                    'email' => $wpUser->user_email,
-                    'password' => $this->make($wpUser->user_pass),
-                    'role' => 1,
-                ]);
+dump($wpUser);
+//                $user = User::create([
+//                    'name' => $wpUser->user_login,
+//                    'email' => $wpUser->user_email,
+//                    'password' => $this->make($wpUser->user_pass),
+//                    'role' => 1,
+//                ]);
+//
+//                UserDetail::create([
+//                    'user_id' => $user->id,
+//                    'email' => $wpUser->user_email,
+//                ]);
             }
+            exit();
         }
+
 
         return response()->json(['message' => 'Users imported successfully']);
     }
