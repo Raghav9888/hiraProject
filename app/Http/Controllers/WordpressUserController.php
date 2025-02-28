@@ -30,8 +30,9 @@ dump($wpUser);
 //                    'email' => $wpUser->user_email,
 //                ]);
             }
-            exit();
+
         }
+        exit();
 
 
         return response()->json(['message' => 'Users imported successfully']);
