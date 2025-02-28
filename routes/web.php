@@ -11,6 +11,7 @@ use App\Http\Controllers\Practitioner\OfferingController;
 use App\Http\Controllers\Practitioner\PaymentController;
 use App\Http\Controllers\Practitioner\PractitionerController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\WordpressUserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -85,6 +86,8 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
 //        Route::put('/{id}', [DiscountController::class, 'update'])->name('update_discount');
 //        Route::delete('/{id}', [DiscountController::class, 'destroy']);
     });
+
+    Route::get('/import-users', [WordpressUserController::class, 'importUsers']);
 
 
     Route::get('/google/login', [GoogleAuthController::class, 'redirectToGoogle'])->name('redirect_to_google');
