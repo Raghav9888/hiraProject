@@ -11,32 +11,32 @@ class WordpressUserController extends Controller
 {
     public function importUsers()
     {
-
         $wordpressUsers = WordpressUser::all();
 
         foreach ($wordpressUsers as $wpUser) {
-            dump($wpUser);
-//            if (!User::where('email', $wpUser->user_email)->exists()) {
+            // Check if the user exists
+            $user = User::where('email', $wpUser->user_email)->first();
 
-//                $user = User::create([
-//                    'name' => $wpUser->user_login,
-//                    'email' => $wpUser->user_email,
-//                    'password' => $this->make($wpUser->user_pass),
-//                    'role' => 1,
-//                ]);
-//
-//                UserDetail::create([
-//                    'user_id' => $user->id,
-//                    'email' => $wpUser->user_email,
-//                ]);
-//            }
+            if (!$user) {
+                // Create user if not exists
+                $user = User::create([
+                    'name' => $wpUser->user_login,
+                    'email' => $wpUser->user_email,
+                    'password' => $this->make($wpUser->user_pass),
+                    'role' => 1,
+                ]);
+            }
 
+            // Ensure UserDetail exists for this user
+            UserDetail::firstOrCreate(
+                ['user_id' => $user->id], // Unique constraint
+                ['email' => $wpUser->user_email] // Additional data
+            );
         }
-        exit();
-
 
         return response()->json(['message' => 'Users imported successfully']);
     }
+
 
     // Password hashing function (can be adjusted to fit your needs)
     public static function make($password)
