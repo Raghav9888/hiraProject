@@ -8,7 +8,7 @@
                 <h5 class="roots-title text-center mb-4">Honouring Roots, Nurturing Growth.</h5>
             </div>
             <div class="home-search-wrrpr">
-                <p>Search for Best Practitioners</p>
+                <p> Search for what you seek</p>
                 <div class="search-dv-body">
                     <div class="search-container">
                         <input type="text" class="search-input"
