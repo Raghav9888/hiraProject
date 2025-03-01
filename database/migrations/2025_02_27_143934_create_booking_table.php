@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('last_name');
             $table->string('billing_company')->nullable();
             $table->string('billing_address');
-            $table->string('billing_address2');
+            $table->string('billing_address2')->nullable();
             $table->string('billing_country');
             $table->string('billing_city');
             $table->string('billing_state');
