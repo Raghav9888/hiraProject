@@ -431,11 +431,13 @@
                                     </div>
                                     <h5>
                                         @php
-                                            $locations = json_decode($user->location, true);
+                                            $locations = isset($user->location) && $user->location ?json_decode($user->location, true) : null;
                                         @endphp
-                                        @foreach($locations as $location)
-                                            <i class="fa-solid fa-location-dot"></i>  {{ $location .',' }}
-                                        @endforeach
+                                        @if($locations)
+                                            @foreach($locations as $location)
+                                                <i class="fa-solid fa-location-dot"></i>  {{ $location .',' }}
+                                            @endforeach
+                                        @endif
                                     </h5>
                                     <p>Alternative and Holistic Health Practitioner</p>
                                     <div class="d-flex justify-content-between align-items-center">
