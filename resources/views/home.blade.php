@@ -17,7 +17,7 @@
                             <i class="fas fa-search"></i>
                         </button>
                     </div>
-                    <div  class="dropdown">
+                    <div class="dropdown">
                         <button style="width: 250px;" onclick="toggleDropdown()" class="dropdown-button">
                             <span>Virtual Practitioners Only</span>
                             <i class="fas fa-chevron-down"></i>
@@ -96,9 +96,9 @@
                             Support</p>
                     </div>
                 </div>
-{{--                <div class="d-flex justify-content-center mt-2">--}}
-{{--                    <button class="category-load-more">Load More</button>--}}
-{{--                </div>--}}
+                {{--                <div class="d-flex justify-content-center mt-2">--}}
+                {{--                    <button class="category-load-more">Load More</button>--}}
+                {{--                </div>--}}
             </div>
         </div>
     </section>
@@ -112,7 +112,7 @@
                 <div class="d-flex align-items-center" style="gap: 20px;">
                     <p class="selected-category">Select by Categories</p>
                     <div class="dropdown">
-                        <button onclick="toggleDropdown()" class="dropdown-button" >
+                        <button onclick="toggleDropdown()" class="dropdown-button">
                             <span>ALL CATEGORIES</span>
                             <i class="fas fa-chevron-down"></i>
                         </button>
@@ -128,14 +128,20 @@
             </div>
             <div class="row">
                 @foreach($users as $user)
-                    <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
 
+                    @php
+                        $images = json_decode($user->userDetail->images, true);
+                        $image = $images['profile_image'] ?? null;
+                        $imageUrl = $image  ? asset(env('media_path') . '/practitioners/' . $user->userDetail->id . '/profile/' . $image) : asset('assets/images/no_image.png');
+                    @endphp
+
+                    <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
                         <div class="featured-dv">
                             <a href="{{route('practitioner_detail', $user->id)}}">
-                                <img src="{{url('/assets/images/person.png')}}" alt="person">
+                                <img src="{{ $imageUrl }}" alt="person">
                                 <label for="">0.4 Km Away</label>
                                 <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <h4>{{ $user->name }}</h4>
+                                    <h4>{{  $user->name }}</h4>
                                     <i class="fa-regular fa-heart"></i>
                                 </div>
                                 <h5><i class="fa-solid fa-location-dot"></i>Los Angeles, US</h5>
@@ -157,9 +163,9 @@
                 @endforeach
             </div>
         </div>
-{{--        <div class="d-flex justify-content-center mt-2">--}}
-{{--            <button class="category-load-more">Load More</button>--}}
-{{--        </div>--}}
+        {{--        <div class="d-flex justify-content-center mt-2">--}}
+        {{--            <button class="category-load-more">Load More</button>--}}
+        {{--        </div>--}}
     </section>
     <!-- featured section end -->
     <!-- choose us section start -->
@@ -242,7 +248,7 @@
                                 incididunt ut labore.</p>
                             <h4>Robert Fox</h4>
                             <p class="mb-0">Yoga Student</p>
-                            <img class="shadow-quotes" src="{{ url('/assets/images/shadow-quotes.svg') }}"  alt="quotes">
+                            <img class="shadow-quotes" src="{{ url('/assets/images/shadow-quotes.svg') }}" alt="quotes">
                         </div>
                         <div class="swiper-slide">
                             <img src="{{ url('assets/images/quotes.svg') }}" alt="quotes">

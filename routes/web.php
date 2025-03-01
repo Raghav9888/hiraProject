@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Blog\BlogController;
 use App\Http\Controllers\Calender\CalenderController;
 use App\Http\Controllers\Calender\GoogleAuthController;
 use App\Http\Controllers\Calender\GoogleCalendarController;
