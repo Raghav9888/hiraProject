@@ -18,8 +18,9 @@ class DiscountController extends Controller
     public function index()
     {
         $discounts = Discount::with('user')->get();
+        $offerings = Offering::with('user')->get();
 
-        return view('user.discount', compact('discounts'));
+        return view('user.discount', compact('discounts','offerings'));
     }
 
     public function add()
@@ -31,9 +32,10 @@ class DiscountController extends Controller
         $IHelpWith = IHelpWith::get();
         $HowIHelp = HowIHelp::get();
         $offerings = Offering::where('user_id', $user->id)->get();
-        return view('user.add_discount', compact('user', 'userDetails', 'categories','PractitionerTag','offerings','IHelpWith','HowIHelp'));
+        return view('user.add_discount', compact('user', 'userDetails', 'categories', 'PractitionerTag', 'offerings', 'IHelpWith', 'HowIHelp'));
 
     }
+
     public function store(Request $request)
     {
 
@@ -50,8 +52,8 @@ class DiscountController extends Controller
             'discount_type' => $input['discount_type'],
             'minimum_spend' => $input['minimum_spend'],
             'maximum_spend' => $input['maximum_spend'],
-            'individual_use_only' => isset($input['individual_use_only']) &&  $input['individual_use_only'] == 'on' ? 1 : 0,
-            'exclude_sale_items' => isset($input['exclude_sale_items']) &&  $input['exclude_sale_items']== 'on' ? 1 : 0,
+            'individual_use_only' => isset($input['individual_use_only']) && $input['individual_use_only'] == 'on' ? 1 : 0,
+            'exclude_sale_items' => isset($input['exclude_sale_items']) && $input['exclude_sale_items'] == 'on' ? 1 : 0,
             'offerings' => $input['offerings'],
             'exclude_services' => $input['exclude_services'],
             'email_restrictions' => $input['email_restrictions'],
