@@ -7,8 +7,11 @@
         <div class="row">
             <div class="col-sm-12 col-lg-6">
                 <div class="cart-test-left-dv">
-                <img src="url(/public/assets/images/{{$offerDetail->featured_image}})" alt="">
-            </div>
+                    @php
+                        $imageUrl = asset(env('media_path') . '/practitioners/' . $userDetails->id . '/offering/' . $offerDetail->featured_image);
+                    @endphp
+                    <img src="{{ $imageUrl }}" alt="{{ $offerDetail->featured_image }}">
+                </div>
             </div>
             <div class="col-sm-12 col-lg-6">
                 <div class="cart-test-right-dv">
@@ -38,8 +41,8 @@
                             no time slots available
                         </div>
                     </div>
-                    <input type="submit" value="Book">
-                    <!-- <a href="{{route('checkout')}}" class="btn btn-primary booking" >Book </a> --> 
+                    <input type="submit" value="Book" class="btn btn-primary mt-2">
+                    <!-- <a href="{{route('checkout')}}" class="btn btn-primary booking" >Book </a> -->
                     </form>
                 </div>
             </div>
