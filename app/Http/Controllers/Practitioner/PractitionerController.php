@@ -45,6 +45,7 @@ class PractitionerController extends Controller
         $practitionerTag = PractitionerTag::get();
         $IHelpWith = IHelpWith::get();
         $HowIHelp = HowIHelp::get();
+        $certifications = Certifications::get();
         $stripeAccount = UserStripeSetting::where('user_id', Auth::id())->first();
         $googleAccount = GoogleAccount::where('user_id', Auth::id())->first();
         $images = json_decode($userDetails->images, true);
@@ -52,6 +53,7 @@ class PractitionerController extends Controller
         $image = isset($images['profile_image']) ? $images['profile_image'] : null;
         $locations = json_decode($userDetails->location, true);
         $tags = json_decode($userDetails->tags, true);
+        
 
         return view('user.my_profile', compact(
             'user',
@@ -60,6 +62,7 @@ class PractitionerController extends Controller
             'practitionerTag',
             'IHelpWith',
             'HowIHelp',
+            'certifications',
             'stripeAccount',
             'googleAccount',
             'mediaImages',
@@ -220,7 +223,7 @@ class PractitionerController extends Controller
 
         $type = $request->type;
 
-        if (in_array($type, ['IHelpWith', 'HowIHelp',['certifications']])) {
+        if (in_array($type, ['IHelpWith', 'HowIHelp','certifications'])) {
             $inputField = '<input type="text" class="' . $type . '_term" id="' . $type . '_term" name="' . $type . '_term" placeholder="Enter term">
             <button data-type="' . $type . '" class="update-btn mb-2 save_term">Add Term</button>';
 

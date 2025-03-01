@@ -124,12 +124,9 @@
                                             versions of something. For example, a good tag for a massage could be "Deep
                                             Tissue".</p>
                                         <select name="tags[]" multiple="multiple" class="form-select select2">
-                                            <option value="energy_balancing" {{ in_array('energy_balancing', $tags) ? 'selected' : '' }}>
-                                                energy balancing
-                                            </option>
-                                            <option value="asd" {{ in_array('asd', $tags) ? 'selected' : '' }}>
-                                                ASD
-                                            </option>
+                                        @foreach($practitionerTag as $term)
+                                            <option value="{{$term->id}}"  >{{$term->name}}</option>
+                                        @endforeach
                                         </select>
                                         <div class="mb-4 mt-4">
                                             <label for="media">Media</label>
@@ -255,15 +252,23 @@
                                             <label for="certifications" class="fw-bold">Certifications</label>
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    <select id="certifications" class="form-select" name="certifications">
-                                                        <option>Select</option>
-                                                        <option>Neurolinguistic Programming</option>
+                                                    <select id="certifications" class="form-select select2" name="certifications[]" multiple>
+                                                    @php
+                                                            $selectedTerms = explode(',', $userDetails->certifications ?? '');
+                                                        @endphp
+                                                        @foreach($certifications as $term)
+                                                            <option
+                                                                value="{{$term->id}}" {{ in_array($term->id, $selectedTerms) ? 'selected' : '' }} >{{$term->name}}</option>
+                                                        @endforeach
                                                     </select>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <button class="update-btn mb-2">Add New Term</button>
+                                                    <button class="update-btn mb-2 addterm" data-type="certifications">Add New Term</button>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div id="certifications-container">
+
                                         </div>
 
 
@@ -415,7 +420,7 @@
         $('.addterm').on('click', function (e) {
             e.preventDefault();
             var termType = $(this).data('type'); // Get the data-type attribute value
-
+            
             $.ajax({
                 url: '{{route("add_term")}}', // Change this to your server-side script
                 type: 'POST',
