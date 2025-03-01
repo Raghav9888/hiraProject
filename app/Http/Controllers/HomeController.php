@@ -27,6 +27,7 @@ class HomeController extends Controller
 
         $users = User::where('role', 1)->with('userDetail')->get();
         $categories = Category::all();
+
         return view('home', compact('users', 'categories'));
     }
 

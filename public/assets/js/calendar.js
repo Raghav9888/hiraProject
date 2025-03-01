@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 alert('You cannot book for past dates');
                 return;
             }
-            
+
             var selectedDate = info.dateStr;
             fetchTimeSlots(selectedDate);
         }

@@ -18,7 +18,8 @@
                         </div>
                     </div>
                     <div class="dropdown">
-                        <select class="form-select" id="category" aria-label="Default select example" style="border-radius: 30px !important;padding: 10px 15px 10px 40px;text-align: start;">
+                        <select class="form-select" id="category" aria-label="Default select example"
+                                style="border-radius: 30px !important;padding: 10px 15px 10px 40px;text-align: start;">
                             <option selected>Virtual Practitioners Only</option>
                             @foreach($categories as $category)
                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -26,19 +27,20 @@
                         </select>
                     </div>
                     <div class="search-container location-input align-items-center">
-                        <input type="text" class="search-input" placeholder="Select your preferred Location" id="location">
+                        <input type="text" class="search-input" placeholder="Select your preferred Location"
+                               id="location">
                         <button class="search-button">
                             <i class="fa-solid fa-location-dot"></i>
                         </button>
                     </div>
                     <button class="home-search-btn" id="searchFilter">Search</button>
                 </div>
-{{--                <div class="searched-category">--}}
-{{--                    <p style="font-weight: 400;">Most Searched Categories</p>--}}
-{{--                    @foreach($categories as $category)--}}
-{{--                        <button>{{ $category->name }}</button>--}}
-{{--                    @endforeach--}}
-{{--                </div>--}}
+                {{--                <div class="searched-category">--}}
+                {{--                    <p style="font-weight: 400;">Most Searched Categories</p>--}}
+                {{--                    @foreach($categories as $category)--}}
+                {{--                        <button>{{ $category->name }}</button>--}}
+                {{--                    @endforeach--}}
+                {{--                </div>--}}
 
             </div>
         </div>
@@ -135,12 +137,20 @@
                         <div class="featured-dv">
                             <a href="{{route('practitioner_detail', $user->id)}}">
                                 <img src="{{ $imageUrl }}" alt="person">
-{{--                                <label for="">0.4 Km Away</label>--}}
+                                {{--                                <label for="">0.4 Km Away</label>--}}
                                 <div class="d-flex justify-content-between align-items-center mb-2">
                                     <h4>{{  $user->name }}</h4>
                                     <i class="fa-regular fa-heart"></i>
                                 </div>
-                                <h5><i class="fa-solid fa-location-dot"></i>Los Angeles, US</h5>
+                                <h5>
+
+                                    @php
+                                        $locations = json_decode($user->location, true);
+                                    @endphp
+                                    @foreach($locations as $location)
+                                        <i class="fa-solid fa-location-dot"></i>  {{ $location .',' }}
+                                    @endforeach
+                                </h5>
                                 <p>Alternative and Holistic Health Practitioner</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div>
@@ -554,11 +564,11 @@
                     },
                     success: function (response) {
                         // Check if there are practitioners
-                        if(response.practitioners.length > 0) {
+                        if (response.practitioners.length > 0) {
                             let practitionersHTML = '';
 
                             // Loop through the practitioners and build the HTML dynamically
-                            response.practitioners.forEach(function(user) {
+                            response.practitioners.forEach(function (user) {
                                 let images = user.user_detail ? JSON.parse(user.user_detail.images) : null;
                                 let image = images ? images.profile_image : null;
                                 let imageUrl = image ? '/storage/practitioners/' + user.user_detail.id + '/profile/' + image : '/assets/images/no_image.png';
