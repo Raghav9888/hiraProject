@@ -143,11 +143,11 @@
                                     <i class="fa-regular fa-heart"></i>
                                 </div>
                                 <h5>
-                                    @if($locations)
-                                        @php
-                                            $locations = json_decode($user->location, true);
-                                        @endphp
 
+                                        @php
+                                            $locations = isset($user->location) && $user->location ? json_decode($user->location, true) : null;
+                                        @endphp
+                                    @if($locations)
                                         @foreach($locations as $location)
                                             <i class="fa-solid fa-location-dot"></i>  {{ $location .',' }}
                                         @endforeach
