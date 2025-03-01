@@ -6,6 +6,7 @@ use App\Models\UserDetail;
 use App\Models\WordpressUser;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class WordpressUserController extends Controller
 {
@@ -22,7 +23,7 @@ class WordpressUserController extends Controller
                 $user = User::create([
                     'name' => $wpUser->user_login,
                     'email' => $wpUser->user_email,
-                    'password' => $this->make($wpUser->user_pass),
+                    'password' => Hash::make('123456'),
                     'role' => 1,
                 ]);
             }
@@ -37,17 +38,4 @@ class WordpressUserController extends Controller
         return response()->json(['message' => 'Users imported successfully']);
     }
 
-
-    // Password hashing function (can be adjusted to fit your needs)
-    public static function make($password)
-    {
-        return bcrypt($password);
-    }
-
-    // Password check function (if needed for validation)
-    public static function check($password, $hash)
-    {
-        // Check if the password matches the hashed password
-        return hash_equals($hash, crypt($password, $hash));
-    }
 }
