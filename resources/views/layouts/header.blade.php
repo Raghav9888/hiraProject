@@ -13,7 +13,10 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">DIRECTORY</a>
+                            <a class="nav-link"  aria-current="page" href="{{route('home')}}">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="#">DIRECTORY</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{route('blog')}}">ARTICLES & BLOGS</a>
@@ -24,10 +27,10 @@
                                 COMPANY
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">Press</a></li>
+                                <li><a class="dropdown-item" href="#">Our Story</a></li>
                                 <li><a class="dropdown-item" href="{{ route('contact') }}">Contact Us</a></li>
-                                <li><a class="dropdown-item" href="#">Privacy Policy</a></li>
-                                <li><a class="dropdown-item" href="#">Terms & Conditions</a></li>
+                                <li><a class="dropdown-item" href="#">Our Vision</a></li>
+                                <li><a class="dropdown-item" href="#">Core Values</a></li>
                             </ul>
                         </li>
                     </ul>

@@ -150,21 +150,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
 fetchTimeSlots = (selectedDate) => {
     id = $('.product_id').val();
-    
+
     $.ajax({
-        url: `/calendar/time-slots/${selectedDate}`,
+        url: `/calendar/time-slots/${selectedDate}/${id}`,
         type: 'GET',
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
-        data: {
-            id:id,
-            selectedDate:selectedDate,
-        },
         success: function (response) {
             console.log(response);
             $('.booking_date').val(selectedDate);
-            
+
             let options = '<option value="">Select a Time Slot</option>';
             response.availableSlots.forEach(slot => {
                 options += `<option value="${slot}">${slot}</option>`;
@@ -176,7 +172,7 @@ fetchTimeSlots = (selectedDate) => {
                     ${options}
                 </select>
             `;
-            
+
             $('#showTimeSlot').html(selectHtml);
         },
         error: function (xhr) {

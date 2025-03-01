@@ -29,7 +29,7 @@ class WordpressUserController extends Controller
 
             // Ensure UserDetail exists for this user
             UserDetail::firstOrCreate(
-                ['user_id' => $user->id], // Unique constraint
+                ['user_id' => $user->id],
                 ['email' => $wpUser->user_email] // Additional data
             );
         }
@@ -41,8 +41,7 @@ class WordpressUserController extends Controller
     // Password hashing function (can be adjusted to fit your needs)
     public static function make($password)
     {
-        // WordPress password hash function or bcrypt (adjust depending on needs)
-        return bcrypt($password);  // This uses Laravel's bcrypt instead of WordPress hash
+        return bcrypt($password);
     }
 
     // Password check function (if needed for validation)

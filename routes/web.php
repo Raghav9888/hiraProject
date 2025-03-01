@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Blog\BlogController;
 use App\Http\Controllers\Calender\CalenderController;
 use App\Http\Controllers\Calender\GoogleAuthController;
 use App\Http\Controllers\Calender\GoogleCalendarController;
@@ -34,7 +33,7 @@ Route::get('/payment/{order_id}', [PaymentController::class, 'showPaymentPage'])
 Route::post('/stripe/payment', [PaymentController::class, 'processStripePayment'])->name('stripe.payment');
 Route::get('/payment-success', [PaymentController::class, 'sucess'])->name('thankyou');
 Route::get('/payment-failed', [PaymentController::class, 'failed'])->name('payment.cancel');
-Route::get('/calendar/time-slots/{date}', [HomeController::class, 'getTimeSlots'])->name('get_time_slots');
+Route::get('/calendar/time-slots/{date}/{id}', [HomeController::class, 'getTimeSlots'])->name('get_time_slots');
 
 Route::post('/storeBooking', [BookingController::class, 'storeBooking'])->name('storeBooking');
 Route::get('/checkout', [BookingController::class, 'checkout'])->name('checkout');

@@ -48,7 +48,6 @@
                                                 @if(isset($image))
                                                     @php
                                                         $imageUrl = asset(env('media_path') . '/practitioners/' . $userDetails->id . '/profile/' . $image);
-
                                                     @endphp
                                                     <label class="image-preview" id="imagePreview"
                                                            style="border-radius: 50%; background-image: url('{{$imageUrl}}'); background-size: cover; background-position: center center;">

@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Discount;
 use App\Models\HowIHelp;
 use App\Models\IHelpWith;
+use App\Models\Offering;
 use App\Models\PractitionerTag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

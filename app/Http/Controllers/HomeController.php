@@ -97,9 +97,11 @@ class HomeController extends Controller
 
     public function offerDetail($id)
     {
+        $user = User::findOrFail($id);
+        $userDetails = $user->userDetail;
         $offerDetail = Offering::findOrFail($id);
 
-        return view('user.offering_detail', compact('offerDetail'));
+        return view('user.offering_detail', compact('user','userDetails','offerDetail'));
     }
 
     public function checkout()
@@ -108,37 +110,51 @@ class HomeController extends Controller
 
         return view('checkout');
     }
-    public function getTimeSlots(Request $request ,$date)
+    public function getTimeSlots(Request $request, $date, $id)
     {
         $timeSlots = [];
         $date = date('Y-m-d', strtotime($date));
-        $offering_id = $request->id;
-        $offering = Offering::find($offering_id);
 
-        // Define available time slots based on booking duration (assuming 1-hour slots)
+        $offering = Offering::find($id);
+
+        // Check if offering exists
+        if (!$offering) {
+            return response()->json(['error' => 'Offering not found'], 404);
+        }
+
+        // Ensure dates are valid
+        if (empty($offering->from_date) || empty($offering->to_date)) {
+            return response()->json(['error' => 'Invalid date range'], 400);
+        }
+
+        // Convert dates to timestamps
         $startTime = strtotime($offering->from_date);
-       // $endTime = strtotime($offering->from_date . ' 23:59:59'); 
         $endTime = strtotime($offering->to_date);
-        $bookingDuration = $offering->booking_duration ?? 60; // Default 60 mins
-    
+
+        if (!$startTime || !$endTime) {
+            return response()->json(['error' => 'Invalid date format'], 400);
+        }
+
+        // Validate booking duration
+        $bookingDuration = is_numeric($offering->booking_duration) ? (int) $offering->booking_duration : 60;
+
         $allSlots = [];
         while ($startTime < $endTime) {
             $slot = date('h:i A', $startTime);
             $allSlots[] = $slot;
             $startTime += $bookingDuration * 60;
         }
-    
-        // Get booked slots for this offering on the selected date
-        $bookedSlots = Booking::where('offering_id', $offering_id)
+
+        // Get booked slots
+        $bookedSlots = Booking::where('offering_id', $id)
             ->whereDate('booking_date', $date)
             ->pluck('time_slot')
             ->toArray();
-        
-           
-        // Return only available slots
-        $availableSlots = array_diff($allSlots, $bookedSlots);
-        
-        return response()->json(['availableSlots' => $availableSlots]);
 
+        // Get available slots
+        $availableSlots = array_diff($allSlots, $bookedSlots);
+
+        return response()->json(['availableSlots' => $availableSlots]);
     }
+
 }
