@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\UserDetail;
@@ -25,7 +26,8 @@ class HomeController extends Controller
     {
 
         $users = User::where('role', 1)->with('userDetail')->get();
-        return view('home', compact('users'));
+        $categories = Category::all();
+        return view('home', compact('users', 'categories'));
     }
 
     public function adminHome()
@@ -62,6 +64,7 @@ class HomeController extends Controller
     {
         return view('user.blog');
     }
+
     public function blogDetail()
     {
         return view('user.blog_detail');
@@ -71,17 +74,17 @@ class HomeController extends Controller
     {
         $user = User::findOrFail($id);
         $userDetails = $user->userDetail;
-      //  $userDetails = UserDetail::where('user_id', $id)->first();
+        //  $userDetails = UserDetail::where('user_id', $id)->first();
 
-      $selectedTerms = explode(',', $userDetails->IHelpWith ?? '');
-      $IHelpWith = IHelpWith::whereIn('id', $selectedTerms)->pluck('name')->toArray();
+        $selectedTerms = explode(',', $userDetails->IHelpWith ?? '');
+        $IHelpWith = IHelpWith::whereIn('id', $selectedTerms)->pluck('name')->toArray();
 
 
-      $selectedHowIHelp = explode(',', $userDetails->HowIHelp ?? '');
-      $HowIHelp = HowIHelp::whereIn('id', $selectedHowIHelp)->pluck('name')->toArray();
+        $selectedHowIHelp = explode(',', $userDetails->HowIHelp ?? '');
+        $HowIHelp = HowIHelp::whereIn('id', $selectedHowIHelp)->pluck('name')->toArray();
 
-      $Certification = explode(',', $userDetails->certifications ?? '');
-      $Certifications = HowIHelp::whereIn('id', $Certification)->pluck('name')->toArray();
+        $Certification = explode(',', $userDetails->certifications ?? '');
+        $Certifications = HowIHelp::whereIn('id', $Certification)->pluck('name')->toArray();
 
 
         $offerings = Offering::where('user_id', $user->id)->get();
@@ -92,7 +95,7 @@ class HomeController extends Controller
 
         $locations = json_decode($user->location, true);
         $users = User::where('role', 1)->with('userDetail')->get();
-        return view('user.practitioner_detail', compact('user','users', 'userDetails', 'offerings','image','mediaImages','locations','IHelpWith','HowIHelp','Certifications'));
+        return view('user.practitioner_detail', compact('user', 'users', 'userDetails', 'offerings', 'image', 'mediaImages', 'locations', 'IHelpWith', 'HowIHelp', 'Certifications'));
     }
 
     public function offerDetail($id)
@@ -101,15 +104,16 @@ class HomeController extends Controller
         $userDetails = $user->userDetail;
         $offerDetail = Offering::findOrFail($id);
 
-        return view('user.offering_detail', compact('user','userDetails','offerDetail'));
+        return view('user.offering_detail', compact('user', 'userDetails', 'offerDetail'));
     }
 
     public function checkout()
     {
-       // $offerDetail = Offering::findOrFail($id);
+        // $offerDetail = Offering::findOrFail($id);
 
         return view('checkout');
     }
+
     public function getTimeSlots(Request $request, $date, $id)
     {
         $timeSlots = [];
@@ -136,7 +140,7 @@ class HomeController extends Controller
         }
 
         // Validate booking duration
-        $bookingDuration = is_numeric($offering->booking_duration) ? (int) $offering->booking_duration : 60;
+        $bookingDuration = is_numeric($offering->booking_duration) ? (int)$offering->booking_duration : 60;
 
         $allSlots = [];
         while ($startTime < $endTime) {
@@ -156,5 +160,44 @@ class HomeController extends Controller
 
         return response()->json(['availableSlots' => $availableSlots]);
     }
+
+    public function searchPractitioner(Request $request)
+    {
+
+        $search = $request->input('search');
+        $category = $request->input('category');
+        $location = $request->input('location');
+
+        $users = User::query();
+
+        if ($search) {
+            $users->where(function($query) use ($search) {
+                $query->where('first_name', 'like', '%' . $search . '%')
+                    ->orWhere('last_name', 'like', '%' . $search . '%')
+                    ->orWhere('name', 'like', '%' . $search . '%');
+            });
+        }
+
+        $users = $users->join('user_details', 'users.id', '=', 'user_details.user_id');
+
+
+        if ($category) {
+            $users->where('user_details.specialities', 'like', '%' . $category . '%');
+        }
+
+        if ($location) {
+            $users->where('user_details.location', 'like', '%' . $location . '%');
+        }
+
+        $practitioners = $users->select('users.*', 'user_details.*')->get();
+
+        return response()->json([
+            'practitioners' => $practitioners,
+            'search' => $search,
+            'category' => $category,
+            'location' => $location
+        ]);
+    }
+
 
 }

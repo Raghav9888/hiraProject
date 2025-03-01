@@ -10,40 +10,36 @@
             <div class="home-search-wrrpr">
                 <p> Search for what you seek</p>
                 <div class="search-dv-body">
-                    <div class="search-container">
-                        <input type="text" class="search-input"
+                    <div class="search-container align-items-center">
+                        <input type="text" class="search-input" id="search"
                                placeholder="search by modality, ailment, symptom or practitioner">
-                        <button class="search-button">
+                        <div class="search-button">
                             <i class="fas fa-search"></i>
-                        </button>
-                    </div>
-                    <div class="dropdown">
-                        <button style="width: 250px;" onclick="toggleDropdown()" class="dropdown-button">
-                            <span>Virtual Practitioners Only</span>
-                            <i class="fas fa-chevron-down"></i>
-                        </button>
-                        <div id="dropdownMenu" class="dropdown-menu">
-                            <ul>
-                                <li><a href="#">Category 1</a></li>
-                                <li><a href="#">Category 2</a></li>
-                                <li><a href="#">Category 3</a></li>
-                            </ul>
                         </div>
                     </div>
-                    <div class="search-container location-input">
-                        <input type="text" class="search-input" placeholder="Select your preferred Location">
+                    <div class="dropdown">
+                        <select class="form-select" id="category" aria-label="Default select example" style="border-radius: 30px !important;padding: 10px 15px 10px 40px;text-align: start;">
+                            <option selected>Virtual Practitioners Only</option>
+                            @foreach($categories as $category)
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="search-container location-input align-items-center">
+                        <input type="text" class="search-input" placeholder="Select your preferred Location" id="location">
                         <button class="search-button">
                             <i class="fa-solid fa-location-dot"></i>
                         </button>
                     </div>
-                    <button class="home-search-btn">Search</button>
+                    <button class="home-search-btn" id="searchFilter">Search</button>
                 </div>
-                <div class="searched-category">
-                    <p style="font-weight: 400;">Most Searched Categories</p>
-                    <BUtton>Reiki</BUtton>
-                    <BUtton>Yoga</BUtton>
-                    <BUtton>Nutritional Support</BUtton>
-                </div>
+{{--                <div class="searched-category">--}}
+{{--                    <p style="font-weight: 400;">Most Searched Categories</p>--}}
+{{--                    @foreach($categories as $category)--}}
+{{--                        <button>{{ $category->name }}</button>--}}
+{{--                    @endforeach--}}
+{{--                </div>--}}
+
             </div>
         </div>
         <img class="arrows-down" src="{{url('/assets/images/arrows-down.svg')}}" alt="">
@@ -126,7 +122,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" id="practitionersList">
                 @foreach($users as $user)
 
                     @php
@@ -535,5 +531,76 @@
                 dropdownMenu.style.display = "none";
             }
         }
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('#searchFilter').on('click', function (e) {
+                e.preventDefault();
+
+                // Get the values from the search inputs
+                let search = $('#search').val();
+                let category = $('#category').val();
+                let location = $('#location').val();
+
+                // Perform the AJAX request
+                $.ajax({
+                    url: '/search/practitioner',  // Make sure the URL is correct
+                    type: 'get',
+                    data: {
+                        search: search,
+                        category: category,
+                        location: location
+                    },
+                    success: function (response) {
+                        // Check if there are practitioners
+                        if(response.practitioners.length > 0) {
+                            let practitionersHTML = '';
+
+                            // Loop through the practitioners and build the HTML dynamically
+                            response.practitioners.forEach(function(user) {
+                                let images = user.user_detail ? JSON.parse(user.user_detail.images) : null;
+                                let image = images ? images.profile_image : null;
+                                let imageUrl = image ? '/storage/practitioners/' + user.user_detail.id + '/profile/' + image : '/assets/images/no_image.png';
+
+                                practitionersHTML += `
+                            <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
+                                <div class="featured-dv">
+                                    <a href="/practitioner/${user.id}">
+                                        <img src="${imageUrl}" alt="person">
+                                        <label for="">0.4 Km Away</label>
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <h4>${user.name}</h4>
+                                            <i class="fa-regular fa-heart"></i>
+                                        </div>
+                                        <h5><i class="fa-solid fa-location-dot"></i>Los Angeles, US</h5>
+                                        <p>Alternative and Holistic Health Practitioner</p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <i class="fa-regular fa-gem"></i>
+                                                <i class="fa-regular fa-gem"></i>
+                                                <i class="fa-regular fa-gem"></i>
+                                                <i class="fa-regular fa-gem"></i>
+                                                <i class="fa-regular fa-gem"></i>
+                                            </div>
+                                            <h6>5.0 Ratings</h6>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        `;
+                            });
+
+                            // Replace the old content with the new one
+                            $('#practitionersList').html(practitionersHTML);
+                        } else {
+                            // No results found
+                            $('#practitionersList').html('<p>No practitioners found.</p>');
+                        }
+                    }
+                });
+            });
+        });
+
     </script>
 @endsection
