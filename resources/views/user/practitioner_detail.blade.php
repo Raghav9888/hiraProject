@@ -206,11 +206,9 @@
                                 <div class="accordion-body">
                                     <div class="help-you-dv">
                                         <ul>
-                                            <li>Nervous System Reset</li>
-                                            <li>Chronic Pain Support</li>
-                                            <li>Concussion Recovery</li>
-                                            <li>Trauma Recovery</li>
-                                            <li>PTSD</li>
+                                            @foreach($IHelpWith as $term)
+                                            <li>{{$term}}</li>
+                                            @endforeach
                                         </ul>
                                     </div>
                                 </div>
@@ -228,11 +226,9 @@
                                 <div class="accordion-body">
                                     <div class="help-you-dv">
                                         <ul>
-                                            <li>Quantum Healing</li>
-                                            <li>CranioSacral Therapy</li>
-                                            <li>CranioSacral Therapy</li>
-                                            <li>Nutritional Support</li>
-                                            <li>Quantum Healing</li>
+                                            @foreach($HowIHelp as $term)
+                                            <li>{{$term}}</li>
+                                            @endforeach
                                         </ul>
                                     </div>
                                 </div>

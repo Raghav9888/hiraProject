@@ -13,6 +13,7 @@ use App\Models\PractitionerTag;
 use App\Models\User;
 use App\Models\UserDetail;
 use App\Models\UserStripeSetting;
+use App\Models\Certifications;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -103,7 +104,7 @@ class PractitionerController extends Controller
             'IHelpWith' => isset($input['IHelpWith']) && $input ? implode(',', $input['IHelpWith']) : [],
             'HowIHelp' => isset($input['HowIHelp']) && $input ? implode(',', $input['HowIHelp']) : [],
             'specialities' => isset($input['specialities']) && $input['specialities'] ? $input['specialities'] : [],
-            'certifications' => isset($input['certifications']) && $input['certifications'] ? $input['certifications'] : [],
+            'certifications' => isset($input['certifications']) && $input ? implode(',', $input['certifications']) : [],
             'endorsements' => $input['endorsements'],
             'timezone' => $input['timezone'],
             'is_opening_hours' => isset($input['is_opening_hours']) && $input['is_opening_hours'] == 'on' ? 1 : 0,
@@ -219,7 +220,7 @@ class PractitionerController extends Controller
 
         $type = $request->type;
 
-        if (in_array($type, ['IHelpWith', 'HowIHelp'])) {
+        if (in_array($type, ['IHelpWith', 'HowIHelp',['certifications']])) {
             $inputField = '<input type="text" class="' . $type . '_term" id="' . $type . '_term" name="' . $type . '_term" placeholder="Enter term">
             <button data-type="' . $type . '" class="update-btn mb-2 save_term">Add Term</button>';
 
@@ -253,6 +254,16 @@ class PractitionerController extends Controller
 
         if ($type == 'HowIHelp') {
             $term = HowIHelp::create([
+                'name' => $name,
+                'slug' => $slug,
+                'created_by' => $user->id,
+                'updated_by' => $user->id,
+            ]);
+            return response()->json(['success' => true, 'message' => 'HowIHelp term saved successfully', 'term' => $term]);
+        }
+
+        if ($type == 'certifications') {
+            $term = Certifications::create([
                 'name' => $name,
                 'slug' => $slug,
                 'created_by' => $user->id,
