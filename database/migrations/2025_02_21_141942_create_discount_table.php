@@ -12,7 +12,7 @@ return new class extends Migration {
             $table->string('coupon_code')->unique()->nullable();
             $table->text('coupon_description')->nullable();
             $table->string('discount_type')->nullable();
-            $table->boolean('apply_all_services')->default(false);
+            $table->boolean('apply_all_services')->default(false)->nullable();
             $table->decimal('coupon_amount', 10, 2)->nullable();
             $table->decimal('minimum_spend', 10, 2)->nullable();
             $table->decimal('maximum_spend', 10, 2)->nullable();
