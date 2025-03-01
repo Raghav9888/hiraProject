@@ -7,6 +7,9 @@ use App\Models\User;
 use App\Models\UserDetail;
 use App\Models\Offering;
 use App\Models\Booking;
+use App\Models\IHelpWith;
+use App\Models\HowIHelp;
+use App\Models\Certifications;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ContactUsMail;
 
@@ -70,6 +73,17 @@ class HomeController extends Controller
         $userDetails = $user->userDetail;
       //  $userDetails = UserDetail::where('user_id', $id)->first();
 
+      $selectedTerms = explode(',', $userDetails->IHelpWith ?? '');
+      $IHelpWith = IHelpWith::whereIn('id', $selectedTerms)->pluck('name')->toArray();
+
+
+      $selectedHowIHelp = explode(',', $userDetails->HowIHelp ?? '');
+      $HowIHelp = HowIHelp::whereIn('id', $selectedHowIHelp)->pluck('name')->toArray();
+
+      $Certification = explode(',', $userDetails->certifications ?? '');
+      $Certifications = HowIHelp::whereIn('id', $Certification)->pluck('name')->toArray();
+
+
         $offerings = Offering::where('user_id', $user->id)->get();
 
         $images = json_decode($userDetails->images, true);
@@ -78,7 +92,7 @@ class HomeController extends Controller
 
         $locations = json_decode($user->location, true);
         $users = User::where('role', 1)->with('userDetail')->get();
-        return view('user.practitioner_detail', compact('user','users', 'userDetails', 'offerings','image','mediaImages','locations'));
+        return view('user.practitioner_detail', compact('user','users', 'userDetails', 'offerings','image','mediaImages','locations','IHelpWith','HowIHelp','Certifications'));
     }
 
     public function offerDetail($id)
