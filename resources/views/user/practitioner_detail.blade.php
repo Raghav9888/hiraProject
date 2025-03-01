@@ -419,13 +419,24 @@
 
                             <div class="featured-dv">
                                 <a href="{{route('practitioner_detail', $user->id)}}">
-                                    <img src="{{url('/assets/images/person.png')}}" alt="person">
-                                    <label for="">0.4 Km Away</label>
+                                    @php
+                                        $images = isset($user->userDetail->images) ? json_decode($user->userDetail->images, true) : null;
+                                        $image = $images['profile_image'] ?? null;
+                                        $imageUrl = $image  ? asset(env('media_path') . '/practitioners/' . $user->userDetail->id . '/profile/' . $image) : asset('assets/images/no_image.png');
+                                    @endphp
+                                    <img src="{{ $imageUrl }}" alt="person">
                                     <div class="d-flex justify-content-between align-items-center mb-2">
                                         <h4>{{ $user->name }}</h4>
                                         <i class="fa-regular fa-heart"></i>
                                     </div>
-                                    <h5><i class="fa-solid fa-location-dot"></i>Los Angeles, US</h5>
+                                    <h5>
+                                        @php
+                                            $locations = json_decode($user->location, true);
+                                        @endphp
+                                        @foreach($locations as $location)
+                                            <i class="fa-solid fa-location-dot"></i>  {{ $location .',' }}
+                                        @endforeach
+                                    </h5>
                                     <p>Alternative and Holistic Health Practitioner</p>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div>
