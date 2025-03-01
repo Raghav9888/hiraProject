@@ -8,7 +8,7 @@
             <div class="col-sm-12 col-lg-6">
                 <div class="cart-test-left-dv">
                     @php
-                        $imageUrl = asset(env('media_path') . '/practitioners/' . $userDetails->id . '/offering/' . $offerDetail->featured_image);
+                        $imageUrl = asset(env('media_path') . '/practitioners/' . $user->id . '/offering/' . $offerDetail->featured_image);
                     @endphp
                     <img src="{{ $imageUrl }}" alt="{{ $offerDetail->featured_image }}">
                 </div>

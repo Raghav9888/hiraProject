@@ -32,7 +32,7 @@
         @csrf
         <input type="hidden" name="order_id" value="{{ $order->id }}">
         
-        <div id="card-element"></div>
+       <!--  <div id="card-element"></div> -->
         
         <button type="submit" id="submit-button">Pay Now</button>
     </form>
@@ -41,7 +41,7 @@
 
 
 <script>
-    var stripe =Stripe("{{ env('STRIPE_PUBLIC_KEY') }}");
+  /*   var stripe =Stripe("{{ env('STRIPE_PUBLIC_KEY') }}");
     var elements = stripe.elements();
     var card = elements.create("card");
     card.mount("#card-element");
@@ -61,7 +61,7 @@
                 form.submit();
             }
         });
-    });
+    }); */
 </script>
 
 </body>

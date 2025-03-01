@@ -82,7 +82,7 @@ class PaymentController extends Controller
             'stripe_publishable_key' => null,
         ]);
 
-        return redirect()->route('myProfile')->with('success', 'Stripe disconnected successfully!');
+        return redirect()->route('my_profile')->with('success', 'Stripe disconnected successfully!');
     }
 
     public function storeCheckout(Request $request)
@@ -166,7 +166,7 @@ class PaymentController extends Controller
             'payment_intent_data' => [
                 'application_fee_amount' => intval($order->total_amount * 0.22 * 100), // 22% to admin
                 'transfer_data' => [
-                    'destination' => 'acct_1QvE6qSGd6Vpe1yc', // 78% to vendor
+                    'destination' => 'acct_1QxhMYG0f0SNGdia', // 78% to vendor
                 ],
             ],
             'success_url' => route('thankyou', ['order_id' => $order->id]),
