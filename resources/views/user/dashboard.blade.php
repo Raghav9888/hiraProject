@@ -65,24 +65,27 @@
                 </div>
                 <h5 class="practitioner-profile-text mb-2">This month for you</span></h5>
                 <div class="calendar">
-                    <div class="controls">
-                        <select id="monthSelect">
-                            <option value="0">January</option>
-                            <option value="1">February</option>
-                            <option value="2">March</option>
-                            <option value="3">April</option>
-                            <option value="4">May</option>
-                            <option value="5">June</option>
-                            <option value="6">July</option>
-                            <option value="7">August</option>
-                            <option value="8">September</option>
-                            <option value="9">October</option>
-                            <option value="10">November</option>
-                            <option value="11">December</option>
-                        </select>
-                        <button id="resetCalendar">Reset Calendar</button>
-                    </div>
-                    <div class="calendar-grid">
+                    <div id="calendar"></div>
+                    <div id="eventModal" class="modal" style="display: none;">
+                        <div class="modal-content">
+                            <span class="close" id="closeModal">&times;</span>
+                            <h2>Create Event</h2>
+                            <form id="createEventForm">
+                                <label for="eventTitle">Event Title:</label>
+                                <input type="text" id="eventTitle" required>
+
+                                <label for="eventDescription">Description:</label>
+                                <textarea id="eventDescription"></textarea>
+
+                                <label for="eventStartTime">Start Time:</label>
+                                <input type="datetime-local" id="eventStartTime" required>
+
+                                <label for="eventEndTime">End Time:</label>
+                                <input type="datetime-local" id="eventEndTime" required>
+
+                                <button type="submit">Save Event</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
 
