@@ -139,13 +139,20 @@ document.addEventListener('DOMContentLoaded', function () {
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
         selectable: true,
+        fixedWeekCount: true,
         dateClick: function (info) {
+            if(info.dateStr < new Date().toISOString().slice(0, 10)){
+                alert('You cannot book for past dates');
+                return;
+            }
+            
             var selectedDate = info.dateStr;
             fetchTimeSlots(selectedDate);
         }
     });
     calendar.render();
 });
+
 
 
 fetchTimeSlots = (selectedDate) => {

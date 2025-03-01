@@ -135,7 +135,7 @@
                         <div class="featured-dv">
                             <a href="{{route('practitioner_detail', $user->id)}}">
                                 <img src="{{ $imageUrl }}" alt="person">
-                                <label for="">0.4 Km Away</label>
+{{--                                <label for="">0.4 Km Away</label>--}}
                                 <div class="d-flex justify-content-between align-items-center mb-2">
                                     <h4>{{  $user->name }}</h4>
                                     <i class="fa-regular fa-heart"></i>
@@ -568,7 +568,7 @@
                                 <div class="featured-dv">
                                     <a href="/practitioner/${user.id}">
                                         <img src="${imageUrl}" alt="person">
-                                        <label for="">0.4 Km Away</label>
+<!--                                        <label for="">0.4 Km Away</label>-->
                                         <div class="d-flex justify-content-between align-items-center mb-2">
                                             <h4>${user.name}</h4>
                                             <i class="fa-regular fa-heart"></i>
