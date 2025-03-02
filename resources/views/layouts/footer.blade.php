@@ -41,7 +41,7 @@
                     <div class="footer-lists">
                         <a href="{{route('acknowledgement') }}" class="text-white"><h4>Our Land Acknowledgement</h4>
                         </a>
-                        <p>
+                        <p class="text-white">
                             The Hira Collective acknowledges that we are created, built, and operating on lands that
                             have long been home to Indigenous Peoples, including the Anishi...
                         </p>
