@@ -4,7 +4,7 @@
         <div class="blog-banner">
             <h2>Holistic Wellness Resources:</br>
                 Articles, Blogs & Videos</h2>
-            <p>The Collective Shelf-Care</p>
+            <p>THE COLLECTIVE SHELF-CARE</p>
             <div class="search-container location-input">
                 <input type="text" class="search-input" placeholder="Search Articles, Blogs and Videos">
                 <button class="search-button">
