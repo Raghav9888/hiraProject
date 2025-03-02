@@ -39,10 +39,8 @@ class CalenderController extends Controller
 
         $client = new Google_Client();
         $client->setAuthConfig(storage_path('app/google-calendar/google-calendar.json'));
-        $client->setAccessToken($googleAccount->access_token);
-        $client->setAccessType('offline');
-        $client->setPrompt('consent');
-dd($client);
+        $token = $client->fetchAccessTokenWithAuthCode($googleAccount->access_token);
+dd($token);
 
         if ($client->isAccessTokenExpired()) {
             $client->fetchAccessTokenWithRefreshToken($googleAccount->refresh_token);
