@@ -20,6 +20,7 @@
                     <div class="dropdown">
                         <select class="form-select" id="practitionerType" aria-label="Default select example"
                                 style="border-radius: 30px !important;padding: 10px 15px 10px 40px;text-align: start;">
+                            <option value="">Select type</option>
                             <option value="in-person">In person Offering</option>
                             <option value="virtual">Virtual Practitioners Only</option>
                         </select>
@@ -108,9 +109,8 @@
                     <h1 class="home-title">Featured Practitioners </h1>
                 </div>
                 <div class="col-md-4">
-                    <select class="form-select" id="category" aria-label="Default select example"
-                            style="border-radius: 30px !important;padding: 10px 15px 10px 40px;text-align: start;">
-                        <option class="selected-category">Select by Categories</option>
+                    <select class="form-select" id="category" aria-label="Default select example" style="border-radius: 30px !important;padding: 10px 15px 10px 40px;text-align: start;">
+                        <option class="selected-category" value="">Select by Categories</option>
                         @foreach($categories as $category)
                             <option value="{{ $category->id }}">{{ $category->name }}</option>
                         @endforeach
@@ -118,57 +118,66 @@
                 </div>
             </div>
 
-            <div class="row" id="practitionersList">
-                @foreach($users as $user)
-
-                    @php
-                        $images = isset($user->userDetail->images) ? json_decode($user->userDetail->images, true) : null;
-                        $image = isset($images['profile_image']) && $images['profile_image'] ? $images['profile_image'] : null;
-                        $imageUrl = $image  ? asset(env('media_path') . '/practitioners/' . $user->userDetail->id . '/profile/' . $image) : asset(env('local_path').'/images/no_image.png');
-                    @endphp
-
-                    <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
-                        <div class="featured-dv">
-                            <a href="{{route('practitioner_detail', $user->id)}}">
-                                <img src="{{ $imageUrl }}" alt="person">
-                                {{--                                <label for="">0.4 Km Away</label>--}}
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <h4>{{  $user->name }}</h4>
-                                    <i class="fa-regular fa-heart"></i>
-                                </div>
-                                <h5>
-
+            <div class="container">
+                <div class="row" id="practitionersList">
+                    @if($users->isNotEmpty())
+                        @foreach($users->chunk(4) as $chunk)
+                            <div class="row">
+                                @foreach($chunk as $user)
                                     @php
-                                        $locations = isset($user->location) && $user->location ? json_decode($user->location, true) : null;
+                                        $images = isset($user->userDetail->images) ? json_decode($user->userDetail->images, true) : null;
+                                        $image = isset($images['profile_image']) && $images['profile_image'] ? $images['profile_image'] : null;
+                                        $imageUrl = $image
+                                            ? asset(env('media_path') . '/practitioners/' . $user->userDetail->id . '/profile/' . $image)
+                                            : asset(env('local_path') . '/images/no_image.png');
+
+                                        $locations = isset($user->location) && $user->location ? json_decode($user->location, true) : [];
+                                        $locationText = !empty($locations) ? implode(', ', $locations) : 'Unknown Location';
                                     @endphp
-                                    @if($locations)
-                                        @foreach($locations as $location)
-                                            <i class="fa-solid fa-location-dot"></i>  {{ $location .',' }}
-                                        @endforeach
-                                    @endif
-                                </h5>
-                                <p>Alternative and Holistic Health Practitioner</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <i class="fa-regular fa-gem"></i>
-                                        <i class="fa-regular fa-gem"></i>
-                                        <i class="fa-regular fa-gem"></i>
-                                        <i class="fa-regular fa-gem"></i>
-                                        <i class="fa-regular fa-gem"></i>
+
+                                    <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
+                                        <div class="featured-dv">
+                                            <a href="{{ route('practitioner_detail', $user->id) }}">
+                                                <img src="{{ $imageUrl }}" alt="person">
+
+                                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                                    <h4>{{ $user->name }}</h4>
+                                                    <i class="fa-regular fa-heart"></i>
+                                                </div>
+
+                                                <h5>
+                                                    <i class="fa-solid fa-location-dot"></i> {{ $locationText }}
+                                                </h5>
+
+                                                <p>Alternative and Holistic Health Practitioner</p>
+
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <div>
+                                                        @for ($i = 0; $i < 5; $i++)
+                                                            <i class="fa-regular fa-gem"></i>
+                                                        @endfor
+                                                    </div>
+                                                    <h6>5.0 Ratings</h6>
+                                                </div>
+                                            </a>
+                                        </div>
                                     </div>
-                                    <h6>5.0 Ratings</h6>
-                                </div>
-                            </a>
+                                @endforeach
+                            </div>
+                        @endforeach
 
+                        <!-- Load More Button (Only if there are practitioners) -->
+                        <div class="d-flex justify-content-center mt-2">
+                            <button class="category-load-more loadPractitioner" data-count="1">Load More</button>
                         </div>
-                    </div>
-                @endforeach
-
+                    @else
+                        <p class="text-center">No practitioners found.</p>
+                    @endif
+                </div>
             </div>
+
         </div>
-        <div class="d-flex justify-content-center mt-2">
-            <button class="category-load-more loadPractitioner">Load More</button>
-        </div>
+
     </section>
     <!-- featured section end -->
     <!-- choose us section start -->
@@ -561,13 +570,15 @@
                 getPractitioners(search, null, location, practitionerType);
             });
 
-            $('.loadPractitioner').on('click', function (e) {
+            $(document).on('click','.loadPractitioner', function (e) {
                 e.preventDefault();
                 let search = $('#search').val();
                 let location = $('#location').val();
                 let practitionerType = $('#practitionerType').val();
                 let category = $('#category').val();
-                getPractitioners(search, category, location, practitionerType);
+                let count = ($(this).data('count')  ?? 1) + 1
+
+                getPractitioners(search, category, location, practitionerType, count);
             });
 
             $('#category').on('change',function (e){
@@ -580,61 +591,59 @@
             })
         });
 
-        function getPractitioners(search = null , category = null, location = null, practitionerType = null)
-        {
+        function getPractitioners(search = null, category = null, location = null, practitionerType = null, count = 1) {
             $.ajax({
                 url: '/search/practitioner',
                 type: 'get',
-                data: {
-                    search: search,
-                    category: category,
-                    location: location,
-                    practitionerType: practitionerType,
-                },
+                data: { search, category, location, practitionerType, count },
                 success: function (response) {
-                    if (response.practitioners.length > 0) {
-                        let practitionersHTML = '';
+                    let practitioners = response.practitioners || [];
+                    let maxItems = 8;
+                    let practitionersHTML = '';
 
-                        // Loop through the practitioners and build the HTML dynamically
-                        response.practitioners.forEach(function (user) {
-                            let images = user.user_detail ? JSON.parse(user.user_detail.images) : null;
-                            let image = images ? images.profile_image : null;
-                            let imageUrl = image ? '/storage/practitioners/' + user.user_detail.id + '/profile/' + image : '/assets/images/no_image.png';
+                    // Chunking into rows of 4
+                    for (let i = 0; i < practitioners.length ; i += 4) {
+                        practitionersHTML += `<div class="row">`;
+
+                        practitioners.slice(i, i + 4).forEach(user => {
+                            let images = user.user_detail?.images ? JSON.parse(user.user_detail.images) : null;
+                            let imageUrl = images?.profile_image
+                                ? `/storage/practitioners/${user.user_detail.id}/profile/${images.profile_image}`
+                                : '/assets/images/no_image.png';
+
+                            let locations = user.location ? JSON.parse(user.location) : [];
+                            let locationText = locations.length ? locations.join(', ') : 'Unknown Location';
 
                             practitionersHTML += `
-                            <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
-                                <div class="featured-dv">
-                                    <a href="/practitioner/${user.id}">
-                                        <img src="${imageUrl}" alt="person">
-<!--                                        <label for="">0.4 Km Away</label>-->
-                                        <div class="d-flex justify-content-between align-items-center mb-2">
-                                            <h4>${user.name}</h4>
-                                            <i class="fa-regular fa-heart"></i>
-                                        </div>
-                                        <h5><i class="fa-solid fa-location-dot"></i>Los Angeles, US</h5>
-                                        <p>Alternative and Holistic Health Practitioner</p>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <i class="fa-regular fa-gem"></i>
-                                                <i class="fa-regular fa-gem"></i>
-                                                <i class="fa-regular fa-gem"></i>
-                                                <i class="fa-regular fa-gem"></i>
-                                                <i class="fa-regular fa-gem"></i>
-                                            </div>
-                                            <h6>5.0 Ratings</h6>
-                                        </div>
-                                    </a>
-                                </div>
+                        <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
+                            <div class="featured-dv">
+                                <a href="/practitioner/${user.id}">
+                                    <img src="${imageUrl}" alt="person">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <h4>${user.name}</h4>
+                                        <i class="fa-regular fa-heart"></i>
+                                    </div>
+                                    <h5><i class="fa-solid fa-location-dot"></i> ${locationText}</h5>
+                                    <p>Alternative and Holistic Health Practitioner</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>${'<i class="fa-regular fa-gem"></i>'.repeat(5)}</div>
+                                        <h6>5.0 Ratings</h6>
+                                    </div>
+                                </a>
                             </div>
-                        `;
+                        </div>`;
                         });
 
-
-                        $('#practitionersList').html(practitionersHTML);
-                    } else {
-
-                        $('#practitionersList').html('<p>No practitioners found.</p>');
+                        practitionersHTML += `</div>`;
                     }
+                    if (practitioners.length >= maxItems) {
+                        practitionersHTML += `
+                    <div class="d-flex justify-content-center mt-2">
+                        <button class="category-load-more loadPractitioner" data-count="${count}">Load More</button>
+                    </div>`;
+                    }
+
+                    $('#practitionersList').html(practitionersHTML || '<p class="text-center">No practitioners found.</p>');
                 }
             });
         }

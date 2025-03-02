@@ -177,10 +177,11 @@ class HomeController extends Controller
         $category = $request->input('category');
         $type = $request->input('practitionerType');
         $location = $request->input('location');
+        $buttonHitCount = $request->input('count') ?? 1;
 
         $users = User::query();
 
-        if ($search) {
+        if (isset($search) && $search) {
             $users->where(function($query) use ($search) {
                 $query->where('first_name', 'like', '%' . $search . '%')
                     ->orWhere('last_name', 'like', '%' . $search . '%')
@@ -191,15 +192,15 @@ class HomeController extends Controller
         $users = $users->join('user_details', 'users.id', '=', 'user_details.user_id');
 
 
-        if ($category) {
+        if (isset($category) && $category) {
             $users->where('user_details.specialities', 'like', '%' . $category . '%');
         }
 
-        if ($location) {
+        if (isset($location)  && $location) {
             $users->where('user_details.location', 'like', '%' . $location . '%');
         }
 
-        $practitioners = $users->select('users.*', 'user_details.*')->get();
+        $practitioners = $users->select('users.*', 'user_details.*')->get()->take($buttonHitCount * 8);
 
         return response()->json([
             'practitioners' => $practitioners,
