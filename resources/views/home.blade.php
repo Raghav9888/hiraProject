@@ -26,7 +26,7 @@
                         </select>
                     </div>
                     <div class="search-container location-input align-items-center">
-                        <input type="text" class="search-input" placeholder="Select your preferred Location"
+                        <input type="text" class="search-input" placeholder="Select your preferred location"
                                id="location">
                         <button class="search-button">
                             <i class="fa-solid fa-location-dot"></i>

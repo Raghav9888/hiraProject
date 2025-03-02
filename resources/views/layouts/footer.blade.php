@@ -38,12 +38,19 @@
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
+                    <h5 class="mb-2 text-white">
+                        Our Land Acknowledgement
+                    </h5>
+
                     <div class="footer-lists">
-                       <a href="{{route('acknowledgement') }}" class="h5 mb-2 text-white">Our Land Acknowledgement </a>
                         <p class="text-white pt-2">
                             The Hira Collective acknowledges that we are created, built, and operating on lands that
                             have long been home to Indigenous Peoples, including the Anishi...
+                            <a href="{{route('acknowledgement') }}">
+                                see more
+                            </a>
                         </p>
+
                     </div>
                 </div>
             </div>
