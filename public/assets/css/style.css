@@ -2572,9 +2572,8 @@ textarea, input[type="time"] {
     color: #424e3e !important;
 }
 
-.vh-250
+.img-fit
 {
-    height: 100%;
-    max-height: 260px;
-    min-height: 250px;
+    object-fit: cover;
+    border-radius: 10%;
 }
