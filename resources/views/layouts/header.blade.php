@@ -13,14 +13,14 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('partitionerLists') ? 'active' : '' }}" href="{{ route('partitionerLists') }}">DIRECTORY</a>
+                            <a class="nav-link parentLinks {{ request()->routeIs('partitionerLists') ? 'active' : '' }}" href="{{ route('partitionerLists') }}">DIRECTORY</a>
 
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('blog') ? 'active' : '' }}" href="{{route('blog')}}">ARTICLES & BLOGS</a>
+                            <a class="nav-link parentLinks {{ request()->routeIs('blog') ? 'active' : '' }}" href="{{route('blog')}}">ARTICLES & BLOGS</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="settingsDropdown" role="button"
+                            <a class="nav-link parentLinks dropdown-toggle" href="#" id="settingsDropdown" role="button"
                                data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
                                 COMPANY
                             </a>

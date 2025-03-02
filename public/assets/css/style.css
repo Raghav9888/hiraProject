@@ -37,7 +37,7 @@ section {
     margin-right: 30px;
 }
 
-.header ul li {
+.header .parentLinks{
     margin-left: 20px;
 }
 
@@ -2570,6 +2570,7 @@ textarea, input[type="time"] {
 
 .dropdownText{
     color: #424e3e !important;
+    background-color: transparent !important;
 }
 
 .img-fit
