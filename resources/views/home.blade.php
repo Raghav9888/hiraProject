@@ -129,7 +129,7 @@
 
                     @php
                         $images = isset($user->userDetail->images) ? json_decode($user->userDetail->images, true) : null;
-                        $image = $images['profile_image'] ?? null;
+                        $image = isset($images['profile_image']) && $images['profile_image'] ? $images['profile_image'] : null;
                         $imageUrl = $image  ? asset(env('media_path') . '/practitioners/' . $user->userDetail->id . '/profile/' . $image) : asset('assets/images/no_image.png');
                     @endphp
 
