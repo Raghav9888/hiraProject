@@ -10,7 +10,7 @@
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-6">
                     <div class="contact-us-right-dv">
-                        <h3>Contact US</h3>
+                        <h3>CONTACT US</h3>
                         <form method="post" action="{{route('sendContactMail')}}">
                             @csrf()
                             <div class="row">
