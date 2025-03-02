@@ -103,28 +103,21 @@
     <!-- featured section start -->
     <section class="featured-section">
         <div class="container">
-            <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
-                <h1 class="home-title">Featured Practitioners </h1>
-                <div class="d-flex align-items-center" style="gap: 20px;">
-                    <p class="selected-category">Select by Categories</p>
-                    <div class="dropdown">
-                        <button onclick="toggleDropdown()" class="dropdown-button">
-                            <span>ALL CATEGORIES</span>
-                            <i class="fas fa-chevron-down"></i>
-                        </button>
-                        <div id="dropdownMenu" class="dropdown-menu">
-                            @foreach($categories as $category)
-                                <option value="{{ $category->id }}">{{ $category->name }}</option>
-                            @endforeach
-                            <ul>
-                                <li><a href="#">Category 1</a></li>
-                                <li><a href="#">Category 2</a></li>
-                                <li><a href="#">Category 3</a></li>
-                            </ul>
-                        </div>
-                    </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <h1 class="home-title">Featured Practitioners </h1>
+                </div>
+                <div class="col-md-4">
+                    <select class="form-select" id="category" aria-label="Default select example"  style="border-radius: 30px !important;padding: 10px 15px 10px 40px;text-align: start;">
+                        <option class="selected-category">Select by Categories</option>
+                        @foreach($categories as $category)
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            <option><hr></option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
+
             <div class="row" id="practitionersList">
                 @foreach($users as $user)
 
