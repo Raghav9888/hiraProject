@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     } else {
                         // Log the events to see them
                         console.log(response.events);
-                        successCallback(response.events); // Pass the events to FullCalendar
+                        successCallback(response);
                     }
                 },
                 error: function (xhr, status, error) {
