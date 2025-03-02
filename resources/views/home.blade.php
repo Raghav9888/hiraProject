@@ -52,47 +52,13 @@
             <h2 class="home-title">Explore </h2>
 
             <div class="row">
-                <div class="col-sm-12 col-md-4 col-lg-3 mb-4">
-                    <div class="explore-img-dv rekki">
-                        <p>Reiki</p>
+                @foreach($categories as $category)
+                    <div class="col-sm-12 col-md-4 col-lg-3 mb-4">
+                        <div class="explore-img-dv {{$category->name}}">
+                            <p>{{$category->name}}</p>
+                        </div>
                     </div>
-                </div>
-                <div class="col-sm-12 col-md-4 col-lg-3 mb-4">
-                    <div class="explore-img-dv yoga">
-                        <p>Yoga</p>
-                    </div>
-                </div>
-                <div class="col-sm-12 col-md-4 col-lg-3 mb-4">
-                    <div class="explore-img-dv nutrition">
-                        <p>Nutritional </br>Support</p>
-                    </div>
-                </div>
-                <div class="col-sm-12 col-md-4 col-lg-3 mb-4">
-                    <div class="explore-img-dv energy">
-                        <p>Energy </br>Healing</p>
-                    </div>
-                </div>
-                <div class="col-sm-12 col-md-4 col-lg-3 mb-4">
-                    <div class="explore-img-dv yoga">
-                        <p>Yoga</p>
-                    </div>
-                </div>
-                <div class="col-sm-12 col-md-4 col-lg-3 mb-4">
-                    <div class="explore-img-dv energy">
-                        <p>Energy </br>Healing</p>
-                    </div>
-                </div>
-                <div class="col-sm-12 col-md-4 col-lg-3 mb-4">
-                    <div class="explore-img-dv rekki">
-                        <p>Reiki</p>
-                    </div>
-                </div>
-                <div class="col-sm-12 col-md-4 col-lg-3 mb-4">
-                    <div class="explore-img-dv nutrition">
-                        <p>Nutritional</br>
-                            Support</p>
-                    </div>
-                </div>
+                @endforeach
                 {{--                <div class="d-flex justify-content-center mt-2">--}}
                 {{--                    <button class="category-load-more">Load More</button>--}}
                 {{--                </div>--}}
