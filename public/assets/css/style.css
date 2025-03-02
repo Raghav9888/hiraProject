@@ -415,6 +415,7 @@ section {
     padding: 40px;
     position: relative;
     overflow: hidden;
+    height:100%;
 }
 
 .find-apply-dv img {
