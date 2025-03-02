@@ -2574,6 +2574,8 @@ textarea, input[type="time"] {
 
 .img-fit
 {
-    object-fit: cover;
-    border-radius: 10%;
+   height: 100%;
+    max-height: 250px;
+    min-height: 250px;
+    border-radius: 5%;
 }
