@@ -2567,3 +2567,8 @@ textarea, input[type="time"] {
     margin-top: 10px;
 }
 
+
+.dropdownText{
+    color: #424e3e !important;
+}
+
