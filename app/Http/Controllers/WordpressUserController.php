@@ -19,7 +19,7 @@ class WordpressUserController extends Controller
             $user = User::where('email', $wpUser->user_email)->first();
 
             if (!$user) {
-               
+
                 $user = User::create([
                     'name' => $wpUser->user_login,
                     'email' => $wpUser->user_email,
