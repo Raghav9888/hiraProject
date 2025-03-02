@@ -620,7 +620,7 @@
                             practitionersHTML += `
                         <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
                             <div class="featured-dv">
-                                <a href="/practitioner/${user.id}">
+                                <a href="/practitioner/detail/${user.id}">
                                     <img src="${imageUrl}" alt="person">
                                     <div class="d-flex justify-content-between align-items-center mb-2">
                                         <h4>${user.name}</h4>
