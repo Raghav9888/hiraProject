@@ -20,11 +20,11 @@
                     <div class="footer-lists">
                         <h4>Company</h4>
                         <ul>
-                            <li>Our Story</li>
+                            <li>Press</li>
+                            <li><a href="{{route('contact')}}">Contact Us</a></li>
+                            <li>Our story</li>
                             <li>Our Vision</li>
                             <li>Core Values</li>
-                            <li>Press Team</li>
-                            <li>Articles & Blogs</li>
                         </ul>
                     </div>
                 </div>
@@ -32,7 +32,6 @@
                     <div class="footer-lists">
                         <h4>Support</h4>
                         <ul>
-                            <li><a href="{{route('contact')}}">Contact Us</a></li>
                             <li>FAQs Join as Practitioner</li>
                             <li>Terms and Conditions</li>
                         </ul>
