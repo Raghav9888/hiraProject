@@ -138,7 +138,7 @@
                                     <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
                                         <div class="featured-dv">
                                             <a href="{{ route('practitioner_detail', $user->id) }}">
-                                                <img src="{{ $imageUrl }}" alt="person">
+                                                <img src="{{ $imageUrl }}" class="vh-250" alt="person">
 
                                                 <div class="d-flex justify-content-between align-items-center mb-2">
                                                     <h4>{{ $user->name }}</h4>
@@ -621,7 +621,7 @@
                         <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
                             <div class="featured-dv">
                                 <a href="/practitioner/detail/${user.id}">
-                                    <img src="${imageUrl}" alt="person">
+                                    <img src="${imageUrl}" alt="person" class="vh-250">
                                     <div class="d-flex justify-content-between align-items-center mb-2">
                                         <h4>${user.name}</h4>
                                         <i class="fa-regular fa-heart"></i>
