@@ -37,7 +37,7 @@
                             <div class="mb-3">
                                 <label for="subject" class="form-label">Subject</label>
                                 <input type="text" class="form-control" id="subject" name="subject"
-                                       placeholder="Enter Subject of your query/message">
+                                       placeholder="Enter subject of your query/message">
                             </div>
                             <div class="mb-3">
                                 <label for="message">Message</label>
