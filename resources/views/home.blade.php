@@ -5,7 +5,7 @@
         <div class="container">
             <div class="d-flex justify-content-center align-items-center flex-column">
                 <img class="hira-collective" src="{{url('/assets/images/hira-collective.svg')}}" alt="hira-collective">
-                <h5 class="roots-title text-center mb-4">Honouring Roots, Nurturing Growth.</h5>
+                <h5 class="roots-title text-center mb-4">Honouring Roots, Nurturing Growth</h5>
             </div>
             <div class="home-search-wrrpr">
                 <p> Search for what you seek</p>
