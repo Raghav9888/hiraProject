@@ -30,7 +30,13 @@ class CalenderController extends Controller
         if (!$googleAccount || !$googleAccount->refresh_token) {
             return;
         }
-dd($googleAccount->refresh_token , $googleAccount);
+
+
+        if(!$googleAccount->expires_at)
+        {
+            $googleAccount->expires_at = now()->addSeconds(3600);
+        }
+
         $client = new Google_Client();
         $client->setAuthConfig(storage_path('app/google-calendar/google-calendar.json'));
         $client->setAccessToken($googleAccount->access_token);
