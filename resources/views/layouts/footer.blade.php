@@ -176,17 +176,23 @@ for (let key in notes) delete notes[key];
 renderCalendar(currentMonth);
 }
 
-resetBtn.addEventListener("click", resetCalendar);
-monthSelect.addEventListener("change", (e) => {
-currentMonth = parseInt(e.target.value);
-renderCalendar(currentMonth);
-});
+if(resetBtn){
 
-closeModal.addEventListener("click", closeModalFunc);
-window.addEventListener("click", (event) => {
-if (event.target == noteModal) closeModalFunc();
-});
+    resetBtn.addEventListener("click", resetCalendar);
+    monthSelect.addEventListener("change", (e) => {
+    currentMonth = parseInt(e.target.value);
+    renderCalendar(currentMonth);
+    });
+}
 
-renderCalendar(currentMonth);
+if(closeModal){
+
+    closeModal.addEventListener("click", closeModalFunc);
+    window.addEventListener("click", (event) => {
+    if (event.target == noteModal) closeModalFunc();
+    });
+}
+
+// renderCalendar(currentMonth);
 });
 </script>

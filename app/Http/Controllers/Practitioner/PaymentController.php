@@ -97,7 +97,7 @@ class PaymentController extends Controller
             'email' => 'required|email',
         ]); */
 
-       // $user_id = auth()->id();
+       $user = auth()->user();
 
         $booking = session('booking');
         if (!$booking) {
@@ -112,7 +112,7 @@ class PaymentController extends Controller
         
         // Save Booking
         $order = Booking::create([
-             'user_id' => 0, 
+             'user_id' => $user? $user->id : null, 
             'offering_id' => $booking['offering_id'],
             'booking_date' => $booking['booking_date'],
             'time_slot' => $booking['booking_time'],
@@ -150,7 +150,8 @@ class PaymentController extends Controller
         Stripe::setApiKey(env('STRIPE_SECRET'));
 
         $order = Booking::findOrFail($request->order_id);
-        
+        $vendorId = $order->offering->user_id;
+        $vendorStripe = UserStripeSetting::where("user_id", $vendorId)->first();
         // Stripe Checkout Session
         $session = StripeSession::create([
             'payment_method_types' => ['card'],
@@ -166,10 +167,10 @@ class PaymentController extends Controller
             'payment_intent_data' => [
                 'application_fee_amount' => intval($order->total_amount * 0.22 * 100), // 22% to admin
                 'transfer_data' => [
-                    'destination' => 'acct_1QxhMYG0f0SNGdia', // 78% to vendor
+                    'destination' => $vendorStripe->stripe_user_id, // 78% to vendor
                 ],
             ],
-            'success_url' => route('thankyou', ['order_id' => $order->id]),
+            'success_url' => route('confirm-payment', ['order_id' => $order->id]),
             'cancel_url' => route('payment.cancel', ['order_id' => $order->id]),
         ]);
 
@@ -200,13 +201,9 @@ class PaymentController extends Controller
     {
         $order = Booking::findOrFail($request->order_id);
 
-        $payment = Payment::create([
-            'order_id' => $order->id,
-            'payment_method' => $request->payment_method,
-            'amount' => $order->total_amount,
-            'transaction_id' => $request->transaction_id, // From Stripe/PayPal
-            'status' => 'completed'
-        ]);
+        $payment = Payment::where("order_id", $order->id)->firstorFail();
+        $payment->status = 'completed';
+        $payment->save();
 
         // Update order status
         $order->update(['status' => 'paid']);
