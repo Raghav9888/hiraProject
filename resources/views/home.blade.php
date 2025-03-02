@@ -170,7 +170,7 @@
                                 <img src="{{url('/assets/images/personalized-wellness.svg')}}" alt="">
                             </div>
                             <h6>Personalized Wellness</h6>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor. </p>
+                            <p class="pt-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor. </p>
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-4 mb-5">
