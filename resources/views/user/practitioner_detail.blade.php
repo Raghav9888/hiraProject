@@ -44,7 +44,7 @@
                         @php
                                 $imageUrl = isset($image) ? asset(env('media_path') . '/practitioners/' . $userDetails->id . '/profile/' . $image) :asset('assets/images/no_image.png');
                         @endphp
-                        <img style="width: 100%;" class="mb-4" src="{{ $imageUrl }}" alt="darrel">
+                        <img class="mb-4 img-fluid rounded-5" src="{{ $imageUrl }}" alt="darrel">
                         <div class="d-flex justify-content-between flex-wrap align-items-center">
                             <div>
                                 <i class="fa-regular fa-gem"></i>
@@ -63,8 +63,7 @@
                     @if(count($mediaImages) > 0)
                         @foreach ($mediaImages as $image)
                             <div class="swiper-slide">
-                                <img
-                                    src="{{ asset(env('media_path') . '/practitioners/' . $userDetails->id . '/media/' . $image) }}"
+                                <img src="{{ asset(env('media_path') . '/practitioners/' . $userDetails->id . '/media/' . $image) }}"
                                     alt="media image">
 
                             </div>
