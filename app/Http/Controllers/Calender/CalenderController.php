@@ -37,11 +37,11 @@ class CalenderController extends Controller
         // **If Token is Expired, Try Refreshing**
         if ($client->isAccessTokenExpired()) {
             $newToken = $client->fetchAccessTokenWithRefreshToken($googleAccount->refresh_token);
-            
+
             if (isset($newToken['error'])) {
                 return response()->json([
                     'error' => 'Reauthentication required',
-                    'redirect_url' => route('google.auth.redirect')
+                    'redirect_url' => route('redirect_to_google')
                 ], 401);
             }
             dd($newToken);
