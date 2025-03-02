@@ -3,12 +3,15 @@
 @section('content')
     <div class="container my-5">
         <div class="card">
-            <div class="card-body text-center">
+            <div class="card-body">
                 <h1>Our Land Acknowledgement</h1>
                 <p>
                     The Hira Collective acknowledges that we are created, built, and operating on lands that have long
                     been home to Indigenous Peoples, including the Anishinaabe, Haudenosaunee, Huron-Wendat, Métis, and
                     many others whose stories, cultures, and stewardship have shaped these lands since time immemorial.
+                </p>
+                <p>
+
                     We recognize that what is now called Canada exists on stolen land, and we carry a lifelong
                     responsibility to listen, learn, and take meaningful action toward justice, truth, and
                     reconciliation. Wellness is not separate from justice. Healing is not separate from truth. Growth is
@@ -31,6 +34,52 @@
                     continued reflection, learning, and engagement with Indigenous-led movements for landback, equity,
                     and healing.
                 </p>
+                <p>
+                    Ways to Take Action
+                    Here are some Indigenous-led organizations and resources that you can support, learn from, and
+                    engage with:
+                    • The National Centre for Truth and Reconciliation (NCTR) – Holds the history and truths of
+                    residential school survivors and supports education and reconciliation efforts. <a
+                        href="https://nctr.ca/">
+                        Visit NCTR
+                    </a>
+                </p>
+                <p>
+                    • Indigenous Climate Action – An Indigenous-led organization advocating for climate justice and
+                    Indigenous sovereignty. <a href="https://www.indigenousclimateaction.com/">Visit Indigenous Climate
+                        Action</a>
+                </p>
+                <p>
+                    • The Indian Residential School Survivors Society (IRSSS) – Provides support to residential school
+                    survivors and their families.
+                    <a href="https://www.irsss.ca/">
+                        Visit IRSSS
+                    </a>
+                </p>
+                <p>
+                    • Native Women’s Association of Canada (NWAC) – Advocates for the rights and well-being of
+                    Indigenous women, girls, and gender-diverse people.<a href="https://www.nwac.ca/">
+                        Visit NWAC
+                    </a>
+                </p>
+                <p>
+                    • Land Back Movement – A grassroots movement advocating for Indigenous sovereignty and the return of
+                    Indigenous lands.
+                    <a href="https://landback.org/">
+                        Learn about Land Back
+                    </a>
+                </p>
+                <p>
+
+                    • Your Local Indigenous Friendship Centre – Many cities have Indigenous Friendship Centres that
+                    provide cultural, social, and health programs. Find one near you and explore ways to engage.
+
+                    Healing and reconciliation are ongoing, collective efforts. We encourage you to take the time to
+                    listen, learn, and take meaningful action in ways that honor the spirit of this land and its
+                    original caretakers.
+
+                </p>
+
             </div>
         </div>
     </div>
