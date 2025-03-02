@@ -202,7 +202,9 @@ section {
     width: 100%;
     max-width: 500px;
     position: relative;
+    align-items: center;
 }
+
 
 .search-input,
 .home-main-section .dropdown button,
