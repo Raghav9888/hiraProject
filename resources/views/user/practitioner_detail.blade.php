@@ -8,7 +8,7 @@
                     <a href="{{ route('home') }}" class="blog-view-more"><i
                             class="fa-solid fa-chevron-left me-2"></i>Back</a>
                     <div class="search-container location-input">
-                        <input type="text" class="search-input" placeholder="Search Articles, Blogs and Videos">
+                        <input type="text" class="search-input" placeholder="Search other practitioners">
                         <button class="search-button">
                             <i class="fas fa-search"></i>
                         </button>
@@ -80,7 +80,7 @@
                     <div class="accordion" id="accordionExample">
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="headingOne">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                         data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                     Offerings
                                 </button>
@@ -202,7 +202,7 @@
                                     I Help With
                                 </button>
                             </h2>
-                            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                            <div id="collapseTwo" class="accordion-collapse collapse show" aria-labelledby="headingTwo"
                                  data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
                                     <div class="help-you-dv">
@@ -222,7 +222,7 @@
                                     How I Help
                                 </button>
                             </h2>
-                            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+                            <div id="collapseThree" class="accordion-collapse collapse show" aria-labelledby="headingThree"
                                  data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
                                     <div class="help-you-dv">
@@ -242,7 +242,7 @@
                                     Certifications
                                 </button>
                             </h2>
-                            <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour"
+                            <div id="collapseFour" class="accordion-collapse collapse show" aria-labelledby="headingFour"
                                  data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
                                     <div class="help-you-dv certificate-dv">
@@ -264,7 +264,7 @@
                                     Reviews
                                 </button>
                             </h2>
-                            <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix"
+                            <div id="collapseSix" class="accordion-collapse collapse show" aria-labelledby="headingSix"
                                  data-bs-parent="#accordionExample">
                                 <div class="accordion-body review-dv-data">
                                     <div class="d-flex justify-content-between flex-wrap mb-3">
