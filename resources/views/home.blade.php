@@ -19,7 +19,7 @@
                     </div>
                     <div class="dropdown">
                         <select class="form-select" id="practitionerType" aria-label="Default select example"
-                                style="border-radius: 30px !important;padding: 10px 15px 10px 40px;text-align: start;">
+                                style="border-radius: 30px !important;padding: 12px 15px 12px 40px;text-align: start;">
                             <option value="">Select type</option>
                             <option value="in-person">In person Offering</option>
                             <option value="virtual">Virtual Practitioners Only</option>
