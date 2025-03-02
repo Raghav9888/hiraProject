@@ -599,8 +599,9 @@
                 success: function (response) {
                     let practitioners = response.practitioners || [];
                     let practitionersHTML = '';
-                    let imagePath = {{env('media_path')}};
-                    let localPath = {{env('local_path')}};
+                    let maxItems = 8;
+                    let imagePath = `{{env('media_path')}}`;
+                    let localPath = `{{env('local_path')}}`;
 
                     // Chunking into rows of 4
                     for (let i = 0; i < practitioners.length ; i += 4) {
@@ -610,7 +611,7 @@
                             let images = user.user_detail?.images ? JSON.parse(user.user_detail.images) : null;
                             let imageUrl = images?.profile_image
                                 ? `${imagePath}/practitioners/${user.user_detail.id}/profile/${images.profile_image}`
-                                : `${localPath}/assets/images/no_image.png`;
+                                : `${localPath}/images/no_image.png`;
 
                             let locations = user.location ? JSON.parse(user.location) : [];
                             let locationText = locations.length ? locations.join(', ') : 'Unknown Location';
