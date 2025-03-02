@@ -41,7 +41,9 @@ class CalenderController extends Controller
 
             $googleAccount->update([
                 'access_token' => $newToken['access_token'],
-                'expires_at' => now()->addSeconds($newToken['expires_in']),
+                'expires_at' => isset($newToken['expires_in']) && $newToken['expires_in']
+                    ? now()->addSeconds($newToken['expires_in'])
+                    : null,
             ]);
         }
 
