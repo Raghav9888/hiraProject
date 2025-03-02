@@ -18,7 +18,7 @@ class OfferingController extends Controller
     {
         $user = Auth::user();
         $userDetails = $user->userDetail;
-        $offerings = Offering::with('user')->get();
+        $offerings = Offering::where('user_id',$user->id)->get();
         $categories = Category::get();
         $practitionerTag = PractitionerTag::get();
         $IHelpWith = IHelpWith::get();
