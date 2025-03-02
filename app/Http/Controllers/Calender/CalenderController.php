@@ -34,20 +34,26 @@ class CalenderController extends Controller
         $client->setAuthConfig(storage_path('app/google-calendar/google-calendar.json'));
         $client->setAccessToken($googleAccount->access_token);
 
-
+        // **If Token is Expired, Try Refreshing**
         if ($client->isAccessTokenExpired()) {
-            $newToken = $client->fetchAccessTokenWithRefreshToken($googleAccount->access_token);
-dd($newToken);
-            if (isset($newToken['access_token'])) {
-                $googleAccount->update([
-                    'access_token' => $newToken['access_token'],
-                    'expires_at' => now()->addSeconds($newToken['expires_in'] ?? 3600),
-                ]);
+            $newToken = $client->fetchAccessTokenWithRefreshToken($googleAccount->refresh_token);
 
-                $client->setAccessToken($newToken);
-            } else {
-                return response()->json(['error' => 'Failed to refresh token'], 401);
+            // **If refresh fails, redirect to OAuth login**
+            if (isset($newToken['error'])) {
+                return response()->json([
+                    'error' => 'Reauthentication required',
+                    'redirect_url' => route('google.auth.redirect')
+                ], 401);
             }
+
+            // **Update Token in Database**
+            $googleAccount->update([
+                'access_token' => $newToken['access_token'],
+                'refresh_token' => $newToken['refresh_token'] ?? $googleAccount->refresh_token, // Keep old refresh token if new one isn't provided
+                'expires_at' => now()->addSeconds($newToken['expires_in'] ?? 3600),
+            ]);
+
+            $client->setAccessToken($newToken);
         }
 
         try {
@@ -70,8 +76,6 @@ dd($newToken);
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
-
-
 
 
     public function upComingEvents()
