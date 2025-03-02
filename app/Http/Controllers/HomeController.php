@@ -210,5 +210,9 @@ class HomeController extends Controller
         ]);
     }
 
+    public function acknowledgement()
+    {
+        return view('user.acknowledgement');
+    }
 
 }

@@ -39,12 +39,12 @@
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
                     <div class="footer-lists">
-                        <h4>Our Registered Office</h4>
-                        <ul>
-                            <li>Tower of London, London EC3N 4AB, United Kingdom.</li>
-                            <li>(+84) 123 567 712</li>
-                            <li>abstractjewels@gmail.com</li>
-                        </ul>
+                        <h4>Our land Acknowledgement</h4>
+                        <a href="{{route('acknowledgement') }}">
+                            The Hira Collective acknowledges that we are created, built, and operating on lands that have long been home to Indigenous Peoples,
+                            including the Anishinaabe, Haudenosaunee, Huron-Wendat, Métis,
+                            and many others whose stories, cultures, and stewardship have shaped these lands since time immemorial...
+                        </a>
                     </div>
                 </div>
             </div>
