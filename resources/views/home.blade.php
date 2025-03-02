@@ -48,7 +48,7 @@
     <!-- explore categories section start -->
     <section>
         <div class="container">
-
+            <h2 class="home-title">Explore </h2>
 
             <div class="row">
                 <div class="col-sm-12 col-md-4 col-lg-3 mb-4">
@@ -108,11 +108,14 @@
                     <h1 class="home-title">Featured Practitioners </h1>
                 </div>
                 <div class="col-md-4">
-                    <select class="form-select" id="category" aria-label="Default select example"  style="border-radius: 30px !important;padding: 10px 15px 10px 40px;text-align: start;">
+                    <select class="form-select" id="category" aria-label="Default select example"
+                            style="border-radius: 30px !important;padding: 10px 15px 10px 40px;text-align: start;">
                         <option class="selected-category">Select by Categories</option>
                         @foreach($categories as $category)
                             <option value="{{ $category->id }}">{{ $category->name }}</option>
-                            <option><hr></option>
+                            <option>
+                                <hr>
+                            </option>
                         @endforeach
                     </select>
                 </div>
@@ -138,9 +141,9 @@
                                 </div>
                                 <h5>
 
-                                        @php
-                                            $locations = isset($user->location) && $user->location ? json_decode($user->location, true) : null;
-                                        @endphp
+                                    @php
+                                        $locations = isset($user->location) && $user->location ? json_decode($user->location, true) : null;
+                                    @endphp
                                     @if($locations)
                                         @foreach($locations as $location)
                                             <i class="fa-solid fa-location-dot"></i>  {{ $location .',' }}
@@ -236,10 +239,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="position-relative">
-                    <h1 class="home-title mb-4 mt-5">What our community says</h1>
-                    <div class="swiper-button-next"></div>
-                    <div class="swiper-button-prev"></div>
+                <div class="position-relative row align-items-center">
+                    <div class="col-md-6">
+                        <h1 class="home-title mb-4 mt-5">What our community says</h1>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                    </div>
                 </div>
                 <div class="swiper mySwiper mb-5">
                     <div class="swiper-wrapper">
@@ -526,7 +533,12 @@
                 el: ".swiper-pagination",
                 clickable: true,
             },
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
         });
+
     </script>
     <script>
         function toggleDropdown() {
