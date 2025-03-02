@@ -127,7 +127,7 @@
                     @php
                         $images = isset($user->userDetail->images) ? json_decode($user->userDetail->images, true) : null;
                         $image = isset($images['profile_image']) && $images['profile_image'] ? $images['profile_image'] : null;
-                        $imageUrl = $image  ? asset(env('media_path') . '/practitioners/' . $user->userDetail->id . '/profile/' . $image) : asset('assets/images/no_image.png');
+                        $imageUrl = $image  ? asset(env('media_path') . '/practitioners/' . $user->userDetail->id . '/profile/' . $image) : asset(env('local_path').'/images/no_image.png');
                     @endphp
 
                     <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
