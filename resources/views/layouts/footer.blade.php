@@ -40,7 +40,8 @@
                 <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
                     <div class="position-relative mb-2">
                         <h5 class="position-absolute z-2">
-                            <a href="{{route('acknowledgement') }}" class="text-white">
+                            <a href="{{route('acknowledgement') }}" class="text-white" style="font-size: 20px;
+    font-weight: 600;">
                                 Our Land Acknowledgement
                             </a>
                         </h5>
