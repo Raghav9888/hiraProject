@@ -17,52 +17,52 @@
                         <div class="mb-3 col-md-6">
                             <label for="first-name"  class="form-label">First name <span
                                     class="text-danger">*</span></label>
-                            <input type="text" name="first_name" class="form-control" id="first-name" placeholder="Mohit">
+                            <input type="text" name="first_name" required class="form-control" id="first-name" placeholder="Mohit">
                         </div>
                         <div class="mb-3 col-md-6">
                             <label for="last-name" class="form-label">Last name <span
                                     class="text-danger">*</span></label>
-                            <input type="text" name="last_name" class="form-control" id="last-name" placeholder="Kumar">
+                            <input type="text" name="last_name" required class="form-control" id="last-name" placeholder="Kumar">
                         </div>
                     </div>
                         <div class="mb-3">
                             <label for="company-name" class="form-label">Company name (optional)</label>
-                            <input type="text" name="billing_company" class="form-control" id="company-name">
+                            <input type="text"  name="billing_company" class="form-control" id="company-name">
                         </div>
                         <div class="mb-3">
                             <label for="country" class="form-label">Country / Region <span
                                     class="text-danger">*</span></label>
-                            <select class="form-select" name="billing_country" id="country">
+                            <select class="form-select" required name="billing_country" id="country">
                                 <option value="India">India</option>
                             </select>
                         </div>
                         <div class="mb-3">
                             <label for="street-address" class="form-label">Street address <span
                                     class="text-danger">*</span></label>
-                                    <input type="text" class="form-control mb-3" name="billing_address" id="street-address" placeholder="Ludhiana">
-                                     <input type="text" class="form-control" name="billing_address2" id="street-address" placeholder="Shaheed bhagat singh nagar">
+                                    <input type="text" required class="form-control mb-3" name="billing_address" id="street-address" placeholder="Ludhiana">
+                                     <input type="text"  class="form-control" name="billing_address2" id="street-address" placeholder="Shaheed bhagat singh nagar">
                         </div>
                         <div class="mb-3">
                             <label for="town-city" class="form-label">Town / City <span
                                     class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="billing_city" id="town-city" placeholder="Ludhiana">
+                            <input type="text" required class="form-control" name="billing_city" id="town-city" placeholder="Ludhiana">
                         </div>
                         <div class="mb-3">
                             <label for="state" class="form-label">State <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="billing_state" id="state" placeholder="Punjab">
+                            <input type="text" required class="form-control" name="billing_state" id="state" placeholder="Punjab">
                         </div>
                         <div class="mb-3">
                             <label for="pin-code" class="form-label">PIN Code <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="billing_postcode" id="pin-code" placeholder="11234">
+                            <input type="text" required class="form-control" name="billing_postcode" id="pin-code" placeholder="11234">
                         </div>
                         <div class="mb-3">
                             <label for="phone" class="form-label">Phone <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="billing_phone" id="phone" placeholder="984674323">
+                            <input type="text" required class="form-control" name="billing_phone" id="phone" placeholder="984674323">
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Email address <span
                                     class="text-danger">*</span></label>
-                            <input type="email" name="billing_email" class="form-control" id="email" placeholder="mohit@gmail.com">
+                            <input type="email" required name="billing_email" class="form-control" id="email" placeholder="mohit@gmail.com">
                         </div>
                     </div>
                     <div class="col-md-6">

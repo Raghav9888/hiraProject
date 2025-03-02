@@ -77,15 +77,16 @@ document.addEventListener("DOMContentLoaded", function() {
     const select = document.getElementById("timezone");
     const timezones = Intl.supportedValuesOf("timeZone"); // Get all supported timezones
 
+    if(select){
     timezones.forEach(zone => {
         let option = document.createElement("option");
         option.value = zone;
         option.textContent = zone;
         select.appendChild(option);
     });
-
-    // Auto-select user's timezone
-    select.value = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        // Auto-select user's timezone
+        select.value = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    }
 });
 </script>
 <script  src="{{ asset('assets/js/script.js') }}"></script>
