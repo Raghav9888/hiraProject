@@ -39,14 +39,11 @@ class CalenderController extends Controller
             $client->fetchAccessTokenWithRefreshToken($googleAccount->refresh_token);
             $newToken = $client->getAccessToken();
 
+            // Update the token in the database
             $googleAccount->update([
                 'access_token' => $newToken['access_token'],
-                'expires_at' => isset($newToken['expires_in']) && $newToken['expires_in']
-                    ? now()->addSeconds($newToken['expires_in'])
-                    : null,
             ]);
 
-         
             $client->setAccessToken($newToken);
         }
 
