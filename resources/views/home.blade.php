@@ -169,7 +169,7 @@
                             <div class="choose-us-img-dv">
                                 <img src="{{url('/assets/images/personalized-wellness.svg')}}" alt="">
                             </div>
-                            <h6 class="pt-3">Personalized Wellness</h6>
+                            <h6 class="pt-2">Personalized Wellness</h6>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor. </p>
                         </div>
                     </div>
