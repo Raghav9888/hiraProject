@@ -45,7 +45,11 @@ class CalenderController extends Controller
                     ? now()->addSeconds($newToken['expires_in'])
                     : null,
             ]);
+
+         
+            $client->setAccessToken($newToken);
         }
+
 
         $service = new Google_Service_Calendar($client);
         $events = $service->events->listEvents('primary');
