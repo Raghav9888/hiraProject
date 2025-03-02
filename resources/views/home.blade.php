@@ -300,7 +300,7 @@
                                 with Us!</h2>
                             <p>List your services and connect with customers seeking wellness and healing. Expand your
                                 reach and build your client base effortlessly.</p>
-                            <button>Apply as a Practitioner</button>
+                            <button class="mt-4">Apply as a Practitioner</button>
                             <img src="{{url('assets/images/footer-butterfly.svg')}}" alt="">
                         </div>
                     </div>
