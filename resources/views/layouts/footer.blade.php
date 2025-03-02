@@ -40,7 +40,7 @@
                 <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
                     <div class="footer-lists">
                         <h4>Our land Acknowledgement</h4>
-                        <a href="{{route('acknowledgement') }}">
+                        <a href="{{route('acknowledgement') }}" class="text-white">
                             The Hira Collective acknowledges that we are created, built, and operating on lands that have long been home to Indigenous Peoples,
                             including the Anishinaabe, Haudenosaunee, Huron-Wendat, Métis,
                             and many others whose stories, cultures, and stewardship have shaped these lands since time immemorial...
