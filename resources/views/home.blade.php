@@ -23,6 +23,7 @@
                             <option value="">Select type</option>
                             <option value="in-person">In person Offering</option>
                             <option value="virtual">Virtual Practitioners Only</option>
+                            <option value="both">both in personal and virtual</option>
                         </select>
                     </div>
                     <div class="search-container location-input align-items-center">
