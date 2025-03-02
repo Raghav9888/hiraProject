@@ -665,14 +665,16 @@
                                         <div class="my-4">
                                             <label for="booking-duration" class="fw-bold">Duration of offering</label>
                                             <select id="booking-duration" name="booking_duration" class="form-select">
-                                                <option>15 minutes</option>
-                                                <option>30 minutes</option>
-                                                <option>45 minutes</option>
-                                                <option>1 hour</option>
-                                                <option>1:15 hour</option>
-                                                <option>1:30 hour</option>
-                                                <option>1:45 hour</option>
-                                                <option>2 hour</option>
+                                                <option value="15 minutes">15 minutes</option>
+                                                <option value="30 minutes">30 minutes</option>
+                                                <option value="45 minutes">45 minutes</option>
+                                                <option value="50 minutes">50 minutes</option>
+                                                <option value="1 hour">1 hour</option>
+                                                <option value="1:15 hour">1:15 hour</option>
+                                                <option value="1:30 hour">1:30 hour</option>
+                                                <option value="1:45 hour">1:45 hour</option>
+                                                <option value="1:50 hour">1:50 hour</option>
+                                                <option value="2 hour">2 hour</option>
                                             </select>
                                         </div>
                                         <div class="row mb-4">
@@ -721,14 +723,16 @@
                                             <div class="col mb-4">
                                                 <label for="type" class="fw-bold">Scheduling window</label>
                                                 <select id="type" class="form-select" name="scheduling_window">
-                                                    <option>15 minutes</option>
-                                                    <option>30 minutes</option>
-                                                    <option>45 minutes</option>
-                                                    <option>1 hour</option>
-                                                    <option>1:15 hour</option>
-                                                    <option>1:30 hour</option>
-                                                    <option>1:45 hour</option>
-                                                    <option>2 hour</option>
+                                                    <option value="15 minutes">15 minutes</option>
+                                                    <option value="30 minutes">30 minutes</option>
+                                                    <option value="45 minutes">45 minutes</option>
+                                                    <option value="50 minutes">50 minutes</option>
+                                                    <option value="1 hour">1 hour</option>
+                                                    <option value="1:15 hour">1:15 hour</option>
+                                                    <option value="1:30 hour">1:30 hour</option>
+                                                    <option value="1:45 hour">1:45 hour</option>
+                                                    <option value="1:50 hour">1:50 hour</option>
+                                                    <option value="2 hour">2 hour</option>
                                                 </select>
                                             </div>
                                             <div class="col mb-4">
