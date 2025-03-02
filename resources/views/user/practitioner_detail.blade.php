@@ -42,7 +42,7 @@
                     <div class="col-sm-12 col-md-3 col-lg-3">
 
                         @php
-                                $imageUrl = isset($image) ? asset(env('media_path') . '/practitioners/' . $userDetails->id . '/profile/' . $image) :asset('assets/images/no_image.png');
+                            $imageUrl = isset($image) ? asset(env('media_path') . '/practitioners/' . $userDetails->id . '/profile/' . $image) :asset('assets/images/no_image.png');
                         @endphp
                         <img class="mb-4 img-fluid rounded-5" src="{{ $imageUrl }}" alt="darrel">
                         <div class="d-flex justify-content-between flex-wrap align-items-center">
@@ -63,7 +63,8 @@
                     @if(count($mediaImages) > 0)
                         @foreach ($mediaImages as $image)
                             <div class="swiper-slide">
-                                <img src="{{ asset(env('media_path') . '/practitioners/' . $userDetails->id . '/media/' . $image) }}"
+                                <img
+                                    src="{{ asset(env('media_path') . '/practitioners/' . $userDetails->id . '/media/' . $image) }}"
                                     alt="media image">
 
                             </div>
@@ -109,7 +110,8 @@
                                                 <h4 class="mb-2">{{$offering->name}}</h4>
                                                 <div class="d-flex align-items-center">
                                                     <h6 class="offer-prize me-2 m-0">${{$offering->client_price}}</h6>
-                                                     <a href="{{ route('offerDetail',$offering->id)}}" class="home-blog-btn">BOOK NOW</a>
+                                                    <a href="{{ route('offerDetail',$offering->id)}}"
+                                                       data-action="bootbox" class="home-blog-btn">BOOK NOW</a>
                                                 </div>
                                             </div>
                                             <ul class="practitioner-accordian-lists">
@@ -207,7 +209,7 @@
                                     <div class="help-you-dv">
                                         <ul>
                                             @foreach($IHelpWith as $term)
-                                            <li>{{$term}}</li>
+                                                <li>{{$term}}</li>
                                             @endforeach
                                         </ul>
                                     </div>
@@ -217,17 +219,19 @@
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="headingThree">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                        data-bs-target="#collapseThree" aria-expanded="false"
+                                        aria-controls="collapseThree">
                                     How I Help
                                 </button>
                             </h2>
-                            <div id="collapseThree" class="accordion-collapse collapse show" aria-labelledby="headingThree"
+                            <div id="collapseThree" class="accordion-collapse collapse show"
+                                 aria-labelledby="headingThree"
                                  data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
                                     <div class="help-you-dv">
                                         <ul>
                                             @foreach($HowIHelp as $term)
-                                            <li>{{$term}}</li>
+                                                <li>{{$term}}</li>
                                             @endforeach
                                         </ul>
                                     </div>
@@ -237,11 +241,13 @@
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="headingFour">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                        data-bs-target="#collapseFour" aria-expanded="false"
+                                        aria-controls="collapseFour">
                                     Certifications
                                 </button>
                             </h2>
-                            <div id="collapseFour" class="accordion-collapse collapse show" aria-labelledby="headingFour"
+                            <div id="collapseFour" class="accordion-collapse collapse show"
+                                 aria-labelledby="headingFour"
                                  data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
                                     <div class="help-you-dv certificate-dv">
@@ -272,7 +278,9 @@
                                                 <h6 class="font-weight-bold">5.0</h6>
                                                 <div class="mx-2">
                                                     <div class="progress">
-                                                        <div class="progress-bar" role="progressbar" style="width: 80%;" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        <div class="progress-bar" role="progressbar" style="width: 80%;"
+                                                             aria-valuenow="80" aria-valuemin="0"
+                                                             aria-valuemax="100"></div>
                                                     </div>
                                                 </div>
                                                 <h6 class="review-count-text">26 Reviews</h5>
@@ -281,7 +289,9 @@
                                                 <h6 class="font-weight-bold">4.0</h6>
                                                 <div class="mx-2">
                                                     <div class="progress">
-                                                        <div class="progress-bar" role="progressbar" style="width: 70%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        <div class="progress-bar" role="progressbar" style="width: 70%;"
+                                                             aria-valuenow="70" aria-valuemin="0"
+                                                             aria-valuemax="100"></div>
                                                     </div>
                                                 </div>
                                                 <h6 class="review-count-text">23 Reviews</h5>
@@ -290,7 +300,9 @@
                                                 <h6 class="font-weight-bold">3.0</h6>
                                                 <div class="mx-2">
                                                     <div class="progress">
-                                                        <div class="progress-bar" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        <div class="progress-bar" role="progressbar" style="width: 50%;"
+                                                             aria-valuenow="50" aria-valuemin="0"
+                                                             aria-valuemax="100"></div>
                                                     </div>
                                                 </div>
                                                 <h6 class="review-count-text">15 Reviews</h5>
@@ -299,7 +311,9 @@
                                                 <h6 class="font-weight-bold">2.0</h6>
                                                 <div class="mx-2">
                                                     <div class="progress">
-                                                        <div class="progress-bar" role="progressbar" style="width: 20%;" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        <div class="progress-bar" role="progressbar" style="width: 20%;"
+                                                             aria-valuenow="20" aria-valuemin="0"
+                                                             aria-valuemax="100"></div>
                                                     </div>
                                                 </div>
                                                 <h6 class="review-count-text">6 Reviews</sh5>
@@ -308,7 +322,9 @@
                                                 <span class="font-weight-bold">1.0</span>
                                                 <div class="mx-2">
                                                     <div class="progress">
-                                                        <div class="progress-bar" role="progressbar" style="width: 10%;" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        <div class="progress-bar" role="progressbar" style="width: 10%;"
+                                                             aria-valuenow="10" aria-valuemin="0"
+                                                             aria-valuemax="100"></div>
                                                     </div>
                                                 </div>
                                                 <h6 class="review-count-text">4 Reviews</sh5>
@@ -360,7 +376,13 @@
                                             <h3>5.0/5.0</h3>
                                         </div>
                                         <div class="review-text mb-3">
-                                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                                            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                                            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
+                                            non proident, sunt in culpa qui officia deserunt mollit anim id est
+                                            laborum."
                                         </div>
                                     </div>
                                     <div class="person-review-dv">
@@ -381,7 +403,13 @@
                                             <h3>5.0/5.0</h3>
                                         </div>
                                         <div class="review-text mb-3">
-                                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                                            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                                            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
+                                            non proident, sunt in culpa qui officia deserunt mollit anim id est
+                                            laborum."
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-end mt-4">
@@ -516,4 +544,5 @@
             }
         }
     </script>
+
 @endsection
