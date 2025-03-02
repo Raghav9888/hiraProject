@@ -15,15 +15,23 @@ document.addEventListener('DOMContentLoaded', function () {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function (response) {
+                    console.log(response); // Debugging line to see the response in the console
+
                     if (response.error) {
+                        // If there's an error, redirect
                         window.location.href = response.redirect_url;
                     } else {
-                        successCallback(response.events);
+                        // Log the events to see them
+                        console.log(response.events);
+                        successCallback(response.events); // Pass the events to FullCalendar
                     }
                 },
-            })
+                error: function (xhr, status, error) {
+                    console.error("Error fetching events:", status, error);
+                    failureCallback(error); // Call failureCallback in case of error
+                }
+            });
         },
-
         select: function (info) {
             console.log(info);
             const formatDateTime = (dateStr, allDay) => {
