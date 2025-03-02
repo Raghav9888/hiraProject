@@ -18,12 +18,10 @@
                         </div>
                     </div>
                     <div class="dropdown">
-                        <select class="form-select" id="category" aria-label="Default select example"
+                        <select class="form-select" id="practitioner" aria-label="Default select example"
                                 style="border-radius: 30px !important;padding: 10px 15px 10px 40px;text-align: start;">
-                            <option selected>Virtual Practitioners Only</option>
-                            @foreach($categories as $category)
-                                <option value="{{ $category->id }}">{{ $category->name }}</option>
-                            @endforeach
+                            <option value="in-person">In person Offering</option>
+                            <option value="virtual">Virtual Practitioners Only</option>
                         </select>
                     </div>
                     <div class="search-container location-input align-items-center">
@@ -115,6 +113,9 @@
                             <i class="fas fa-chevron-down"></i>
                         </button>
                         <div id="dropdownMenu" class="dropdown-menu">
+                            @foreach($categories as $category)
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            @endforeach
                             <ul>
                                 <li><a href="#">Category 1</a></li>
                                 <li><a href="#">Category 2</a></li>
