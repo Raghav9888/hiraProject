@@ -8,21 +8,20 @@ document.addEventListener('DOMContentLoaded', function () {
         selectable: true,
         dayMaxEvents: true,
         events: function(info, successCallback, failureCallback) {
-            fetch('/calendar/events')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.error && data.error === 'Reauthentication required') {
-                        // Redirect to the provided URL
-                        window.location.href = data.redirect_url;
+            $.ajax({
+                url: '/calendar/events',
+                type: 'GET',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function (response) {
+                    if (response.error) {
+                        window.location.href = response.redirect_url;
                     } else {
-                        // Pass the events to FullCalendar
-                        successCallback(data.events);
+                        successCallback(response.events);
                     }
-                })
-                .catch(error => {
-                    console.error('Error fetching events:', error);
-                    failureCallback(error);
-                });
+                },
+            })
         },
 
         select: function (info) {
