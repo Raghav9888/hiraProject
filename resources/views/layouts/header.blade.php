@@ -26,15 +26,15 @@
                             <ul class="dropdown-menu" aria-labelledby="settingsDropdown">
                                 <li><a class="dropdown-item dropdownText" href="#">Press</a></li>
                                 <li><a class="dropdown-item dropdownText" href="{{ route('contact') }}">Contact Us</a></li>
-                                <li class="dropend">
-                                    <a class="dropdown-item dropdown-toggle dropdownText" data-bs-toggle="dropdown"
-                                       href="#">Company</a>
-                                    <ul class="dropdown-menu">
+{{--                                <li class="dropend">--}}
+{{--                                    <a class="dropdown-item dropdown-toggle dropdownText" data-bs-toggle="dropdown"--}}
+{{--                                       href="#">Company</a>--}}
+{{--                                    <ul class="dropdown-menu">--}}
                                         <li><a class="dropdown-item dropdownText" href="#">Our Story</a></li>
                                         <li><a class="dropdown-item dropdownText" href="#"> Our Vision</a></li>
                                         <li><a class="dropdown-item dropdownText" href="#"> Core Values</a></li>
-                                    </ul>
-                                </li>
+{{--                                    </ul>--}}
+{{--                                </li>--}}
                             </ul>
                         </li>
                     </ul>
