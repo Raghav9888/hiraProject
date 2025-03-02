@@ -25,10 +25,18 @@ class HomeController extends Controller
     public function index()
     {
 
-        $users = User::where('role', 1)->with('userDetail')->get();
+        $users = User::where('role', 1)->with('userDetail')->get()->take(8);
         $categories = Category::all();
 
         return view('home', compact('users', 'categories'));
+    }
+
+    public function partitionerLists()
+    {
+        $users = User::where('role', 1)->with('userDetail')->get();
+        $categories = Category::all();
+
+        return view('user.practitioner_list', compact('users', 'categories'));
     }
 
     public function adminHome()
@@ -167,6 +175,7 @@ class HomeController extends Controller
 
         $search = $request->input('search');
         $category = $request->input('category');
+        $type = $request->input('practitionerType');
         $location = $request->input('location');
 
         $users = User::query();

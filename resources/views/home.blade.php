@@ -18,7 +18,7 @@
                         </div>
                     </div>
                     <div class="dropdown">
-                        <select class="form-select" id="practitioner" aria-label="Default select example"
+                        <select class="form-select" id="practitionerType" aria-label="Default select example"
                                 style="border-radius: 30px !important;padding: 10px 15px 10px 40px;text-align: start;">
                             <option value="in-person">In person Offering</option>
                             <option value="virtual">Virtual Practitioners Only</option>
@@ -113,9 +113,6 @@
                         <option class="selected-category">Select by Categories</option>
                         @foreach($categories as $category)
                             <option value="{{ $category->id }}">{{ $category->name }}</option>
-                            <option>
-                                <hr>
-                            </option>
                         @endforeach
                     </select>
                 </div>
@@ -166,11 +163,12 @@
                         </div>
                     </div>
                 @endforeach
+
             </div>
         </div>
-        {{--        <div class="d-flex justify-content-center mt-2">--}}
-        {{--            <button class="category-load-more">Load More</button>--}}
-        {{--        </div>--}}
+        <div class="d-flex justify-content-center mt-2">
+            <button class="category-load-more loadPractitioner">Load More</button>
+        </div>
     </section>
     <!-- featured section end -->
     <!-- choose us section start -->
@@ -556,32 +554,54 @@
             $('#searchFilter').on('click', function (e) {
                 e.preventDefault();
 
-                // Get the values from the search inputs
                 let search = $('#search').val();
-                let category = $('#category').val();
                 let location = $('#location').val();
+                let practitionerType = $('#practitionerType').val();
 
-                // Perform the AJAX request
-                $.ajax({
-                    url: '/search/practitioner',  // Make sure the URL is correct
-                    type: 'get',
-                    data: {
-                        search: search,
-                        category: category,
-                        location: location
-                    },
-                    success: function (response) {
-                        // Check if there are practitioners
-                        if (response.practitioners.length > 0) {
-                            let practitionersHTML = '';
+                getPractitioners(search, null, location, practitionerType);
+            });
 
-                            // Loop through the practitioners and build the HTML dynamically
-                            response.practitioners.forEach(function (user) {
-                                let images = user.user_detail ? JSON.parse(user.user_detail.images) : null;
-                                let image = images ? images.profile_image : null;
-                                let imageUrl = image ? '/storage/practitioners/' + user.user_detail.id + '/profile/' + image : '/assets/images/no_image.png';
+            $('.loadPractitioner').on('click', function (e) {
+                e.preventDefault();
+                let search = $('#search').val();
+                let location = $('#location').val();
+                let practitionerType = $('#practitionerType').val();
+                let category = $('#category').val();
+                getPractitioners(search, category, location, practitionerType);
+            });
 
-                                practitionersHTML += `
+            $('#category').on('change',function (e){
+                e.preventDefault();
+                let search = $('#search').val();
+                let location = $('#location').val();
+                let practitionerType = $('#practitionerType').val();
+                let category = $('#category').val();
+                getPractitioners(search, category, location, practitionerType);
+            })
+        });
+
+        function getPractitioners(search = null , category = null, location = null, practitionerType = null)
+        {
+            $.ajax({
+                url: '/search/practitioner',
+                type: 'get',
+                data: {
+                    search: search,
+                    category: category,
+                    location: location,
+                    practitionerType: practitionerType,
+                },
+                success: function (response) {
+                    if (response.practitioners.length > 0) {
+                        let practitionersHTML = '';
+
+                        // Loop through the practitioners and build the HTML dynamically
+                        response.practitioners.forEach(function (user) {
+                            let images = user.user_detail ? JSON.parse(user.user_detail.images) : null;
+                            let image = images ? images.profile_image : null;
+                            let imageUrl = image ? '/storage/practitioners/' + user.user_detail.id + '/profile/' + image : '/assets/images/no_image.png';
+
+                            practitionersHTML += `
                             <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
                                 <div class="featured-dv">
                                     <a href="/practitioner/${user.id}">
@@ -607,18 +627,17 @@
                                 </div>
                             </div>
                         `;
-                            });
+                        });
 
-                            // Replace the old content with the new one
-                            $('#practitionersList').html(practitionersHTML);
-                        } else {
-                            // No results found
-                            $('#practitionersList').html('<p>No practitioners found.</p>');
-                        }
+
+                        $('#practitionersList').html(practitionersHTML);
+                    } else {
+
+                        $('#practitionersList').html('<p>No practitioners found.</p>');
                     }
-                });
+                }
             });
-        });
+        }
 
     </script>
 @endsection

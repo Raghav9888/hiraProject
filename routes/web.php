@@ -23,6 +23,7 @@ Route::post('/contact', [HomeController::class, 'sendContactMail'])->name('sendC
 Route::get('/blog', [HomeController::class, 'blog'])->name('blog');
 Route::get('/blog-details', [HomeController::class, 'blogDetail'])->name('blogDetail');
 Route::get('/search/practitioner',[HomeController::class,'searchPractitioner'])->name('searchPractitioner');
+Route::get('/practitioners',[HomeController::class,'partitionerLists'])->name('partitionerLists');
 
 Route::get('/practitioner/detail/{id}', [HomeController::class, 'practitionerDetail'])->name('practitioner_detail');
 Route::get('/offering/{id}', [HomeController::class, 'offerDetail'])->name('offerDetail');
