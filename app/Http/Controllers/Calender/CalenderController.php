@@ -42,7 +42,7 @@ class CalenderController extends Controller
                 return response()->json([
                     'error' => 'Reauthentication required',
                     'redirect_url' => route('redirect_to_google')
-                ], 401);
+                ]);
             }
 
             $googleAccount->update([
