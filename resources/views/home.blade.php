@@ -73,7 +73,7 @@
     <!-- featured section start -->
     <section class="featured-section">
         <div class="container">
-            <div class="row my-5">
+            <div class="row my-4">
                 <div class="col-md-8">
                     <h1 class="home-title">Featured Practitioners </h1>
                 </div>
@@ -189,7 +189,7 @@
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-6 mb-5">
                         <div class="vision-and-about-dv">
-                            <h2>Our Vision</h2>
+                            <h2>OUR VISION</h2>
                             <p>Our vision is to create a world where holistic well-being is accessible to everyone. We
                                 aim to empower individuals by connecting them with experienced practitioners who bring
                                 balance and transformation into their lives. Through The Hira Collective, we envision a
@@ -199,7 +199,7 @@
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-6 mb-5">
                         <div class="vision-and-about-dv about-dv">
-                            <h2>About US</h2>
+                            <h2>ABOUT US</h2>
                             <p style="text-align: end;">The Hira Collective is a platform designed to connect customers
                                 with trusted wellness practitioners. Whether you seek guidance in Yoga, Reiki, Energy
                                 Healing, or other holistic practices, we provide a space where experts can share their
