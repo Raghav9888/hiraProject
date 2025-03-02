@@ -21,7 +21,6 @@
                         <h4>Company</h4>
                         <ul>
                             <li>Press</li>
-                            <li><a href="{{route('contact')}}">Contact Us</a></li>
                             <li>Our story</li>
                             <li>Our Vision</li>
                             <li>Core Values</li>
@@ -32,8 +31,9 @@
                     <div class="footer-lists">
                         <h4>Support</h4>
                         <ul>
-                            <li>FAQs Join as Practitioner</li>
+                            <li><a href="{{route('contact')}}">Contact Us</a></li>
                             <li>Terms and Conditions</li>
+                            <li>Privacy Policy</li>
                         </ul>
                     </div>
                 </div>

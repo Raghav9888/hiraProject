@@ -614,6 +614,7 @@
                                 : `${localPath}/images/no_image.png`;
 
                             let locations = user.location ? JSON.parse(user.location) : [];
+                            console.log(locations)
                             let locationText = locations.length ? locations.join(', ') : 'Unknown Location';
 
                             practitionersHTML += `
