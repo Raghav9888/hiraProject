@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\GoogleAccount;
 use Google_Client;
 use Google_Service_Calendar;
+use Google_Service_Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 
