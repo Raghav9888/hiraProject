@@ -1,6 +1,3 @@
-@extends('layouts.app')
-
-@section('content')
 
 <section class="test-my-offer">
     <div class="container">
@@ -99,5 +96,3 @@
     </div>
 </section>
 
-
-@endsection
