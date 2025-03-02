@@ -609,12 +609,12 @@
 
                         practitioners.slice(i, i + 4).forEach(user => {
                             let images = user.user_detail?.images ? JSON.parse(user.user_detail.images) : null;
+
                             let imageUrl = images?.profile_image
                                 ? `${imagePath}/practitioners/${user.user_detail.id}/profile/${images.profile_image}`
                                 : `${localPath}/images/no_image.png`;
 
                             let locations = user.location ? JSON.parse(user.location) : [];
-                            console.log(locations)
                             let locationText = locations.length ? locations.join(', ') : 'Unknown Location';
 
                             practitionersHTML += `

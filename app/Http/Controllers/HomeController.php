@@ -172,35 +172,35 @@ class HomeController extends Controller
 
     public function searchPractitioner(Request $request)
     {
-
         $search = $request->input('search');
         $category = $request->input('category');
         $type = $request->input('practitionerType');
         $location = $request->input('location');
         $buttonHitCount = $request->input('count') ?? 1;
 
-        $users = User::query();
+        $query = User::with('userDetail'); // Eager load userDetail relation
 
         if (isset($search) && $search) {
-            $users->where(function($query) use ($search) {
+            $query->where(function($query) use ($search) {
                 $query->where('first_name', 'like', '%' . $search . '%')
                     ->orWhere('last_name', 'like', '%' . $search . '%')
                     ->orWhere('name', 'like', '%' . $search . '%');
             });
         }
 
-        $users = $users->join('user_details', 'users.id', '=', 'user_details.user_id');
-
-
         if (isset($category) && $category) {
-            $users->where('user_details.specialities', 'like', '%' . $category . '%');
+            $query->whereHas('userDetail', function($query) use ($category) {
+                $query->where('specialities', 'like', '%' . $category . '%');
+            });
         }
 
-        if (isset($location)  && $location) {
-            $users->where('user_details.location', 'like', '%' . $location . '%');
+        if (isset($location) && $location) {
+            $query->whereHas('userDetail', function($query) use ($location) {
+                $query->where('location', 'like', '%' . $location . '%');
+            });
         }
 
-        $practitioners = $users->select('users.*', 'user_details.*')->get()->take($buttonHitCount * 8);
+        $practitioners = $query->get()->take($buttonHitCount * 8); // Get practitioners
 
         return response()->json([
             'practitioners' => $practitioners,
@@ -209,6 +209,7 @@ class HomeController extends Controller
             'location' => $location
         ]);
     }
+
 
     public function acknowledgement()
     {
