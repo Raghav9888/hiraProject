@@ -49,9 +49,9 @@
     <!-- explore categories section start -->
     <section>
         <div class="container">
-            <h2 class="home-title">Explore </h2>
+            <h2 class="home-title pb-2">Explore </h2>
 
-            <div class="row">
+            <div class="row mt-3">
                 @foreach($categories as $category)
                   @php
                   $name = $snakeCaseText = str_replace(' ', '_', strtolower($category->name));;
@@ -73,7 +73,7 @@
     <!-- featured section start -->
     <section class="featured-section">
         <div class="container">
-            <div class="row">
+            <div class="row my-5">
                 <div class="col-md-8">
                     <h1 class="home-title">Featured Practitioners </h1>
                 </div>
