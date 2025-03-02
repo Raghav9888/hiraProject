@@ -24,52 +24,46 @@ class CalenderController extends Controller
     public function getGoogleCalendarEvents()
     {
         $user = Auth::user();
+
         $googleAccount = GoogleAccount::where('user_id', $user->id)->first();
 
         if (!$googleAccount || !$googleAccount->refresh_token) {
-            return response()->json(['error' => 'Google account not connected.'], 401);
+            return;
         }
 
-        try {
-            $client = new Google_Client();
-            $client->setAuthConfig(storage_path('app/google-calendar/credentials.json'));
-            $client->setAccessToken($googleAccount->access_token);
+        $client = new Google_Client();
+        $client->setAuthConfig(storage_path('app/google-calendar/google-calendar.json'));
+        $client->setAccessToken($googleAccount->access_token);
 
-            // Check if the access token is expired and refresh it
-            if ($client->isAccessTokenExpired()) {
-                $client->fetchAccessTokenWithRefreshToken($googleAccount->refresh_token);
-                $newToken = $client->getAccessToken();
-dd($newToken);
-                $googleAccount->update([
-                    'access_token' => $newToken['access_token'],
-                    'refresh_token' => $newToken['refresh_token'] ?? $googleAccount->refresh_token, // Preserve refresh token
-                ]);
 
-                $client->setAccessToken($newToken);
-            }
+        if ($client->isAccessTokenExpired()) {
+            $client->fetchAccessTokenWithRefreshToken($googleAccount->refresh_token);
+            $newToken = $client->getAccessToken();
 
-            // Fetch Calendar Events
-            $service = new Google_Service_Calendar($client);
-            $events = $service->events->listEvents('primary');
-
-            $userEvents = [];
-            foreach ($events->getItems() as $event) {
-                $userEvents[] = [
-                    'id' => $event->getId(),
-                    'title' => $event->getSummary(),
-                    'description' => $event->getDescription(),
-                    'start' => $event->getStart()->getDateTime() ?? $event->getStart()->getDate(),
-                    'end' => $event->getEnd()->getDateTime() ?? $event->getEnd()->getDate(),
-                ];
-            }
-
-            return response()->json(['events' => $userEvents], 200);
-        } catch (Google_Service_Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Unexpected error occurred.'], 500);
+            $googleAccount->update([
+                'access_token' => $newToken['access_token'],
+                'expires_at' => isset($newToken['expires_in']) && $newToken['expires_in']
+                    ? now()->addSeconds($newToken['expires_in'])
+                    : null,
+            ]);
         }
+
+        $service = new Google_Service_Calendar($client);
+        $events = $service->events->listEvents('primary');
+        $userEvents = [];
+        foreach ($events as $event) {
+            $userEvents[] = [
+                'id' => $event->getId(),
+                'title' => $event->getSummary(),
+                'description' => $event->getDescription(),
+                'start' => $event->getStart()->getDateTime(),
+                'end' => $event->getEnd()->getDateTime(),
+            ];
+        }
+
+        return $userEvents;
     }
+
 
 
     public function upComingEvents()
