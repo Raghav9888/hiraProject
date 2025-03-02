@@ -5,7 +5,7 @@
             <div class="col-sm-12 col-lg-6">
                 <div class="cart-test-left-dv">
                     @php
-                        $imageUrl = asset(env('media_path') . '/practitioners/' . $user->id . '/offering/' . $offerDetail->featured_image);
+                        $imageUrl = isset($offerDetail->featured_image) && $offerDetail->featured_image?asset(env('media_path') . '/practitioners/' . $user->id . '/offering/' . $offerDetail->featured_image) :asset(env('local_path').'/images/no_image.png');
                     @endphp
                     <img src="{{ $imageUrl }}" alt="{{ $offerDetail->featured_image }}">
                 </div>

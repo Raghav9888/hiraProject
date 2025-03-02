@@ -42,7 +42,7 @@
                     <div class="col-sm-12 col-md-3 col-lg-3">
 
                         @php
-                            $imageUrl = isset($image) ? asset(env('media_path') . '/practitioners/' . $userDetails->id . '/profile/' . $image) :asset('assets/images/no_image.png');
+                            $imageUrl = isset($image) ? asset(env('media_path') . '/practitioners/' . $userDetails->id . '/profile/' . $image) :asset(env('local_path').'/images/no_image.png');
                         @endphp
                         <img class="mb-4 img-fluid rounded-5" src="{{ $imageUrl }}" alt="darrel">
                         <div class="d-flex justify-content-between flex-wrap align-items-center">
