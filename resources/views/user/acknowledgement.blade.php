@@ -73,7 +73,8 @@
 
                     • Your Local Indigenous Friendship Centre – Many cities have Indigenous Friendship Centres that
                     provide cultural, social, and health programs. Find one near you and explore ways to engage.
-
+                </p>
+                <p>
                     Healing and reconciliation are ongoing, collective efforts. We encourage you to take the time to
                     listen, learn, and take meaningful action in ways that honor the spirit of this land and its
                     original caretakers.
