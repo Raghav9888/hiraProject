@@ -34,10 +34,10 @@ class CalenderController extends Controller
         $client->setAuthConfig(storage_path('app/google-calendar/google-calendar.json'));
         $client->setAccessToken($googleAccount->access_token);
 
-        // **Fix: Remove incorrect usage of fetchAccessTokenWithAuthCode**
-        if ($client->isAccessTokenExpired()) {
-            $newToken = $client->fetchAccessTokenWithRefreshToken($googleAccount->refresh_token);
 
+        if ($client->isAccessTokenExpired()) {
+            $newToken = $client->fetchAccessTokenWithRefreshToken($googleAccount->access_token);
+dd($newToken);
             if (isset($newToken['access_token'])) {
                 $googleAccount->update([
                     'access_token' => $newToken['access_token'],
