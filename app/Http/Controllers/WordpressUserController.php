@@ -19,11 +19,11 @@ class WordpressUserController extends Controller
             $user = User::where('email', $wpUser->user_email)->first();
 
             if (!$user) {
-                // Create user if not exists
+               
                 $user = User::create([
                     'name' => $wpUser->user_login,
                     'email' => $wpUser->user_email,
-                    'password' => Hash::make('123456'),
+                    'password' => Hash::make('12345678'),
                     'role' => 1,
                 ]);
             }

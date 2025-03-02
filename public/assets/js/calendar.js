@@ -72,8 +72,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-
-
 function sendToServer(eventData, calendar) {
     $.ajax({
         url: '/calendar/create-events',
