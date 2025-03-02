@@ -44,7 +44,7 @@ class CalenderController extends Controller
                     'redirect_url' => route('redirect_to_google')
                 ], 401);
             }
-            dd($newToken);
+
             $googleAccount->update([
                 'access_token' => $newToken['access_token'],
                 'refresh_token' => $newToken['refresh_token'] ?? $googleAccount->refresh_token, // Keep old refresh token if new one isn't provided

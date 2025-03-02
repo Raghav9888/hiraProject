@@ -7,7 +7,23 @@ document.addEventListener('DOMContentLoaded', function () {
         editable: true,
         selectable: true,
         dayMaxEvents: true,
-        events: '/calendar/events',
+        events: function(info, successCallback, failureCallback) {
+            fetch('/calendar/events')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error && data.error === 'Reauthentication required') {
+                        // Redirect to the provided URL
+                        window.location.href = data.redirect_url;
+                    } else {
+                        // Pass the events to FullCalendar
+                        successCallback(data.events);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching events:', error);
+                    failureCallback(error);
+                });
+        },
 
         select: function (info) {
             console.log(info);
@@ -21,7 +37,6 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('eventModal').style.display = 'block';
         },
         eventDrop: function (info) {
-
             // updateEvent(info.event);
         },
         eventClick: function (info) {
@@ -53,8 +68,8 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('createEventForm').reset(); // Reset form fields
         document.getElementById('eventModal').style.display = 'none';
     });
-
 });
+
 
 
 function sendToServer(eventData, calendar) {
