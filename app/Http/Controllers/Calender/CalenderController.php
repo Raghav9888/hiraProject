@@ -23,58 +23,50 @@ class CalenderController extends Controller
     public function getGoogleCalendarEvents()
     {
         $user = Auth::user();
-
         $googleAccount = GoogleAccount::where('user_id', $user->id)->first();
 
         if (!$googleAccount || !$googleAccount->refresh_token) {
-            return response()->json([
-                'error' => 'No Google account linked or missing refresh token.'
-            ], 401);
-        }
-
-        $client = new Google_Client();
-        $client->setAuthConfig(storage_path('app/google-calendar/google-calendar.json'));
-        $client->setAccessToken($googleAccount->access_token);
-
-        // Handle token expiration
-        if ($client->isAccessTokenExpired()) {
-            \Log::info('Access token expired, attempting refresh...');
-
-            $client->fetchAccessTokenWithRefreshToken($googleAccount->refresh_token);
-            $newToken = $client->getAccessToken();
-
-            if (!isset($newToken['access_token'])) {
-                \Log::error('Failed to refresh token: ' . json_encode($newToken));
-                return response()->json(['error' => 'Failed to refresh access token.'], 401);
-            }
-
-            // Update the new token in the database
-            $googleAccount->update([
-                'access_token' => $newToken['access_token'],
-            ]);
-
-            $client->setAccessToken($newToken);
+            return response()->json(['error' => 'Google account not connected.'], 401);
         }
 
         try {
+            $client = new Google_Client();
+            $client->setAuthConfig(storage_path('app/google-calendar/credentials.json'));
+            $client->setAccessToken($googleAccount->access_token);
+
+            // Check if the access token is expired and refresh it
+            if ($client->isAccessTokenExpired()) {
+                $client->fetchAccessTokenWithRefreshToken($googleAccount->refresh_token);
+                $newToken = $client->getAccessToken();
+
+                $googleAccount->update([
+                    'access_token' => $newToken['access_token'],
+                    'refresh_token' => $newToken['refresh_token'] ?? $googleAccount->refresh_token, // Preserve refresh token
+                ]);
+
+                $client->setAccessToken($newToken);
+            }
+
+            // Fetch Calendar Events
             $service = new Google_Service_Calendar($client);
             $events = $service->events->listEvents('primary');
 
             $userEvents = [];
-            foreach ($events as $event) {
+            foreach ($events->getItems() as $event) {
                 $userEvents[] = [
                     'id' => $event->getId(),
                     'title' => $event->getSummary(),
                     'description' => $event->getDescription(),
-                    'start' => $event->getStart()->getDateTime(),
-                    'end' => $event->getEnd()->getDateTime(),
+                    'start' => $event->getStart()->getDateTime() ?? $event->getStart()->getDate(),
+                    'end' => $event->getEnd()->getDateTime() ?? $event->getEnd()->getDate(),
                 ];
             }
 
             return response()->json(['events' => $userEvents], 200);
+        } catch (Google_Service_Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
         } catch (\Exception $e) {
-            \Log::error('Google API Error: ' . $e->getMessage());
-            return response()->json(['error' => 'Google API request failed.'], 500);
+            return response()->json(['error' => 'Unexpected error occurred.'], 500);
         }
     }
 
