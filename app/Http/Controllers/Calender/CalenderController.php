@@ -37,16 +37,14 @@ class CalenderController extends Controller
         // **If Token is Expired, Try Refreshing**
         if ($client->isAccessTokenExpired()) {
             $newToken = $client->fetchAccessTokenWithRefreshToken($googleAccount->refresh_token);
-
-            // **If refresh fails, redirect to OAuth login**
+            
             if (isset($newToken['error'])) {
                 return response()->json([
                     'error' => 'Reauthentication required',
                     'redirect_url' => route('google.auth.redirect')
                 ], 401);
             }
-
-            // **Update Token in Database**
+            dd($newToken);
             $googleAccount->update([
                 'access_token' => $newToken['access_token'],
                 'refresh_token' => $newToken['refresh_token'] ?? $googleAccount->refresh_token, // Keep old refresh token if new one isn't provided
