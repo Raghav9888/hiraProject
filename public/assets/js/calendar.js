@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function (response) {
+                    console.log(response)
                     if (response.error) {
                         window.location.href = response.redirect_url;
                     } else {
