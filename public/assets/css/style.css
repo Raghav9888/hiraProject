@@ -781,6 +781,8 @@ section {
     border-radius: 24px;
     padding: 20px;
     position: relative;
+    height: 100% !important;
+    max-height: 480px;
 }
 
 .featured-dv img {
