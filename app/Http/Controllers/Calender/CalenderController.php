@@ -27,19 +27,28 @@ class CalenderController extends Controller
         $googleAccount = GoogleAccount::where('user_id', $user->id)->first();
 
         if (!$googleAccount || !$googleAccount->refresh_token) {
-            return;
+            return response()->json([
+                'error' => 'No Google account linked or missing refresh token.'
+            ], 401);
         }
 
         $client = new Google_Client();
         $client->setAuthConfig(storage_path('app/google-calendar/google-calendar.json'));
         $client->setAccessToken($googleAccount->access_token);
 
-
+        // Handle token expiration
         if ($client->isAccessTokenExpired()) {
+            \Log::info('Access token expired, attempting refresh...');
+
             $client->fetchAccessTokenWithRefreshToken($googleAccount->refresh_token);
             $newToken = $client->getAccessToken();
 
-            // Update the token in the database
+            if (!isset($newToken['access_token'])) {
+                \Log::error('Failed to refresh token: ' . json_encode($newToken));
+                return response()->json(['error' => 'Failed to refresh access token.'], 401);
+            }
+
+            // Update the new token in the database
             $googleAccount->update([
                 'access_token' => $newToken['access_token'],
             ]);
@@ -47,22 +56,28 @@ class CalenderController extends Controller
             $client->setAccessToken($newToken);
         }
 
+        try {
+            $service = new Google_Service_Calendar($client);
+            $events = $service->events->listEvents('primary');
 
-        $service = new Google_Service_Calendar($client);
-        $events = $service->events->listEvents('primary');
-        $userEvents = [];
-        foreach ($events as $event) {
-            $userEvents[] = [
-                'id' => $event->getId(),
-                'title' => $event->getSummary(),
-                'description' => $event->getDescription(),
-                'start' => $event->getStart()->getDateTime(),
-                'end' => $event->getEnd()->getDateTime(),
-            ];
+            $userEvents = [];
+            foreach ($events as $event) {
+                $userEvents[] = [
+                    'id' => $event->getId(),
+                    'title' => $event->getSummary(),
+                    'description' => $event->getDescription(),
+                    'start' => $event->getStart()->getDateTime(),
+                    'end' => $event->getEnd()->getDateTime(),
+                ];
+            }
+
+            return response()->json(['events' => $userEvents], 200);
+        } catch (\Exception $e) {
+            \Log::error('Google API Error: ' . $e->getMessage());
+            return response()->json(['error' => 'Google API request failed.'], 500);
         }
-
-        return $userEvents;
     }
+
 
     public function upComingEvents()
     {
