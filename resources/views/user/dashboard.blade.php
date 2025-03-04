@@ -115,7 +115,7 @@
                 <div class="row">
                     <h4>Endorsements</h4>
                     <div class="row" id="endorsementRow">
-                        @foreach($users as $user)
+
                             @php
                                 $endorsements = json_decode($user->userDetail->endorsements, true); // Decode the JSON data to an array
                             @endphp
@@ -164,7 +164,7 @@
                                     @endif
                                 @endforeach
                             @endif
-                        @endforeach
+
                     </div>
                 </div>
             </div>
