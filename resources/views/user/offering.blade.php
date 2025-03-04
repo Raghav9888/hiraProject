@@ -53,11 +53,11 @@
                                             <td class="details">
                                                 <h4>{{ $offering->name  }}</h4>
                                                 <div class="wcv_mobile_status wcv_mobile">Online</div>
-                                                <div class="wcv_mobile_price wcv_mobile">
-                                                        <span class="woocommerce-Price-amount amount">
-                                                            <bdi><span class="woocommerce-Price-currencySymbol">$</span>{{ $offering->cost ?? 0 }}</bdi>
-                                                        </span>
-                                                </div>
+{{--                                                <div class="wcv_mobile_price wcv_mobile">--}}
+{{--                                                        <span class="woocommerce-Price-amount amount">--}}
+{{--                                                            <bdi><span class="woocommerce-Price-currencySymbol">$</span>{{ $offering->client_price ?? 0 }}</bdi>--}}
+{{--                                                        </span>--}}
+{{--                                                </div>--}}
                                                 <div class="cat_tags">
                                                     Categories:@foreach($categories as $term)
                                                         @if(isset($offering->categories) && in_array($term->id, json_decode($offering->categories)))
@@ -76,7 +76,9 @@
                                                 <div class="row-actions row-actions-product">
                                                     <a href="{{route('edit_offering',$offering->id)}}">Edit</a>
                                                     {{--                                                    <a href="https://thehiracollective.com/dashboard/product/duplicate/9694">Duplicate</a>--}}
-                                                    <a onclick="deleteOffering({{ $offering->id }})" style="cursor: pointer">Delete</a>
+                                                    <form method="post">
+                                                        <a onclick="deleteOffering({{ $offering->id }})" style="cursor: pointer">Delete</a>
+                                                    </form>
 {{--                                                    <a href="{{route('show_offering', $offering->id)}}"--}}
 {{--                                                       target="_blank">View</a>--}}
                                                 </div>
