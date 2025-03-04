@@ -112,40 +112,60 @@
                         <i class="fas fa-search"></i>
                     </button>
                 </div>
-                <h2>Endorsement</h2>
-                <div class="row" id="endorsementRow">
-                    @foreach($users as $user)
-                        @php
-                            $endorsements = json_decode($user->userDetail->endorsements, true); // Decode the JSON data to an array
-                        @endphp
+                <div class="row">
+                    <h4>Endorsements</h4>
+                    <div class="row" id="endorsementRow">
+                        @foreach($users as $user)
+                            @php
+                                $endorsements = json_decode($user->userDetail->endorsements, true); // Decode the JSON data to an array
+                            @endphp
 
-                        @if($endorsements && is_array($endorsements))
-                            @foreach($endorsements as $endorsedUserId)
-                                @if($endorsedUserId)
-                                    <div class="col-sm-12 col-md-6 col-lg-4">
-                                        <div class="browser-other-dv">
-                                            <div class="d-flex justify-content-center">
-                                                <img class="mt-5 mb-3"
-                                                     src="{{ url('/assets/images/question-mark.svg') }}" alt="">
-                                            </div>
-                                            <h5>{{ $user->name }}</h5>
-                                            <h6>Alternative and Holistic <br/>Health Practitioner</h6>
-                                            <div class="d-flex justify-content-between">
+                            @if($endorsements && is_array($endorsements))
+                                @foreach($endorsements as $endorsedUserId)
+                                    @if($endorsedUserId)
+                                        <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
+                                            <div class="featured-dv">
+                                                <a href="{{route('practitioner_detail', $user->id)}}">
+                                                    @php
+                                                        $images = isset($user->userDetail->images) ? json_decode($user->userDetail->images, true) : null;
+                                                        $image = isset($images['profile_image']) && $images['profile_image'] ?$images['profile_image'] : null;
+                                                        $imageUrl = $image  ? asset(env('media_path') . '/practitioners/' . $user->userDetail->id . '/profile/' . $image) : asset('assets/images/no_image.png');
+                                                    @endphp
+                                                    <img src="{{ $imageUrl }}" alt="person">
+                                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                                        <h4>{{ $user->name }}</h4>
+                                                        <i class="fa-regular fa-heart"></i>
+                                                    </div>
+                                                    <h5>
+                                                        @php
+                                                            $locations = isset($user->location) && $user->location ?json_decode($user->location, true) : null;
+                                                        @endphp
+                                                        @if($locations)
+                                                            @foreach($locations as $location)
+                                                                <i class="fa-solid fa-location-dot"></i>  {{ $location .',' }}
+                                                            @endforeach
+                                                        @endif
+                                                    </h5>
+                                                    <p>Alternative and Holistic Health Practitioner</p>
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <div>
+                                                            <i class="fa-regular fa-gem"></i>
+                                                            <i class="fa-regular fa-gem"></i>
+                                                            <i class="fa-regular fa-gem"></i>
+                                                            <i class="fa-regular fa-gem"></i>
+                                                            <i class="fa-regular fa-gem"></i>
+                                                        </div>
+                                                        <h6>5.0 Ratings</h6>
+                                                    </div>
+                                                </a>
 
-                                                <div class="miles"><i class="fa-solid fa-location-dot me-2"></i>0.3 km
-                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                @endif
-                            @endforeach
-                        @else
-                            <!-- Optionally, you can add a message when there are no endorsements -->
-                            <p>No endorsements for this practitioner.</p>
-                        @endif
-                    @endforeach
-
-
+                                    @endif
+                                @endforeach
+                            @endif
+                        @endforeach
+                    </div>
                 </div>
             </div>
         </div>
