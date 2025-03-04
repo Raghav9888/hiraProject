@@ -11,8 +11,10 @@
             <p>My Membership</p>
         </li>
         <li>
-            <img src="{{url('./assets/images/Chat.svg')}}" alt="">
-            <p>Community</p>
+            <a href="{{route('community')}}">
+                <img src="{{url('./assets/images/Chat.svg')}}" alt="">
+                <p>Community</p>
+            </a>
         </li>
 
         <li>

@@ -310,4 +310,11 @@ class PractitionerController extends Controller
 
     }
 
+    public function community()
+    {
+        $user = Auth::user();
+        $userDetails = $user->userDetail;
+        return view('user.community', compact('user', 'userDetails'));
+    }
+
 }

@@ -66,10 +66,10 @@
 
                                                 @endif
 
-                                                <div class="preview-div">
-                                                    <img src="{{ url('/assets/images/Laptop.svg') }}" alt="">
-                                                    <p>preview</p>
-                                                </div>
+{{--                                                <div class="preview-div">--}}
+{{--                                                    <img src="{{ url('/assets/images/Laptop.svg') }}" alt="">--}}
+{{--                                                    <p>preview</p>--}}
+{{--                                                </div>--}}
                                             </div>
 
                                         </div>
