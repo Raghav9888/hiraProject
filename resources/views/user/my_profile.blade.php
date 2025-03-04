@@ -49,8 +49,8 @@
                                                     @php
                                                         $imageUrl = asset(env('media_path') . '/practitioners/' . $userDetails->id . '/profile/' . $image);
                                                     @endphp
-                                                    <label class="image-preview" id="imagePreview"
-                                                           style="border-radius: 50%; background-image: url('{{$imageUrl}}'); background-size: cover; background-position: center center;">
+                                                    <label class="image-preview rounded-5 " id="imagePreview"
+                                                           style=" background-image: url('{{$imageUrl}}'); background-size: cover; background-position: center center;">
                                                         <i class="fas fa-trash text-danger fs-3"
                                                            data-image="{{ $image }}"
                                                            data-user-id="{{ $userDetails->id }}"
@@ -306,48 +306,20 @@
 
 
                                         <div class="mb-4">
-                                            <label for="endorsements" class="fw-bold">Endorsements</label>
-                                            <select id="endorsements" name="endorsements" class="form-select">
-                                                <option>Select</option>
-                                                @foreach($users as $user)
-                                                    <option
-                                                        value="{{$user->id}}" {{ $userDetails->endorsements == $user->id ? 'selected' : '' }}>{{$user->name}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-
-                                        <div class="mb-4">
                                             <label for="timezone" class="fw-bold">Timezone</label>
                                             <select id="timezone" name="timezone" class="form-select">
-                                                <option>Select</option>
+                                                <option value="">Select</option>
+                                                @foreach ($timezones as $timezone)
+                                                    <option value="{{ $timezone['id'] }}" {{ old('timezone', $user->timezone ?? '') == $timezone['id'] ? 'selected' : '' }}>
+                                                        {{ $timezone['name'] }}
+                                                    </option>
+                                                @endforeach
                                             </select>
-                                            <p style="text-align: start;">select your timezone</p>
+                                            <p style="text-align: start;">Select your timezone</p>
                                         </div>
-                                        {{--                                        <div class="mb-4">--}}
-                                        {{--                                            <div class="form-check offering-check">--}}
-                                        {{--                                                <input type="checkbox" class="form-check-input" id="is_opening_hours"--}}
-                                        {{--                                                       name="is_opening_hours">--}}
-                                        {{--                                                <label class="form-check-label" for="is_opening_hours">Enable opening--}}
-                                        {{--                                                    hours</label>--}}
-                                        {{--                                            </div>--}}
-                                        {{--                                        </div>--}}
-                                        {{--                                        <div class="mb-4">--}}
-                                        {{--                                            <div class="form-check offering-check">--}}
-                                        {{--                                                <input type="checkbox" class="form-check-input" id="is_notice"--}}
-                                        {{--                                                       name="is_notice">--}}
-                                        {{--                                                <label class="form-check-label" for="is_notice">Enable notice</label>--}}
-                                        {{--                                            </div>--}}
-                                        {{--                                        </div>--}}
-                                        {{--                                        <div class="mb-4">--}}
-                                        {{--                                            <div class="form-check offering-check">--}}
-                                        {{--                                                <input type="checkbox" class="form-check-input" id="is_google_analytics"--}}
-                                        {{--                                                       name="is_google_analytics">--}}
-                                        {{--                                                <label class="form-check-label" for="is_google_analytics">Enable Google--}}
-                                        {{--                                                    Analytics</label>--}}
-                                        {{--                                            </div>--}}
-                                        {{--                                        </div>--}}
-                                        <div class="d-flex" style="gap: 20px;">
 
+
+                                        <div class="d-flex" style="gap: 20px;">
                                             <button type="submit" class="update-btn ms-0">Save Changes</button>
                                         </div>
                                     </form>

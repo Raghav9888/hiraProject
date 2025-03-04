@@ -85,7 +85,17 @@ class CalenderController extends Controller
             return;
         }
 
-        $events = $this->getGoogleCalendarEvents();
+        // Get the response and extract JSON data
+        $response = $this->getGoogleCalendarEvents();
+
+        // Convert JSON response to array
+        $events = json_decode($response->getContent(), true);
+
+        // If decoding fails or error occurs, return an empty array
+        if (!is_array($events)) {
+            return ['events' => []];
+        }
+
         $now = new \DateTime();
         $filterEvents = array_filter($events, function ($event) use ($now) {
             if (empty($event['start']) || empty($event['end'])) {
@@ -95,10 +105,12 @@ class CalenderController extends Controller
             $eventStart = new \DateTime($event['start']);
             return $eventStart >= $now;
         });
+
         return [
-            'events' => $filterEvents,
+            'events' => array_values($filterEvents),
         ];
     }
+
 
 
 }
