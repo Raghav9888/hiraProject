@@ -8,7 +8,7 @@
         </li>
         <li>
             <img src="{{url('./assets/images/User.svg')}}" alt="">
-            <p>Account</p>
+            <p>My Membership</p>
         </li>
         <li>
             <img src="{{url('./assets/images/Chat.svg')}}" alt="">
