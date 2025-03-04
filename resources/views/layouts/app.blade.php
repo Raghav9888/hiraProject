@@ -45,6 +45,7 @@
 @include('layouts.footer')
 
 <script type="module">
+
     $(document).ready(function(){
         $(".owl-carousel").owlCarousel({
             items: 6,
@@ -52,8 +53,12 @@
             margin: 10,
             autoplay: true,
             autoplayTimeout: 3000,
-            nav: true,
-            dots: true,
+            nav: true, // Enable navigation arrows
+            dots: true, // Show navigation dots
+            navText: [
+                "<i class='fa fa-chevron-left'></i>",
+                "<i class='fa fa-chevron-right'></i>"
+            ], // Custom navigation icons
             responsive: {
                 0: {
                     items: 1
@@ -66,7 +71,18 @@
                 }
             }
         });
+
+        // Ensure manual click on navigation arrows works
+        $(".owl-prev").click(function() {
+            $(".owl-carousel").trigger('prev.owl.carousel');
+        });
+
+        $(".owl-next").click(function() {
+            $(".owl-carousel").trigger('next.owl.carousel');
+        });
     });
+
+
 
     $(".select2").select2({
   /* maximumSelectionLength: 2 */

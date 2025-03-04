@@ -49,7 +49,7 @@
                                 <label class="form-check-label mb-0 ms-2" for="exampleCheck1">Send yourself a
                                     copy</label>
                             </div>
-                            <button type="submit">Search</button>
+                            <button type="submit">Send message</button>
                         </form>
                         <img class="star-2" src="{{ url('./asserts/images/Star 2.svg') }}" alt="">
                     </div>
