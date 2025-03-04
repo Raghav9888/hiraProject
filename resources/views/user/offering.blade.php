@@ -74,13 +74,13 @@
                                                     @endforeach
                                                 </div>
                                                 <div class="row-actions row-actions-product">
-                                                    <a href="{{route('edit_offering',$offering->id)}}">Edit</a>
-                                                    {{--                                                    <a href="https://thehiracollective.com/dashboard/product/duplicate/9694">Duplicate</a>--}}
-                                                    <form method="post">
-                                                        <a onclick="deleteOffering({{ $offering->id }})" style="cursor: pointer">Delete</a>
-                                                    </form>
-{{--                                                    <a href="{{route('show_offering', $offering->id)}}"--}}
-{{--                                                       target="_blank">View</a>--}}
+                                                    <div class="d-flex">
+                                                        <a href="{{route('edit_offering',$offering->id)}}">Edit</a>
+                                                        {{--                                                    <a href="https://thehiracollective.com/dashboard/product/duplicate/9694">Duplicate</a>--}}
+                                                        <form method="post" action="{{route('delete_offering', $offering->id)}}">@csrf
+                                                            <button type="submit" style="cursor: pointer; border: none; background: none;color: #000;">Delete</button>
+                                                        </form>
+                                                    </div>
                                                 </div>
                                             </td>
                                             <td class="price">

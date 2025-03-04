@@ -161,6 +161,6 @@ class OfferingController extends Controller
         $offering = Offering::findOrFail($id);
         $offering->delete();
 
-        return response()->json(['message' => 'Offering deleted successfully!']);
+        return redirect()->route('offering')->with('success', 'Offering updated successfully!');
     }
 }
