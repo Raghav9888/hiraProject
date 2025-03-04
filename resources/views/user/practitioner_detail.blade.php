@@ -6,7 +6,7 @@
             <div class="practitioner-search-dv">
                 <div class="d-flex justify-content-between flex-wrap align-items-center mb-4">
                     <a href="{{ route('home') }}" class="blog-view-more"><i
-                            class="fa-solid fa-chevron-left me-2"></i>Back</a>
+                                class="fa-solid fa-chevron-left me-2"></i>Back</a>
                     <div class="search-container location-input">
                         <input type="text" class="search-input" placeholder="Search other practitioners">
                         <button class="search-button">
@@ -32,7 +32,8 @@
                             @foreach($locations as  $location)
                                 @if(in_array($location->id,$userLocations))
                                     <div class="practitioner-location-dv mb-4">
-                                        <button><i class="fa-solid fa-location-dot me-2"></i>{{$location->name}}</button>
+                                        <button><i class="fa-solid fa-location-dot me-2"></i>{{$location->name}}
+                                        </button>
                                         <ul class="m-0">
                                             <li>Virtual Offerings Available</li>
                                         </ul>
@@ -67,8 +68,8 @@
                         @foreach ($mediaImages as $image)
                             <div class="swiper-slide">
                                 <img
-                                    src="{{ asset(env('media_path') . '/practitioners/' . $userDetails->id . '/media/' . $image) }}"
-                                    alt="media image">
+                                        src="{{ asset(env('media_path') . '/practitioners/' . $userDetails->id . '/media/' . $image) }}"
+                                        alt="media image">
 
                             </div>
                         @endforeach
@@ -95,7 +96,8 @@
                                         <p class="m-0">Select Currency</p>
                                         <div class="dropdown Currency-select">
                                             <div class="dropdown">
-                                                <select class="form-select" aria-label="Default select example" style="border-radius: 30px !important;padding: 10px 36px 10px 10px;text-align: start;">
+                                                <select class="form-select" aria-label="Default select example"
+                                                        style="border-radius: 30px !important;padding: 10px 36px 10px 10px;text-align: start;">
                                                     <option value="cad">CAD</option>
                                                     <option value="usd">USD</option>
                                                 </select>
@@ -118,7 +120,7 @@
 
                                             <button id="view-more-btn" class="blog-view-more mb-2"
                                                     style="color:#9F8B72;">More Info<i
-                                                    class="fas fa-chevron-down ms-2"></i></button>
+                                                        class="fas fa-chevron-down ms-2"></i></button>
 
                                             <div id="lorem-text" class="lorem-text">
                                                 <div class="toggle-data-dv">
@@ -134,10 +136,10 @@
                                                     <div class="toggle-dv-review">
                                                         <div class="d-flex mb-2" style="gap: 20px;">
                                                             <button>Description</button>
-{{--                                                            <button--}}
-{{--                                                                style="background-color: transparent;color: #9F8B72;">--}}
-{{--                                                                Reviews--}}
-{{--                                                            </button>--}}
+                                                            {{--                                                            <button--}}
+                                                            {{--                                                                style="background-color: transparent;color: #9F8B72;">--}}
+                                                            {{--                                                                Reviews--}}
+                                                            {{--                                                            </button>--}}
                                                         </div>
                                                         {{$offering->long_description}}
                                                     </div>
@@ -220,229 +222,246 @@
                                 </div>
                             </div>
                         </div>
-{{--                        <div class="accordion-item">--}}
-{{--                            <h2 class="accordion-header" id="headingSix">--}}
-{{--                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"--}}
-{{--                                        data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">--}}
-{{--                                    Reviews--}}
-{{--                                </button>--}}
-{{--                            </h2>--}}
-{{--                            <div id="collapseSix" class="accordion-collapse collapse show" aria-labelledby="headingSix"--}}
-{{--                                 data-bs-parent="#accordionExample">--}}
-{{--                                <div class="accordion-body review-dv-data">--}}
-{{--                                    <div class="d-flex justify-content-between flex-wrap mb-3">--}}
-{{--                                        <div>--}}
-{{--                                            <div class="d-flex align-items-center mb-3">--}}
-{{--                                                <h6 class="font-weight-bold">5.0</h6>--}}
-{{--                                                <div class="mx-2">--}}
-{{--                                                    <div class="progress">--}}
-{{--                                                        <div class="progress-bar" role="progressbar" style="width: 80%;"--}}
-{{--                                                             aria-valuenow="80" aria-valuemin="0"--}}
-{{--                                                             aria-valuemax="100"></div>--}}
-{{--                                                    </div>--}}
-{{--                                                </div>--}}
-{{--                                                <h6 class="review-count-text">26 Reviews</h5>--}}
-{{--                                            </div>--}}
-{{--                                            <div class="d-flex align-items-center mb-3">--}}
-{{--                                                <h6 class="font-weight-bold">4.0</h6>--}}
-{{--                                                <div class="mx-2">--}}
-{{--                                                    <div class="progress">--}}
-{{--                                                        <div class="progress-bar" role="progressbar" style="width: 70%;"--}}
-{{--                                                             aria-valuenow="70" aria-valuemin="0"--}}
-{{--                                                             aria-valuemax="100"></div>--}}
-{{--                                                    </div>--}}
-{{--                                                </div>--}}
-{{--                                                <h6 class="review-count-text">23 Reviews</h5>--}}
-{{--                                            </div>--}}
-{{--                                            <div class="d-flex align-items-center mb-3">--}}
-{{--                                                <h6 class="font-weight-bold">3.0</h6>--}}
-{{--                                                <div class="mx-2">--}}
-{{--                                                    <div class="progress">--}}
-{{--                                                        <div class="progress-bar" role="progressbar" style="width: 50%;"--}}
-{{--                                                             aria-valuenow="50" aria-valuemin="0"--}}
-{{--                                                             aria-valuemax="100"></div>--}}
-{{--                                                    </div>--}}
-{{--                                                </div>--}}
-{{--                                                <h6 class="review-count-text">15 Reviews</h5>--}}
-{{--                                            </div>--}}
-{{--                                            <div class="d-flex align-items-center mb-3">--}}
-{{--                                                <h6 class="font-weight-bold">2.0</h6>--}}
-{{--                                                <div class="mx-2">--}}
-{{--                                                    <div class="progress">--}}
-{{--                                                        <div class="progress-bar" role="progressbar" style="width: 20%;"--}}
-{{--                                                             aria-valuenow="20" aria-valuemin="0"--}}
-{{--                                                             aria-valuemax="100"></div>--}}
-{{--                                                    </div>--}}
-{{--                                                </div>--}}
-{{--                                                <h6 class="review-count-text">6 Reviews</sh5>--}}
-{{--                                            </div>--}}
-{{--                                            <div class="d-flex align-items-center mb-3">--}}
-{{--                                                <span class="font-weight-bold">1.0</span>--}}
-{{--                                                <div class="mx-2">--}}
-{{--                                                    <div class="progress">--}}
-{{--                                                        <div class="progress-bar" role="progressbar" style="width: 10%;"--}}
-{{--                                                             aria-valuenow="10" aria-valuemin="0"--}}
-{{--                                                             aria-valuemax="100"></div>--}}
-{{--                                                    </div>--}}
-{{--                                                </div>--}}
-{{--                                                <h6 class="review-count-text">4 Reviews</sh5>--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
-{{--                                        <div class="text-right">--}}
-{{--                                            <div class="d-flex justify-content-end mb-2" style="gap: 5px;">--}}
-{{--                                                <i class="fa-regular fa-gem"></i>--}}
-{{--                                                <i class="fa-regular fa-gem"></i>--}}
-{{--                                                <i class="fa-regular fa-gem"></i>--}}
-{{--                                                <i class="fa-regular fa-gem"></i>--}}
-{{--                                                <i class="fa-regular fa-gem"></i>--}}
-{{--                                            </div>--}}
-{{--                                            <h2>4.9/5.0</h2>--}}
-{{--                                            <p>74 Total Reviews</p>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                    <div class="sort-by">--}}
-{{--                                        <p>Sort By</p>--}}
-{{--                                        <div class="dropdown">--}}
-{{--                                            <button onclick="toggleDropdown()" class="dropdown-button">--}}
-{{--                                                <span>ALL CATEGORIES</span>--}}
-{{--                                                <i class="fas fa-chevron-down"></i>--}}
-{{--                                            </button>--}}
-{{--                                            <div id="dropdownMenuData" class="dropdown-menu">--}}
-{{--                                                <ul>--}}
-{{--                                                    <li><a href="#">Category 1</a></li>--}}
-{{--                                                    <li><a href="#">Category 2</a></li>--}}
-{{--                                                    <li><a href="#">Category 3</a></li>--}}
-{{--                                                </ul>--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                    <div class="person-review-dv">--}}
-{{--                                        <div class="d-flex justify-content-between flex-wrap align-items-center mt-3">--}}
-{{--                                            <div class="reviewer mb-3">--}}
-{{--                                                <div class="reviewer-img-text">MJ</div>--}}
-{{--                                                <div class="reviewer-info">--}}
-{{--                                                    <div class="name">Micheal Johnson</div>--}}
-{{--                                                    <div class="stars">--}}
-{{--                                                        <i class="fa-regular fa-gem"></i>--}}
-{{--                                                        <i class="fa-regular fa-gem"></i>--}}
-{{--                                                        <i class="fa-regular fa-gem"></i>--}}
-{{--                                                        <i class="fa-regular fa-gem"></i>--}}
-{{--                                                        <i class="fa-regular fa-gem"></i>--}}
-{{--                                                    </div>--}}
-{{--                                                </div>--}}
-{{--                                            </div>--}}
-{{--                                            <h3>5.0/5.0</h3>--}}
-{{--                                        </div>--}}
-{{--                                        <div class="review-text mb-3">--}}
-{{--                                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod--}}
-{{--                                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,--}}
-{{--                                            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo--}}
-{{--                                            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse--}}
-{{--                                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat--}}
-{{--                                            non proident, sunt in culpa qui officia deserunt mollit anim id est--}}
-{{--                                            laborum."--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                    <div class="person-review-dv">--}}
-{{--                                        <div class="d-flex justify-content-between flex-wrap align-items-center mt-3">--}}
-{{--                                            <div class="reviewer mb-3">--}}
-{{--                                                <div class="reviewer-img-text">MJ</div>--}}
-{{--                                                <div class="reviewer-info">--}}
-{{--                                                    <div class="name">Micheal Johnson</div>--}}
-{{--                                                    <div class="stars">--}}
-{{--                                                        <i class="fa-regular fa-gem"></i>--}}
-{{--                                                        <i class="fa-regular fa-gem"></i>--}}
-{{--                                                        <i class="fa-regular fa-gem"></i>--}}
-{{--                                                        <i class="fa-regular fa-gem"></i>--}}
-{{--                                                        <i class="fa-regular fa-gem"></i>--}}
-{{--                                                    </div>--}}
-{{--                                                </div>--}}
-{{--                                            </div>--}}
-{{--                                            <h3>5.0/5.0</h3>--}}
-{{--                                        </div>--}}
-{{--                                        <div class="review-text mb-3">--}}
-{{--                                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod--}}
-{{--                                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,--}}
-{{--                                            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo--}}
-{{--                                            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse--}}
-{{--                                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat--}}
-{{--                                            non proident, sunt in culpa qui officia deserunt mollit anim id est--}}
-{{--                                            laborum."--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                    <div class="d-flex justify-content-end mt-4">--}}
-{{--                                        <button class="home-blog-btn">Load More</button>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
+                        {{--                        <div class="accordion-item">--}}
+                        {{--                            <h2 class="accordion-header" id="headingSix">--}}
+                        {{--                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"--}}
+                        {{--                                        data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">--}}
+                        {{--                                    Reviews--}}
+                        {{--                                </button>--}}
+                        {{--                            </h2>--}}
+                        {{--                            <div id="collapseSix" class="accordion-collapse collapse show" aria-labelledby="headingSix"--}}
+                        {{--                                 data-bs-parent="#accordionExample">--}}
+                        {{--                                <div class="accordion-body review-dv-data">--}}
+                        {{--                                    <div class="d-flex justify-content-between flex-wrap mb-3">--}}
+                        {{--                                        <div>--}}
+                        {{--                                            <div class="d-flex align-items-center mb-3">--}}
+                        {{--                                                <h6 class="font-weight-bold">5.0</h6>--}}
+                        {{--                                                <div class="mx-2">--}}
+                        {{--                                                    <div class="progress">--}}
+                        {{--                                                        <div class="progress-bar" role="progressbar" style="width: 80%;"--}}
+                        {{--                                                             aria-valuenow="80" aria-valuemin="0"--}}
+                        {{--                                                             aria-valuemax="100"></div>--}}
+                        {{--                                                    </div>--}}
+                        {{--                                                </div>--}}
+                        {{--                                                <h6 class="review-count-text">26 Reviews</h5>--}}
+                        {{--                                            </div>--}}
+                        {{--                                            <div class="d-flex align-items-center mb-3">--}}
+                        {{--                                                <h6 class="font-weight-bold">4.0</h6>--}}
+                        {{--                                                <div class="mx-2">--}}
+                        {{--                                                    <div class="progress">--}}
+                        {{--                                                        <div class="progress-bar" role="progressbar" style="width: 70%;"--}}
+                        {{--                                                             aria-valuenow="70" aria-valuemin="0"--}}
+                        {{--                                                             aria-valuemax="100"></div>--}}
+                        {{--                                                    </div>--}}
+                        {{--                                                </div>--}}
+                        {{--                                                <h6 class="review-count-text">23 Reviews</h5>--}}
+                        {{--                                            </div>--}}
+                        {{--                                            <div class="d-flex align-items-center mb-3">--}}
+                        {{--                                                <h6 class="font-weight-bold">3.0</h6>--}}
+                        {{--                                                <div class="mx-2">--}}
+                        {{--                                                    <div class="progress">--}}
+                        {{--                                                        <div class="progress-bar" role="progressbar" style="width: 50%;"--}}
+                        {{--                                                             aria-valuenow="50" aria-valuemin="0"--}}
+                        {{--                                                             aria-valuemax="100"></div>--}}
+                        {{--                                                    </div>--}}
+                        {{--                                                </div>--}}
+                        {{--                                                <h6 class="review-count-text">15 Reviews</h5>--}}
+                        {{--                                            </div>--}}
+                        {{--                                            <div class="d-flex align-items-center mb-3">--}}
+                        {{--                                                <h6 class="font-weight-bold">2.0</h6>--}}
+                        {{--                                                <div class="mx-2">--}}
+                        {{--                                                    <div class="progress">--}}
+                        {{--                                                        <div class="progress-bar" role="progressbar" style="width: 20%;"--}}
+                        {{--                                                             aria-valuenow="20" aria-valuemin="0"--}}
+                        {{--                                                             aria-valuemax="100"></div>--}}
+                        {{--                                                    </div>--}}
+                        {{--                                                </div>--}}
+                        {{--                                                <h6 class="review-count-text">6 Reviews</sh5>--}}
+                        {{--                                            </div>--}}
+                        {{--                                            <div class="d-flex align-items-center mb-3">--}}
+                        {{--                                                <span class="font-weight-bold">1.0</span>--}}
+                        {{--                                                <div class="mx-2">--}}
+                        {{--                                                    <div class="progress">--}}
+                        {{--                                                        <div class="progress-bar" role="progressbar" style="width: 10%;"--}}
+                        {{--                                                             aria-valuenow="10" aria-valuemin="0"--}}
+                        {{--                                                             aria-valuemax="100"></div>--}}
+                        {{--                                                    </div>--}}
+                        {{--                                                </div>--}}
+                        {{--                                                <h6 class="review-count-text">4 Reviews</sh5>--}}
+                        {{--                                            </div>--}}
+                        {{--                                        </div>--}}
+                        {{--                                        <div class="text-right">--}}
+                        {{--                                            <div class="d-flex justify-content-end mb-2" style="gap: 5px;">--}}
+                        {{--                                                <i class="fa-regular fa-gem"></i>--}}
+                        {{--                                                <i class="fa-regular fa-gem"></i>--}}
+                        {{--                                                <i class="fa-regular fa-gem"></i>--}}
+                        {{--                                                <i class="fa-regular fa-gem"></i>--}}
+                        {{--                                                <i class="fa-regular fa-gem"></i>--}}
+                        {{--                                            </div>--}}
+                        {{--                                            <h2>4.9/5.0</h2>--}}
+                        {{--                                            <p>74 Total Reviews</p>--}}
+                        {{--                                        </div>--}}
+                        {{--                                    </div>--}}
+                        {{--                                    <div class="sort-by">--}}
+                        {{--                                        <p>Sort By</p>--}}
+                        {{--                                        <div class="dropdown">--}}
+                        {{--                                            <button onclick="toggleDropdown()" class="dropdown-button">--}}
+                        {{--                                                <span>ALL CATEGORIES</span>--}}
+                        {{--                                                <i class="fas fa-chevron-down"></i>--}}
+                        {{--                                            </button>--}}
+                        {{--                                            <div id="dropdownMenuData" class="dropdown-menu">--}}
+                        {{--                                                <ul>--}}
+                        {{--                                                    <li><a href="#">Category 1</a></li>--}}
+                        {{--                                                    <li><a href="#">Category 2</a></li>--}}
+                        {{--                                                    <li><a href="#">Category 3</a></li>--}}
+                        {{--                                                </ul>--}}
+                        {{--                                            </div>--}}
+                        {{--                                        </div>--}}
+                        {{--                                    </div>--}}
+                        {{--                                    <div class="person-review-dv">--}}
+                        {{--                                        <div class="d-flex justify-content-between flex-wrap align-items-center mt-3">--}}
+                        {{--                                            <div class="reviewer mb-3">--}}
+                        {{--                                                <div class="reviewer-img-text">MJ</div>--}}
+                        {{--                                                <div class="reviewer-info">--}}
+                        {{--                                                    <div class="name">Micheal Johnson</div>--}}
+                        {{--                                                    <div class="stars">--}}
+                        {{--                                                        <i class="fa-regular fa-gem"></i>--}}
+                        {{--                                                        <i class="fa-regular fa-gem"></i>--}}
+                        {{--                                                        <i class="fa-regular fa-gem"></i>--}}
+                        {{--                                                        <i class="fa-regular fa-gem"></i>--}}
+                        {{--                                                        <i class="fa-regular fa-gem"></i>--}}
+                        {{--                                                    </div>--}}
+                        {{--                                                </div>--}}
+                        {{--                                            </div>--}}
+                        {{--                                            <h3>5.0/5.0</h3>--}}
+                        {{--                                        </div>--}}
+                        {{--                                        <div class="review-text mb-3">--}}
+                        {{--                                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod--}}
+                        {{--                                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,--}}
+                        {{--                                            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo--}}
+                        {{--                                            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse--}}
+                        {{--                                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat--}}
+                        {{--                                            non proident, sunt in culpa qui officia deserunt mollit anim id est--}}
+                        {{--                                            laborum."--}}
+                        {{--                                        </div>--}}
+                        {{--                                    </div>--}}
+                        {{--                                    <div class="person-review-dv">--}}
+                        {{--                                        <div class="d-flex justify-content-between flex-wrap align-items-center mt-3">--}}
+                        {{--                                            <div class="reviewer mb-3">--}}
+                        {{--                                                <div class="reviewer-img-text">MJ</div>--}}
+                        {{--                                                <div class="reviewer-info">--}}
+                        {{--                                                    <div class="name">Micheal Johnson</div>--}}
+                        {{--                                                    <div class="stars">--}}
+                        {{--                                                        <i class="fa-regular fa-gem"></i>--}}
+                        {{--                                                        <i class="fa-regular fa-gem"></i>--}}
+                        {{--                                                        <i class="fa-regular fa-gem"></i>--}}
+                        {{--                                                        <i class="fa-regular fa-gem"></i>--}}
+                        {{--                                                        <i class="fa-regular fa-gem"></i>--}}
+                        {{--                                                    </div>--}}
+                        {{--                                                </div>--}}
+                        {{--                                            </div>--}}
+                        {{--                                            <h3>5.0/5.0</h3>--}}
+                        {{--                                        </div>--}}
+                        {{--                                        <div class="review-text mb-3">--}}
+                        {{--                                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod--}}
+                        {{--                                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,--}}
+                        {{--                                            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo--}}
+                        {{--                                            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse--}}
+                        {{--                                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat--}}
+                        {{--                                            non proident, sunt in culpa qui officia deserunt mollit anim id est--}}
+                        {{--                                            laborum."--}}
+                        {{--                                        </div>--}}
+                        {{--                                    </div>--}}
+                        {{--                                    <div class="d-flex justify-content-end mt-4">--}}
+                        {{--                                        <button class="home-blog-btn">Load More</button>--}}
+                        {{--                                    </div>--}}
+                        {{--                                </div>--}}
+                        {{--                            </div>--}}
+                        {{--                        </div>--}}
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-3 col-lg-3">
                     <div class="practitioner-detail-right-dv">
                         <div class="practitioner-detail-right-dv-lists mb-5">
-                            <h5 class="accordion-button py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"><i class="fa-solid fa-circle me-3"></i>Offerings</h5>
-                            <h5 class="accordion-button py-2" type="button"data-bs-toggle="collapse" data-bs-target="#collapseTwo" ><i class="fa-solid fa-circle me-3"></i>Ailments</h5>
-                            <h5 class="accordion-button py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree"><i class="fa-solid fa-circle me-3"></i>Treatments</h5>
-                            <h5 class="accordion-button py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour"><i class="fa-solid fa-circle me-3"></i>Certifications</h5>
-{{--                            <h5 data-bs-toggle="collapse" data-bs-target="#collapseSix"><i class="fa-solid fa-circle me-3"></i>Reviews</h5>--}}
-{{--                            <h5><i class="fa-solid fa-circle me-3"></i>More About Me</h5>--}}
+                            <h5 class="accordion-button py-2" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseOne"><i class="fa-solid fa-circle me-3"></i>Offerings</h5>
+                            <h5 class="accordion-button py-2" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseTwo"><i class="fa-solid fa-circle me-3"></i>Ailments</h5>
+                            <h5 class="accordion-button py-2" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseThree"><i class="fa-solid fa-circle me-3"></i>Treatments</h5>
+                            <h5 class="accordion-button py-2" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseFour"><i class="fa-solid fa-circle me-3"></i>Certifications
+                            </h5>
+                            {{--                            <h5 data-bs-toggle="collapse" data-bs-target="#collapseSix"><i class="fa-solid fa-circle me-3"></i>Reviews</h5>--}}
+                            {{--                            <h5><i class="fa-solid fa-circle me-3"></i>More About Me</h5>--}}
                         </div>
-{{--                        <h4>Sessions, Insights & More</h4>--}}
-{{--                        <video class="video" src=""></video>--}}
-{{--                        <video class="video" src=""></video>--}}
-{{--                        <video class="video" src=""></video>--}}
+                        {{--                        <h4>Sessions, Insights & More</h4>--}}
+                        {{--                        <video class="video" src=""></video>--}}
+                        {{--                        <video class="video" src=""></video>--}}
+                        {{--                        <video class="video" src=""></video>--}}
                     </div>
                 </div>
             </div>
         </div>
-{{--        <div class="endorsment-dv">--}}
-{{--            <div class="container">--}}
-{{--                <div class="row">--}}
-{{--                        <h4>Endorsements</h4>--}}
-{{--                    @foreach($users as $user)--}}
-{{--                        <div class="col-sm-12 col-md-6 col-lg-3 mb-4">--}}
-{{--                            <div class="featured-dv">--}}
-{{--                                <a href="{{route('practitioner_detail', $user->id)}}">--}}
-{{--                                    @php--}}
-{{--                                        $images = isset($user->userDetail->images) ? json_decode($user->userDetail->images, true) : null;--}}
-{{--                                        $image = isset($images['profile_image']) && $images['profile_image'] ?$images['profile_image'] : null;--}}
-{{--                                        $imageUrl = $image  ? asset(env('media_path') . '/practitioners/' . $user->userDetail->id . '/profile/' . $image) : asset('assets/images/no_image.png');--}}
-{{--                                    @endphp--}}
-{{--                                    <img src="{{ $imageUrl }}" alt="person">--}}
-{{--                                    <div class="d-flex justify-content-between align-items-center mb-2">--}}
-{{--                                        <h4>{{ $user->name }}</h4>--}}
-{{--                                        <i class="fa-regular fa-heart"></i>--}}
-{{--                                    </div>--}}
-{{--                                    <h5>--}}
-{{--                                        @php--}}
-{{--                                            $locations = isset($user->location) && $user->location ?json_decode($user->location, true) : null;--}}
-{{--                                        @endphp--}}
-{{--                                        @if($locations)--}}
-{{--                                            @foreach($locations as $location)--}}
-{{--                                                <i class="fa-solid fa-location-dot"></i>  {{ $location .',' }}--}}
-{{--                                            @endforeach--}}
-{{--                                        @endif--}}
-{{--                                    </h5>--}}
-{{--                                    <p>Alternative and Holistic Health Practitioner</p>--}}
-{{--                                    <div class="d-flex justify-content-between align-items-center">--}}
-{{--                                        <div>--}}
-{{--                                            <i class="fa-regular fa-gem"></i>--}}
-{{--                                            <i class="fa-regular fa-gem"></i>--}}
-{{--                                            <i class="fa-regular fa-gem"></i>--}}
-{{--                                            <i class="fa-regular fa-gem"></i>--}}
-{{--                                            <i class="fa-regular fa-gem"></i>--}}
-{{--                                        </div>--}}
-{{--                                        <h6>5.0 Ratings</h6>--}}
-{{--                                    </div>--}}
-{{--                                </a>--}}
+        <div class="endorsment-dv">
+            <div class="container">
+                <div class="row">
+                    <h4>Endorsements</h4>
+                    <div class="row" id="endorsementRow">
+                        @foreach($users as $user)
+                            @php
+                                $endorsements = json_decode($user->userDetail->endorsements, true); // Decode the JSON data to an array
+                            @endphp
 
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    @endforeach--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
+                            @if($endorsements && is_array($endorsements))
+                                @foreach($endorsements as $endorsedUserId)
+                                    @if($endorsedUserId)
+                                        <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
+                                            <div class="featured-dv">
+                                                <a href="{{route('practitioner_detail', $user->id)}}">
+                                                    @php
+                                                        $images = isset($user->userDetail->images) ? json_decode($user->userDetail->images, true) : null;
+                                                        $image = isset($images['profile_image']) && $images['profile_image'] ?$images['profile_image'] : null;
+                                                        $imageUrl = $image  ? asset(env('media_path') . '/practitioners/' . $user->userDetail->id . '/profile/' . $image) : asset('assets/images/no_image.png');
+                                                    @endphp
+                                                    <img src="{{ $imageUrl }}" alt="person">
+                                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                                        <h4>{{ $user->name }}</h4>
+                                                        <i class="fa-regular fa-heart"></i>
+                                                    </div>
+                                                    <h5>
+                                                        @php
+                                                            $locations = isset($user->location) && $user->location ?json_decode($user->location, true) : null;
+                                                        @endphp
+                                                        @if($locations)
+                                                            @foreach($locations as $location)
+                                                                <i class="fa-solid fa-location-dot"></i>  {{ $location .',' }}
+                                                            @endforeach
+                                                        @endif
+                                                    </h5>
+                                                    <p>Alternative and Holistic Health Practitioner</p>
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <div>
+                                                            <i class="fa-regular fa-gem"></i>
+                                                            <i class="fa-regular fa-gem"></i>
+                                                            <i class="fa-regular fa-gem"></i>
+                                                            <i class="fa-regular fa-gem"></i>
+                                                            <i class="fa-regular fa-gem"></i>
+                                                        </div>
+                                                        <h6>5.0 Ratings</h6>
+                                                    </div>
+                                                </a>
+
+                                            </div>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            @endif
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>

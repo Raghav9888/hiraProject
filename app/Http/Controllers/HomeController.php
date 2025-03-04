@@ -205,7 +205,7 @@ class HomeController extends Controller
             });
         }
 
-        $practitioners = $query->get()->take($buttonHitCount * 8); // Get practitioners
+        $practitioners = $query->get()->take($buttonHitCount * 8);
 
         return response()->json([
             'practitioners' => $practitioners,
@@ -220,5 +220,37 @@ class HomeController extends Controller
     {
         return view('user.acknowledgement');
     }
+    public function setEndorsement(Request $request, $id)
+    {
+
+        $user = User::find($id);
+
+        if (!$user) {
+
+            return response()->json(['error' => 'User not found'], 404);
+        }
+
+
+        if (!$user->userDetail) {
+
+            return response()->json(['error' => 'User detail not found'], 404);
+        }
+
+
+        $endorsements = json_decode($user->userDetail->endorsements, true);
+        if (!is_array($endorsements)) {
+            $endorsements = [];
+        }
+
+
+        $endorsements[] = $id;
+
+
+        $user->userDetail->endorsements = json_encode($endorsements);
+        $user->userDetail->save();
+
+        return response()->json(['success' => 'Endorsement added successfully']);
+    }
+
 
 }

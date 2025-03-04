@@ -25,7 +25,7 @@
             <div class="row ms-5" id="upcomingAppointmentsRowDiv">
                 <div class="px-0" style="border-bottom: 2px solid#BA9B8B; margin-bottom: 20px;">
                     <h5 class="practitioner-profile-text mb-2">Upcoming <span
-                            style="font-weight: 800;">appointments</span></h5>
+                                style="font-weight: 800;">appointments</span></h5>
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
                     <div class="event-name-dv">
@@ -107,52 +107,144 @@
                 </div>
                 <h5 class="practitioner-profile-text mb-2">Browse other practitioners</span></h5>
                 <div class="search-container mb-5">
-                    <input type="text" class="search-input">
-                    <button class="search-button">
+                    <input type="text" class="search-input" name="endorsements" id="endorsements">
+                    <button class="search-button" id="endorsementBtn">
                         <i class="fas fa-search"></i>
                     </button>
                 </div>
-                <div class="col-sm-12 col-md-6 col-lg-4">
-                    <div class="browser-other-dv">
-                        <div class="d-flex justify-content-center">
-                            <img class="mt-5 mb-3" src="{{ url('/assets/images/question-mark.svg') }}" alt="">
-                        </div>
-                        <h5>John Doe</h5>
-                        <h6>Alternative and Holistic <br/>Health Practitioner</h6>
-                        <div class="d-flex justify-content-between">
-                            <div class="endrose">Endrose</div>
-                            <div class="miles"><i class="fa-solid fa-location-dot me-2"></i>0.3 km</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-12 col-md-6 col-lg-4">
-                    <div class="browser-other-dv">
-                        <div class="d-flex justify-content-center">
-                            <img class="mt-5 mb-3" src="{{ url('/assets/images/question-mark.svg') }}" alt="">
-                        </div>
-                        <h5>John Doe</h5>
-                        <h6>Alternative and Holistic <br/>Health Practitioner</h6>
-                        <div class="d-flex justify-content-between">
-                            <div class="endrose">Endrose</div>
-                            <div class="miles"><i class="fa-solid fa-location-dot me-2"></i>0.3 km</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-12 col-md-6 col-lg-4">
-                    <div class="browser-other-dv">
-                        <div class="d-flex justify-content-center">
-                            <img class="mt-5 mb-3" src="{{ url('/assets/images/question-mark.svg') }}" alt="">
-                        </div>
-                        <h5>John Doe</h5>
-                        <h6>Alternative and Holistic <br/>Health Practitioner</h6>
-                        <div class="d-flex justify-content-between">
-                            <div class="endrose">Endrose</div>
-                            <div class="miles"><i class="fa-solid fa-location-dot me-2"></i>0.3 km</div>
-                        </div>
-                    </div>
+                <h2>Endorsement</h2>
+                <div class="row" id="endorsementRow">
+                    @foreach($users as $user)
+                        @php
+                            $endorsements = json_decode($user->userDetail->endorsements, true); // Decode the JSON data to an array
+                        @endphp
+
+                        @if($endorsements && is_array($endorsements))
+                            @foreach($endorsements as $endorsedUserId)
+                                @if($endorsedUserId)
+                                    <div class="col-sm-12 col-md-6 col-lg-4">
+                                        <div class="browser-other-dv">
+                                            <div class="d-flex justify-content-center">
+                                                <img class="mt-5 mb-3"
+                                                     src="{{ url('/assets/images/question-mark.svg') }}" alt="">
+                                            </div>
+                                            <h5>{{ $user->name }}</h5>
+                                            <h6>Alternative and Holistic <br/>Health Practitioner</h6>
+                                            <div class="d-flex justify-content-between">
+
+                                                <div class="miles"><i class="fa-solid fa-location-dot me-2"></i>0.3 km
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                            @endforeach
+                        @else
+                            <!-- Optionally, you can add a message when there are no endorsements -->
+                            <p>No endorsements for this practitioner.</p>
+                        @endif
+                    @endforeach
+
+
                 </div>
             </div>
         </div>
     </section>
-@endsection
 
+    <script>
+        $(document).on('click', '#endorsementBtn', function (e) {
+            e.preventDefault();
+            let search = $('#endorsements').val();
+
+            let locations = @json($locations);
+            let locationArr = [];
+            let imagePath = `{{env('media_path')}}`;
+            let localPath = `{{env('local_path')}}`;
+
+            locations.forEach(function (location) {
+                locationArr[location.id] = location.name;
+            });
+
+            $.ajax({
+                url: '/search/practitioner',
+                type: 'get',
+                data: {search},
+                success: function (response) {
+                    let endorsementHtml = '';
+
+                    if (!response.practitioners || response.practitioners.length === 0) {
+                        endorsementHtml = '<p class="text-center">No practitioners found.</p>';
+                    } else {
+                        for (let i = 0; i < response.practitioners.length; i += 3) {
+                            endorsementHtml += '<div class="row mt-2">';
+
+                            for (let j = i; j < i + 3 && j < response.practitioners.length; j++) {
+                                let practitioner = response.practitioners[j];
+
+                                let locationNames = '';
+
+                                if (practitioner.location && practitioner.location.length > 0) {
+                                    locationNames = JSON.parse(practitioner.location).map(function (locationId) {
+                                        return locationArr[locationId] || 'location';
+                                    }).slice(0, 2).join(', ');
+                                    ;
+                                } else {
+                                    locationNames = 'no found';
+                                }
+
+                                let images = practitioner.user_detail?.images ? JSON.parse(practitioner.user_detail.images) : null;
+
+                                let imageUrl = images?.profile_image
+                                    ? `${imagePath}/practitioners/${practitioner.user_detail.id}/profile/${images.profile_image}`
+                                    : `${localPath}/images/no_image.png`;
+                                endorsementHtml += `
+                            <div class="col-sm-12 col-md-6 col-lg-4">
+                                <div class="browser-other-dv">
+                                    <div class="d-flex justify-content-center">
+                                       <img src="${imageUrl}" alt="person" class="img-fit">
+                                    </div>
+                                    <h5>${practitioner.name}</h5>
+                              <h6>${practitioner.bio && practitioner.bio.length > 0 ? practitioner.bio : ''}</h6>
+
+
+                                    <div class="d-flex justify-content-between">
+
+                                        <button class="endrose" id="endrose" data-user-id="${practitioner.id}">Endorse</button>
+
+
+                                        <div class="miles"><i class="fa-solid fa-location-dot me-2"></i>${locationNames}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                            }
+
+                            endorsementHtml += '</div>';  // Close row
+                        }
+                    }
+
+                    // Inject the generated HTML into the endorsement row container
+                    $('#endorsementRow').html(endorsementHtml);
+                }
+            });
+        });
+
+
+        $(document).on('click', '#endrose', function (e) {
+            e.preventDefault();
+            let userId = $(this).data('user-id');
+            $.ajax({
+                url: `/setEndorsement/${userId}`,
+                type: 'post',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function (response) {
+                    alert('success')
+                }
+            })
+        })
+
+
+    </script>
+@endsection

@@ -68,7 +68,7 @@ class PractitionerController extends Controller
 
             $parts = explode("/", $timezone);
             $city = end($parts);
-            
+
             $timezones[] = [
                 'id' => $timezone,
                 'name' => "($offsetFormatted) $city"
@@ -100,8 +100,10 @@ class PractitionerController extends Controller
     {
         $user = Auth::user();
         $userDetails = $user->userDetail;
+        $locations =Locations::get();
+        $users = User::get();
 
-        return view('user.dashboard', compact('user', 'userDetails'));
+        return view('user.dashboard', compact('user','users', 'userDetails','locations'));
     }
 
     public function updateProfile(Request $request)
