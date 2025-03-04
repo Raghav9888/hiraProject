@@ -7,10 +7,16 @@
                 @include('layouts.partitioner_nav')
             </div>
 
-            <div class="row ps-5" id="upcomingEventsRowDiv">
-                <div class="px-0 my-3 community-text col-sm-12">
-                    <h5 class="practitioner-profile-text">Upcoming <span style="font-weight: 800;">communityevents</span></h5>
+            <div class="ps-5">
+                <div style="border-bottom: 2px solid#BA9B8B; margin-bottom: 20px;">
+                    <h5 class="practitioner-profile-text">Upcoming
+                        <span style="font-weight: 800;">community events</span>
+                    </h5>
                 </div>
+            </div>
+
+            <div class="row ps-5" id="upcomingEventsRowDiv">
+
                 {{-- We show the data by ajax --}}
                 <div class="col-sm-12 my-4 text-center">
                     loading...

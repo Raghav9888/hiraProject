@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\GoogleAccount;
 use App\Models\HowIHelp;
 use App\Models\IHelpWith;
+use App\Models\Locations;
 use App\Models\Offering;
 use App\Models\PractitionerTag;
 use App\Models\User;
@@ -51,7 +52,8 @@ class PractitionerController extends Controller
         $images = json_decode($userDetails->images, true);
         $mediaImages = isset($images['media_images']) && is_array($images['media_images']) ? $images['media_images'] : [];
         $image = isset($images['profile_image']) ? $images['profile_image'] : null;
-        $locations = json_decode($userDetails->location, true);
+        $userLocations = json_decode($userDetails->location, true);
+        $locations = Locations::get();
         $tags = json_decode($userDetails->tags, true);
         $users = User::where('role', 1)->with('userDetail')->get();
 
@@ -68,6 +70,7 @@ class PractitionerController extends Controller
             'googleAccount',
             'mediaImages',
             'locations',
+            'userLocations',
             'tags',
             'image',
         ));
