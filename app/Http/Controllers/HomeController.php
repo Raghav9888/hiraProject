@@ -106,7 +106,6 @@ class HomeController extends Controller
         $users = User::where('role', 1)->with('userDetail')->get();
         $categories = Category::get();
 
-
         return view('user.practitioner_detail', compact('user', 'users', 'userDetails', 'offerings','categories', 'image', 'mediaImages', 'locations', 'IHelpWith', 'HowIHelp', 'Certifications'));
     }
 
