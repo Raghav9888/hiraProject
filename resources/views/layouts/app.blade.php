@@ -31,7 +31,10 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <link rel="stylesheet" href="{{ asset('assets/plugin/OwlCarousel2-2.3.4/dist/assets/owl.theme.default.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugin/OwlCarousel2-2.3.4/dist/assets/owl.carousel.css') }}">
-
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.css"/>
+    <!-- Add the slick-theme.css if you want default styling -->
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick-theme.css"/
+    <script type="text/javascript" src="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.min.js"></script>
     <script src="{{ asset('assets/plugin/OwlCarousel2-2.3.4/dist/owl.carousel.js') }}"></script>
 {{--    @vite(['resources/sass/app.scss', 'resources/js/app.js'])--}}
 </head>
@@ -53,12 +56,8 @@
             margin: 10,
             autoplay: true,
             autoplayTimeout: 3000,
-            nav: true, // Enable navigation arrows
-            dots: true, // Show navigation dots
-            navText: [
-                "<i class='fa fa-chevron-left'></i>",
-                "<i class='fa fa-chevron-right'></i>"
-            ], // Custom navigation icons
+            nav: true,
+            dots: true,
             responsive: {
                 0: {
                     items: 1

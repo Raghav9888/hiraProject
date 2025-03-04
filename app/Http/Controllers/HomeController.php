@@ -104,7 +104,8 @@ class HomeController extends Controller
 
         $locations = json_decode($user->location, true);
         $users = User::where('role', 1)->with('userDetail')->get();
-        return view('user.practitioner_detail', compact('user', 'users', 'userDetails', 'offerings', 'image', 'mediaImages', 'locations', 'IHelpWith', 'HowIHelp', 'Certifications'));
+        $categories = Category::get();
+        return view('user.practitioner_detail', compact('user', 'users', 'userDetails', 'offerings','categories', 'image', 'mediaImages', 'locations', 'IHelpWith', 'HowIHelp', 'Certifications'));
     }
 
     public function offerDetail($id)

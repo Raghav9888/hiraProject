@@ -18,7 +18,7 @@
                 <h1 class="home-title mb-3">Recent Resources</h1>
                 <div class="row">
                     <div class="col-sm-12 col-md-6 col-lg-6 mb-4">
-                        <a href="blog-detail.html" style="text-decoration: none;">
+                        <a href="#" style="text-decoration: none;">
                             <div class="resources-body">
                                 <img src="{{url('assets/images/calm.png')}}" alt="calm">
                                 <div>
