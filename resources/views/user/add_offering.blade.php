@@ -666,6 +666,7 @@
                                             <label for="booking-duration" class="fw-bold">Duration of offering</label>
                                             <select id="booking-duration" name="booking_duration" class="form-select">
                                                 <option value="15 minutes">15 minutes</option>
+                                                <option value="20 minutes">20 minutes</option>
                                                 <option value="30 minutes">30 minutes</option>
                                                 <option value="45 minutes">45 minutes</option>
                                                 <option value="50 minutes">50 minutes</option>
@@ -730,6 +731,7 @@
                                                 <label for="type" class="fw-bold">Scheduling window</label>
                                                 <select id="type" class="form-select" name="scheduling_window">
                                                     <option value="15 minutes">15 minutes</option>
+                                                    <option value="20 minutes">20 minutes</option>
                                                     <option value="30 minutes">30 minutes</option>
                                                     <option value="45 minutes">45 minutes</option>
                                                     <option value="50 minutes">50 minutes</option>
