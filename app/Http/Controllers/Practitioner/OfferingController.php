@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\HowIHelp;
 use App\Models\IHelpWith;
+use App\Models\Locations;
 use App\Models\Offering;
 use App\Models\PractitionerTag;
 use Illuminate\Http\Request;
@@ -18,12 +19,12 @@ class OfferingController extends Controller
     {
         $user = Auth::user();
         $userDetails = $user->userDetail;
-        $offerings = Offering::where('user_id',$user->id)->get();
+        $offerings = Offering::where('user_id', $user->id)->get();
         $categories = Category::get();
         $practitionerTag = PractitionerTag::get();
         $IHelpWith = IHelpWith::get();
         $HowIHelp = HowIHelp::get();
-        return view('user.offering', compact('user', 'userDetails', 'offerings','categories','practitionerTag'));
+        return view('user.offering', compact('user', 'userDetails', 'offerings', 'categories', 'practitionerTag'));
     }
 
     public function addOffering()
@@ -34,7 +35,8 @@ class OfferingController extends Controller
         $PractitionerTag = PractitionerTag::get();
         $IHelpWith = IHelpWith::get();
         $HowIHelp = HowIHelp::get();
-        return view('user.add_offering', compact('user', 'userDetails', 'categories','PractitionerTag','IHelpWith','HowIHelp'));
+        $locations = Locations::get();
+        return view('user.add_offering', compact('user', 'userDetails', 'categories', 'PractitionerTag', 'IHelpWith', 'HowIHelp', 'locations'));
     }
 
     // Store a new offering
@@ -50,10 +52,10 @@ class OfferingController extends Controller
             "name" => $input['name'],
             "long_description" => $input['long_description'],
             "short_description" => $input['short_description'],
-            "location" => isset($input['location']) && $input['location'] ? json_encode($input['location']) :null,
-            "help" => isset($input['help']) && $input['help'] ? json_encode($input['help']) :null,
-            "categories" => isset($input['categories']) && $input['categories'] ? json_encode($input['categories']) :null,
-            "tags" => isset($input['tags']) && $input['tags'] ? json_encode($input['tags']) :null,
+            "location" => isset($input['location']) && $input['location'] ? json_encode($input['location']) : null,
+            "help" => isset($input['help']) && $input['help'] ? json_encode($input['help']) : null,
+            "categories" => isset($input['categories']) && $input['categories'] ? json_encode($input['categories']) : null,
+            "tags" => isset($input['tags']) && $input['tags'] ? json_encode($input['tags']) : null,
             "offering_type" => $input['offering_type'],
             "booking_duration" => $input['booking_duration'],
             "from_date" => new \DateTime($input['from_date']),
@@ -108,10 +110,10 @@ class OfferingController extends Controller
             "name" => $input['name'],
             "long_description" => $input['long_description'],
             "short_description" => $input['short_description'],
-            "location" => isset($input['location']) && $input['location'] ? json_encode($input['location']) :null,
-            "help" => isset($input['help']) && $input['help'] ? json_encode($input['help']) :null,
-            "categories" => isset($input['categories']) && $input['categories'] ? json_encode($input['categories']) :null,
-            "tags" => isset($input['tags']) && $input['tags'] ? json_encode($input['tags']) :null,
+            "location" => isset($input['location']) && $input['location'] ? json_encode($input['location']) : null,
+            "help" => isset($input['help']) && $input['help'] ? json_encode($input['help']) : null,
+            "categories" => isset($input['categories']) && $input['categories'] ? json_encode($input['categories']) : null,
+            "tags" => isset($input['tags']) && $input['tags'] ? json_encode($input['tags']) : null,
             "offering_type" => $input['offering_type'],
             "booking_duration" => $input['booking_duration'],
             "from_date" => new \DateTime($input['from_date']),
@@ -152,7 +154,8 @@ class OfferingController extends Controller
         $practitionerTag = PractitionerTag::get();
         $IHelpWith = IHelpWith::get();
         $HowIHelp = HowIHelp::get();
-        return view('user.edit_offering', compact('user', 'userDetails', 'offering', 'categories','practitionerTag','IHelpWith','HowIHelp'));
+        $locations = Locations::get();
+        return view('user.edit_offering', compact('user', 'userDetails', 'locations', 'offering', 'categories', 'practitionerTag', 'IHelpWith', 'HowIHelp'));
     }
 
     // Delete an offering
