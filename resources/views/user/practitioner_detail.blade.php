@@ -21,7 +21,7 @@
                     <div class="col-sm-12 col-md-9 col-lg-9">
                         <div class="d-flex justify-content-between flex-wrap">
                             <h4>{{$user->name}}</h4>
-                            <div style="display: flex; gap: 10px;">
+                            <div style="display: flex; gap: 10px; font-size: 25px">
                                 <i class="fa-regular fa-heart"></i>
                                 <i class="fa-solid fa-share-nodes"></i>
                             </div>
