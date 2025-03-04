@@ -91,16 +91,11 @@
                                     <div class="d-flex align-items-center mb-3" style="gap: 20px;">
                                         <p class="m-0">Select Currency</p>
                                         <div class="dropdown Currency-select">
-                                            <button onclick="toggleDropdown()" class="dropdown-button">
-                                                <span>USD</span>
-                                                <i class="fas fa-chevron-down ms-3"></i>
-                                            </button>
-                                            <div id="dropdownMenu" class="dropdown-menu">
-                                                <ul>
-                                                    <li><a href="#">Category 1</a></li>
-                                                    <li><a href="#">Category 2</a></li>
-                                                    <li><a href="#">Category 3</a></li>
-                                                </ul>
+                                            <div class="dropdown">
+                                                <select class="form-select" aria-label="Default select example" style="border-radius: 30px !important;padding: 10px 36px 10px 10px;text-align: start;">
+                                                    <option value="cad">CAD</option>
+                                                    <option value="usd">USD</option>
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
