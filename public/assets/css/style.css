@@ -1110,9 +1110,30 @@ section {
     align-items: center;
 }
 
-.blog-category-wrrpr .owl-carousel .owl-nav,
-.blog-category-wrrpr .owl-carousel .owl-dots {
-    display: none;
+/*.blog-category-wrrpr .owl-carousel .owl-nav,*/
+/*.blog-category-wrrpr .owl-carousel .owl-dots {*/
+/*    display: none;*/
+/*}*/
+
+.owl-next{
+    right: -10px;
+}
+.owl-left{
+    left: -10px;
+}
+.owl-prev , .owl-next{
+    position: absolute !important;
+    top: 25px !important;
+    bottom: 25px !important;
+    background: transparent !important;
+    border-radius: 50% !important;
+    padding: 23px !important;
+    height: 26px !important;
+    text-align: center !important;
+    justify-content: center !important;
+    display: flex !important;
+    font-size: 40px !important;
+    align-items: center !important;
 }
 
 .blog-category-wrrpr .owl-carousel .item {
