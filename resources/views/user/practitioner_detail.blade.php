@@ -430,10 +430,10 @@
                             <h5 data-bs-toggle="collapse" data-bs-target="#collapseSix"><i class="fa-solid fa-circle me-3"></i>Reviews</h5>
 {{--                            <h5><i class="fa-solid fa-circle me-3"></i>More About Me</h5>--}}
                         </div>
-                        <h4>Sessions, Insights & More</h4>
-                        <video class="video" src=""></video>
-                        <video class="video" src=""></video>
-                        <video class="video" src=""></video>
+{{--                        <h4>Sessions, Insights & More</h4>--}}
+{{--                        <video class="video" src=""></video>--}}
+{{--                        <video class="video" src=""></video>--}}
+{{--                        <video class="video" src=""></video>--}}
                     </div>
                 </div>
             </div>
