@@ -18,6 +18,8 @@ use App\Models\Certifications;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use DateTimeZone;
+use DateTime;
 
 
 class PractitionerController extends Controller
@@ -57,6 +59,23 @@ class PractitionerController extends Controller
         $tags = json_decode($userDetails->tags, true);
         $users = User::where('role', 1)->with('userDetail')->get();
 
+        $timezones = [];
+
+        foreach (timezone_identifiers_list() as $timezone) {
+            $dateTimeZone = new DateTimeZone($timezone);
+            $offset = $dateTimeZone->getOffset(new DateTime("now", new DateTimeZone("UTC"))) / 3600;
+            $offsetFormatted = "UTC" . ($offset >= 0 ? "+$offset" : $offset);
+
+            $parts = explode("/", $timezone);
+            $city = end($parts);
+            
+            $timezones[] = [
+                'id' => $timezone,
+                'name' => "($offsetFormatted) $city"
+            ];
+        }
+
+
         return view('user.my_profile', compact(
             'user',
             'users',
@@ -73,6 +92,7 @@ class PractitionerController extends Controller
             'userLocations',
             'tags',
             'image',
+            'timezones'
         ));
     }
 
@@ -112,7 +132,6 @@ class PractitionerController extends Controller
             'HowIHelp' => isset($input['HowIHelp']) && $input ? implode(',', $input['HowIHelp']) : [],
             'specialities' => isset($input['specialities']) && $input['specialities'] ? $input['specialities'] : [],
             'certifications' => isset($input['certifications']) && $input ? implode(',', $input['certifications']) : [],
-            'endorsements' => $input['endorsements'],
             'timezone' => $input['timezone'],
             'is_opening_hours' => isset($input['is_opening_hours']) && $input['is_opening_hours'] == 'on' ? 1 : 0,
             'is_notice' => isset($input['is_notice']) && $input['is_notice'] == 'on' ? 1 : 0,
