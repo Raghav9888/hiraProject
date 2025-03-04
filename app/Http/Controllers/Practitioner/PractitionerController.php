@@ -93,18 +93,18 @@ class PractitionerController extends Controller
         $user->name = ($input['first_name'] . ' ' . $input['last_name']);
         $user->first_name = $input['first_name'];
         $user->last_name = $input['last_name'];
-        $user->company = $input['company'];
+        // $user->company = $input['company'];
         $user->bio = $input['bio'];
         $user->location = isset($input['location']) && $input['location'] ? json_encode($input['location']) : [];
         $user->save();
         $userDetails = $user->userDetail;
 
         $details = [
-            'company' => $input['company'],
+            // 'company' => $input['company'],
             'bio' => $input['bio'],
             'location' => isset($input['location']) && $input['location'] ? $input['location'] : [],
             'tags' => isset($input['tags']) && $input['tags'] ? $input['tags'] : [],
-            'about_me' => $input['about_me'],
+            // 'about_me' => $input['about_me'],
             'IHelpWith' => isset($input['IHelpWith']) && $input ? implode(',', $input['IHelpWith']) : [],
             'HowIHelp' => isset($input['HowIHelp']) && $input ? implode(',', $input['HowIHelp']) : [],
             'specialities' => isset($input['specialities']) && $input['specialities'] ? $input['specialities'] : [],
@@ -114,6 +114,7 @@ class PractitionerController extends Controller
             'is_opening_hours' => isset($input['is_opening_hours']) && $input['is_opening_hours'] == 'on' ? 1 : 0,
             'is_notice' => isset($input['is_notice']) && $input['is_notice'] == 'on' ? 1 : 0,
             'is_google_analytics' => isset($input['is_google_analytics']) && $input['is_google_analytics'] == 'on' ? 1 : 0,
+            'amenities' => isset($input['amenities']) && count($input['amenities']) > 0? json_encode($input['amenities']): null
         ];
 
         if ($request->hasFile('media_images')) {

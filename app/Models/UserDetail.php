@@ -28,7 +28,8 @@ class UserDetail extends Model
         'is_notice',
         'is_google_analytics',
         'privacy_policy',
-        'terms_condition'
+        'terms_condition',
+        'amenities'
     ];
 
     public function user()

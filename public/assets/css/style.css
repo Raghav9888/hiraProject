@@ -2601,3 +2601,17 @@ textarea, input[type="time"] {
     min-height: 250px;
     border-radius: 5%;
 }
+
+
+.select2-div span.select2-selection.select2-selection--multiple {
+    padding: 3px 10px 12px 14px !important;
+}
+
+.select2-div textarea.select2-search__field {
+    padding-bottom: 22px !important;
+}
+
+.amenties-checkbox-container input {
+    padding: initial;
+    height: 1em;
+}

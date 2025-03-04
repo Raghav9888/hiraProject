@@ -89,23 +89,31 @@
                                             </div>
                                         </div>
 
-                                        <div class="mb-3">
+                                        {{-- <div class="mb-3">
                                             <label for="company_name">Company Name</label>
                                             <input type="text" class="form-control" id="company" name="company"
                                                    value="{{ $userDetails->company ?? '' }}">
                                             <p style="text-align: start;">Your shop name is public and must be
                                                 unique.</p>
-                                        </div>
+                                        </div> --}}
 
-                                        <div class="mb-3">
+                                        {{-- <div class="mb-3">
                                             <label for="bio">Short Bio</label>
                                             <textarea class="form-control" id="bio"
                                                       name="bio">{{ $userDetails->bio ?? '' }}</textarea>
+                                        </div> --}}
+                                        
+                                        <div class="mb-3">
+                                            <label for="bio">Short Bio</label>
+                                            <p>Maximum length of 500 words</p>
+                                            <textarea class="form-control" name="bio" id="bio" placeholder="">{{$userDetails->bio ?? ''}}</textarea>
+                                            <p id="word-count">0 / 500 words</p>
                                         </div>
 
-                                        <div class="mb-4">
+                                        <div class="mb-4 select2-div">
                                             <label for="location">Location</label>
-                                            <select name="location[]" multiple="multiple" class="form-control select2">
+                                            <select name="location[]" multiple="multiple" class="form-control location-select2">
+                                                <option></option>
                                                 <option class="level-0"
                                                         value="370" {{ in_array('370', (array) json_decode($user->location)) ? 'selected' : '' }}>
                                                     Montreal
@@ -2304,18 +2312,21 @@
                                                 </option>
                                             </select>
                                         </div>
-                                        <label for="type">Tags</label>
-                                        <p style="text-align: start;">These are keywords used to help identify more
-                                            specific
-                                            versions of something. For example, a good tag for a massage could be "Deep
-                                            Tissue".</p>
-                                        <select name="tags[]" multiple="multiple" class="form-select select2">
-                                        @foreach($practitionerTag as $term)
-                                            <option value="{{$term->id}}"  >{{$term->name}}</option>
-                                        @endforeach
-                                        </select>
+                                        <div class="form-group select2-div">
+                                            <label for="type">Tags</label>
+                                            <p style="text-align: start;">These are keywords used to help identify more
+                                                specific
+                                                versions of something. For example, a good tag for a massage could be "Deep
+                                                Tissue".</p>
+                                            <select name="tags[]" multiple="multiple" class="form-select location-select2">
+                                                <option ></option>
+                                            @foreach($practitionerTag as $term)
+                                                <option value="{{$term->id}}"  >{{$term->name}}</option>
+                                            @endforeach
+                                            </select>
+                                        </div>
                                         <div class="mb-4 mt-4">
-                                            <label for="media">Media</label>
+                                            <label for="media">Galley of images</label>
                                             <label class="add-media-btn" for="media-upload">
                                                 <i class="fas fa-plus"></i>
                                                 Add media
@@ -2342,18 +2353,12 @@
                                                 @endif
                                             </div>
                                         </div>
-                                        <div class="mb-3">
-                                            <label for="floatingTextarea">About Me</label>
-                                            <p>Maximum length of 500 words</p>
-                                            <textarea class="form-control" name="about_me" placeholder=""
-                                                      id="floatingTextarea">{{$userDetails->about_me ?? ''}}</textarea>
-                                        </div>
                                         <div class="mb-4">
                                             <label for="IHelpWith" class="fw-bold">I help with:</label>
                                             <div class="row align-items-center">
-                                                <div class="col-md-6">
+                                                <div class="col-md-6 select2-div">
                                                     <select id="IHelpWith" name="IHelpWith[]"
-                                                            class="form-select select2"
+                                                            class="form-select location-select2"
                                                             multiple>
                                                         @php
                                                             $selectedTerms = explode(',', $userDetails->IHelpWith ?? '');
@@ -2387,12 +2392,12 @@
                                     </div>
                                     <hr>
                                     <button class="update-btn mb-2">Add New Term</button> -->
-                                        <div class="mb-4">
+                                        <div class="mb-4 select2-div">
                                             <label for="type" class="fw-bold">How I help:</label>
 
                                             <div class="row align-items-center">
                                                 <div class="col-md-6">
-                                                    <select id="HowIHelp" name="HowIHelp[]" class="form-select select2"
+                                                    <select id="HowIHelp" name="HowIHelp[]" class="form-select location-select2"
                                                             multiple>
                                                         @php
                                                             $selectedTerms = explode(',', $userDetails->HowIHelp ?? '');
@@ -2413,9 +2418,9 @@
 
                                         </div>
 
-                                        <div class="mb-4">
+                                        <div class="mb-4 select2-div">
                                             <label for="specialities" class="fw-bold">Categories</label>
-                                            <select id="specialities" class="form-control form-select select2"
+                                            <select id="specialities" class="form-control form-select location-select2"
                                                     multiple="multiple"
                                                     name="specialities[]">
                                                 @foreach($Categories as $term)
@@ -2424,21 +2429,39 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div class="mb-4">
-
-                                            <label class="form-check-label" for="amentities">Amentities</label>
-                                            <select id="amentities" class="form-control form-select select2"
-                                                    name="amentities" multiple="multiple">
-                                                <option>Select</option>
-                                                <option>Neurolinguistic Programming</option>
-                                            </select>
-
+                                        <?php
+                                        $amenities = $userDetails->amenities ? json_decode($userDetails->amenities): [];
+                                        ?>
+                                        <div class="mb-4 amenties-checkbox-container">
+                                            <label class="form-label">Amenities</label>
+                                            <div class="row">
+                                                <?php
+                                                $allAmenities = [
+                                                    "Virtual offerings", "Library/Reading Area", "Office-based sessions",  "Bathrooms", "Bike racks",  "Home visits", "Flexible packages",
+                                                    "Herbal Tea/beverages", "Sauna", "Outdoor sessions", "Payment plans",
+                                                    "Resource library access", "Private room", "Steam room", "Natural light rooms",
+                                                    "Public transit accessible", "Waiting area", "Massage chairs", "Spa facilities", "Accessible Transportation Options"
+                                                ];
+                                                
+                                                foreach ($allAmenities as $index => $amenity) {
+                                                    $checked = in_array($amenity, $amenities) ? 'checked' : '';
+                                                    ?>
+                                                    <div class="col-md-3">
+                                                        <div class="form-check">
+                                                            <input type="checkbox" class="form-check-input amentities-checkbox" id="amenity<?= $index+1; ?>" name="amenities[]" value="<?= $amenity; ?>" <?= $checked; ?>>
+                                                            <label class="form-check-label" for="amenity<?= $index+1; ?>"><?= $amenity; ?></label>
+                                                        </div>
+                                                    </div>
+                                                    <?php
+                                                }
+                                                ?>
+                                            </div>
                                         </div>
-                                        <div class="mb-4">
+                                        <div class="mb-4 select2-div">
                                             <label for="certifications" class="fw-bold">Certifications</label>
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    <select id="certifications" class="form-select select2" name="certifications[]" multiple>
+                                                    <select id="certifications" class="form-select location-select2" name="certifications[]" multiple>
                                                     @php
                                                             $selectedTerms = explode(',', $userDetails->certifications ?? '');
                                                         @endphp
@@ -2501,7 +2524,7 @@
 {{--                                        </div>--}}
                                         <div class="d-flex" style="gap: 20px;">
 
-                                            <button type="submit" class="update-btn">Save Changes</button>
+                                            <button type="submit" class="update-btn ms-0">Save Changes</button>
                                         </div>
                                     </form>
                                 </div>
@@ -2681,12 +2704,42 @@
                 }
             });
         });
+        document.getElementById('bio').addEventListener('input', function () {
+            let words = this.value.match(/\b\w+\b/g) || [];
+            let wordCount = words.length;
+            let maxWords = 500;
+            
+            document.getElementById('word-count').textContent = wordCount + ' / ' + maxWords + ' words';
+
+            if (wordCount > maxWords) {
+                alert('You can only enter up to 500 words.');
+                this.value = words.slice(0, maxWords).join(' '); // Trim excess words
+                document.getElementById('word-count').textContent = maxWords + ' / ' + maxWords + ' words';
+            }
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const checkboxes = document.querySelectorAll(".amentities-checkbox");
+
+            checkboxes.forEach((checkbox) => {
+                checkbox.addEventListener("change", function () {
+                    const checkedCount = document.querySelectorAll(".amentities-checkbox:checked").length;
+                    if (checkedCount > 3) {
+                        this.checked = false; // Prevent selecting more than 3
+                        alert("You can select up to 3 amenities only.");
+                    }
+                });
+            });
+        });
 
         /*** media upload */
         document.getElementById('media-upload').addEventListener('change', function (event) {
             const container = document.getElementById('media-container');
             const files = event.target.files;
-
+            if (this.files.length > 7) {
+                alert('You can only upload up to 7 images.');
+                this.value = ''; // Clear the selected files
+            }
             for (let file of files) {
                 const reader = new FileReader();
 
@@ -2759,6 +2812,12 @@
 
         }
 
+        $(document).ready(function(){
+            $('.location-select2').select2({
+                placeholder: "Select options", // Placeholder text
+                allowClear: true // Enables clear button
+            });
+        })
 
     </script>
 @endsection
