@@ -576,7 +576,9 @@
                                 <option class="level-0" value="2303">Petitcodiac, NB</option>
                                 <option class="level-0" value="2319">L'Avenir, QC</option>
                                 <option class="level-0" value="2335">Landmark, MB</option>
-
+                                <option class="level-0" value="115">Toronto, ON</option>
+                                <option class="level-0" value="395">Washington,DC</option>
+                                <option class="level-0" value="897">London,ON</option>
                             </select>
                         </div>
                         <div class="mb-3">

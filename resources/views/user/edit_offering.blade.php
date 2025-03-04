@@ -2219,6 +2219,18 @@
                                         value="2335" {{ in_array('2335', (array) json_decode($offering->location)) ? 'selected' : '' }}>
                                     Landmark, MB
                                 </option>
+                                <option class="level-0"
+                                        value="115" {{ in_array('115', (array) json_decode($user->location)) ? 'selected' : '' }}>
+                                    Toronto, ON
+                                </option>
+                                <option class="level-0"
+                                        value="395" {{ in_array('395', (array) json_decode($user->location)) ? 'selected' : '' }}>
+                                    Washington,DC
+                                </option>
+                                <option class="level-0"
+                                        value="897" {{ in_array('897', (array) json_decode($user->location)) ? 'selected' : '' }}>
+                                    London,ON
+                                </option>
                             </select>
                         </div>
                         <div class="mb-3">
