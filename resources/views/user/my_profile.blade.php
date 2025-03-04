@@ -2290,6 +2290,14 @@
                                                         value="2335" {{ in_array('2335', (array) json_decode($user->location)) ? 'selected' : '' }}>
                                                     Landmark, MB
                                                 </option>
+                                                <option class="level-0"
+                                                        value="2335" {{ in_array('2335', (array) json_decode($user->location)) ? 'selected' : '' }}>
+                                                    Washington,DC
+                                                </option>
+                                                <option class="level-0"
+                                                        value="2335" {{ in_array('2335', (array) json_decode($user->location)) ? 'selected' : '' }}>
+                                                    Washington,DC
+                                                </option>
                                             </select>
                                         </div>
                                         <label for="type">Tags</label>

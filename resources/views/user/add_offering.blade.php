@@ -674,7 +674,13 @@
                                                 <option value="1:30 hour">1:30 hour</option>
                                                 <option value="1:45 hour">1:45 hour</option>
                                                 <option value="1:50 hour">1:50 hour</option>
-                                                <option value="2 hour">2 hour</option>
+                                                <option value="2 hour">2 hours</option>
+                                                <option value="3 hour">3 hour</option>
+                                                <option value="4 hour">4 hour</option>
+                                                <option value="1 Month">1 Month</option>
+                                                <option value="2 Month">2 Months</option>
+                                                <option value="3 Month">3 Months</option>
+                                                <option value="4 Month">4 Months</option>
                                             </select>
                                         </div>
                                         <div class="row mb-4">
@@ -732,7 +738,13 @@
                                                     <option value="1:30 hour">1:30 hour</option>
                                                     <option value="1:45 hour">1:45 hour</option>
                                                     <option value="1:50 hour">1:50 hour</option>
-                                                    <option value="2 hour">2 hour</option>
+                                                    <option value="2 hour">2 hours</option>
+                                                    <option value="3 hour">3 hour</option>
+                                                    <option value="4 hour">4 hour</option>
+                                                    <option value="1 Month">1 Month</option>
+                                                    <option value="2 Month">2 Months</option>
+                                                    <option value="3 Month">3 Months</option>
+                                                    <option value="4 Month">4 Months</option>
                                                 </select>
                                             </div>
                                             <div class="col mb-4">
