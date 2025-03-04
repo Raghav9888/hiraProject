@@ -110,8 +110,7 @@
                                                 </div>
                                             </div>
                                             <ul class="practitioner-accordian-lists">
-                                                <li>7 Hours</li>
-                                                <li>7 Sessions</li>
+                                                <li>{{$offering->booking_duration}}</li>
                                             </ul>
 
                                             <button id="view-more-btn" class="blog-view-more mb-2"
