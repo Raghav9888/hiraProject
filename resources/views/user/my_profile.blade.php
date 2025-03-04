@@ -2450,6 +2450,10 @@
                                             <label for="endorsements" class="fw-bold">Endorsements</label>
                                             <select id="endorsements" name="endorsements" class="form-select">
                                                 <option>Select</option>
+                                                @foreach($users as $user)
+                                                    <option
+                                                        value="{{$user->id}}" {{ $userDetails->endorsements == $user->id ? 'selected' : '' }}>{{$user->name}}</option>
+                                                @endforeach
                                             </select>
                                         </div>
 

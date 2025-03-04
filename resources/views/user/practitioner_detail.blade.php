@@ -438,53 +438,53 @@
                 </div>
             </div>
         </div>
-        <div class="endorsment-dv">
-            <div class="container">
-                <div class="row">
-                    @foreach($users as $user)
-                        <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
+{{--        <div class="endorsment-dv">--}}
+{{--            <div class="container">--}}
+{{--                <div class="row">--}}
+{{--                        <h4>Endorsements</h4>--}}
+{{--                    @foreach($users as $user)--}}
+{{--                        <div class="col-sm-12 col-md-6 col-lg-3 mb-4">--}}
+{{--                            <div class="featured-dv">--}}
+{{--                                <a href="{{route('practitioner_detail', $user->id)}}">--}}
+{{--                                    @php--}}
+{{--                                        $images = isset($user->userDetail->images) ? json_decode($user->userDetail->images, true) : null;--}}
+{{--                                        $image = isset($images['profile_image']) && $images['profile_image'] ?$images['profile_image'] : null;--}}
+{{--                                        $imageUrl = $image  ? asset(env('media_path') . '/practitioners/' . $user->userDetail->id . '/profile/' . $image) : asset('assets/images/no_image.png');--}}
+{{--                                    @endphp--}}
+{{--                                    <img src="{{ $imageUrl }}" alt="person">--}}
+{{--                                    <div class="d-flex justify-content-between align-items-center mb-2">--}}
+{{--                                        <h4>{{ $user->name }}</h4>--}}
+{{--                                        <i class="fa-regular fa-heart"></i>--}}
+{{--                                    </div>--}}
+{{--                                    <h5>--}}
+{{--                                        @php--}}
+{{--                                            $locations = isset($user->location) && $user->location ?json_decode($user->location, true) : null;--}}
+{{--                                        @endphp--}}
+{{--                                        @if($locations)--}}
+{{--                                            @foreach($locations as $location)--}}
+{{--                                                <i class="fa-solid fa-location-dot"></i>  {{ $location .',' }}--}}
+{{--                                            @endforeach--}}
+{{--                                        @endif--}}
+{{--                                    </h5>--}}
+{{--                                    <p>Alternative and Holistic Health Practitioner</p>--}}
+{{--                                    <div class="d-flex justify-content-between align-items-center">--}}
+{{--                                        <div>--}}
+{{--                                            <i class="fa-regular fa-gem"></i>--}}
+{{--                                            <i class="fa-regular fa-gem"></i>--}}
+{{--                                            <i class="fa-regular fa-gem"></i>--}}
+{{--                                            <i class="fa-regular fa-gem"></i>--}}
+{{--                                            <i class="fa-regular fa-gem"></i>--}}
+{{--                                        </div>--}}
+{{--                                        <h6>5.0 Ratings</h6>--}}
+{{--                                    </div>--}}
+{{--                                </a>--}}
 
-                            <div class="featured-dv">
-                                <a href="{{route('practitioner_detail', $user->id)}}">
-                                    @php
-                                        $images = isset($user->userDetail->images) ? json_decode($user->userDetail->images, true) : null;
-                                        $image = isset($images['profile_image']) && $images['profile_image'] ?$images['profile_image'] : null;
-                                        $imageUrl = $image  ? asset(env('media_path') . '/practitioners/' . $user->userDetail->id . '/profile/' . $image) : asset('assets/images/no_image.png');
-                                    @endphp
-                                    <img src="{{ $imageUrl }}" alt="person">
-                                    <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <h4>{{ $user->name }}</h4>
-                                        <i class="fa-regular fa-heart"></i>
-                                    </div>
-                                    <h5>
-                                        @php
-                                            $locations = isset($user->location) && $user->location ?json_decode($user->location, true) : null;
-                                        @endphp
-                                        @if($locations)
-                                            @foreach($locations as $location)
-                                                <i class="fa-solid fa-location-dot"></i>  {{ $location .',' }}
-                                            @endforeach
-                                        @endif
-                                    </h5>
-                                    <p>Alternative and Holistic Health Practitioner</p>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div>
-                                            <i class="fa-regular fa-gem"></i>
-                                            <i class="fa-regular fa-gem"></i>
-                                            <i class="fa-regular fa-gem"></i>
-                                            <i class="fa-regular fa-gem"></i>
-                                            <i class="fa-regular fa-gem"></i>
-                                        </div>
-                                        <h6>5.0 Ratings</h6>
-                                    </div>
-                                </a>
-
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-        </div>
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    @endforeach--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
     </div>
 
     <script>

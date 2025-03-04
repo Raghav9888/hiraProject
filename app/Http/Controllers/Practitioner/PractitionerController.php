@@ -53,10 +53,11 @@ class PractitionerController extends Controller
         $image = isset($images['profile_image']) ? $images['profile_image'] : null;
         $locations = json_decode($userDetails->location, true);
         $tags = json_decode($userDetails->tags, true);
-        
+        $users = User::where('role', 1)->with('userDetail')->get();
 
         return view('user.my_profile', compact(
             'user',
+            'users',
             'userDetails',
             'Categories',
             'practitionerTag',
@@ -94,7 +95,7 @@ class PractitionerController extends Controller
         $user->last_name = $input['last_name'];
         $user->company = $input['company'];
         $user->bio = $input['bio'];
-        $user->location = isset($input['location']) && $input['location'] ? json_encode($input['location']): [];
+        $user->location = isset($input['location']) && $input['location'] ? json_encode($input['location']) : [];
         $user->save();
         $userDetails = $user->userDetail;
 
@@ -135,7 +136,7 @@ class PractitionerController extends Controller
             foreach ($images as $image) {
                 if ($image->isValid()) {
                     $fileName = time() . '_' . $image->getClientOriginalName();
-                    $image->move(public_path('uploads/practitioners/' . $userDetails->id. '/media/'), $fileName);
+                    $image->move(public_path('uploads/practitioners/' . $userDetails->id . '/media/'), $fileName);
                     $existingImages['media_images'][] = $fileName;
                 }
             }
@@ -147,7 +148,7 @@ class PractitionerController extends Controller
 
             if ($image->isValid()) {
                 $fileName = time() . '_' . $image->getClientOriginalName();
-                $image->move(public_path('uploads/practitioners/' . $userDetails->id.'/profile/'), $fileName);
+                $image->move(public_path('uploads/practitioners/' . $userDetails->id . '/profile/'), $fileName);
 
                 // Initialize existing images and add profile image
                 $existingImages = $userDetails->images ? json_decode($userDetails->images, true) : [];
@@ -216,14 +217,12 @@ class PractitionerController extends Controller
     }
 
 
-
-
     public function add_term(Request $request)
     {
 
         $type = $request->type;
 
-        if (in_array($type, ['IHelpWith', 'HowIHelp','certifications'])) {
+        if (in_array($type, ['IHelpWith', 'HowIHelp', 'certifications'])) {
             $inputField = '<input type="text" class="' . $type . '_term" id="' . $type . '_term" name="' . $type . '_term" placeholder="Enter term">
             <button data-type="' . $type . '" class="update-btn mb-2 save_term">Add Term</button>';
 
