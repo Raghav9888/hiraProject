@@ -1,4 +1,6 @@
+@extends('layouts.app')
 
+@section('content')
 <section class="test-my-offer">
     <div class="container">
         <div class="row">
@@ -95,3 +97,4 @@
         </div>
     </div>
 </section>
+@endsection

@@ -111,7 +111,7 @@
                                                 <div class="d-flex align-items-center">
                                                     <h6 class="offer-prize me-2 m-0">${{$offering->client_price}}</h6>
                                                     <a href="{{ route('offerDetail',$offering->id)}}"
-                                                       data-action="bootbox" class="home-blog-btn">BOOK NOW</a>
+                                                        class="home-blog-btn">BOOK NOW</a>
                                                 </div>
                                             </div>
                                             <ul class="practitioner-accordian-lists">
