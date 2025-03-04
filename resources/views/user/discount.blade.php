@@ -5,12 +5,11 @@
             @include('layouts.partitioner_sidebar')
             <div class="row my-5">
                 @include('layouts.partitioner_nav')
-                <div class="discount-dv mt-4">
-                    <a href="{{route('add_discount')}}" style="width: 200px; text-decoration: none;"
-                       class="export-btn ">Add Discount</a>
+                <div class="discount-dv">
 
-                    <div class="earning-wrrpr mt-5">
-                        <div class="container">
+                    <div class="earning-wrrpr ">
+                            <a href="{{route('add_discount')}}" style="text-decoration: none;"
+                               class="d-inline-block export-btn mb-3">Add Discount</a>
                             @if($discounts->isNotEmpty())
                                 <div class="table-responsive">
                                     <table class="table">
@@ -32,9 +31,11 @@
                                                 <td class="details">
                                                     <h4>{{ $discount->coupon_code }}</h4>
                                                     <div>
-                                                        <a href="#">Edit</a>
+                                                        <a href="{{route('edit_discount', $discount->id)}}">Edit</a>
                                                         /
-                                                        <a href="#"> Delete</a>
+                                                        <form method="post" class="d-inline-block" action="{{route('delete_discount', $discount->id)}}">@csrf
+                                                            <button type="submit" style="font-weight:700;cursor: pointer; border: none; background: none;color: #000;">Delete</button>
+                                                        </form>
                                                     </div>
                                                 </td>
                                                 <td class="details">
@@ -64,10 +65,8 @@
                                     </table>
                                 </div>
                             @else
-                                <h3 class="no-request-text my-5 py-5">No request found.</h3>
+                                <h3 class="no-request-text mt-0 my-5 pt-0 py-5" style="min-height: 200px">No request found.</h3>
                             @endif
-
-                        </div>
                     </div>
                 </div>
             </div>

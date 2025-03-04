@@ -88,8 +88,10 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
         Route::get('/', [DiscountController::class, 'index'])->name('discount');
         Route::get('/add', [DiscountController::class, 'add'])->name('add_discount');
         Route::post('/store', [DiscountController::class, 'store'])->name('store_discount');
+        Route::get('/{id}', [DiscountController::class, 'edit'])->name('edit_discount');
+        Route::post('/{id}', [DiscountController::class, 'update'])->name('update_discount');
+        Route::post('/delete/{id}', [DiscountController::class, 'destroy'])->name('delete_discount');
 //        Route::put('/{id}', [DiscountController::class, 'update'])->name('update_discount');
-//        Route::delete('/{id}', [DiscountController::class, 'destroy']);
     });
 
     Route::get('/import-users', [WordpressUserController::class, 'importUsers']);

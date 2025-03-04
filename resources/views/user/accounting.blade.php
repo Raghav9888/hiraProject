@@ -5,7 +5,7 @@
             @include('layouts.partitioner_sidebar')
             <div class="row">
                 @include('layouts.partitioner_nav')
-                <div class="earning-wrrpr mt-5">
+                <div class="earning-wrrpr">
                     <div class="container">
                         <div class="row mb-5">
                             <div class="col-sm-12 col-md-9 col-lg-9">

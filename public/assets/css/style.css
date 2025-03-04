@@ -24,7 +24,7 @@ section {
 }
 
 .offering-wrrpr {
-    padding: 0 50px;
+    padding: 0 42px;
 }
 
 /* header css start */
@@ -1490,8 +1490,10 @@ section {
 
 .practitioner-detail-wrrpr .help-you-dv ul li {
     color: #565656;
-    margin-right: 60px;
+    margin-right: 25px;
     margin-bottom: 20px;
+    max-width: 260px;
+    width: 100%;
 }
 
 .practitioner-detail-wrrpr .certificate-dv ul {
@@ -2614,4 +2616,19 @@ textarea, input[type="time"] {
 .amenties-checkbox-container input {
     padding: initial;
     height: 1em;
+}
+
+.add-offering-dv .nav-link.active {
+    background: #424e3e;
+    color: #fff;
+}
+
+.appointment-wrrpr h2, .booking-calender-container h2 {
+    font-size: 21px;
+    font-weight:700;
+    font-weight: 700;
+    color: #424E3E;
+}
+.booking-calender-container, .earning-wrrpr {
+    padding: 0 50px;
 }

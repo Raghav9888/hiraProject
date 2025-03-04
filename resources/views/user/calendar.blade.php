@@ -6,12 +6,14 @@
             @include('layouts.partitioner_sidebar')
             <div class="row">
                 @include('layouts.partitioner_nav')
-                <div class="col-md-9">
-                    <h5 class="practitioner-profile-text mb-2 mt-5">Booking Calendar</h5>
-                </div>
-                <div class="card">
-                    <div class="card-body">
-                        <div id="calendar"></div>
+                <div class="booking-calender-container">
+                    <div class="col-md-9">
+                        <h2 class="practitioner-profile-text mb-2 ">Booking Calendar</h2>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <div id="calendar"></div>
+                        </div>
                     </div>
                 </div>
             </div>
