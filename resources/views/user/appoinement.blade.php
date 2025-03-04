@@ -20,30 +20,11 @@
                             <p>Type of service</p>
                         </div>
                         <div class="d-flex align-items-center">
-                            <img src="../../../public/assets/images/Alarm.svg"/>
+
                             <p>09:00AM</p>
                         </div>
                     </div>
-                    <div class="appointment-data">
-                        <div>
-                            <h6>Name</h6>
-                            <p>Type of service</p>
-                        </div>
-                        <div class="d-flex align-items-center">
-                            <img src="../../../public/assets/images/Alarm.svg"/>
-                            <p>09:00AM</p>
-                        </div>
-                    </div>
-                    <div class="appointment-data">
-                        <div>
-                            <h6>Name</h6>
-                            <p>Type of service</p>
-                        </div>
-                        <div class="d-flex align-items-center">
-                            <img src="../../../public/assets/images/Alarm.svg"/>
-                            <p>09:00AM</p>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </div>
