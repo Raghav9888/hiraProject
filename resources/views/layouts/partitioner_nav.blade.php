@@ -11,7 +11,7 @@
     </li>
     <li class="offering {{ Request::is('offering') ? 'active' : '' }} {{ Request::is('discount') ? 'active' : '' }}">
         <a href="{{ route('offering') }}">
-            Offering
+            Offerings
         </a>
         <div class="dropdown {{ Request::is('discount') ? 'active' : '' }}">
             <a href="{{ route('discount') }}">
@@ -21,7 +21,7 @@
     </li>
     <li class="{{ Request::is('appointment') ? 'active' : '' }}">
         <a href="{{ route('appointment') }}">
-            Appointment
+            Appointments
         </a>
     </li>
     <li class="{{ Request::is('calendar') ? 'active' : '' }}">

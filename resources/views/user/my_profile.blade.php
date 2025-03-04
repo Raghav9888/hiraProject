@@ -2476,29 +2476,29 @@
                                             </select>
                                             <p style="text-align: start;">select your timezone</p>
                                         </div>
-                                        <div class="mb-4">
-                                            <div class="form-check offering-check">
-                                                <input type="checkbox" class="form-check-input" id="is_opening_hours"
-                                                       name="is_opening_hours">
-                                                <label class="form-check-label" for="is_opening_hours">Enable opening
-                                                    hours</label>
-                                            </div>
-                                        </div>
-                                        <div class="mb-4">
-                                            <div class="form-check offering-check">
-                                                <input type="checkbox" class="form-check-input" id="is_notice"
-                                                       name="is_notice">
-                                                <label class="form-check-label" for="is_notice">Enable notice</label>
-                                            </div>
-                                        </div>
-                                        <div class="mb-4">
-                                            <div class="form-check offering-check">
-                                                <input type="checkbox" class="form-check-input" id="is_google_analytics"
-                                                       name="is_google_analytics">
-                                                <label class="form-check-label" for="is_google_analytics">Enable Google
-                                                    Analytics</label>
-                                            </div>
-                                        </div>
+{{--                                        <div class="mb-4">--}}
+{{--                                            <div class="form-check offering-check">--}}
+{{--                                                <input type="checkbox" class="form-check-input" id="is_opening_hours"--}}
+{{--                                                       name="is_opening_hours">--}}
+{{--                                                <label class="form-check-label" for="is_opening_hours">Enable opening--}}
+{{--                                                    hours</label>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                        <div class="mb-4">--}}
+{{--                                            <div class="form-check offering-check">--}}
+{{--                                                <input type="checkbox" class="form-check-input" id="is_notice"--}}
+{{--                                                       name="is_notice">--}}
+{{--                                                <label class="form-check-label" for="is_notice">Enable notice</label>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                        <div class="mb-4">--}}
+{{--                                            <div class="form-check offering-check">--}}
+{{--                                                <input type="checkbox" class="form-check-input" id="is_google_analytics"--}}
+{{--                                                       name="is_google_analytics">--}}
+{{--                                                <label class="form-check-label" for="is_google_analytics">Enable Google--}}
+{{--                                                    Analytics</label>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
                                         <div class="d-flex" style="gap: 20px;">
 
                                             <button type="submit" class="update-btn">Save Changes</button>
