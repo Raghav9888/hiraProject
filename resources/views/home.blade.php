@@ -119,12 +119,11 @@
                                                     @if($locations)
                                                         @foreach($locations as  $location)
                                                             @if(in_array($location->id,$userLocations))
-                                                                <i class="fa-solid fa-location-dot"></i> {{ $location->name }}
+                                                                <i class="fa-solid fa-location-dot"></i> {{ $location->name }},
                                                             @endif
                                                         @endforeach
                                                     @endif
                                                 </h5>
-
                                                 <p>Alternative and Holistic Health Practitioner</p>
 
                                                 <div class="d-flex justify-content-between align-items-center">
