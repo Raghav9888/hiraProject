@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Locations;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\UserDetail;
@@ -27,8 +28,9 @@ class HomeController extends Controller
 
         $users = User::where('role', 1)->with('userDetail')->get()->take(8);
         $categories = Category::all();
+        $locations = Locations::get();
 
-        return view('home', compact('users', 'categories'));
+        return view('home', compact('users', 'categories','locations'));
     }
 
     public function partitionerLists()
@@ -102,11 +104,12 @@ class HomeController extends Controller
         $image = isset($images['profile_image']) ? $images['profile_image'] : null;
         $mediaImages = isset($images['media_images']) && is_array($images['media_images']) ? $images['media_images'] : [];
 
-        $locations = json_decode($user->location, true);
+        $userLocations = json_decode($user->location, true);
+        $locations = Locations::get();
         $users = User::where('role', 1)->with('userDetail')->get();
         $categories = Category::get();
 
-        return view('user.practitioner_detail', compact('user', 'users', 'userDetails', 'offerings','categories', 'image', 'mediaImages', 'locations', 'IHelpWith', 'HowIHelp', 'Certifications'));
+        return view('user.practitioner_detail', compact('user', 'users', 'userDetails', 'offerings','categories', 'image', 'mediaImages', 'locations', 'userLocations', 'IHelpWith', 'HowIHelp', 'Certifications'));
     }
 
     public function offerDetail($id)

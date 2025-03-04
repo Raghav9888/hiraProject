@@ -101,8 +101,8 @@
                                             ? asset(env('media_path') . '/practitioners/' . $user->userDetail->id . '/profile/' . $image)
                                             : asset(env('local_path') . '/images/no_image.png');
 
-                                        $locations = isset($user->location) && $user->location ? json_decode($user->location, true) : [];
-                                        $locationText = !empty($locations) ? implode(', ', $locations) : 'Unknown Location';
+                                        $userLocations = isset($user->location) && $user->location ? json_decode($user->location, true) : [];
+
                                     @endphp
 
                                     <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
@@ -116,7 +116,13 @@
                                                 </div>
 
                                                 <h5>
-                                                    <i class="fa-solid fa-location-dot"></i> {{ $locationText }}
+                                                    @if($locations)
+                                                        @foreach($locations as  $location)
+                                                            @if(in_array($location->id,$userLocations))
+                                                                <i class="fa-solid fa-location-dot"></i> {{ $location->name }}
+                                                            @endif
+                                                        @endforeach
+                                                    @endif
                                                 </h5>
 
                                                 <p>Alternative and Holistic Health Practitioner</p>

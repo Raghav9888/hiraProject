@@ -29,13 +29,16 @@
                         <h5>Alternative and Holistic Health Practitioner</h5>
                         <p class="mb-4">{{$userDetails->bio}}</p>
                         @if($locations)
-                            @foreach($locations as $location)
-                                <div class="practitioner-location-dv mb-4">
-                                    <button><i class="fa-solid fa-location-dot me-2"></i>{{$location}}</button>
-                                    <ul class="m-0">
-                                        <li>Virtual Offerings Available</li>
-                                    </ul>
-                                </div>
+                            @foreach($locations as  $location)
+                                @if(in_array($location->id,$userLocations))
+                                    <div class="practitioner-location-dv mb-4">
+                                        <button><i class="fa-solid fa-location-dot me-2"></i>{{$location->name}}</button>
+                                        <ul class="m-0">
+                                            <li>Virtual Offerings Available</li>
+                                        </ul>
+                                    </div>
+                                @endif
+
                             @endforeach
                         @endif
                     </div>
