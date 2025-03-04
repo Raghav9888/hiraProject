@@ -1,76 +1,83 @@
 console.log('calendar.js');
-// document.addEventListener('DOMContentLoaded', function () {
-//     let calendarEl = document.getElementById('calendar');
+document.addEventListener('DOMContentLoaded', function () {
+    let calendarEl = document.getElementById('calendar');
 
-//     let calendar = new FullCalendar.Calendar(calendarEl, {
-//         initialView: 'dayGridMonth',
-//         editable: true,
-//         selectable: true,
-//         dayMaxEvents: true,
-//         events: function(info, successCallback, failureCallback) {
-//             $.ajax({
-//                 url: '/calendar/events',
-//                 type: 'GET',
-//                 headers: {
-//                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-//                 },
-//                 success: function (response) {
-//                     if (response.error) {
-//                         window.location.href = response.redirect_url;
-//                     } else {
-//                         successCallback(response);
-//                     }
-//                 },
-//                 error: function (xhr, status, error) {
-//                     console.error("Error fetching events:", status, error);
-//                     failureCallback(error);
-//                 }
-//             });
-//         },
-//         select: function (info) {
-//             console.log(info);
-//             const formatDateTime = (dateStr, allDay) => {
-//                 return allDay ? `${dateStr}T00:00` : new Date(dateStr).toISOString().slice(0, 16);
-//             };
+    let calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        editable: true,
+        selectable: true,
+        dayMaxEvents: true,
+        events: function(info, successCallback, failureCallback) {
+            $.ajax({
+                url: '/calendar/events',
+                type: 'GET',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function (response) {
 
-//             document.getElementById('eventStartTime').value = formatDateTime(info.startStr, info.allDay);
-//             document.getElementById('eventEndTime').value = formatDateTime(info.endStr, info.allDay);
 
-//             document.getElementById('eventModal').style.display = 'block';
-//         },
-//         eventDrop: function (info) {
-//             // updateEvent(info.event);
-//         },
-//         eventClick: function (info) {
-//             if (confirm('Do you want to delete this event?')) {
-//                 info.event.remove();
-//             }
-//         }
-//     });
+                    if (response.error) {
+                        // If there's an error, redirect
+                        window.location.href = response.redirect_url;
+                    } else {
 
-//     calendar.render();
 
-//     // Close modal functionality
-//     document.getElementById('closeModal').onclick = function () {
-//         document.getElementById('eventModal').style.display = 'none';
-//     };
+                        successCallback(response);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error fetching events:", status, error);
+                    failureCallback(error); // Call failureCallback in case of error
+                }
+            });
+        },
+        select: function (info) {
+            console.log(info);
+            const formatDateTime = (dateStr, allDay) => {
+                return allDay ? `${dateStr}T00:00` : new Date(dateStr).toISOString().slice(0, 16);
+            };
 
-//     // Handle form submission
-//     document.getElementById('createEventForm').addEventListener('submit', function (event) {
-//         event.preventDefault();
+            document.getElementById('eventStartTime').value = formatDateTime(info.startStr, info.allDay);
+            document.getElementById('eventEndTime').value = formatDateTime(info.endStr, info.allDay);
 
-//         const eventData = {
-//             title: document.getElementById('eventTitle').value,
-//             description: document.getElementById('eventDescription').value,
-//             start_time: new Date(document.getElementById('eventStartTime').value).toISOString(),
-//             end_time: new Date(document.getElementById('eventEndTime').value).toISOString(),
-//         };
+            document.getElementById('eventModal').style.display = 'block';
+        },
+        eventDrop: function (info) {
+            // updateEvent(info.event);
+        },
+        eventClick: function (info) {
+            if (confirm('Do you want to delete this event?')) {
+                info.event.remove();
+            }
+        }
+    });
 
-//         sendToServer(eventData, calendar);
-//         document.getElementById('createEventForm').reset(); // Reset form fields
-//         document.getElementById('eventModal').style.display = 'none';
-//     });
-// });
+    calendar.render();
+
+    // Close modal functionality
+    document.getElementById('closeModal').onclick = function () {
+        document.getElementById('eventModal').style.display = 'none';
+    };
+
+    // Handle form submission
+    document.getElementById('createEventForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const eventData = {
+            title: document.getElementById('eventTitle').value,
+            description: document.getElementById('eventDescription').value,
+            start_time: new Date(document.getElementById('eventStartTime').value).toISOString(),
+            end_time: new Date(document.getElementById('eventEndTime').value).toISOString(),
+        };
+
+        sendToServer(eventData, calendar);
+        document.getElementById('createEventForm').reset(); // Reset form fields
+        document.getElementById('eventModal').style.display = 'none';
+    });
+});
+
+
 
 function sendToServer(eventData, calendar) {
     $.ajax({
@@ -106,9 +113,8 @@ function upComingEvents() {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         success: function (response) {
-            $('#upcomingEventsRowDiv').empty(); // Clear the div before appending new content
+            $('#upcomingEventsRowDiv').empty();
 
-            // Check if response is empty or events array is empty
             if (!response || !response.events || response.events.length === 0) {
                 $('#upcomingEventsRowDiv').append(`
                     <div class="col-sm-12 my-4 text-center">
@@ -151,24 +157,21 @@ function upComingEvents() {
 
 document.addEventListener('DOMContentLoaded', function () {
     var calendarEl = document.getElementById('booking_calendar');
-    if(calendarEl){
-
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
-            selectable: true,
-            fixedWeekCount: true,
-            dateClick: function (info) {
-                if(info.dateStr < new Date().toISOString().slice(0, 10)){
-                    alert('You cannot book for past dates');
-                    return;
-                }
-    
-                var selectedDate = info.dateStr;
-                fetchTimeSlots(selectedDate);
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        selectable: true,
+        fixedWeekCount: true,
+        dateClick: function (info) {
+            if(info.dateStr < new Date().toISOString().slice(0, 10)){
+                alert('You cannot book for past dates');
+                return;
             }
-        });
-        calendar.render();
-    }
+
+            var selectedDate = info.dateStr;
+            fetchTimeSlots(selectedDate);
+        }
+    });
+    calendar.render();
 });
 
 
@@ -211,11 +214,6 @@ $(document).ready(function () {
     $(document).on('click', '[data-type="hide"]', function () {
 
         let id = $(this).data('id');
-       $(`#${id}`).toggleClass('d-none');
+        $(`#${id}`).toggleClass('d-none');
     });
 });
-
-
-
-
-
