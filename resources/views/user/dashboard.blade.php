@@ -3,16 +3,14 @@
     <section class="practitioner-profile">
         <div class="container">
             @include('layouts.partitioner_sidebar')
-
-            <div class="row ms-5">
-                <div class="col-sm-12 col-lg-5"></div>
+            <div class="row">
                 @include('layouts.partitioner_nav')
-                <div class="px-0 my-3 community-text col-sm-12">
-                    <h5 class="practitioner-profile-text">Upcoming <span style="font-weight: 800;">community
-                            events</span></h5>
-                </div>
             </div>
-            <div class="row ms-5" id="upcomingEventsRowDiv">
+
+            <div class="row ps-5" id="upcomingEventsRowDiv">
+                <div class="px-0 my-3 community-text col-sm-12">
+                    <h5 class="practitioner-profile-text">Upcoming <span style="font-weight: 800;">communityevents</span></h5>
+                </div>
                 {{-- We show the data by ajax --}}
                 <div class="col-sm-12 my-4 text-center">
                     loading...
