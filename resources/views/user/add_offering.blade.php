@@ -29,11 +29,14 @@
                         </div>
                         <div class="mb-3">
                             <label for="floatingTextarea" class="fw-bold">Short Description</label>
-                            <textarea class="form-control" name="short_description" placeholder="Please add a short description here" id="floatingTextarea"></textarea>
+                            <textarea class="form-control" name="short_description"
+                                      placeholder="Please add a short description here"
+                                      id="floatingTextarea"></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="floatingTextarea" class="fw-bold">Description</label>
-                            <textarea class="form-control" name="long_description" placeholder="Please add a full description here" id="floatingTextarea"></textarea>
+                            <textarea class="form-control" name="long_description"
+                                      placeholder="Please add a full description here" id="floatingTextarea"></textarea>
                         </div>
                         <div class="mb-4">
                             <label for="type" class="fw-bold">Type of offering</label>
@@ -151,8 +154,9 @@
                                         <div class="row mb-4">
                                             <div class="col">
                                                 <label for="service-hours" class="fw-bold mb-4">Service hours</label>
-                                                <select  class="form-select"
-                                                        name="availability_type" data-type="change" data-target="custom_hours" data-match="own_specific_date">
+                                                <select class="form-select"
+                                                        name="availability_type" data-type="change"
+                                                        data-target-one="custom_hours" data-match-one="own_specific_date">
                                                     <option value="">Following store hours</option>
                                                     <option value="every_day">Every day</option>
                                                     <option value="every_monday">Every monday</option>
@@ -307,14 +311,13 @@
                                          tabindex="0">
                                         <div class="my-4">
                                             <label for="specify" class="fw-bold">Specify</label>
-                                            <select id="specify" name="specify" class="form-select">
+                                            <select id="specify" name="specify" class="form-select" data-type="change"
+                                                    data-targetone="custom_hours" data-matchone="own_specific_date">
                                                 <option>Select the event type</option>
                                                 <option>One time event</option>
                                                 <option>Recurring event</option>
                                             </select>
                                         </div>
-
-                                        {{--  open when one time --}}
                                         <div class="mb-4">
                                             <label for="service-hours" class="fw-bold">Date and time</label>
                                             <input type="datetime-local" class="form-control" placeholder="" name="">
@@ -472,18 +475,16 @@
             </div>
         </div>
     </section>
-<script>
-    $(document).on('change','[data-type="change"]', function (e) {
-        let targetValue = $(this).data('target');
-        let matchValue = $(this).data('match');
+    <script>
+        $(document).on('change', '[data-type="change"]', function (e) {
+            let targetOneValue = $(this).data('target-one');
+            let matchOneValue = $(this).data('match-one');
+console.log(targetOneValue,matchOneValue)
+            if ((targetOneValue && targetOneValue.length > 0) && (matchOneValue && matchOneValue.length > 0)) {
+                $(this).val() == matchOneValue ? $(`#${targetOneValue}`).removeClass('d-none').addClass('d-flex') : $(`#${targetOneValue}`).addClass('d-none').removeClass('d-flex')
+            }
 
-        if($(this).val() == matchValue){
-            $(`#${targetValue}`).removeClass('d-none').addClass('d-flex');
-
-        }else{
-            $(`#${targetValue}`).addClass('d-none').removeClass('d-flex');
-        }
-    });
-</script>
+        });
+    </script>
 @endsection
 
