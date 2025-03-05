@@ -303,13 +303,14 @@
                                     <div class="tab-pane fade" id="events" role="tabpanel" aria-labelledby="events-tab"
                                          tabindex="0">
                                         <div class="my-4">
-                                            <label for="specify" class="fw-bold">specify</label>
+                                            <label for="specify" class="fw-bold">Specify</label>
                                             <select id="specify" name="specify" class="form-select">
                                                 <option>Select the event type</option>
                                                 <option>One time event</option>
                                                 <option>Recurring event</option>
                                             </select>
                                         </div>
+
                                         {{--  open when one time --}}
                                         <div class="mb-4">
                                             <label for="service-hours" class="fw-bold">Date and time</label>
@@ -338,10 +339,32 @@
                                                 <option value="4 Month">4 Months</option>
                                             </select>
                                         </div>
+                                        <div class="my-4">
+                                            <label for="booking-duration" class="fw-bold">Duration of events</label>
+                                            <select id="event-duration" name="event_duration" class="form-select">
+                                                <option value="15 minutes">15 minutes</option>
+                                                <option value="20 minutes">20 minutes</option>
+                                                <option value="30 minutes">30 minutes</option>
+                                                <option value="45 minutes">45 minutes</option>
+                                                <option value="50 minutes">50 minutes</option>
+                                                <option value="1 hour">1 hour</option>
+                                                <option value="1:15 hour">1:15 hour</option>
+                                                <option value="1:30 hour">1:30 hour</option>
+                                                <option value="1:45 hour">1:45 hour</option>
+                                                <option value="1:50 hour">1:50 hour</option>
+                                                <option value="2 hour">2 hours</option>
+                                                <option value="3 hour">3 hour</option>
+                                                <option value="4 hour">4 hour</option>
+                                                <option value="1 Month">1 Month</option>
+                                                <option value="2 Month">2 Months</option>
+                                                <option value="3 Month">3 Months</option>
+                                                <option value="4 Month">4 Months</option>
+                                            </select>
+                                        </div>
                                         <div class="mb-4">
                                             <label for="sports" class="fw-bold">How many sports are
                                                 available</label>
-                                            <input type="text" id="sports" class="form-control" placeholder="" name="sports">
+                                            <input type="text" id="sports" class="form-control" placeholder="Type the available spots in numbers" name="sports">
                                         </div>
 
                                         <div class="row">
