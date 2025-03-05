@@ -46,7 +46,7 @@
         </main>
     </div>
 @include('layouts.footer')
-
+@stack('custom_scripts')
 <script type="module">
 
     $(document).ready(function(){

@@ -359,8 +359,8 @@
                                         </div>
 
                                         <div class="mb-4">
-                                            <label for="timezone" class="fw-bold">Timezone</label>
-                                            <select id="timezone" name="timezone" class="form-select">
+                                            <label for="timezone1" class="fw-bold">Timezone</label>
+                                            <select id="timezone1" name="timezone" class="form-select">
                                                 <option value="">Select</option>
                                                 @foreach ($timezones as $timezone)
                                                     <option

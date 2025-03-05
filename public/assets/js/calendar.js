@@ -2,74 +2,83 @@ console.log('calendar.js');
 document.addEventListener('DOMContentLoaded', function () {
     let calendarEl = document.getElementById('calendar');
 
-    let calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth',
-        editable: true,
-        selectable: true,
-        dayMaxEvents: true,
-        events: function(info, successCallback, failureCallback) {
-            $.ajax({
-                url: '/calendar/events',
-                type: 'GET',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function (response) {
-                    if (response.error) {
-                        window.location.href = response.redirect_url;
-                    } else {
-                        successCallback(response);
+    if(calendarEl){
+
+        let calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            editable: true,
+            selectable: true,
+            dayMaxEvents: true,
+            events: function(info, successCallback, failureCallback) {
+                $.ajax({
+                    url: '/calendar/events',
+                    type: 'GET',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function (response) {
+                        if (response.error) {
+                            window.location.href = response.redirect_url;
+                        } else {
+                            successCallback(response);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error fetching events:", status, error);
+                        failureCallback(error);
                     }
-                },
-                error: function (xhr, status, error) {
-                    console.error("Error fetching events:", status, error);
-                    failureCallback(error);
+                });
+            },
+            select: function (info) {
+                console.log(info);
+                const formatDateTime = (dateStr, allDay) => {
+                    return allDay ? `${dateStr}T00:00` : new Date(dateStr).toISOString().slice(0, 16);
+                };
+    
+                document.getElementById('eventStartTime').value = formatDateTime(info.startStr, info.allDay);
+                document.getElementById('eventEndTime').value = formatDateTime(info.endStr, info.allDay);
+    
+                document.getElementById('eventModal').style.display = 'block';
+            },
+            eventDrop: function (info) {
+                // updateEvent(info.event);
+            },
+            eventClick: function (info) {
+                if (confirm('Do you want to delete this event?')) {
+                    info.event.remove();
                 }
-            });
-        },
-        select: function (info) {
-            console.log(info);
-            const formatDateTime = (dateStr, allDay) => {
-                return allDay ? `${dateStr}T00:00` : new Date(dateStr).toISOString().slice(0, 16);
-            };
-
-            document.getElementById('eventStartTime').value = formatDateTime(info.startStr, info.allDay);
-            document.getElementById('eventEndTime').value = formatDateTime(info.endStr, info.allDay);
-
-            document.getElementById('eventModal').style.display = 'block';
-        },
-        eventDrop: function (info) {
-            // updateEvent(info.event);
-        },
-        eventClick: function (info) {
-            if (confirm('Do you want to delete this event?')) {
-                info.event.remove();
             }
-        }
-    });
+        });
+    
+        calendar.render();
+    }
 
-    calendar.render();
+    if(document.getElementById('closeModal')){
 
-    // Close modal functionality
-    document.getElementById('closeModal').onclick = function () {
-        document.getElementById('eventModal').style.display = 'none';
-    };
-
-    // Handle form submission
-    document.getElementById('createEventForm').addEventListener('submit', function (event) {
-        event.preventDefault();
-
-        const eventData = {
-            title: document.getElementById('eventTitle').value,
-            description: document.getElementById('eventDescription').value,
-            start_time: new Date(document.getElementById('eventStartTime').value).toISOString(),
-            end_time: new Date(document.getElementById('eventEndTime').value).toISOString(),
+        // Close modal functionality
+        document.getElementById('closeModal').onclick = function () {
+            document.getElementById('eventModal').style.display = 'none';
         };
+    }
 
-        sendToServer(eventData, calendar);
-        document.getElementById('createEventForm').reset(); // Reset form fields
-        document.getElementById('eventModal').style.display = 'none';
-    });
+    if(document.getElementById('createEventForm')){
+
+        // Handle form submission
+        document.getElementById('createEventForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+    
+            const eventData = {
+                title: document.getElementById('eventTitle').value,
+                description: document.getElementById('eventDescription').value,
+                start_time: new Date(document.getElementById('eventStartTime').value).toISOString(),
+                end_time: new Date(document.getElementById('eventEndTime').value).toISOString(),
+            };
+    
+            sendToServer(eventData, calendar);
+            document.getElementById('createEventForm').reset(); // Reset form fields
+            document.getElementById('eventModal').style.display = 'none';
+        });
+    }
 });
 
 
@@ -152,21 +161,24 @@ function upComingEvents() {
 
 document.addEventListener('DOMContentLoaded', function () {
     var calendarEl = document.getElementById('booking_calendar');
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth',
-        selectable: true,
-        fixedWeekCount: true,
-        dateClick: function (info) {
-            if(info.dateStr < new Date().toISOString().slice(0, 10)){
-                alert('You cannot book for past dates');
-                return;
-            }
+    if(calendarEl){
 
-            var selectedDate = info.dateStr;
-            fetchTimeSlots(selectedDate);
-        }
-    });
-    calendar.render();
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            selectable: true,
+            fixedWeekCount: true,
+            dateClick: function (info) {
+                if(info.dateStr < new Date().toISOString().slice(0, 10)){
+                    alert('You cannot book for past dates');
+                    return;
+                }
+    
+                var selectedDate = info.dateStr;
+                fetchTimeSlots(selectedDate);
+            }
+        });
+        calendar.render();
+    }
 });
 
 

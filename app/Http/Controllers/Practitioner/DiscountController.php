@@ -45,21 +45,10 @@ class DiscountController extends Controller
 
         $discountdata = [
             'user_id' => $user_id,
-            'coupon_code' => $input['coupon_code'],
-            'coupon_description' => $input['coupon_description'],
-            'apply_all_services' => isset($input['apply_all_services']) && $input['apply_all_services'] == 'on' ? 1 : 0,
             'coupon_amount' => $input['coupon_amount'],
             'discount_type' => $input['discount_type'],
-            'minimum_spend' => $input['minimum_spend'],
-            'maximum_spend' => $input['maximum_spend'],
-            'individual_use_only' => isset($input['individual_use_only']) && $input['individual_use_only'] == 'on' ? 1 : 0,
-            'exclude_sale_items' => isset($input['exclude_sale_items']) && $input['exclude_sale_items'] == 'on' ? 1 : 0,
-            'offerings' => $input['offerings'],
-            'exclude_services' => $input['exclude_services'],
-            'email_restrictions' => $input['email_restrictions'],
-            'usage_limit_per_coupon' => $input['usage_limit_per_coupon'],
-            'usage_limit_to_x_items' => $input['usage_limit_to_x_items'],
-            'usage_limit_per_user' => $input['usage_limit_per_user'],
+            'apply_to' => $input['apply_to'],
+            'offerings' => isset($input['offerings']) && count($input['offerings']) > 0 ? json_encode($input["offerings"]): null,
         ];
 
         $discount = Discount::create($discountdata);
@@ -86,24 +75,12 @@ class DiscountController extends Controller
         $input = $request->all();
         $user = Auth::user();
         $user_id = $user->id;
-
         $discountdata = [
             'user_id' => $user_id,
-            'coupon_code' => $input['coupon_code'],
-            'coupon_description' => $input['coupon_description'],
-            'apply_all_services' => isset($input['apply_all_services']) && $input['apply_all_services'] == 'on' ? 1 : 0,
             'coupon_amount' => $input['coupon_amount'],
             'discount_type' => $input['discount_type'],
-            'minimum_spend' => $input['minimum_spend'],
-            'maximum_spend' => $input['maximum_spend'],
-            'individual_use_only' => isset($input['individual_use_only']) && $input['individual_use_only'] == 'on' ? 1 : 0,
-            'exclude_sale_items' => isset($input['exclude_sale_items']) && $input['exclude_sale_items'] == 'on' ? 1 : 0,
-            'offerings' => $input['offerings'],
-            'exclude_services' => $input['exclude_services'],
-            'email_restrictions' => $input['email_restrictions'],
-            'usage_limit_per_coupon' => $input['usage_limit_per_coupon'],
-            'usage_limit_to_x_items' => $input['usage_limit_to_x_items'],
-            'usage_limit_per_user' => $input['usage_limit_per_user'],
+            'apply_to' => $input['apply_to'],
+            'offerings' => $input['apply_to'] === 'specific' && isset($input['offerings']) && count($input['offerings']) > 0  ? json_encode($input["offerings"]): null,
         ];
 
         $discount = Discount::where('id', $id)->update($discountdata);

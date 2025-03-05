@@ -128,19 +128,21 @@ $(document).on('click', '.save_term', function (e) {
         }
     });
 });
-document.getElementById('bio').addEventListener('input', function () {
-    let words = this.value.match(/\b\w+\b/g) || [];
-    let wordCount = words.length;
-    let maxWords = 500;
-
-    document.getElementById('word-count').textContent = wordCount + ' / ' + maxWords + ' words';
-
-    if (wordCount > maxWords) {
-        alert('You can only enter up to 500 words.');
-        this.value = words.slice(0, maxWords).join(' '); // Trim excess words
-        document.getElementById('word-count').textContent = maxWords + ' / ' + maxWords + ' words';
-    }
-});
+if(document.getElementById('bio')){
+    document.getElementById('bio').addEventListener('input', function () {
+        let words = this.value.match(/\b\w+\b/g) || [];
+        let wordCount = words.length;
+        let maxWords = 500;
+    
+        document.getElementById('word-count').textContent = wordCount + ' / ' + maxWords + ' words';
+    
+        if (wordCount > maxWords) {
+            alert('You can only enter up to 500 words.');
+            this.value = words.slice(0, maxWords).join(' '); // Trim excess words
+            document.getElementById('word-count').textContent = maxWords + ' / ' + maxWords + ' words';
+        }
+    });
+}
 
 document.addEventListener("DOMContentLoaded", function () {
     const checkboxes = document.querySelectorAll(".amentities-checkbox");
@@ -157,43 +159,45 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 /*** media upload */
-document.getElementById('media-upload').addEventListener('change', function (event) {
-    const container = document.getElementById('media-container');
-    const files = event.target.files;
-    if (this.files.length > 7) {
-        alert('You can only upload up to 7 images.');
-        this.value = ''; // Clear the selected files
-    }
-    for (let file of files) {
-        const reader = new FileReader();
-
-        reader.onload = function (e) {
-            const div = document.createElement('div');
-            div.classList.add('media-item');
-
-            const img = document.createElement('img');
-            img.src = e.target.result;
-            img.style.width = "100px";
-            img.style.height = "100px";
-            img.style.objectFit = "cover";
-            img.style.display = "block";
-
-            const removeBtn = document.createElement('i');
-            removeBtn.classList.add('fas', 'fa-times');
-            removeBtn.style.cursor = "pointer";
-
-            removeBtn.addEventListener('click', function () {
-                div.remove();
-            });
-
-            div.appendChild(img);
-            div.appendChild(removeBtn);
-            container.appendChild(div);
-        };
-
-        reader.readAsDataURL(file);
-    }
-});
+if(document.getElementById('media-upload')){
+    document.getElementById('media-upload').addEventListener('change', function (event) {
+        const container = document.getElementById('media-container');
+        const files = event.target.files;
+        if (this.files.length > 7) {
+            alert('You can only upload up to 7 images.');
+            this.value = ''; // Clear the selected files
+        }
+        for (let file of files) {
+            const reader = new FileReader();
+    
+            reader.onload = function (e) {
+                const div = document.createElement('div');
+                div.classList.add('media-item');
+    
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.style.width = "100px";
+                img.style.height = "100px";
+                img.style.objectFit = "cover";
+                img.style.display = "block";
+    
+                const removeBtn = document.createElement('i');
+                removeBtn.classList.add('fas', 'fa-times');
+                removeBtn.style.cursor = "pointer";
+    
+                removeBtn.addEventListener('click', function () {
+                    div.remove();
+                });
+    
+                div.appendChild(img);
+                div.appendChild(removeBtn);
+                container.appendChild(div);
+            };
+    
+            reader.readAsDataURL(file);
+        }
+    });
+}
 
 function removeImage(element) {
     const imageName = $(element).data('image');

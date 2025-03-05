@@ -16,10 +16,9 @@
                                         <thead class="thead-light">
                                         <tr>
                                             <th class="tn"><i class="wcv-icon wcv-icon-image"></i></th>
-                                            <th scope="col">Coupon</th>
+                                            <th scope="col">Apply To</th>
                                             <th scope="col">Discount Type</th>
                                             <th scope="col">Coupon Amount</th>
-                                            <th scope="col">Coupon Description</th>
                                             <th scope="col">Offerings </th>
                                         </tr>
                                         </thead>
@@ -29,7 +28,7 @@
                                             <tr>
                                                 <td class="tn"></td>
                                                 <td class="details">
-                                                    <h4>{{ $discount->coupon_code }}</h4>
+                                                    <h4>{{ $discount->apply_to === 'all'? 'All': 'Specific' }}</h4>
                                                     <div>
                                                         <a href="{{route('edit_discount', $discount->id)}}">Edit</a>
                                                         /
@@ -45,15 +44,19 @@
                                                     <h4>{{ $discount->coupon_amount }}</h4>
                                                 </td>
                                                 <td class="details">
-                                                    <h4>{{ $discount->coupon_description }}</h4>
-                                                </td>
-                                                <td class="details">
+                                                    <?php 
+                                                        $selectedOfferings = is_string($discount->offerings) ? json_decode($discount->offerings, true) : $discount->offerings;
 
+                                                    ?>
+                                                    @if($discount->offerings)
                                                     @foreach($offerings as $offering)
-                                                        @if(in_array($offering->id, explode(',', $discount->offerings)))
+                                                        @if(in_array($offering->id, $selectedOfferings))
                                                             <h4>{{ $offering->name }}</h4>
                                                         @endif
                                                     @endforeach
+                                                    @else
+                                                    -
+                                                    @endif
                                                 </td>
 
                                             </tr>
