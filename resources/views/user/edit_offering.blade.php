@@ -32,6 +32,20 @@
                                       placeholder="please add a full description here"
                                       id="floatingTextarea">{{ $offering->long_description}}</textarea>
                         </div>
+                        <div class="mb-4">
+                            <label for="type" class="fw-bold">Type of offering</label>
+                            <select id="type" name="offering_type" class="form-select ">
+                                <option value="">Select Offering Type</option>
+                                <option
+                                    value="in-person" {{ $offering->offering_type  == 'in-person' ? 'selected' : ''}}>
+                                    In person Offering
+                                </option>
+                                <option
+                                    value="virtual" {{ $offering->offering_type  == 'virtual' ? 'selected' : ''}}>
+                                    Virtual Offering
+                                </option>
+                            </select>
+                        </div>
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Location</label>
                             <select name="location[]" multiple="multiple" class="form-control select2">
@@ -123,20 +137,6 @@
                         </div>
                         <hr>
                         <div class="container">
-                            <div class="mb-4">
-                                <label for="type" class="fw-bold">Type of offering</label>
-                                <select id="type" name="offering_type" class="form-select ">
-                                    <option value="">Select Offering Type</option>
-                                    <option
-                                        value="in-person" {{ $offering->offering_type  == 'in-person' ? 'selected' : ''}}>
-                                        In person Offering
-                                    </option>
-                                    <option
-                                        value="virtual" {{ $offering->offering_type  == 'virtual' ? 'selected' : ''}}>
-                                        Virtual Offering
-                                    </option>
-                                </select>
-                            </div>
                             <div class="mb-4">
                                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                                     <li class="nav-item" role="presentation">
