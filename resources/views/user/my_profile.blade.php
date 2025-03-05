@@ -104,8 +104,10 @@
                         </div> --}}
 
                         <div class="mb-3">
-                            <label for="bio" class="fw-bold">Short Bio</label>
-                            <p>Maximum length of 500 words</p>
+                            <div class="d-flex justify-content-between">
+                                <label for="bio" class="fw-bold">Short Bio</label>
+                                <p>Maximum length of 500 words</p>
+                            </div>
                             <textarea class="form-control" name="bio" id="bio"
                                 placeholder="">{{$userDetails->bio ?? ''}}</textarea>
                             <p id="word-count">0 / 500 words</p>
@@ -142,13 +144,18 @@
                             </select>
                         </div>
                         <div class="mb-4 mt-4">
-                            <label for="media" class="fw-bold">Galley of images</label>
-                            <label class="add-media-btn" for="media-upload">
-                                <i class="fas fa-plus"></i>
-                                Add media
-                            </label>
-                            <input type="file" id="media-upload" name="media_images[]" class="hidden"
-                                accept="image/*" multiple>
+                            <div class="d-flex">
+                                <label for="media" class="fw-bold">Galley of images</label>
+                               <div class="ms-3">
+                                   <label class="add-media-btn" for="media-upload">
+                                       <i class="fas fa-plus"></i>
+                                       Add media
+                                   </label>
+                                   <input type="file" id="media-upload" name="media_images[]" class="hidden"
+                                          accept="image/*" multiple>
+                               </div>
+                            </div>
+
 
                             <div class="media-container" id="media-container">
                                 @if(count($mediaImages) > 0)
@@ -170,7 +177,7 @@
                             </div>
                         </div>
                         <div class="mb-4">
-                            <label for="IHelpWith" class="fw-bold">I help with:</label>
+                            <label for="IHelpWith" class="fw-bold">I help with</label>
                             <div class="row align-items-center">
                                 <div class="col-md-6 select2-div">
                                     <select id="IHelpWith" name="IHelpWith[]"
@@ -211,7 +218,7 @@
                                     <hr>
                                     <button class="update-btn mb-2">Add New Term</button> -->
                         <div class="mb-4 select2-div">
-                            <label for="type" class="fw-bold">How I help:</label>
+                            <label for="type" class="fw-bold">How I help</label>
 
                             <div class="row align-items-center">
                                 <div class="col-md-6">
@@ -253,7 +260,7 @@
                         $amenities = $userDetails->amenities ? json_decode($userDetails->amenities) : [];
                         ?>
                         <div class="mb-4 amenties-checkbox-container">
-                            <label class="form-label" class="fw-bold">Amenities</label>
+                            <label class="form-label fw-bold">Amenities</label>
                             <div class="row">
                                 <?php
                                 $allAmenities = [
