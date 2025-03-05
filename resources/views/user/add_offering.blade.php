@@ -327,23 +327,15 @@
                                         <div class="mb-4">
                                             <label class="fw-bold">Recurring Days</label>
                                             <select id="type" class="form-select" name="recurring_days">
-                                                <option value="15 minutes">15 minutes</option>
-                                                <option value="20 minutes">20 minutes</option>
-                                                <option value="30 minutes">30 minutes</option>
-                                                <option value="45 minutes">45 minutes</option>
-                                                <option value="50 minutes">50 minutes</option>
-                                                <option value="1 hour">1 hour</option>
-                                                <option value="1:15 hour">1:15 hour</option>
-                                                <option value="1:30 hour">1:30 hour</option>
-                                                <option value="1:45 hour">1:45 hour</option>
-                                                <option value="1:50 hour">1:50 hour</option>
-                                                <option value="2 hour">2 hours</option>
-                                                <option value="3 hour">3 hour</option>
-                                                <option value="4 hour">4 hour</option>
-                                                <option value="1 Month">1 Month</option>
-                                                <option value="2 Month">2 Months</option>
-                                                <option value="3 Month">3 Months</option>
-                                                <option value="4 Month">4 Months</option>
+                                                <option value="every_day">Every day</option>
+                                                <option value="every_monday">Every monday</option>
+                                                <option value="every_tuesday">Every tuesday</option>
+                                                <option value="every_wednesday">Every wednesday</option>
+                                                <option value="every_thursday">Every thursday</option>
+                                                <option value="every_friday">Every friday</option>
+                                                <option value="weekend_every_saturday_sunday">Weekends only - Every
+                                                    Sat & Sundays
+                                                </option>
                                             </select>
                                         </div>
                                         <div class="my-4">
