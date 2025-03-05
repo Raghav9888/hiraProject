@@ -312,18 +312,19 @@
                                         <div class="my-4">
                                             <label for="specify" class="fw-bold">Specify</label>
                                             <select id="specify" name="specify" class="form-select" data-type="change"
-                                                    data-targetone="custom_hours" data-matchone="own_specific_date">
+                                                    data-target-one="date_and_time_div" data-match-one="one_time_event"  data-match-two="recurring_event"
+                                                    data-target-two="recurring_day_div">
                                                 <option>Select the event type</option>
-                                                <option>One time event</option>
-                                                <option>Recurring event</option>
+                                                <option value="one_time_event">One time event</option>
+                                                <option value="recurring_event">Recurring event</option>
                                             </select>
                                         </div>
-                                        <div class="mb-4">
+                                        <div class="mb-4 d-none flex-column" id="date_and_time_div">
                                             <label for="service-hours" class="fw-bold">Date and time</label>
                                             <input type="datetime-local" class="form-control" placeholder="" name="">
                                         </div>
 
-                                        <div class="mb-4">
+                                        <div class="mb-4 d-none flex-column" id="recurring_day_div">
                                             <label class="fw-bold">Recurring Days</label>
                                             <select id="type" class="form-select" name="recurring_days">
                                                 <option value="every_day">Every day</option>
@@ -479,10 +480,18 @@
         $(document).on('change', '[data-type="change"]', function (e) {
             let targetOneValue = $(this).data('target-one');
             let matchOneValue = $(this).data('match-one');
-console.log(targetOneValue,matchOneValue)
+
+            let targetTwoValue = $(this).data('target-two');
+            let matchTwoValue = $(this).data('match-two');
+
             if ((targetOneValue && targetOneValue.length > 0) && (matchOneValue && matchOneValue.length > 0)) {
                 $(this).val() == matchOneValue ? $(`#${targetOneValue}`).removeClass('d-none').addClass('d-flex') : $(`#${targetOneValue}`).addClass('d-none').removeClass('d-flex')
             }
+
+            if ((targetTwoValue && targetTwoValue.length > 0) && (matchTwoValue && matchTwoValue.length > 0)) {
+                $(this).val() == matchTwoValue ? $(`#${targetTwoValue}`).removeClass('d-none').addClass('d-flex') : $(`#${targetTwoValue}`).addClass('d-none').removeClass('d-flex')
+            }
+
 
         });
     </script>
