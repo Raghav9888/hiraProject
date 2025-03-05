@@ -494,17 +494,22 @@
         }
     </script>
     <script>
-        document.getElementById("view-more-btn").addEventListener("click", function () {
-            document.getElementById("lorem-text").style.display = "block";
-            document.getElementById("view-more-btn").style.display = "none";
-            document.getElementById("view-less-btn").style.display = "inline-block";
+        document.querySelectorAll("#view-more-btn").forEach((btn, index) => {
+            btn.addEventListener("click", function () {
+                document.querySelectorAll("#lorem-text")[index].style.display = "block";
+                document.querySelectorAll("#view-more-btn")[index].style.display = "none";
+                document.querySelectorAll("#view-less-btn")[index].style.display = "inline-block";
+            });
         });
 
-        document.getElementById("view-less-btn").addEventListener("click", function () {
-            document.getElementById("lorem-text").style.display = "none";
-            document.getElementById("view-more-btn").style.display = "inline-block";
-            document.getElementById("view-less-btn").style.display = "none";
+        document.querySelectorAll("#view-less-btn").forEach((btn, index) => {
+            btn.addEventListener("click", function () {
+                document.querySelectorAll("#lorem-text")[index].style.display = "none";
+                document.querySelectorAll("#view-more-btn")[index].style.display = "inline-block";
+                document.querySelectorAll("#view-less-btn")[index].style.display = "none";
+            });
         });
+
     </script>
     <script>
         function toggleDropdown() {
