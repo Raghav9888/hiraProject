@@ -302,102 +302,101 @@
                                     </div>
                                     <div class="tab-pane fade" id="events" role="tabpanel" aria-labelledby="events-tab"
                                          tabindex="0">
-                                        <h5>Coming soon</h5>
-                                        {{--                                        <div class="my-4">--}}
-                                        {{--                                            <label for="booking-duration" class="fw-bold">Specific</label>--}}
-                                        {{--                                            <select id="booking-duration" class="form-select">--}}
-                                        {{--                                                <option>1 time event or reoccuring</option>--}}
-                                        {{--                                            </select>--}}
-                                        {{--                                        </div>--}}
-                                        {{--                                        <div class="mb-4">--}}
-                                        {{--                                            <label for="service-hours" class="fw-bold">Date and time</label>--}}
-                                        {{--                                            <input type="datetime-local" class="form-control" placeholder="" name="">--}}
-                                        {{--                                        </div>--}}
-                                        {{--                                        <div class="mb-4">--}}
-                                        {{--                                            <label for="booking-duration" class="fw-bold">How many sports are--}}
-                                        {{--                                                available</label>--}}
-                                        {{--                                            <select id="booking-duration" class="form-select"  >--}}
-                                        {{--                                                <option>1</option>--}}
-                                        {{--                                                <option>2</option>--}}
-                                        {{--                                                <option>3</option>--}}
-                                        {{--                                            </select>--}}
-                                        {{--                                        </div>--}}
-                                        {{--                                        <div class="row mb-4">--}}
-                                        {{--                                            <div class="col">--}}
-                                        {{--                                                <label for="service-hours" class="fw-bold mb-4">Service hours</label>--}}
-                                        {{--                                                <div class="d-flex" style="gap: 20px;">--}}
-                                        {{--                                                    <div>--}}
-                                        {{--                                                        <label for="service-hours" class="fw-bold">From</label>--}}
-                                        {{--                                                        <input type="number" class="form-control" placeholder="">--}}
-                                        {{--                                                    </div>--}}
-                                        {{--                                                    <div>--}}
-                                        {{--                                                        <label for="service-hours" class="fw-bold">To</label>--}}
-                                        {{--                                                        <input type="number" class="form-control" placeholder="">--}}
-                                        {{--                                                    </div>--}}
-                                        {{--                                                </div>--}}
-                                        {{--                                            </div>--}}
-                                        {{--                                            <div class="col">--}}
-                                        {{--                                                <div class="form-check offering-check">--}}
-                                        {{--                                                    <input type="checkbox" class="form-check-input"--}}
-                                        {{--                                                           id="can-be-cancelled">--}}
-                                        {{--                                                    <label class="form-check-label mb-3 fw-bold"--}}
-                                        {{--                                                           for="can-be-cancelled">Availability</label><br>--}}
-                                        {{--                                                      <input type="radio" id="hours" name="fav_language" value="hours">--}}
-                                        {{--                                                      <label for="hours">Following store hours</label><br>--}}
-                                        {{--                                                      <input type="radio" id="date" name="fav_language" value="date">--}}
-                                        {{--                                                      <label for="date">Specific date and time</label><br>--}}
-                                        {{--                                                      <input type="radio" id="monday" name="fav_language"--}}
-                                        {{--                                                             value="monday">--}}
-                                        {{--                                                      <label for="monday">Every (Monday)</label>--}}
-                                        {{--                                                </div>--}}
-                                        {{--                                            </div>--}}
-                                        {{--                                        </div>--}}
-                                        {{--                                        <div class="row">--}}
-                                        {{--                                            <div class="col mb-4">--}}
-                                        {{--                                                <label for="service-hours" class="fw-bold">Client price</label>--}}
-                                        {{--                                                <input type="number" class="form-control" placeholder="">--}}
-                                        {{--                                            </div>--}}
-                                        {{--                                            <div class=" col mb-4">--}}
-                                        {{--                                                <label for="tax" class="fw-bold">what % of tax</label>--}}
-                                        {{--                                                <input type="text" class="form-control" placeholder="">--}}
-                                        {{--                                            </div>--}}
-                                        {{--                                        </div>--}}
-                                        {{--                                        <div class="row">--}}
-                                        {{--                                            <div class="col mb-4">--}}
-                                        {{--                                                <label for="type" class="fw-bold">Scheduling window</label>--}}
-                                        {{--                                                <select id="type" class="form-select">--}}
-                                        {{--                                                    <option>60 days advanced</option>--}}
-                                        {{--                                                    <option>24 hours before</option>--}}
-                                        {{--                                                </select>--}}
-                                        {{--                                            </div>--}}
-                                        {{--                                            <div class="col mb-4">--}}
-                                        {{--                                                <label for="type" class="fw-bold">Buffer time between--}}
-                                        {{--                                                    appointment</label>--}}
-                                        {{--                                                <input type="number" class="form-control" placeholder="">--}}
-                                        {{--                                            </div>--}}
-                                        {{--                                        </div>--}}
-                                        {{--                                        <div class="row">--}}
-                                        {{--                                            <div class="col mb-4">--}}
-                                        {{--                                                <label for="service-hours" class="fw-bold">Email template</label>--}}
-                                        {{--                                                <input type="number" class="form-control" placeholder="">--}}
-                                        {{--                                            </div>--}}
-                                        {{--                                            <div class="col mb-4">--}}
-                                        {{--                                                <label for="service-hours" class="fw-bold">Intake form</label>--}}
-                                        {{--                                                <input type="number" class="form-control" placeholder="">--}}
-                                        {{--                                            </div>--}}
-                                        {{--                                        </div>--}}
-                                        {{--                                        <div class="mb-4">--}}
-                                        {{--                                            <div class="form-check offering-check">--}}
-                                        {{--                                                <input type="checkbox" class="form-check-input" id="can-be-cancelled">--}}
-                                        {{--                                                <label class="form-check-label mb-3 fw-bold"--}}
-                                        {{--                                                       for="can-be-cancelled">Cancellation</label>--}}
-                                        {{--                                            </div>--}}
-                                        {{--                                        </div>--}}
-                                        {{--                                        <div class="form-check offering-check">--}}
-                                        {{--                                            <input type="checkbox" class="form-check-input" id="can-be-cancelled">--}}
-                                        {{--                                            <label class="form-check-label mb-3 fw-bold"--}}
-                                        {{--                                                   for="can-be-cancelled">Requires Confirmation</label>--}}
-                                        {{--                                        </div>--}}
+                                        <div class="my-4">
+                                            <label for="booking-duration" class="fw-bold">Specific</label>
+                                            <select id="booking-duration" class="form-select">
+                                                <option>1 time event or reoccuring</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-4">
+                                            <label for="service-hours" class="fw-bold">Date and time</label>
+                                            <input type="datetime-local" class="form-control" placeholder="" name="">
+                                        </div>
+                                        <div class="mb-4">
+                                            <label for="booking-duration" class="fw-bold">How many sports are
+                                                available</label>
+                                            <select id="booking-duration" class="form-select">
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                            </select>
+                                        </div>
+                                        <div class="row mb-4">
+                                            <div class="col">
+                                                <label for="service-hours" class="fw-bold mb-4">Service hours</label>
+                                                <div class="d-flex" style="gap: 20px;">
+                                                    <div>
+                                                        <label for="service-hours" class="fw-bold">From</label>
+                                                        <input type="number" class="form-control" placeholder="">
+                                                    </div>
+                                                    <div>
+                                                        <label for="service-hours" class="fw-bold">To</label>
+                                                        <input type="number" class="form-control" placeholder="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="form-check offering-check">
+                                                    <input type="checkbox" class="form-check-input"
+                                                           id="can-be-cancelled">
+                                                    <label class="form-check-label mb-3 fw-bold"
+                                                           for="can-be-cancelled">Availability</label><br>
+                                                      <input type="radio" id="hours" name="fav_language" value="hours">
+                                                      <label for="hours">Following store hours</label><br>
+                                                      <input type="radio" id="date" name="fav_language" value="date">
+                                                      <label for="date">Specific date and time</label><br>
+                                                      <input type="radio" id="monday" name="fav_language"
+                                                             value="monday">
+                                                      <label for="monday">Every (Monday)</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col mb-4">
+                                                <label for="service-hours" class="fw-bold">Client price</label>
+                                                <input type="number" class="form-control" placeholder="">
+                                            </div>
+                                            <div class=" col mb-4">
+                                                <label for="tax" class="fw-bold">what % of tax</label>
+                                                <input type="text" class="form-control" placeholder="">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col mb-4">
+                                                <label for="type" class="fw-bold">Scheduling window</label>
+                                                <select id="type" class="form-select">
+                                                    <option>60 days advanced</option>
+                                                    <option>24 hours before</option>
+                                                </select>
+                                            </div>
+                                            <div class="col mb-4">
+                                                <label for="type" class="fw-bold">Buffer time between
+                                                    appointment</label>
+                                                <input type="number" class="form-control" placeholder="">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col mb-4">
+                                                <label for="service-hours" class="fw-bold">Email template</label>
+                                                <input type="number" class="form-control" placeholder="">
+                                            </div>
+                                            <div class="col mb-4">
+                                                <label for="service-hours" class="fw-bold">Intake form</label>
+                                                <input type="number" class="form-control" placeholder="">
+                                            </div>
+                                        </div>
+                                        <div class="mb-4">
+                                            <div class="form-check offering-check">
+                                                <input type="checkbox" class="form-check-input" id="can-be-cancelled">
+                                                <label class="form-check-label mb-3 fw-bold"
+                                                       for="can-be-cancelled">Cancellation</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-check offering-check">
+                                            <input type="checkbox" class="form-check-input" id="can-be-cancelled">
+                                            <label class="form-check-label mb-3 fw-bold"
+                                                   for="can-be-cancelled">Requires Confirmation</label>
+                                        </div>
                                     </div>
                                     <div class="tab-pane fade" id="package_offering" role="tabpanel"
                                          aria-labelledby="package-offering-tab" tabindex="0">
