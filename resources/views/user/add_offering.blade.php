@@ -156,7 +156,6 @@
                                                 <label for="service-hours" class="fw-bold mb-4">Service hours</label>
                                                 <select id="type" class="form-select" name="availability_type">
                                                     <option>Following store hours</option>
-                                                    <option>Choose specific date</option>
                                                     <option>Every day</option>
                                                     <option>Every monday</option>
                                                     <option>Every tuesday</option>
