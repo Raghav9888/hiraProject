@@ -2632,3 +2632,7 @@ textarea, input[type="time"] {
 .booking-calender-container, .earning-wrrpr {
     padding: 0 50px;
 }
+
+.select2-container--default{
+    width: 100% !important;
+}

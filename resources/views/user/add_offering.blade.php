@@ -30,12 +30,12 @@
                         </div>
                         <div class="mb-4">
                             <label for="type" class="fw-bold">Type of offering</label>
-                            <select id="type" name="offering_type" class="form-select ">
-                                <option value="in-person">In person Offering</option>
+                            <select id="type" name="offering_type" class="form-select">
                                 <option value="virtual">Virtual Offering</option>
+                                <option value="in-person">In person Offering</option>
                             </select>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-3 d-none" id="location">
                             <label for="exampleInputEmail1" class="form-label fw-bold">Location</label>
                             <select name="location[]" multiple="multiple" class="form-control select2">
                                 @foreach($locations as $location)
@@ -362,5 +362,18 @@
             </div>
         </div>
     </section>
+
+    <script>
+        $(document).on('change', '#type', function () {
+
+            hideShow(this)
+        });
+        function hideShow(elm)
+        {
+            let targetElement = $('#location');
+            $(elm).val() !== 'in-person' ? targetElement.addClass('d-none') : targetElement.removeClass('d-none');
+        }
+
+    </script>
 @endsection
 
