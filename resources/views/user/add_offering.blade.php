@@ -188,7 +188,7 @@
                                                        name="client_price">
                                             </div>
                                             <div class=" col mb-4">
-                                                <label for="tax" class="fw-bold">what % of tax</label>
+                                                <label for="tax" class="fw-bold">Tax</label>
                                                 <input type="text" class="form-control" placeholder=""
                                                        name="tax_amount">
                                             </div>

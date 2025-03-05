@@ -370,6 +370,21 @@
                                             </select>
                                             <p style="text-align: start;">Select your timezone</p>
                                         </div>
+                                        <div class="col mb-2">
+                                            <label for="service-hours" class="fw-bold mb-4">Store hours</label>
+                                            <div class="d-flex" style="gap: 20px;">
+                                                <div>
+                                                    <label for="service-hours" class="fw-bold">From</label>
+                                                    <input type="datetime-local" class="form-control"
+                                                           name="from_date" placeholder="">
+                                                </div>
+                                                <div>
+                                                    <label for="service-hours" class="fw-bold">To</label>
+                                                    <input type="datetime-local" class="form-control" name="to_date"
+                                                           placeholder="">
+                                                </div>
+                                            </div>
+                                        </div>
 
 
                                         <div class="d-flex" style="gap: 20px;">
