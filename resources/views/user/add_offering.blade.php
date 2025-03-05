@@ -12,19 +12,19 @@
                     <form method="POST" action="{{ route('store_offering') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label fw-bold">Name</label>
+                            <label for="exampleInputEmail1" class="form-label fw-bold">Offering Name</label>
                             <input type="text" class="form-control" name="name" id="exampleInputEmail1"
                                    aria-describedby="emailHelp" placeholder="">
                         </div>
                         <div class="mb-3">
-                            <label for="floatingTextarea" class="fw-bold">Description</label>
-                            <textarea class="form-control" name="long_description"
+                            <label for="floatingTextarea" class="fw-bold">Short Description</label>
+                            <textarea class="form-control" name="short_description"
                                       placeholder="please add a full description here"
                                       id="floatingTextarea"></textarea>
                         </div>
                         <div class="mb-3">
-                            <label for="floatingTextarea" class="fw-bold">Short Description</label>
-                            <textarea class="form-control" name="short_description"
+                            <label for="floatingTextarea" class="fw-bold">Description</label>
+                            <textarea class="form-control" name="long_description"
                                       placeholder="please add a full description here"
                                       id="floatingTextarea"></textarea>
                         </div>

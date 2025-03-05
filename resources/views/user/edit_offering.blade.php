@@ -16,21 +16,21 @@
                         @csrf
                         <input type="hidden" name="id" value="{{$offering->id}}">
                         <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Name</label>
+                            <label for="exampleInputEmail1" class="form-label">Offering Name</label>
                             <input type="text" class="form-control" name="name" id="exampleInputEmail1"
                                    aria-describedby="emailHelp" placeholder="" value="{{ $offering->name}}">
-                        </div>
-                        <div class="mb-3">
-                            <label for="floatingTextarea">Description</label>
-                            <textarea class="form-control" name="long_description"
-                                      placeholder="please add a full description here"
-                                      id="floatingTextarea">{{ $offering->long_description}}</textarea>
                         </div>
                         <div class="mb-3">
                             <label for="floatingTextarea">Short Description</label>
                             <textarea class="form-control" name="short_description"
                                       placeholder="please add a full description here"
                                       id="floatingTextarea">{{ $offering->short_description}}</textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="floatingTextarea">Description</label>
+                            <textarea class="form-control" name="long_description"
+                                      placeholder="please add a full description here"
+                                      id="floatingTextarea">{{ $offering->long_description}}</textarea>
                         </div>
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Location</label>
