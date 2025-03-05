@@ -251,7 +251,7 @@
                                                     <p>Maximum length of 500 words</p>
                                                 </div>
                                                 <textarea class="form-control" name="email_template" id="email_template"
-                                                          placeholder="">{{$userDetails->bio ?? ''}}</textarea>
+                                                          placeholder=""></textarea>
                                                 <p id="word-count">0 / 500 words</p>
                                             </div>
                                             <div class="col mb-4">
