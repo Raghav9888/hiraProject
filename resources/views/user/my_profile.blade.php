@@ -40,7 +40,7 @@
                                     <div style="position: relative;"
                                         class="d-flex justify-content-center flex-column align-items-center">
                                         <div class="mb-4" id="imageDiv">
-                                            <p style="text-align: start;" class="text">Image</p>
+                                            <p style="text-align: start;" class="text-center fw-bold">Image</p>
                                             <input type="file" id="fileInput" name="image" class="hidden"
                                                 accept="image/*"
                                                 onchange="previewImage(event)" style="display: none;">
