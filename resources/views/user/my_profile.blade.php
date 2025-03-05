@@ -240,7 +240,7 @@
 
                         <div class="mb-4 select2-div">
                             <label for="specialities" class="fw-bold">Categories</label>
-                            <select id="specialities" class="form-control form-select location-select2"
+                            <select id="specialities" class="form-control form-select category-select2"
                                 multiple="multiple"
                                 name="specialities[]">
                                 @foreach($Categories as $term)
@@ -630,6 +630,12 @@
         $('.location-select2').select2({
             placeholder: "Select options", // Placeholder text
             allowClear: true // Enables clear button
+        });
+
+        $('.category-select2').select2({
+            placeholder: "Select options", // Placeholder text
+            allowClear: true, // Enables clear button
+            maximumSelectionLength: 3
         });
     })
 </script>
