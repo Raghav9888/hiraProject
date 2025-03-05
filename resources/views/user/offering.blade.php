@@ -23,15 +23,6 @@
                 <div class="offering-btn-drop mb-4">
                     <a href="{{ route('add_offering') }}" class="category-load-more">Add Offering</a>
                     <a href="{{ route('discount') }}" class="category-load-more">Add Discount</a>
-                    {{--                    <div class="dropdown">--}}
-                    {{--                        <button class="dropdown-button dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">--}}
-                    {{--                           Discount--}}
-                    {{--                        </button>--}}
-                    {{--                        <ul class="dropdown-menu">--}}
-                    {{--                            <li><a class="dropdown-item" href="#">All offering</a></li>--}}
-                    {{--                            <li><a class="dropdown-item" href="#">Specific offering</a></li>--}}
-                    {{--                        </ul>--}}
-                    {{--                    </div>--}}
                 </div>
 
                 <div class="earning-wrrpr mt-5">
@@ -54,11 +45,6 @@
                                             <td class="details">
                                                 <h4>{{ $offering->name  }}</h4>
                                                 <div class="wcv_mobile_status wcv_mobile">Online</div>
-{{--                                                <div class="wcv_mobile_price wcv_mobile">--}}
-{{--                                                        <span class="woocommerce-Price-amount amount">--}}
-{{--                                                            <bdi><span class="woocommerce-Price-currencySymbol">$</span>{{ $offering->client_price ?? 0 }}</bdi>--}}
-{{--                                                        </span>--}}
-{{--                                                </div>--}}
                                                 <div class="cat_tags">
                                                     Categories:@foreach($categories as $term)
                                                         @if(isset($offering->categories) && in_array($term->id, json_decode($offering->categories)))

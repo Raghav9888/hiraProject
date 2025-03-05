@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Practitioner;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Event;
 use App\Models\HowIHelp;
 use App\Models\IHelpWith;
 use App\Models\Locations;
@@ -82,6 +83,27 @@ class OfferingController extends Controller
         }
 
 
+        $event = new Event();
+
+
+        $data = [
+            'offering_id' => $input['offering_id'],
+            'specify' => $input['specify'],
+            'date_and_time' => $input['date_and_time'],
+            'recurring_days' => $input['recurring_days'],
+            'event_duration' => $input['event_duration'],
+            'sports' => $input['sports'],
+            'scheduling_window' => $input['scheduling_window'],
+            'email_template' => $input['email_template'],
+            'client_price' => $input['client_price'],
+            'tax_amount' => $input['tax_amount'],
+            'intake_form' => $input['intake_form'],
+            'is_cancelled' => (isset($input['is_cancelled']) && ($input['is_cancelled'] == 'on')) ? 1 : 0,
+            'cancellation_time_slot' => $input['cancellation_time_slot'] ?? null,
+            'is_confirmation' => (isset($input['is_confirmation']) && $input['is_confirmation'] == 'on') ? 1 : 0,
+        ];
+
+        $event = Event::create($data);
         $offering = Offering::create($offeringData);
         return redirect()->route('offering')->with('success', 'Offering created successfully!');
     }
