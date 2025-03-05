@@ -263,7 +263,7 @@ class PractitionerController extends Controller
 
         $type = $request->type;
 
-        if (in_array($type, ['IHelpWith', 'HowIHelp', 'certifications'])) {
+        if (in_array($type, ['IHelpWith', 'HowIHelp', 'certifications','tags'])) {
             $inputField = '<input type="text" class="' . $type . '_term" id="' . $type . '_term" name="' . $type . '_term" placeholder="Enter term">
             <button data-type="' . $type . '" class="update-btn mb-2 save_term">Add Term</button>';
 
@@ -307,6 +307,16 @@ class PractitionerController extends Controller
 
         if ($type == 'certifications') {
             $term = Certifications::create([
+                'name' => $name,
+                'slug' => $slug,
+                'created_by' => $user->id,
+                'updated_by' => $user->id,
+            ]);
+            return response()->json(['success' => true, 'message' => 'HowIHelp term saved successfully', 'term' => $term]);
+        }
+
+        if ($type == 'tags') {
+            $term = PractitionerTag::create([
                 'name' => $name,
                 'slug' => $slug,
                 'created_by' => $user->id,
