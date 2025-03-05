@@ -6,7 +6,7 @@
             <div class="practitioner-search-dv">
                 <div class="d-flex justify-content-between flex-wrap align-items-center mb-4">
                     <a href="{{ route('home') }}" class="blog-view-more"><i
-                                class="fa-solid fa-chevron-left me-2"></i>Back</a>
+                            class="fa-solid fa-chevron-left me-2"></i>Back</a>
                     <div class="search-container location-input">
                         <input type="text" class="search-input" placeholder="Search other practitioners">
                         <button class="search-button">
@@ -68,8 +68,8 @@
                         @foreach ($mediaImages as $image)
                             <div class="swiper-slide">
                                 <img
-                                        src="{{ asset(env('media_path') . '/practitioners/' . $userDetails->id . '/media/' . $image) }}"
-                                        alt="media image">
+                                    src="{{ asset(env('media_path') . '/practitioners/' . $userDetails->id . '/media/' . $image) }}"
+                                    alt="media image">
 
                             </div>
                         @endforeach
@@ -111,7 +111,7 @@
                                                 <div class="d-flex align-items-center">
                                                     <h6 class="offer-prize me-2 m-0">${{$offering->client_price}}</h6>
                                                     <a href="{{ route('offerDetail',$offering->id)}}"
-                                                        class="home-blog-btn">BOOK NOW</a>
+                                                       class="home-blog-btn">BOOK NOW</a>
                                                 </div>
                                             </div>
                                             <ul class="practitioner-accordian-lists">
@@ -120,7 +120,7 @@
 
                                             <button id="view-more-btn" class="blog-view-more mb-2"
                                                     style="color:#9F8B72;">More Info<i
-                                                        class="fas fa-chevron-down ms-2"></i></button>
+                                                    class="fas fa-chevron-down ms-2"></i></button>
 
                                             <div id="lorem-text" class="lorem-text">
                                                 <div class="toggle-data-dv">
@@ -212,11 +212,11 @@
                                 <div class="accordion-body">
                                     <div class="help-you-dv certificate-dv">
                                         <ul>
-                                            <li>Quantum Healing</li>
-                                            <li>CranioSacral Therapy</li>
-                                            <li>CranioSacral Therapy</li>
-                                            <li>Nutritional Support</li>
-                                            <li>Quantum Healing</li>
+                                            @foreach($Certifications as $Certification)
+                                                <li>{{$Certification}}</li>
+                                            @endforeach
+
+
                                         </ul>
                                     </div>
                                 </div>
