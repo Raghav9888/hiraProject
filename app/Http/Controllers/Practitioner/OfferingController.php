@@ -124,8 +124,10 @@ class OfferingController extends Controller
         $offeringId = $input['id'];
 
         $offering = Offering::findOrFail($offeringId);
+        $event = Event::where('offering_id', $offeringId)->first();
 
         $offeringData = [
+            'user_id' => $user_id,
             "name" => $input['name'],
             "long_description" => $input['long_description'],
             "short_description" => $input['short_description'],
@@ -135,14 +137,13 @@ class OfferingController extends Controller
             "tags" => isset($input['tags']) && $input['tags'] ? json_encode($input['tags']) : null,
             "offering_type" => $input['offering_type'],
             "booking_duration" => $input['booking_duration'],
-            "from_date" => new \DateTime($input['from_date']),
-            "to_date" => new \DateTime($input['to_date']),
+            "from_date" => $input['from_date'],
+            "to_date" => $input['to_date'],
             "availability" => (isset($input['availability']) && $input['availability'] == 'on') ? 1 : 0,
             "availability_type" => $input['availability_type'],
             "client_price" => $input['client_price'],
             "tax_amount" => $input['tax_amount'],
             "scheduling_window" => $input['scheduling_window'],
-            "buffer_time" => new \DateTime($input['buffer_time']),
             "email_template" => $input['email_template'],
             "intake_form" => $input['intake_form'],
             "is_cancelled" => (isset($input['is_cancelled']) && ($input['is_cancelled'] == 'on')) ? 1 : 0,
@@ -158,8 +159,29 @@ class OfferingController extends Controller
             $offeringData['featured_image'] = $imageName;
         }
 
-        $offering->update($offeringData);
+        $data = [
+            'specify' => $input['specify'],
+            'date_and_time' => $input['date_and_time'],
+            'recurring_days' => $input['recurring_days'],
+            'event_duration' => $input['event_duration'],
+            'sports' => $input['sports'],
+            'scheduling_window' => $input['scheduling_window'],
+            'email_template' => $input['email_template'],
+            'client_price' => $input['client_price'],
+            'tax_amount' => $input['tax_amount'],
+            'intake_form' => $input['intake_form'],
+            'is_cancelled' => (isset($input['is_cancelled']) && ($input['is_cancelled'] == 'on')) ? 1 : 0,
+            'cancellation_time_slot' => $input['cancellation_time_slot'] ?? null,
+            'is_confirmation' => (isset($input['is_confirmation']) && $input['is_confirmation'] == 'on') ? 1 : 0,
+        ];
 
+        $offering->update($offeringData);
+        if (!$event) {
+            $event = Event::create(array_merge($data, ['offering_id' => $offeringId]));
+        } else {
+            $event->update($data);
+        }
+        
         return redirect()->route('offering')->with('success', 'Offering updated successfully!');
     }
 

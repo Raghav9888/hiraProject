@@ -9,7 +9,7 @@
             <div class="row ps-5">
                 <h3 class="no-request-text mb-4 ps-3">Add Offering</h3>
                 <div class="add-offering-dv">
-                    <form method="POST" action="{{ route('store_offering') }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('update_offering') }}" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" name="id" value="{{$offering->id}}">
                         <div class="mb-3 justify-content-center d-flex flex-column align-items-center">
@@ -105,8 +105,11 @@
                                 <div class="form-group select2-div">
                                     <select name="tags[]" id="tags" multiple="multiple"
                                             class="form-select location-select2">
-                                        @foreach($practitionerTag as $term)
-                                            <option value="{{$term->id}}" {{ in_array($tag->id, $selectedTags) ? 'selected' : '' }}>{{$term->name}}</option>
+                                        @foreach($practitionerTag as $tag)
+                                            <option value="{{$tag->id}}"
+                                                {{ in_array($tag->id, $selectedTags) ? 'selected' : '' }}>
+                                                {{$tag->name}}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -152,44 +155,73 @@
                                         <div class="my-4">
                                             <label for="booking-duration" class="fw-bold">Duration of offering</label>
                                             <select id="booking-duration" name="booking_duration" class="form-select">
-                                                <option value="15 minutes">15 minutes</option>
-                                                <option value="20 minutes">20 minutes</option>
-                                                <option value="30 minutes">30 minutes</option>
-                                                <option value="45 minutes">45 minutes</option>
-                                                <option value="50 minutes">50 minutes</option>
-                                                <option value="1 hour">1 hour</option>
-                                                <option value="1:15 hour">1:15 hour</option>
-                                                <option value="1:30 hour">1:30 hour</option>
-                                                <option value="1:45 hour">1:45 hour</option>
-                                                <option value="1:50 hour">1:50 hour</option>
-                                                <option value="2 hour">2 hours</option>
-                                                <option value="3 hour">3 hour</option>
-                                                <option value="4 hour">4 hour</option>
-                                                <option value="1 Month">1 Month</option>
-                                                <option value="2 Month">2 Months</option>
-                                                <option value="3 Month">3 Months</option>
-                                                <option value="4 Month">4 Months</option>
+                                                <option value="">Select</option>
+                                                <option
+                                                    value="15 minutes" {{ $offering->booking_duration  == '15 minutes' ? 'selected' : ''}}>
+                                                    15 minutes
+                                                </option>
+                                                <option
+                                                    value="30 minutes" {{ $offering->booking_duration  == '30 minutes' ? 'selected' : ''}}>
+                                                    30 minutes
+                                                </option>
+                                                <option
+                                                    value="45 minutes" {{ $offering->booking_duration  == '45 minutes' ? 'selected' : ''}}>
+                                                    45 minutes
+                                                </option>
+                                                <option
+                                                    value="1 hour" {{ $offering->booking_duration  == '1 hour' ? 'selected' : ''}}>
+                                                    1 hour
+                                                </option>
+                                                <option
+                                                    value="1:15 hour" {{ $offering->booking_duration  == '1:15 hour' ? 'selected' : ''}}>
+                                                    1:15 hour
+                                                </option>
+                                                <option
+                                                    value="1:30 hour" {{ $offering->booking_duration  == '1:30 hour' ? 'selected' : ''}}>
+                                                    1:30 hour
+                                                </option>
+                                                <option
+                                                    value="1:45 hour" {{ $offering->booking_duration  == '1:45 hour' ? 'selected' : ''}}>
+                                                    1:45 hour
+                                                </option>
+                                                <option
+                                                    value="2 hour" {{ $offering->booking_duration  == '2 hour' ? 'selected' : ''}}>
+                                                    2 hour
+                                                </option>
                                             </select>
                                         </div>
                                         <div class="row mb-4">
                                             <div class="col">
                                                 <label for="service-hours" class="fw-bold mb-4">Service hours</label>
-                                                <select class="form-select"
-                                                        name="availability_type" data-type="change"
-                                                        data-target-one="custom_hours"
-                                                        data-match-one="own_specific_date">
-                                                    <option value="">Following store hours</option>
-                                                    <option value="every_day">Every day</option>
-                                                    <option value="every_monday">Every monday</option>
-                                                    <option value="every_tuesday">Every tuesday</option>
-                                                    <option value="every_wednesday">Every wednesday</option>
-                                                    <option value="every_thursday">Every thursday</option>
-                                                    <option value="every_friday">Every friday</option>
-                                                    <option value="weekend_every_saturday_sunday">Weekends only - Every
-                                                        Sat & Sundays
+                                                <select id="type" class="form-select" name="availability_type">
+                                                    <option value="">Select Availability</option>
+                                                    <option
+                                                        value="monday" {{$offering->availability_type == 'monday'? 'selected': ''}}>
+                                                        Monday
                                                     </option>
-                                                    <option value="own_specific_date">Choose your own specific
-                                                        dates...
+                                                    <option
+                                                        value="tuesday" {{$offering->availability_type == 'tuesday'? 'selected': ''}}>
+                                                        Tuesday
+                                                    </option>
+                                                    <option
+                                                        value="wednesday" {{$offering->availability_type == 'wednesday'? 'selected': ''}}>
+                                                        Wednesday
+                                                    </option>
+                                                    <option
+                                                        value="thursday" {{$offering->availability_type == 'thursday'? 'selected': ''}}>
+                                                        Thursday
+                                                    </option>
+                                                    <option
+                                                        value="friday" {{$offering->availability_type == 'friday'? 'selected': ''}}>
+                                                        Friday
+                                                    </option>
+                                                    <option
+                                                        value="all_week_days" {{$offering->availability_type == 'all_week_days'? 'selected': ''}}>
+                                                        All week days
+                                                    </option>
+                                                    <option
+                                                        value="weekends_only" {{$offering->availability_type == 'weekends_only'? 'selected': ''}}>
+                                                        Weekends only
                                                     </option>
                                                 </select>
                                             </div>
@@ -197,12 +229,12 @@
                                                 <div>
                                                     <label for="service-hours" class="fw-bold">From</label>
                                                     <input type="datetime-local" class="form-control"
-                                                           name="from_date" placeholder="">
+                                                           name="from_date" placeholder="" value="{{ $offering->from_date ? $offering->from_date : '' }}">
                                                 </div>
                                                 <div>
                                                     <label for="service-hours" class="fw-bold">To</label>
                                                     <input type="datetime-local" class="form-control" name="to_date"
-                                                           placeholder="">
+                                                           placeholder="" value="{{ $offering->to_date ? $offering->to_date : '' }}">
                                                 </div>
                                             </div>
                                         </div>
@@ -211,13 +243,13 @@
                                                 <label for="service-hours" class="fw-bold">Client price</label>
                                                 <input type="text" class="form-control"
                                                        placeholder="Please add the price for your offering"
-                                                       name="client_price">
+                                                       name="client_price" value="{{$offering->client_price}}">
                                             </div>
                                             <div class=" col mb-4">
                                                 <label for="tax" class="fw-bold">Tax</label>
                                                 <input type="text" class="form-control"
                                                        placeholder="Enter the applicable tax percentage for your offering"
-                                                       name="tax_amount">
+                                                       name="tax_amount"  value="{{$offering->tax_amount}}">
                                                 <span>Tax rates vary based on your location and business registration. If unsure, please consult your local tax regulations or a tax professional.</span>
                                             </div>
                                         </div>
@@ -226,46 +258,78 @@
                                                 <label for="type" class="fw-bold">Scheduling window (How far in advance
                                                     they can book)</label>
                                                 <select id="type" class="form-select" name="scheduling_window">
-                                                    <option value="15 minutes">15 minutes</option>
-                                                    <option value="20 minutes">20 minutes</option>
-                                                    <option value="30 minutes">30 minutes</option>
-                                                    <option value="45 minutes">45 minutes</option>
-                                                    <option value="50 minutes">50 minutes</option>
-                                                    <option value="1 hour">1 hour</option>
-                                                    <option value="1:15 hour">1:15 hour</option>
-                                                    <option value="1:30 hour">1:30 hour</option>
-                                                    <option value="1:45 hour">1:45 hour</option>
-                                                    <option value="1:50 hour">1:50 hour</option>
-                                                    <option value="2 hour">2 hours</option>
-                                                    <option value="3 hour">3 hour</option>
-                                                    <option value="4 hour">4 hour</option>
-                                                    <option value="1 Month">1 Month</option>
-                                                    <option value="2 Month">2 Months</option>
-                                                    <option value="3 Month">3 Months</option>
-                                                    <option value="4 Month">4 Months</option>
+                                                    <option value="">Select</option>
+                                                    <option
+                                                        value="15 minutes" {{ $offering->scheduling_window  == '15 minutes' ? 'selected' : ''}}>
+                                                        15 minutes
+                                                    </option>
+                                                    <option
+                                                        value="30 minutes" {{ $offering->scheduling_window  == '30 minutes' ? 'selected' : ''}}>
+                                                        30 minutes
+                                                    </option>
+                                                    <option
+                                                        value="45 minutes" {{ $offering->scheduling_window  == '45 minutes' ? 'selected' : ''}}>
+                                                        45 minutes
+                                                    </option>
+                                                    <option
+                                                        value="1 hour" {{ $offering->scheduling_window  == '1 hour' ? 'selected' : ''}}>
+                                                        1 hour
+                                                    </option>
+                                                    <option
+                                                        value="1:15 hour" {{ $offering->scheduling_window  == '1:15 hour' ? 'selected' : ''}}>
+                                                        1:15 hour
+                                                    </option>
+                                                    <option
+                                                        value="1:30 hour" {{ $offering->scheduling_window  == '1:30 hour' ? 'selected' : ''}}>
+                                                        1:30 hour
+                                                    </option>
+                                                    <option
+                                                        value="1:45 hour" {{ $offering->scheduling_window  == '1:45 hour' ? 'selected' : ''}}>
+                                                        1:45 hour
+                                                    </option>
+                                                    <option
+                                                        value="2 hour" {{ $offering->scheduling_window  == '2 hour' ? 'selected' : ''}}>
+                                                        2 hour
+                                                    </option>
                                                 </select>
                                             </div>
                                             <div class="col mb-4">
                                                 <label for="type" class="fw-bold">Buffer time between
                                                     appointment</label>
                                                 <select id="type" class="form-select" name="buffer_time">
-                                                    <option value="15 minutes">15 minutes</option>
-                                                    <option value="20 minutes">20 minutes</option>
-                                                    <option value="30 minutes">30 minutes</option>
-                                                    <option value="45 minutes">45 minutes</option>
-                                                    <option value="50 minutes">50 minutes</option>
-                                                    <option value="1 hour">1 hour</option>
-                                                    <option value="1:15 hour">1:15 hour</option>
-                                                    <option value="1:30 hour">1:30 hour</option>
-                                                    <option value="1:45 hour">1:45 hour</option>
-                                                    <option value="1:50 hour">1:50 hour</option>
-                                                    <option value="2 hour">2 hours</option>
-                                                    <option value="3 hour">3 hour</option>
-                                                    <option value="4 hour">4 hour</option>
-                                                    <option value="1 Month">1 Month</option>
-                                                    <option value="2 Month">2 Months</option>
-                                                    <option value="3 Month">3 Months</option>
-                                                    <option value="4 Month">4 Months</option>
+                                                    <option value="">Select</option>
+                                                    <option
+                                                        value="15 minutes" {{ $offering->buffer_time  == '15 minutes' ? 'selected' : ''}}>
+                                                        15 minutes
+                                                    </option>
+                                                    <option
+                                                        value="30 minutes" {{ $offering->buffer_time  == '30 minutes' ? 'selected' : ''}}>
+                                                        30 minutes
+                                                    </option>
+                                                    <option
+                                                        value="45 minutes" {{ $offering->buffer_time  == '45 minutes' ? 'selected' : ''}}>
+                                                        45 minutes
+                                                    </option>
+                                                    <option
+                                                        value="1 hour" {{ $offering->buffer_time  == '1 hour' ? 'selected' : ''}}>
+                                                        1 hour
+                                                    </option>
+                                                    <option
+                                                        value="1:15 hour" {{ $offering->buffer_time  == '1:15 hour' ? 'selected' : ''}}>
+                                                        1:15 hour
+                                                    </option>
+                                                    <option
+                                                        value="1:30 hour" {{ $offering->buffer_time  == '1:30 hour' ? 'selected' : ''}}>
+                                                        1:30 hour
+                                                    </option>
+                                                    <option
+                                                        value="1:45 hour" {{ $offering->buffer_time  == '1:45 hour' ? 'selected' : ''}}>
+                                                        1:45 hour
+                                                    </option>
+                                                    <option
+                                                        value="2 hour" {{ $offering->buffer_time  == '2 hour' ? 'selected' : ''}}>
+                                                        2 hour
+                                                    </option>
                                                 </select>
                                             </div>
                                         </div>
