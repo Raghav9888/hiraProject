@@ -36,3 +36,21 @@ $(document).on('click', '[data-action="bootbox"]', function(e) {
         }
     });
 });
+
+$(document).ready(function() {
+    $('.location-select2').select2({
+        placeholder: "Select options", // Placeholder text
+        allowClear: true // Enables clear button
+    });
+
+    $('.category-select2').select2({
+        placeholder: "Select options", // Placeholder text
+        allowClear: true, // Enables clear button
+        maximumSelectionLength: 3
+    });
+})
+$(document).on('change', '#type', function () {
+    let targetElement = $('#location');
+    $(elm).val() !== 'in-person' ? targetElement.addClass('d-none') : targetElement.removeClass('d-none');
+});
+

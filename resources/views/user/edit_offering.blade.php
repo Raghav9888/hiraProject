@@ -59,19 +59,6 @@
                                 @endforeach
                             </select>
                         </div>
-                        {{--                        <div class="mb-3">--}}
-                        {{--                            <label for="exampleInputPassword1" class="form-label">I help with:</label>--}}
-
-                        {{--                            <select name="help[]" multiple="multiple" class="form-control select2">--}}
-                        {{--                                @php--}}
-                        {{--                                    $selectedTerms = explode(',', $userDetails->HowIHelp ?? '');--}}
-                        {{--                                @endphp--}}
-                        {{--                                @foreach($HowIHelp as $term)--}}
-                        {{--                                    <option--}}
-                        {{--                                        value="{{$term->id}}" {{ in_array($term->id, $selectedTerms) ? 'selected' : '' }} >{{$term->name}}</option>--}}
-                        {{--                                @endforeach--}}
-                        {{--                            </select>--}}
-                        {{--                        </div>--}}
                         <div class="mb-3">
                             <label for="exampleInputPassword1" class="form-label">Categories - Specifies the
                                 type of
@@ -80,7 +67,7 @@
                                 would be Ayuvedic massage and hot stone massage)
                                 Practitioner Offerings
                             </label>
-                            <select name="categories[]" multiple="multiple" class="form-control select2">
+                            <select name="categories[]" multiple="multiple" class="form-control category-select2">
 
                                 @foreach($categories as $term)
                                     <option
@@ -111,7 +98,6 @@
                             </select>
 
                         </div>
-
                         <h4 class="mb-4 featured-image-tag">Featured Image</h4>
                         <div class="mb-3">
                             <input type="file" id="fileInput" name="featured_image" class="hidden" accept="image/*"
@@ -376,17 +362,5 @@
             </div>
         </div>
     </section>
-    <script>
-        $(document).on('change', '#type', function () {
-
-            hideShow(this)
-        });
-
-        function hideShow(elm) {
-            let targetElement = $('#location');
-            $(elm).val() !== 'in-person' ? targetElement.addClass('d-none') : targetElement.removeClass('d-none');
-        }
-
-    </script>
 @endsection
 

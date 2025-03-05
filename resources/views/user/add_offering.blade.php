@@ -46,15 +46,15 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label fw-bold">I help with</label>
+{{--                        <div class="mb-3">--}}
+{{--                            <label for="exampleInputPassword1" class="form-label fw-bold">I help with</label>--}}
 
-                            <select name="help[]" multiple="multiple" class="form-control select2">
-                                @foreach($IHelpWith as $term)
-                                    <option value="{{$term->id}}">{{$term->name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
+{{--                            <select name="help[]" multiple="multiple" class="form-control select2">--}}
+{{--                                @foreach($IHelpWith as $term)--}}
+{{--                                    <option value="{{$term->id}}">{{$term->name}}</option>--}}
+{{--                                @endforeach--}}
+{{--                            </select>--}}
+{{--                        </div>--}}
                         <div class="mb-3">
                             <label for="exampleInputPassword1" class="form-label fw-bold">Categories - Specifies the
                                 type of
@@ -63,7 +63,7 @@
                                 would be Ayuvedic massage and hot stone massage)
                                 Practitioner Offerings
                             </label>
-                            <select name="categories[]" multiple="multiple" class="form-control select2" id="">
+                            <select name="categories[]" multiple="multiple" class="form-control category-select2" id="">
                                 @foreach($categories as $term)
                                     <option value="{{$term->id}}">{{$term->name}}</option>
                                 @endforeach
@@ -364,17 +364,5 @@
         </div>
     </section>
 
-    <script>
-        $(document).on('change', '#type', function () {
-
-            hideShow(this)
-        });
-        function hideShow(elm)
-        {
-            let targetElement = $('#location');
-            $(elm).val() !== 'in-person' ? targetElement.addClass('d-none') : targetElement.removeClass('d-none');
-        }
-
-    </script>
 @endsection
 

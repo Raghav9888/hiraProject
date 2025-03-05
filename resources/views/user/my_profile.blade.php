@@ -632,18 +632,5 @@
         });
 
     }
-
-    $(document).ready(function() {
-        $('.location-select2').select2({
-            placeholder: "Select options", // Placeholder text
-            allowClear: true // Enables clear button
-        });
-
-        $('.category-select2').select2({
-            placeholder: "Select options", // Placeholder text
-            allowClear: true, // Enables clear button
-            maximumSelectionLength: 3
-        });
-    })
 </script>
 @endsection
