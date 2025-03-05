@@ -340,7 +340,7 @@
                                             </select>
                                         </div>
                                         <div class="my-4">
-                                            <label for="booking-duration" class="fw-bold">Duration of events</label>
+                                            <label for="booking-duration" class="fw-bold">Duration of event</label>
                                             <select id="event-duration" name="event_duration" class="form-select">
                                                 <option value="15 minutes">15 minutes</option>
                                                 <option value="20 minutes">20 minutes</option>
