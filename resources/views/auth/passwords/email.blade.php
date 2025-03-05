@@ -9,7 +9,10 @@
                 </div>
                 <div class="contact-us-right-dv">
                     <h3 style="margin-bottom: 40px;">Forgot Password</h3>
-                    <form method="POST" action="{{ route('password.email') }}">
+                    @if (session('status'))
+                        <p class="text-white">{{ session('status') }}</p>
+                    @endif
+                    <form method="POST" action="{{ route('send.resetLink') }}">
                         @csrf
                         <div class="mb-3">
                             <label for="email" class="col-form-label text-md-end">{{ __('Email Address') }}</label>

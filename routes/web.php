@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Calender\CalenderController;
 use App\Http\Controllers\Calender\GoogleAuthController;
 use App\Http\Controllers\Calender\GoogleCalendarController;
@@ -16,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 
 
 Auth::routes();
+
+Route::post('/reset-password', [ForgotPasswordController::class, 'sendResetLink'])->name('send.resetLink');
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/contact-us', [HomeController::class, 'contact'])->name('contact');
