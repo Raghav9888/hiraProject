@@ -385,7 +385,19 @@
                                                 </div>
                                             </div>
                                         </div>
-
+                                        <div class="col">
+                                            <label class="form-check-label mb-3 fw-bold"
+                                                   for="availability">Availability</label><br>
+                                            <select id="type" class="form-select" name="availability_type">
+                                                <option>Monday</option>
+                                                <option>Tuesday</option>
+                                                <option>Wednesday</option>
+                                                <option>Thursday</option>
+                                                <option>Friday</option>
+                                                <option>All week days</option>
+                                                <option>Weekends only</option>
+                                            </select>
+                                        </div>
 
                                         <div class="d-flex" style="gap: 20px;">
                                             <button type="submit" class="update-btn ms-0">Save Changes</button>
