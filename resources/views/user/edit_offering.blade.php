@@ -37,16 +37,16 @@
                             <select id="type" name="offering_type" class="form-select">
                                 <option value="">Select Offering Type</option>
                                 <option
-                                    value="virtual" {{ $offering->offering_type  == 'virtual' ? 'selected' : ''}}>
+                                        value="virtual" {{ $offering->offering_type  == 'virtual' ? 'selected' : ''}}>
                                     Virtual Offering
                                 </option>
                                 <option
-                                    value="in-person" {{ $offering->offering_type  == 'in-person' ? 'selected' : ''}}>
+                                        value="in-person" {{ $offering->offering_type  == 'in-person' ? 'selected' : ''}}>
                                     In person Offering
                                 </option>
                             </select>
                         </div>
-                        <div class="mb-3 d-none" id="location">
+                        <div class="mb-3 {{  $offering->offering_type  == 'in-person' ? '': 'd-none'}}" id="location">
                             <label for="exampleInputEmail1" class="form-label">Location</label>
                             <select name="location" class="form-control">
                                 @foreach($locations as $location)
@@ -56,19 +56,19 @@
                                 @endforeach
                             </select>
                         </div>
-{{--                        <div class="mb-3">--}}
-{{--                            <label for="exampleInputPassword1" class="form-label">I help with:</label>--}}
+                        {{--                        <div class="mb-3">--}}
+                        {{--                            <label for="exampleInputPassword1" class="form-label">I help with:</label>--}}
 
-{{--                            <select name="help[]" multiple="multiple" class="form-control select2">--}}
-{{--                                @php--}}
-{{--                                    $selectedTerms = explode(',', $userDetails->HowIHelp ?? '');--}}
-{{--                                @endphp--}}
-{{--                                @foreach($HowIHelp as $term)--}}
-{{--                                    <option--}}
-{{--                                        value="{{$term->id}}" {{ in_array($term->id, $selectedTerms) ? 'selected' : '' }} >{{$term->name}}</option>--}}
-{{--                                @endforeach--}}
-{{--                            </select>--}}
-{{--                        </div>--}}
+                        {{--                            <select name="help[]" multiple="multiple" class="form-control select2">--}}
+                        {{--                                @php--}}
+                        {{--                                    $selectedTerms = explode(',', $userDetails->HowIHelp ?? '');--}}
+                        {{--                                @endphp--}}
+                        {{--                                @foreach($HowIHelp as $term)--}}
+                        {{--                                    <option--}}
+                        {{--                                        value="{{$term->id}}" {{ in_array($term->id, $selectedTerms) ? 'selected' : '' }} >{{$term->name}}</option>--}}
+                        {{--                                @endforeach--}}
+                        {{--                            </select>--}}
+                        {{--                        </div>--}}
                         <div class="mb-3">
                             <label for="exampleInputPassword1" class="form-label">Categories - Specifies the
                                 type of
@@ -81,7 +81,7 @@
 
                                 @foreach($categories as $term)
                                     <option
-                                        value="{{$term->id}}" {{ (isset($offering->categories) && in_array($term->id, json_decode($offering->categories))) ? 'selected' : '' }}>{{$term->name}}</option>
+                                            value="{{$term->id}}" {{ (isset($offering->categories) && in_array($term->id, json_decode($offering->categories))) ? 'selected' : '' }}>{{$term->name}}</option>
                                 @endforeach
                             </select>
 
@@ -98,11 +98,11 @@
                         <div class="form-group">
                             <select name="tags[]" multiple="multiple" class="form-control select2" id="">
                                 <option
-                                    value="156" {{ in_array('156', (array) json_decode($offering->tags)) ? 'selected' : '' }}>
+                                        value="156" {{ in_array('156', (array) json_decode($offering->tags)) ? 'selected' : '' }}>
                                     energybalancing
                                 </option>
                                 <option
-                                    value="2991" {{ in_array('2991', (array) json_decode($offering->tags)) ? 'selected' : '' }}>
+                                        value="2991" {{ in_array('2991', (array) json_decode($offering->tags)) ? 'selected' : '' }}>
                                     ASD
                                 </option>
                             </select>
@@ -167,35 +167,35 @@
                                             <select id="booking-duration" name="booking_duration" class="form-select">
                                                 <option value="">Select</option>
                                                 <option
-                                                    value="15 minutes" {{ $offering->booking_duration  == '15 minutes' ? 'selected' : ''}}>
+                                                        value="15 minutes" {{ $offering->booking_duration  == '15 minutes' ? 'selected' : ''}}>
                                                     15 minutes
                                                 </option>
                                                 <option
-                                                    value="30 minutes" {{ $offering->booking_duration  == '30 minutes' ? 'selected' : ''}}>
+                                                        value="30 minutes" {{ $offering->booking_duration  == '30 minutes' ? 'selected' : ''}}>
                                                     30 minutes
                                                 </option>
                                                 <option
-                                                    value="45 minutes" {{ $offering->booking_duration  == '45 minutes' ? 'selected' : ''}}>
+                                                        value="45 minutes" {{ $offering->booking_duration  == '45 minutes' ? 'selected' : ''}}>
                                                     45 minutes
                                                 </option>
                                                 <option
-                                                    value="1 hour" {{ $offering->booking_duration  == '1 hour' ? 'selected' : ''}}>
+                                                        value="1 hour" {{ $offering->booking_duration  == '1 hour' ? 'selected' : ''}}>
                                                     1 hour
                                                 </option>
                                                 <option
-                                                    value="1:15 hour" {{ $offering->booking_duration  == '1:15 hour' ? 'selected' : ''}}>
+                                                        value="1:15 hour" {{ $offering->booking_duration  == '1:15 hour' ? 'selected' : ''}}>
                                                     1:15 hour
                                                 </option>
                                                 <option
-                                                    value="1:30 hour" {{ $offering->booking_duration  == '1:30 hour' ? 'selected' : ''}}>
+                                                        value="1:30 hour" {{ $offering->booking_duration  == '1:30 hour' ? 'selected' : ''}}>
                                                     1:30 hour
                                                 </option>
                                                 <option
-                                                    value="1:45 hour" {{ $offering->booking_duration  == '1:45 hour' ? 'selected' : ''}}>
+                                                        value="1:45 hour" {{ $offering->booking_duration  == '1:45 hour' ? 'selected' : ''}}>
                                                     1:45 hour
                                                 </option>
                                                 <option
-                                                    value="2 hour" {{ $offering->booking_duration  == '2 hour' ? 'selected' : ''}}>
+                                                        value="2 hour" {{ $offering->booking_duration  == '2 hour' ? 'selected' : ''}}>
                                                     2 hour
                                                 </option>
                                             </select>
@@ -229,31 +229,31 @@
                                                     <select id="type" class="form-select" name="availability_type">
                                                         <option value="">Select Availability</option>
                                                         <option
-                                                            value="monday" {{$offering->availability_type == 'monday'? 'selected': ''}}>
+                                                                value="monday" {{$offering->availability_type == 'monday'? 'selected': ''}}>
                                                             Monday
                                                         </option>
                                                         <option
-                                                            value="tuesday" {{$offering->availability_type == 'tuesday'? 'selected': ''}}>
+                                                                value="tuesday" {{$offering->availability_type == 'tuesday'? 'selected': ''}}>
                                                             Tuesday
                                                         </option>
                                                         <option
-                                                            value="wednesday" {{$offering->availability_type == 'wednesday'? 'selected': ''}}>
+                                                                value="wednesday" {{$offering->availability_type == 'wednesday'? 'selected': ''}}>
                                                             Wednesday
                                                         </option>
                                                         <option
-                                                            value="thursday" {{$offering->availability_type == 'thursday'? 'selected': ''}}>
+                                                                value="thursday" {{$offering->availability_type == 'thursday'? 'selected': ''}}>
                                                             Thursday
                                                         </option>
                                                         <option
-                                                            value="friday" {{$offering->availability_type == 'friday'? 'selected': ''}}>
+                                                                value="friday" {{$offering->availability_type == 'friday'? 'selected': ''}}>
                                                             Friday
                                                         </option>
                                                         <option
-                                                            value="all_week_days" {{$offering->availability_type == 'all_week_days'? 'selected': ''}}>
+                                                                value="all_week_days" {{$offering->availability_type == 'all_week_days'? 'selected': ''}}>
                                                             All week days
                                                         </option>
                                                         <option
-                                                            value="weekends_only" {{$offering->availability_type == 'weekends_only'? 'selected': ''}}>
+                                                                value="weekends_only" {{$offering->availability_type == 'weekends_only'? 'selected': ''}}>
                                                             Weekends only
                                                         </option>
                                                     </select>
@@ -278,35 +278,35 @@
                                                 <select id="type" class="form-select" name="scheduling_window">
                                                     <option value="">Select</option>
                                                     <option
-                                                        value="15 minutes" {{ $offering->scheduling_window  == '15 minutes' ? 'selected' : ''}}>
+                                                            value="15 minutes" {{ $offering->scheduling_window  == '15 minutes' ? 'selected' : ''}}>
                                                         15 minutes
                                                     </option>
                                                     <option
-                                                        value="30 minutes" {{ $offering->scheduling_window  == '30 minutes' ? 'selected' : ''}}>
+                                                            value="30 minutes" {{ $offering->scheduling_window  == '30 minutes' ? 'selected' : ''}}>
                                                         30 minutes
                                                     </option>
                                                     <option
-                                                        value="45 minutes" {{ $offering->scheduling_window  == '45 minutes' ? 'selected' : ''}}>
+                                                            value="45 minutes" {{ $offering->scheduling_window  == '45 minutes' ? 'selected' : ''}}>
                                                         45 minutes
                                                     </option>
                                                     <option
-                                                        value="1 hour" {{ $offering->scheduling_window  == '1 hour' ? 'selected' : ''}}>
+                                                            value="1 hour" {{ $offering->scheduling_window  == '1 hour' ? 'selected' : ''}}>
                                                         1 hour
                                                     </option>
                                                     <option
-                                                        value="1:15 hour" {{ $offering->scheduling_window  == '1:15 hour' ? 'selected' : ''}}>
+                                                            value="1:15 hour" {{ $offering->scheduling_window  == '1:15 hour' ? 'selected' : ''}}>
                                                         1:15 hour
                                                     </option>
                                                     <option
-                                                        value="1:30 hour" {{ $offering->scheduling_window  == '1:30 hour' ? 'selected' : ''}}>
+                                                            value="1:30 hour" {{ $offering->scheduling_window  == '1:30 hour' ? 'selected' : ''}}>
                                                         1:30 hour
                                                     </option>
                                                     <option
-                                                        value="1:45 hour" {{ $offering->scheduling_window  == '1:45 hour' ? 'selected' : ''}}>
+                                                            value="1:45 hour" {{ $offering->scheduling_window  == '1:45 hour' ? 'selected' : ''}}>
                                                         1:45 hour
                                                     </option>
                                                     <option
-                                                        value="2 hour" {{ $offering->scheduling_window  == '2 hour' ? 'selected' : ''}}>
+                                                            value="2 hour" {{ $offering->scheduling_window  == '2 hour' ? 'selected' : ''}}>
                                                         2 hour
                                                     </option>
                                                 </select>
