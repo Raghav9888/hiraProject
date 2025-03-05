@@ -20,7 +20,7 @@
                             </label>
                             <p style="text-align: start;" class="text">Set featured image</p>
                         </div>
-                        
+
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label fw-bold">Offering Name</label>
                             <input type="text" class="form-control" name="name" id="exampleInputEmail1"

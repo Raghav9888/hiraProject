@@ -62,18 +62,20 @@ class PractitionerController extends Controller
         $timezones = [];
 
         foreach (timezone_identifiers_list() as $timezone) {
-            $dateTimeZone = new DateTimeZone($timezone);
-            $offset = $dateTimeZone->getOffset(new DateTime("now", new DateTimeZone("UTC"))) / 3600;
+            $dateTimeZone = new \DateTimeZone($timezone);
+            $offset = $dateTimeZone->getOffset(new \DateTime("now", new \DateTimeZone("UTC"))) / 3600;
             $offsetFormatted = "UTC" . ($offset >= 0 ? "+$offset" : $offset);
 
             $parts = explode("/", $timezone);
-            $city = end($parts);
+            $countryName = end($parts);
 
+            // Format the timezone data
             $timezones[] = [
                 'id' => $timezone,
-                'name' => "($offsetFormatted) $city"
+                'name' => "($offsetFormatted) $countryName",
             ];
         }
+
 
 
         return view('user.my_profile', compact(

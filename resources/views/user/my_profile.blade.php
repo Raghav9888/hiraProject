@@ -145,7 +145,8 @@
                                                 @endphp
 
                                                 <div class="form-group select2-div">
-                                                    <select name="tags[]" id="tags" multiple="multiple" class="form-select location-select2">
+                                                    <select name="tags[]" id="tags" multiple="multiple"
+                                                            class="form-select location-select2">
                                                         @foreach($practitionerTag as $tag)
                                                             <option value="{{$tag->id}}"
                                                                 {{ in_array($tag->id, $selectedTags) ? 'selected' : '' }}>
@@ -234,6 +235,7 @@
                                                 <option>Select</option>
                                                 @foreach($HowIHelp as $term)
                                             <option value="{{$term->id}}">{{$term->name}}</option>
+
 
 
 
@@ -362,15 +364,17 @@
                                                 <option value="">Select</option>
                                                 @foreach ($timezones as $timezone)
                                                     <option
-                                                        value="{{ $timezone['id'] }}" {{ old('timezone', $user->timezone ?? '') == $timezone['id'] ? 'selected' : '' }}>
+                                                        value="{{ $timezone['id'] }}" {{ old('timezone', $userDetails->timezone) === $timezone['id'] ? 'selected' : '' }}>
                                                         {{ $timezone['name'] }}
                                                     </option>
                                                 @endforeach
                                             </select>
+
                                             <p style="text-align: start;">Select your timezone</p>
                                         </div>
                                         <div class="col mb-2">
-                                            <label for="service-hours" class="fw-bold mb-4">Store hours availability</label>
+                                            <label for="service-hours" class="fw-bold mb-4">Store hours
+                                                availability</label>
                                             <div class="col mb-2">
                                                 <label class="form-check-label mb-3 fw-bold"
                                                        for="availability">Availability</label><br>
@@ -381,7 +385,7 @@
                                                     <option>Every Wednesday</option>
                                                     <option>Every Thursday</option>
                                                     <option>Every Friday</option>
-                                                    <option>Weekends only - Every Sat & Sundays </option>
+                                                    <option>Weekends only - Every Sat & Sundays</option>
                                                 </select>
                                             </div>
                                             <div class="d-flex" style="gap: 20px;">
