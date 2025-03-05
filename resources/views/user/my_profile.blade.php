@@ -426,8 +426,7 @@
                             </div>
                             <input type="hidden" name="id" value="{{ $user->id ?? '' }}">
                             <div class="d-flex" style="gap: 20px;">
-                                <button class="update-btn m-0">Add Offering</button>
-                                <button class="update-btn">Save Draft</button>
+                                <button class="update-btn">Save</button>
                             </div>
                             @csrf
                         </form>
