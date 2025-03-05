@@ -187,9 +187,8 @@
                                             </div>
                                             <div class=" col mb-4">
                                                 <label for="tax" class="fw-bold">Tax</label>
+                                                <input type="text" class="form-control" placeholder="Enter the applicable tax percentage for your offering" name="tax_amount">
                                                 <span>-Tax rates vary based on your location and business registration. If unsure, please consult your local tax regulations or a tax professional.</span>
-                                                <input type="text" class="form-control" placeholder="Enter the applicable tax percentage for your offering."
-                                                       name="tax_amount">
                                             </div>
                                         </div>
                                         <div class="row">
