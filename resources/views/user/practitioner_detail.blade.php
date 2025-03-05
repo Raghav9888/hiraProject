@@ -216,7 +216,6 @@
                                                 <li>{{$Certification}}</li>
                                             @endforeach
 
-
                                         </ul>
                                     </div>
                                 </div>

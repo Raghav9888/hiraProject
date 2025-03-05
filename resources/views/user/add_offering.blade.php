@@ -13,7 +13,8 @@
                         @csrf
                         <div class="mb-3 justify-content-center d-flex flex-column align-items-center">
                             <label class="pt-4 featured-image-tag fw-bold">Featured Image</label>
-                            <input type="file" id="fileInput" name="featured_image rounded-4" class="hidden" accept="image/*"
+                            <input type="file" id="fileInput" name="featured_image rounded-4" class="hidden"
+                                   accept="image/*"
                                    onchange="previewImage(event)" style="display: none;">
                             <label for="fileInput" class="image-preview rounded-4" id="imagePreview">
                                 <span>+</span>
@@ -154,17 +155,21 @@
                                         <div class="row mb-4">
                                             <div class="col">
                                                 <label for="service-hours" class="fw-bold mb-4">Service hours</label>
-                                                <select id="availability_type" class="form-select"
-                                                        name="availability_type">
-                                                    <option>Following store hours</option>
-                                                    <option>Every day</option>
-                                                    <option>Every monday</option>
-                                                    <option>Every tuesday</option>
-                                                    <option>Every wednesday</option>
-                                                    <option>Every thursday</option>
-                                                    <option>Every friday</option>
-                                                    <option>Weekends only - Every Sat & Sundays</option>
-                                                    <option>Choose your own specific dates...</option>
+                                                <select  class="form-select"
+                                                        name="availability_type" data-type="change" data-target="custom_hours" data-match="own_specific_date">
+                                                    <option value="">Following store hours</option>
+                                                    <option value="every_day">Every day</option>
+                                                    <option value="every_monday">Every monday</option>
+                                                    <option value="every_tuesday">Every tuesday</option>
+                                                    <option value="every_wednesday">Every wednesday</option>
+                                                    <option value="every_thursday">Every thursday</option>
+                                                    <option value="every_friday">Every friday</option>
+                                                    <option value="weekend_every_saturday_sunday">Weekends only - Every
+                                                        Sat & Sundays
+                                                    </option>
+                                                    <option value="own_specific_date">Choose your own specific
+                                                        dates...
+                                                    </option>
                                                 </select>
                                             </div>
                                             <div class="d-none" id="custom_hours" style="gap: 20px;">
@@ -255,7 +260,8 @@
                                                 <p id="word-count">0 / 500 words</p>
                                             </div>
                                             <div class="col mb-4">
-                                                <label for="service-hours" class="fw-bold">Intake form (Optional)</label>
+                                                <label for="service-hours" class="fw-bold">Intake form
+                                                    (Optional)</label>
                                                 <input type="text" class="form-control" name="intake_form"
                                                        placeholder="enter your link">
                                             </div>
@@ -265,7 +271,8 @@
                                                 <input type="checkbox" class="form-check-input" id="can-be-cancelled"
                                                        data-type="hide" data-id="cancellation_time" name="is_cancelled">
                                                 <label class="form-check-label mb-3 fw-bold"
-                                                       for="can-be-cancelled">Cancellation (How far in advance can this be cancelled)</label>
+                                                       for="can-be-cancelled">Cancellation (How far in advance can this
+                                                    be cancelled)</label>
                                             </div>
                                             <div class="col-md-6 mb-4 d-none" id="cancellation_time">
                                                 <label class="fw-bold">Cancellation time</label>
@@ -364,7 +371,8 @@
                                         <div class="mb-4">
                                             <label for="sports" class="fw-bold">How many sports are
                                                 available</label>
-                                            <input type="text" id="sports" class="form-control" placeholder="Type the available spots in numbers" name="sports">
+                                            <input type="text" id="sports" class="form-control"
+                                                   placeholder="Type the available spots in numbers" name="sports">
                                         </div>
 
                                         <div class="row">
@@ -419,7 +427,8 @@
                                                 <p id="word-count">0 / 500 words</p>
                                             </div>
                                             <div class="col mb-4">
-                                                <label for="service-hours" class="fw-bold">Intake form (Optional)</label>
+                                                <label for="service-hours" class="fw-bold">Intake form
+                                                    (Optional)</label>
                                                 <input type="text" class="form-control" name="intake_form"
                                                        placeholder="enter your link">
                                             </div>
@@ -429,7 +438,8 @@
                                                 <input type="checkbox" class="form-check-input" id="can-be-cancelled"
                                                        data-type="hide" data-id="cancellation_time" name="is_cancelled">
                                                 <label class="form-check-label mb-3 fw-bold"
-                                                       for="can-be-cancelled">Cancellation (How far in advance can this be cancelled)</label>
+                                                       for="can-be-cancelled">Cancellation (How far in advance can this
+                                                    be cancelled)</label>
                                             </div>
                                             <div class="col-md-6 mb-4 d-none" id="cancellation_time">
                                                 <label class="fw-bold">Cancellation time</label>
@@ -474,6 +484,17 @@
             </div>
         </div>
     </section>
+<script>
+    $(document).on('change','[data-type="change"]', function (e) {
+        let targetValue = $(this).data('target');
+        let matchValue = $(this).data('match');
 
+        if($(this).val() == matchValue){
+            $(`#${targetValue}`).removeClass('d-none');
+        }else{
+            $(`#${targetValue}`).addClass('d-none');
+        }
+    });
+</script>
 @endsection
 
