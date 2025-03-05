@@ -31,6 +31,7 @@
                         <div class="mb-4">
                             <label for="type" class="fw-bold">Type of offering</label>
                             <select id="type" name="offering_type" class="form-select">
+                                <option value="">Select Offering Type</option>
                                 <option value="virtual">Virtual Offering</option>
                                 <option value="in-person">In person Offering</option>
                             </select>

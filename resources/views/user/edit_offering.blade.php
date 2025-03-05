@@ -50,26 +50,25 @@
                             <label for="exampleInputEmail1" class="form-label">Location</label>
                             <select name="location[]" multiple="multiple" class="form-control select2">
                                 @foreach($locations as $location)
-                                    <option value="{{$location->id}}"
-                                        {{ in_array($location->id, json_decode($offering->location, true)) ? 'selected' : '' }}>
+                                    <option value="{{$location->id}}"{{ in_array($location->id, json_decode($offering->location, true)) ? 'selected' : '' }}>
                                         {{$location->name}}
                                     </option>
                                 @endforeach
                             </select>
                         </div>
-                        <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label">I help with:</label>
+{{--                        <div class="mb-3">--}}
+{{--                            <label for="exampleInputPassword1" class="form-label">I help with:</label>--}}
 
-                            <select name="help[]" multiple="multiple" class="form-control select2">
-                                @php
-                                    $selectedTerms = explode(',', $userDetails->HowIHelp ?? '');
-                                @endphp
-                                @foreach($HowIHelp as $term)
-                                    <option
-                                        value="{{$term->id}}" {{ in_array($term->id, $selectedTerms) ? 'selected' : '' }} >{{$term->name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
+{{--                            <select name="help[]" multiple="multiple" class="form-control select2">--}}
+{{--                                @php--}}
+{{--                                    $selectedTerms = explode(',', $userDetails->HowIHelp ?? '');--}}
+{{--                                @endphp--}}
+{{--                                @foreach($HowIHelp as $term)--}}
+{{--                                    <option--}}
+{{--                                        value="{{$term->id}}" {{ in_array($term->id, $selectedTerms) ? 'selected' : '' }} >{{$term->name}}</option>--}}
+{{--                                @endforeach--}}
+{{--                            </select>--}}
+{{--                        </div>--}}
                         <div class="mb-3">
                             <label for="exampleInputPassword1" class="form-label">Categories - Specifies the
                                 type of
