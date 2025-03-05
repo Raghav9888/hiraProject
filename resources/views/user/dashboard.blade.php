@@ -25,7 +25,7 @@
             <div class="row ms-5" id="upcomingAppointmentsRowDiv">
                 <div class="px-0" style="border-bottom: 2px solid#BA9B8B; margin-bottom: 20px;">
                     <h5 class="practitioner-profile-text mb-2">Upcoming <span
-                                style="font-weight: 800;">appointments</span></h5>
+                            style="font-weight: 800;">appointments</span></h5>
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
                     <div class="event-name-dv">
@@ -115,56 +115,51 @@
                 <div class="row">
                     <h4>Endorsements</h4>
                     <div class="row" id="endorsementRow">
+                        @if($endorsedUsers)
+                            @foreach($endorsedUsers as $endorsedUser)
+                                @php
+                                    $images = isset($endorsedUser->userDetail->images) ? json_decode($endorsedUser->userDetail->images, true) : null;
+                                    $image = isset($images['profile_image']) && $images['profile_image'] ? $images['profile_image'] : null;
+                                    $imageUrl = $image  ? asset(env('media_path') . '/practitioners/' . $endorsedUser->userDetail->id . '/profile/' . $image) : asset(env('local_path').'/images/no_image.png');
+                                @endphp
 
-                            @php
-                                $endorsements = json_decode($user->userDetail->endorsements, true); // Decode the JSON data to an array
-                            @endphp
-
-                            @if($endorsements && is_array($endorsements))
-                                @foreach($endorsements as $endorsedUserId)
-                                    @if($endorsedUserId)
-                                        <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
-                                            <div class="featured-dv">
-                                                <a href="{{route('practitioner_detail', $user->id)}}">
-                                                    @php
-                                                        $images = isset($user->userDetail->images) ? json_decode($user->userDetail->images, true) : null;
-                                                        $image = isset($images['profile_image']) && $images['profile_image'] ?$images['profile_image'] : null;
-                                                        $imageUrl = $image  ? asset(env('media_path') . '/practitioners/' . $user->userDetail->id . '/profile/' . $image) : asset('assets/images/no_image.png');
-                                                    @endphp
-                                                    <img src="{{ $imageUrl }}" alt="person">
-                                                    <div class="d-flex justify-content-between align-items-center mb-2">
-                                                        <h4>{{ $user->name }}</h4>
-                                                        <i class="fa-regular fa-heart"></i>
-                                                    </div>
-                                                    <h5>
-                                                        @php
-                                                            $locations = isset($user->location) && $user->location ?json_decode($user->location, true) : null;
-                                                        @endphp
-                                                        @if($locations)
-                                                            @foreach($locations as $location)
-                                                                <i class="fa-solid fa-location-dot"></i>  {{ $location .',' }}
-                                                            @endforeach
-                                                        @endif
-                                                    </h5>
-                                                    <p>Alternative and Holistic Health Practitioner</p>
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        <div>
-                                                            <i class="fa-regular fa-gem"></i>
-                                                            <i class="fa-regular fa-gem"></i>
-                                                            <i class="fa-regular fa-gem"></i>
-                                                            <i class="fa-regular fa-gem"></i>
-                                                            <i class="fa-regular fa-gem"></i>
-                                                        </div>
-                                                        <h6>5.0 Ratings</h6>
-                                                    </div>
-                                                </a>
-
+                                <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
+                                    <div class="featured-dv">
+                                        <a href="{{route('practitioner_detail', $endorsedUser->id)}}">
+                                            <img src="{{ $imageUrl }}" alt="person">
+                                            {{--                                <label for="">0.4 Km Away</label>--}}
+                                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                                <h4>{{  $endorsedUser->name }}</h4>
+                                                <i class="fa-regular fa-heart"></i>
                                             </div>
-                                        </div>
-                                    @endif
-                                @endforeach
-                            @endif
+                                            <h5>
 
+                                                @php
+                                                    $locations = isset($endorsedUser->location) && $endorsedUser->location ? json_decode($endorsedUser->location, true) : null;
+                                                @endphp
+                                                @if($locations)
+                                                    @foreach($locations as $location)
+                                                        <i class="fa-solid fa-location-dot"></i>  {{ $location .',' }}
+                                                    @endforeach
+                                                @endif
+                                            </h5>
+                                            <p>Alternative and Holistic Health Practitioner</p>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <i class="fa-regular fa-gem"></i>
+                                                    <i class="fa-regular fa-gem"></i>
+                                                    <i class="fa-regular fa-gem"></i>
+                                                    <i class="fa-regular fa-gem"></i>
+                                                    <i class="fa-regular fa-gem"></i>
+                                                </div>
+                                                <h6>5.0 Ratings</h6>
+                                            </div>
+                                        </a>
+
+                                    </div>
+                                </div>
+                            @endforeach
+                        @endif
                     </div>
                 </div>
             </div>
@@ -252,19 +247,28 @@
 
         $(document).on('click', '#endrose', function (e) {
             e.preventDefault();
+
+            // Get the user ID from the button's data attribute
             let userId = $(this).data('user-id');
+
+            // Make the AJAX request
             $.ajax({
                 url: `/setEndorsement/${userId}`,
-                type: 'post',
+                type: 'POST',
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function (response) {
-                    alert('success')
+                    console.log(response)
+                    alert('Endorsement added successfully!');
+                },
+                error: function (xhr, status, error) {
+                    // On failure, log the error and alert the user
+                    console.error('Error:', xhr.responseText);
+                    alert('Failed to add endorsement!');
                 }
-            })
-        })
-
+            });
+        });
 
     </script>
 @endsection

@@ -102,8 +102,13 @@ class PractitionerController extends Controller
         $userDetails = $user->userDetail;
         $locations =Locations::get();
         $users = User::get();
+        $endorsements = $userDetails && $userDetails->endorsements
+            ? json_decode($userDetails->endorsements, true)
+            : [];
 
-        return view('user.dashboard', compact('user','users', 'userDetails','locations'));
+        $endorsedUsers = User::whereIn('id', $endorsements)->get();
+
+        return view('user.dashboard', compact('user','users', 'userDetails','locations' ,'endorsedUsers'));
     }
 
     public function updateProfile(Request $request)
