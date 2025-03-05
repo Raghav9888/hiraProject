@@ -86,6 +86,7 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
         Route::post('/store/', [OfferingController::class, 'store'])->name('store_offering');
         Route::get('/show/{id}/', [OfferingController::class, 'show'])->name('show_offering');
         Route::get('/edit/{id}/', [OfferingController::class, 'edit'])->name('edit_offering');
+        Route::post('/duplicate/{id}/', [OfferingController::class, 'duplicate'])->name('duplicate_offering');
 //        Route::put('/update/{id}/', [OfferingController::class, 'update'])->name('update_offering');
         Route::post('/update/', [OfferingController::class, 'update'])->name('update_offering');
         Route::post('/delete/{id}/', [OfferingController::class, 'delete'])->name('delete_offering');
