@@ -84,7 +84,7 @@ $(document).on('click', '.save_term', function (e) {
     var termType = $(this).data('type'); // Get the data-type attribute value
     var name = $('.' + termType + '_term').val();
     $.ajax({
-        url: '{{route("save_term")}}', // Change this to your server-side script
+        url: '/save_term', // Change this to your server-side script
         type: 'POST',
         data: {
             type: termType,
