@@ -269,8 +269,25 @@
                                             </div>
                                             <div class="col-md-6 mb-4 d-none" id="cancellation_time">
                                                 <label class="fw-bold">Cancellation time</label>
-                                                <input type="datetime-local" name="cancellation_time_slot"
-                                                       class="form-control">
+                                                <select id="type" class="form-select" name="cancellation_time_slot">
+                                                    <option value="15 minutes">15 minutes</option>
+                                                    <option value="20 minutes">20 minutes</option>
+                                                    <option value="30 minutes">30 minutes</option>
+                                                    <option value="45 minutes">45 minutes</option>
+                                                    <option value="50 minutes">50 minutes</option>
+                                                    <option value="1 hour">1 hour</option>
+                                                    <option value="1:15 hour">1:15 hour</option>
+                                                    <option value="1:30 hour">1:30 hour</option>
+                                                    <option value="1:45 hour">1:45 hour</option>
+                                                    <option value="1:50 hour">1:50 hour</option>
+                                                    <option value="2 hour">2 hours</option>
+                                                    <option value="3 hour">3 hour</option>
+                                                    <option value="4 hour">4 hour</option>
+                                                    <option value="1 Month">1 Month</option>
+                                                    <option value="2 Month">2 Months</option>
+                                                    <option value="3 Month">3 Months</option>
+                                                    <option value="4 Month">4 Months</option>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="form-check offering-check">
