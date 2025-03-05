@@ -19,13 +19,13 @@
                         <div class="mb-3">
                             <label for="floatingTextarea" class="fw-bold">Short Description</label>
                             <textarea class="form-control" name="short_description"
-                                      placeholder="please add a short description here"
+                                      placeholder="Please add a short description here"
                                       id="floatingTextarea"></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="floatingTextarea" class="fw-bold">Description</label>
                             <textarea class="form-control" name="long_description"
-                                      placeholder="please add a full description here"
+                                      placeholder="Please add a full description here"
                                       id="floatingTextarea"></textarea>
                         </div>
                         <div class="mb-4">
@@ -182,13 +182,13 @@
                                         <div class="row">
                                             <div class="col mb-4">
                                                 <label for="service-hours" class="fw-bold">Client price</label>
-                                                <input type="text" class="form-control" placeholder="please add the price for your offering"
+                                                <input type="text" class="form-control" placeholder="Please add the price for your offering"
                                                        name="client_price">
                                             </div>
                                             <div class=" col mb-4">
                                                 <label for="tax" class="fw-bold">Tax</label>
                                                 <input type="text" class="form-control" placeholder="Enter the applicable tax percentage for your offering" name="tax_amount">
-                                                <span>-Tax rates vary based on your location and business registration. If unsure, please consult your local tax regulations or a tax professional.</span>
+                                                <span>Tax rates vary based on your location and business registration. If unsure, please consult your local tax regulations or a tax professional.</span>
                                             </div>
                                         </div>
                                         <div class="row">
