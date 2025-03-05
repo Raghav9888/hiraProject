@@ -104,13 +104,27 @@
                                 <td class=" fw-bold">Subtotal</td>
                                 <td class="text-end">${{$product->client_price}}</td>
                             </tr>
+                            <?php
+                            $taxAmount = 0;
+                            ?>
+                            @if($product->tax_amount)
+                            <?php 
+                             $taxPercentage = $product->tax_amount; // Assuming this is stored in the vendor model
+                             $taxAmount = $product->client_price * ($taxPercentage / 100);
+                             ?>
+                            <tr>
+                                <td class=" fw-bold">Tax</td>
+                                <td class="text-end">${{$taxAmount}} ({{$taxPercentage}}%)</td>
+                            </tr>
+                            @endif
                             <tr>
                                 <td class=" fw-bold">Total</td>
-                                <td class="text-end">${{$product->client_price}}</td>
+                                <td class="text-end">${{$product->client_price + $taxAmount}}</td>
                             </tr>
                         </tbody>
                     </table>
-                    <input type="hidden" name="total_amount" value="{{$product->price}}">
+                    <input type="hidden" name="total_amount" value="{{$product->client_price + $taxAmount}}">
+                    <input type="hidden" name="tax_amount" value="{{$taxAmount}}">
                 </div>
                 <div class="mb-4">
                     <p class="text-p">Your personal data will be used to process your order, support your

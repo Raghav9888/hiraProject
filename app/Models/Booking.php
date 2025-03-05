@@ -38,6 +38,7 @@ class Booking extends Model
         'shipping_postcode',
         'shipping_phone',
         'shipping_email',
+        'tax_amount'
     ];
 
     /**
