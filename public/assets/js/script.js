@@ -234,5 +234,9 @@ function removeImage(element) {
         }
     });
 
+    $(document).on('change','#availability_type',function (){
+        let targetElement = $('#custom_hours');
+        $(this).val() !== 'custom' ? targetElement.toggleClass('d-none d-flex') : targetElement.toggleClass('d-none d-flex');
+    })
 }
 

@@ -154,7 +154,7 @@
                                         <div class="row mb-4">
                                             <div class="col">
                                                 <label for="service-hours" class="fw-bold mb-4">Service hours</label>
-                                                <select id="type" class="form-select" name="availability_type">
+                                                <select id="availability_type" class="form-select" name="availability_type">
                                                     <option>Following store hours</option>
                                                     <option>Every day</option>
                                                     <option>Every monday</option>
@@ -166,17 +166,29 @@
                                                     <option>Choose your own specific dates...</option>
                                                 </select>
                                             </div>
-
+                                            <div class="d-none" id="custom_hours" style="gap: 20px;">
+                                                <div>
+                                                    <label for="service-hours" class="fw-bold">From</label>
+                                                    <input type="datetime-local" class="form-control"
+                                                           name="from_date" placeholder="">
+                                                </div>
+                                                <div>
+                                                    <label for="service-hours" class="fw-bold">To</label>
+                                                    <input type="datetime-local" class="form-control" name="to_date"
+                                                           placeholder="">
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="row">
                                             <div class="col mb-4">
                                                 <label for="service-hours" class="fw-bold">Client price</label>
-                                                <input type="text" class="form-control" placeholder=""
+                                                <input type="text" class="form-control" placeholder="please add the price for your offering"
                                                        name="client_price">
                                             </div>
                                             <div class=" col mb-4">
                                                 <label for="tax" class="fw-bold">Tax</label>
-                                                <input type="text" class="form-control" placeholder=""
+                                                <span>-Tax rates vary based on your location and business registration. If unsure, please consult your local tax regulations or a tax professional.</span>
+                                                <input type="text" class="form-control" placeholder="Enter the applicable tax percentage for your offering."
                                                        name="tax_amount">
                                             </div>
                                         </div>
