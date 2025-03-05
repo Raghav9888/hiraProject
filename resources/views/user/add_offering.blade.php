@@ -19,7 +19,7 @@
                         <div class="mb-3">
                             <label for="floatingTextarea" class="fw-bold">Short Description</label>
                             <textarea class="form-control" name="short_description"
-                                      placeholder="please add a full description here"
+                                      placeholder="please add a short description here"
                                       id="floatingTextarea"></textarea>
                         </div>
                         <div class="mb-3">
