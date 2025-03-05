@@ -75,7 +75,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-12 col-lg-6 mb-3">
-                                            <label for="first_name">First Name</label>
+                                            <label for="first_name" class="fw-bold">First Name</label>
                                             <input type="text" class="form-control" id="first_name"
                                                 name="first_name"
                                                 value="{{ $user->first_name ?? '' }}">
@@ -83,7 +83,7 @@
                                                 value="{{ $user->id ?? '' }}">
                                         </div>
                                         <div class="col-sm-12 col-lg-6 mb-3">
-                                            <label for="last_name">Last Name</label>
+                                            <label for="last_name" class="fw-bold">Last Name</label>
                                             <input type="text" class="form-control" id="last_name" name="last_name"
                                                 value="{{ $user->last_name ?? '' }}">
                                         </div>
@@ -104,7 +104,7 @@
                         </div> --}}
 
                         <div class="mb-3">
-                            <label for="bio">Short Bio</label>
+                            <label for="bio" class="fw-bold">Short Bio</label>
                             <p>Maximum length of 500 words</p>
                             <textarea class="form-control" name="bio" id="bio"
                                 placeholder="">{{$userDetails->bio ?? ''}}</textarea>
@@ -112,7 +112,7 @@
                         </div>
 
                         <div class="mb-4 select2-div">
-                            <label for="location">Location</label>
+                            <label for="location" class="fw-bold">Location</label>
                             <select name="location[]" multiple="multiple"
                                 class="form-control location-select2">
                                 @foreach($locations as $location)
@@ -127,7 +127,7 @@
                             </select>
                         </div>
                         <div class="form-group select2-div">
-                            <label for="type">Tags</label>
+                            <label for="type" class="fw-bold">Tags</label>
                             <p style="text-align: start;">These are keywords used to help identify more
                                 specific
                                 versions of something. For example, a good tag for a massage could be
@@ -142,7 +142,7 @@
                             </select>
                         </div>
                         <div class="mb-4 mt-4">
-                            <label for="media">Galley of images</label>
+                            <label for="media" class="fw-bold">Galley of images</label>
                             <label class="add-media-btn" for="media-upload">
                                 <i class="fas fa-plus"></i>
                                 Add media
@@ -253,7 +253,7 @@
                         $amenities = $userDetails->amenities ? json_decode($userDetails->amenities) : [];
                         ?>
                         <div class="mb-4 amenties-checkbox-container">
-                            <label class="form-label">Amenities</label>
+                            <label class="form-label" class="fw-bold">Amenities</label>
                             <div class="row">
                                 <?php
                                 $allAmenities = [
