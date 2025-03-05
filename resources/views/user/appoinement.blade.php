@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <section class="practitioner-profile">
+    <section class="practitioner-profile vh-100">
         <div class="container">
             @include('layouts.partitioner_sidebar')
             <div class="row">
