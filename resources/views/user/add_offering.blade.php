@@ -28,6 +28,13 @@
                                       placeholder="please add a full description here"
                                       id="floatingTextarea"></textarea>
                         </div>
+                        <div class="mb-4">
+                            <label for="type" class="fw-bold">Type of offering</label>
+                            <select id="type" name="offering_type" class="form-select ">
+                                <option value="in-person">In person Offering</option>
+                                <option value="virtual">Virtual Offering</option>
+                            </select>
+                        </div>
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label fw-bold">Location</label>
                             <select name="location[]" multiple="multiple" class="form-control select2">
@@ -87,13 +94,6 @@
                             <p style="text-align: start;" class="text">Set featured image</p>
                         </div>
                         <hr>
-                        <div class="mb-4">
-                            <label for="type" class="fw-bold">Type of offering</label>
-                            <select id="type" name="offering_type" class="form-select ">
-                                <option value="in-person">In person Offering</option>
-                                <option value="virtual">Virtual Offering</option>
-                            </select>
-                        </div>
                         <div class="container">
 
                             <div class="mb-4">
