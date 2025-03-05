@@ -37,7 +37,7 @@
                             </select>
                         </div>
                         <div class="mb-3 d-none" id="location">
-                            <label for="exampleInputEmail1" class="form-label fw-bold">Location</label>
+                            <label for="exampleInputEmail1" class="fw-bold">Location</label>
                             <select name="location" class="form-control">
                                 @foreach($locations as $location)
                                     <option value="{{$location->id}}">
@@ -48,15 +48,13 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label fw-bold">Categories</label>
-                            <p>
-                                - Specifies the
-                                type of
+                            <label for="exampleInputPassword1" class="fw-bold">Categories</label>
+                            <span>-Specifies the type of
                                 service/offering you're providing (e.g. massage is the category and a
                                 specific treatment
                                 would be Ayuvedic massage and hot stone massage)
                                 Practitioner Offerings
-                            </p>
+                            </span>
                             <select name="categories[]" multiple="multiple" class="form-control category-select2" id="">
                                 @foreach($categories as $term)
                                     <option value="{{$term->id}}">{{$term->name}}</option>
@@ -64,13 +62,13 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="" class="form-label fw-bold">Tags - Used to highlight
-                                specific
+                            <label for="" class="fw-bold">Tags</label>
+                            <span>- Used to highlight specific
                                 features of a service/offering and help get found in search, e.g., [related
                                 to services
                                 of massage as the category] Ayuvedic, hot stone, back ache, back pain,
                                 muscle tension
-                            </label>
+                            </span>
                         </div>
                         <div class="form-group">
                             <select name="tags[]" multiple="multiple" class="form-control select2" id="">
