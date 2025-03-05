@@ -38,7 +38,6 @@ class Offering extends Model
     ];
 
     protected $casts = [
-        'location' => 'array',
         'is_cancelled' => 'boolean',
         'is_confirmation' => 'boolean',
     ];

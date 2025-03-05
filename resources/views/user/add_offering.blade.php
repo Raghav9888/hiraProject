@@ -38,7 +38,7 @@
                         </div>
                         <div class="mb-3 d-none" id="location">
                             <label for="exampleInputEmail1" class="form-label fw-bold">Location</label>
-                            <select name="location[]" multiple="multiple" class="form-control select2">
+                            <select name="location" class="form-control">
                                 @foreach($locations as $location)
                                     <option value="{{$location->id}}">
                                         {{$location->name}}
