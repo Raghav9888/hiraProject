@@ -11,46 +11,63 @@
                 <div class="add-offering-dv">
                     <form method="POST" action="{{ route('store_offering') }}" enctype="multipart/form-data">
                         @csrf
+                        <input type="hidden" name="id" value="{{$offering->id}}">
                         <div class="mb-3 justify-content-center d-flex flex-column align-items-center">
                             <label class="pt-4 featured-image-tag fw-bold">Featured Image</label>
                             <input type="file" id="fileInput" name="featured_image rounded-4" class="hidden"
                                    accept="image/*"
                                    onchange="previewImage(event)" style="display: none;">
-                            <label for="fileInput" class="image-preview rounded-4" id="imagePreview">
-                                <span>+</span>
-                            </label>
+                            @if(isset($offering->featured_image))
+                                @php
+                                    $imageUrl = asset(env('media_path') . '/practitioners/' . $userDetails->id . '/offering/'  . $offering->featured_image);
+                                @endphp
+                                <label class="image-preview" id="imagePreview"
+                                       style="background-image: url('{{$imageUrl}}'); background-size: cover; background-position: center center;">
+                                    <i class="fas fa-trash text-danger fs-3"
+                                       data-image="{{ $offering->featured_image }}"
+                                       data-user-id="{{ $userDetails->id }}"
+                                       data-profile-image="true"
+                                       onclick="removeImage(this);" style="cursor: pointer;"></i>
+                                </label>
+                            @else
+                                <label onclick="document.getElementById('fileInput').click();"
+                                       class="image-preview" id="imagePreview"
+                                       style="border-radius: 50%;">
+                                    <span>+</span>
+                                </label>
+                            @endif
                             <p style="text-align: start;" class="text">Set featured image</p>
                         </div>
 
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label fw-bold">Offering Name</label>
                             <input type="text" class="form-control" name="name" id="exampleInputEmail1"
-                                   aria-describedby="emailHelp" placeholder="">
+                                   aria-describedby="emailHelp" placeholder="" value="{{ $offering->name}}">
                         </div>
                         <div class="mb-3">
                             <label for="floatingTextarea" class="fw-bold">Short Description</label>
                             <textarea class="form-control" name="short_description"
                                       placeholder="Please add a short description here"
-                                      id="floatingTextarea"></textarea>
+                                      id="floatingTextarea">{{ $offering->short_description}}</textarea>
                         </div>
                         <div class="mb-3">
                             <label for="floatingTextarea" class="fw-bold">Description</label>
                             <textarea class="form-control" name="long_description"
-                                      placeholder="Please add a full description here" id="floatingTextarea"></textarea>
+                                      placeholder="Please add a full description here" id="floatingTextarea">{{ $offering->long_description}}</textarea>
                         </div>
                         <div class="mb-4">
                             <label for="type" class="fw-bold">Type of offering</label>
                             <select id="type" name="offering_type" class="form-select">
                                 <option value="">Select Offering Type</option>
-                                <option value="virtual">Virtual Offering</option>
-                                <option value="in-person">In person Offering</option>
+                                <option value="virtual" {{ $offering->offering_type  == 'virtual' ? 'selected' : ''}}>Virtual Offering</option>
+                                <option value="in-person" {{ $offering->offering_type  == 'in-person' ? 'selected' : ''}}>In person Offering</option>
                             </select>
                         </div>
-                        <div class="mb-3 d-none" id="location">
+                        <div class="mb-3 {{  $offering->offering_type  == 'in-person' ? '': 'd-none'}}" id="location">
                             <label for="exampleInputEmail1" class="fw-bold">Location</label>
                             <select name="location" class="form-control">
                                 @foreach($locations as $location)
-                                    <option value="{{$location->id}}">
+                                    <option value="{{$location->id}}" {{ $offering->location === $location->id  ? 'selected' : '' }}>
                                         {{$location->name}}
                                     </option>
                                 @endforeach
@@ -67,7 +84,7 @@
                             </span>
                             <select name="categories[]" multiple="multiple" class="form-control category-select2" id="">
                                 @foreach($categories as $term)
-                                    <option value="{{$term->id}}">{{$term->name}}</option>
+                                    <option value="{{$term->id}}" {{ (isset($offering->categories) && in_array($term->id, json_decode($offering->categories))) ? 'selected' : '' }}>{{$term->name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -82,11 +99,14 @@
                                 "Deep
                                 Tissue".</p>
                             <div class="col-md-6">
+                                @php
+                                    $selectedTags = json_decode($offering->tags ?? '[]', true);
+                                @endphp
                                 <div class="form-group select2-div">
                                     <select name="tags[]" id="tags" multiple="multiple"
                                             class="form-select location-select2">
                                         @foreach($practitionerTag as $term)
-                                            <option value="{{$term->id}}">{{$term->name}}</option>
+                                            <option value="{{$term->id}}" {{ in_array($tag->id, $selectedTags) ? 'selected' : '' }}>{{$term->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
