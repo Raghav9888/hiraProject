@@ -87,7 +87,10 @@ class HomeController extends Controller
         $user = User::findOrFail($id);
         $userDetails = $user->userDetail;
         //  $userDetails = UserDetail::where('user_id', $id)->first();
-
+        $endorsements = $userDetails && $userDetails->endorsements
+            ? json_decode($userDetails->endorsements, true)
+            : [];
+        $endorsedUsers = User::whereIn('id', $endorsements)->get();
         $selectedTerms = explode(',', $userDetails->IHelpWith ?? '');
         $IHelpWith = IHelpWith::whereIn('id', $selectedTerms)->pluck('name')->toArray();
 
@@ -110,7 +113,7 @@ class HomeController extends Controller
         $users = User::where('role', 1)->with('userDetail')->get();
         $categories = Category::get();
 
-        return view('user.practitioner_detail', compact('user', 'users', 'userDetails', 'offerings','categories', 'image', 'mediaImages', 'locations', 'userLocations', 'IHelpWith', 'HowIHelp', 'Certifications'));
+        return view('user.practitioner_detail', compact('user', 'users', 'userDetails', 'offerings','categories', 'image', 'mediaImages', 'locations', 'userLocations', 'IHelpWith', 'HowIHelp', 'Certifications' ,'endorsedUsers'));
     }
 
     public function offerDetail($id)
@@ -221,43 +224,6 @@ class HomeController extends Controller
     {
         return view('user.acknowledgement');
     }
-
-    public function setEndorsement(Request $request, $id)
-    {
-        Log::info('Set Endorsement Request:', ['user_id' => $id]);
-
-        $userDetail = UserDetail::where('user_id', $id)->first();
-
-        if (!$userDetail) {
-            Log::error('User detail not found', ['user_id' => $id]);
-            return response()->json(['error' => 'User detail not found'], 404);
-        }
-
-        Log::info('Existing Endorsements:', ['endorsements' => $userDetail->endorsements]);
-
-        // Decode existing endorsements safely
-        $endorsements = json_decode($userDetail->endorsements, true);
-        if (!is_array($endorsements)) {
-            $endorsements = [];
-        }
-
-        // Add new endorsement
-        $endorsements[] = $id;
-
-        // Update endorsements
-        $userDetail->endorsements = json_encode($endorsements);
-        $saved = $userDetail->save();
-
-        if ($saved) {
-            Log::info('Endorsement saved successfully', ['user_id' => $id, 'endorsements' => $endorsements]);
-            return response()->json(['success' => 'Endorsement added successfully']);
-        } else {
-            Log::error('Database save failed', ['user_id' => $id]);
-            return response()->json(['error' => 'Failed to save endorsement'], 500);
-        }
-    }
-
-
 
     public function addEndorsement(Request $request, $id)
     {
