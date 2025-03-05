@@ -61,20 +61,34 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="mb-3">
-                            <label for="" class="fw-bold">Tags</label>
-                            <span>- Used to highlight specific
-                                features of a service/offering and help get found in search, e.g., [related
-                                to services
-                                of massage as the category] Ayuvedic, hot stone, back ache, back pain,
-                                muscle tension
-                            </span>
+
+                        <div class="row">
+                            <label for="type" class="fw-bold">Tags</label>
+                            <p style="text-align: start;">These are keywords used to help
+                                identify more
+                                specific
+                                versions of something. For example, a good tag for a massage
+                                could be
+                                "Deep
+                                Tissue".</p>
+                            <div class="col-md-6">
+                                <div class="form-group select2-div">
+                                    <select name="tags[]" id="tags" multiple="multiple"
+                                            class="form-select location-select2">
+                                        @foreach($practitionerTag as $term)
+                                            <option value="{{$term->id}}">{{$term->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <button class="update-btn mb-2 addterm" data-type="tags">Add
+                                    New Term
+                                </button>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <select name="tags[]" multiple="multiple" class="form-control select2" id="">
-                                <option value="156">energybalancing</option>
-                                <option value="2991">ASD</option>
-                            </select>
+                        <div id="tags-container">
+
                         </div>
 
                         <div class="mb-3">

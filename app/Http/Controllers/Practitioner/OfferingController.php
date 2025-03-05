@@ -32,11 +32,11 @@ class OfferingController extends Controller
         $user = Auth::user();
         $userDetails = $user->userDetail;
         $categories = Category::get();
-        $PractitionerTag = PractitionerTag::get();
+        $practitionerTag = PractitionerTag::get();
         $IHelpWith = IHelpWith::get();
         $HowIHelp = HowIHelp::get();
         $locations = Locations::get();
-        return view('user.add_offering', compact('user', 'userDetails', 'categories', 'PractitionerTag', 'IHelpWith', 'HowIHelp', 'locations'));
+        return view('user.add_offering', compact('user', 'userDetails', 'categories', 'practitionerTag', 'IHelpWith', 'HowIHelp', 'locations'));
     }
 
     // Store a new offering
