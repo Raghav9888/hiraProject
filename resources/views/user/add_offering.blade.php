@@ -46,23 +46,17 @@
                                 @endforeach
                             </select>
                         </div>
-{{--                        <div class="mb-3">--}}
-{{--                            <label for="exampleInputPassword1" class="form-label fw-bold">I help with</label>--}}
 
-{{--                            <select name="help[]" multiple="multiple" class="form-control select2">--}}
-{{--                                @foreach($IHelpWith as $term)--}}
-{{--                                    <option value="{{$term->id}}">{{$term->name}}</option>--}}
-{{--                                @endforeach--}}
-{{--                            </select>--}}
-{{--                        </div>--}}
                         <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label fw-bold">Categories - Specifies the
+                            <label for="exampleInputPassword1" class="form-label fw-bold">Categories</label>
+                            <p>
+                                - Specifies the
                                 type of
                                 service/offering you're providing (e.g. massage is the category and a
                                 specific treatment
                                 would be Ayuvedic massage and hot stone massage)
                                 Practitioner Offerings
-                            </label>
+                            </p>
                             <select name="categories[]" multiple="multiple" class="form-control category-select2" id="">
                                 @foreach($categories as $term)
                                     <option value="{{$term->id}}">{{$term->name}}</option>
