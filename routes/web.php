@@ -27,9 +27,9 @@ Route::post('/contact', [HomeController::class, 'sendContactMail'])->name('sendC
 Route::post('/setEndorsement/{id}', [HomeController::class, 'addEndorsement']);
 Route::get('/blog', [HomeController::class, 'blog'])->name('blog');
 Route::get('/blog-details', [HomeController::class, 'blogDetail'])->name('blogDetail');
-Route::get('/search/practitioner',[HomeController::class,'searchPractitioner'])->name('searchPractitioner');
-Route::get('/practitioners',[HomeController::class,'partitionerLists'])->name('partitionerLists');
-Route::get('/land-acknowledgement',[HomeController::class, 'acknowledgement'])->name('acknowledgement');
+Route::get('/search/practitioner', [HomeController::class, 'searchPractitioner'])->name('searchPractitioner');
+Route::get('/practitioners', [HomeController::class, 'partitionerLists'])->name('partitionerLists');
+Route::get('/land-acknowledgement', [HomeController::class, 'acknowledgement'])->name('acknowledgement');
 
 
 Route::get('/practitioner/detail/{id}', [HomeController::class, 'practitionerDetail'])->name('practitioner_detail');
@@ -47,8 +47,6 @@ Route::get('/calendar/time-slots/{date}/{id}', [HomeController::class, 'getTimeS
 
 Route::post('/storeBooking', [BookingController::class, 'storeBooking'])->name('storeBooking');
 Route::get('/checkout', [BookingController::class, 'checkout'])->name('checkout');
-
-
 
 Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::namespace('Admin')->group(function () {
@@ -78,8 +76,7 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
 
     Route::get('/calendar', [CalenderController::class, 'showCalendar'])->name('calendar');
     Route::get('/calendar/events', [CalenderController::class, 'getGoogleCalendarEvents'])->name('get_google_calendar_events');
-    Route::get('/calendar/up-coming-events', [CalenderController::class, 'upComingEvents'])->name('up_coming_events');
-   ;
+    Route::get('/calendar/up-coming-events', [CalenderController::class, 'upComingEvents'])->name('up_coming_events');;
     Route::prefix('offering')->group(function () {
         Route::get('/', [OfferingController::class, 'index'])->name('offering');
         Route::get('/add/new', [OfferingController::class, 'addOffering'])->name('add_offering');
@@ -91,6 +88,7 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
         Route::post('/update/', [OfferingController::class, 'update'])->name('update_offering');
         Route::post('/delete/{id}/', [OfferingController::class, 'delete'])->name('delete_offering');
     });
+    Route::post('/save/event', [OfferingController::class, 'saveEvent'])->name('save_event');
 
     Route::prefix('discount')->group(function () {
         Route::get('/', [DiscountController::class, 'index'])->name('discount');

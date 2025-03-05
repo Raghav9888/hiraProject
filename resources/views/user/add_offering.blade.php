@@ -156,7 +156,8 @@
                                                 <label for="service-hours" class="fw-bold mb-4">Service hours</label>
                                                 <select class="form-select"
                                                         name="availability_type" data-type="change"
-                                                        data-target-one="custom_hours" data-match-one="own_specific_date">
+                                                        data-target-one="custom_hours"
+                                                        data-match-one="own_specific_date">
                                                     <option value="">Following store hours</option>
                                                     <option value="every_day">Every day</option>
                                                     <option value="every_monday">Every monday</option>
@@ -303,25 +304,28 @@
                                             <label class="form-check-label mb-3 fw-bold"
                                                    for="can-be-cancelled">Requires Confirmation</label>
                                         </div>
-                                        <div class="d-flex" style="gap: 20px;">
-                                            <button class="update-btn">Save</button>
-                                        </div>
+
                                     </div>
                                     <div class="tab-pane fade" id="events" role="tabpanel" aria-labelledby="events-tab"
                                          tabindex="0">
+
                                         <div class="my-4">
                                             <label for="specify" class="fw-bold">Specify</label>
-                                            <select id="specify" name="specify" class="form-select" data-type="change"
-                                                    data-target-one="date_and_time_div" data-match-one="one_time_event"  data-match-two="recurring_event"
+                                            <select id="specify" name="specify" class="form-select"
+                                                    data-type="change"
+                                                    data-target-one="date_and_time_div"
+                                                    data-match-one="one_time_event" data-match-two="recurring_event"
                                                     data-target-two="recurring_day_div">
-                                                <option>Select the event type</option>
+                                                <option value="">Select the event type</option>
                                                 <option value="one_time_event">One time event</option>
                                                 <option value="recurring_event">Recurring event</option>
                                             </select>
                                         </div>
+
                                         <div class="mb-4 d-none flex-column" id="date_and_time_div">
                                             <label for="service-hours" class="fw-bold">Date and time</label>
-                                            <input type="datetime-local" class="form-control" placeholder="" name="">
+                                            <input type="datetime-local" class="form-control" placeholder=""
+                                                   name="date_and_time">
                                         </div>
 
                                         <div class="mb-4 d-none flex-column" id="recurring_day_div">
@@ -384,7 +388,8 @@
                                         </div>
                                         <div class="row">
                                             <div class="col mb-4">
-                                                <label for="type" class="fw-bold">Scheduling window (How far in advance
+                                                <label for="type" class="fw-bold">Scheduling window (How far in
+                                                    advance
                                                     they can book)</label>
                                                 <select id="type" class="form-select" name="scheduling_window">
                                                     <option value="15 minutes">15 minutes</option>
@@ -410,11 +415,13 @@
                                         <div class="row">
                                             <div class="col mb-4">
                                                 <div class="d-flex justify-content-between">
-                                                    <label for="service-hours" class="fw-bold">Email template</label>
+                                                    <label for="service-hours" class="fw-bold">Email
+                                                        template</label>
 
                                                     <p>Maximum length of 500 words</p>
                                                 </div>
-                                                <textarea class="form-control" name="email_template" id="email_template"
+                                                <textarea class="form-control" name="email_template"
+                                                          id="email_template"
                                                           placeholder=""></textarea>
                                                 <p id="word-count">0 / 500 words</p>
                                             </div>
@@ -427,10 +434,13 @@
                                         </div>
                                         <div class="mb-4">
                                             <div class="form-check offering-check">
-                                                <input type="checkbox" class="form-check-input" id="can-be-cancelled"
-                                                       data-type="hide" data-id="cancellation_time" name="is_cancelled">
+                                                <input type="checkbox" class="form-check-input"
+                                                       id="can-be-cancelled"
+                                                       data-type="hide" data-id="cancellation_time"
+                                                       name="is_cancelled">
                                                 <label class="form-check-label mb-3 fw-bold"
-                                                       for="can-be-cancelled">Cancellation (How far in advance can this
+                                                       for="can-be-cancelled">Cancellation (How far in advance can
+                                                    this
                                                     be cancelled)</label>
                                             </div>
                                             <div class="col-md-6 mb-4 d-none" id="cancellation_time">
@@ -470,6 +480,9 @@
 
                                 </div>
                             </div>
+                        </div>
+                        <div class="d-flex" style="gap: 20px;">
+                            <button class="update-btn">Save</button>
                         </div>
                     </form>
                 </div>
