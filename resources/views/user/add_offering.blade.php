@@ -265,7 +265,7 @@
                                                 <input type="checkbox" class="form-check-input" id="can-be-cancelled"
                                                        data-type="hide" data-id="cancellation_time" name="is_cancelled">
                                                 <label class="form-check-label mb-3 fw-bold"
-                                                       for="can-be-cancelled">Cancellation (How far in advance)</label>
+                                                       for="can-be-cancelled">Cancellation (How far in advance can this be cancelled)</label>
                                             </div>
                                             <div class="col-md-6 mb-4 d-none" id="cancellation_time">
                                                 <label class="fw-bold">Cancellation time</label>
@@ -406,7 +406,7 @@
                                                 <input type="checkbox" class="form-check-input" id="can-be-cancelled"
                                                        data-type="hide" data-id="cancellation_time" name="is_cancelled">
                                                 <label class="form-check-label mb-3 fw-bold"
-                                                       for="can-be-cancelled">Cancellation (How far in advance)</label>
+                                                       for="can-be-cancelled">Cancellation (How far in advance can this be cancelled)</label>
                                             </div>
                                             <div class="col-md-6 mb-4 d-none" id="cancellation_time">
                                                 <label class="fw-bold">Cancellation time</label>
