@@ -66,7 +66,7 @@ class OfferingController extends Controller
             "client_price" => $input['client_price'],
             "tax_amount" => $input['tax_amount'],
             "scheduling_window" => $input['scheduling_window'],
-            "buffer_time" => new \DateTime($input['buffer_time']),
+//            "buffer_time" => new \DateTime($input['buffer_time']),
             "email_template" => $input['email_template'],
             "intake_form" => $input['intake_form'],
             "is_cancelled" => (isset($input['is_cancelled']) && ($input['is_cancelled'] == 'on')) ? 1 : 0,
@@ -86,8 +86,11 @@ class OfferingController extends Controller
         $event = new Event();
 
 
+
+        $offering = Offering::create($offeringData);
+
         $data = [
-            'offering_id' => $input['offering_id'],
+            'offering_id' => $offering->id,
             'specify' => $input['specify'],
             'date_and_time' => $input['date_and_time'],
             'recurring_days' => $input['recurring_days'],
@@ -104,7 +107,7 @@ class OfferingController extends Controller
         ];
 
         $event = Event::create($data);
-        $offering = Offering::create($offeringData);
+
         return redirect()->route('offering')->with('success', 'Offering created successfully!');
     }
 
