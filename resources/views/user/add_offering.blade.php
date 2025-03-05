@@ -12,24 +12,24 @@
                     <form method="POST" action="{{ route('store_offering') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Name</label>
+                            <label for="exampleInputEmail1" class="form-label fw-bold">Name</label>
                             <input type="text" class="form-control" name="name" id="exampleInputEmail1"
                                    aria-describedby="emailHelp" placeholder="">
                         </div>
                         <div class="mb-3">
-                            <label for="floatingTextarea">Description</label>
+                            <label for="floatingTextarea" class="fw-bold">Description</label>
                             <textarea class="form-control" name="long_description"
                                       placeholder="please add a full description here"
                                       id="floatingTextarea"></textarea>
                         </div>
                         <div class="mb-3">
-                            <label for="floatingTextarea">Short Description</label>
+                            <label for="floatingTextarea" class="fw-bold">Short Description</label>
                             <textarea class="form-control" name="short_description"
                                       placeholder="please add a full description here"
                                       id="floatingTextarea"></textarea>
                         </div>
                         <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Location</label>
+                            <label for="exampleInputEmail1" class="form-label fw-bold">Location</label>
                             <select name="location[]" multiple="multiple" class="form-control select2">
                                 @foreach($locations as $location)
                                     <option value="{{$location->id}}">
@@ -39,7 +39,7 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label">I help with:</label>
+                            <label for="exampleInputPassword1" class="form-label fw-bold">I help with</label>
 
                             <select name="help[]" multiple="multiple" class="form-control select2">
                                 @foreach($IHelpWith as $term)
@@ -48,7 +48,7 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label">Categories - Specifies the
+                            <label for="exampleInputPassword1" class="form-label fw-bold">Categories - Specifies the
                                 type of
                                 service/offering you're providing (e.g. massage is the category and a
                                 specific treatment
@@ -62,7 +62,7 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="" class="form-label">Tags - Used to highlight
+                            <label for="" class="form-label fw-bold">Tags - Used to highlight
                                 specific
                                 features of a service/offering and help get found in search, e.g., [related
                                 to services
@@ -77,8 +77,8 @@
                             </select>
                         </div>
 
-                        <h4 class="mb-4 featured-image-tag">Featured Image</h4>
                         <div class="mb-3">
+                            <label class="pt-4 featured-image-tag fw-bold">Featured Image</label>
                             <input type="file" id="fileInput" name="featured_image" class="hidden" accept="image/*"
                                    onchange="previewImage(event)" style="display: none;">
                             <label for="fileInput" class="image-preview" id="imagePreview">
@@ -87,14 +87,15 @@
                             <p style="text-align: start;" class="text">Set featured image</p>
                         </div>
                         <hr>
+                        <div class="mb-4">
+                            <label for="type" class="fw-bold">Type of offering</label>
+                            <select id="type" name="offering_type" class="form-select ">
+                                <option value="in-person">In person Offering</option>
+                                <option value="virtual">Virtual Offering</option>
+                            </select>
+                        </div>
                         <div class="container">
-                            <div class="mb-4">
-                                <label for="type" class="fw-bold">Type of offering</label>
-                                <select id="type" name="offering_type" class="form-select ">
-                                    <option value="in-person">In person Offering</option>
-                                    <option value="virtual">Virtual Offering</option>
-                                </select>
-                            </div>
+
                             <div class="mb-4">
                                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                                     <li class="nav-item" role="presentation">
