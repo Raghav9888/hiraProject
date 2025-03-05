@@ -100,7 +100,7 @@ class PractitionerController extends Controller
     {
         $user = Auth::user();
         $userDetails = $user->userDetail;
-        $locations =Locations::get();
+        $defaultLocations = Locations::get();
         $users = User::get();
         $endorsements = $userDetails && $userDetails->endorsements
             ? json_decode($userDetails->endorsements, true)
@@ -108,7 +108,18 @@ class PractitionerController extends Controller
 
         $endorsedUsers = User::whereIn('id', $endorsements)->get();
 
-        return view('user.dashboard', compact('user','users', 'userDetails','locations' ,'endorsedUsers'));
+        $locations = [];
+        foreach ($defaultLocations as $location) {
+            $locations[$location->id] = $location->name;
+        }
+        json_encode($locations);
+        return view('user.dashboard', [
+            'user' => $user,
+            'users' => $users,
+            'userDetails' => $userDetails,
+            'defaultLocations' => $locations,
+            'endorsedUsers' => $endorsedUsers
+        ]);
     }
 
     public function updateProfile(Request $request)
@@ -143,7 +154,7 @@ class PractitionerController extends Controller
             'is_opening_hours' => isset($input['is_opening_hours']) && $input['is_opening_hours'] == 'on' ? 1 : 0,
             'is_notice' => isset($input['is_notice']) && $input['is_notice'] == 'on' ? 1 : 0,
             'is_google_analytics' => isset($input['is_google_analytics']) && $input['is_google_analytics'] == 'on' ? 1 : 0,
-            'amenities' => isset($input['amenities']) && count($input['amenities']) > 0? json_encode($input['amenities']): null
+            'amenities' => isset($input['amenities']) && count($input['amenities']) > 0 ? json_encode($input['amenities']) : null
         ];
 
         if ($request->hasFile('media_images')) {

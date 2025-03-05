@@ -126,7 +126,7 @@
                                 <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
                                     <div class="featured-dv">
                                         <a href="{{route('practitioner_detail', $endorsedUser->id)}}">
-                                            <img src="{{ $imageUrl }}" alt="person">
+                                            <img src="{{ $imageUrl }}" alt="person" class="img-fluid">
                                             {{--                                <label for="">0.4 Km Away</label>--}}
                                             <div class="d-flex justify-content-between align-items-center mb-2">
                                                 <h4>{{  $endorsedUser->name }}</h4>
@@ -171,15 +171,10 @@
             e.preventDefault();
             let search = $('#endorsements').val();
 
-            let locations = @json($locations);
-            let locationArr = [];
             let imagePath = `{{env('media_path')}}`;
             let localPath = `{{env('local_path')}}`;
-
-            locations.forEach(function (location) {
-                locationArr[location.id] = location.name;
-            });
-
+            let locationArr = @json($defaultLocations);
+            console.log(locationArr);
             $.ajax({
                 url: '/search/practitioner',
                 type: 'get',
