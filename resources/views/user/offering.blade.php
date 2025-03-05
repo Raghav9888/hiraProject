@@ -22,6 +22,7 @@
                     profile.</p>
                 <div class="offering-btn-drop mb-4">
                     <a href="{{ route('add_offering') }}" class="category-load-more">Add Offering</a>
+                    <a href="{{ route('discount') }}" class="category-load-more">Add Discount</a>
                     {{--                    <div class="dropdown">--}}
                     {{--                        <button class="dropdown-button dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">--}}
                     {{--                           Discount--}}

@@ -13,11 +13,6 @@
         <a href="{{ route('offering') }}">
             Offerings
         </a>
-        <div class="dropdown {{ Request::is('discount') ? 'active' : '' }}">
-            <a href="{{ route('discount') }}">
-                Discount
-            </a>
-        </div>
     </li>
     <li class="{{ Request::is('appointment') ? 'active' : '' }}">
         <a href="{{ route('appointment') }}">
