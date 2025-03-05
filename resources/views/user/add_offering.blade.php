@@ -29,15 +29,11 @@
                         </div>
                         <div class="mb-3">
                             <label for="floatingTextarea" class="fw-bold">Short Description</label>
-                            <textarea class="form-control" name="short_description"
-                                      placeholder="Please add a short description here"
-                                      id="floatingTextarea"></textarea>
+                            <textarea class="form-control" name="short_description" placeholder="Please add a short description here" id="floatingTextarea"></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="floatingTextarea" class="fw-bold">Description</label>
-                            <textarea class="form-control" name="long_description"
-                                      placeholder="Please add a full description here"
-                                      id="floatingTextarea"></textarea>
+                            <textarea class="form-control" name="long_description" placeholder="Please add a full description here" id="floatingTextarea"></textarea>
                         </div>
                         <div class="mb-4">
                             <label for="type" class="fw-bold">Type of offering</label>
@@ -172,7 +168,7 @@
                                                     </option>
                                                 </select>
                                             </div>
-                                            <div class="d-none" id="custom_hours" style="gap: 20px;">
+                                            <div class="d-none mt-2" id="custom_hours" style="gap: 20px;">
                                                 <div>
                                                     <label for="service-hours" class="fw-bold">From</label>
                                                     <input type="datetime-local" class="form-control"
@@ -482,9 +478,10 @@
         let matchValue = $(this).data('match');
 
         if($(this).val() == matchValue){
-            $(`#${targetValue}`).removeClass('d-none');
+            $(`#${targetValue}`).removeClass('d-none').addClass('d-flex');
+
         }else{
-            $(`#${targetValue}`).addClass('d-none');
+            $(`#${targetValue}`).addClass('d-none').removeClass('d-flex');
         }
     });
 </script>
