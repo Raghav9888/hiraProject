@@ -371,7 +371,20 @@
                                             <p style="text-align: start;">Select your timezone</p>
                                         </div>
                                         <div class="col mb-2">
-                                            <label for="service-hours" class="fw-bold mb-4">Store hours</label>
+                                            <label for="service-hours" class="fw-bold mb-4">Store hours availability</label>
+                                            <div class="col mb-2">
+                                                <label class="form-check-label mb-3 fw-bold"
+                                                       for="availability">Availability</label><br>
+                                                <select id="type" class="form-select" name="availability_type">
+                                                    <option>Every Day</option>
+                                                    <option>Every Monday</option>
+                                                    <option>Every Tuesday</option>
+                                                    <option>Every Wednesday</option>
+                                                    <option>Every Thursday</option>
+                                                    <option>Every Friday</option>
+                                                    <option>Weekends only - Every Sat & Sundays </option>
+                                                </select>
+                                            </div>
                                             <div class="d-flex" style="gap: 20px;">
                                                 <div>
                                                     <label for="service-hours" class="fw-bold">From</label>
@@ -385,19 +398,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col">
-                                            <label class="form-check-label mb-3 fw-bold"
-                                                   for="availability">Availability</label><br>
-                                            <select id="type" class="form-select" name="availability_type">
-                                                <option>Monday</option>
-                                                <option>Tuesday</option>
-                                                <option>Wednesday</option>
-                                                <option>Thursday</option>
-                                                <option>Friday</option>
-                                                <option>All week days</option>
-                                                <option>Weekends only</option>
-                                            </select>
-                                        </div>
+
 
                                         <div class="d-flex" style="gap: 20px;">
                                             <button type="submit" class="update-btn ms-0">Save Changes</button>
