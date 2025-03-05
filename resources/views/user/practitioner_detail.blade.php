@@ -383,13 +383,13 @@
                 <div class="col-sm-12 col-md-3 col-lg-3">
                     <div class="practitioner-detail-right-dv">
                         <div class="practitioner-detail-right-dv-lists mb-5">
-                            <h5 class="accordion-button py-2" type="button" data-bs-toggle="collapse"
+                            <h5 class="py-2" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapseOne"><i class="fa-solid fa-circle me-3"></i>Offerings</h5>
-                            <h5 class="accordion-button py-2" type="button" data-bs-toggle="collapse"
+                            <h5 class="py-2" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapseTwo"><i class="fa-solid fa-circle me-3"></i>Ailments</h5>
-                            <h5 class="accordion-button py-2" type="button" data-bs-toggle="collapse"
+                            <h5 class="py-2" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapseThree"><i class="fa-solid fa-circle me-3"></i>Treatments</h5>
-                            <h5 class="accordion-button py-2" type="button" data-bs-toggle="collapse"
+                            <h5 class="py-2" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapseFour"><i class="fa-solid fa-circle me-3"></i>Certifications
                             </h5>
                             {{--                            <h5 data-bs-toggle="collapse" data-bs-target="#collapseSix"><i class="fa-solid fa-circle me-3"></i>Reviews</h5>--}}
