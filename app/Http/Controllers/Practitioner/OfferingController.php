@@ -81,12 +81,6 @@ class OfferingController extends Controller
             $image->move(public_path('uploads/practitioners/' . $user_id . '/offering/'), $imageName);
             $offeringData['featured_image'] = $imageName;
         }
-
-
-        $event = new Event();
-
-
-
         $offering = Offering::create($offeringData);
 
         $data = [

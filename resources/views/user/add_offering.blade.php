@@ -316,7 +316,7 @@
                                                     data-target-one="date_and_time_div"
                                                     data-match-one="one_time_event" data-match-two="recurring_event"
                                                     data-target-two="recurring_day_div">
-                                                <option>Select the event type</option>
+                                                <option value="">Select the event type</option>
                                                 <option value="one_time_event">One time event</option>
                                                 <option value="recurring_event">Recurring event</option>
                                             </select>
