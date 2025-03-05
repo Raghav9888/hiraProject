@@ -18,18 +18,18 @@
                         @csrf
                         <input type="hidden" name="id" value="{{$offering->id}}">
                         <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Offering Name</label>
+                            <label for="exampleInputEmail1" class="fw-bold">Offering Name</label>
                             <input type="text" class="form-control" name="name" id="exampleInputEmail1"
                                    aria-describedby="emailHelp" placeholder="" value="{{ $offering->name}}">
                         </div>
                         <div class="mb-3">
-                            <label for="floatingTextarea">Short Description</label>
+                            <label for="floatingTextarea" class="fw-bold">Short Description</label>
                             <textarea class="form-control" name="short_description"
                                       placeholder="please add a full description here"
                                       id="floatingTextarea">{{ $offering->short_description}}</textarea>
                         </div>
                         <div class="mb-3">
-                            <label for="floatingTextarea">Description</label>
+                            <label for="floatingTextarea" class="fw-bold">Description</label>
                             <textarea class="form-control" name="long_description"
                                       placeholder="please add a full description here"
                                       id="floatingTextarea">{{ $offering->long_description}}</textarea>
@@ -49,7 +49,7 @@
                             </select>
                         </div>
                         <div class="mb-3 {{  $offering->offering_type  == 'in-person' ? '': 'd-none'}}" id="location">
-                            <label for="exampleInputEmail1" class="form-label">Location</label>
+                            <label for="exampleInputEmail1" class="fw-bold">Location</label>
                             <select name="location" class="form-control">
                                 @foreach($locations as $location)
                                     <option
@@ -60,13 +60,15 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label">Categories - Specifies the
+                            <label for="exampleInputPassword1" class="fw-bold">Categories</label>
+                            <span>- Specifies the
                                 type of
                                 service/offering you're providing (e.g. massage is the category and a
                                 specific treatment
                                 would be Ayuvedic massage and hot stone massage)
                                 Practitioner Offerings
-                            </label>
+                            </span>
+
                             <select name="categories[]" multiple="multiple" class="form-control category-select2">
 
                                 @foreach($categories as $term)
@@ -77,13 +79,13 @@
 
                         </div>
                         <div class="mb-3">
-                            <label for="" class="form-label">Tags - Used to highlight
+                            <label for="" class="fw-bold">Tags </label> <span> - Used to highlight
                                 specific
                                 features of a service/offering and help get found in search, e.g., [related
                                 to services
                                 of massage as the category] Ayuvedic, hot stone, back ache, back pain,
                                 muscle tension
-                            </label>
+                            </span>
                         </div>
                         <div class="form-group">
                             <select name="tags[]" multiple="multiple" class="form-control select2" id="">
@@ -98,8 +100,8 @@
                             </select>
 
                         </div>
-                        <h4 class="mb-4 featured-image-tag">Featured Image</h4>
                         <div class="mb-3">
+                            <label class="pt-4 featured-image-tag fw-bold">Featured Image</label>
                             <input type="file" id="fileInput" name="featured_image" class="hidden" accept="image/*"
                                    onchange="previewImage(event)" style="display: none;">
                             @if(isset($offering->featured_image))
