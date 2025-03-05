@@ -80,23 +80,27 @@
                         </div>
                         <div class="row">
                             <label for="type" class="fw-bold">Tags</label>
-                            <p style="text-align: start;">These are keywords used to help
-                                identify more
-                                specific
-                                versions of something. For example, a good tag for a massage
-                                could be
-                                "Deep
-                                Tissue".</p>
+                            <p style="text-align: start;">
+                                These are keywords used to help identify more specific versions of something.
+                                For example, a good tag for a massage could be "Deep Tissue".
+                            </p>
                             <div class="col-md-6">
+                                @php
+                                    $selectedTags = json_decode($offering->tags ?? '[]', true);
+                                @endphp
+
                                 <div class="form-group select2-div">
-                                    <select name="tags[]" id="tags" multiple="multiple"
-                                            class="form-select location-select2">
-                                        @foreach($practitionerTag as $term)
-                                            <option value="{{$term->id}}">{{$term->name}}</option>
+                                    <select name="tags[]" id="tags" multiple="multiple" class="form-select location-select2">
+                                        @foreach($practitionerTag as $tag)
+                                            <option value="{{$tag->id}}"
+                                                {{ in_array($tag->id, $selectedTags) ? 'selected' : '' }}>
+                                                {{$tag->name}}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
+
                             <div class="col-md-6">
                                 <button class="update-btn mb-2 addterm" data-type="tags">Add
                                     New Term

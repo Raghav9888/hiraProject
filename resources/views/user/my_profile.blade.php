@@ -139,15 +139,22 @@
                                                 "Deep
                                                 Tissue".</p>
                                             <div class="col-md-6">
+
+                                                @php
+                                                    $selectedTags = json_decode($userDetails->tags ?? '[]', true);
+                                                @endphp
+
                                                 <div class="form-group select2-div">
-                                                    <select name="tags[]" id="tags" multiple="multiple"
-                                                            class="form-select location-select2">
-                                                        <option></option>
-                                                        @foreach($practitionerTag as $term)
-                                                            <option value="{{$term->id}}">{{$term->name}}</option>
+                                                    <select name="tags[]" id="tags" multiple="multiple" class="form-select location-select2">
+                                                        @foreach($practitionerTag as $tag)
+                                                            <option value="{{$tag->id}}"
+                                                                {{ in_array($tag->id, $selectedTags) ? 'selected' : '' }}>
+                                                                {{$tag->name}}
+                                                            </option>
                                                         @endforeach
                                                     </select>
                                                 </div>
+
                                             </div>
                                             <div class="col-md-6">
                                                 <button class="update-btn mb-2 addterm" data-type="tags">Add
@@ -227,6 +234,7 @@
                                                 <option>Select</option>
                                                 @foreach($HowIHelp as $term)
                                             <option value="{{$term->id}}">{{$term->name}}</option>
+
 
 
 
