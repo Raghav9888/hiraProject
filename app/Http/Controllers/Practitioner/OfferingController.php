@@ -117,7 +117,7 @@ class OfferingController extends Controller
         $duplicateOffering = $originalOffering->replicate();
         $duplicateOffering->user_id = $user_id; // Assign the current user ID if necessary
         $duplicateOffering->name = $originalOffering->name . ' (Copy)';
-        
+
         // Handle the featured image duplication if it exists
         if ($originalOffering->featured_image) {
             $originalImagePath = public_path('uploads/practitioners/' . $user_id . '/offering/' . $originalOffering->featured_image);
@@ -212,7 +212,7 @@ class OfferingController extends Controller
         } else {
             $event->update($data);
         }
-        
+
         return redirect()->route('offering')->with('success', 'Offering updated successfully!');
     }
 
