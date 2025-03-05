@@ -303,9 +303,10 @@
                                     <div class="tab-pane fade" id="events" role="tabpanel" aria-labelledby="events-tab"
                                          tabindex="0">
                                         <div class="my-4">
-                                            <label for="booking-duration" class="fw-bold">Specific</label>
-                                            <select id="booking-duration" class="form-select">
-                                                <option>1 time event or reoccuring</option>
+                                            <label for="specific" class="fw-bold">Specific</label>
+                                            <select id="specific" name="specific" class="form-select">
+                                                <option>One time event</option>
+                                                <option>Recurring event</option>
                                             </select>
                                         </div>
                                         <div class="mb-4">
