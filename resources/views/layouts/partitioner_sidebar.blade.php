@@ -28,8 +28,8 @@
         </li>
         <li>
             <a href="{{route('help')}}">
-            <img src="{{url('./assets/images/Shopping List.svg')}}" alt="">
-            <p>Help</p>
+                <img src="{{url('./assets/images/Shopping List.svg')}}" alt="">
+                <p>Help</p>
             </a>
         </li>
     </ul>

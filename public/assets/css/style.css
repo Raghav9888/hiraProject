@@ -2051,7 +2051,7 @@ textarea, input[type="time"] {
     font-size: 14px;
     font-weight: 400;
     color: #E9DCCF;
-
+    text-align: center;
 }
 
 .positioned-dv ul li img {
