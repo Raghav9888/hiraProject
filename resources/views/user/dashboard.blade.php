@@ -211,7 +211,7 @@
                             <div class="col-sm-12 col-md-6 col-lg-4">
                                 <div class="browser-other-dv">
                                     <div class="d-flex justify-content-center">
-                                       <img src="${imageUrl}" alt="person" class="img-fit">
+                                       <img src="${imageUrl}" alt="person" class="img-fit img-fluid">
                                     </div>
                                     <h5>${practitioner.name}</h5>
                               <h6>${practitioner.bio && practitioner.bio.length > 0 ? practitioner.bio : ''}</h6>
