@@ -77,7 +77,6 @@ class PractitionerController extends Controller
         }
 
 
-
         return view('user.my_profile', compact(
             'user',
             'users',
@@ -265,7 +264,7 @@ class PractitionerController extends Controller
 
         $type = $request->type;
 
-        if (in_array($type, ['IHelpWith', 'HowIHelp', 'certifications','tags'])) {
+        if (in_array($type, ['IHelpWith', 'HowIHelp', 'certifications', 'tags'])) {
             $inputField = '<input type="text" class="' . $type . '_term" id="' . $type . '_term" name="' . $type . '_term" placeholder="Enter term">
             <button data-type="' . $type . '" class="update-btn mb-2 save_term">Add Term</button>';
 
@@ -368,6 +367,13 @@ class PractitionerController extends Controller
         $user = Auth::user();
         $userDetails = $user->userDetail;
         return view('user.community', compact('user', 'userDetails'));
+    }
+
+    public function help()
+    {
+        $user = Auth::user();
+        $userDetails = $user->userDetail;
+        return view('user.help', compact('user', 'userDetails'));
     }
 
 }

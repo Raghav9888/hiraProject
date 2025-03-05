@@ -58,6 +58,7 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
 Route::middleware(['auth', 'user-access:user'])->group(function () {
 
     Route::get('/my-profile', [PractitionerController::class, 'index'])->name('my_profile');
+    Route::get('/help', [PractitionerController::class, 'help'])->name('help');
 
     Route::get('/dashboard', [PractitionerController::class, 'dashboard'])->name('dashboard');
     Route::get('/community', [PractitionerController::class, 'community'])->name('community');
