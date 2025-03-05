@@ -12,6 +12,16 @@
                     <form method="POST" action="{{ route('store_offering') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-3">
+                            <label class="pt-4 featured-image-tag fw-bold">Featured Image</label>
+                            <input type="file" id="fileInput" name="featured_image" class="hidden" accept="image/*"
+                                   onchange="previewImage(event)" style="display: none;">
+                            <label for="fileInput" class="image-preview" id="imagePreview">
+                                <span>+</span>
+                            </label>
+                            <p style="text-align: start;" class="text">Set featured image</p>
+                        </div>
+                        
+                        <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label fw-bold">Offering Name</label>
                             <input type="text" class="form-control" name="name" id="exampleInputEmail1"
                                    aria-describedby="emailHelp" placeholder="">
@@ -89,16 +99,6 @@
                         </div>
                         <div id="tags-container">
 
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="pt-4 featured-image-tag fw-bold">Featured Image</label>
-                            <input type="file" id="fileInput" name="featured_image" class="hidden" accept="image/*"
-                                   onchange="previewImage(event)" style="display: none;">
-                            <label for="fileInput" class="image-preview" id="imagePreview">
-                                <span>+</span>
-                            </label>
-                            <p style="text-align: start;" class="text">Set featured image</p>
                         </div>
                         <hr>
                         <div class="container">
