@@ -16,45 +16,36 @@ class GoogleAuthController extends Controller
     {
         $client = new Google_Client();
         $client->setAuthConfig(storage_path('app/google-calendar/google-calendar.json'));
-        $client->setRedirectUri(route('google_callback'));
+        $client->setRedirectUri(route('google.callback'));
+        $client->setAccessType('offline'); // Request refresh token
+        $client->setApprovalPrompt('force'); // Force refresh token
+        $client->addScope(Google_Service_Calendar::CALENDAR);
 
-        $client->setAccessType('offline');
-        $client->setPrompt('consent');
-        $client->addScope('https://www.googleapis.com/auth/calendar.events');
-
-        return redirect()->away($client->createAuthUrl());
+        return redirect($client->createAuthUrl());
     }
 
     public function handleGoogleCallback(Request $request)
     {
-        if (!$request->has('code')) {
-            return redirect()->route('dashboard')->with('error', 'Google authentication failed.');
-        }
-
         $client = new Google_Client();
         $client->setAuthConfig(storage_path('app/google-calendar/google-calendar.json'));
-        $token = $client->fetchAccessTokenWithAuthCode($request->code);
 
+        $token = $client->fetchAccessTokenWithAuthCode($request->code);
         if (isset($token['error'])) {
             return redirect()->route('dashboard')->with('error', 'Google authentication failed.');
         }
 
-        Session::put('googleAuthSuccess', false);
-        if ($token['access_token'] && $token['refresh_token']) {
-            Session::put('googleAuthSuccess', true);
-        }
+        $client->setAccessToken($token);
 
-        $user = Auth::user();
-        GoogleAccount::updateOrCreate(
-            ['user_id' => $user->id],
+        $googleAccount = GoogleAccount::updateOrCreate(
+            ['user_id' => Auth::id()],
             [
                 'access_token' => $token['access_token'],
-                'refresh_token' => $token['refresh_token'] ?? GoogleAccount::where('user_id', $user->id)->value('refresh_token'),
+                'refresh_token' => $token['refresh_token'] ?? null,
                 'expires_at' => now()->addSeconds($token['expires_in']),
             ]
         );
 
-        return redirect()->route('calendar')->with('success', 'Google Calendar connected successfully!');
+        return redirect()->route('dashboard')->with('success', 'Google account connected successfully!');
     }
 
     public function disconnectToGoogle()
