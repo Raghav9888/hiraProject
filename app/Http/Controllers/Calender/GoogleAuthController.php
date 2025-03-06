@@ -35,7 +35,7 @@ class GoogleAuthController extends Controller
         }
 
         $client->setAccessToken($token);
-
+dd($client);
         $googleAccount = GoogleAccount::updateOrCreate(
             ['user_id' => Auth::id()],
             [
