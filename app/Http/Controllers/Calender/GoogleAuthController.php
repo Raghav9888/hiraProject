@@ -19,8 +19,8 @@ class GoogleAuthController extends Controller
         $client->setRedirectUri(route('google_callback'));
         $client->setAccessType('offline'); // Request refresh token
         $client->setApprovalPrompt('force'); // Force refresh token
-        $client->addScope(Google_Service_Calendar::CALENDAR);
-
+        $client->addScope('https://www.googleapis.com/auth/calendar.events');
+        $client->setPrompt('consent');
         return redirect($client->createAuthUrl());
     }
 
