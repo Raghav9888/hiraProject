@@ -237,6 +237,9 @@
                                             <option value="{{$term->id}}">{{$term->name}}</option>
 
 
+
+
+
                                         @endforeach
                                         </select>
                                     </div>
@@ -369,64 +372,74 @@
 
                                             <p style="text-align: start;">Select your timezone</p>
                                         </div>
-                                        <div class="col mb-2">
-                                            <div class="mb-4 store_hours-checkbox-container">
-                                                <label for="service-hours" class="fw-bold mb-4">Store hours
-                                                    availability</label>
+                                        <div class="row">
+                                            <div class="col-md-12 store_hours-checkbox-container">
+                                                <label for="service-hours" class="fw-bold">Store Hours
+                                                    Availability</label>
+                                            </div>
+                                            <div class="col-md-12">
                                                 <div class="row">
                                                     <?php
-                                                    $storeAvailabilities = $userDetails->store_hours ? json_decode($userDetails->store_hours, true) : [];
+                                                    $storeAvailabilities = $userDetails->store_availabilities ? json_decode($userDetails->store_availabilities, true) : [];
 
                                                     $availabilities = [
-                                                        'Every Day' => 'every_day',
-                                                        'Every Monday' => 'every_monday',
-                                                        'Every Tuesday' => 'every_tuesday',
-                                                        'Every Wednesday' => 'every_wednesday',
-                                                        'Every Thursday' => 'every_thursday',
-                                                        'Every Friday' => 'every_friday',
-                                                        'Weekends only - Every Sat & Sundays' => 'weekends'
+                                                        'Every Day',
+                                                        'Every Monday',
+                                                        'Every Tuesday',
+                                                        'Every Wednesday',
+                                                        'Every Thursday',
+                                                        'Every Friday',
+                                                        'Weekends only - Every Sat & Sundays'
                                                     ];
 
-                                                    foreach ($availabilities as $label => $key) {
+                                                    foreach ($availabilities as $index => $availability) {
+                                                        // Convert to a proper key (e.g., 'every_day', 'every_monday', etc.)
+                                                        $key = strtolower(str_replace(' ', '_', $availability));
+
+                                                        // Retrieve stored values if available
+                                                        $fromValue = isset($storeAvailabilities[$key]['from']) ? $storeAvailabilities[$key]['from'] : '';
+                                                        $toValue = isset($storeAvailabilities[$key]['to']) ? $storeAvailabilities[$key]['to'] : '';
+
+                                                        // Check if checkbox should be selected
                                                         $checked = isset($storeAvailabilities[$key]) ? 'checked' : '';
-                                                        $fromValue = $storeAvailabilities[$key]['from'] ?? '';
-                                                        $toValue = $storeAvailabilities[$key]['to'] ?? '';
                                                         ?>
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-4 col-sm-6 col-12 mb-3">
                                                         <div class="form-check">
                                                             <input type="checkbox"
-                                                                   class="form-check-input input_checkbox  store_availabilities-checkbox"
-                                                                   id="store_availabilities_<?= $key; ?>"
-                                                                   name="store_availabilities[<?= $key; ?>][checked]"
-                                                                   value="1" <?= $checked; ?>
-                                                                   onchange="toggleTimeInputs('<?= $key; ?>')">
-                                                            <label class="form-check-label" for="store_availabilities_<?= $key; ?>"><?= $label; ?></label>
+                                                                   class="form-check-input input_checkbox store_availabilities-checkbox"
+                                                                   id="store_availabilities<?= $index + 1; ?>"
+                                                                   name="store_availabilities[<?= $key; ?>][enabled]"
+                                                                   value="1" <?= $checked; ?>>
+                                                            <label class="form-check-label"
+                                                                   for="store_availabilities<?= $index + 1; ?>"><?= $availability; ?></label>
                                                         </div>
-                                                        <div class="row">
-                                                            <div class="col-md-12 time-inputs py-4" id="time_inputs_<?= $key; ?>" style="display: <?= $checked ? 'block' : 'none'; ?>;">
-                                                                <div class="d-flex" style="gap: 15px;">
-                                                                    <div>
-                                                                        <label class="fw-bold">From</label>
-                                                                        <input type="time" class="form-control" name="store_availabilities[<?= $key; ?>][from]" value="<?= $fromValue; ?>">
-                                                                    </div>
-                                                                    <div>
-                                                                        <label class="fw-bold">To</label>
-                                                                        <input type="time" class="form-control" name="store_availabilities[<?= $key; ?>][to]" value="<?= $toValue; ?>">
-                                                                    </div>
+
+                                                        <!-- Time Selection (Shown only if checkbox is checked) -->
+                                                        <div class="store-time-input" id="store_time_<?= $index + 1; ?>"
+                                                             style="display: <?= $checked ? 'block' : 'none'; ?>;">
+                                                            <div class="row">
+                                                                <div class="col-6">
+                                                                    <label class="fw-bold">From</label>
+                                                                    <input type="datetime-local" class="form-control"
+                                                                           name="store_availabilities[<?= $key; ?>][from]"
+                                                                           value="<?= htmlspecialchars($fromValue); ?>">
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <label class="fw-bold">To</label>
+                                                                    <input type="datetime-local" class="form-control"
+                                                                           name="store_availabilities[<?= $key; ?>][to]"
+                                                                           value="<?= htmlspecialchars($toValue); ?>">
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-
                                                     <?php } ?>
                                                 </div>
-
-
-
                                             </div>
-                                            <div class="d-flex" style="gap: 20px;">
-                                                <button type="submit" class="update-btn ms-0">Save Changes</button>
-                                            </div>
+                                        </div>
+
+                                        <div class="d-flex" style="gap: 20px;">
+                                            <button type="submit" class="update-btn ms-0">Save Changes</button>
                                         </div>
                                     </form>
                                 </div>
@@ -532,10 +545,18 @@
     </section>
 
     <script>
-        function toggleTimeInputs(key) {
-            var checkbox = document.getElementById('store_availabilities_' + key);
-            var timeInputs = document.getElementById('time_inputs_' + key);
-            timeInputs.style.display = checkbox.checked ? 'block' : 'none';
-        }
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll(".store_availabilities-checkbox").forEach(function(checkbox) {
+                checkbox.addEventListener("change", function() {
+                    let inputDiv = document.getElementById("store_time_" + this.id.replace("store_availabilities", ""));
+                    if (this.checked) {
+                        inputDiv.style.display = "block";
+                    } else {
+                        inputDiv.style.display = "none";
+                        inputDiv.querySelectorAll("input").forEach(input => input.value = ""); // Clear values when unchecked
+                    }
+                });
+            });
+        });
     </script>
 @endsection

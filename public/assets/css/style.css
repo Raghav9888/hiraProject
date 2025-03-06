@@ -2613,9 +2613,9 @@ textarea, input[type="time"] {
     padding-bottom: 22px !important;
 }
 
-.amenties-checkbox-container input , .store_hours-checkbox-container .input_checkbox {
-    padding: initial;
-    height: 1em;
+.amenties-checkbox-container input , .input_checkbox {
+    padding: initial !important;
+    height: 1em !important;
 }
 
 .add-offering-dv .nav-link.active {
