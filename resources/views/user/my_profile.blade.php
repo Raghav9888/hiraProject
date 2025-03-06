@@ -381,7 +381,6 @@
                                                 <div class="row">
                                                     <?php
                                                     $storeAvailabilities = $userDetails->store_availabilities ? json_decode($userDetails->store_availabilities, true) : [];
-
                                                     $availabilities = [
                                                         'Every Day',
                                                         'Every Monday',
@@ -401,7 +400,7 @@
                                                         $toValue = isset($storeAvailabilities[$key]['to']) ? $storeAvailabilities[$key]['to'] : '';
 
                                                         // Check if checkbox should be selected
-                                                        $checked = isset($storeAvailabilities[$key]) ? 'checked' : '';
+                                                        $checked = isset($storeAvailabilities[$key]['enabled']) ? 'checked' : '';
                                                         ?>
                                                     <div class="col-md-4 col-sm-6 col-12 mb-3">
                                                         <div class="form-check">
