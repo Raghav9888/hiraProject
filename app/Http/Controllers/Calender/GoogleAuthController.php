@@ -16,7 +16,7 @@ class GoogleAuthController extends Controller
     {
         $client = new Google_Client();
         $client->setAuthConfig(storage_path('app/google-calendar/google-calendar.json'));
-        $client->setRedirectUri(route('google.callback'));
+        $client->setRedirectUri(route('google_callback'));
         $client->setAccessType('offline'); // Request refresh token
         $client->setApprovalPrompt('force'); // Force refresh token
         $client->addScope(Google_Service_Calendar::CALENDAR);
