@@ -26,6 +26,7 @@ class GoogleAuthController extends Controller
 
     public function handleGoogleCallback(Request $request)
     {
+        dd('f');
         $client = new Google_Client();
         $client->setAuthConfig(storage_path('app/google-calendar/google-calendar.json'));
 
@@ -35,7 +36,7 @@ class GoogleAuthController extends Controller
         }
 
         $client->setAccessToken($token);
-dd($client);
+
         $googleAccount = GoogleAccount::updateOrCreate(
             ['user_id' => Auth::id()],
             [
