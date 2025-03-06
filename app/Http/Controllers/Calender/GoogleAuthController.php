@@ -31,7 +31,7 @@ class GoogleAuthController extends Controller
         $client->setAuthConfig(storage_path('app/google-calendar/google-calendar.json'));
 
         $token = $client->fetchAccessTokenWithAuthCode($request->code);
-        dd($token);
+        
         if (isset($token['error'])) {
             return redirect()->route('dashboard')->with('error', 'Google authentication failed.');
         }
