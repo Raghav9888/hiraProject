@@ -2605,7 +2605,7 @@ textarea, input[type="time"] {
 }
 
 
-.select2-div span.select2-selection.select2-selection--multiple {
+.select2-div span.select2-selection.select2-selection--multiple ,.select2-div span.select2-selection.select2-selection--single {
     padding: 3px 10px 12px 14px !important;
 }
 

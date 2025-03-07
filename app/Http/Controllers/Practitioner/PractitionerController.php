@@ -59,21 +59,27 @@ class PractitionerController extends Controller
         $tags = json_decode($userDetails->tags, true);
         $users = User::where('role', 1)->with('userDetail')->get();
 
+        $allowedOffsets = [
+            "UTC-8", "UTC-7", "UTC-6", "UTC-5", "UTC-4", "UTC-3:30"
+        ];
+
         $timezones = [];
 
         foreach (timezone_identifiers_list() as $timezone) {
             $dateTimeZone = new \DateTimeZone($timezone);
             $offset = $dateTimeZone->getOffset(new \DateTime("now", new \DateTimeZone("UTC"))) / 3600;
-            $offsetFormatted = "UTC" . ($offset >= 0 ? "+$offset" : $offset);
+            $offsetFormatted = "UTC" . ($offset == 0 ? "" : ($offset > 0 ? "+$offset" : $offset));
 
-            $parts = explode("/", $timezone);
-            $countryName = end($parts);
+            if (in_array($offsetFormatted, $allowedOffsets)) {
+                $parts = explode("/", $timezone);
+                $countryName = end($parts);
 
-            // Format the timezone data
-            $timezones[] = [
-                'id' => $timezone,
-                'name' => "($offsetFormatted) $countryName",
-            ];
+                // Format the timezone data
+                $timezones[] = [
+                    'id' => $timezone,
+                    'name' => "($offsetFormatted) $countryName",
+                ];
+            }
         }
 
 
