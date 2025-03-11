@@ -391,7 +391,7 @@
 
                                         <div class="my-4">
                                             <label for="specify" class="fw-bold">Specify</label>
-                                            <select id="specify" name="specify" class="form-select"
+                                            <select id="specify" name="specify_event" class="form-select"
                                                     data-type="change"
                                                     data-target-one="date_and_time_div"
                                                     data-match-one="one_time_event" data-match-two="recurring_event"
@@ -413,14 +413,14 @@
                                             id="date_and_time_div">
                                             <label for="service-hours" class="fw-bold">Date and time</label>
                                             <input type="datetime-local" class="form-control" placeholder=""
-                                                   name="date_and_time" value="{{$offering->event?->date_and_time}}">
+                                                   name="date_and_time_event" value="{{$offering->event?->date_and_time}}">
                                         </div>
 
                                         <div
                                             class="mb-4 {{$offering->event?->specify === 'recurring_event' ?:'d-none'}} flex-column"
                                             id="recurring_day_div">
                                             <label class="fw-bold">Recurring Days</label>
-                                            <select id="type" class="form-select" name="recurring_days">
+                                            <select id="type" class="form-select" name="recurring_days_event">
                                                 <option
                                                     value="every_day" {{$offering->event?->recurring_days === 'every_day' ? 'selected':''}}>
                                                     Every day
@@ -454,7 +454,7 @@
                                         </div>
                                         <div class="my-4">
                                             <label for="booking-duration" class="fw-bold">Duration of event</label>
-                                            <select id="event-duration" name="event_duration" class="form-select">
+                                            <select id="event-duration" name="event_duration_event" class="form-select">
                                                 <option
                                                     value="15 minutes" {{$offering->event?->event_duration === '15 minutes' ? 'selected':''}} >
                                                     15 minutes
@@ -529,7 +529,7 @@
                                             <label for="sports" class="fw-bold">How many sports are
                                                 available</label>
                                             <input type="text" id="sports" class="form-control"
-                                                   placeholder="Type the available spots in numbers" name="sports"
+                                                   placeholder="Type the available spots in numbers" name="sports_event"
                                                    value="{{$offering->event?->sports}}">
                                         </div>
 
@@ -545,7 +545,7 @@
                                                 <label for="tax" class="fw-bold">Tax</label>
                                                 <input type="text" class="form-control"
                                                        placeholder="Enter the applicable tax percentage for your offering"
-                                                       name="tax_amount" value="{{$offering->event?->tax_amount}}">
+                                                       name="tax_amount_event" value="{{$offering->event?->tax_amount}}">
                                                 <span>Tax rates vary based on your location and business registration. If unsure, please consult your local tax regulations or a tax professional.</span>
                                             </div>
                                         </div>
@@ -554,7 +554,7 @@
                                                 <label for="type" class="fw-bold">Scheduling window (How far in
                                                     advance
                                                     they can book)</label>
-                                                <select id="type" class="form-select" name="scheduling_window">
+                                                <select id="type" class="form-select" name="scheduling_window_event">
                                                     <option
                                                         value="15 minutes" {{$offering->event?->scheduling_window === '15 minutes' ? 'selected':''}} >
                                                         15 minutes
@@ -635,7 +635,7 @@
 
                                                     <p>Maximum length of 500 words</p>
                                                 </div>
-                                                <textarea class="form-control" name="email_template"
+                                                <textarea class="form-control" name="email_template_event"
                                                           id="email_template"
                                                           placeholder="">{{$offering->event?->email_template}}</textarea>
                                                 <p id="word-count">0 / 500 words</p>
@@ -643,7 +643,7 @@
                                             <div class="col mb-4">
                                                 <label for="service-hours" class="fw-bold">Intake form
                                                     (Optional)</label>
-                                                <input type="text" class="form-control" name="intake_form"
+                                                <input type="text" class="form-control" name="intake_form_event"
                                                        placeholder="enter your link"
                                                        value="{{$offering->event?->intake_form}}">
                                             </div>
@@ -652,8 +652,8 @@
                                             <div class="form-check offering-check">
                                                 <input type="checkbox" class="form-check-input"
                                                        id="can-be-cancelled"
-                                                       data-type="hide" data-id="cancellation_time"
-                                                       name="is_cancelled" {{$offering->event?->is_cancelled ? 'checked' : ''}}>
+                                                       data-type="hide" data-id="cancellation_time_event"
+                                                       name="is_cancelled_event" {{$offering->event?->is_cancelled ? 'checked' : ''}}>
                                                 <label class="form-check-label mb-3 fw-bold"
                                                        for="can-be-cancelled">Cancellation (How far in advance can
                                                     this
@@ -661,26 +661,26 @@
                                             </div>
                                             <div
                                                 class="col-md-6 mb-4 {{$offering->event?->is_cancelled ?'' : 'd-none' }}"
-                                                id="cancellation_time">
+                                                id="cancellation_time_event">
                                                 <label class="fw-bold">Cancellation time</label>
-                                                <select id="type" class="form-select" name="cancellation_time_slot">
+                                                <select id="type" class="form-select" name="cancellation_time_slot_event">
                                                     <option
                                                         value="15 minutes" {{$offering->event?->cancellation_time_slot ==='15 minutes' ?'selected' : '' }}>15 minutes</option>
-                                                    <option value="30 minutes">30 minutes</option>
-                                                    <option value="45 minutes">45 minutes</option>
-                                                    <option value="1 hour">1 hour</option>
-                                                    <option value="2 hour">2 hour</option>
-                                                    <option value="4 hour">4 hour</option>
-                                                    <option value="8 hour">8 hour</option>
-                                                    <option value="12 hour">12 hour</option>
-                                                    <option value="24 hour">24 hour</option>
-                                                    <option value="48 hour">48 hour</option>
+                                                    <option value="30 minutes" {{$offering->event?->cancellation_time_slot ==='30 minutes' ?'selected' : '' }}>30 minutes</option>
+                                                    <option value="45 minutes" {{$offering->event?->cancellation_time_slot ==='45 minutes' ?'selected' : '' }}>45 minutes</option>
+                                                    <option value="1 hour" {{$offering->event?->cancellation_time_slot ==='1 hour' ?'selected' : '' }}>1 hour</option>
+                                                    <option value="2 hour" {{$offering->event?->cancellation_time_slot ==='2 hour' ?'selected' : '' }}>2 hour</option>
+                                                    <option value="4 hour" {{$offering->event?->cancellation_time_slot ==='4 hour' ?'selected' : '' }}>4 hour</option>
+                                                    <option value="8 hour" {{$offering->event?->cancellation_time_slot ==='8 hour' ?'selected' : '' }}>8 hour</option>
+                                                    <option value="12 hour" {{$offering->event?->cancellation_time_slot ==='12 hour' ?'selected' : '' }}>12 hour</option>
+                                                    <option value="24 hour" {{$offering->event?->cancellation_time_slot ==='24 hour' ?'selected' : '' }}>24 hour</option>
+                                                    <option value="48 hour" {{$offering->event?->cancellation_time_slot ==='48 hour' ?'selected' : '' }}>48 hour</option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="form-check offering-check">
-                                            <input type="checkbox" class="form-check-input" id="can-be-cancelled"
-                                                   name="is_confirmation">
+                                            <input type="checkbox" class="form-check-input" id="can-be-cancelled_event"
+                                                   name="is_confirmation_event" {{$offering->event?->is_confirmation ? 'checked' : ''}}>
                                             <label class="form-check-label mb-3 fw-bold"
                                                    for="can-be-cancelled">Requires Confirmation</label>
                                         </div>
