@@ -222,6 +222,7 @@ class OfferingController extends Controller
         $user = Auth::user();
         $userDetails = $user->userDetail;
         $offering = Offering::findOrFail($id);
+
         $categories = Category::get();
         $practitionerTag = PractitionerTag::get();
         $IHelpWith = IHelpWith::get();

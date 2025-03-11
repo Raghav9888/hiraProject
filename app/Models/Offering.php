@@ -46,4 +46,9 @@ class Offering extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function event()
+    {
+        return $this->hasOne(Event::class, 'offering_id', 'id');
+    }
+
 }
