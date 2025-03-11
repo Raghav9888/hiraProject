@@ -44,7 +44,7 @@
                                             <td class="tn"></td>
                                             <td class="details">
                                                 <h4>{{ $offering->name  }}</h4>
-                                                <div class="wcv_mobile_status wcv_mobile">Online</div>
+                                                <div class="wcv_mobile_status wcv_mobile">{{$offering->offering_type}}</div>
                                                 <div class="cat_tags">
                                                     Categories:@foreach($categories as $term)
                                                         @if(isset($offering->categories) && in_array($term->id, json_decode($offering->categories)))
