@@ -28470,7 +28470,7 @@ dl li {
   font-family: "Manrope", sans-serif;
   font-weight: 500;
   padding: 0;
-  width: 220px;
+  width: 250px;
   z-index: 11;
   transition: width 0.25s ease, background 0.25s ease;
   -webkit-transition: width 0.25s ease, background 0.25s ease;
@@ -29968,6 +29968,20 @@ dl li {
 .navbar.headerLight .navbar-brand-wrapper {
   background: transparent;
   height: 70px;
+}
+.custom_pagination nav{
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+#toast-container>.toast-success {
+    background-repeat: no-repeat !important;
+    background-color: green !important;
+}
+.table-header{
+    justify-content: space-between;
+    align-items: center;
 }
 
 @media (max-width: 991px) {

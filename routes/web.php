@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Calender\CalenderController;
 use App\Http\Controllers\Calender\GoogleAuthController;
@@ -48,12 +50,10 @@ Route::get('/calendar/time-slots/{date}/{id}', [HomeController::class, 'getTimeS
 Route::post('/storeBooking', [BookingController::class, 'storeBooking'])->name('storeBooking');
 Route::get('/checkout', [BookingController::class, 'checkout'])->name('checkout');
 
-Route::middleware(['auth', 'user-access:admin'])->group(function () {
-    Route::namespace('Admin')->group(function () {
-        Route::get('admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
-        Route::get('admin/users', [DashboardController::class, 'Users'])->name('admin.users');
-        Route::get('admin/blogs', [DashboardController::class, 'blogs'])->name('admin.blogs');
-    });
+Route::middleware(['auth', 'user-access:admin'])->name('admin.')->prefix('admin')->group(function () {
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('users', UserController::class);
+    Route::resource('blogs', BlogController::class);
 });
 
 Route::middleware(['auth', 'user-access:user'])->group(function () {

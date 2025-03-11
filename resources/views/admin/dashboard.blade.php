@@ -745,3 +745,6 @@
       <!-- page-body-wrapper ends -->
     
       @endsection
+      @push("custom_scripts")
+    <script src="{{asset('admin/assets/js/dashboard.js')}}"></script>
+      @endpush

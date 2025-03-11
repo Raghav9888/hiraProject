@@ -15,8 +15,8 @@
               </a>
               <div class="collapse" id="ui-basic">
                 <ul class="nav flex-column sub-menu">
-                  <li class="nav-item"> <a class="nav-link" href="{{route('admin.users')}}">Users</a></li>
-                  <li class="nav-item"> <a class="nav-link" href="">Add Users</a></li>
+                  <li class="nav-item"> <a class="nav-link" href="">Add User</a></li>
+                  <li class="nav-item"> <a class="nav-link" href="{{route('admin.users.index')}}">Users</a></li>
                 </ul>
               </div>
             </li>
@@ -28,7 +28,8 @@
               </a>
               <div class="collapse" id="form-elements">
                 <ul class="nav flex-column sub-menu">
-                  <li class="nav-item"><a class="nav-link" href="{{route('admin.blogs')}}">Blogs</a></li>
+                  <li class="nav-item"><a class="nav-link" href="{{route('admin.blogs.create')}}">Add Blog</a></li>
+                  <li class="nav-item"><a class="nav-link" href="{{route('admin.blogs.index')}}">All Blogs</a></li>
                 </ul>
               </div>
             </li>
