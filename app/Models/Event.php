@@ -27,4 +27,11 @@ class Event extends Model
     use HasFactory;
 
     protected $table = 'events';
+
+
+    public function offering()
+    {
+        return $this->belongsTo(Offering::class);
+    }
+
 }
