@@ -172,7 +172,7 @@ class OfferingController extends Controller
             "to_date" => $input['to_date'],
             "availability" => (isset($input['availability']) && $input['availability'] == 'on') ? 1 : 0,
             "availability_type" => $input['availability_type'],
-            "client_price" => $input['client_price'],
+            "client_price" => $input['client_price_offering'],
             "tax_amount" => $input['tax_amount'],
             "scheduling_window" => $input['scheduling_window'],
             "email_template" => $input['email_template'],
@@ -181,6 +181,8 @@ class OfferingController extends Controller
             "cancellation_time_slot" => $input['cancellation_time_slot'] ?? null,
             "is_confirmation" => (isset($input['is_confirmation']) && $input['is_confirmation'] == 'on') ? 1 : 0,
         ];
+
+
 
         if ($request->hasFile('featured_image')) {
             $image = $request->file('featured_image');
@@ -198,7 +200,7 @@ class OfferingController extends Controller
             'sports' => $input['sports'],
             'scheduling_window' => $input['scheduling_window'],
             'email_template' => $input['email_template'],
-            'client_price' => $input['client_price'],
+            'client_price' => $input['client_price_event'],
             'tax_amount' => $input['tax_amount'],
             'intake_form' => $input['intake_form'],
             'is_cancelled' => (isset($input['is_cancelled']) && ($input['is_cancelled'] == 'on')) ? 1 : 0,
