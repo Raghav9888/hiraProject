@@ -162,7 +162,7 @@
                                          aria-labelledby="offering-tab" tabindex="0">
                                         <div class="my-4">
                                             <label for="booking-duration" class="fw-bold">Duration of offering</label>
-                                            <select id="booking-duration" name="booking_duration" class="form-select">
+                                            <select id="booking-duration" name="booking_duration_offering" class="form-select">
                                                 <option value="">Select</option>
                                                 <option
                                                     value="15 minutes" {{ $offering->booking_duration  == '15 minutes' ? 'selected' : ''}}>
@@ -201,7 +201,7 @@
                                         <div class="row mb-4">
                                             <div class="col">
                                                 <label for="service-hours" class="fw-bold mb-4">Service hours</label>
-                                                <select id="type" class="form-select" name="availability_type">
+                                                <select id="type" class="form-select" name="availability_type_offering">
                                                     <option value="">Select Availability</option>
                                                     <option
                                                         value="monday" {{$offering->availability_type == 'monday'? 'selected': ''}}>
@@ -233,20 +233,6 @@
                                                     </option>
                                                 </select>
                                             </div>
-                                            <div class="d-none mt-2" id="custom_hours" style="gap: 20px;">
-                                                <div>
-                                                    <label for="service-hours" class="fw-bold">From</label>
-                                                    <input type="datetime-local" class="form-control"
-                                                           name="from_date" placeholder=""
-                                                           value="{{ $offering->from_date ? $offering->from_date : '' }}">
-                                                </div>
-                                                <div>
-                                                    <label for="service-hours" class="fw-bold">To</label>
-                                                    <input type="datetime-local" class="form-control" name="to_date"
-                                                           placeholder=""
-                                                           value="{{ $offering->to_date ? $offering->to_date : '' }}">
-                                                </div>
-                                            </div>
                                         </div>
                                         <div class="row">
                                             <div class="col mb-4">
@@ -259,7 +245,7 @@
                                                 <label for="tax" class="fw-bold">Tax</label>
                                                 <input type="text" class="form-control"
                                                        placeholder="Enter the applicable tax percentage for your offering"
-                                                       name="tax_amount" value="{{$offering->tax_amount}}">
+                                                       name="tax_amount_offering" value="{{$offering->tax_amount}}">
                                                 <span>Tax rates vary based on your location and business registration. If unsure, please consult your local tax regulations or a tax professional.</span>
                                             </div>
                                         </div>
@@ -267,7 +253,7 @@
                                             <div class="col mb-4">
                                                 <label for="type" class="fw-bold">Scheduling window (How far in advance
                                                     they can book)</label>
-                                                <select id="type" class="form-select" name="scheduling_window">
+                                                <select id="type" class="form-select" name="scheduling_window_offering">
                                                     <option value="">Select</option>
                                                     <option
                                                         value="15 minutes" {{ $offering->scheduling_window  == '15 minutes' ? 'selected' : ''}}>
@@ -306,7 +292,7 @@
                                             <div class="col mb-4">
                                                 <label for="type" class="fw-bold">Buffer time between
                                                     appointment</label>
-                                                <select id="type" class="form-select" name="buffer_time">
+                                                <select id="type" class="form-select" name="buffer_time_offering">
                                                     <option value="">Select</option>
                                                     <option
                                                         value="15 minutes" {{ $offering->buffer_time  == '15 minutes' ? 'selected' : ''}}>
@@ -399,7 +385,6 @@
                                             <label class="form-check-label mb-3 fw-bold" for="can-be-cancelled">Requires
                                                 Confirmation</label>
                                         </div>
-
                                     </div>
                                     <div class="tab-pane fade" id="events" role="tabpanel" aria-labelledby="events-tab"
                                          tabindex="0">
