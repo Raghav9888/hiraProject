@@ -131,7 +131,7 @@
                                          aria-labelledby="offering-tab" tabindex="0">
                                         <div class="my-4">
                                             <label for="booking-duration" class="fw-bold">Duration of offering</label>
-                                            <select id="booking-duration" name="booking_duration" class="form-select">
+                                            <select id="booking-duration" name="booking_duration_offering" class="form-select">
                                                 <option value="15 minutes">15 minutes</option>
                                                 <option value="20 minutes">20 minutes</option>
                                                 <option value="30 minutes">30 minutes</option>
@@ -155,7 +155,7 @@
                                             <div class="col">
                                                 <label for="service-hours" class="fw-bold mb-4">Service hours</label>
                                                 <select class="form-select"
-                                                        name="availability_type" data-type="change"
+                                                        name="availability_type_offering" data-type="change"
                                                         data-target-one="custom_hours"
                                                         data-match-one="own_specific_date">
                                                     <option value="">Following store hours</option>
@@ -177,11 +177,11 @@
                                                 <div>
                                                     <label for="service-hours" class="fw-bold">From</label>
                                                     <input type="datetime-local" class="form-control"
-                                                           name="from_date" placeholder="">
+                                                           name="from_date_offering" placeholder="">
                                                 </div>
                                                 <div>
                                                     <label for="service-hours" class="fw-bold">To</label>
-                                                    <input type="datetime-local" class="form-control" name="to_date"
+                                                    <input type="datetime-local" class="form-control" name="to_date_offering"
                                                            placeholder="">
                                                 </div>
                                             </div>

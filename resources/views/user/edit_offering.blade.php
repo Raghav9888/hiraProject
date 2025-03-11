@@ -201,37 +201,36 @@
                                         <div class="row mb-4">
                                             <div class="col">
                                                 <label for="service-hours" class="fw-bold mb-4">Service hours</label>
-                                                <select id="type" class="form-select" name="availability_type_offering">
-                                                    <option value="">Select Availability</option>
-                                                    <option
-                                                        value="monday" {{$offering->availability_type == 'monday'? 'selected': ''}}>
-                                                        Monday
+                                                <select class="form-select"
+                                                        name="availability_type_offering" data-type="change"
+                                                        data-target-one="custom_hours"
+                                                        data-match-one="own_specific_date">
+                                                    <option value="">Following store hours</option>
+                                                    <option value="every_day" {{$offering->availability_type == 'every_day'? 'selected': ''}}>Every day</option>
+                                                    <option value="every_monday" {{$offering->availability_type == 'every_monday'? 'selected': ''}}>Every monday</option>
+                                                    <option value="every_tuesday" {{$offering->availability_type == 'every_tuesday'? 'selected': ''}}>Every tuesday</option>
+                                                    <option value="every_wednesday" {{$offering->availability_type == 'every_wednesday'? 'selected': ''}}>Every wednesday</option>
+                                                    <option value="every_thursday" {{$offering->availability_type == 'every_thursday'? 'selected': ''}}>Every thursday</option>
+                                                    <option value="every_friday" {{$offering->availability_type == 'every_friday'? 'selected': ''}}>Every friday</option>
+                                                    <option value="weekend_every_saturday_sunday" {{$offering->availability_type == 'weekend_every_saturday_sunday'? 'selected': ''}}>Weekends only - Every
+                                                        Sat & Sundays
                                                     </option>
-                                                    <option
-                                                        value="tuesday" {{$offering->availability_type == 'tuesday'? 'selected': ''}}>
-                                                        Tuesday
-                                                    </option>
-                                                    <option
-                                                        value="wednesday" {{$offering->availability_type == 'wednesday'? 'selected': ''}}>
-                                                        Wednesday
-                                                    </option>
-                                                    <option
-                                                        value="thursday" {{$offering->availability_type == 'thursday'? 'selected': ''}}>
-                                                        Thursday
-                                                    </option>
-                                                    <option
-                                                        value="friday" {{$offering->availability_type == 'friday'? 'selected': ''}}>
-                                                        Friday
-                                                    </option>
-                                                    <option
-                                                        value="all_week_days" {{$offering->availability_type == 'all_week_days'? 'selected': ''}}>
-                                                        All week days
-                                                    </option>
-                                                    <option
-                                                        value="weekends_only" {{$offering->availability_type == 'weekends_only'? 'selected': ''}}>
-                                                        Weekends only
+                                                    <option value="own_specific_date" {{$offering->availability_type == 'own_specific_date'? 'selected': ''}}>Choose your own specific
+                                                        dates...
                                                     </option>
                                                 </select>
+                                            </div>
+                                            <div class="{{$offering->availability_type == 'own_specific_date'? 'd-flex': 'd-none'}} mt-2" id="custom_hours" style="gap: 20px;">
+                                                <div>
+                                                    <label for="service-hours" class="fw-bold">From</label>
+                                                    <input type="datetime-local" class="form-control"
+                                                           name="from_date_offering" placeholder="" value="{{$offering->from_date}}">
+                                                </div>
+                                                <div>
+                                                    <label for="service-hours" class="fw-bold">To</label>
+                                                    <input type="datetime-local" class="form-control" name="to_date_offering"
+                                                           placeholder="" value="{{ $offering->to_date }}">
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="row">
