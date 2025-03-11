@@ -58,20 +58,19 @@ class OfferingController extends Controller
             "categories" => isset($input['categories']) && $input['categories'] ? json_encode($input['categories']) : null,
             "tags" => isset($input['tags']) && $input['tags'] ? json_encode($input['tags']) : null,
             "offering_type" => $input['offering_type'],
-            "booking_duration" => $input['booking_duration'],
-            "from_date" => new \DateTime($input['from_date']),
-            "to_date" => isset($input['to_date']) ? new \DateTime($input['to_date']) : null,
-            "availability" => (isset($input['availability']) && $input['availability'] == 'on') ? 1 : 0,
-            "availability_type" => $input['availability_type'],
-            "client_price" => $input['client_price'],
-            "tax_amount" => $input['tax_amount'],
-            "scheduling_window" => $input['scheduling_window'],
-//            "buffer_time" => new \DateTime($input['buffer_time']),
-            "email_template" => $input['email_template'],
-            "intake_form" => $input['intake_form'],
-            "is_cancelled" => (isset($input['is_cancelled']) && ($input['is_cancelled'] == 'on')) ? 1 : 0,
-            "cancellation_time_slot" => $input['cancellation_time_slot'] ?? null,
-            "is_confirmation" => (isset($input['is_confirmation']) && $input['is_confirmation'] == 'on') ? 1 : 0,
+            "booking_duration" => $input['booking_duration_offering'],
+            "from_date" => $input['from_date_offering'],
+            "to_date" => $input['to_date_offering'],
+//            "availability" => (isset($input['availability']) && $input['availability'] == 'on') ? 1 : 0,
+            "availability_type" => $input['availability_type_offering'],
+            "client_price" => $input['client_price_offering'],
+            "tax_amount" => $input['tax_amount_offering'],
+            "scheduling_window" => $input['scheduling_window_offering'],
+            "email_template" => $input['email_template_offering'],
+            "intake_form" => $input['intake_form_offering'],
+            "is_cancelled" => (isset($input['is_cancelled_offering']) && ($input['is_cancelled_offering'] == 'on')) ? 1 : 0,
+            "cancellation_time_slot" => $input['cancellation_time_slot_offering'] ?? null,
+            "is_confirmation" => (isset($input['is_confirmation_offering']) && $input['is_confirmation_offering'] == 'on') ? 1 : 0,
         ];
 
         if ($request->hasFile('featured_image')) {
@@ -82,22 +81,22 @@ class OfferingController extends Controller
             $offeringData['featured_image'] = $imageName;
         }
         $offering = Offering::create($offeringData);
-
+        
         $data = [
             'offering_id' => $offering->id,
-            'specify' => $input['specify'],
-            'date_and_time' => $input['date_and_time'],
-            'recurring_days' => $input['recurring_days'],
-            'event_duration' => $input['event_duration'],
-            'sports' => $input['sports'],
-            'scheduling_window' => $input['scheduling_window'],
-            'email_template' => $input['email_template'],
-            'client_price' => $input['client_price'],
-            'tax_amount' => $input['tax_amount'],
-            'intake_form' => $input['intake_form'],
-            'is_cancelled' => (isset($input['is_cancelled']) && ($input['is_cancelled'] == 'on')) ? 1 : 0,
-            'cancellation_time_slot' => $input['cancellation_time_slot'] ?? null,
-            'is_confirmation' => (isset($input['is_confirmation']) && $input['is_confirmation'] == 'on') ? 1 : 0,
+            'specify' => $input['specify_event'],
+            'date_and_time' => $input['date_and_time_event'],
+            'recurring_days' => $input['recurring_days_event'],
+            'event_duration' => $input['event_duration_event'],
+            'sports' => $input['sports_event'],
+            'scheduling_window' => $input['scheduling_window_event'],
+            'email_template' => $input['email_template_event'],
+            'client_price' => $input['client_price_event'],
+            'tax_amount' => $input['tax_amount_event'],
+            'intake_form' => $input['intake_form_event'],
+            'is_cancelled' => (isset($input['is_cancelled_event']) && ($input['is_cancelled_event'] == 'on')) ? 1 : 0,
+            'cancellation_time_slot' => $input['cancellation_time_slot_event'] ?? null,
+            'is_confirmation' => (isset($input['is_confirmation_event']) && $input['is_confirmation_event'] == 'on') ? 1 : 0,
         ];
 
         $event = Event::create($data);
