@@ -131,7 +131,7 @@
                                          aria-labelledby="offering-tab" tabindex="0">
                                         <div class="my-4">
                                             <label for="booking-duration" class="fw-bold">Duration of offering</label>
-                                            <select id="booking-duration" name="booking_duration" class="form-select">
+                                            <select id="booking-duration" name="booking_duration_offering" class="form-select">
                                                 <option value="15 minutes">15 minutes</option>
                                                 <option value="20 minutes">20 minutes</option>
                                                 <option value="30 minutes">30 minutes</option>
@@ -155,7 +155,7 @@
                                             <div class="col">
                                                 <label for="service-hours" class="fw-bold mb-4">Service hours</label>
                                                 <select class="form-select"
-                                                        name="availability_type" data-type="change"
+                                                        name="availability_type_offering" data-type="change"
                                                         data-target-one="custom_hours"
                                                         data-match-one="own_specific_date">
                                                     <option value="">Following store hours</option>
@@ -177,11 +177,11 @@
                                                 <div>
                                                     <label for="service-hours" class="fw-bold">From</label>
                                                     <input type="datetime-local" class="form-control"
-                                                           name="from_date" placeholder="">
+                                                           name="from_date_offering" placeholder="">
                                                 </div>
                                                 <div>
                                                     <label for="service-hours" class="fw-bold">To</label>
-                                                    <input type="datetime-local" class="form-control" name="to_date"
+                                                    <input type="datetime-local" class="form-control" name="to_date_offering"
                                                            placeholder="">
                                                 </div>
                                             </div>
@@ -207,22 +207,15 @@
                                                     they can book)</label>
                                                 <select id="type" class="form-select" name="scheduling_window">
                                                     <option value="15 minutes">15 minutes</option>
-                                                    <option value="20 minutes">20 minutes</option>
                                                     <option value="30 minutes">30 minutes</option>
                                                     <option value="45 minutes">45 minutes</option>
-                                                    <option value="50 minutes">50 minutes</option>
                                                     <option value="1 hour">1 hour</option>
-                                                    <option value="1:15 hour">1:15 hour</option>
                                                     <option value="1:30 hour">1:30 hour</option>
-                                                    <option value="1:45 hour">1:45 hour</option>
-                                                    <option value="1:50 hour">1:50 hour</option>
                                                     <option value="2 hour">2 hours</option>
-                                                    <option value="3 hour">3 hour</option>
                                                     <option value="4 hour">4 hour</option>
-                                                    <option value="1 Month">1 Month</option>
-                                                    <option value="2 Month">2 Months</option>
-                                                    <option value="3 Month">3 Months</option>
-                                                    <option value="4 Month">4 Months</option>
+                                                    <option value="8 hour">8 hour</option>
+                                                    <option value="12 hour">12 hour</option>
+                                                    <option value="24 hour">24 hour</option>
                                                 </select>
                                             </div>
                                             <div class="col mb-4">
@@ -279,22 +272,15 @@
                                                 <label class="fw-bold">Cancellation time</label>
                                                 <select id="type" class="form-select" name="cancellation_time_slot">
                                                     <option value="15 minutes">15 minutes</option>
-                                                    <option value="20 minutes">20 minutes</option>
                                                     <option value="30 minutes">30 minutes</option>
                                                     <option value="45 minutes">45 minutes</option>
-                                                    <option value="50 minutes">50 minutes</option>
                                                     <option value="1 hour">1 hour</option>
-                                                    <option value="1:15 hour">1:15 hour</option>
-                                                    <option value="1:30 hour">1:30 hour</option>
-                                                    <option value="1:45 hour">1:45 hour</option>
-                                                    <option value="1:50 hour">1:50 hour</option>
-                                                    <option value="2 hour">2 hours</option>
-                                                    <option value="3 hour">3 hour</option>
+                                                    <option value="2 hour">2 hour</option>
                                                     <option value="4 hour">4 hour</option>
-                                                    <option value="1 Month">1 Month</option>
-                                                    <option value="2 Month">2 Months</option>
-                                                    <option value="3 Month">3 Months</option>
-                                                    <option value="4 Month">4 Months</option>
+                                                    <option value="8 hour">8 hour</option>
+                                                    <option value="12 hour">12 hour</option>
+                                                    <option value="24 hour">24 hour</option>
+                                                    <option value="48 hour">48 hour</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -393,22 +379,15 @@
                                                     they can book)</label>
                                                 <select id="type" class="form-select" name="scheduling_window">
                                                     <option value="15 minutes">15 minutes</option>
-                                                    <option value="20 minutes">20 minutes</option>
                                                     <option value="30 minutes">30 minutes</option>
                                                     <option value="45 minutes">45 minutes</option>
-                                                    <option value="50 minutes">50 minutes</option>
                                                     <option value="1 hour">1 hour</option>
-                                                    <option value="1:15 hour">1:15 hour</option>
                                                     <option value="1:30 hour">1:30 hour</option>
-                                                    <option value="1:45 hour">1:45 hour</option>
-                                                    <option value="1:50 hour">1:50 hour</option>
                                                     <option value="2 hour">2 hours</option>
-                                                    <option value="3 hour">3 hour</option>
                                                     <option value="4 hour">4 hour</option>
-                                                    <option value="1 Month">1 Month</option>
-                                                    <option value="2 Month">2 Months</option>
-                                                    <option value="3 Month">3 Months</option>
-                                                    <option value="4 Month">4 Months</option>
+                                                    <option value="8 hour">8 hour</option>
+                                                    <option value="12 hour">12 hour</option>
+                                                    <option value="24 hour">24 hour</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -447,22 +426,15 @@
                                                 <label class="fw-bold">Cancellation time</label>
                                                 <select id="type" class="form-select" name="cancellation_time_slot">
                                                     <option value="15 minutes">15 minutes</option>
-                                                    <option value="20 minutes">20 minutes</option>
                                                     <option value="30 minutes">30 minutes</option>
                                                     <option value="45 minutes">45 minutes</option>
-                                                    <option value="50 minutes">50 minutes</option>
                                                     <option value="1 hour">1 hour</option>
-                                                    <option value="1:15 hour">1:15 hour</option>
-                                                    <option value="1:30 hour">1:30 hour</option>
-                                                    <option value="1:45 hour">1:45 hour</option>
-                                                    <option value="1:50 hour">1:50 hour</option>
-                                                    <option value="2 hour">2 hours</option>
-                                                    <option value="3 hour">3 hour</option>
+                                                    <option value="2 hour">2 hour</option>
                                                     <option value="4 hour">4 hour</option>
-                                                    <option value="1 Month">1 Month</option>
-                                                    <option value="2 Month">2 Months</option>
-                                                    <option value="3 Month">3 Months</option>
-                                                    <option value="4 Month">4 Months</option>
+                                                    <option value="8 hour">8 hour</option>
+                                                    <option value="12 hour">12 hour</option>
+                                                    <option value="24 hour">24 hour</option>
+                                                    <option value="48 hour">48 hour</option>
                                                 </select>
                                             </div>
                                         </div>

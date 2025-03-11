@@ -274,7 +274,7 @@
                                         </div>
 
                                         <div class="mb-4 select2-div">
-                                            <label for="specialities" class="fw-bold">Categories</label>
+                                            <label for="specialities" class="fw-bold">Categories (only select 3)</label>
                                             <select id="specialities" class="form-control form-select category-select2"
                                                     multiple="multiple"
                                                     name="specialities[]">
