@@ -81,7 +81,7 @@ class OfferingController extends Controller
             $offeringData['featured_image'] = $imageName;
         }
         $offering = Offering::create($offeringData);
-        
+
         $data = [
             'offering_id' => $offering->id,
             'specify' => $input['specify_event'],

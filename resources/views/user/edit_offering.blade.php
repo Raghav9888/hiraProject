@@ -358,7 +358,7 @@
                                                        for="can-be-cancelled">Cancellation (How far in advance can this
                                                     be cancelled)</label>
                                             </div>
-                                            <div class="col-md-6 mb-4 d-none" id="cancellation_time">
+                                            <div class="col-md-6 mb-4 {{$offering->is_cancelled ?:'d-none' }}" id="cancellation_time">
                                                 <label class="fw-bold">Cancellation time</label>
                                                 <select id="type" class="form-select"
                                                         name="cancellation_time_slot_offering">
