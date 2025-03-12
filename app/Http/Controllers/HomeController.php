@@ -14,6 +14,7 @@ use App\Models\HowIHelp;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ContactUsMail;
+use App\Models\Blog;
 use Illuminate\Support\Facades\Log;
 
 class HomeController extends Controller
@@ -74,12 +75,14 @@ class HomeController extends Controller
 
     public function blog()
     {
-        return view('user.blog');
+        $blogs = Blog::latest()->get();
+        return view('user.blog', compact('blogs'));
     }
 
-    public function blogDetail()
+    public function blogDetail($slug)
     {
-        return view('user.blog_detail');
+        $blog = Blog::where("slug", $slug)->firstOrFail();
+        return view('user.blog_detail', compact('blog'));
     }
 
     public function practitionerDetail($id)

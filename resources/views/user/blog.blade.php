@@ -17,52 +17,29 @@
             <div class="container">
                 <h1 class="home-title mb-3">Recent Resources</h1>
                 <div class="row">
-                    <div class="col-sm-12 col-md-6 col-lg-6 mb-4">
-                        <a href="#" style="text-decoration: none;">
-                            <div class="resources-body">
-                                <img src="{{url('assets/images/calm.png')}}" alt="calm">
-                                <div>
-                                    <h5>Finding Calm in Chaos: The Ancient Wisdom of Mindfulness Practices for Anxiety
-                                    </h5>
-                                    <button>Spirituality</button>
-                                    <p>February 3, 2025</p>
+                    @if(!$blogs->isEmpty())
+                        @foreach($blogs as $blog)
+                        <div class="col-sm-12 col-md-6 col-lg-6 mb-4">
+                            <a href="{{route('blogDetail', $blog->slug)}}" style="text-decoration: none;">
+                                <div class="resources-body">
+                                    <img src="{{asset($blog->image)}}" alt="calm">
+                                    <div>
+                                        <h5>{{$blog->name}}</h5>
+                                        <button>Meditation</button>
+                                        <p>{{date('M d, Y', strtotime($blog->created_at))}}</p>
+                                    </div>
                                 </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-sm-12 col-md-6 col-lg-6 mb-4">
-                        <div class="resources-body">
-                            <img src="{{url('assets/images/calm.png')}}" alt="calm">
-                            <div>
-                                <h5>Finding Calm in Chaos: The Ancient Wisdom of Mindfulness Practices for Anxiety</h5>
-                                <button>Spirituality</button>
-                                <p>February 3, 2025</p>
-                            </div>
+                            </a>
                         </div>
-                    </div>
+                        @endforeach
+                    @else
                     <div class="col-sm-12 col-md-6 col-lg-6 mb-4">
-                        <div class="resources-body">
-                            <img src="{{url('assets/images/calm.png')}}" alt="calm">
-                            <div>
-                                <h5>Finding Calm in Chaos: The Ancient Wisdom of Mindfulness Practices for Anxiety</h5>
-                                <button>Spirituality</button>
-                                <p>February 3, 2025</p>
-                            </div>
-                        </div>
+                        <p class="text-center">No Blogs found..</p>
                     </div>
-                    <div class="col-sm-12 col-md-6 col-lg-6 mb-4">
-                        <div class="resources-body">
-                            <img src="{{url('assets/images/calm.png')}}" alt="calm">
-                            <div>
-                                <h5>Finding Calm in Chaos: The Ancient Wisdom of Mindfulness Practices for Anxiety</h5>
-                                <button>Spirituality</button>
-                                <p>February 3, 2025</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-center">
+                    @endif
+                    {{-- <div class="d-flex justify-content-center">
                         <button class="home-blog-btn">Load More</button>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
