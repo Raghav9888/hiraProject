@@ -7,23 +7,23 @@
             <div class="col-sm-12 col-lg-6">
                 <div class="cart-test-left-dv">
                     @php
-                        $imageUrl = isset($offerDetail->featured_image) && $offerDetail->featured_image?asset(env('media_path') . '/practitioners/' . $user->id . '/offering/' . $offerDetail->featured_image) :asset(env('local_path').'/images/no_image.png');
+                        $imageUrl = isset($offeringDetail->featured_image) && $offeringDetail->featured_image?asset(env('media_path') . '/practitioners/' . $user->id . '/offering/' . $offeringDetail->featured_image) :asset(env('local_path').'/images/no_image.png');
                     @endphp
-                    <img src="{{ $imageUrl }}" alt="{{ $offerDetail->featured_image }}">
+                    <img src="{{ $imageUrl }}" alt="{{ $offeringDetail->featured_image }}">
                 </div>
             </div>
             <div class="col-sm-12 col-lg-6">
                 <div class="cart-test-right-dv">
-                    <h4>{{$offerDetail->name}}</h4>
-                    <h6>{{$offerDetail->cost}}</h6>
+                    <h4>{{$offeringDetail->name}}</h4>
+                    <h6>{{$offeringDetail->cost}}</h6>
                     <div class="custom-select w-50">
                         <select class="form-select">
                             <option>CAD</option>
                             <option>USA</option>
                         </select>
                     </div>
-                <p class="smal-text">{{$offerDetail->short_description}}</p>
-               <h6 class="offer-text">{{$offerDetail->name}}</h6>
+                <p class="smal-text">{{$offeringDetail->short_description}}</p>
+               <h6 class="offer-text">{{$offeringDetail->name}}</h6>
             </div>
             <div class="card calendar-card mt-5 mb-5">
                 <div class="card-body">
@@ -31,7 +31,7 @@
                    <form method="post" action="{{route('storeBooking')}}">
                     @csrf
                     <div id="booking_calendar"></div>
-                    <input type="hidden" name="offering_id" class="form-control product_id" value="{{$offerDetail->id}}">
+                    <input type="hidden" name="offering_id" class="form-control product_id" value="{{$offeringDetail->id}}">
                     <input type="hidden" name="booking_date" class="form-control booking_date">
                     <!-- <input type="time" name="booking_time" class="form-control"> -->
                     <div class="mt-4 text-center">
@@ -58,7 +58,7 @@
                 <div class="tab-content">
                     <div class="tab-pane fade show active" id="description">
                         <h2 class="h4">Description</h2>
-                        <p>{{$offerDetail->long_description}}</p>
+                        <p>{{$offeringDetail->long_description}}</p>
                     </div>
                     <div class="tab-pane fade" id="service-ratings">
                         <p>No ratings have been submitted for this product yet.</p>

@@ -19,14 +19,18 @@
                         <div class="mb-4 select2-div offerings-select-container" style="{{$discount->apply_to === 'specific'? '': 'display: none;'}}">
                             <?php
                             $selectedOfferings = is_string($discount->offerings) ? json_decode($discount->offerings, true) : $discount->offerings;
+                            $selectedOfferings = is_array($selectedOfferings) ? $selectedOfferings : (is_numeric($selectedOfferings) ? [(int)$selectedOfferings] : []);
                             ?>
                             <label for="offerings">Select Offering</label>
                             <select id="offerings" multiple class="form-control select2" name="offerings[]">
                                 <option></option>
-                                @forEach($offerings as $offering)
-                                <option value="{{$offering->id}}" {{in_array($offering->id, $selectedOfferings)? 'selected': ''}}>{{$offering->name}}</option>
+                                @foreach($offerings as $offering)
+                                    <option value="{{ $offering->id }}" {{ in_array($offering->id, $selectedOfferings) ? 'selected' : '' }}>
+                                        {{ $offering->name }}
+                                    </option>
                                 @endforeach
                             </select>
+
                         </div>
                         <div class="mb-4">
                             <label for="booking-duration">Discount type</label>
