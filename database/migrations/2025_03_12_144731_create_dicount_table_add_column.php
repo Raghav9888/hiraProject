@@ -12,14 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('discounts', function (Blueprint $table) {
-            $table->string('apply_to')->nullable(); // Adding new column
+            if (!Schema::hasColumn('discounts', 'apply_to')) {
+                $table->string('apply_to')->nullable();
+            }
 
-            // Drop the existing 'offerings' column before re-adding it
             if (Schema::hasColumn('discounts', 'offerings')) {
                 $table->dropColumn('offerings');
             }
 
-            $table->json('offerings')->nullable(); // Re-adding with JSON type
+            $table->json('offerings')->nullable();
         });
     }
 
@@ -29,13 +30,15 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('discounts', function (Blueprint $table) {
-            $table->dropColumn('apply_to'); // Removing new column
-
-            if (Schema::hasColumn('discounts', 'offerings')) {
-                $table->dropColumn('offerings'); // Dropping JSON version
+            if (Schema::hasColumn('discounts', 'apply_to')) {
+                $table->dropColumn('apply_to');
             }
 
-            $table->string('offerings')->nullable(); // Restoring original column (assuming it was a string)
+            if (Schema::hasColumn('discounts', 'offerings')) {
+                $table->dropColumn('offerings');
+            }
+
+            $table->string('offerings')->nullable();
         });
     }
 };
