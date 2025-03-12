@@ -25,7 +25,7 @@ class OfferingController extends Controller
         $practitionerTag = PractitionerTag::get();
         $IHelpWith = IHelpWith::get();
         $HowIHelp = HowIHelp::get();
-        return view('user.offering', compact('user', 'userDetails', 'offerings', 'categories', 'practitionerTag'));
+        return view('practitioner.offering', compact('user', 'userDetails', 'offerings', 'categories', 'practitionerTag'));
     }
 
     public function addOffering()
@@ -37,7 +37,7 @@ class OfferingController extends Controller
         $IHelpWith = IHelpWith::get();
         $HowIHelp = HowIHelp::get();
         $locations = Locations::get();
-        return view('user.add_offering', compact('user', 'userDetails', 'categories', 'practitionerTag', 'IHelpWith', 'HowIHelp', 'locations'));
+        return view('practitioner.add_offering', compact('user', 'userDetails', 'categories', 'practitionerTag', 'IHelpWith', 'HowIHelp', 'locations'));
     }
 
     // Store a new offering
@@ -63,6 +63,7 @@ class OfferingController extends Controller
             "to_date" => $input['to_date_offering'],
 //            "availability" => (isset($input['availability']) && $input['availability'] == 'on') ? 1 : 0,
             "availability_type" => $input['availability_type_offering'],
+            "buffer_time" => $input['buffer_time_offering'],
             "client_price" => $input['client_price_offering'],
             "tax_amount" => $input['tax_amount_offering'],
             "scheduling_window" => $input['scheduling_window_offering'],
@@ -81,7 +82,7 @@ class OfferingController extends Controller
             $offeringData['featured_image'] = $imageName;
         }
         $offering = Offering::create($offeringData);
-        
+
         $data = [
             'offering_id' => $offering->id,
             'specify' => $input['specify_event'],
@@ -173,6 +174,7 @@ class OfferingController extends Controller
             "availability_type" => $input['availability_type_offering'],
             "client_price" => $input['client_price_offering'],
             "tax_amount" => $input['tax_amount_offering'],
+            "buffer_time" => $input['buffer_time_offering'],
             "scheduling_window" => $input['scheduling_window_offering'],
             "email_template" => $input['email_template_offering'],
             "intake_form" => $input['intake_form_offering'],
@@ -229,7 +231,7 @@ class OfferingController extends Controller
         $IHelpWith = IHelpWith::get();
         $HowIHelp = HowIHelp::get();
         $locations = Locations::get();
-        return view('user.edit_offering', compact('user', 'userDetails', 'locations', 'offering', 'categories', 'practitionerTag', 'IHelpWith', 'HowIHelp'));
+        return view('practitioner.edit_offering', compact('user', 'userDetails', 'locations', 'offering', 'categories', 'practitionerTag', 'IHelpWith', 'HowIHelp'));
     }
 
     // Delete an offering

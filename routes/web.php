@@ -35,7 +35,7 @@ Route::get('/land-acknowledgement', [HomeController::class, 'acknowledgement'])-
 
 
 Route::get('/practitioner/detail/{id}', [HomeController::class, 'practitionerDetail'])->name('practitioner_detail');
-Route::get('/offering/{id}', [HomeController::class, 'offerDetail'])->name('offerDetail');
+Route::get('/practitioner/offering/detail/{id}', [HomeController::class, 'practitionerOfferingDetail'])->name('practitionerOfferingDetail');
 //Route::get('/checkout', [HomeController::class, 'checkout'])->name('checkout');
 
 Route::post('/create-payment', [PaymentController::class, 'createPayment'])->name('create.payment');

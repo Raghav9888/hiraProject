@@ -20,7 +20,7 @@ class DiscountController extends Controller
         $discounts = Discount::with('user')->get();
         $offerings = Offering::with('user')->get();
 
-        return view('user.discount', compact('discounts','offerings'));
+        return view('practitioner.discount', compact('discounts','offerings'));
     }
 
     public function add()
@@ -32,7 +32,7 @@ class DiscountController extends Controller
         $IHelpWith = IHelpWith::get();
         $HowIHelp = HowIHelp::get();
         $offerings = Offering::where('user_id', $user->id)->get();
-        return view('user.add_discount', compact('user', 'userDetails', 'categories', 'PractitionerTag', 'offerings', 'IHelpWith', 'HowIHelp'));
+        return view('practitioner.add_discount', compact('user', 'userDetails', 'categories', 'PractitionerTag', 'offerings', 'IHelpWith', 'HowIHelp'));
 
     }
 
@@ -66,7 +66,7 @@ class DiscountController extends Controller
         $IHelpWith = IHelpWith::get();
         $HowIHelp = HowIHelp::get();
         $offerings = Offering::where('user_id', $user->id)->get();
-        return view('user.edit_discount', compact('discount', 'user', 'userDetails', 'categories', 'PractitionerTag', 'offerings', 'IHelpWith', 'HowIHelp'));
+        return view('practitioner.edit_discount', compact('discount', 'user', 'userDetails', 'categories', 'PractitionerTag', 'offerings', 'IHelpWith', 'HowIHelp'));
     }
 
     public function update(Request $request, $id)

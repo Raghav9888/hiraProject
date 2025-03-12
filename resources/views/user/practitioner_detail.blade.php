@@ -110,7 +110,7 @@
                                                 <h4 class="mb-2">{{$offering->name}}</h4>
                                                 <div class="d-flex align-items-center">
                                                     <h6 class="offer-prize me-2 m-0">${{$offering->client_price}}</h6>
-                                                    <a href="{{ route('offerDetail',$offering->id)}}"
+                                                    <a href="{{ route('practitionerOfferingDetail',$offering->id)}}"
                                                        class="home-blog-btn">BOOK NOW</a>
                                                 </div>
                                             </div>
