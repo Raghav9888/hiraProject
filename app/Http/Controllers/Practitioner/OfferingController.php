@@ -25,7 +25,7 @@ class OfferingController extends Controller
         $practitionerTag = PractitionerTag::get();
         $IHelpWith = IHelpWith::get();
         $HowIHelp = HowIHelp::get();
-        return view('user.offering', compact('user', 'userDetails', 'offerings', 'categories', 'practitionerTag'));
+        return view('practitioner.offering', compact('user', 'userDetails', 'offerings', 'categories', 'practitionerTag'));
     }
 
     public function addOffering()
@@ -37,7 +37,7 @@ class OfferingController extends Controller
         $IHelpWith = IHelpWith::get();
         $HowIHelp = HowIHelp::get();
         $locations = Locations::get();
-        return view('user.add_offering', compact('user', 'userDetails', 'categories', 'practitionerTag', 'IHelpWith', 'HowIHelp', 'locations'));
+        return view('practitioner.add_offering', compact('user', 'userDetails', 'categories', 'practitionerTag', 'IHelpWith', 'HowIHelp', 'locations'));
     }
 
     // Store a new offering
@@ -231,7 +231,7 @@ class OfferingController extends Controller
         $IHelpWith = IHelpWith::get();
         $HowIHelp = HowIHelp::get();
         $locations = Locations::get();
-        return view('user.edit_offering', compact('user', 'userDetails', 'locations', 'offering', 'categories', 'practitionerTag', 'IHelpWith', 'HowIHelp'));
+        return view('practitioner.edit_offering', compact('user', 'userDetails', 'locations', 'offering', 'categories', 'practitionerTag', 'IHelpWith', 'HowIHelp'));
     }
 
     // Delete an offering

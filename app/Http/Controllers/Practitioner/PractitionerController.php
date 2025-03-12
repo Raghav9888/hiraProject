@@ -83,7 +83,7 @@ class PractitionerController extends Controller
         }
 
 
-        return view('user.my_profile', compact(
+        return view('practitioner.my_profile', compact(
             'user',
             'users',
             'userDetails',
@@ -120,7 +120,7 @@ class PractitionerController extends Controller
             $locations[$location->id] = $location->name;
         }
         json_encode($locations);
-        return view('user.dashboard', [
+        return view('practitioner.dashboard', [
             'user' => $user,
             'users' => $users,
             'userDetails' => $userDetails,
@@ -219,7 +219,7 @@ class PractitionerController extends Controller
         $user = Auth::user();
         $userDetails = $user->userDetail;
 
-        return view('user.discount', compact('user', 'userDetails'));
+        return view('practitioner.discount', compact('user', 'userDetails'));
     }
 
     public function appointment()
@@ -227,21 +227,21 @@ class PractitionerController extends Controller
         $user = Auth::user();
         $userDetails = $user->userDetail;
 
-        return view('user.appoinement', compact('user', 'userDetails'));
+        return view('practitioner.appoinement', compact('user', 'userDetails'));
     }
 
     public function earning()
     {
         $user = Auth::user();
         $userDetails = $user->userDetail;
-        return view('user.earning', compact('user', 'userDetails'));
+        return view('practitioner.earning', compact('user', 'userDetails'));
     }
 
     public function refundRequest()
     {
         $user = Auth::user();
         $userDetails = $user->userDetail;
-        return view('user.refund_request', compact('user', 'userDetails'));
+        return view('practitioner.refund_request', compact('user', 'userDetails'));
     }
 
     public function updateClientPolicy(Request $request)
@@ -262,7 +262,7 @@ class PractitionerController extends Controller
     {
         $user = Auth::user();
         $userDetails = $user->userDetail;
-        return view('user.accounting', compact('user', 'userDetails'));
+        return view('practitioner.accounting', compact('user', 'userDetails'));
     }
 
 
@@ -373,14 +373,14 @@ class PractitionerController extends Controller
     {
         $user = Auth::user();
         $userDetails = $user->userDetail;
-        return view('user.community', compact('user', 'userDetails'));
+        return view('practitioner.community', compact('user', 'userDetails'));
     }
 
     public function help()
     {
         $user = Auth::user();
         $userDetails = $user->userDetail;
-        return view('user.help', compact('user', 'userDetails'));
+        return view('practitioner.help', compact('user', 'userDetails'));
     }
 
 }
