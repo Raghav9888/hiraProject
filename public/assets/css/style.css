@@ -37,7 +37,7 @@ section {
     margin-right: 30px;
 }
 
-.header .parentLinks{
+.header .parentLinks {
     margin-left: 20px;
 }
 
@@ -417,7 +417,7 @@ section {
     padding: 40px;
     position: relative;
     overflow: hidden;
-    height:100%;
+    height: 100%;
 }
 
 .find-apply-dv img {
@@ -1115,13 +1115,15 @@ section {
 /*    display: none;*/
 /*}*/
 
-.owl-next{
+.owl-next {
     right: -10px;
 }
-.owl-left{
+
+.owl-left {
     left: -10px;
 }
-.owl-prev , .owl-next{
+
+.owl-prev, .owl-next {
     position: absolute !important;
     top: 25px !important;
     bottom: 25px !important;
@@ -2058,6 +2060,27 @@ textarea, input[type="time"] {
     width: 45px;
 }
 
+@media (max-width: 768px) {
+    .practitioner-profile-btns
+    {
+        margin-left: 10px;
+    }
+
+    .positioned-dv ul {
+        padding: 50px 15px;
+    }
+
+    .positioned-dv ul li {
+        margin-bottom: 30px;
+    }
+
+    .positioned-dv ul li p {
+        display: none;
+    }
+
+}
+
+
 .featured-image-tag {
     font-family: "Montserrat-Medium";
     font-size: 22px;
@@ -2584,28 +2607,27 @@ textarea, input[type="time"] {
     }
 }
 
-.select2-selection--multiple{
+.select2-selection--multiple {
     border-radius: 20px !important;
     padding: 15px;
     margin-top: 10px;
 }
 
 
-.dropdownText{
+.dropdownText {
     color: #424e3e !important;
     background-color: transparent !important;
 }
 
-.img-fit
-{
-   height: 100%;
+.img-fit {
+    height: 100%;
     max-height: 250px;
     min-height: 250px;
     border-radius: 5%;
 }
 
 
-.select2-div span.select2-selection.select2-selection--multiple ,.select2-div span.select2-selection.select2-selection--single {
+.select2-div span.select2-selection.select2-selection--multiple, .select2-div span.select2-selection.select2-selection--single {
     padding: 3px 10px 12px 14px !important;
 }
 
@@ -2613,7 +2635,7 @@ textarea, input[type="time"] {
     padding-bottom: 22px !important;
 }
 
-.amenties-checkbox-container input , .input_checkbox {
+.amenties-checkbox-container input, .input_checkbox {
     padding: initial !important;
     height: 1em !important;
 }
@@ -2625,14 +2647,15 @@ textarea, input[type="time"] {
 
 .appointment-wrrpr h2, .booking-calender-container h2 {
     font-size: 21px;
-    font-weight:700;
+    font-weight: 700;
     font-weight: 700;
     color: #424E3E;
 }
+
 .booking-calender-container, .earning-wrrpr {
     padding: 0 50px;
 }
 
-.select2-container--default{
+.select2-container--default {
     width: 100% !important;
 }
