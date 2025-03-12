@@ -116,13 +116,10 @@ class HomeController extends Controller
         return view('user.practitioner_detail', compact('user', 'users', 'userDetails', 'offerings','categories', 'image', 'mediaImages', 'locations', 'userLocations', 'IHelpWith', 'HowIHelp', 'Certifications' ,'endorsedUsers'));
     }
 
-    public function offerDetail($id)
+    public function practitionerOfferingDetail($id)
     {
-        $user = User::findOrFail($id);
-        $userDetails = $user->userDetail;
-        $offerDetail = Offering::findOrFail($id);
-
-        return view('user.offering_detail', compact('user', 'userDetails', 'offerDetail'));
+        $offeringDetail = Offering::findOrFail($id);
+        return view('user.offering_detail', compact( 'offeringDetail'));
     }
 
     public function checkout()
