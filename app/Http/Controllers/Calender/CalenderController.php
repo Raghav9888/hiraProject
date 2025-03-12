@@ -17,7 +17,7 @@ class CalenderController extends Controller
     {
         $user = Auth::user();
 
-        return view('user.calendar', [
+        return view('practitioner.calendar', [
             'user' => $user,
         ]);
     }
