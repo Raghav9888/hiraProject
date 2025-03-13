@@ -19,16 +19,22 @@
                 <div class="row">
                     @if(!$blogs->isEmpty())
                         @foreach($blogs as $blog)
+
                         <div class="col-sm-12 col-md-6 col-lg-6 mb-4">
-                            <a href="{{route('blogDetail', $blog->slug)}}" style="text-decoration: none;">
-                                <div class="resources-body">
-                                    <img src="{{asset($blog->image)}}" alt="calm">
-                                    <div>
-                                        <h5>{{$blog->name}}</h5>
-                                        <button>Meditation</button>
-                                        <p>{{date('M d, Y', strtotime($blog->created_at))}}</p>
+                            <a href="{{route('blogDetail', $blog->slug)}}" style="text-decoration: none;" class="resources-body">
+                                <div class="row g-0">
+                                    <div class="col-md-4 px-2">
+                                        <img src="{{asset($blog->image)}}" alt="calm" class="img-fluid">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5>{{$blog->name}}</h5>
+                                            <button>Meditation</button>
+                                            <p>{{date('M d, Y', strtotime($blog->created_at))}}</p>
+                                        </div>
                                     </div>
                                 </div>
+
                             </a>
                         </div>
                         @endforeach
