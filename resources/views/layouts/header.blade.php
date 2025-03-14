@@ -38,8 +38,17 @@
                         @if(Auth::check())
                             <nav class="et-menu-nav">
                                 <ul id="menu-practitioner-menu me-5" class="et-menu nav">
-                                    <a href="{{ route('register') }}" class="btn join-btn" type="submit"
-                                       style="display: flex;align-items: center;">My Practitioner dashboard</a>
+                                    @if((Auth::user()->role === 1 && Auth::user()->status === 1))
+                                        <a href="{{ route('dashboard') }}" class="btn join-btn" type="submit"
+                                           style="display: flex;align-items: center;justify-content: center">My Practitioner dashboard</a>
+                                    @elseif((Auth::user()->role === 2 && Auth::user()->status === 1))
+                                        <a href="{{ route('admin.dashboard') }}" class="btn join-btn" type="submit"
+                                           style="display: flex;align-items: center; justify-content: center">My dashboard</a>
+                                    @else
+                                        <a href="{{ route('pendingUserRequest') }}" class="btn join-btn" type="submit"
+                                           style="display: flex;align-items: center; justify-content: center">My Request</a>
+                                    @endif
+
                                     {{--                                    <li id="menu-item-5395"--}}
                                     {{--                                        class="me-5 et_pb_menu_page_id-4726 menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-4726 current_page_item menu-item-5395">--}}
                                     {{--                                        <a href="{{route('myProfile')}}" aria-current="page"></a></li>--}}
