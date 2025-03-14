@@ -191,13 +191,13 @@
                                                 <label for="service-hours" class="fw-bold">Client price</label>
                                                 <input type="text" class="form-control"
                                                        placeholder="Please add the price for your offering"
-                                                       name="client_price">
+                                                       name="client_price_offering">
                                             </div>
                                             <div class=" col mb-4">
                                                 <label for="tax" class="fw-bold">Tax</label>
                                                 <input type="text" class="form-control"
                                                        placeholder="Enter the applicable tax percentage for your offering"
-                                                       name="tax_amount">
+                                                       name="tax_amount_offering">
                                                 <span>Tax rates vary based on your location and business registration. If unsure, please consult your local tax regulations or a tax professional.</span>
                                             </div>
                                         </div>
@@ -205,7 +205,7 @@
                                             <div class="col mb-4">
                                                 <label for="type" class="fw-bold">Scheduling window (How far in advance
                                                     they can book)</label>
-                                                <select id="type" class="form-select" name="scheduling_window">
+                                                <select id="type" class="form-select" name="scheduling_window_offering">
                                                     <option value="15 minutes">15 minutes</option>
                                                     <option value="30 minutes">30 minutes</option>
                                                     <option value="45 minutes">45 minutes</option>
@@ -221,7 +221,7 @@
                                             <div class="col mb-4">
                                                 <label for="type" class="fw-bold">Buffer time between
                                                     appointment</label>
-                                                <select id="type" class="form-select" name="buffer_time">
+                                                <select id="type" class="form-select" name="buffer_time_offering">
                                                     <option value="15 minutes">15 minutes</option>
                                                     <option value="20 minutes">20 minutes</option>
                                                     <option value="30 minutes">30 minutes</option>
@@ -249,28 +249,28 @@
 
                                                     <p>Maximum length of 500 words</p>
                                                 </div>
-                                                <textarea class="form-control" name="email_template" id="email_template"
+                                                <textarea class="form-control" name="email_template_offering" id="email_template"
                                                           placeholder=""></textarea>
                                                 <p id="word-count">0 / 500 words</p>
                                             </div>
                                             <div class="col mb-4">
                                                 <label for="service-hours" class="fw-bold">Intake form
                                                     (Optional)</label>
-                                                <input type="text" class="form-control" name="intake_form"
+                                                <input type="text" class="form-control" name="intake_form_offering"
                                                        placeholder="enter your link">
                                             </div>
                                         </div>
                                         <div class="mb-4">
                                             <div class="form-check offering-check">
                                                 <input type="checkbox" class="form-check-input" id="can-be-cancelled"
-                                                       data-type="hide" data-id="cancellation_time" name="is_cancelled">
+                                                       data-type="hide" data-id="cancellation_time" name="is_cancelled_offering">
                                                 <label class="form-check-label mb-3 fw-bold"
                                                        for="can-be-cancelled">Cancellation (How far in advance can this
                                                     be cancelled)</label>
                                             </div>
                                             <div class="col-md-6 mb-4 d-none" id="cancellation_time">
                                                 <label class="fw-bold">Cancellation time</label>
-                                                <select id="type" class="form-select" name="cancellation_time_slot">
+                                                <select id="type" class="form-select" name="cancellation_time_slot_offering">
                                                     <option value="15 minutes">15 minutes</option>
                                                     <option value="30 minutes">30 minutes</option>
                                                     <option value="45 minutes">45 minutes</option>
@@ -286,7 +286,7 @@
                                         </div>
                                         <div class="form-check offering-check">
                                             <input type="checkbox" class="form-check-input" id="can-be-cancelled"
-                                                   name="is_confirmation">
+                                                   name="is_confirmation_offering">
                                             <label class="form-check-label mb-3 fw-bold"
                                                    for="can-be-cancelled">Requires Confirmation</label>
                                         </div>
@@ -297,7 +297,7 @@
 
                                         <div class="my-4">
                                             <label for="specify" class="fw-bold">Specify</label>
-                                            <select id="specify" name="specify" class="form-select"
+                                            <select id="specify" name="specify_event" class="form-select"
                                                     data-type="change"
                                                     data-target-one="date_and_time_div"
                                                     data-match-one="one_time_event" data-match-two="recurring_event"
@@ -311,12 +311,12 @@
                                         <div class="mb-4 d-none flex-column" id="date_and_time_div">
                                             <label for="service-hours" class="fw-bold">Date and time</label>
                                             <input type="datetime-local" class="form-control" placeholder=""
-                                                   name="date_and_time">
+                                                   name="date_and_time_event">
                                         </div>
 
                                         <div class="mb-4 d-none flex-column" id="recurring_day_div">
                                             <label class="fw-bold">Recurring Days</label>
-                                            <select id="type" class="form-select" name="recurring_days">
+                                            <select id="type" class="form-select" name="recurring_days_event">
                                                 <option value="every_day">Every day</option>
                                                 <option value="every_monday">Every monday</option>
                                                 <option value="every_tuesday">Every tuesday</option>
@@ -330,7 +330,7 @@
                                         </div>
                                         <div class="my-4">
                                             <label for="booking-duration" class="fw-bold">Duration of event</label>
-                                            <select id="event-duration" name="event_duration" class="form-select">
+                                            <select id="event-duration" name="event_duration_event" class="form-select">
                                                 <option value="15 minutes">15 minutes</option>
                                                 <option value="20 minutes">20 minutes</option>
                                                 <option value="30 minutes">30 minutes</option>
@@ -354,7 +354,7 @@
                                             <label for="sports" class="fw-bold">How many sports are
                                                 available</label>
                                             <input type="text" id="sports" class="form-control"
-                                                   placeholder="Type the available spots in numbers" name="sports">
+                                                   placeholder="Type the available spots in numbers" name="sports_event">
                                         </div>
 
                                         <div class="row">
@@ -362,13 +362,13 @@
                                                 <label for="service-hours" class="fw-bold">Client price</label>
                                                 <input type="text" class="form-control"
                                                        placeholder="Please add the price for your offering"
-                                                       name="client_price">
+                                                       name="client_price_event">
                                             </div>
                                             <div class=" col mb-4">
                                                 <label for="tax" class="fw-bold">Tax</label>
                                                 <input type="text" class="form-control"
                                                        placeholder="Enter the applicable tax percentage for your offering"
-                                                       name="tax_amount">
+                                                       name="tax_amount_event">
                                                 <span>Tax rates vary based on your location and business registration. If unsure, please consult your local tax regulations or a tax professional.</span>
                                             </div>
                                         </div>
@@ -377,7 +377,7 @@
                                                 <label for="type" class="fw-bold">Scheduling window (How far in
                                                     advance
                                                     they can book)</label>
-                                                <select id="type" class="form-select" name="scheduling_window">
+                                                <select id="type" class="form-select" name="scheduling_window_event">
                                                     <option value="15 minutes">15 minutes</option>
                                                     <option value="30 minutes">30 minutes</option>
                                                     <option value="45 minutes">45 minutes</option>
@@ -399,7 +399,7 @@
 
                                                     <p>Maximum length of 500 words</p>
                                                 </div>
-                                                <textarea class="form-control" name="email_template"
+                                                <textarea class="form-control" name="email_template_event"
                                                           id="email_template"
                                                           placeholder=""></textarea>
                                                 <p id="word-count">0 / 500 words</p>
@@ -407,7 +407,7 @@
                                             <div class="col mb-4">
                                                 <label for="service-hours" class="fw-bold">Intake form
                                                     (Optional)</label>
-                                                <input type="text" class="form-control" name="intake_form"
+                                                <input type="text" class="form-control" name="intake_form_event"
                                                        placeholder="enter your link">
                                             </div>
                                         </div>
@@ -416,7 +416,7 @@
                                                 <input type="checkbox" class="form-check-input"
                                                        id="can-be-cancelled"
                                                        data-type="hide" data-id="cancellation_time"
-                                                       name="is_cancelled">
+                                                       name="is_cancelled_event">
                                                 <label class="form-check-label mb-3 fw-bold"
                                                        for="can-be-cancelled">Cancellation (How far in advance can
                                                     this
@@ -424,7 +424,7 @@
                                             </div>
                                             <div class="col-md-6 mb-4 d-none" id="cancellation_time">
                                                 <label class="fw-bold">Cancellation time</label>
-                                                <select id="type" class="form-select" name="cancellation_time_slot">
+                                                <select id="type" class="form-select" name="cancellation_time_slot_event">
                                                     <option value="15 minutes">15 minutes</option>
                                                     <option value="30 minutes">30 minutes</option>
                                                     <option value="45 minutes">45 minutes</option>
@@ -440,7 +440,7 @@
                                         </div>
                                         <div class="form-check offering-check">
                                             <input type="checkbox" class="form-check-input" id="can-be-cancelled"
-                                                   name="is_confirmation">
+                                                   name="is_confirmation_event">
                                             <label class="form-check-label mb-3 fw-bold"
                                                    for="can-be-cancelled">Requires Confirmation</label>
                                         </div>
