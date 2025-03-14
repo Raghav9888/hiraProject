@@ -224,7 +224,7 @@
                                                 <div>
                                                     <label for="service-hours" class="fw-bold">From</label>
                                                     <input type="datetime-local" class="form-control"
-                                                           name="from_date_offering" placeholder="" value="{{$offering->from_date}}">
+                                                           name="from_date_offering" placeholder="" value="{{ $offering->from_date }}">
                                                 </div>
                                                 <div>
                                                     <label for="service-hours" class="fw-bold">To</label>

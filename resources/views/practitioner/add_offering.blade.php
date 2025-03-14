@@ -415,14 +415,14 @@
                                             <div class="form-check offering-check">
                                                 <input type="checkbox" class="form-check-input"
                                                        id="can-be-cancelled"
-                                                       data-type="hide" data-id="cancellation_time"
+                                                       data-type="hide" data-id="cancellation_time_event"
                                                        name="is_cancelled_event">
                                                 <label class="form-check-label mb-3 fw-bold"
                                                        for="can-be-cancelled">Cancellation (How far in advance can
                                                     this
                                                     be cancelled)</label>
                                             </div>
-                                            <div class="col-md-6 mb-4 d-none" id="cancellation_time">
+                                            <div class="col-md-6 mb-4 d-none" id="cancellation_time_event">
                                                 <label class="fw-bold">Cancellation time</label>
                                                 <select id="type" class="form-select" name="cancellation_time_slot_event">
                                                     <option value="15 minutes">15 minutes</option>
