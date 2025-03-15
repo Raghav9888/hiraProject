@@ -28,7 +28,7 @@
                         </div>
                         <h5>Alternative and Holistic Health Practitioner</h5>
                         <p class="mb-4">{{$userDetails->bio}}</p>
-                        @if($locations)
+                        @if($locations && $userLocations)
                             @foreach($locations as  $location)
                                 @if(in_array($location->id,$userLocations))
                                     <div class="practitioner-location-dv mb-4">
