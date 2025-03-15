@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -25,11 +26,15 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('admin.dashboard');
+        $user = Auth::user();
+        return view('admin.dashboard',[
+            'user' => $user
+        ]);
     }
 
     public function users()
     {
+        $user = Auth::user();
         $users = User::all();
         return view('admin.users');
     }

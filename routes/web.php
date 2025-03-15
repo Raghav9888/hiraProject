@@ -23,6 +23,7 @@ Auth::routes();
 Route::post('/reset-password', [ForgotPasswordController::class, 'sendResetLink'])->name('send.resetLink');
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/pending/user', [HomeController::class, 'pendingUser'])->name('pendingUserRequest');
 Route::get('/contact-us', [HomeController::class, 'contact'])->name('contact');
 Route::post('/contact', [HomeController::class, 'sendContactMail'])->name('sendContactMail');
 //Route::get('/setEndorsement/{id}', [HomeController::class, 'setEndorsement'])->name('setEndorsement');
@@ -50,9 +51,12 @@ Route::get('/calendar/time-slots/{date}/{id}', [HomeController::class, 'getTimeS
 Route::post('/storeBooking', [BookingController::class, 'storeBooking'])->name('storeBooking');
 Route::get('/checkout', [BookingController::class, 'checkout'])->name('checkout');
 
+
 Route::middleware(['auth', 'user-access:admin'])->name('admin.')->prefix('admin')->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::resource('users', UserController::class);
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::get('/new/users', [UserController::class, 'new'])->name('users.new');
+    Route::get('/users/edit/{id}', [UserController::class, 'edit'])->name('users.edit');
     Route::resource('blogs', BlogController::class);
 });
 

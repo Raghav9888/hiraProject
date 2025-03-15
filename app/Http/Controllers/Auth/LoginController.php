@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 
 class LoginController extends Controller
 {
@@ -54,12 +55,12 @@ class LoginController extends Controller
 
         if (Auth::attempt(array('email' => $input['email'], 'password' => $input['password']))) {
             $user = Auth::user();
-            if (Auth::user()->role == 0) {
+            if (Auth::user()->role == 2) {
                 return redirect()->route('admin.dashboard');
+            } elseIf(Auth::user()->role == 1) {
+                return redirect()->route('dashboard');
             } else {
-                $userDetails = $user->userDetail;
-                return redirect()->route('dashboard')->with(['user' => $user, 'userDetails' => $userDetails]);
-//                return view('user.myprofile', compact('user', 'userDetails'));
+                return redirect()->route('home');
             }
         } else {
             return redirect()->route('login')

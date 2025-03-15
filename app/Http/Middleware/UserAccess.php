@@ -11,19 +11,29 @@ class UserAccess
 {
     /**
      * Handle an incoming request.
-     *
-     * @param  \Closure(Request): (Response)  $next
      */
     public function handle(Request $request, Closure $next, $userType): Response
     {
-        if(Auth::user()->role == 0){
-            return $next($request);
+        $user = Auth::user();
+
+        if (!$user) {
+            return response()->json(['message' => 'Unauthorized. Please log in.'], 401);
         }
-        else
-        {
+
+        // Admins can access everything
+        if ($user->role == 2 && $user->status == 1) {
             return $next($request);
         }
 
-        return response()->json(['You do not have permission to access for this page.']);
+        // Practitioners should not access admin pages
+        if ($user->role == 1 && $user->status == 1 && $userType !== 'admin') {
+            return $next($request);
+        }
+
+//        if ($user->role == 0 && $user->status == 1 && ($userType !== 'admin' && $userType !== 'practitioner')) {
+//            return $next($request);
+//        }
+
+        return response()->json(['message' => 'You do not have permission to access this page.'], 403);
     }
 }

@@ -1,14 +1,17 @@
-
+require('bootbox')
+require('alertifyjs')
+require('jquery')
 console.log('script.js')
 
-$(document).on('click', '[data-action="bootbox"]', function(e) {
+
+$(document).on('click', '[data-action="bootbox"]', function (e) {
     e.preventDefault();
     let url = $(this).attr('href');
 
     $.ajax({
         type: 'GET',
         url: url,
-        success: function(response) {
+        success: function (response) {
             bootbox.dialog({
                 title: "Modal Title",
                 message: response,
@@ -17,37 +20,147 @@ $(document).on('click', '[data-action="bootbox"]', function(e) {
                     ok: {
                         label: 'OK',
                         className: 'btn-success',
-                        callback: function() {
+                        callback: function () {
                             console.log('OK button clicked');
                         }
                     },
                     cancel: {
                         label: 'Cancel',
                         className: 'btn-danger',
-                        callback: function() {
+                        callback: function () {
                             console.log('Cancel button clicked');
                         }
                     }
                 }
             });
         },
-        error: function() {
+        error: function () {
             bootbox.alert('An error occurred during the request.');
         }
     });
 });
 
-$(document).ready(function() {
-    $('.location-select2').select2({
-        placeholder: "Select options", // Placeholder text
-        allowClear: true // Enables clear button
-    });
 
-    $('.category-select2').select2({
-        placeholder: "Select options", // Placeholder text
-        allowClear: true, // Enables clear button
-        maximumSelectionLength: 3
+/*========== Use for bootbox form submit start ===========*/
+$(document).on('click', '[data-action="bootbox_form"]', function (event) {
+
+    event.preventDefault();
+
+    const $panelButton = $(this.submitTarget);
+    const url = $panelButton.attr('href');
+    const title = $panelButton.data('title');
+    const submit = $panelButton.data('submit');
+    const size = $panelButton.data('size');
+    const tableId = $panelButton.data('table');
+
+    $.ajax({
+        type: 'GET',
+        url: url,
+        beforeSend: function () {
+            // window.loadingScreen.addPageLoading();
+        },
+        success: function (response) {
+            bootbox.dialog({
+                title: title,
+                size: size || 'extra-large',
+                centerVertical: true,
+                message: response,
+                buttons: {
+                    cancel: {
+                        label: 'Close',
+                        className: 'btn-primary',
+                    },
+                    submit: {
+                        label: submit || 'Submit',
+                        className: 'btn-success',
+                        callback: function () {
+                            const $form = $(this).find('form');
+
+                            $form.find('[required]').on('input', function () {
+                                if ($(this).val()) {
+                                    if ($(this).attr('type') === 'email' && !isValidEmail($(this).val())) {
+                                        $(this).removeClass('is-valid').addClass('is-invalid');
+                                    } else {
+                                        $(this).removeClass('is-invalid').addClass('is-valid');
+                                    }
+                                } else {
+                                    $(this).removeClass('is-valid').addClass('is-invalid');
+                                }
+                            });
+
+                            function isValidEmail(email) {
+                                const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                                return emailPattern.test(email);
+                            }
+
+                            let hasEmptyFields = false;
+                            $form.find('[required]').each(function () {
+                                if (!$(this).val()) {
+                                    hasEmptyFields = true;
+                                    $(this).addClass('is-invalid');
+                                } else {
+                                    $(this).addClass('is-valid');
+                                }
+                            });
+
+                            if (hasEmptyFields) {
+                                alertify.warning('Please fill all required fields');
+                                return false;
+                            }
+
+
+                            const formData = new FormData($form[0]);
+                            $.ajax({
+                                type: 'POST',
+                                processData: false,
+                                contentType: false,
+                                cache: false,
+                                url: url,
+                                data: formData,
+                                enctype: 'multipart/form-data',
+                                beforeSend: function () {
+                                    // window.loadingScreen.addPageLoading();
+                                },
+                                success: function (response) {
+                                    window.location.reload();
+                                },
+                                error: function (xhr, error, status) {
+                                    alertify.error(xhr.responseJSON.message);
+                                },
+                                complete: function () {
+                                    // window.loadingScreen.removeLoading();
+                                }
+                            });
+                        },
+                    },
+                },
+            });
+        },
+        complete: function () {
+            // window.loadingScreen.removeLoading();
+        }
     });
+});
+
+
+/*========== Use for bootbox form submit end ===========*/
+
+
+$(document).ready(function () {
+    if ($('.location-select2').length > 0) {
+        $('.location-select2').select2({
+            placeholder: "Select options", // Placeholder text
+            allowClear: true // Enables clear button
+        });
+    }
+
+    if ($('.category-select2').length > 0) {
+        $('.category-select2').select2({
+            placeholder: "Select options", // Placeholder text
+            allowClear: true, // Enables clear button
+            maximumSelectionLength: 3
+        });
+    }
 })
 $(document).on('change', '#type', function () {
     let targetElement = $('#location');
@@ -128,14 +241,14 @@ $(document).on('click', '.save_term', function (e) {
         }
     });
 });
-if(document.getElementById('bio')){
+if (document.getElementById('bio')) {
     document.getElementById('bio').addEventListener('input', function () {
         let words = this.value.match(/\b\w+\b/g) || [];
         let wordCount = words.length;
         let maxWords = 500;
-    
+
         document.getElementById('word-count').textContent = wordCount + ' / ' + maxWords + ' words';
-    
+
         if (wordCount > maxWords) {
             alert('You can only enter up to 500 words.');
             this.value = words.slice(0, maxWords).join(' '); // Trim excess words
@@ -159,7 +272,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 /*** media upload */
-if(document.getElementById('media-upload')){
+if (document.getElementById('media-upload')) {
     document.getElementById('media-upload').addEventListener('change', function (event) {
         const container = document.getElementById('media-container');
         const files = event.target.files;
@@ -169,31 +282,31 @@ if(document.getElementById('media-upload')){
         }
         for (let file of files) {
             const reader = new FileReader();
-    
+
             reader.onload = function (e) {
                 const div = document.createElement('div');
                 div.classList.add('media-item');
-    
+
                 const img = document.createElement('img');
                 img.src = e.target.result;
                 img.style.width = "100px";
                 img.style.height = "100px";
                 img.style.objectFit = "cover";
                 img.style.display = "block";
-    
+
                 const removeBtn = document.createElement('i');
                 removeBtn.classList.add('fas', 'fa-times');
                 removeBtn.style.cursor = "pointer";
-    
+
                 removeBtn.addEventListener('click', function () {
                     div.remove();
                 });
-    
+
                 div.appendChild(img);
                 div.appendChild(removeBtn);
                 container.appendChild(div);
             };
-    
+
             reader.readAsDataURL(file);
         }
     });
@@ -242,8 +355,6 @@ function removeImage(element) {
     //     let targetElement = $('#custom_hours');
     //     $(this).val() !== 'custom' ? targetElement.toggleClass('d-none d-flex') : targetElement.toggleClass('d-none d-flex');
     // })
-
-
 
 
 }

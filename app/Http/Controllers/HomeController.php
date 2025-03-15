@@ -256,5 +256,18 @@ class HomeController extends Controller
     }
 
 
+    public function pendingUser()
+    {
+        $user = Auth::user();
+
+        if ($user->role != 0 || $user->status != 2) {
+            return redirect()->route('home');
+        }
+
+        return view('user.pending_user',[
+            'user' => $user
+        ]);
+    }
+
 
 }
