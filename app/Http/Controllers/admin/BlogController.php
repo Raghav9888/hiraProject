@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Blog;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
@@ -14,8 +15,9 @@ class BlogController extends Controller
      */
     public function index()
     {
+        $user = Auth::user();
         $blogs = Blog::latest()->paginate(10);
-        return view('admin.blogs.index', compact('blogs'));
+        return view('admin.blogs.index', compact('user','blogs'));
     }
 
     /**
@@ -23,13 +25,14 @@ class BlogController extends Controller
      */
     public function create()
     {
-        return view("admin.blogs.create");
+        $user = Auth::user();
+        return view("admin.blogs.create",compact('user'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    
+
     public function store(Request $request)
     {
         $request->validate([
@@ -37,12 +40,12 @@ class BlogController extends Controller
             'description' => 'required|string',
             'image' => 'required|image|mimes:jpg,png,jpeg,gif|max:2048', // Image validation
         ]);
-    
+
         // Generate Unique Slug
         $slug = Str::slug($request->name);
         $count = Blog::where('slug', 'LIKE', "{$slug}%")->count();
         $finalSlug = $count ? "{$slug}-{$count}" : $slug;
-    
+
         // Handle Image Upload
         if ($request->hasFile('image')) {
             $image = $request->file('image');
@@ -50,7 +53,7 @@ class BlogController extends Controller
             $image->move(public_path('uploads/blogs'), $imageName);
             $imagePath = 'uploads/blogs/' . $imageName;
         }
-    
+
         // Create Blog Post
         $blog = new Blog();
         $blog->name = $request->name;
@@ -58,10 +61,10 @@ class BlogController extends Controller
         $blog->slug = $finalSlug;
         $blog->image = $imagePath ?? null; // Save image path
         $blog->save();
-    
+
         return back()->with('success', 'Blog post created successfully!');
     }
-    
+
 
     /**
      * Display the specified resource.
@@ -90,7 +93,7 @@ class BlogController extends Controller
             'description' => 'required|string',
             'image' => 'nullable|image|mimes:jpg,png,jpeg,gif|max:2048', // Image optional
         ]);
-    
+
         // Update Slug Only If Name Changes
         if ($request->name !== $blog->name) {
             $slug = Str::slug($request->name);
@@ -98,29 +101,29 @@ class BlogController extends Controller
             $finalSlug = $count ? "{$slug}-{$count}" : $slug;
             $blog->slug = $finalSlug;
         }
-    
+
         // Handle Image Upload & Delete Old Image
         if ($request->hasFile('image')) {
             // Delete Old Image If Exists
             if ($blog->image && file_exists(public_path($blog->image))) {
                 unlink(public_path($blog->image));
             }
-    
+
             // Upload New Image
             $image = $request->file('image');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('uploads/blogs'), $imageName);
             $blog->image = 'uploads/blogs/' . $imageName;
         }
-    
+
         // Update Blog Data
         $blog->name = $request->name;
         $blog->description = $request->description;
         $blog->save();
-    
+
         return back()->with('success', 'Blog post updated successfully!');
     }
-    
+
 
     /**
      * Remove the specified resource from storage.
@@ -131,10 +134,10 @@ class BlogController extends Controller
         if ($blog->image && file_exists(public_path($blog->image))) {
             unlink(public_path($blog->image));
         }
-    
+
         $blog->delete();
-    
+
         return back()->with('success', 'Blog deleted successfully!');
     }
-    
+
 }

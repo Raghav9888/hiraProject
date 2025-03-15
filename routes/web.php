@@ -54,7 +54,8 @@ Route::get('/checkout', [BookingController::class, 'checkout'])->name('checkout'
 
 Route::middleware(['auth', 'user-access:admin'])->name('admin.')->prefix('admin')->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::resource('users', UserController::class);
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::get('/new/users', [UserController::class, 'new'])->name('users.new');
     Route::resource('blogs', BlogController::class);
 });
 
