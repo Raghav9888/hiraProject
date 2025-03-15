@@ -14,14 +14,14 @@
                         <input type="hidden" name="id" value="{{$offering->id}}">
                         <div class="mb-3 justify-content-center d-flex flex-column align-items-center">
                             <label class="pt-4 featured-image-tag fw-bold">Featured Image</label>
-                            <input type="file" id="fileInput" name="featured_image rounded-4" class="hidden"
+                            <input type="file" id="fileInput" name="featured_image" class="hidden rounded-4"
                                    accept="image/*"
                                    onchange="previewImage(event)" style="display: none;">
                             @if(isset($offering->featured_image))
                                 @php
                                     $imageUrl = asset(env('media_path') . '/practitioners/' . $userDetails->id . '/offering/'  . $offering->featured_image);
                                 @endphp
-                                <label class="image-preview" id="imagePreview"
+                                <label class="image-preview rounded-4" id="imagePreview"
                                        style="background-image: url('{{$imageUrl}}'); background-size: cover; background-position: center center;">
                                     <i class="fas fa-trash text-danger fs-3"
                                        data-image="{{ $offering->featured_image }}"

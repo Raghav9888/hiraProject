@@ -13,7 +13,7 @@
                         @csrf
                         <div class="mb-3 justify-content-center d-flex flex-column align-items-center">
                             <label class="pt-4 featured-image-tag fw-bold">Featured Image</label>
-                            <input type="file" id="fileInput" name="featured_image rounded-4" class="hidden"
+                            <input type="file" id="fileInput" name="featured_image" class="hidden  rounded-4"
                                    accept="image/*"
                                    onchange="previewImage(event)" style="display: none;">
                             <label for="fileInput" class="image-preview rounded-4" id="imagePreview">
