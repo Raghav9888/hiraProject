@@ -1,6 +1,3 @@
-require('bootbox')
-require('alertifyjs')
-require('jquery')
 console.log('script.js')
 
 
