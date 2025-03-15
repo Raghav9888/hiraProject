@@ -15,7 +15,6 @@
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="card-title">{{ $cardHeaderText ?? 'List of Users' }}</h4>
-                                </p>
                                 <div class="table-responsive">
                                     <table class="table table-striped">
                                         <thead>
@@ -59,7 +58,15 @@
                                                             <span class="mdi mdi-dots-vertical"></span>
                                                         </a>
                                                         <ul class="dropdown-menu">
-                                                            <li><a class="dropdown-item" href="#">Edit</a></li>
+                                                            <li>
+                                                                <a class="dropdown-item"
+                                                                   href="{{ route('admin.users.edit', $user->id) }}"
+                                                                   data-action="bootbox_form"
+                                                                   data-title="Edit User"
+                                                                   data-submit="Save Changes"
+                                                                   data-size="large"
+                                                                   data-table="usersTable">Edit</a>
+                                                            </li>
                                                             <li><a class="dropdown-item" href="#">Delete</a></li>
                                                         </ul>
                                                     </div>
@@ -76,7 +83,43 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Varying Modal Content</h4>
+                        <div class="modal fade" id="exampleModal-4" tabindex="-1" aria-labelledby="ModalLabel" style="display: none;" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="ModalLabel">New message to @mdo</h5>
+                                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">×</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form>
+                                            <div class="form-group">
+                                                <label for="recipient-name" class="col-form-label">Recipient:</label>
+                                                <input type="text" class="form-control" id="recipient-name">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="message-text" class="col-form-label">Message:</label>
+                                                <textarea class="form-control" id="message-text"></textarea>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-success">Send message</button>
+                                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal-4" data-whatever="@mdo">Open modal for @mdo</button>
+                    </div>
+                </div>
             </div>
+
 
         </div>
     </div>

@@ -56,6 +56,7 @@ Route::middleware(['auth', 'user-access:admin'])->name('admin.')->prefix('admin'
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
     Route::get('/new/users', [UserController::class, 'new'])->name('users.new');
+    Route::get('/users/edit/{id}', [UserController::class, 'edit'])->name('users.edit');
     Route::resource('blogs', BlogController::class);
 });
 

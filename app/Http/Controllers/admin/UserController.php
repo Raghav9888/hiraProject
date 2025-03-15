@@ -21,7 +21,7 @@ class UserController extends Controller
         $user = Auth::user();
         $users = User::where('role', 1)->where('status', 1)->latest()->paginate(10);
 
-        return view('admin.users.index', compact('user','users'));
+        return view('admin.users.index', compact('user', 'users'));
     }
 
 
@@ -31,11 +31,29 @@ class UserController extends Controller
     public function new()
     {
         $user = Auth::user();
-        $users = User::where('role', 0)->where('status',2)->latest()->paginate(10);
+        $users = User::where('role', 0)->where('status', 2)->latest()->paginate(10);
         $cardHeaderText = 'New Users';
-        return view('admin.users.index', compact('user','users','cardHeaderText'));
+        return view('admin.users.index', compact('user', 'users', 'cardHeaderText'));
     }
 
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        $user = Auth::user();
+        $userData = User::find($id);
+        return view('admin.users.edit', compact('user', 'userData'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        //
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -57,30 +75,6 @@ class UserController extends Controller
      * Display the specified resource.
      */
     public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
     {
         //
     }
