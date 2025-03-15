@@ -75,9 +75,11 @@
                                         @endforeach
                                         </tbody>
                                     </table>
-                                    <div class="custom_pagination">
-                                        {!! $users->links() !!}
-                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer bg-white text-end">
+                                <div class="d-flex justify-content-end">
+                                    {!! $users->links() !!}
                                 </div>
                             </div>
                         </div>
