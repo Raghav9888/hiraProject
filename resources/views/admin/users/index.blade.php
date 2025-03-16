@@ -84,15 +84,15 @@
                                                                     </li>
                                                                 @endif
                                                                 {{dump($text)}}
-                                                                <li>
-                                                                    <a class="dropdown-item"
-                                                                       href="{{route('admin.user.edit', ['id' => $user->id,'text' =>$text])}}"
-                                                                       data-action="bootbox_form"
-                                                                       data-title="Edit User"
-                                                                       data-submit="Save Changes"
-                                                                       data-size="large"
-                                                                       data-table="usersTable">Edit</a>
-                                                                </li>
+{{--                                                                <li>--}}
+{{--                                                                    <a class="dropdown-item"--}}
+{{--                                                                       href="{{route('admin.user.edit', ['id' => $user->id,'text' =>$text])}}"--}}
+{{--                                                                       data-action="bootbox_form"--}}
+{{--                                                                       data-title="Edit User"--}}
+{{--                                                                       data-submit="Save Changes"--}}
+{{--                                                                       data-size="large"--}}
+{{--                                                                       data-table="usersTable">Edit</a>--}}
+{{--                                                                </li>--}}
                                                                 @if($user->status != 3)
                                                                     <li>
                                                                         <a class="dropdown-item" data-type="alert"  data-title="Are you sure?"
