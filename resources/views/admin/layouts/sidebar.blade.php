@@ -7,32 +7,55 @@
             </a>
         </li>
         <li class="nav-item nav-category">Admin Dashboard</li>
-        <li class="nav-item">
+        <li class="nav-item {{request()->routeIs('admin.users.*')? 'active': ''}} ">
             <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false"
                aria-controls="ui-basic">
                 <i class="menu-icon mdi mdi-account-circle-outline"></i>
                 <span class="menu-title">User Management</span>
                 <i class="menu-arrow"></i>
             </a>
-            <div class="collapse" id="ui-basic">
+            <div class="collapse {{request()->routeIs('admin.users.*')? 'show': ''}}" id="ui-basic">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"><a class="nav-link" href="{{route('admin.users.index',['userType' => 'all'])}}">Users</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{route('admin.users.index',['userType' => 'new'])}}">New Users</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{route('admin.users.index',['userType' => 'delete'])}}">Delete Users</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->route('userType') == 'all' ? 'active' : '' }}" 
+                           href="{{ route('admin.users.index', ['userType' => 'all']) }}">Users</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->route('userType') == 'new' ? 'active' : '' }}" 
+                           href="{{ route('admin.users.index', ['userType' => 'new']) }}">New Users</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->route('userType') == 'delete' ? 'active' : '' }}" 
+                           href="{{ route('admin.users.index', ['userType' => 'delete']) }}">Delete Users</a>
+                    </li>
                 </ul>
             </div>
         </li>
-        <li class="nav-item">
+        <li class="nav-item {{request()->routeIs('admin.plans.*')? 'active': ''}} ">
+            <a class="nav-link" data-bs-toggle="collapse" href="#plan" aria-expanded="false"
+               aria-controls="plan">
+                <i class="menu-icon mdi mdi-card-text-outline"></i>
+                <span class="menu-title">Plan Management</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse {{request()->routeIs('admin.plans.*')? 'show': ''}}" id="plan">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"><a class="nav-link plans {{request()->routeIs('admin.plans.create')? 'active': ''}}" href="{{route('admin.plans.create')}}">Add New</a></li>
+                    <li class="nav-item"><a class="nav-link {{request()->routeIs('admin.plans.index')? 'active': ''}}" href="{{route('admin.plans.index')}}">All Plans</a></li>
+                </ul>
+            </div>
+        </li>
+        <li class="nav-item {{request()->routeIs('admin.blogs.*')? 'active': ''}}">
             <a class="nav-link" data-bs-toggle="collapse" href="#form-elements" aria-expanded="false"
                aria-controls="form-elements">
                 <i class="menu-icon mdi mdi-card-text-outline"></i>
                 <span class="menu-title">Blogs Management</span>
                 <i class="menu-arrow"></i>
             </a>
-            <div class="collapse" id="form-elements">
+            <div class="collapse {{request()->routeIs('admin.blogs.*')? 'show': ''}}" id="form-elements">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"><a class="nav-link" href="{{route('admin.blogs.create')}}">Add Blog</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{route('admin.blogs.index')}}">All Blogs</a></li>
+                    <li class="nav-item"><a class="nav-link {{request()->routeIs('admin.blogs.create')? 'active': ''}}" href="{{route('admin.blogs.create')}}">Add Blog</a></li>
+                    <li class="nav-item"><a class="nav-link {{request()->routeIs('admin.blogs.index')? 'active': ''}}" href="{{route('admin.blogs.index')}}">All Blogs</a></li>
                 </ul>
             </div>
         </li>

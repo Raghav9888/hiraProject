@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Calender\CalenderController;
@@ -60,6 +61,7 @@ Route::middleware(['auth', 'user-access:admin'])->name('admin.')->prefix('admin'
     Route::get('/delete/user/', [UserController::class, 'delete'])->name('user.delete');
     Route::get('/approve/user/', [UserController::class, 'approve'])->name('user.approve');
     Route::resource('blogs', BlogController::class);
+    Route::resource('plans', PlanController::class);
 });
 
 Route::middleware(['auth', 'user-access:user'])->group(function () {
