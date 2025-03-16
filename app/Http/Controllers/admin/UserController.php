@@ -20,9 +20,9 @@ class UserController extends Controller
     {
         $user = Auth::user();
         $users = match ($userType) {
-            'new' => User::where('role', 0)->orwhere('status', 2)->latest()->paginate(10),
+            'new' => User::where('status', 2)->latest()->paginate(10),
             'delete' => User::where('status', 3)->latest()->paginate(10),
-            default => User::where('role', 1)->where('status', 1)->latest()->paginate(10),
+            default => User::where('status', 1)->latest()->paginate(10),
         };
 
         $text = match ($userType) {
@@ -36,11 +36,11 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Request $request, string $id)
+    public function edit(Request $request, $id)
     {
         $user = Auth::user();
-        $userData = User::find($id);
         $text = (int) $request->get('text');
+        $userData = User::find($id);
 
         $userType = match ($text) {
             2 => 'new',
@@ -48,13 +48,13 @@ class UserController extends Controller
             default => 'all',
         };
 
-        return view('admin.users.edit', compact('user', 'userData', 'userType', 'text'));
+        return view('admin.users.edit', compact('user', 'userData', 'userType', 'text','id'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
         $user = User::where('id', $id)->first();
         $inputs = $request->all();
@@ -73,20 +73,41 @@ class UserController extends Controller
     }
 
 
-    public function delete(Request $request, string $id)
+    public function delete(Request $request)
     {
+        Auth::user();
         $text = (int)$request->get('text');
+        $id = $request->get('id');
         $user = User::where('id', $id)->first();
+
         if ($user) {
             $user->update(['status' => 3]);
         }
 
-        $redirect = match ($text) {
-            1 => 'admin.users.index',
-            2 => 'admin.users.new',
-            default => 'admin.users.delete',
+        $userType = match ($text) {
+            2 => 'new',
+            3 => 'delete',
+            default => 'all',
         };
-        return redirect()->route($redirect);
+        return redirect()->route('admin.users.index', ['userType' => $userType]);
+
+    }
+
+    public function approve(Request $request)
+    {
+        $user = Auth::user();
+        if (!$user) {
+            return redirect()->route('login');
+        }
+        $id = $request->get('id');
+
+        $userData = User::where('id', $id)->first();
+
+        if ($userData) {
+            $userData->update(['status' => 1]);
+        }
+
+        return redirect()->route('admin.users.index', ['userType' => 'new']);
     }
 
 

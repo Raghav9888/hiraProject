@@ -8,7 +8,7 @@
         @include('admin.layouts.sidebar')
         <div class="main-panel">
             <div class="content-wrapper">
-                <form method="POST" action="{{ route('admin.users.update',['id' => $userData->id, 'text' => $text ]) }}">
+                <form method="POST" action="{{ route('admin.user.update',['id' => $userData->id, 'text' => $text ]) }}">
                     @csrf
                     <div class="row">
                         <div class="col-md-12 grid-margin stretch-card">
@@ -48,15 +48,14 @@
                                             </option>
                                             <option value="1" {{ $userData->status == 1 ? 'selected' : '' }}>Active
                                             </option>
-                                            <option value="2" {{ $userData->status == 2 ? 'selected' : '' }}>Pending
-                                            </option>
+                                            <option value="2" {{ $userData->status == 2 ? 'selected' : '' }}>Pending</option>
+                                            <option value="3" {{ $userData->status == 3 ? 'selected' : '' }}>Delete</option>
                                         </select>
                                     </div>
-                                    
+
                                     <button type="submit" class="btn btn-primary mr-2">Submit</button>
                                     <a href="{{route('admin.users.index',['userType' => $userType])}}"
                                     class="btn btn-light">Cancel</a>
-
                                 </div>
                             </div>
                         </div>

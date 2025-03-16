@@ -61,6 +61,7 @@
                                                                 0 => '<span class="badge text-bg-danger rounded">Inactive</span>',
                                                                 1 => '<span class="badge text-bg-success rounded">active</span>',
                                                                 2 => '<span class="badge text-bg-warning rounded">Pending</span>',
+                                                                3 => '<span class="badge text-bg-danger rounded">Delete</span>',
                                                                 default => '<span class="badge text-bg-danger rounded">Not defined</span>',
                                                             };
                                                             ?>
@@ -72,19 +73,35 @@
                                                                 <span class="mdi mdi-dots-vertical"></span>
                                                             </a>
                                                             <ul class="dropdown-menu">
+                                                                @if($user->status == 2)
+                                                                    <li>
+                                                                        <a class="dropdown-item"
+                                                                           href="{{route('admin.user.approve')}} "
+                                                                           data-action="bootbox_form"
+                                                                           data-title="Edit User"
+                                                                           data-submit="Save Changes"
+                                                                           data-size="large"
+                                                                           data-table="usersTable">Approve user</a>
+                                                                    </li>
+                                                                @endif
                                                                 <li>
                                                                     <a class="dropdown-item"
-                                                                       href=" {{route('admin.users.edit', ['id' => $user->id,'text' =>$text])}} "
+                                                                       href="{{route('admin.user.edit', ['id' => $user->id,'text' =>$text])}}"
                                                                        data-action="bootbox_form"
                                                                        data-title="Edit User"
                                                                        data-submit="Save Changes"
                                                                        data-size="large"
                                                                        data-table="usersTable">Edit</a>
                                                                 </li>
-                                                                <li><a class="dropdown-item" href="{{}}">Delete</a></li>
+                                                                @if($user->status != 3)
+                                                                    <li><a class="dropdown-item"
+                                                                           href="{{route('admin.user.delete', ['id' => $user->id,'text' =>$text])}}">Delete</a>
+                                                                    </li>
+                                                                @endif
                                                             </ul>
                                                         </div>
                                                     </td>
+
                                                 </tr>
                                             @endforeach
                                             </tbody>
