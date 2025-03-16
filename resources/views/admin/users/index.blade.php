@@ -77,11 +77,10 @@
                                                                     <li>
                                                                         <a class="dropdown-item"
                                                                            href="{{route('admin.user.approve')}} "
-                                                                           data-action="bootbox_form"
-                                                                           data-title="Edit User"
-                                                                           data-submit="Save Changes"
-                                                                           data-size="large"
-                                                                           data-table="usersTable">Approve user</a>
+                                                                           data-type="alert"  data-title="Are you sure?"
+                                                                           data-text="Are you sure you want to approve this user!" data-icon-type="warning"
+                                                                           data-confirm-text="approved" data-cancel-text="cancel"
+                                                                          >Approve user</a>
                                                                     </li>
                                                                 @endif
                                                                 <li>
@@ -94,7 +93,10 @@
                                                                        data-table="usersTable">Edit</a>
                                                                 </li>
                                                                 @if($user->status != 3)
-                                                                    <li><a class="dropdown-item"
+                                                                    <li>
+                                                                        <a class="dropdown-item" data-type="alert"  data-title="Are you sure?"
+                                                                            data-text="Are you sure you want to delete this record?" data-icon-type="warning"
+                                                                           data-confirm-text="delete" data-cancel-text="cancel"
                                                                            href="{{route('admin.user.delete', ['id' => $user->id,'text' =>$text])}}">Delete</a>
                                                                     </li>
                                                                 @endif
