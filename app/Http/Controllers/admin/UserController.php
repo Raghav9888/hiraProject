@@ -33,6 +33,7 @@ class UserController extends Controller
         $user = Auth::user();
         $users = User::where('role', 0)->where('status', 2)->latest()->paginate(10);
         $cardHeaderText = 'New Users';
+
         return view('admin.users.index', compact('user', 'users', 'cardHeaderText'));
     }
 
@@ -40,11 +41,12 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $request,string $id)
     {
         $user = Auth::user();
         $userData = User::find($id);
-        return view('admin.users.edit', compact('user', 'userData'));
+        $cardHeaderText = $request->get('cardHeaderText');
+        return view('admin.users.edit', compact('user', 'userData', 'cardHeaderText'));
     }
 
     /**
