@@ -58,6 +58,7 @@ Route::middleware(['auth', 'user-access:admin'])->name('admin.')->prefix('admin'
     Route::get('/new/users', [UserController::class, 'new'])->name('users.new');
     Route::get('/users/edit/{id}', [UserController::class, 'edit'])->name('users.edit');
     Route::post('/users/update/{id}', [UserController::class, 'update'])->name('users.update');
+    Route::get('/delete/users/', [UserController::class, 'deleteUsers'])->name('users.delete');
     Route::resource('blogs', BlogController::class);
 });
 

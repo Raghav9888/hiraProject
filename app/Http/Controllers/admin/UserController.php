@@ -11,7 +11,7 @@ class UserController extends Controller
 {
 
     // role 0 = pending, role 1 = practitioner, role 2 = Admin 3 = User
-    // default status  0 = Inactive, status 1 = Active, status 2 = pending,
+    // default status  0 = Inactive, status 1 = Active, status 2 = pending, status 3 = Deleted, status 4 = Blocked
 
     /**
      * Display a listing of the resource.
@@ -20,8 +20,8 @@ class UserController extends Controller
     {
         $user = Auth::user();
         $users = User::where('role', 1)->where('status', 1)->latest()->paginate(10);
-
-        return view('admin.users.index', compact('user', 'users'));
+        $text = 1;
+        return view('admin.users.index', compact('user', 'users', 'text'));
     }
 
 
@@ -31,10 +31,10 @@ class UserController extends Controller
     public function new()
     {
         $user = Auth::user();
-        $users = User::where('role', 0)->where('status', 2)->latest()->paginate(10);
-        $cardHeaderText = 'New Users';
+        $users = User::where('role', 0)->orwhere('status', 2)->latest()->paginate(10);
+        $text = 2;
 
-        return view('admin.users.index', compact('user', 'users', 'cardHeaderText'));
+        return view('admin.users.index', compact('user', 'users', 'text'));
     }
 
 
@@ -45,8 +45,9 @@ class UserController extends Controller
     {
         $user = Auth::user();
         $userData = User::find($id);
-        $cardHeaderText = $request->get('cardHeaderText');
-        return view('admin.users.edit', compact('user', 'userData', 'cardHeaderText'));
+        $text = (int) $request->get('text');
+
+        return view('admin.users.edit', compact('user', 'userData', 'text'));
     }
 
     /**
@@ -56,13 +57,27 @@ class UserController extends Controller
     {
         $user = User::where('id', $id)->first();
         $inputs = $request->all();
-        $cardHeaderText = $request->get('cardHeaderText');
+        $text = (int) $request->get('text');
 
         if ($user) {
             $user->update($inputs);
         }
 
-        return redirect()->route((isset($cardHeaderText) && $cardHeaderText ? 'admin.users.new' : 'admin.users.index'));
+        $redirect = match ($text) {
+            1 => 'admin.users.index',
+            2 => 'admin.users.new',
+            default => 'admin.users.delete',
+        };
+        return redirect()->route($redirect);
+    }
+
+    public function deleteUsers()
+    {
+        $user = Auth::user();
+        $users = User::where('status', 3)->latest()->paginate(10);
+        $text = 3;
+
+        return view('admin.users.index', compact('user', 'users', 'text'));
     }
 
     /**

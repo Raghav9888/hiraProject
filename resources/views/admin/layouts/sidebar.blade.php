@@ -18,6 +18,7 @@
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item"><a class="nav-link" href="{{route('admin.users.index')}}">Users</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{route('admin.users.new')}}">New Users</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{route('admin.users.delete')}}">Delete Users</a></li>
                 </ul>
             </div>
         </li>
