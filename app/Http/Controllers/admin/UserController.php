@@ -30,7 +30,13 @@ class UserController extends Controller
             'delete' => '3',
             default => '1',
         };
-        return view('admin.users.index', compact('user', 'users', 'type'));
+        dd($type);
+        return view('admin.users.index', [
+            'user' => $user,
+            'users' => $users,
+            'userType' => $userType,
+            'type' => $type
+        ]);
     }
 
     /**
@@ -76,7 +82,7 @@ class UserController extends Controller
     public function delete(Request $request)
     {
         Auth::user();
-        $type = (int)$request->get('type');
+        $type = $request->get('type');
         $id = $request->get('id');
         $user = User::where('id', $id)->first();
 
