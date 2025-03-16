@@ -37,8 +37,6 @@
     @yield('content')
 </div>
 
-<!-- Bootstrap JS (Make sure this is included) -->
-{{--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>--}}
 <!-- plugins:js -->
 <script src="{{asset('admin/assets/vendors/js/vendor.bundle.base.js')}}"></script>
 <script src="{{asset('admin/assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js')}}"></script>

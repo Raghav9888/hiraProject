@@ -8,9 +8,8 @@
         @include('admin.layouts.sidebar')
         <div class="main-panel">
             <div class="content-wrapper">
-                <form method="POST" action="{{ route('admin.users.update', $user->id) }}">
+                <form method="POST" action="{{ route('admin.users.update', array_filter(['id' => $userData->id, 'cardHeaderText' => $cardHeaderText ?? ''])) }}">
                     @csrf
-                    @method('PUT')
                     <div class="row">
                         <div class="col-md-12 grid-margin stretch-card">
                             <div class="card">

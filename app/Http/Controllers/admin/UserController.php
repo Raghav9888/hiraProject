@@ -41,7 +41,7 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Request $request,string $id)
+    public function edit(Request $request, string $id)
     {
         $user = Auth::user();
         $userData = User::find($id);
@@ -54,7 +54,15 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $user = User::where('id', $id)->first();
+        $inputs = $request->all();
+        $cardHeaderText = $request->get('cardHeaderText');
+
+        if ($user) {
+            $user->update($inputs);
+        }
+
+        return redirect()->route((isset($cardHeaderText) && $cardHeaderText ? 'admin.users.new' : 'admin.users.index'));
     }
 
     /**
