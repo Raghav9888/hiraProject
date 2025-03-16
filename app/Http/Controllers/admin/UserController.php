@@ -39,16 +39,16 @@ class UserController extends Controller
     public function edit(Request $request, $id)
     {
         $user = Auth::user();
-        $text = $request->get('text');
+        $type = $request->get('type');
         $userData = User::find($id);
 
-        $userType = match ($text) {
+        $userType = match ($type) {
             '2' => 'new',
             '3' => 'delete',
             default => 'all',
         };
 
-        return view('admin.users.edit', compact('user', 'userData', 'userType', 'text','id'));
+        return view('admin.users.edit', compact('user', 'userData', 'userType', 'type','id'));
     }
 
     /**
@@ -58,13 +58,13 @@ class UserController extends Controller
     {
         $user = User::where('id', $id)->first();
         $inputs = $request->all();
-        $text = $request->get('text');
+        $type = $request->get('type');
 
         if ($user) {
             $user->update($inputs);
         }
 
-        $userType = match ($text) {
+        $userType = match ($type) {
             '2' => 'new',
             '3' => 'delete',
             default => 'all',
@@ -76,7 +76,7 @@ class UserController extends Controller
     public function delete(Request $request)
     {
         Auth::user();
-        $text = (int)$request->get('text');
+        $type = (int)$request->get('type');
         $id = $request->get('id');
         $user = User::where('id', $id)->first();
 
@@ -84,7 +84,7 @@ class UserController extends Controller
             $user->update(['status' => 3]);
         }
 
-        $userType = match ($text) {
+        $userType = match ($type) {
             '2' => 'new',
             '3' => 'delete',
             default => 'all',
