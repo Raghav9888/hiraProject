@@ -21,7 +21,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"
           integrity="sha512-vKMx8UnXk60zUwyUnUPM3HbQo8QfmNx7+ltw8Pm5zLusl1XIfwcxo8DbWCqMGKaWeNxWA8yrx5v3SaVpMvR3CA=="
           crossorigin="anonymous"/>
-
     <!-- Plugin css for this page -->
     <link rel="stylesheet" href="{{asset('admin/assets/vendors/datatables.net-bs4/dataTables.bootstrap4.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('admin/assets/js/select.dataTables.min.css')}}">
@@ -37,8 +36,6 @@
     @yield('content')
 </div>
 
-<!-- Bootstrap JS (Make sure this is included) -->
-{{--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>--}}
 <!-- plugins:js -->
 <script src="{{asset('admin/assets/vendors/js/vendor.bundle.base.js')}}"></script>
 <script src="{{asset('admin/assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js')}}"></script>
@@ -61,11 +58,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
         integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw=="
         crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
 <!-- Custom js for this page-->
 <script src="{{asset('admin/assets/js/jquery.cookie.js')}}" type="text/javascript"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!-- <script src="assets/js/Chart.roundedBarCharts.js"></script> -->
 <!-- End custom js for this page-->
 <script>
@@ -75,6 +73,40 @@
         "positionClass": "toast-top-right", // Change position
         "timeOut": "3000" // Hide after 3 seconds
     };
+
+    $(document).ready(function () {
+        $(document).on('click', '[data-type="alert"]', function (e) {
+            e.preventDefault();
+            var url = $(this).attr('href');
+            var title = $(this).data('title');
+            var text = $(this).data('text');
+            var icon = $(this).data('icon-type');
+            var confirmText = $(this).data('confirm-text') ?? 'no text defined';
+            var cancelText = $(this).data('cancel-text') ?? 'no text defined';
+            var confirmButtonColor = $(this).data('confirm-button-color') ?? '#3085d6';
+            var cancelButtonColor = $(this).data('cancel-button-color') ?? '#d33';
+
+            var validIcons = ["success", "error", "warning", "info", "question"];
+            if (!validIcons.includes(icon)) {
+                icon = "warning";
+            }
+
+            Swal.fire({
+                title: title,
+                text: text,
+                icon: icon,
+                showCancelButton: true,
+                confirmButtonColor: confirmButtonColor,
+                cancelButtonColor: cancelButtonColor,
+                confirmButtonText: confirmText,
+                cancelButtonText: cancelText,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = url;
+                }
+            });
+        });
+    })
 
 </script>
 @if(session('success'))

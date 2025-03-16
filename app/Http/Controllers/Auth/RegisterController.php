@@ -71,7 +71,7 @@ class RegisterController extends Controller
             'last_name' => $data['last_name'],
             'email' => $data['email'],
 //            role 0 = pending, role 1 = practitioner, role 2 = Admin
-            'role' => 0,
+            'role' => 1,
             //  default status  0 = Inactive, status 1 = Active, status 2 = pending,
             'status' => 2,
             'password' => Hash::make($data['password']),

@@ -11,71 +11,104 @@ class UserController extends Controller
 {
 
     // role 0 = pending, role 1 = practitioner, role 2 = Admin 3 = User
-    // default status  0 = Inactive, status 1 = Active, status 2 = pending,
+    // default status  0 = Inactive, status 1 = Active, status 2 = pending, status 3 = Deleted, status 4 = Blocked
 
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request, $userType)
     {
         $user = Auth::user();
-        $users = User::where('role', 1)->where('status', 1)->latest()->paginate(10);
+        $users = match ($userType) {
+            'new' => User::where('status', 2)->latest()->paginate(10),
+            'delete' => User::where('status', 3)->latest()->paginate(10),
+            default => User::where('status', 1)->latest()->paginate(10),
+        };
 
-        return view('admin.users.index', compact('user', 'users'));
+        $text = match ($userType) {
+            'new' => 2,
+            'delete' => 3,
+            default => 1,
+        };
+        return view('admin.users.index', compact('user', 'users', 'text'));
     }
-
-
-    /**
-     * Display a new user listing of the resource.
-     */
-    public function new()
-    {
-        $user = Auth::user();
-        $users = User::where('role', 0)->where('status', 2)->latest()->paginate(10);
-        $cardHeaderText = 'New Users';
-        return view('admin.users.index', compact('user', 'users', 'cardHeaderText'));
-    }
-
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $request, $id)
     {
         $user = Auth::user();
+        $text = (int) $request->get('text');
         $userData = User::find($id);
-        return view('admin.users.edit', compact('user', 'userData'));
+
+        $userType = match ($text) {
+            2 => 'new',
+            3 => 'delete',
+            default => 'all',
+        };
+
+        return view('admin.users.edit', compact('user', 'userData', 'userType', 'text','id'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $user = User::where('id', $id)->first();
+        $inputs = $request->all();
+        $text = (int) $request->get('text');
+
+        if ($user) {
+            $user->update($inputs);
+        }
+
+        $userType = match ($text) {
+            2 => 'new',
+            3 => 'delete',
+            default => 'all',
+        };
+        return redirect()->route('admin.users.index', ['userType' => $userType]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+
+    public function delete(Request $request)
     {
-        //
+        Auth::user();
+        $text = (int)$request->get('text');
+        $id = $request->get('id');
+        $user = User::where('id', $id)->first();
+
+        if ($user) {
+            $user->update(['status' => 3]);
+        }
+
+        $userType = match ($text) {
+            2 => 'new',
+            3 => 'delete',
+            default => 'all',
+        };
+        return redirect()->route('admin.users.index', ['userType' => $userType]);
+
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function approve(Request $request)
     {
-        //
+        $user = Auth::user();
+        if (!$user) {
+            return redirect()->route('login');
+        }
+        $id = $request->get('id');
+
+        $userData = User::where('id', $id)->first();
+
+        if ($userData) {
+            $userData->update(['status' => 1]);
+        }
+
+        return redirect()->route('admin.users.index', ['userType' => 'new']);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+
 }

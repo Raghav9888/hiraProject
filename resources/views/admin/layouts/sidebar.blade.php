@@ -16,8 +16,9 @@
             </a>
             <div class="collapse" id="ui-basic">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"><a class="nav-link" href="{{route('admin.users.index')}}">Users</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{route('admin.users.new')}}">New Users</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{route('admin.users.index',['userType' => 'all'])}}">Users</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{route('admin.users.index',['userType' => 'new'])}}">New Users</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{route('admin.users.index',['userType' => 'delete'])}}">Delete Users</a></li>
                 </ul>
             </div>
         </li>
