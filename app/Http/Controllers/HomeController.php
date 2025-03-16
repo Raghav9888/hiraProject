@@ -260,7 +260,7 @@ class HomeController extends Controller
     {
         $user = Auth::user();
 
-        if ($user->role != 0 || $user->status != 2) {
+        if ( $user->status != 2) {
             return redirect()->route('home');
         }
 
