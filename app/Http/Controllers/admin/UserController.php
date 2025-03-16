@@ -25,10 +25,10 @@ class UserController extends Controller
             default => User::where('status', 1)->latest()->paginate(10),
         };
 
-        $type = match ($userType) {
-            'new' => 2,
-            'delete' => 3,
-            default => 1,
+        $type =  match ($userType) {
+            'new' => '2',
+            'delete' => '3',
+            default => '1',
         };
         return view('admin.users.index', compact('user', 'users', 'type'));
     }
@@ -39,12 +39,12 @@ class UserController extends Controller
     public function edit(Request $request, $id)
     {
         $user = Auth::user();
-        $text = (int) $request->get('text');
+        $text = $request->get('text');
         $userData = User::find($id);
 
         $userType = match ($text) {
-            2 => 'new',
-            3 => 'delete',
+            '2' => 'new',
+            '3' => 'delete',
             default => 'all',
         };
 
@@ -58,15 +58,15 @@ class UserController extends Controller
     {
         $user = User::where('id', $id)->first();
         $inputs = $request->all();
-        $text = (int) $request->get('text');
+        $text = $request->get('text');
 
         if ($user) {
             $user->update($inputs);
         }
 
         $userType = match ($text) {
-            2 => 'new',
-            3 => 'delete',
+            '2' => 'new',
+            '3' => 'delete',
             default => 'all',
         };
         return redirect()->route('admin.users.index', ['userType' => $userType]);
@@ -85,8 +85,8 @@ class UserController extends Controller
         }
 
         $userType = match ($text) {
-            2 => 'new',
-            3 => 'delete',
+            '2' => 'new',
+            '3' => 'delete',
             default => 'all',
         };
         return redirect()->route('admin.users.index', ['userType' => $userType]);

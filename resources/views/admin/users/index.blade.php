@@ -16,10 +16,10 @@
                             <div class="card-body">
                                 <h4 class="card-title">
                                     <?php
-                                    if (isset($text) && $text) {
-                                        echo match ($text) {
-                                            1 => 'List of Users',
-                                            2 => 'New Users',
+                                    if (isset($type) && $type) {
+                                        echo match ($type) {
+                                            '1' => 'List of Users',
+                                            '2' => 'New Users',
                                             default => 'Delete Users',
                                         };
                                     }
