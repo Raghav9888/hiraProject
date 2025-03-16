@@ -83,7 +83,7 @@
                                                                           >Approve user</a>
                                                                     </li>
                                                                 @endif
-                                                                {{dump($text)}}
+                                                                {{dump($type)}}
 {{--                                                                <li>--}}
 {{--                                                                    <a class="dropdown-item"--}}
 {{--                                                                       href="{{route('admin.user.edit', ['id' => $user->id,'text' =>$text])}}"--}}

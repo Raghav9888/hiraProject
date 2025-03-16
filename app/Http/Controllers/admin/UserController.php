@@ -25,12 +25,12 @@ class UserController extends Controller
             default => User::where('status', 1)->latest()->paginate(10),
         };
 
-        $text = match ($userType) {
+        $type = match ($userType) {
             'new' => 2,
             'delete' => 3,
             default => 1,
         };
-        return view('admin.users.index', compact('user', 'users', 'text'));
+        return view('admin.users.index', compact('user', 'users', 'type'));
     }
 
     /**
