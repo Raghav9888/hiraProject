@@ -30,7 +30,7 @@ class UserController extends Controller
             'delete' => '3',
             default => '1',
         };
-        dd($type);
+      
         return view('admin.users.index', [
             'user' => $user,
             'users' => $users,
