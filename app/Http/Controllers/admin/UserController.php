@@ -16,27 +16,22 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request, $userType)
     {
         $user = Auth::user();
-        $users = User::where('role', 1)->where('status', 1)->latest()->paginate(10);
-        $text = 1;
+        $users = match ($userType) {
+            'new' => User::where('role', 0)->orwhere('status', 2)->latest()->paginate(10),
+            'delete' => User::where('status', 3)->latest()->paginate(10),
+            default => User::where('role', 1)->where('status', 1)->latest()->paginate(10),
+        };
+
+        $text = match ($userType) {
+            'new' => 2,
+            'delete' => 3,
+            default => 1,
+        };
         return view('admin.users.index', compact('user', 'users', 'text'));
     }
-
-
-    /**
-     * Display a new user listing of the resource.
-     */
-    public function new()
-    {
-        $user = Auth::user();
-        $users = User::where('role', 0)->orwhere('status', 2)->latest()->paginate(10);
-        $text = 2;
-
-        return view('admin.users.index', compact('user', 'users', 'text'));
-    }
-
 
     /**
      * Show the form for editing the specified resource.
@@ -47,7 +42,13 @@ class UserController extends Controller
         $userData = User::find($id);
         $text = (int) $request->get('text');
 
-        return view('admin.users.edit', compact('user', 'userData', 'text'));
+        $userType = match ($text) {
+            2 => 'new',
+            3 => 'delete',
+            default => 'all',
+        };
+
+        return view('admin.users.edit', compact('user', 'userData', 'userType', 'text'));
     }
 
     /**
@@ -63,6 +64,23 @@ class UserController extends Controller
             $user->update($inputs);
         }
 
+        $userType = match ($text) {
+            2 => 'new',
+            3 => 'delete',
+            default => 'all',
+        };
+        return redirect()->route('admin.users.index', ['userType' => $userType]);
+    }
+
+
+    public function delete(Request $request, string $id)
+    {
+        $text = (int)$request->get('text');
+        $user = User::where('id', $id)->first();
+        if ($user) {
+            $user->update(['status' => 3]);
+        }
+
         $redirect = match ($text) {
             1 => 'admin.users.index',
             2 => 'admin.users.new',
@@ -71,36 +89,5 @@ class UserController extends Controller
         return redirect()->route($redirect);
     }
 
-    public function deleteUsers()
-    {
-        $user = Auth::user();
-        $users = User::where('status', 3)->latest()->paginate(10);
-        $text = 3;
 
-        return view('admin.users.index', compact('user', 'users', 'text'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
 }

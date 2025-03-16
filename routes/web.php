@@ -54,11 +54,14 @@ Route::get('/checkout', [BookingController::class, 'checkout'])->name('checkout'
 
 Route::middleware(['auth', 'user-access:admin'])->name('admin.')->prefix('admin')->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/users', [UserController::class, 'index'])->name('users.index');
-    Route::get('/new/users', [UserController::class, 'new'])->name('users.new');
+
+    Route::get('/{userType}/users', [UserController::class, 'index'])->name('users.index');
+//    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+//    Route::get('/new/users', [UserController::class, 'new'])->name('users.new');
     Route::get('/users/edit/{id}', [UserController::class, 'edit'])->name('users.edit');
     Route::post('/users/update/{id}', [UserController::class, 'update'])->name('users.update');
-    Route::get('/delete/users/', [UserController::class, 'deleteUsers'])->name('users.delete');
+//    Route::get('/delete/users/', [UserController::class, 'deleteUsers'])->name('users.delete');
+    Route::post('/delete/user/', [UserController::class, 'delete'])->name('user.delete');
     Route::resource('blogs', BlogController::class);
 });
 

@@ -8,7 +8,7 @@
         @include('admin.layouts.sidebar')
         <div class="main-panel">
             <div class="content-wrapper">
-                <form method="POST" action="{{ route('admin.users.update', array_filter(['id' => $userData->id, 'text' => $text ?? ''])) }}">
+                <form method="POST" action="{{ route('admin.users.update',['id' => $userData->id, 'text' => $text ]) }}">
                     @csrf
                     <div class="row">
                         <div class="col-md-12 grid-margin stretch-card">
@@ -52,20 +52,9 @@
                                             </option>
                                         </select>
                                     </div>
-
-
+                                    
                                     <button type="submit" class="btn btn-primary mr-2">Submit</button>
-                                    <a href="
-                                    <?php
-                                        if(isset($text) && $text)
-                                        {
-                                            echo match ($text) {
-                                                1 => route('admin.users.index'),
-                                                2 => route('admin.users.new'),
-                                                default => route('admin.users.delete'),
-                                            };
-                                        }
-                                    ?>"
+                                    <a href="{{route('admin.users.index',['userType' => $userType])}}"
                                     class="btn btn-light">Cancel</a>
 
                                 </div>

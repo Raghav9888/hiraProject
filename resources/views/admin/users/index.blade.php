@@ -81,7 +81,7 @@
                                                                        data-size="large"
                                                                        data-table="usersTable">Edit</a>
                                                                 </li>
-                                                                <li><a class="dropdown-item" href="#">Delete</a></li>
+                                                                <li><a class="dropdown-item" href="{{}}">Delete</a></li>
                                                             </ul>
                                                         </div>
                                                     </td>
