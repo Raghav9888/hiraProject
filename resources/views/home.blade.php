@@ -326,7 +326,7 @@
                 @forEach($blogs as $blog)
                 <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
                     <div class="home-blog-dv">
-                        <img src="{{asset($blog->image)}}" alt="yoga">
+                        <img src="{{ asset(env('media_path') . '/admin/blog/' . $blog->image) }}" alt="yoga">
                         <div class="home-blog-label">
                             <h5>{{@$blog->category->name}}</h5>
                         </div>
