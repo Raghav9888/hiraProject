@@ -545,6 +545,9 @@ section {
 .home-blog-dv img {
     width: 100%;
     margin-bottom: 20px;
+    height: 230px;
+    object-fit: cover;
+    border-radius: 16px;
 }
 
 .home-blog-dv h4 {
@@ -585,7 +588,8 @@ section {
     margin: 0;
 }
 
-.home-blog-dv button {
+.home-blog-dv button, 
+.home-blog-dv a {
     font-family: "Montserrat-Regular";
     font-size: 16px;
     font-weight: 500;
@@ -1192,9 +1196,10 @@ section {
     color: #FFFFFF;
     background-color: #0000004D;
     border-radius: 30px;
-    width: 130px;
-    height: 34px;
+    /* width: 130px;
+    height: 34px; */
     border: none;
+    padding: 8px 16px;
 }
 
 .blog-detail-banner h6 {
@@ -2419,6 +2424,13 @@ textarea, input[type="time"] {
     list-style-type: none;
     margin-bottom: 10px;
     text-decoration: none
+}
+
+.blog-image {
+    width: 100%;
+    height: 170px;
+    object-fit: cover;
+    border-radius: 15px;
 }
 
 .footer-social-media-icon {

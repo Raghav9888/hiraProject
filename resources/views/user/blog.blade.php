@@ -34,7 +34,7 @@
                                         <div class="col-md-8">
                                             <div class="card-body">
                                                 <h5>{{$blog->name}}</h5>
-                                                <button>Meditation</button>
+                                                <button>{{@$blog->category->name}}</button>
                                                 <p>{{date('M d, Y', strtotime($blog->created_at))}}</p>
                                             </div>
                                         </div>

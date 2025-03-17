@@ -320,45 +320,21 @@
         <div class="container">
             <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
                 <h1 class="home-title">Holistic Wellness Resources</h1>
-                <button class="home-blog-btn">View All</button>
+                <a href="{{route('blog')}}" class="home-blog-btn">View All</a>
             </div>
             <div class="row">
+                @forEach($blogs as $blog)
                 <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
                     <div class="home-blog-dv">
-                        <img src="{{url('/assets/images/blog-yoga.png')}}" alt="yoga">
+                        <img src="{{asset($blog->image)}}" alt="yoga">
                         <div class="home-blog-label">
-                            <h5>Yoga</h5>
+                            <h5>{{@$blog->category->name}}</h5>
                         </div>
-                        <h4>Lorem ipsum dolor it amet elit, sed do temporut labore et dolore magna aliqua. </h4>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            labore et dolore magna aliqua. </p>
-                        <button>Learn More<i class="fa-solid fa-arrow-right"></i></button>
+                        <h4>{{$blog->name}}</h4>
+                        <a href="{{route('blogDetail', $blog->slug)}}">Learn More<i class="fa-solid fa-arrow-right"></i></a>
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
-                    <div class="home-blog-dv">
-                        <img src="{{url('/assets/images/blog-rekki.png')}}" alt="rekki">
-                        <div class="home-blog-label">
-                            <h5>Reiki</h5>
-                        </div>
-                        <h4>Lorem ipsum dolor it amet elit, sed do temporut labore et dolore magna aliqua. </h4>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            labore et dolore magna aliqua. </p>
-                        <button>Learn More<i class="fa-solid fa-arrow-right"></i></button>
-                    </div>
-                </div>
-                <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
-                    <div class="home-blog-dv">
-                        <img src="{{url('/assets/images/blog-energy.png')}}" alt="energy-hearing">
-                        <div class="home-blog-label">
-                            <h5>Energy Healing</h5>
-                        </div>
-                        <h4>Lorem ipsum dolor it amet elit, sed do temporut labore et dolore magna aliqua. </h4>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            labore et dolore magna aliqua. </p>
-                        <button>Learn More<i class="fa-solid fa-arrow-right"></i></button>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </section>

@@ -18,9 +18,21 @@
                                 <form class="forms-sample" method="POST" enctype="multipart/form-data" action="{{ route('admin.blogs.store') }}">
                                     @csrf
                                     <div class="form-group">
-                                        <label for="exampleInputName1">Name</label>
+                                        <label for="exampleInputName1">Category</label>
+                                        <select name="category" class="form-control" id="">
+                                            <option value="0" disabled>Select Category</option>
+                                            @foreach($categories as $category)
+                                            <option value="{{$category->id}}">{{$category->name}}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('category')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputName1">Title</label>
                                         <input type="text" class="form-control" name="name" required
-                                            id="exampleInputName1" value="{{old("name")}}" placeholder="Name">
+                                            id="exampleInputName1" value="{{old("name")}}" placeholder="Title">
                                         @error('name')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
