@@ -25,8 +25,8 @@
                                 <tr>
                                   <th>#</th>
                                   <th> Image </th>
-                                  <th> Category </th>
-                                  <th> Name </th>
+                                    <th> Title </th>
+                                    <th> Category </th>
                                   <th> Action </th>
                                 </tr>
                               </thead>
@@ -40,8 +40,9 @@
                                     <td>{{ ($blogs->currentPage() - 1) * $blogs->perPage() + $loop->iteration }}</td>
                                     <td><img src="{{ $imageUrl}}" alt="Blog Image"
                                       width="100"></td>
-                                    <td>{{@$blog->category->name}}</td>
                                     <td>{{$blog->name}}</td>
+
+                                    <td>{{@$blog->category->name}}</td>
                                     <td>
                                       <div class="action-btn-container d-flex gap-2">
                                         <a href="{{route('admin.blogs.edit', $blog->id)}}" class="btn btn-sm btn-primary">
