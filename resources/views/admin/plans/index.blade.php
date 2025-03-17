@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
-@section('content')  
-      
+@section('content')
+
 @include('admin.layouts.nav')
       <!-- partial -->
       <div class="container-fluid page-body-wrapper">
@@ -14,7 +14,7 @@
                     <div class="col-lg-12 grid-margin stretch-card">
                       <div class="card">
                         <div class="card-body">
-                          <div class="table-header d-flex">
+                          <div class="d-flex justify-content-between align-items-center">
                             <h4 class="card-title m-0">Plans</h4>
                             <a href="{{route('admin.plans.create')}}" class="btn btn-primary">Add New</a>
                           </div>
@@ -70,7 +70,7 @@
 
             </div>
       </div>
- @endsection        
+ @endsection
 
  @push('custom_scripts')
  <script>
