@@ -14,7 +14,7 @@
                     <div class="col-lg-12 grid-margin stretch-card">
                       <div class="card">
                         <div class="card-body">
-                          <div class="table-header d-flex">
+                          <div class="d-flex justify-content-between align-items-center">
                             <h4 class="card-title m-0">Blogs</h4>
                             <a href="{{route('admin.blogs.create')}}" class="btn btn-primary">Add New</a>
                           </div>
