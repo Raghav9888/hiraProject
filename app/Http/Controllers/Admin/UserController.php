@@ -22,7 +22,7 @@ class UserController extends Controller
         $users = match ($userType) {
             'new' => User::where('status', 2)->latest()->paginate(10),
             'delete' => User::where('status', 3)->latest()->paginate(10),
-            default => User::where('status', 1)->latest()->paginate(10),
+            default => User::where('status', 1)->where('role', 1)->latest()->paginate(10),
         };
 
         $type =  match ($userType) {

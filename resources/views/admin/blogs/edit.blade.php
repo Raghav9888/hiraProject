@@ -57,7 +57,10 @@
                                             </span>
                                         </div>
                                         <div class="old_img my-3">
-                                            <img src="{{ asset($blog->image) }}" alt="Blog Image" width="100">
+                                            <?php
+                                                $imageUrl = asset(env('media_path') . '/admin/blog/' . $blog->image);
+                                                ?>
+                                            <img src="{{ $imageUrl }}" alt="Blog Image" width="100">
                                         </div>
                                         @error('image')
                                             <span class="text-danger">{{ $message }}</span>

@@ -16,7 +16,7 @@
                                 <button class="blog-search-btn">Search</button>
                             </div> --}}
                         </div>
-                        <div class="blog-detail-banner" style="background-image:url({{asset($blog->image)}}) ">
+                        <div class="blog-detail-banner" style="background-image: url('{{ asset(env('media_path') . '/admin/blog/' . $blog->image) }}');">
                             <div class="d-flex justify-content-between align-items-center flex-wrap">
                                 <button class="mb-3">{{@$blog->category->name}}</button>
                                 <div style="display: flex; gap: 15px;" >

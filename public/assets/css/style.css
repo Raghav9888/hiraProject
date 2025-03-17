@@ -1165,7 +1165,6 @@ section {
 }
 
 .blog-detail-banner {
-    background-image: url(../images/blog-detail-banner.png);
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -2409,7 +2408,7 @@ textarea, input[type="time"] {
 }
 .blog-description {
     text-align: justify;
-}   
+}
 
 .footer-lists ul {
     padding: 0;

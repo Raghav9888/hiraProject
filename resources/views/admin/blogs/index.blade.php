@@ -1,16 +1,16 @@
 @extends('admin.layouts.app')
 
-@section('content')  
-      
-@include('admin.layouts.nav')
-      <!-- partial -->
-      <div class="container-fluid page-body-wrapper">
-            <!-- partial:partials/_sidebar.html -->
-            @include('admin.layouts.sidebar')
-            <!-- partial -->
-            <div class="main-panel">
-                <div class="content-wrapper">
-                  <div class="row">
+@section('content')
+
+    @include('admin.layouts.nav')
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+        <!-- partial:partials/_sidebar.html -->
+        @include('admin.layouts.sidebar')
+        <!-- partial -->
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="row">
                     <div class="col-lg-12 grid-margin stretch-card">
                       <div class="card">
                         <div class="card-body">
@@ -33,9 +33,13 @@
                               <tbody>
                                 @if(!$blogs->isEmpty())
                                 @foreach($blogs as $blog)
+                                <?php
+                                $imageUrl = asset(env('media_path') . '/admin/blog/' . $blog->image);
+                                ?>
                                 <tr>
                                     <td>{{ ($blogs->currentPage() - 1) * $blogs->perPage() + $loop->iteration }}</td>
-                                    <td><img src="{{ asset($blog->image) }}" alt="Blog Image" width="100"></td>
+                                    <td><img src="{{ $imageUrl}}" alt="Blog Image"
+                                      width="100"></td>
                                     <td>{{@$blog->category->name}}</td>
                                     <td>{{$blog->name}}</td>
                                     <td>
@@ -64,18 +68,16 @@
                             <div class="custom_pagination">
                                 {!! $blogs->links() !!}
                             </div>
-                          </div>
                         </div>
-                      </div>
                     </div>
-                  </div>
                 </div>
-
             </div>
-      </div>
- @endsection        
 
- @push('custom_scripts')
+        </div>
+    </div>
+@endsection
+
+@push('custom_scripts')
  <script>
   document.addEventListener("DOMContentLoaded", function() {
       $(".delete-btn").click(function() {

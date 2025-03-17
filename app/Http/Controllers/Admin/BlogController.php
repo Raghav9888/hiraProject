@@ -18,7 +18,8 @@ class BlogController extends Controller
     {
         $user = Auth::user();
         $blogs = Blog::latest()->paginate(10);
-        return view('admin.blogs.index', compact('user','blogs'));
+        $userDetail = $user->userDetail;
+        return view('admin.blogs.index', compact('user','userDetail','blogs'));
     }
 
     /**
@@ -42,7 +43,8 @@ class BlogController extends Controller
             'description' => 'required|string',
             'image' => 'required|image|mimes:jpg,png,jpeg,gif|max:2048', // Image validation
         ]);
-
+        $user = Auth::user();
+        $user_id = $user->id;
         // Generate Unique Slug
         $slug = Str::slug($request->name);
         $count = Blog::where('slug', 'LIKE', "{$slug}%")->count();
@@ -52,8 +54,8 @@ class BlogController extends Controller
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('uploads/blogs'), $imageName);
-            $imagePath = 'uploads/blogs/' . $imageName;
+            $image->move(public_path('uploads/admin/blog/'), $imageName);
+
         }
 
         // Create Blog Post
@@ -61,8 +63,8 @@ class BlogController extends Controller
         $blog->name = $request->name;
         $blog->description = $request->description;
         $blog->slug = $finalSlug;
+        $blog->image = $imageName ?? null; // Save image path
         $blog->category_id = $request->category;
-        $blog->image = $imagePath ?? null; // Save image path
         $blog->save();
 
         return back()->with('success', 'Blog post created successfully!');
@@ -97,6 +99,8 @@ class BlogController extends Controller
             'description' => 'required|string',
             'image' => 'nullable|image|mimes:jpg,png,jpeg,gif|max:2048', // Image optional
         ]);
+        $user = Auth::user();
+        $user_id = $user->id;
 
         // Update Slug Only If Name Changes
         if ($request->name !== $blog->name) {
@@ -116,8 +120,8 @@ class BlogController extends Controller
             // Upload New Image
             $image = $request->file('image');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('uploads/blogs'), $imageName);
-            $blog->image = 'uploads/blogs/' . $imageName;
+            $image->move(public_path('uploads/admin/blog/'), $imageName);
+            $blog->image = $imageName;
         }
 
         // Update Blog Data

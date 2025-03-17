@@ -20,28 +20,33 @@
                     @if(!$blogs->isEmpty())
                         @foreach($blogs as $blog)
 
-                        <div class="col-sm-12 col-md-6 col-lg-6 mb-4">
-                            <a href="{{route('blogDetail', $blog->slug)}}" style="text-decoration: none;" class="resources-body">
-                                <div class="row g-0">
-                                    <div class="col-md-4 px-2">
-                                        <img src="{{asset($blog->image)}}" alt="calm" class="img-fluid blog-image">
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="card-body">
-                                            <h5>{{$blog->name}}</h5>
-                                            <button>{{@$blog->category->name}}</button>
-                                            <p>{{date('M d, Y', strtotime($blog->created_at))}}</p>
+                            <div class="col-sm-12 col-md-6 col-lg-6 mb-4">
+                                <a href="{{route('blogDetail', $blog->slug)}}" style="text-decoration: none;"
+                                   class="resources-body">
+                                    <div class="row g-0">
+                                        <div class="col-md-4 px-2">
+                                                <?php
+                                                $imageUrl = asset(env('media_path') . '/admin/blog/' . $blog->image);
+                                                ?>
+
+                                            <img src="{{$imageUrl}}" alt="calm" class="img-fluid">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body">
+                                                <h5>{{$blog->name}}</h5>
+                                                <button>{{@$blog->category->name}}</button>
+                                                <p>{{date('M d, Y', strtotime($blog->created_at))}}</p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                            </a>
-                        </div>
+                                </a>
+                            </div>
                         @endforeach
                     @else
-                    <div class="col-sm-12 col-md-6 col-lg-6 mb-4">
-                        <p class="text-center">No Blogs found..</p>
-                    </div>
+                        <div class="col-sm-12 col-md-6 col-lg-6 mb-4">
+                            <p class="text-center">No Blogs found..</p>
+                        </div>
                     @endif
                     {{-- <div class="d-flex justify-content-center">
                         <button class="home-blog-btn">Load More</button>
