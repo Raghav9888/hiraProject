@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Blog;
+use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -26,7 +27,8 @@ class BlogController extends Controller
     public function create()
     {
         $user = Auth::user();
-        return view("admin.blogs.create",compact('user'));
+        $categories = Category::latest()->get();
+        return view("admin.blogs.create",compact('user', 'categories'));
     }
 
     /**
@@ -59,6 +61,7 @@ class BlogController extends Controller
         $blog->name = $request->name;
         $blog->description = $request->description;
         $blog->slug = $finalSlug;
+        $blog->category_id = $request->category;
         $blog->image = $imagePath ?? null; // Save image path
         $blog->save();
 
@@ -80,7 +83,8 @@ class BlogController extends Controller
     public function edit(string $id)
     {
         $blog = Blog::findOrFail($id);
-        return view('admin.blogs.edit', compact('blog'));
+        $categories = Category::latest()->get();
+        return view('admin.blogs.edit', compact('blog', 'categories'));
     }
 
     /**
@@ -119,6 +123,7 @@ class BlogController extends Controller
         // Update Blog Data
         $blog->name = $request->name;
         $blog->description = $request->description;
+        $blog->category_id = $request->category;
         $blog->save();
 
         return back()->with('success', 'Blog post updated successfully!');

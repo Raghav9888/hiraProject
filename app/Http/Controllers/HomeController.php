@@ -31,8 +31,9 @@ class HomeController extends Controller
         $users = User::where('role', 1)->with('userDetail')->get()->take(8);
         $categories = Category::all();
         $locations = Locations::get();
+        $blogs = Blog::latest()->get()->take(3);
 
-        return view('home', compact('users', 'categories','locations'));
+        return view('home', compact('users', 'categories','locations', 'blogs'));
     }
 
     public function partitionerLists()

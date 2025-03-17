@@ -25,6 +25,7 @@
                                 <tr>
                                   <th>#</th>
                                   <th> Image </th>
+                                  <th> Category </th>
                                   <th> Name </th>
                                   <th> Action </th>
                                 </tr>
@@ -35,6 +36,7 @@
                                 <tr>
                                     <td>{{ ($blogs->currentPage() - 1) * $blogs->perPage() + $loop->iteration }}</td>
                                     <td><img src="{{ asset($blog->image) }}" alt="Blog Image" width="100"></td>
+                                    <td>{{@$blog->category->name}}</td>
                                     <td>{{$blog->name}}</td>
                                     <td>
                                       <div class="action-btn-container d-flex gap-2">

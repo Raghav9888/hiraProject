@@ -16,9 +16,9 @@
                                 <button class="blog-search-btn">Search</button>
                             </div> --}}
                         </div>
-                        <div class="blog-detail-banner">
+                        <div class="blog-detail-banner" style="background-image:url({{asset($blog->image)}}) ">
                             <div class="d-flex justify-content-between align-items-center flex-wrap">
-                                <button class="mb-3">Meditation</button>
+                                <button class="mb-3">{{@$blog->category->name}}</button>
                                 <div style="display: flex; gap: 15px;" >
                                     <h6><i class="fa-regular fa-heart me-2"></i>Favourites</h6>
                                     <h6><i class="fa-solid fa-share-nodes me-2"></i>Share</h6>

@@ -24,12 +24,12 @@
                             <a href="{{route('blogDetail', $blog->slug)}}" style="text-decoration: none;" class="resources-body">
                                 <div class="row g-0">
                                     <div class="col-md-4 px-2">
-                                        <img src="{{asset($blog->image)}}" alt="calm" class="img-fluid">
+                                        <img src="{{asset($blog->image)}}" alt="calm" class="img-fluid blog-image">
                                     </div>
                                     <div class="col-md-8">
                                         <div class="card-body">
                                             <h5>{{$blog->name}}</h5>
-                                            <button>Meditation</button>
+                                            <button>{{@$blog->category->name}}</button>
                                             <p>{{date('M d, Y', strtotime($blog->created_at))}}</p>
                                         </div>
                                     </div>
