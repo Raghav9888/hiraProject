@@ -252,6 +252,7 @@ class PractitionerController extends Controller
             [
                 'privacy_policy' => $input['privacy_policy'],
                 'terms_condition' => $input['terms_condition'],
+                'cancellation_policy' => $input['cancellation_policy'],
             ]
         );
         return redirect()->back()->with('success', 'Profile updated successfully');

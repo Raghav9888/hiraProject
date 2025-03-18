@@ -236,10 +236,6 @@
                                                 @foreach($HowIHelp as $term)
                                             <option value="{{$term->id}}">{{$term->name}}</option>
 
-
-
-
-
                                         @endforeach
                                         </select>
                                     </div>
@@ -374,8 +370,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-md-12 store_hours-checkbox-container">
-                                                <label for="service-hours" class="fw-bold">Store Hours
-                                                    Availability</label>
+                                                <label for="service-hours" class="fw-bold">Store Hours Availability</label>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="row">
@@ -419,13 +414,13 @@
                                                             <div class="row">
                                                                 <div class="col-6">
                                                                     <label class="fw-bold">From</label>
-                                                                    <input type="datetime-local" class="form-control"
+                                                                    <input type="time" class="form-control"
                                                                            name="store_availabilities[<?= $key; ?>][from]"
                                                                            value="<?= htmlspecialchars($fromValue); ?>">
                                                                 </div>
                                                                 <div class="col-6">
                                                                     <label class="fw-bold">To</label>
-                                                                    <input type="datetime-local" class="form-control"
+                                                                    <input type="time" class="form-control"
                                                                            name="store_availabilities[<?= $key; ?>][to]"
                                                                            value="<?= htmlspecialchars($toValue); ?>">
                                                                 </div>
@@ -522,6 +517,12 @@
                                             <label for="floatingTextarea">Terms & Condition</label>
                                             <textarea class="form-control" name="terms_condition" placeholder=""
                                                       id="floatingTextarea">{{ $userDetails->terms_condition ?? '' }}</textarea>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="floatingTextarea">Cancellation Policy</label>
+                                            <textarea class="form-control" name="cancellation_policy" placeholder=""
+                                                      id="floatingTextarea">{{ $userDetails->cancellation_policy ?? '' }}</textarea>
                                         </div>
                                         <input type="hidden" name="id" value="{{ $user->id ?? '' }}">
                                         <div class="d-flex" style="gap: 20px;">
