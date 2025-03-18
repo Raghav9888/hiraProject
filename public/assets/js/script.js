@@ -320,10 +320,11 @@ function removeImage(element) {
         data: {
             image: imageName,
             user_id: userId,
-            _token: '{{ csrf_token() }}'
+            _token: $('meta[name="csrf-token"]').attr('content') // Fetch CSRF token dynamically
         },
         success: function (response) {
-            // Check if the profile image is being deleted
+            console.log('Image removed successfully', response);
+
             if (profileImage) {
                 // Remove the existing image preview
                 $('#imagePreview').remove();
@@ -337,22 +338,19 @@ function removeImage(element) {
 
                 $('#imageDiv').append(uploadLabel);
             } else {
-                $(element).parent().remove();
+                $(element).closest('.image-container').remove(); 
             }
-
-            console.log('Image removed successfully', response);
         },
         error: function (xhr, status, error) {
-            // Handle error
             console.error('Error removing image:', error);
         }
     });
-
-    // $(document).on('change','#availability_type',function (){
-    //     let targetElement = $('#custom_hours');
-    //     $(this).val() !== 'custom' ? targetElement.toggleClass('d-none d-flex') : targetElement.toggleClass('d-none d-flex');
-    // })
-
-
 }
+
+// Event listener for availability type change
+$(document).on('change', '#availability_type', function () {
+    let targetElement = $('#custom_hours');
+    targetElement.toggleClass('d-none d-flex', $(this).val() !== 'custom');
+});
+
 
