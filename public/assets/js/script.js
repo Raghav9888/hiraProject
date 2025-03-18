@@ -338,7 +338,7 @@ function removeImage(element) {
 
                 $('#imageDiv').append(uploadLabel);
             } else {
-                $(element).closest('.image-container').remove(); 
+                $(element).parent().remove();
             }
         },
         error: function (xhr, status, error) {
