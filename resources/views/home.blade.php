@@ -578,7 +578,6 @@
                                         <i class="fa-regular fa-heart"></i>
                                     </div>
                                     <h5><i class="fa-solid fa-location-dot"></i> ${locationText}</h5>
-                                    <p>Alternative and Holistic Health Practitioner</p>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div>${'<i class="fa-regular fa-gem"></i>'.repeat(5)}</div>
                                         <h6>5.0 Ratings</h6>

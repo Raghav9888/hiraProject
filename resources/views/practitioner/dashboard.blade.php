@@ -143,7 +143,7 @@
                                                     @endforeach
                                                 @endif
                                             </h5>
-                                            <p>Alternative and Holistic Health Practitioner</p>
+{{--                                            <p>Alternative and Holistic Health Practitioner</p>--}}
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <div>
                                                     <i class="fa-regular fa-gem"></i>
