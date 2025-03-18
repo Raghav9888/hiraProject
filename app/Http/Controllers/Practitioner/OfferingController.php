@@ -67,6 +67,7 @@ class OfferingController extends Controller
             "client_price" => $input['client_price_offering'],
             "tax_amount" => $input['tax_amount_offering'],
             "scheduling_window" => $input['scheduling_window_offering'],
+            "scheduling_window_offering_type" => $input['scheduling_window_offering_type'],
             "email_template" => $input['email_template_offering'],
             "intake_form" => $input['intake_form_offering'],
             "is_cancelled" => (isset($input['is_cancelled_offering']) && ($input['is_cancelled_offering'] == 'on')) ? 1 : 0,
@@ -91,6 +92,7 @@ class OfferingController extends Controller
             'event_duration' => $input['event_duration_event'],
             'sports' => $input['sports_event'],
             'scheduling_window' => $input['scheduling_window_event'],
+            'scheduling_window_event_type' => $input['scheduling_window_event_type'],
             'email_template' => $input['email_template_event'],
             'client_price' => $input['client_price_event'],
             'tax_amount' => $input['tax_amount_event'],
@@ -176,6 +178,7 @@ class OfferingController extends Controller
             "tax_amount" => $input['tax_amount_offering'],
             "buffer_time" => $input['buffer_time_offering'],
             "scheduling_window" => $input['scheduling_window_offering'],
+            "scheduling_window_offering_type" => $input['scheduling_window_offering_type'],
             "email_template" => $input['email_template_offering'],
             "intake_form" => $input['intake_form_offering'],
             "is_cancelled" => (isset($input['is_cancelled_offering']) && ($input['is_cancelled_offering'] == 'on')) ? 1 : 0,
@@ -193,13 +196,15 @@ class OfferingController extends Controller
             $offeringData['featured_image'] = $imageName;
         }
 
-        $data = [
+
+        $eventData = [
             'specify' => $input['specify_event'],
             'date_and_time' => $input['date_and_time_event'],
             'recurring_days' => $input['recurring_days_event'],
             'event_duration' => $input['event_duration_event'],
             'sports' => $input['sports_event'],
             'scheduling_window' => $input['scheduling_window_event'],
+            'scheduling_window_event_type' => $input['scheduling_window_event_type'],
             'email_template' => $input['email_template_event'],
             'client_price' => $input['client_price_event'],
             'tax_amount' => $input['tax_amount_event'],
@@ -209,12 +214,11 @@ class OfferingController extends Controller
             'is_confirmation' => (isset($input['is_confirmation_event']) && $input['is_confirmation_event'] == 'on') ? 1 : 0,
         ];
 
+
         $offering->update($offeringData);
-        if (!$event) {
-            $event = Event::create(array_merge($data, ['offering_id' => $offeringId]));
-        } else {
-            $event->update($data);
-        }
+
+        $event->update($eventData);
+
 
         return redirect()->route('offering')->with('success', 'Offering updated successfully!');
     }

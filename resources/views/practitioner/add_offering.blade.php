@@ -202,21 +202,23 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col mb-4">
-                                                <label for="type" class="fw-bold">Scheduling window (How far in advance
-                                                    they can book)</label>
-                                                <select id="type" class="form-select" name="scheduling_window_offering">
-                                                    <option value="15 minutes">15 minutes</option>
-                                                    <option value="30 minutes">30 minutes</option>
-                                                    <option value="45 minutes">45 minutes</option>
-                                                    <option value="1 hour">1 hour</option>
-                                                    <option value="1:30 hour">1:30 hour</option>
-                                                    <option value="2 hour">2 hours</option>
-                                                    <option value="4 hour">4 hour</option>
-                                                    <option value="8 hour">8 hour</option>
-                                                    <option value="12 hour">12 hour</option>
-                                                    <option value="24 hour">24 hour</option>
-                                                </select>
+                                            <div class="row">
+                                                <div class="col-6 mb-4">
+                                                    <label for="type" class="fw-bold">Scheduling window (How far in
+                                                        advance
+                                                        they can book)</label>
+
+                                                    <div class="d-flex mb-3">
+                                                        <input type="text" class="form-control me-2" name="scheduling_window_offering"
+                                                               placeholder="Please add the price for your offering">
+                                                        <select class="form-select" name="scheduling_window_offering_hours">
+                                                            <option value="minute">minute</option>
+                                                            <option value="hour">hour</option>
+                                                            <option value="day">day</option>
+                                                            <option value="month">month</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div class="col mb-4">
                                                 <label for="type" class="fw-bold">Buffer time between
@@ -368,22 +370,21 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col mb-4">
+                                            <div class="col-6 mb-4">
                                                 <label for="type" class="fw-bold">Scheduling window (How far in
                                                     advance
                                                     they can book)</label>
-                                                <select id="type" class="form-select" name="scheduling_window_event">
-                                                    <option value="15 minutes">15 minutes</option>
-                                                    <option value="30 minutes">30 minutes</option>
-                                                    <option value="45 minutes">45 minutes</option>
-                                                    <option value="1 hour">1 hour</option>
-                                                    <option value="1:30 hour">1:30 hour</option>
-                                                    <option value="2 hour">2 hours</option>
-                                                    <option value="4 hour">4 hour</option>
-                                                    <option value="8 hour">8 hour</option>
-                                                    <option value="12 hour">12 hour</option>
-                                                    <option value="24 hour">24 hour</option>
-                                                </select>
+
+                                                <div class="d-flex mb-3">
+                                                    <input type="text" class="form-control me-2" name="scheduling_window_event"
+                                                           placeholder="Please add the price for your offering">
+                                                    <select class="form-select" name="scheduling_window_event_type">
+                                                        <option value="minute">minute</option>
+                                                        <option value="hour">hour</option>
+                                                        <option value="day">day</option>
+                                                        <option value="month">month</option>
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="row">

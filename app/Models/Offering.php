@@ -29,6 +29,7 @@ class Offering extends Model
         'client_price',
         'tax_amount',
         'scheduling_window',
+        'scheduling_window_offering_type',
         'buffer_time',
         'email_template',
         'intake_form',

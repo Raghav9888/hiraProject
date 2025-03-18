@@ -249,44 +249,21 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col mb-4">
-                                                <label for="type" class="fw-bold">Scheduling window (How far in advance
+                                            <div class="col-6 mb-4">
+                                                <label for="type" class="fw-bold">Scheduling window (How far in
+                                                    advance
                                                     they can book)</label>
-                                                <select id="type" class="form-select" name="scheduling_window_offering">
-                                                    <option value="">Select</option>
-                                                    <option
-                                                        value="15 minutes" {{ $offering->scheduling_window  == '15 minutes' ? 'selected' : ''}}>
-                                                        15 minutes
-                                                    </option>
-                                                    <option
-                                                        value="30 minutes" {{ $offering->scheduling_window  == '30 minutes' ? 'selected' : ''}}>
-                                                        30 minutes
-                                                    </option>
-                                                    <option
-                                                        value="45 minutes" {{ $offering->scheduling_window  == '45 minutes' ? 'selected' : ''}}>
-                                                        45 minutes
-                                                    </option>
-                                                    <option
-                                                        value="1 hour" {{ $offering->scheduling_window  == '1 hour' ? 'selected' : ''}}>
-                                                        1 hour
-                                                    </option>
-                                                    <option
-                                                        value="1:15 hour" {{ $offering->scheduling_window  == '1:15 hour' ? 'selected' : ''}}>
-                                                        1:15 hour
-                                                    </option>
-                                                    <option
-                                                        value="1:30 hour" {{ $offering->scheduling_window  == '1:30 hour' ? 'selected' : ''}}>
-                                                        1:30 hour
-                                                    </option>
-                                                    <option
-                                                        value="1:45 hour" {{ $offering->scheduling_window  == '1:45 hour' ? 'selected' : ''}}>
-                                                        1:45 hour
-                                                    </option>
-                                                    <option
-                                                        value="2 hour" {{ $offering->scheduling_window  == '2 hour' ? 'selected' : ''}}>
-                                                        2 hour
-                                                    </option>
-                                                </select>
+
+                                                <div class="d-flex mb-3">
+                                                    <input type="text" class="form-control me-2" name="scheduling_window_offering"
+                                                           placeholder="Please add the price for your offering" value="{{$offering?->scheduling_window}}">
+                                                    <select id="scheduling_window_offering_type" class="form-select" name="scheduling_window_offering_type">
+                                                        <option value="minute" {{$offering->scheduling_window_offering_type === 'minute' ? 'selected':''}}>minute</option>
+                                                        <option value="hour" {{$offering->scheduling_window_offering_type === 'hour' ? 'selected':''}}>hour</option>
+                                                        <option value="day" {{$offering->scheduling_window_offering_type === 'day' ? 'selected':''}}>day</option>
+                                                        <option value="month" {{$offering->scheduling_window_offering_type === 'month' ? 'selected':''}}>month</option>
+                                                    </select>
+                                                </div>
                                             </div>
                                             <div class="col mb-4">
                                                 <label for="type" class="fw-bold">Buffer time between
@@ -541,81 +518,21 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col mb-4">
+                                            <div class="col-6 mb-4">
                                                 <label for="type" class="fw-bold">Scheduling window (How far in
                                                     advance
                                                     they can book)</label>
-                                                <select id="type" class="form-select" name="scheduling_window_event">
-                                                    <option
-                                                        value="15 minutes" {{$offering->event?->scheduling_window === '15 minutes' ? 'selected':''}} >
-                                                        15 minutes
-                                                    </option>
-                                                    <option
-                                                        value="20 minutes" {{$offering->event?->scheduling_window === '20 minutes' ? 'selected':''}}>
-                                                        20 minutes
-                                                    </option>
-                                                    <option
-                                                        value="30 minutes" {{$offering->event?->scheduling_window === '30 minutes' ? 'selected':''}}>
-                                                        30 minutes
-                                                    </option>
-                                                    <option
-                                                        value="45 minutes" {{$offering->event?->scheduling_window === '45 minutes' ? 'selected':''}}>
-                                                        45 minutes
-                                                    </option>
-                                                    <option
-                                                        value="50 minutes" {{$offering->event?->scheduling_window === '50 minutes' ? 'selected':''}}>
-                                                        50 minutes
-                                                    </option>
-                                                    <option
-                                                        value="1 hour" {{$offering->event?->scheduling_window === '1 hour' ? 'selected':''}}>
-                                                        1 hour
-                                                    </option>
-                                                    <option
-                                                        value="1:15 hour" {{$offering->event?->scheduling_window === '1:15 hour' ? 'selected':''}}>
-                                                        1:15 hour
-                                                    </option>
-                                                    <option
-                                                        value="1:30 hour" {{$offering->event?->scheduling_window === '1:30 hour' ? 'selected':''}}>
-                                                        1:30 hour
-                                                    </option>
-                                                    <option
-                                                        value="1:45 hour" {{$offering->event?->scheduling_window === '1:45 hour' ? 'selected':''}}>
-                                                        1:45 hour
-                                                    </option>
-                                                    <option
-                                                        value="1:50 hour" {{$offering->event?->scheduling_window === '1:50 hour' ? 'selected':''}}>
-                                                        1:50 hour
-                                                    </option>
-                                                    <option
-                                                        value="2 hour" {{$offering->event?->scheduling_window === '2 hour' ? 'selected':''}}>
-                                                        2 hours
-                                                    </option>
-                                                    <option
-                                                        value="3 hour" {{$offering->event?->scheduling_window === '3 hour' ? 'selected':''}}>
-                                                        3 hour
-                                                    </option>
-                                                    <option
-                                                        value="4 hour" {{$offering->event?->scheduling_window === '4 hour' ? 'selected':''}}>
-                                                        4 hour
-                                                    </option>
-                                                    <option
-                                                        value="1 Month" {{$offering->event?->scheduling_window === '1 Month' ? 'selected':''}}>
-                                                        1 Month
-                                                    </option>
-                                                    <option
-                                                        value="2 Month" {{$offering->event?->scheduling_window === '2 Month' ? 'selected':''}}>
-                                                        2 Months
-                                                    </option>
-                                                    <option
-                                                        value="3 Month" {{$offering->event?->scheduling_window === '3 Month' ? 'selected':''}}>
-                                                        3 Months
-                                                    </option>
-                                                    <option
-                                                        value="4 Month" {{$offering->event?->scheduling_window === '4 Month' ? 'selected':''}}>
-                                                        4 Months
-                                                    </option>
 
-                                                </select>
+                                                <div class="d-flex mb-3">
+                                                    <input type="text" class="form-control me-2" name="scheduling_window_event"
+                                                           placeholder="Please add the price for your offering" value="{{$offering->event?->scheduling_window}}">
+                                                    <select id="scheduling_window_event_type" class="form-select" name="scheduling_window_event_type">
+                                                        <option value="minute" {{$offering->event?->scheduling_window_event_type === 'minute' ? 'selected':''}}>minute</option>
+                                                        <option value="hour" {{$offering->event?->scheduling_window_event_type === 'hour' ? 'selected':''}}>hour</option>
+                                                        <option value="day" {{$offering->event?->scheduling_window_event_type === 'day' ? 'selected':''}}>day</option>
+                                                        <option value="month" {{$offering->event?->scheduling_window_event_type === 'month' ? 'selected':''}}>month</option>
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="row">

@@ -15,6 +15,7 @@ class Event extends Model
         'event_duration',
         'sports',
         'scheduling_window',
+        'scheduling_window_event_type',
         'email_template',
         'client_price',
         'tax_amount',
