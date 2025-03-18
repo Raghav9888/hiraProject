@@ -211,7 +211,7 @@
                                                     <div class="d-flex mb-3">
                                                         <input type="text" class="form-control me-2" name="scheduling_window_offering"
                                                                placeholder="Please add the price for your offering">
-                                                        <select class="form-select" name="scheduling_window_offering_hours">
+                                                        <select class="form-select" name="scheduling_window_offering_type">
                                                             <option value="minute">minute</option>
                                                             <option value="hour">hour</option>
                                                             <option value="day">day</option>
