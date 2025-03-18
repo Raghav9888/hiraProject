@@ -123,7 +123,8 @@ class HomeController extends Controller
     public function practitionerOfferingDetail($id)
     {
         $offeringDetail = Offering::findOrFail($id);
-        return view('user.offering_detail', compact( 'offeringDetail'));
+        $user = $offeringDetail->user;
+        return view('user.offering_detail', compact( 'offeringDetail','user'));
     }
 
     public function checkout()
