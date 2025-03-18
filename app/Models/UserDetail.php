@@ -29,6 +29,7 @@ class UserDetail extends Model
         'is_google_analytics',
         'privacy_policy',
         'terms_condition',
+        'cancellation_policy',
         'amenities',
         'store_availabilities'
     ];
