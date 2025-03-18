@@ -167,18 +167,27 @@
     </section>
 
     <script>
-        $(document).on('click', '#endorsementBtn', function (e) {
-            e.preventDefault();
-            let search = $('#endorsements').val();
+        let typingTimer;
+        const doneTypingInterval = 500; // Adjust delay time as needed
+
+        $("#endorsements").on('input', function () {
+            clearTimeout(typingTimer);
+            typingTimer = setTimeout(function () {
+                searchPractitioner();
+            }, doneTypingInterval);
+        });
+
+        function searchPractitioner() {
+            const search = $("#endorsements").val();
 
             let imagePath = `{{env('media_path')}}`;
             let localPath = `{{env('local_path')}}`;
             let locationArr = @json($defaultLocations);
-            console.log(locationArr);
+
             $.ajax({
                 url: '/search/practitioner',
                 type: 'get',
-                data: {search},
+                data: { search },
                 success: function (response) {
                     let endorsementHtml = '';
 
@@ -197,7 +206,6 @@
                                     locationNames = JSON.parse(practitioner.location).map(function (locationId) {
                                         return locationArr[locationId] || 'location';
                                     }).slice(0, 2).join(', ');
-                                    ;
                                 } else {
                                     locationNames = 'no found';
                                 }
@@ -207,29 +215,25 @@
                                 let imageUrl = images?.profile_image
                                     ? `${imagePath}/practitioners/${practitioner.user_detail.id}/profile/${images.profile_image}`
                                     : `${localPath}/images/no_image.png`;
+
                                 endorsementHtml += `
-                            <div class="col-sm-12 col-md-6 col-lg-4">
-                                <div class="browser-other-dv">
-                                    <div class="d-flex justify-content-center">
-                                       <img src="${imageUrl}" alt="person" class="img-fit img-fluid">
+                                    <div class="col-sm-12 col-md-6 col-lg-4">
+                                        <div class="browser-other-dv">
+                                            <div class="d-flex justify-content-center">
+                                                <img src="${imageUrl}" alt="person" class="img-fit img-fluid">
+                                            </div>
+                                            <h5>${practitioner.name}</h5>
+                                            <h6>${practitioner.bio && practitioner.bio.length > 0 ? practitioner.bio : ''}</h6>
+                                            <div class="d-flex justify-content-between">
+                                                <button class="endrose" id="endrose" data-user-id="${practitioner.id}">Endorse</button>
+                                                <div class="miles"><i class="fa-solid fa-location-dot me-2"></i>${locationNames}</div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <h5>${practitioner.name}</h5>
-                              <h6>${practitioner.bio && practitioner.bio.length > 0 ? practitioner.bio : ''}</h6>
-
-
-                                    <div class="d-flex justify-content-between">
-
-                                        <button class="endrose" id="endrose" data-user-id="${practitioner.id}">Endorse</button>
-
-
-                                        <div class="miles"><i class="fa-solid fa-location-dot me-2"></i>${locationNames}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
+                                `;
                             }
 
-                            endorsementHtml += '</div>';  // Close row
+                            endorsementHtml += '</div>'; // Close row
                         }
                     }
 
@@ -237,7 +241,7 @@
                     $('#endorsementRow').html(endorsementHtml);
                 }
             });
-        });
+        }
 
 
         $(document).on('click', '#endrose', function (e) {
