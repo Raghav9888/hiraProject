@@ -216,8 +216,11 @@ class OfferingController extends Controller
 
 
         $offering->update($offeringData);
-
-        $event->update($eventData);
+        if (!$event) {
+            $event = Event::create(array_merge($eventData, ['offering_id' => $offeringId]));
+        } else {
+            $event->update($eventData);
+        }
 
 
         return redirect()->route('offering')->with('success', 'Offering updated successfully!');
