@@ -271,16 +271,11 @@
                                             <div class="col-md-6 mb-4 d-none" id="cancellation_time">
                                                 <label class="fw-bold">Cancellation time</label>
                                                 <select id="type" class="form-select" name="cancellation_time_slot_offering">
-                                                    <option value="15 minutes">15 minutes</option>
-                                                    <option value="30 minutes">30 minutes</option>
-                                                    <option value="45 minutes">45 minutes</option>
-                                                    <option value="1 hour">1 hour</option>
-                                                    <option value="2 hour">2 hour</option>
-                                                    <option value="4 hour">4 hour</option>
-                                                    <option value="8 hour">8 hour</option>
-                                                    <option value="12 hour">12 hour</option>
-                                                    <option value="24 hour">24 hour</option>
-                                                    <option value="48 hour">48 hour</option>
+                                                    <option value="24 hour">24 hours</option>
+                                                    <option value="48 hour">48 hours</option>
+                                                    <option value="72 hour">72 hours</option>
+                                                    <option value="1 week">1 weeks</option>
+                                                    <option value="2 week">2 weeks</option>
                                                 </select>
                                             </div>
                                         </div>
