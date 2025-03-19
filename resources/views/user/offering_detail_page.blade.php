@@ -70,11 +70,7 @@
     <script>
         function openPopup(element) {
     let offeringId = element.getAttribute('data-offering-id');
-    
-    // Store it in a hidden input
     document.getElementById('offeringId').value = offeringId;
-
-    // Open the popup
     document.getElementById('popup').style.display = 'block';
 }
 
