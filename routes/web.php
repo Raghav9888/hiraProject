@@ -64,6 +64,7 @@ Route::middleware(['auth', 'user-access:admin'])->name('admin.')->prefix('admin'
     Route::resource('blogs', BlogController::class);
     Route::resource('plans', PlanController::class);
     Route::get('/locations', [LocationController::class, 'locations'])->name('location.index');
+    Route::post('/create/location', [LocationController::class, 'createLocation'])->name('location.create');
 });
 
 Route::middleware(['auth', 'user-access:user'])->group(function () {

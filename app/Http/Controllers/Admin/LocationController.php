@@ -17,4 +17,8 @@ class LocationController extends Controller
             'user' => $user
         ]);
     }
+    public function createLocation()
+    {
+        return view('admin.location.create');
+    }
 }
