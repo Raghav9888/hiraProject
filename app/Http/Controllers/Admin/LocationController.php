@@ -21,4 +21,8 @@ class LocationController extends Controller
     {
         return view('admin.location.create');
     }
+    public  function editLocation()
+    {
+        return view('admin.location.edit');
+    }
 }
