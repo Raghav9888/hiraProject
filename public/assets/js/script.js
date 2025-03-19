@@ -310,22 +310,27 @@ if (document.getElementById('media-upload')) {
 }
 
 function removeImage(element) {
-    const imageName = $(element).data('image');
+    const imageUrl = $(element).data('image-url');
     const userId = $(element).data('user-id');
-    const profileImage = $(element).data('profile-image');
+    const isProfileImage = $(element).data('profile-image') ?? false;
+    const isOfferImage = $(element).data('offering-image') ?? false;
+    const imageName = $(element).data('name');
 
     $.ajax({
         url: '/delete/image',
         type: 'POST',
         data: {
             image: imageName,
+            url : imageUrl,
+            isProfileImage: isProfileImage,
+            isOfferImage: isOfferImage,
             user_id: userId,
-            _token: $('meta[name="csrf-token"]').attr('content') // Fetch CSRF token dynamically
+            _token: $('meta[name="csrf-token"]').attr('content')
         },
         success: function (response) {
             console.log('Image removed successfully', response);
 
-            if (profileImage) {
+            if (isProfileImage || isOfferImage) {
                 // Remove the existing image preview
                 $('#imagePreview').remove();
 

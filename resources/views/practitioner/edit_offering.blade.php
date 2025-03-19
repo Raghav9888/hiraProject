@@ -12,33 +12,40 @@
                     <form method="POST" action="{{ route('update_offering') }}" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" name="id" value="{{$offering->id}}">
-                        <div class="mb-3 justify-content-center d-flex flex-column align-items-center">
-                            <label class="pt-4 featured-image-tag fw-bold">Featured Image</label>
-                            <input type="file" id="fileInput" name="featured_image" class="hidden rounded-4"
+                        <div class="mb-4  d-flex flex-column align-items-center" id="imageDiv">
+                            <p class="text-center mb-2 fw-bold">Offering
+                                Image</p>
+                            <input type="file" id="fileInput" name="featured_image" class="hidden"
                                    accept="image/*"
                                    onchange="previewImage(event)" style="display: none;">
+
                             @if(isset($offering->featured_image))
                                 @php
                                     $imageUrl = asset(env('media_path') . '/practitioners/' . $userDetails->id . '/offering/'  . $offering->featured_image);
                                 @endphp
-                                <label class="image-preview rounded-4" id="imagePreview"
-                                       style="background-image: url('{{$imageUrl}}'); background-size: cover; background-position: center center;">
+                                <label class="image-preview rounded-5 " id="imagePreview"
+                                       style=" background-image: url('{{$imageUrl}}'); background-size: cover; background-position: center center;">
                                     <i class="fas fa-trash text-danger fs-3"
-                                       data-image="{{ $offering->featured_image }}"
+                                       data-image-url="{{ $imageUrl }}"
                                        data-user-id="{{ $userDetails->id }}"
-                                       data-profile-image="true"
+                                       data-name="{{ $offering->featured_image }}"
+                                       data-offering-image="true"
                                        onclick="removeImage(this);" style="cursor: pointer;"></i>
                                 </label>
                             @else
                                 <label onclick="document.getElementById('fileInput').click();"
-                                       class="image-preview" id="imagePreview"
+                                       class="image-preview rounded-5" id="imagePreview"
                                        style="border-radius: 50%;">
                                     <span>+</span>
                                 </label>
-                            @endif
-                            <p style="text-align: start;" class="text">Set featured image</p>
-                        </div>
 
+                            @endif
+
+                            {{-- <div class="preview-div">--}}
+                            {{-- <img src="{{ url('/assets/images/Laptop.svg') }}" alt="">--}}
+                            {{-- <p>preview</p>--}}
+                            {{-- </div>--}}
+                        </div>
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label fw-bold">Offering Name</label>
                             <input type="text" class="form-control" name="name" id="exampleInputEmail1"

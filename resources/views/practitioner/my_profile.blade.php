@@ -53,9 +53,10 @@
                                                     <label class="image-preview rounded-5 " id="imagePreview"
                                                            style=" background-image: url('{{$imageUrl}}'); background-size: cover; background-position: center center;">
                                                         <i class="fas fa-trash text-danger fs-3"
-                                                           data-image="{{ $image }}"
+                                                           data-image-url="{{ $image }}"
                                                            data-user-id="{{ $userDetails->id }}"
                                                            data-profile-image="true"
+                                                           data-name="{{ $image }}"
                                                            onclick="removeImage(this);" style="cursor: pointer;"></i>
                                                     </label>
                                                 @else

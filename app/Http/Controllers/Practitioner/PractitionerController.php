@@ -339,6 +339,8 @@ class PractitionerController extends Controller
     {
         $user_id = $request->user_id;
         $image = $request->image;
+        $isProfileImage = $request->isProfileImage;
+        $isOfferingImage = $request->isOfferImage;
 
         $user = User::where('id', $user_id)->first();
 
@@ -346,23 +348,35 @@ class PractitionerController extends Controller
             return response()->json(['success' => false, 'message' => 'User not found']);
         }
 
-        $userDetails = $user->userDetail;
+        if ($isProfileImage) {
+            $userDetails = $user->userDetail;
 
-        $images = json_decode($userDetails->images, true);
-        $mediaImages = isset($images['media_images']) && is_array($images['media_images']) ? $images['media_images'] : [];
-        $profileImage = isset($images['profile_image']) ? $images['profile_image'] : null;
+            $images = json_decode($userDetails->images, true);
+            $mediaImages = isset($images['media_images']) && is_array($images['media_images']) ? $images['media_images'] : [];
+            $profileImage = isset($images['profile_image']) ? $images['profile_image'] : null;
 
-        if ($profileImage == $image) {
-            $images['profile_image'] = null;
-        } else {
-            $key = array_search($image, $mediaImages);
-            if ($key !== false) {
-                unset($mediaImages[$key]);
+            if ($profileImage == $image) {
+                $images['profile_image'] = null;
+            } else {
+                $key = array_search($image, $mediaImages);
+                if ($key !== false) {
+                    unset($mediaImages[$key]);
+                }
+            }
+            $images['media_images'] = $mediaImages;
+            $userDetails->images = json_encode($images);
+            $userDetails->save();
+        }
+
+        if($isOfferingImage)
+        {
+            $offering = $user->offerings()->where('featured_image', $image)->first();
+            if($offering) {
+                $offering->featured_image = null;
+                $offering->save();
             }
         }
-        $images['media_images'] = $mediaImages;
-        $userDetails->images = json_encode($images);
-        $userDetails->save();
+
 
         return response()->json(['success' => true, 'message' => 'Image deleted successfully']);
 
