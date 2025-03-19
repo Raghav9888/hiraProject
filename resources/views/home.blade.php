@@ -116,15 +116,19 @@
                                                 </div>
 
                                                 <h5>
-                                                    @if($locations)
-                                                        @foreach($locations as  $location)
-                                                            @if(in_array($location->id,$userLocations))
-                                                                <i class="fa-solid fa-location-dot"></i> {{ $location->name }},
-                                                            @endif
+
+                                                    @if(!empty($userLocations))
+                                                        @foreach($userLocations as $userLocation)
+                                                            @foreach($defaultLocations as $key => $defaultLocation)
+                                                                @if(in_array($key, $userLocation))
+                                                                    <i class="fa-solid fa-location-dot"></i> {{ $defaultLocation }},
+                                                                @endif
+                                                            @endforeach
                                                         @endforeach
                                                     @endif
+
                                                 </h5>
-{{--                                                <p>Alternative and Holistic Health Practitioner</p>--}}
+                                                <p>{{$user->userDetail->company ?? 'Alternative and Holistic Health Practitioner'}}</p>
 
                                                 <div class="d-flex justify-content-between align-items-center">
                                                     <div>
@@ -543,60 +547,78 @@
         });
 
         function getPractitioners(search = null, category = null, location = null, practitionerType = null, count = 1) {
+            const imagePath = `{{env('media_path')}}`;
+            const localPath = `{{env('local_path')}}`;
+            let locationArr = @json($defaultLocations);
             $.ajax({
                 url: '/search/practitioner',
                 type: 'get',
                 data: { search, category, location, practitionerType, count },
                 success: function (response) {
-                    let practitioners = response.practitioners || [];
                     let practitionersHTML = '';
                     let maxItems = 8;
-                    let imagePath = `{{env('media_path')}}`;
-                    let localPath = `{{env('local_path')}}`;
 
-                    // Chunking into rows of 4
-                    for (let i = 0; i < practitioners.length ; i += 4) {
-                        practitionersHTML += `<div class="row">`;
+                    if (!response.practitioners || response.practitioners.length === 0) {
+                        practitionersHTML = '<p class="text-center">No practitioners found.</p>';
+                    } else {
+                        // Chunking into rows of 4
+                        for (let i = 0; i < response.practitioners.length; i += 4) {
+                            practitionersHTML += `<div class="row">`;
 
-                        practitioners.slice(i, i + 4).forEach(user => {
-                            let images = user.user_detail?.images ? JSON.parse(user.user_detail.images) : null;
+                            for (let j = i; j < i + 4 && j < response.practitioners.length; j++) {
+                                let practitioner = response.practitioners[j];
 
-                            let imageUrl = images?.profile_image
-                                ? `${imagePath}/practitioners/${user.user_detail.id}/profile/${images.profile_image}`
-                                : `${localPath}/images/no_image.png`;
+                                // Handling location names
+                                let locationNames = '';
+                                if (practitioner.location && practitioner.location.length > 0) {
+                                    console.log(practitioner.location)
+                                    locationNames = JSON.parse(practitioner.location).map(function (locationId) {
+                                        console.log(locationId ,locationArr)
+                                        return locationArr[locationId] || 'location';
+                                    }).slice(0, 2).join(', ');
+                                } else {
+                                    locationNames = 'no found';
+                                }
 
-                            let locations = user.location ? JSON.parse(user.location) : [];
-                            let locationText = locations.length ? locations.join(', ') : 'Unknown Location';
+                                let images = practitioner.user_detail?.images ? JSON.parse(practitioner.user_detail.images) : null;
+                                let imageUrl = images?.profile_image
+                                    ? `${imagePath}/practitioners/${practitioner.user_detail.id}/profile/${images.profile_image}`
+                                    : `${localPath}/images/no_image.png`;
 
-                            practitionersHTML += `
-                        <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
-                            <div class="featured-dv">
-                                <a href="/practitioner/detail/${user.id}">
-                                    <img src="${imageUrl}" alt="person" class="img-fit">
-                                    <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <h4>${user.name}</h4>
-                                        <i class="fa-regular fa-heart"></i>
-                                    </div>
-                                    <h5><i class="fa-solid fa-location-dot"></i> ${locationText}</h5>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div>${'<i class="fa-regular fa-gem"></i>'.repeat(5)}</div>
-                                        <h6>5.0 Ratings</h6>
-                                    </div>
-                                </a>
+                                practitionersHTML += `
+                            <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
+                                <div class="featured-dv">
+                                    <a href="/practitioner/detail/${practitioner.id}">
+                                        <img src="${imageUrl}" alt="person" class="img-fit">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <h4>${practitioner.name}</h4>
+                                            <i class="fa-regular fa-heart"></i>
+                                        </div>
+                                        <h5><i class="fa-solid fa-location-dot"></i> ${locationNames}</h5>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>${'<i class="fa-regular fa-gem"></i>'.repeat(5)}</div>
+                                            <h6>5.0 Ratings</h6>
+                                        </div>
+                                    </a>
+                                </div>
                             </div>
-                        </div>`;
-                        });
+                        `;
+                            }
 
-                        practitionersHTML += `</div>`;
+                            practitionersHTML += `</div>`; // Close row
+                        }
                     }
-                    if (practitioners.length >= maxItems) {
+
+                    // Check if the number of practitioners exceeds the maxItems and add a Load More button
+                    if (response.practitioners.length >= maxItems) {
                         practitionersHTML += `
                     <div class="d-flex justify-content-center mt-2">
                         <button class="category-load-more loadPractitioner" data-count="${count}">Load More</button>
                     </div>`;
                     }
 
-                    $('#practitionersList').html(practitionersHTML || '<p class="text-center">No practitioners found.</p>');
+                    // Inject the generated HTML into the practitioners list container
+                    $('#practitionersList').html(practitionersHTML);
                 }
             });
         }

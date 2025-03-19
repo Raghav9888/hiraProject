@@ -26,7 +26,7 @@
                                 <i class="fa-solid fa-share-nodes"></i>
                             </div>
                         </div>
-{{--                        <h5>Alternative and Holistic Health Practitioner</h5>--}}
+                        <h5>{{$userDetails->company ??'Alternative and Holistic Health Practitioner' }}</h5>
                         <p class="mb-4">{{$userDetails->bio}}</p>
                         @if($locations && $userLocations)
                             @foreach($locations as  $location)
@@ -435,7 +435,7 @@
                                                     @endforeach
                                                 @endif
                                             </h5>
-{{--                                            <p>Alternative and Holistic Health Practitioner</p>--}}
+                                            <p>{{Alternative and Holistic Health Practitioner}}Alternative and Holistic Health Practitioner</p>
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <div>
                                                     <i class="fa-regular fa-gem"></i>
