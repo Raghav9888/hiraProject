@@ -331,7 +331,7 @@ function removeImage(element) {
 
                 // Add the new label for image upload
                 const uploadLabel = `
-                    <label onclick="document.getElementById('fileInput').click();" class="image-preview" id="imagePreview" style="border-radius: 50%;">
+                    <label onclick="document.getElementById('fileInput').click();" id="imagePreview" class="image-preview rounded-5">
                         <span>+</span>
                     </label>
                 `;

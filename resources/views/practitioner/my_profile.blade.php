@@ -60,7 +60,7 @@
                                                     </label>
                                                 @else
                                                     <label onclick="document.getElementById('fileInput').click();"
-                                                           class="image-preview" id="imagePreview"
+                                                           class="image-preview rounded-5" id="imagePreview"
                                                            style="border-radius: 50%;">
                                                         <span>+</span>
                                                     </label>
