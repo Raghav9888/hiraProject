@@ -14,19 +14,19 @@
                 <span class="menu-title">User Management</span>
                 <i class="menu-arrow"></i>
             </a>
-            <div class="collapse {{request()->routeIs('admin.users.*')? 'show': ''}}" id="ui-basic">
+            <div class="collapse {{request()->routeIs('admin.user.*')? 'show': ''}}" id="ui-basic">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->route('userType') == 'all' ? 'active' : '' }}" 
-                           href="{{ route('admin.users.index', ['userType' => 'all']) }}">Users</a>
+                        <a class="nav-link {{ request()->route('userType') == 'all' ? 'active' : '' }}"
+                           href="{{ route('admin.user.index', ['userType' => 'all']) }}">Users</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->route('userType') == 'new' ? 'active' : '' }}" 
-                           href="{{ route('admin.users.index', ['userType' => 'new']) }}">New Users</a>
+                        <a class="nav-link {{ request()->route('userType') == 'new' ? 'active' : '' }}"
+                           href="{{ route('admin.user.index', ['userType' => 'new']) }}">New Users</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->route('userType') == 'delete' ? 'active' : '' }}" 
-                           href="{{ route('admin.users.index', ['userType' => 'delete']) }}">Delete Users</a>
+                        <a class="nav-link {{ request()->route('userType') == 'delete' ? 'active' : '' }}"
+                           href="{{ route('admin.user.index', ['userType' => 'delete']) }}">Delete Users</a>
                     </li>
                 </ul>
             </div>
@@ -59,6 +59,22 @@
                 </ul>
             </div>
         </li>
+
+        <li class="nav-item {{request()->routeIs('admin.location.*')? 'active': ''}}">
+            <a class="nav-link" data-bs-toggle="collapse" href="#location-elements" aria-expanded="false"
+               aria-controls="form-elements">
+                <i class="menu-icon mdi mdi-map-marker-multiple"></i>
+                <span class="menu-title">Locations Management</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse {{request()->routeIs('admin.location.*')? 'show': ''}}" id="location-elements">
+                <ul class="nav flex-column sub-menu">
+{{--                    <li class="nav-item"><a class="nav-link {{request()->routeIs('admin.location.create')? 'active': ''}}" href="{{route('admin.blogs.create')}}">Add Blog</a></li>--}}
+                    <li class="nav-item"><a class="nav-link {{request()->routeIs('admin.location.index')? 'active': ''}}" href="{{route('admin.location.index')}}">All Locations</a></li>
+                </ul>
+            </div>
+        </li>
+
         {{--            <li class="nav-item">--}}
         {{--              <a class="nav-link" data-bs-toggle="collapse" href="#charts" aria-expanded="false" aria-controls="charts">--}}
         {{--                <i class="menu-icon mdi mdi-chart-line"></i>--}}
