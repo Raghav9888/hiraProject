@@ -1,6 +1,4 @@
-@extends('layouts.app')
 
-@section('content')
     <section class="test-my-offer">
         <div class="container bg-white">
             <div
@@ -64,7 +62,6 @@
                 <button class="btn btn-green rounded-pill">PROCEED TO CHECK OUT</button>
             </div>
         </div>
-        <input type="hidden" name="offering_id" class="form-control product_id" value="{{$offeringDetail->id}}">
     </section>
     <script>
         const availableSlotsData = {
@@ -141,9 +138,7 @@
         function fetchTimeSlots(selectedDate) {
             if (selectedDate.length > 0) {
                 console.log('Fetching slots for:', selectedDate);
-                // Uncomment the AJAX call when using real data
 
-                let id = document.querySelector('.product_id').value;
                 $.ajax({
                     url: `/calendar/time-slots/${selectedDate}/${id}`,
                     type: 'GET',
@@ -205,5 +200,3 @@
 
 
     </script>
-
-@endsection
