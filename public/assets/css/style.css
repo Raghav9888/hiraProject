@@ -588,7 +588,7 @@ section {
     margin: 0;
 }
 
-.home-blog-dv button, 
+.home-blog-dv button,
 .home-blog-dv a {
     font-family: "Montserrat-Regular";
     font-size: 16px;
@@ -786,7 +786,7 @@ section {
 .featured-dv {
     background-color: #FFFFFF;
     border-radius: 24px;
-    padding: 20px;
+    padding: 15px;
     position: relative;
     height: 100% !important;
     max-height: 480px;
@@ -2672,4 +2672,65 @@ textarea, input[type="time"] {
 
 .select2-container--default {
     width: 100% !important;
+}
+
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.5rem;
+    text-align: center;
+}
+
+.calendar-grid div {
+    padding: 0.5rem;
+}
+
+.calendar-grid .inactive {
+    color: black;
+    background-color: #f0f0f0;
+    cursor: not-allowed;
+    opacity: 0.4;
+}
+
+.calendar-grid .active {
+    background-color: #9F8B72;
+    color: white;
+    cursor: pointer;
+}
+
+.bg-green {
+    background-color: #424E3E;
+}
+
+.text-green {
+    color: #424E3E;
+}
+
+.btn-outline-green {
+    color: #424E3E;
+    border-color: #424E3E;
+}
+
+.btn-outline-green:hover {
+    color: white;
+    background-color: #424E3E;
+}
+
+.btn-green {
+    color: white;
+    background-color: #424E3E;
+}
+
+.btn-active, .btn-active:hover {
+    color: white;
+    background-color: #9F8B72;
+}
+.dates{
+    cursor: pointer;
+}
+.alert-green{
+    background-color: #424E3E;
+    color: white;
+    border-color: #424E3E;
 }

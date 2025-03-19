@@ -571,9 +571,7 @@
                                 // Handling location names
                                 let locationNames = '';
                                 if (practitioner.location && practitioner.location.length > 0) {
-                                    console.log(practitioner.location)
                                     locationNames = JSON.parse(practitioner.location).map(function (locationId) {
-                                        console.log(locationId ,locationArr)
                                         return locationArr[locationId] || 'location';
                                     }).slice(0, 2).join(', ');
                                 } else {

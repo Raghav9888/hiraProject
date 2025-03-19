@@ -435,7 +435,7 @@
                                                     @endforeach
                                                 @endif
                                             </h5>
-                                            <p>{{Alternative and Holistic Health Practitioner}}Alternative and Holistic Health Practitioner</p>
+                                            <p>{{$endorsedUser->userDetail->company ?? 'Alternative and Holistic Health Practitioner'}}</p>
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <div>
                                                     <i class="fa-regular fa-gem"></i>
