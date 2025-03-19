@@ -1,6 +1,6 @@
 @extends('layouts.app')
 <style>
-    /* Popup overlay */
+/* Popup overlay */
 .popup-overlay {
     display: none;
     position: fixed;
@@ -10,12 +10,14 @@
     height: 100%;
     background-color: rgba(0,0,0,0.7);
     z-index: 999;
+    overflow-y: auto;
 }
 
 /* Popup content */
 .popup-content {
     background-color: #fff;
-    width: 400px;
+    width: 80%; /* Increase width to 80% */
+    max-width: 1000px; /* Set a max-width */
     padding: 20px;
     border-radius: 8px;
     position: absolute;
@@ -31,6 +33,14 @@
     right: 15px;
     font-size: 20px;
     cursor: pointer;
+}
+
+/* Calendar grid styles */
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    text-align: center;
 }
 
 </style>
