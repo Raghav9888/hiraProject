@@ -34,7 +34,7 @@
                                                 <tr>
                                                     <td>{{  $loop->iteration }}</td>
                                                     <td>{{$location->name}}</td>
-                                                    <td></td>
+                                                    <td><i class="fa-solid fa-ellipsis-vertical"></i></td>
                                                 </tr>
                                             @endforeach
                                         @else

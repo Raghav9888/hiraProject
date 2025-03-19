@@ -69,7 +69,7 @@
             </a>
             <div class="collapse {{request()->routeIs('admin.location.*')? 'show': ''}}" id="location-elements">
                 <ul class="nav flex-column sub-menu">
-{{--                    <li class="nav-item"><a class="nav-link {{request()->routeIs('admin.location.create')? 'active': ''}}" href="{{route('admin.blogs.create')}}">Add Blog</a></li>--}}
+                    <li class="nav-item"><a class="nav-link {{request()->routeIs('admin.location.create')? 'active': ''}}" href="{{route('admin.location.create')}}">Add Location</a></li>
                     <li class="nav-item"><a class="nav-link {{request()->routeIs('admin.location.index')? 'active': ''}}" href="{{route('admin.location.index')}}">All Locations</a></li>
                 </ul>
             </div>
