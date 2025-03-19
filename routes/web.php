@@ -71,6 +71,8 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
 
     Route::get('/dashboard', [PractitionerController::class, 'dashboard'])->name('dashboard');
     Route::get('/community', [PractitionerController::class, 'community'])->name('community');
+    Route::get('/my-membership', [PractitionerController::class, 'membership'])->name('my_membership');
+    Route::get('/store/membership', [PractitionerController::class, 'storeMembership'])->name('store_membership');
     Route::post('/term/add', [PractitionerController::class, 'add_term'])->name('add_term');
     Route::post('/term/save', [PractitionerController::class, 'save_term'])->name('save_term');
     Route::post('/profile/update', [PractitionerController::class, 'updateProfile'])->name('update_profile');

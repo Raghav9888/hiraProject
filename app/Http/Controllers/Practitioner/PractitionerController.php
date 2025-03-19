@@ -42,6 +42,7 @@ class PractitionerController extends Controller
     public function index()
     {
         $user = Auth::user();
+
         $userDetails = $user->userDetail;
 
         $Categories = Category::get();
@@ -382,6 +383,19 @@ class PractitionerController extends Controller
 
     }
 
+    public function membership(Request $request)
+    {
+//        $request->
+//        $membership = MemberShip::where('user_id', )->first();
+        return view('practitioner.membership');
+    }
+
+    public function storeMembership(Request $request)
+    {
+        $inputs = $request->all();
+        dd($inputs);
+    }
+
     public function community()
     {
         $user = Auth::user();
@@ -389,11 +403,11 @@ class PractitionerController extends Controller
         return view('practitioner.community', compact('user', 'userDetails'));
     }
 
+
     public function help()
     {
         $user = Auth::user();
         $userDetails = $user->userDetail;
         return view('practitioner.help', compact('user', 'userDetails'));
     }
-
 }

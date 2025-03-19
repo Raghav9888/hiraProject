@@ -1043,7 +1043,6 @@ section{
     padding: 30px 0 60px ;
 }
 .blog-detail-banner{
-    background-image: url(../images/blog-detail-banner.png);
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
