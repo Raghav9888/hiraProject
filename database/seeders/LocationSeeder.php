@@ -558,7 +558,8 @@ class LocationSeeder extends Seeder
             115 => 'Toronto, ON',
             395 => 'Washington, DC',
             897 => 'London, ON',
-            752=> 'Qualicum Beach Bc'
+            752=> 'Qualicum Beach Bc',
+            5456 => 'Niagara',
         ];
 
         foreach ($locations as $key => $address) {
