@@ -183,38 +183,38 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-// fetchTimeSlots = (selectedDate) => {
-//     id = $('.product_id').val();
-//
-//     $.ajax({
-//         url: `/calendar/time-slots/${selectedDate}/${id}`,
-//         type: 'GET',
-//         headers: {
-//             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-//         },
-//         success: function (response) {
-//             console.log(response);
-//             $('.booking_date').val(selectedDate);
-//
-//             let options = '<option value="">Select a Time Slot</option>';
-//             response.availableSlots.forEach(slot => {
-//                 options += `<option value="${slot}">${slot}</option>`;
-//             });
-//
-//             let selectHtml = `
-//                 <label for="time_slot">Choose a Time Slot:</label>
-//                 <select id="time_slot" name="booking_time" class="form-control">
-//                     ${options}
-//                 </select>
-//             `;
-//
-//             $('#showTimeSlot').html(selectHtml);
-//         },
-//         error: function (xhr) {
-//             console.log(xhr);
-//         }
-//     });
-// };
+fetchTimeSlots = (selectedDate) => {
+    id = $('.product_id').val();
+
+    $.ajax({
+        url: `/calendar/time-slots/${selectedDate}/${id}`,
+        type: 'GET',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function (response) {
+            console.log(response);
+            $('.booking_date').val(selectedDate);
+
+            let options = '<option value="">Select a Time Slot</option>';
+            response.availableSlots.forEach(slot => {
+                options += `<option value="${slot}">${slot}</option>`;
+            });
+
+            let selectHtml = `
+                <label for="time_slot">Choose a Time Slot:</label>
+                <select id="time_slot" name="booking_time" class="form-control">
+                    ${options}
+                </select>
+            `;
+
+            $('#showTimeSlot').html(selectHtml);
+        },
+        error: function (xhr) {
+            console.log(xhr);
+        }
+    });
+};
 
 
 $(document).ready(function () {
