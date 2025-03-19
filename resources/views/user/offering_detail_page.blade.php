@@ -7,6 +7,10 @@
                 <h2 class="h5 mb-0">Check Available Slots and Confirm Booking</h2>
                 <span type="button" class="btn-white" data-bs-dismiss="alert" aria-label="Close">
             <i class="fa-solid fa-xmark"></i>
+            <input type="hidden" id="offeringId" />
+            <?php
+    $offeringId = '<script>document.getElementById("offeringId").value</script>';
+?>
         </span>
             </div>
 
@@ -64,6 +68,16 @@
         </div>
     </section>
     <script>
+        function openPopup(element) {
+    let offeringId = element.getAttribute('data-offering-id');
+    
+    // Store it in a hidden input
+    document.getElementById('offeringId').value = offeringId;
+
+    // Open the popup
+    document.getElementById('popup').style.display = 'block';
+}
+
         const availableSlotsData = {
             '2025-03-18': ['9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM'],
             '2025-03-19': ['9:00 AM', '10:00 AM', '11:00 AM'],
