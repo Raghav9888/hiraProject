@@ -20,9 +20,9 @@
                                         @csrf
 
                                         <div class="form-group">
-                                            <label for="exampleInputName1">Title</label>
+                                            <label for="exampleInputName1">Name</label>
                                             <input type="text" class="form-control" name="name" required
-                                                   id="exampleInputName1" value="{{old("name")}}" placeholder="Title">
+                                                   id="exampleInputName1" value="{{old("name")}}" placeholder="Enter location name">
                                             @error('name')
                                             <span class="text-danger">{{ $message }}</span>
                                             @enderror
