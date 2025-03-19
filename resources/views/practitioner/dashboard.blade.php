@@ -113,7 +113,7 @@
                     </button>
                 </div>
                 <div class="row">
-                    <h4>Endorsements</h4>
+                    <h4>Endorsements </h4>
                     <div class="row" id="endorsementRow">
                         @if($endorsedUsers)
                             @foreach($endorsedUsers as $endorsedUser)
@@ -135,15 +135,22 @@
                                             <h5>
 
                                                 @php
-                                                    $locations = isset($endorsedUser->location) && $endorsedUser->location ? json_decode($endorsedUser->location, true) : null;
+                                                    $endorsedUserLocations = isset($endorsedUser->location) && $endorsedUser->location ? json_decode($endorsedUser->location, true) : [];
                                                 @endphp
-                                                @if($locations)
-                                                    @foreach($locations as $location)
-                                                        <i class="fa-solid fa-location-dot"></i>  {{ $location .',' }}
+
+                                                @if(!empty($endorsedUserLocations))
+                                                    @foreach($endorsedUserLocations as $endorsedUserLocation)
+                                                        @foreach($defaultLocations as $key => $defaultLocation)
+                                                            @if(in_array($key, $endorsedUserLocations))
+                                                                <i class="fa-solid fa-location-dot"></i> {{ $defaultLocation }},
+                                                            @endif
+                                                        @endforeach
                                                     @endforeach
                                                 @endif
+
+
                                             </h5>
-{{--                                            <p>Alternative and Holistic Health Practitioner</p>--}}
+                                            <p style="display: inline; text-align: center">{{$endorsedUser->userDetail->company}}</p>
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <div>
                                                     <i class="fa-regular fa-gem"></i>
@@ -183,7 +190,7 @@
             let imagePath = `{{env('media_path')}}`;
             let localPath = `{{env('local_path')}}`;
             let locationArr = @json($defaultLocations);
-
+console.log(locationArr)
             $.ajax({
                 url: '/search/practitioner',
                 type: 'get',
@@ -223,6 +230,7 @@
                                                 <img src="${imageUrl}" alt="person" class="img-fit img-fluid">
                                             </div>
                                             <h5>${practitioner.name}</h5>
+
                                             <h6>${practitioner.bio && practitioner.bio.length > 0 ? practitioner.bio : ''}</h6>
                                             <div class="d-flex justify-content-between">
                                                 <button class="endrose" id="endrose" data-user-id="${practitioner.id}">Endorse</button>

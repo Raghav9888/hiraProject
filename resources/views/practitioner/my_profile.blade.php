@@ -91,13 +91,13 @@
                                             </div>
                                         </div>
 
-                                        {{-- <div class="mb-3">
-                                                <label for="company_name">Company Name</label>
-                                                <input type="text" class="form-control" id="company" name="company"
-                                                       value="{{ $userDetails->company ?? '' }}">
-                                        <p style="text-align: start;">Your shop name is public and must be
-                                            unique.</p>
-                                </div> --}}
+                                        <div class="mb-3">
+                                            <label for="company_name">Title Name</label>
+                                            <input type="text" class="form-control" id="company" name="company"
+                                                   value="{{ $userDetails->company ?? 'Alternative Health Practitioner' }}">
+                                            <p style="text-align: start;">Your shop name is public and must be
+                                                unique.</p>
+                                        </div>
 
                                         {{-- <div class="mb-3">
                                                         <label for="bio">Short Bio</label>

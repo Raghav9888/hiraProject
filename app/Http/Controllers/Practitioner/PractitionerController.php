@@ -121,6 +121,7 @@ class PractitionerController extends Controller
             $locations[$location->id] = $location->name;
         }
         json_encode($locations);
+
         return view('practitioner.dashboard', [
             'user' => $user,
             'users' => $users,
@@ -149,7 +150,7 @@ class PractitionerController extends Controller
         $userDetails = $user->userDetail;
 
         $details = [
-            // 'company' => $input['company'],
+             'company' => $input['company'],
             'bio' => $input['bio'],
             'location' => isset($input['location']) && $input['location'] ? $input['location'] : [],
             'tags' => isset($input['tags']) && $input['tags'] ? $input['tags'] : [],
