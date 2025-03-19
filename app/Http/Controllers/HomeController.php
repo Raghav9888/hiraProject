@@ -30,10 +30,19 @@ class HomeController extends Controller
 
         $users = User::where('role', 1)->with('userDetail')->get()->take(8);
         $categories = Category::all();
-        $locations = Locations::get();
+        $defaultLocations = Locations::get();
         $blogs = Blog::latest()->get()->take(3);
-
-        return view('home', compact('users', 'categories','locations', 'blogs'));
+        $locations = [];
+        foreach ($defaultLocations as $location) {
+            $locations[$location->id] = $location->name;
+        }
+        json_encode($locations);
+        return view('home', [
+            'users' => $users,
+            'categories' => $categories,
+            'defaultLocations' => $locations,
+            'blogs' => $blogs
+        ]);
     }
 
     public function partitionerLists()
@@ -124,7 +133,7 @@ class HomeController extends Controller
     {
         $offeringDetail = Offering::findOrFail($id);
         $user = $offeringDetail->user;
-        return view('user.offering_detail', compact( 'offeringDetail','user'));
+        return view('user.offering_detail_page', compact( 'offeringDetail','user'));
     }
 
     public function checkout()
