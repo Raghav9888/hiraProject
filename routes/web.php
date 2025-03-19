@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
@@ -55,13 +56,14 @@ Route::get('/checkout', [BookingController::class, 'checkout'])->name('checkout'
 
 Route::middleware(['auth', 'user-access:admin'])->name('admin.')->prefix('admin')->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/{userType}/users', [UserController::class, 'index'])->name('users.index');
+    Route::get('/{userType}/users', [UserController::class, 'index'])->name('user.index');
     Route::get('/user/edit/{id}', [UserController::class, 'edit'])->name('user.edit');
     Route::post('/user/update/{id}', [UserController::class, 'update'])->name('user.update');
     Route::get('/delete/user/', [UserController::class, 'delete'])->name('user.delete');
     Route::get('/approve/user/', [UserController::class, 'approve'])->name('user.approve');
     Route::resource('blogs', BlogController::class);
     Route::resource('plans', PlanController::class);
+    Route::get('/locations', [LocationController::class, 'locations'])->name('location.index');
 });
 
 Route::middleware(['auth', 'user-access:user'])->group(function () {
