@@ -91,6 +91,9 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::post('/delete/image', [PractitionerController::class, 'deleteImage'])->name('delete_image');
     Route::get('/appointment', [PractitionerController::class, 'appointment'])->name('appointment');
     Route::get('/accounting', [PractitionerController::class, 'accounting'])->name('accounting');
+    Route::post('/personal/information/update', [PractitionerController::class, 'membershipPersonalInformation'])->name('membershipPersonalInformation');
+    Route::post('/professional/service/information/update', [PractitionerController::class, 'professionalServiceInformation'])->name('professionalServiceInformation');
+    Route::post('/community/engagement/update', [PractitionerController::class, 'communityEngagement'])->name('communityEngagement');
 
     Route::get('/earning', [PractitionerController::class, 'earning'])->name('earning');
     Route::get('/refund/request', [PractitionerController::class, 'refundRequest'])->name('refund_request');

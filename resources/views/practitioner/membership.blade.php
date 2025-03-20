@@ -45,83 +45,110 @@
                                  aria-labelledby="home-tab" tabindex="0">
                                 <div class="row my-2">
                                     <div class="col-md-12">
-                                        <form method="post" action="" enctype="multipart/form-data">
+                                        <form method="post" action="{{route('membershipPersonalInformation')}}"
+                                              enctype="multipart/form-data">
+                                            @csrf
+                                            @method('POST')
                                             <input type="hidden" class="form-control" id="membership_id"
-                                                   name="membership_id"
-                                                   value="{{ $membership->id ?? '' }}">
-                                            <div style="position: relative;"
-                                                 class="d-flex justify-content-center flex-column align-items-center">
-                                                <div class="mb-4" id="imageDiv">
-                                                    <p style="text-align: start;" class="text-center fw-bold">Profile
-                                                        Image</p>
-                                                    <input type="file" id="fileInput" name="image" class="hidden"
-                                                           accept="image/*"
-                                                           onchange="previewImage(event)" style="display: none;">
+                                                   name="membership_id" value="{{ $membership->id ?? '' }}">
+                                            {{--                                            <div style="position: relative;"--}}
+                                            {{--                                                 class="d-flex justify-content-center flex-column align-items-center">--}}
+                                            {{--                                                <div class="mb-4" id="imageDiv">--}}
+                                            {{--                                                    <p style="text-align: start;" class="text-center fw-bold">Profile--}}
+                                            {{--                                                        Image</p>--}}
+                                            {{--                                                    <input type="file" id="fileInput" name="image" class="hidden"--}}
+                                            {{--                                                           accept="image/*"--}}
+                                            {{--                                                           onchange="previewImage(event)" style="display: none;">--}}
 
-                                                    @if(isset($image))
-                                                        @php
-                                                            $imageUrl = asset(env('media_path') . '/practitioners/' . $userDetails->id . '/profile/' . $image);
-                                                        @endphp
-                                                        <label class="image-preview rounded-5 " id="imagePreview"
-                                                               style=" background-image: url('{{$imageUrl}}'); background-size: cover; background-position: center center;">
-                                                            <i class="fas fa-trash text-danger fs-3"
-                                                               data-image="{{ $image }}"
-                                                               data-user-id="{{ $userDetails->id }}"
-                                                               data-profile-image="true"
-                                                               onclick="removeImage(this);"
-                                                               style="cursor: pointer;"></i>
-                                                        </label>
-                                                    @else
-                                                        <label onclick="document.getElementById('fileInput').click();"
-                                                               class="image-preview" id="imagePreview"
-                                                               style="border-radius: 50%;">
-                                                            <span>+</span>
-                                                        </label>
+                                            {{--                                                    @if(isset($image))--}}
+                                            {{--                                                        @php--}}
+                                            {{--                                                            $imageUrl = asset(env('media_path') . '/practitioners/' . $userDetails->id . '/profile/' . $image);--}}
+                                            {{--                                                        @endphp--}}
+                                            {{--                                                        <label class="image-preview rounded-5 " id="imagePreview"--}}
+                                            {{--                                                               style=" background-image: url('{{$imageUrl}}'); background-size: cover; background-position: center center;">--}}
+                                            {{--                                                            <i class="fas fa-trash text-danger fs-3"--}}
+                                            {{--                                                               data-image="{{ $image }}"--}}
+                                            {{--                                                               data-user-id="{{ $userDetails->id }}"--}}
+                                            {{--                                                               data-profile-image="true"--}}
+                                            {{--                                                               onclick="removeImage(this);"--}}
+                                            {{--                                                               style="cursor: pointer;"></i>--}}
+                                            {{--                                                        </label>--}}
+                                            {{--                                                    @else--}}
+                                            {{--                                                        <label onclick="document.getElementById('fileInput').click();"--}}
+                                            {{--                                                               class="image-preview" id="imagePreview"--}}
+                                            {{--                                                               style="border-radius: 50%;">--}}
+                                            {{--                                                            <span>+</span>--}}
+                                            {{--                                                        </label>--}}
 
-                                                    @endif
+                                            {{--                                                    @endif--}}
 
-                                                    {{-- <div class="preview-div">--}}
-                                                    {{-- <img src="{{ url('/assets/images/Laptop.svg') }}" alt="">--}}
-                                                    {{-- <p>preview</p>--}}
-                                                    {{-- </div>--}}
-                                                </div>
-                                            </div>
+                                            {{--                                                    --}}{{-- <div class="preview-div">--}}
+                                            {{--                                                    --}}{{-- <img src="{{ url('/assets/images/Laptop.svg') }}" alt="">--}}
+                                            {{--                                                    --}}{{-- <p>preview</p>--}}
+                                            {{--                                                    --}}{{-- </div>--}}
+                                            {{--                                                </div>--}}
+                                            {{--                                            </div>--}}
                                             <div class="mb-3">
                                                 <label class="form-label">Full Name <span
                                                         class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" name="full_name" required>
+                                                <input type="text" class="form-control" name="name" required
+                                                       value="{{ $membership->name ?? '' }}">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="form-label">Preferred Name</label>
-                                                <input type="text" class="form-control" name="preferred_name">
+                                                <input type="text" class="form-control" name="preferred_name"
+                                                       value="{{ $membership->preferred_name ?? '' }}">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="form-label">Pronouns</label>
-                                                <input type="text" class="form-control" name="pronouns">
+                                                <select class="form-select" name="pronouns">
+                                                    <option
+                                                        value="he/him" {{ $membership->pronouns == 'he/him' ? 'selected':'' }}>
+                                                        He/him
+                                                    </option>
+                                                    <option
+                                                        value="she/her" {{ $membership->pronouns == 'she/her' ? 'selected':'' }}>
+                                                        She/her
+                                                    </option>
+                                                    <option
+                                                        value="they/them" {{ $membership->pronouns == 'they/them' ? 'selected':'' }}>
+                                                        They/them
+                                                    </option>
+                                                </select>
                                             </div>
                                             <div class="mb-3">
                                                 <label class="form-label">Email Address <span
                                                         class="text-danger">*</span></label>
-                                                <input type="email" class="form-control" name="email" required>
+                                                <input type="email" class="form-control" name="email" required
+                                                       value="{{ $membership->email ?? '' }}">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="form-label">Birthday</label>
-                                                <input type="date" class="form-control" name="birthday">
+                                                <input type="date" class="form-control" name="birthday"
+                                                       value="{{ $membership->birthday ?? '' }}">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="form-label">Phone Number <span
                                                         class="text-danger">*</span></label>
-                                                <input type="tel" class="form-control" name="phone" required>
+                                                <input type="tel" class="form-control" name="phone_number" required
+                                                       value="{{ $membership->phone_number ?? '' }}">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="form-label">Location (City, Country, Time Zone) <span
                                                         class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" name="location" required>
+                                                <select name="location" class="form-control" required>
+                                                    @foreach($defaultLocations as $id => $location)
+                                                        <option
+                                                            value="{{$id }}" {{ (!empty($membership->location) && $membership->location == $id) ? 'selected' : '' }}>
+                                                            {{ $location }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+
                                             </div>
                                             <div class="mb-3">
-                                                <label class="form-label">Website/Social Media Links <span
-                                                        class="text-danger">*</span></label>
-                                                <input type="url" class="form-control" name="website" required>
+                                                <label class="form-label">Website/Social Media Links</label>
+                                                <input type="url" class="form-control" name="website_social_media_link">
                                             </div>
 
                                             <button type="submit" class="btn btn-primary">Submit</button>
@@ -172,58 +199,76 @@
                             <div class="tab-pane fade" id="professionalInformation" role="tabpanel"
                                  aria-labelledby="contact-tab" tabindex="0">
                                 <div class="container mt-5">
-                                    <form>
+                                    <form action="{{route('professionalServiceInformation')}}" method="post" enctype="multipart/form-data">
+                                        @csrf
+                                        @method('POST')
                                         <div class="mb-3">
                                             <label for="businessName" class="form-label">Business Name (if
                                                 applicable)</label>
-                                            <input type="text" class="form-control" id="businessName"
-                                                   placeholder="Enter business name">
+                                            <input type="text" class="form-control" id="businessName" placeholder="Enter business name" name="business_name">
                                         </div>
 
-                                        <div class="mb-3">
-                                            <label for="primaryModality" class="form-label">Primary
-                                                Modality/Practice</label>
-                                            <select class="form-select" id="primaryModality" required>
-                                                <option selected disabled>Select primary modality</option>
-                                                <option value="Reiki">Reiki</option>
-                                                <option value="Yoga">Yoga</option>
-                                                <option value="Counseling">Counseling</option>
-                                                <option value="Other">Other</option>
-                                            </select>
-                                            <div class="mt-2">
-                                                <input type="text" class="form-control" id="customModality"
-                                                       placeholder="Enter custom modality">
+                                        <div class="mb-4 select2-div">
+                                            <label for="type" class="fw-bold">Modality/Practice</label>
+
+                                            <div class="row align-items-center">
+                                                <div class="col-md-6">
+                                                    <select id="modalityPractice" name="modalityPractice[]"
+                                                            class="form-select location-select2"
+                                                            multiple>
+                                                        @php
+                                                            $selectedTerms = explode(',', $membership->modality_practice ?? '');
+                                                        @endphp
+                                                        @foreach($membershipModality as $term)
+                                                            <option
+                                                                value="{{$term->id}}" {{ in_array($term->id, $selectedTerms) ? 'selected' : '' }}>{{$term->name}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <button class="update-btn mb-2 addterm" data-type="modalityPractice">Add New
+                                                        Term
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
+                                        <div id="modalityPractice-container">
 
-                                        <div class="mb-3">
-                                            <label class="form-label">Additional Modalities</label>
-                                            <div class="form-check">
-                                                <input class="form-check-input input_checkbox" type="checkbox">
-                                                <label class="form-check-label">Meditation</label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input input_checkbox" type="checkbox">
-                                                <label class="form-check-label">Life Coaching</label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input input_checkbox" type="checkbox">
-                                                <label class="form-check-label">Acupuncture</label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input input_checkbox" type="checkbox">
-                                                <label class="form-check-label">Other</label>
-                                            </div>
-                                            <div class="mt-4">
-                                                <input type="text" class="form-control"
-                                                       placeholder="Specify other modality" required>
-                                            </div>
                                         </div>
+                                        <div class="mb-4 mt-4">
+                                            <div class="d-flex">
+                                                <label for="media" class="fw-bold">Certifications & Credentials Upload (If
+                                                    applicable)</label>
+                                                <div class="ms-3">
+                                                    <label class="add-media-btn" for="media-upload">
+                                                        <i class="fas fa-plus"></i>
+                                                        Add media
+                                                    </label>
+                                                    <input type="file" id="media-upload" name="certificates_images[]"
+                                                           class="hidden"
+                                                           accept="image/*" multiple>
+                                                </div>
+                                            </div>
 
-                                        <div class="mb-3">
-                                            <label class="form-label">Certifications & Credentials Upload (If
-                                                applicable)</label>
-                                            <input class="form-control" type="file">
+
+                                            <div class="media-container" id="media-container">
+                                                @if(count($mediaImages) > 0)
+                                                    @foreach ($mediaImages as $image)
+                                                        <div class="media-item">
+                                                            <img
+                                                                src="{{ asset(env('media_path') . '/practitioners/' . $userDetails->id . '/media/' . $image) }}"
+                                                                alt="Practitioner Image"
+                                                                style="width: 100px; height: 100px; object-fit: cover; display: block;">
+                                                            <i class="fas fa-times text-danger" style="cursor: pointer;"
+                                                               data-image="{{ $image }}"
+                                                               data-user-id="{{ $userDetails->id }}"
+                                                               onclick="removeImage(this);"></i>
+                                                        </div>
+                                                    @endforeach
+                                                @else
+                                                    <p>No images available</p>
+                                                @endif
+                                            </div>
                                         </div>
 
 
@@ -265,21 +310,16 @@
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="yearsOfExperience" class="form-label">Years of
-                                                Experience</label>
-                                            <select class="form-select" id="yearsOfExperience" required>
-                                                <option selected disabled>Select years of experience</option>
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                                <option value="5">5</option>
-                                                <option value="6">6</option>
-                                                <option value="7">7</option>
-                                                <option value="8">8</option>
-                                                <option value="9">9</option>
-                                                <option value="10">10</option>
-                                            </select>
+                                            <label for="yearsOfExperience" class="form-label">Years of Experience</label>
+                                            <div class="row align-items-center">
+                                                <div class="col-4">
+                                                    <input type="number" class="form-control" id="yearsOfExperience" placeholder="Enter years of experience">
+                                                </div>
+                                                <div class="col-8">
+                                                    <span>Years</span>
+                                                </div>
+                                            </div>
+
                                         </div>
 
                                         <div class="mb-3">
@@ -295,57 +335,91 @@
                             </div>
 
                             <div class="tab-pane fade" id="community" role="tabpanel" aria-labelledby="contact-tab"
-                                 tabindex="0">community
-                                <div class="container mt-5">
+                                 tabindex="0">
+                                <form method="post" action="{{route('communityEngagement')}}">
+                                    @csrf
+                                    @method('POST')
+                                    <input type="hidden" class="form-control" id="membership_id"
+                                           name="membership_id" value="{{ $membership->id ?? '' }}">
+                                    <div class="container mt-5">
 
-                                    <div class="mb-4">
-                                        <h5>Are you interested in contributing to blogs, workshops, or events?</h5>
-                                        <div class="form-check">
-                                            <input class="form-check-input input_checkbox" type="checkbox" id="blog">
-                                            <label class="form-check-label" for="blog">Blog</label>
+                                        @php
+                                            $selectedOptions = json_decode($membership->blogs_workshops_events ?? '[]', true);
+                                        @endphp
+
+                                        <div class="mb-4">
+                                            <h5>Are you interested in contributing to blogs, workshops, or events?</h5>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input input_checkbox" name="blogs_workshops_events[]"
+                                                       type="checkbox" id="blog" value="blog"
+                                                    {{ in_array('blog', $selectedOptions) ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="blog">Blog</label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input input_checkbox" name="blogs_workshops_events[]"
+                                                       type="checkbox" id="igLive" value="ig_live"
+                                                    {{ in_array('ig_live', $selectedOptions) ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="igLive">IG Live</label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input input_checkbox" name="blogs_workshops_events[]"
+                                                       type="checkbox" id="podcast" value="podcast"
+                                                    {{ in_array('podcast', $selectedOptions) ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="podcast">Podcast</label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input input_checkbox" name="blogs_workshops_events[]"
+                                                       type="checkbox" id="workshop" value="workshop"
+                                                    {{ in_array('workshop', $selectedOptions) ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="workshop">Workshop</label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input input_checkbox" name="blogs_workshops_events[]"
+                                                       type="checkbox" id="communityEvent" value="community_event"
+                                                    {{ in_array('community_event', $selectedOptions) ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="communityEvent">Community Event</label>
+                                            </div>
                                         </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input input_checkbox" type="checkbox" id="igLive">
-                                            <label class="form-check-label" for="igLive">IG Live</label>
+
+
+                                        @php
+                                            $referralProgram = old('referral_program', $membership->referral_program ?? null);
+                                        @endphp
+
+                                        <div class="mb-4">
+                                            <h5>Referral Program Participation</h5>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input input_checkbox" type="radio"
+                                                       name="referral_program" id="referralYes" value="1"
+                                                    {{ $referralProgram == 1 ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="referralYes">Yes</label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input input_checkbox" type="radio"
+                                                       name="referral_program" id="referralNo" value="0"
+                                                    {{ $referralProgram == 0 ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="referralNo">No</label>
+                                            </div>
                                         </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input input_checkbox" type="checkbox" id="podcast">
-                                            <label class="form-check-label" for="podcast">Podcast</label>
+
+
+                                        <div class="mb-4">
+                                            <h5>Collaboration Interests</h5>
+                                            <textarea class="form-control" id="collaborationInterests" rows="4" name="collaboration_interests"
+                                                      placeholder="Enter your collaboration interests here...">{{$membership->collaboration_interests ?? ''}}</textarea>
                                         </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input input_checkbox" type="checkbox"
-                                                   id="workshop">
-                                            <label class="form-check-label" for="workshop">Workshop</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input input_checkbox" type="checkbox"
-                                                   id="communityEvent">
-                                            <label class="form-check-label" for="communityEvent">Community Event</label>
-                                        </div>
+
+                                        <button type="submit" class="btn btn-primary">Submit</button>
                                     </div>
 
-                                    <div class="mb-4">
-                                        <h5>Referral Program Participation</h5>
-                                        <div class="form-check">
-                                            <input class="form-check-input input_checkbox" type="radio" name="referral"
-                                                   id="referralYes" value="yes">
-                                            <label class="form-check-label" for="referralYes">Yes</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input input_checkbox" type="radio" name="referral"
-                                                   id="referralNo" value="no">
-                                            <label class="form-check-label" for="referralNo">No</label>
-                                        </div>
-                                    </div>
-
-                                    <div class="mb-4">
-                                        <h5>Collaboration Interests</h5>
-                                        <textarea class="form-control" id="collaborationInterests" rows="4"
-                                                  placeholder="Enter your collaboration interests here..."></textarea>
-                                    </div>
-
-                                    <button type="submit" class="btn btn-primary">Submit</button>
-                                </div>
+                                </form>
 
                             </div>
                         </div>
@@ -355,20 +429,4 @@
         </div>
     </section>
 
-
-    <script>
-        // Show/hide "Other" input fields when "Other" is selected
-        document.getElementById('primaryModality').addEventListener('change', function () {
-            let otherInput = document.getElementById('otherPrimaryModality');
-            otherInput.classList.toggle('d-none', this.value !== 'Other');
-        });
-        let modalityOther = document.getElementById('modalityOther');
-        if (modalityOther.length > 0) {
-            document.getElementById('modalityOther').addEventListener('change', function () {
-                let otherInput = document.getElementById('otherModalityInput');
-                otherInput.classList.toggle('d-none', !this.checked);
-            });
-        }
-
-    </script>
 @endsection

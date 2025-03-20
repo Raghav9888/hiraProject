@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Practitioner;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\GoogleAuthController;
 use App\Models\Category;
 use App\Models\GoogleAccount;
 use App\Models\HowIHelp;
 use App\Models\IHelpWith;
 use App\Models\Locations;
-use App\Models\Offering;
+use App\Models\Membership;
+use App\Models\MembershipModality;
 use App\Models\PractitionerTag;
 use App\Models\User;
 use App\Models\UserDetail;
@@ -108,7 +108,7 @@ class PractitionerController extends Controller
     {
         $user = Auth::user();
         $userDetails = $user->userDetail;
-        $defaultLocations = Locations::get();
+        $defaultLocations = Locations::where('status', 1)->get();
         $users = User::get();
         $endorsements = $userDetails && $userDetails->endorsements
             ? json_decode($userDetails->endorsements, true)
@@ -150,7 +150,7 @@ class PractitionerController extends Controller
         $userDetails = $user->userDetail;
 
         $details = [
-             'company' => $input['company'],
+            'company' => $input['company'],
             'bio' => $input['bio'],
             'location' => isset($input['location']) && $input['location'] ? $input['location'] : [],
             'tags' => isset($input['tags']) && $input['tags'] ? $input['tags'] : [],
@@ -272,7 +272,7 @@ class PractitionerController extends Controller
 
         $type = $request->type;
 
-        if (in_array($type, ['IHelpWith', 'HowIHelp', 'certifications', 'tags'])) {
+        if (in_array($type, ['IHelpWith', 'HowIHelp', 'certifications', 'tags' ,'modalityPractice'])) {
             $inputField = '<input type="text" class="' . $type . '_term" id="' . $type . '_term" name="' . $type . '_term" placeholder="Enter term">
             <button data-type="' . $type . '" class="update-btn mb-2 save_term">Add Term</button>';
 
@@ -321,7 +321,7 @@ class PractitionerController extends Controller
                 'created_by' => $user->id,
                 'updated_by' => $user->id,
             ]);
-            return response()->json(['success' => true, 'message' => 'HowIHelp term saved successfully', 'term' => $term]);
+            return response()->json(['success' => true, 'message' => 'Certification term saved successfully', 'term' => $term]);
         }
 
         if ($type == 'tags') {
@@ -331,7 +331,17 @@ class PractitionerController extends Controller
                 'created_by' => $user->id,
                 'updated_by' => $user->id,
             ]);
-            return response()->json(['success' => true, 'message' => 'HowIHelp term saved successfully', 'term' => $term]);
+            return response()->json(['success' => true, 'message' => 'Tags term saved successfully', 'term' => $term]);
+        }
+
+        if ($type == 'modalityPractice') {
+            $term = MembershipModality::create([
+                'name' => $name,
+                'slug' => $slug,
+                'created_by' => $user->id,
+                'updated_by' => $user->id,
+            ]);
+            return response()->json(['success' => true, 'message' => 'Modality Practice term saved successfully', 'term' => $term]);
         }
 
         return response()->json(['success' => false, 'message' => 'Invalid request']);
@@ -370,10 +380,9 @@ class PractitionerController extends Controller
             $userDetails->save();
         }
 
-        if($isOfferingImage)
-        {
+        if ($isOfferingImage) {
             $offering = $user->offerings()->where('featured_image', $image)->first();
-            if($offering) {
+            if ($offering) {
                 $offering->featured_image = null;
                 $offering->save();
             }
@@ -386,9 +395,23 @@ class PractitionerController extends Controller
 
     public function membership(Request $request)
     {
-//        $request->
-//        $membership = MemberShip::where('user_id', )->first();
-        return view('practitioner.membership');
+        $user = Auth::user();
+        $membership = MemberShip::where('user_id', $user->id)->first();
+        $defaultLocations = Locations::where('status', 1)->get();
+        $locations = [];
+        foreach ($defaultLocations as $location) {
+            $locations[$location->id] = $location->name;
+        }
+        $mediaImages = [];
+
+        $membershipModality = MembershipModality::all();
+        return view('practitioner.membership', [
+            'user' => $user,
+            'membership' => $membership,
+            'defaultLocations' => $locations,
+            'mediaImages' => $mediaImages,
+            'membershipModality' => $membershipModality
+        ]);
     }
 
     public function storeMembership(Request $request)
@@ -411,4 +434,83 @@ class PractitionerController extends Controller
         $userDetails = $user->userDetail;
         return view('practitioner.help', compact('user', 'userDetails'));
     }
+
+    public function membershipPersonalInformation(Request $request)
+    {
+        $user = Auth::user();
+        $userId = $user->id;
+        $input = $request->all();
+
+        $id = $input['membership_id'];
+        $membership = Membership::where('id', $id)->first();
+
+        if (!$membership) {
+            $membership = new Membership();
+            $membership->user_id = $userId;
+            $membership->created_by = $userId;
+        } else {
+            $membership->updated_by = $userId;
+        }
+
+        $membership->name = $input['name'];
+        $membership->preferred_name = $input['preferred_name'];
+        $membership->pronouns = $input['pronouns'];
+        $membership->email = $input['email'];
+        $membership->birthday = $input['birthday'];
+        $membership->phone_number = $input['phone_number'];
+        $membership->location = $input['location'];
+        $membership->website_social_media_link = $input['website_social_media_link'];
+
+        $membership->save();
+
+
+        return redirect()->back()->with('success', 'Profile updated successfully');
+    }
+
+
+    public function professionalServiceInformation(Request $request)
+    {
+        $user = Auth::user();
+        $userId = $user->id;
+        $input = $request->all();
+
+        $id = $input['membership_id'];
+        $membership = Membership::where('id', $id)->first();
+
+        if (!$membership) {
+            $membership = new Membership();
+            $membership->user_id = $userId;
+            $membership->created_by = $userId;
+        } else {
+            $membership->updated_by = $userId;
+        }
+    }
+
+
+    public function communityEngagement(Request $request)
+    {
+
+        $user = Auth::user();
+        $userId = $user->id;
+        $input = $request->all();
+
+        $id = $input['membership_id'];
+        $membership = Membership::where('id', $id)->first();
+
+        if (!$membership) {
+            $membership = new Membership();
+            $membership->user_id = $userId;
+            $membership->created_by = $userId;
+        } else {
+            $membership->updated_by = $userId;
+        }
+        $membership->blogs_workshops_events = $input['blogs_workshops_events'] ? json_encode($input['blogs_workshops_events']) : null;
+        $membership->referral_program = $input['referral_program'];
+        $membership->collaboration_interests = $input['collaboration_interests'];
+
+        $membership->save();
+
+        return redirect()->back()->with('success', 'Profile updated successfully');
+    }
+
 }
