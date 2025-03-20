@@ -57,11 +57,18 @@ class BlogController extends Controller
             $image->move(public_path('uploads/admin/blog/'), $imageName);
 
         }
+        $tags = [];
+        if($request->tags){
+            $tags = explode(',', $request->tags);
+        }
 
         // Create Blog Post
         $blog = new Blog();
         $blog->name = $request->name;
         $blog->description = $request->description;
+        $blog->date = $request->date;
+        $blog->author = $request->author;
+        $blog->tags = json_encode($tags);
         $blog->slug = $finalSlug;
         $blog->image = $imageName ?? null; // Save image path
         $blog->category_id = $request->category;
@@ -124,10 +131,17 @@ class BlogController extends Controller
             $blog->image = $imageName;
         }
 
+        $tags = [];
+        if($request->tags){
+            $tags = explode(',', $request->tags);
+        }
         // Update Blog Data
         $blog->name = $request->name;
         $blog->description = $request->description;
         $blog->category_id = $request->category;
+        $blog->date = $request->date;
+        $blog->author = $request->author;
+        $blog->tags = json_encode($tags);
         $blog->save();
 
         return back()->with('success', 'Blog post updated successfully!');

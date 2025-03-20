@@ -193,6 +193,17 @@
                                                         </div>
                                                         {{$offering->long_description}}
                                                     </div>
+                                                    <div class="toggle-dv-review mt-3">
+                                                        <div class="d-flex mb-2" style="gap: 20px;">
+                                                            <button>Events</button>
+                                                            {{--                                                            <button--}}
+                                                            {{--                                                                style="background-color: transparent;color: #9F8B72;">--}}
+                                                            {{--                                                                Reviews--}}
+                                                            {{--                                                            </button>--}}
+                                                        </div>
+                                                        <p class="mb-1"><span class="mr-2">Scheduling Window: {{@$offering->scheduling_window}}</span> | Client Price: {{@$offering->client_price}}</p>
+                                                        <p><span class="mr-2">Date Time: {{@$offering->event->date_and_time? date('d M, Y', strtotime($offering->event->date_and_time)): ''}}</span> | Event Duration: {{@$offering->event->event_duration}}</p>
+                                                    </div>
                                                 </div>
                                             </div>
 
