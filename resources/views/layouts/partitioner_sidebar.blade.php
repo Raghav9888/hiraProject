@@ -7,10 +7,10 @@
             </a>
         </li>
         <li>
-            <a href="{{route('my_membership')}}">
+{{--            <a href="{{route('my_membership')}}">--}}
                 <img src="{{url('./assets/images/User.svg')}}" alt="">
                 <p>My Membership</p>
-            </a>
+{{--            </a>--}}
         </li>
         <li>
             <a href="{{route('community')}}">
