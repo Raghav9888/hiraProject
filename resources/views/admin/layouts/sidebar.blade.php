@@ -54,7 +54,7 @@
             </a>
             <div class="collapse {{request()->routeIs('admin.blogs.*')? 'show': ''}}" id="blog-elements">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"><a class="nav-link {{request()->routeIs('admin.blogs.create')? 'active': ''}}" href="{{route('admin.blogs.create')}}">Add Blog</a></li>
+                    <li class="nav-item"><a class="nav-link blog {{request()->routeIs('admin.blogs.create')? 'active': ''}}" href="{{route('admin.blogs.create')}}">Add Blog</a></li>
                     <li class="nav-item"><a class="nav-link {{request()->routeIs('admin.blogs.index')? 'active': ''}}" href="{{route('admin.blogs.index')}}">All Blogs</a></li>
                 </ul>
             </div>
@@ -69,7 +69,7 @@
             </a>
             <div class="collapse {{request()->routeIs('admin.location.*')? 'show': ''}}" id="location-elements">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"><a class="nav-link {{request()->routeIs('admin.location.create')? 'active': ''}}" href="{{route('admin.location.create')}}">Add Location</a></li>
+                    <li class="nav-item"><a class="nav-link location{{request()->routeIs('admin.location.create')? 'active': ''}}" href="{{route('admin.location.create')}}">Add Location</a></li>
                     <li class="nav-item"><a class="nav-link {{request()->routeIs('admin.location.index')? 'active': ''}}" href="{{route('admin.location.index')}}">All Locations</a></li>
                 </ul>
             </div>
@@ -83,7 +83,7 @@
             </a>
             <div class="collapse {{request()->routeIs('admin.category.*')? 'show': ''}}" id="category-elements">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"><a class="nav-link {{request()->routeIs('admin.category.create')? 'active': ''}}" href="{{route('admin.category.create')}}">Add Category</a></li>
+                    <li class="nav-item"><a class="nav-link category {{request()->routeIs('admin.category.create')? 'active': ''}}" href="{{route('admin.category.create')}}">Add Category</a></li>
                     <li class="nav-item"><a class="nav-link {{request()->routeIs('admin.category.index')? 'active': ''}}" href="{{route('admin.category.index')}}">All Categories</a></li>
                 </ul>
             </div>
