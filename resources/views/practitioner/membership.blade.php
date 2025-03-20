@@ -153,7 +153,6 @@
                                             <label class="form-label fw-bold">Cancellation Reason:</label>
                                         </div>
 
-                                        <button type="submit" class="btn btn-primary">Submit</button>
                                     </form>
                                 </div>
 
