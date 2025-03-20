@@ -313,7 +313,10 @@ function removeImage(element) {
     const imageUrl = $(element).data('image-url');
     const userId = $(element).data('user-id');
     const isProfileImage = $(element).data('profile-image') ?? false;
+    const isMediaImage = $(element).data('media-image') ?? false;
     const isOfferImage = $(element).data('offering-image') ?? false;
+    const isCertificateImages = $(element).data('certificate-image') ?? false;
+    const $renderDiv = $(element).data('html-render') ?? false;
     const imageName = $(element).data('name');
 
     $.ajax({
@@ -321,9 +324,11 @@ function removeImage(element) {
         type: 'POST',
         data: {
             image: imageName,
-            url : imageUrl,
+            url: imageUrl,
             isProfileImage: isProfileImage,
+            isMediaImage: isOfferImage,
             isOfferImage: isOfferImage,
+            isCertificateImages: isCertificateImages,
             user_id: userId,
             _token: $('meta[name="csrf-token"]').attr('content')
         },
@@ -340,8 +345,12 @@ function removeImage(element) {
                         <span>+</span>
                     </label>
                 `;
+                if ($renderDiv) {
+                    $(`#{$renderDiv}`).append(uploadLabel);
+                } else {
+                    $('#imageDiv').append(uploadLabel);
 
-                $('#imageDiv').append(uploadLabel);
+                }
             } else {
                 $(element).parent().remove();
             }

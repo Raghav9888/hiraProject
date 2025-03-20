@@ -168,7 +168,7 @@
 
                                         </div>
 
-                                        <div class="mb-4 mt-4">
+                                        <div class="mb-4 mt-4" id="mediaDiv">
                                             <div class="d-flex">
                                                 <label for="media" class="fw-bold">Galley of images</label>
                                                 <div class="ms-3">
@@ -187,13 +187,20 @@
                                                 @if(count($mediaImages) > 0)
                                                     @foreach ($mediaImages as $image)
                                                         <div class="media-item">
+                                                            @php
+                                                                $imageUrl = asset(env('media_path') . '/practitioners/' . $userDetails->id . '/media/' . $image) ;
+                                                            @endphp
                                                             <img
-                                                                src="{{ asset(env('media_path') . '/practitioners/' . $userDetails->id . '/media/' . $image) }}"
+                                                                src="{{ $imageUrl }}"
                                                                 alt="Practitioner Image"
                                                                 style="width: 100px; height: 100px; object-fit: cover; display: block;">
                                                             <i class="fas fa-times text-danger" style="cursor: pointer;"
                                                                data-image="{{ $image }}"
-                                                               data-user-id="{{ $userDetails->id }}"
+                                                               data-user-id="{{ $user->id }}"
+                                                               data-image-url="{{ $imageUrl }}"
+                                                               data-name="{{ $image }}"
+                                                               data-media-image="true"
+                                                               data-html-render="mediaDiv"
                                                                onclick="removeImage(this);"></i>
                                                         </div>
                                                     @endforeach

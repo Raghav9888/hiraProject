@@ -272,7 +272,7 @@ class PractitionerController extends Controller
 
         $type = $request->type;
 
-        if (in_array($type, ['IHelpWith', 'HowIHelp', 'certifications', 'tags' ,'modalityPractice'])) {
+        if (in_array($type, ['IHelpWith', 'HowIHelp', 'certifications', 'tags', 'modalityPractice'])) {
             $inputField = '<input type="text" class="' . $type . '_term" id="' . $type . '_term" name="' . $type . '_term" placeholder="Enter term">
             <button data-type="' . $type . '" class="update-btn mb-2 save_term">Add Term</button>';
 
@@ -321,7 +321,7 @@ class PractitionerController extends Controller
                 'created_by' => $user->id,
                 'updated_by' => $user->id,
             ]);
-            return response()->json(['success' => true, 'message' => 'Certification term saved successfully', 'term' => $term]);
+            return response()->json(['success' => true, 'message' => 'Certification  term saved successfully', 'term' => $term]);
         }
 
         if ($type == 'tags') {
@@ -353,6 +353,7 @@ class PractitionerController extends Controller
         $image = $request->image;
         $isProfileImage = $request->isProfileImage;
         $isOfferingImage = $request->isOfferImage;
+        $isCertificateImages = $request->isCertificateImages;
 
         $user = User::where('id', $user_id)->first();
 
@@ -387,6 +388,28 @@ class PractitionerController extends Controller
                 $offering->save();
             }
         }
+        if ($isCertificateImages) {
+            $membership = $user->memberships()->first();
+
+            if ($membership && $membership->certificates_images) {
+                $images = json_decode($membership->certificates_images, true);
+
+                // Ensure images is an array before proceeding
+                if (is_array($images)) {
+                    // Find and remove the specific image
+                    if (($key = array_search($image, $images)) !== false) {
+                        unset($images[$key]); // Remove the image
+
+                        // Reindex array and update the database
+                        $membership->certificates_images = empty($images) ? null : json_encode(array_values($images));
+                        $membership->save();
+                    }
+                }
+            }
+        }
+
+
+
 
 
         return response()->json(['success' => true, 'message' => 'Image deleted successfully']);
@@ -402,14 +425,15 @@ class PractitionerController extends Controller
         foreach ($defaultLocations as $location) {
             $locations[$location->id] = $location->name;
         }
-        $mediaImages = [];
+
+        $images = json_decode($membership->certificates_images, true);
 
         $membershipModality = MembershipModality::all();
         return view('practitioner.membership', [
             'user' => $user,
             'membership' => $membership,
             'defaultLocations' => $locations,
-            'mediaImages' => $mediaImages,
+            'mediaImages' => $images,
             'membershipModality' => $membershipModality
         ]);
     }
@@ -474,8 +498,8 @@ class PractitionerController extends Controller
         $userId = $user->id;
         $input = $request->all();
 
-        $id = $input['membership_id'];
-        $membership = Membership::where('id', $id)->first();
+        $id = $input['membership_id'] ?? null;
+        $membership = Membership::find($id);
 
         if (!$membership) {
             $membership = new Membership();
@@ -484,7 +508,49 @@ class PractitionerController extends Controller
         } else {
             $membership->updated_by = $userId;
         }
+
+        // Ensure the business_name is not null
+        $membership->business_name = $input['business_name'] ?? '';
+
+        // Convert array to JSON before storing
+        $membership->membership_modalities = isset($input['modality_practice']) ? json_encode($input['modality_practice']) : json_encode([]);
+
+        // Handle boolean values correctly
+        $membership->confirm_necessary_certifications_credentials = isset($input['confirm_necessary_certifications_credentials']) ? 1 : 0;
+        $membership->acknowledge_the_hira_collective_practitioner_agreement = isset($input['acknowledge_the_hira_collective_practitioner_agreement']) ? 1 : 0;
+        $membership->understand_declaration_serves = isset($input['understand_declaration_serves']) ? 1 : 0;
+
+        $membership->years_of_experience = $input['years_of_experience'] ?? 0;
+        $membership->license_certification_number = $input['license_certification_number'] ?? '';
+
+        // Handle file uploads
+        $existingImages = $membership->certificates_images ? json_decode($membership->certificates_images, true) : [];
+
+        if ($request->hasFile('certificates_images')) {
+            $images = $request->file('certificates_images');
+
+            if (!is_array($images)) {
+                $images = [$images];
+            }
+
+            foreach ($images as $image) {
+                if ($image->isValid()) {
+                    $fileName = time() . '_' . $image->getClientOriginalName();
+                    $path = 'uploads/practitioners/' . $user->id . '/membership_certificate/';
+                    $image->move(public_path($path), $fileName);
+                    $existingImages[] = $fileName;
+                }
+            }
+
+            // Save back as JSON
+            $membership->certificates_images = json_encode($existingImages);
+        }
+
+        $membership->save();
+
+        return redirect()->back()->with('success', 'Profile updated successfully');
     }
+
 
 
     public function communityEngagement(Request $request)

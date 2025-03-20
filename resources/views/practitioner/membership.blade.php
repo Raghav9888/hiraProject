@@ -50,68 +50,32 @@
                                             @csrf
                                             @method('POST')
                                             <input type="hidden" class="form-control" id="membership_id"
-                                                   name="membership_id" value="{{ $membership->id ?? '' }}">
-                                            {{--                                            <div style="position: relative;"--}}
-                                            {{--                                                 class="d-flex justify-content-center flex-column align-items-center">--}}
-                                            {{--                                                <div class="mb-4" id="imageDiv">--}}
-                                            {{--                                                    <p style="text-align: start;" class="text-center fw-bold">Profile--}}
-                                            {{--                                                        Image</p>--}}
-                                            {{--                                                    <input type="file" id="fileInput" name="image" class="hidden"--}}
-                                            {{--                                                           accept="image/*"--}}
-                                            {{--                                                           onchange="previewImage(event)" style="display: none;">--}}
+                                                   name="membership_id" value="{{ $membership?->id ?? '' }}">
 
-                                            {{--                                                    @if(isset($image))--}}
-                                            {{--                                                        @php--}}
-                                            {{--                                                            $imageUrl = asset(env('media_path') . '/practitioners/' . $userDetails->id . '/profile/' . $image);--}}
-                                            {{--                                                        @endphp--}}
-                                            {{--                                                        <label class="image-preview rounded-5 " id="imagePreview"--}}
-                                            {{--                                                               style=" background-image: url('{{$imageUrl}}'); background-size: cover; background-position: center center;">--}}
-                                            {{--                                                            <i class="fas fa-trash text-danger fs-3"--}}
-                                            {{--                                                               data-image="{{ $image }}"--}}
-                                            {{--                                                               data-user-id="{{ $userDetails->id }}"--}}
-                                            {{--                                                               data-profile-image="true"--}}
-                                            {{--                                                               onclick="removeImage(this);"--}}
-                                            {{--                                                               style="cursor: pointer;"></i>--}}
-                                            {{--                                                        </label>--}}
-                                            {{--                                                    @else--}}
-                                            {{--                                                        <label onclick="document.getElementById('fileInput').click();"--}}
-                                            {{--                                                               class="image-preview" id="imagePreview"--}}
-                                            {{--                                                               style="border-radius: 50%;">--}}
-                                            {{--                                                            <span>+</span>--}}
-                                            {{--                                                        </label>--}}
-
-                                            {{--                                                    @endif--}}
-
-                                            {{--                                                    --}}{{-- <div class="preview-div">--}}
-                                            {{--                                                    --}}{{-- <img src="{{ url('/assets/images/Laptop.svg') }}" alt="">--}}
-                                            {{--                                                    --}}{{-- <p>preview</p>--}}
-                                            {{--                                                    --}}{{-- </div>--}}
-                                            {{--                                                </div>--}}
-                                            {{--                                            </div>--}}
                                             <div class="mb-3">
                                                 <label class="form-label">Full Name <span
                                                         class="text-danger">*</span></label>
                                                 <input type="text" class="form-control" name="name" required
-                                                       value="{{ $membership->name ?? '' }}">
+                                                       value="{{ $membership?->name ?? '' }}">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="form-label">Preferred Name</label>
                                                 <input type="text" class="form-control" name="preferred_name"
-                                                       value="{{ $membership->preferred_name ?? '' }}">
+                                                       value="{{ $membership?->preferred_name ?? '' }}">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="form-label">Pronouns</label>
                                                 <select class="form-select" name="pronouns">
                                                     <option
-                                                        value="he/him" {{ $membership->pronouns == 'he/him' ? 'selected':'' }}>
+                                                        value="he/him" {{ $membership?->pronouns == 'he/him' ? 'selected':'' }}>
                                                         He/him
                                                     </option>
                                                     <option
-                                                        value="she/her" {{ $membership->pronouns == 'she/her' ? 'selected':'' }}>
+                                                        value="she/her" {{ $membership?->pronouns == 'she/her' ? 'selected':'' }}>
                                                         She/her
                                                     </option>
                                                     <option
-                                                        value="they/them" {{ $membership->pronouns == 'they/them' ? 'selected':'' }}>
+                                                        value="they/them" {{ $membership?->pronouns == 'they/them' ? 'selected':'' }}>
                                                         They/them
                                                     </option>
                                                 </select>
@@ -120,18 +84,18 @@
                                                 <label class="form-label">Email Address <span
                                                         class="text-danger">*</span></label>
                                                 <input type="email" class="form-control" name="email" required
-                                                       value="{{ $membership->email ?? '' }}">
+                                                       value="{{ $membership?->email ?? '' }}">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="form-label">Birthday</label>
                                                 <input type="date" class="form-control" name="birthday"
-                                                       value="{{ $membership->birthday ?? '' }}">
+                                                       value="{{ $membership?->birthday ?? '' }}">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="form-label">Phone Number <span
                                                         class="text-danger">*</span></label>
                                                 <input type="tel" class="form-control" name="phone_number" required
-                                                       value="{{ $membership->phone_number ?? '' }}">
+                                                       value="{{ $membership?->phone_number ?? '' }}">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="form-label">Location (City, Country, Time Zone) <span
@@ -199,13 +163,18 @@
                             <div class="tab-pane fade" id="professionalInformation" role="tabpanel"
                                  aria-labelledby="contact-tab" tabindex="0">
                                 <div class="container mt-5">
-                                    <form action="{{route('professionalServiceInformation')}}" method="post" enctype="multipart/form-data">
+                                    <form action="{{route('professionalServiceInformation')}}" method="post"
+                                          enctype="multipart/form-data">
                                         @csrf
                                         @method('POST')
+                                        <input type="hidden" class="form-control" id="membership_id"
+                                               name="membership_id" value="{{ $membership?->id ?? '' }}">
+
                                         <div class="mb-3">
                                             <label for="businessName" class="form-label">Business Name (if
                                                 applicable)</label>
-                                            <input type="text" class="form-control" id="businessName" placeholder="Enter business name" name="business_name">
+                                            <input type="text" class="form-control" id="businessName"
+                                                   placeholder="Enter business name" name="business_name">
                                         </div>
 
                                         <div class="mb-4 select2-div">
@@ -213,7 +182,7 @@
 
                                             <div class="row align-items-center">
                                                 <div class="col-md-6">
-                                                    <select id="modalityPractice" name="modalityPractice[]"
+                                                    <select id="modalityPractice" name="modality_practice[]"
                                                             class="form-select location-select2"
                                                             multiple>
                                                         @php
@@ -226,7 +195,8 @@
                                                     </select>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <button class="update-btn mb-2 addterm" data-type="modalityPractice">Add New
+                                                    <button class="update-btn mb-2 addterm"
+                                                            data-type="modalityPractice">Add New
                                                         Term
                                                     </button>
                                                 </div>
@@ -237,7 +207,8 @@
                                         </div>
                                         <div class="mb-4 mt-4">
                                             <div class="d-flex">
-                                                <label for="media" class="fw-bold">Certifications & Credentials Upload (If
+                                                <label for="media" class="fw-bold">Certifications & Credentials Upload
+                                                    (If
                                                     applicable)</label>
                                                 <div class="ms-3">
                                                     <label class="add-media-btn" for="media-upload">
@@ -255,14 +226,21 @@
                                                 @if(count($mediaImages) > 0)
                                                     @foreach ($mediaImages as $image)
                                                         <div class="media-item">
+                                                            @php
+                                                                $imageUrl = asset(env('media_path') . '/practitioners/' . $user->id . '/membership_certificate/' . $image) ;
+                                                            @endphp
                                                             <img
-                                                                src="{{ asset(env('media_path') . '/practitioners/' . $userDetails->id . '/media/' . $image) }}"
+                                                                src="{{ $imageUrl}}"
                                                                 alt="Practitioner Image"
                                                                 style="width: 100px; height: 100px; object-fit: cover; display: block;">
                                                             <i class="fas fa-times text-danger" style="cursor: pointer;"
                                                                data-image="{{ $image }}"
-                                                               data-user-id="{{ $userDetails->id }}"
+                                                               data-user-id="{{ $user->id }}"
+                                                               data-image-url="{{ $imageUrl }}"
+                                                               data-name="{{ $image }}"
+                                                               data-certificate-image="true"
                                                                onclick="removeImage(this);"></i>
+
                                                         </div>
                                                     @endforeach
                                                 @else
@@ -274,7 +252,8 @@
 
                                         <div class="mb-3">
                                             <div class="form-check">
-                                                <input class="form-check-input input_checkbox" type="checkbox">
+                                                <input class="form-check-input input_checkbox" type="checkbox"
+                                                       name="confirm_necessary_certifications_credentials" {{ $membership?->confirm_necessary_certifications_credentials ? 'checked' : ''}}>
                                                 <label class="form-check-label" for="certificationConfirmation">
                                                     I confirm that I hold all necessary certifications, credentials, and
                                                     qualifications required to offer the modalities and services I
@@ -286,7 +265,8 @@
 
                                         <div class="mb-3">
                                             <div class="form-check">
-                                                <input class="form-check-input input_checkbox" type="checkbox">
+                                                <input class="form-check-input input_checkbox" type="checkbox"
+                                                       name="acknowledge_the_hira_collective_practitioner_agreement" {{ $membership?->acknowledge_the_hira_collective_practitioner_agreement ? 'checked' : ''}}>
                                                 <label class="form-check-label">
                                                     I acknowledge that, as per The Hira Collective’s Practitioner
                                                     Agreement, Terms & Conditions, and Privacy Policy, The Hira
@@ -300,7 +280,8 @@
                                         <div class="mb-3">
                                             <div class="form-check">
                                                 <input class="form-check-input form-check-input input_checkbox"
-                                                       type="checkbox">
+                                                       type="checkbox" name="understand_declaration_serves"
+                                                       id="complianceDeclaration" {{ $membership?->understand_declaration_serves ? 'checked' : ''}}>
                                                 <label class="form-check-label" for="complianceDeclaration">
                                                     I understand that my declaration serves as confirmation of my
                                                     compliance, and any false or misleading information may result in
@@ -310,10 +291,14 @@
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="yearsOfExperience" class="form-label">Years of Experience</label>
+                                            <label for="yearsOfExperience" class="form-label">Years of
+                                                Experience</label>
                                             <div class="row align-items-center">
                                                 <div class="col-4">
-                                                    <input type="number" class="form-control" id="yearsOfExperience" placeholder="Enter years of experience">
+                                                    <input type="number" class="form-control" id="yearsOfExperience"
+                                                           placeholder="Enter years of experience"
+                                                           name="years_of_experience"
+                                                           value="{{ $membership->years_of_experience ?? '' }}">
                                                 </div>
                                                 <div class="col-8">
                                                     <span>Years</span>
@@ -326,7 +311,9 @@
                                             <label for="licenseNumber" class="form-label">License/Certification Number
                                                 (If applicable)</label>
                                             <input type="text" class="form-control" id="licenseNumber"
-                                                   placeholder="Enter license/certification number">
+                                                   placeholder="Enter license/certification number"
+                                                   name="license_certification_number"
+                                                   value="{{ $membership->license_certification_number ?? '' }}">
                                         </div>
 
                                         <button type="submit" class="btn btn-primary">Submit</button>
@@ -351,38 +338,44 @@
                                             <h5>Are you interested in contributing to blogs, workshops, or events?</h5>
 
                                             <div class="form-check">
-                                                <input class="form-check-input input_checkbox" name="blogs_workshops_events[]"
+                                                <input class="form-check-input input_checkbox"
+                                                       name="blogs_workshops_events[]"
                                                        type="checkbox" id="blog" value="blog"
                                                     {{ in_array('blog', $selectedOptions) ? 'checked' : '' }}>
                                                 <label class="form-check-label" for="blog">Blog</label>
                                             </div>
 
                                             <div class="form-check">
-                                                <input class="form-check-input input_checkbox" name="blogs_workshops_events[]"
+                                                <input class="form-check-input input_checkbox"
+                                                       name="blogs_workshops_events[]"
                                                        type="checkbox" id="igLive" value="ig_live"
                                                     {{ in_array('ig_live', $selectedOptions) ? 'checked' : '' }}>
                                                 <label class="form-check-label" for="igLive">IG Live</label>
                                             </div>
 
                                             <div class="form-check">
-                                                <input class="form-check-input input_checkbox" name="blogs_workshops_events[]"
+                                                <input class="form-check-input input_checkbox"
+                                                       name="blogs_workshops_events[]"
                                                        type="checkbox" id="podcast" value="podcast"
                                                     {{ in_array('podcast', $selectedOptions) ? 'checked' : '' }}>
                                                 <label class="form-check-label" for="podcast">Podcast</label>
                                             </div>
 
                                             <div class="form-check">
-                                                <input class="form-check-input input_checkbox" name="blogs_workshops_events[]"
+                                                <input class="form-check-input input_checkbox"
+                                                       name="blogs_workshops_events[]"
                                                        type="checkbox" id="workshop" value="workshop"
                                                     {{ in_array('workshop', $selectedOptions) ? 'checked' : '' }}>
                                                 <label class="form-check-label" for="workshop">Workshop</label>
                                             </div>
 
                                             <div class="form-check">
-                                                <input class="form-check-input input_checkbox" name="blogs_workshops_events[]"
+                                                <input class="form-check-input input_checkbox"
+                                                       name="blogs_workshops_events[]"
                                                        type="checkbox" id="communityEvent" value="community_event"
                                                     {{ in_array('community_event', $selectedOptions) ? 'checked' : '' }}>
-                                                <label class="form-check-label" for="communityEvent">Community Event</label>
+                                                <label class="form-check-label" for="communityEvent">Community
+                                                    Event</label>
                                             </div>
                                         </div>
 
@@ -412,7 +405,8 @@
 
                                         <div class="mb-4">
                                             <h5>Collaboration Interests</h5>
-                                            <textarea class="form-control" id="collaborationInterests" rows="4" name="collaboration_interests"
+                                            <textarea class="form-control" id="collaborationInterests" rows="4"
+                                                      name="collaboration_interests"
                                                       placeholder="Enter your collaboration interests here...">{{$membership->collaboration_interests ?? ''}}</textarea>
                                         </div>
 

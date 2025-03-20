@@ -39,6 +39,7 @@ return new class extends Migration
 
             $table->json('membership_modalities')->nullable();
             $table->json('blogs_workshops_events')->nullable();
+            $table->json('certificates_images')->nullable();
 
             $table->text('collaboration_interests')->nullable();
 
