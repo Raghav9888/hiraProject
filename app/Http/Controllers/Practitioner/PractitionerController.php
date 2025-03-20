@@ -409,9 +409,6 @@ class PractitionerController extends Controller
         }
 
 
-
-
-
         return response()->json(['success' => true, 'message' => 'Image deleted successfully']);
 
     }
@@ -426,7 +423,7 @@ class PractitionerController extends Controller
             $locations[$location->id] = $location->name;
         }
 
-        $images = json_decode($membership->certificates_images, true);
+        $images = isset($membership->certificates_images) && $membership->certificates_images ? json_decode($membership->certificates_images, true) : [];
 
         $membershipModality = MembershipModality::all();
         return view('practitioner.membership', [
@@ -550,7 +547,6 @@ class PractitionerController extends Controller
 
         return redirect()->back()->with('success', 'Profile updated successfully');
     }
-
 
 
     public function communityEngagement(Request $request)
