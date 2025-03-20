@@ -40,8 +40,8 @@ class BlogController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255|unique:blogs,name',
-            'description' => 'required|string',
-            'image' => 'required|image|mimes:jpg,png,jpeg,gif|max:2048', // Image validation
+//            'description' => 'required|string',
+            'image' => 'required|image|mimes:jpg,png,jpeg,gif|max:2048',
         ]);
         $user = Auth::user();
         $user_id = $user->id;
@@ -96,8 +96,8 @@ class BlogController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255|unique:blogs,name,' . $blog->id,
-            'description' => 'required|string',
-            'image' => 'nullable|image|mimes:jpg,png,jpeg,gif|max:2048', // Image optional
+//            'description' => 'required|string',
+            'image' => 'nullable|image|mimes:jpg,png,jpeg,gif|max:2048',
         ]);
         $user = Auth::user();
         $user_id = $user->id;
