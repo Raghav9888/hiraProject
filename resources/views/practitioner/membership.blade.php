@@ -115,7 +115,7 @@
                                                 <input type="url" class="form-control" name="website_social_media_link">
                                             </div>
 
-                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                            <button class="update-btn">Save</button>
                                         </form>
                                     </div>
                                 </div>
@@ -315,7 +315,7 @@
                                                    value="{{ $membership->license_certification_number ?? '' }}">
                                         </div>
 
-                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                        <button class="update-btn">Save</button>
                                     </form>
                                 </div>
                             </div>
@@ -409,7 +409,7 @@
                                                       placeholder="Enter your collaboration interests here...">{{$membership->collaboration_interests ?? ''}}</textarea>
                                         </div>
 
-                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                        <button class="update-btn">Save</button>
                                     </div>
 
                                 </form>
