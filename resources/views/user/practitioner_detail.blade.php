@@ -18,15 +18,15 @@
         background-color: #fff;
         width: 80%; /* Increase width to 80% */
         max-width: 1000px; /* Set a max-width */
-        height: 80%; /* Increase height to 80% of the screen */
-        max-height: 90vh; /* Limit maximum height to 90% of viewport height */
-        padding: 20px;
+        height: 100%; /* Increase height to 80% of the screen */
+        /*max-height: 90vh; !* Limit maximum height to 90% of viewport height *!*/
+        /*padding: 20px;*/
         border-radius: 8px;
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        overflow-y: auto; /* Enable scrolling if content overflows */
+        /*overflow-y: auto; !* Enable scrolling if content overflows *!*/
     }
 
     /* Close button */
@@ -158,10 +158,10 @@
                                                 <h4 class="mb-2">{{$offering->name}}</h4>
                                                 <div class="d-flex align-items-center">
                                                     <h6 class="offer-prize me-2 m-0">${{$offering->client_price}}</h6>
-{{--                                                    <a href="javascript:void(0)" class="home-blog-btn" data-offering-id="{{$offering->id}}"--}}
-{{--                                                       onclick="openPopup()">BOOK NOW</a>--}}
-                                                    <a href="{{ route('practitionerOfferingDetail',$offering->id)}}"
-                                                       class="home-blog-btn">BOOK NOW</a>
+{{--                                                    <a href="javascript:void(0)" class="home-blog-btn"--}}
+                                                    {{--                                                       onclick="openPopup(event)" data-offering-id="{{$offering->id}}">BOOK NOW</a>--}}
+
+                                                    <a href="{{ route('practitionerOfferingDetail',$offering->id)}}" class="home-blog-btn">BOOK NOW</a>
                                                 </div>
                                             </div>
                                             <ul class="practitioner-accordian-lists">
@@ -202,6 +202,7 @@
 
                                         </div>
                                     @endforeach
+
 
                                 </div>
                             </div>
@@ -507,21 +508,51 @@
             </div>
         </div>
     </div>
+    <input type="hidden" name="offering_id" id="offering_id">
+
     <!-- Popup Structure -->
     <div id="popup" class="popup-overlay">
         <div class="popup-content">
-            <span class="close-btn" onclick="closePopup()">&times;</span>
+            {{--            <span class="close-btn" onclick="closePopup()">&times;</span>--}}
             @include('user.offering_detail_page')
         </div>
     </div>
     <script>
-        function openPopup() {
-            document.getElementById('popup').style.display = 'block';
+        function openPopup(event) {
+            event.preventDefault(); // Prevent default action of the anchor tag
+
+            let offeringId = event.target.getAttribute('data-offering-id');
+            let inputElement = document.querySelector('[name="offering_id"]');
+
+            let popupElement = document.getElementById('popup');
+
+            if (inputElement) {
+                inputElement.value = offeringId;
+                inputElement.classList.add('activeInput');
+            } else {
+                console.error("Element with ID 'offering_id' not found");
+            }
+
+            if (popupElement) {
+                popupElement.style.display = 'block';
+            } else {
+                console.error("Element with ID 'popup' not found");
+            }
         }
 
         function closePopup() {
-            document.getElementById('popup').style.display = 'none';
+            let inputElement = document.getElementById('offering_hidden_id');
+            let popupElement = document.getElementById('popup');
+
+            if (inputElement) {
+                inputElement.value = '';
+            }
+
+            if (popupElement) {
+                popupElement.style.display = 'none';
+            }
         }
+
 
         var swiper = new Swiper(".mySwiper", {
             spaceBetween: 30,

@@ -65,6 +65,10 @@ Route::middleware(['auth', 'user-access:admin'])->name('admin.')->prefix('admin'
     Route::resource('plans', PlanController::class);
     Route::get('/locations', [LocationController::class, 'locations'])->name('location.index');
     Route::get('/create/location', [LocationController::class, 'createLocation'])->name('location.create');
+    Route::post('/add/location', [LocationController::class, 'addLocation'])->name('location.add');
+    Route::get('/edit/location/{id}', [LocationController::class, 'editLocation'])->name('location.edit');
+    Route::post('/admin/location/update/{id}', [LocationController::class, 'updateLocation'])->name('location.update');
+    Route::post('/delete/location/{id}', [LocationController::class, 'deleteLocation'])->name('location.delete');
 });
 
 Route::middleware(['auth', 'user-access:user'])->group(function () {

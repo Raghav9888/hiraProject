@@ -10,13 +10,12 @@
         <div class="main-panel">
 
             <div class="content-wrapper">
-                <form method="post" action="">
                     <div class="row">
                         <div class="col-12 grid-margin stretch-card">
                             <div class="card">
                                 <div class="card-body">
                                     <h4 class="card-title">Add New Location</h4>
-                                    <form class="forms-sample" method="POST" enctype="multipart/form-data" action="{{ route('admin.blogs.store') }}">
+                                    <form class="forms-sample" method="POST" enctype="multipart/form-data" action="{{ route('admin.location.add') }}">
                                         @csrf
 
                                         <div class="form-group">
@@ -34,7 +33,6 @@
                             </div>
                         </div>
                     </div>
-                </form>
             </div>
         </div>
     </div>

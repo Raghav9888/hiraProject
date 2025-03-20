@@ -34,7 +34,19 @@
                                                 <tr>
                                                     <td>{{  $loop->iteration }}</td>
                                                     <td>{{$location->name}}</td>
-                                                    <td><i class="fa-solid fa-ellipsis-vertical"></i></td>
+                                                    <td><div class="action-btn-container d-flex gap-2">
+                                                            <a href="{{route('admin.location.edit', $location->id)}}" class="btn btn-sm btn-primary">
+                                                                <i class="fa-solid fa-pen-to-square"></i>
+                                                            </a>
+                                                            <a href="javascript:void(0);" class="btn btn-sm btn-danger  delete-btn" data-id="{{ $location->id }}">
+                                                                <i class="fa-solid fa-trash-can"></i>
+                                                            </a>
+
+                                                            <form id="delete-form-{{ $location->id }}" action="{{ route('admin.location.delete', $location->id) }}" method="POST" style="display: none;">
+                                                                @csrf
+                                                                @method('post')
+                                                            </form>
+                                                        </div></td>
                                                 </tr>
                                             @endforeach
                                         @else
@@ -58,6 +70,31 @@
 
         </div>
     </div>
+
 @endsection
+
+@push('custom_scripts')
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            $(".delete-btn").click(function() {
+                let $locationId = $(this).data("id");
+
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#d33",
+                    cancelButtonColor: "#3085d6",
+                    confirmButtonText: "Yes, delete it!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById("delete-form-" + $locationId).submit();
+                    }
+                });
+            });
+        });
+    </script>
+@endpush
 
 

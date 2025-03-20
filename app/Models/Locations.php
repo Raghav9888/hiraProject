@@ -9,5 +9,5 @@ class Locations extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['id','name'];
+    protected $fillable = ['id','name','created_by', 'updated_by', 'deleted_by','created_at','updated_at','status'];
 }
