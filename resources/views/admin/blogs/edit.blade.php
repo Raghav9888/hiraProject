@@ -19,24 +19,59 @@
                                     @method("put")
                                     @csrf
                                     <div class="form-group">
-                                        <label for="exampleInputName1">Category</label>
-                                        <select name="category" class="form-control" id="">
-                                            <option value="0" disabled>Select Category</option>
-                                            @foreach($categories as $category)
-                                            <option value="{{$category->id}}" {{(@$blog->category->id === $category->id)? 'selected': ''}} >{{$category->name}}</option>
-                                            @endforeach
-                                        </select>
-                                        @error('category')
-                                            <span class="text-danger">{{ $message }}</span>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="exampleInputName1">Name</label>
+                                        <label for="exampleInputName1">Title</label>
                                         <input type="text" class="form-control" name="name" required
                                             id="exampleInputName1" value="{{$blog->name}}" placeholder="Name">
                                         @error('name')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="exampleInputName1">Category</label>
+                                                <select name="category" class="form-control" id="">
+                                                    <option value="0" disabled>Select Category</option>
+                                                    @foreach($categories as $category)
+                                                    <option value="{{$category->id}}" {{(@$blog->category->id === $category->id)? 'selected': ''}} >{{$category->name}}</option>
+                                                    @endforeach
+                                                </select>
+                                                @error('category')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="exampleInputName1">Tags</label>
+                                                <input type="text" class="form-control" name="tags"
+                                                    id="exampleInputName1" value="{{$blog->tags? implode(',', json_decode(@$blog->tags, true)): ''}}" placeholder="tag, tags">
+                                                <small><i>Comma separated</i></small>
+                                                @error('tags')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="exampleInputName1">Author</label>
+                                                <input type="text" class="form-control" name="author"
+                                                    id="exampleInputName1" value="{{@$blog->author}}" placeholder="author">
+                                                @error('author')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="exampleInputName1">Date</label>
+                                                <input type="date" class="form-control" name="date"
+                                                    id="exampleInputName1" value="{{@$blog->date}}" placeholder="Title">
+                                                @error('date')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleTextarea1">Description</label>

@@ -25,8 +25,8 @@
                                 </div>
                             </div>
                             <div class="d-flex justify-content-between flex-wrap">
-                                <p class="m-0 mb-3">Published on <span>{{date('M d, Y', strtotime($blog->created_at))}}</span></p>
-                                <p class="m-0">Published by The <span>Hira Collective</span></p>
+                                <p class="m-0 mb-3">Published on <span>{{date('M d, Y', strtotime($blog->date))}}</span></p>
+                                <p class="m-0">Published by The <span>{{@$blog->author}}</span></p>
                             </div>
                         </div>
                         <h2>{{$blog->name}}</h2>
