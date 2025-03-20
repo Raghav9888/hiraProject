@@ -70,7 +70,7 @@ class CategoryController
 
     public function update(Request $request, $id)
     {
-        
+
         $user = Auth::user();
         $user_id = $user->id;
 
