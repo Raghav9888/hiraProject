@@ -68,43 +68,82 @@
                     </div>
                 </div>
                 <h5 class="practitioner-profile-text mb-2">This month for you</span></h5>
-                <div class="calendar">
-                    <div id="calendar"></div>
-                    <div id="eventModal" class="modal" style="display: none;">
-                        <div class="modal-content">
-                            <span class="close" id="closeModal">&times;</span>
-                            <h2>Create Event</h2>
-                            <form id="createEventForm">
-                                <label for="eventTitle">Event Title:</label>
-                                <input type="text" id="eventTitle" required>
+                {{--                <div class="calendar">--}}
+                {{--                    <div id="calendar"></div>--}}
+                {{--                    <div id="eventModal" class="modal" style="display: none;">--}}
+                {{--                        <div class="modal-content">--}}
+                {{--                            <span class="close" id="closeModal">&times;</span>--}}
+                {{--                            <h2>Create Event</h2>--}}
+                {{--                            <form id="createEventForm">--}}
+                {{--                                <label for="eventTitle">Event Title:</label>--}}
+                {{--                                <input type="text" id="eventTitle" required>--}}
 
-                                <label for="eventDescription">Description:</label>
-                                <textarea id="eventDescription"></textarea>
+                {{--                                <label for="eventDescription">Description:</label>--}}
+                {{--                                <textarea id="eventDescription"></textarea>--}}
 
-                                <label for="eventStartTime">Start Time:</label>
-                                <input type="datetime-local" id="eventStartTime" required>
+                {{--                                <label for="eventStartTime">Start Time:</label>--}}
+                {{--                                <input type="datetime-local" id="eventStartTime" required>--}}
 
-                                <label for="eventEndTime">End Time:</label>
-                                <input type="datetime-local" id="eventEndTime" required>
+                {{--                                <label for="eventEndTime">End Time:</label>--}}
+                {{--                                <input type="datetime-local" id="eventEndTime" required>--}}
 
-                                <button type="submit">Save Event</button>
-                            </form>
+                {{--                                <button type="submit">Save Event</button>--}}
+                {{--                            </form>--}}
+                {{--                        </div>--}}
+                {{--                    </div>--}}
+                {{--                </div>--}}
+                <div class="row my-4">
+                    <div class="col-md-12">
+                        <div class="card rounded h-100">
+                            <div class="card-body">
+                                <div id="customCalendar" class="d-none">
+                                    <div class="bg-light p-3 rounded mb-4">
+                                        <div class="d-flex justify-content-center align-items-center">
+                                            <button class="btn text-green" id="prevMonth">
+                                                <i class="fas fa-chevron-left"></i>
+                                            </button>
+                                            <span class="mx-3 text-green fw-medium"
+                                                  id="monthLabel">March 2025</span>
+                                            <button class="btn text-green" id="nextMonth">
+                                                <i class="fas fa-chevron-right"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="calendar-grid text-green fw-medium">
+                                        <div>Su</div>
+                                        <div>Mo</div>
+                                        <div>Tu</div>
+                                        <div>We</div>
+                                        <div>Th</div>
+                                        <div>Fr</div>
+                                        <div>Sa</div>
+                                    </div>
+                                    <div class="calendar-grid mt-2" id="calendarGrid">
+                                    </div>
+                                </div>
+
+                                <div class="text-center">
+                                    <div class="spinner-border" style="width: 3rem; height: 3rem;"
+                                         role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-
-                <div id="noteModal" class="modal">
-                    <div class="modal-content">
-                        <span class="close">&times;</span>
-                        <h3>Add Note</h3>
-                        <p id="selectedDate"></p>
-                        <label for="time">Select Time:</label>
-                        <input type="time" id="time" required>
-                        <label for="note">Note:</label>
-                        <textarea id="note" rows="2" placeholder="Enter your note..."></textarea>
-                        <button id="saveNote">Save Note</button>
-                    </div>
-                </div>
+{{--                <div id="noteModal" class="modal">--}}
+{{--                    <div class="modal-content">--}}
+{{--                        <span class="close">&times;</span>--}}
+{{--                        <h3>Add Note</h3>--}}
+{{--                        <p id="selectedDate"></p>--}}
+{{--                        <label for="time">Select Time:</label>--}}
+{{--                        <input type="time" id="time" required>--}}
+{{--                        <label for="note">Note:</label>--}}
+{{--                        <textarea id="note" rows="2" placeholder="Enter your note..."></textarea>--}}
+{{--                        <button id="saveNote">Save Note</button>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
                 <h5 class="practitioner-profile-text mb-2">Browse other practitioners</span></h5>
                 <div class="search-container mb-5">
                     <input type="text" class="search-input" name="endorsements" id="endorsements">
@@ -142,7 +181,8 @@
                                                     @foreach($endorsedUserLocations as $endorsedUserLocation)
                                                         @foreach($defaultLocations as $key => $defaultLocation)
                                                             @if(in_array($key, $endorsedUserLocations))
-                                                                <i class="fa-solid fa-location-dot"></i> {{ $defaultLocation }},
+                                                                <i class="fa-solid fa-location-dot"></i> {{ $defaultLocation }}
+                                                                ,
                                                             @endif
                                                         @endforeach
                                                     @endforeach
@@ -190,11 +230,11 @@
             let imagePath = `{{env('media_path')}}`;
             let localPath = `{{env('local_path')}}`;
             let locationArr = @json($defaultLocations);
-console.log(locationArr)
+
             $.ajax({
                 url: '/search/practitioner',
                 type: 'get',
-                data: { search },
+                data: {search},
                 success: function (response) {
                     let endorsementHtml = '';
 
@@ -278,4 +318,5 @@ console.log(locationArr)
         });
 
     </script>
+
 @endsection

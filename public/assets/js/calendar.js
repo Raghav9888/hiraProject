@@ -2,14 +2,14 @@ console.log('calendar.js');
 document.addEventListener('DOMContentLoaded', function () {
     let calendarEl = document.getElementById('calendar');
 
-    if(calendarEl){
+    if (calendarEl) {
 
         let calendar = new FullCalendar.Calendar(calendarEl, {
             initialView: 'dayGridMonth',
             editable: true,
             selectable: true,
             dayMaxEvents: true,
-            events: function(info, successCallback, failureCallback) {
+            events: function (info, successCallback, failureCallback) {
                 $.ajax({
                     url: '/calendar/events',
                     type: 'GET',
@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
         calendar.render();
     }
 
-    if(document.getElementById('closeModal')){
+    if (document.getElementById('closeModal')) {
 
         // Close modal functionality
         document.getElementById('closeModal').onclick = function () {
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
         };
     }
 
-    if(document.getElementById('createEventForm')){
+    if (document.getElementById('createEventForm')) {
 
         // Handle form submission
         document.getElementById('createEventForm').addEventListener('submit', function (event) {
@@ -80,7 +80,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
-
 
 
 function sendToServer(eventData, calendar) {
@@ -161,14 +160,14 @@ function upComingEvents() {
 
 document.addEventListener('DOMContentLoaded', function () {
     var calendarEl = document.getElementById('booking_calendar');
-    if(calendarEl){
+    if (calendarEl) {
 
         var calendar = new FullCalendar.Calendar(calendarEl, {
             initialView: 'dayGridMonth',
             selectable: true,
             fixedWeekCount: true,
             dateClick: function (info) {
-                if(info.dateStr < new Date().toISOString().slice(0, 10)){
+                if (info.dateStr < new Date().toISOString().slice(0, 10)) {
                     alert('You cannot book for past dates');
                     return;
                 }
@@ -180,7 +179,6 @@ document.addEventListener('DOMContentLoaded', function () {
         calendar.render();
     }
 });
-
 
 
 fetchTimeSlots = (selectedDate) => {
@@ -224,3 +222,182 @@ $(document).ready(function () {
         $(`#${id}`).toggleClass('d-none');
     });
 });
+
+
+if ($('#customCalendar').length > 0) {
+    $('#customCalendar').removeClass('d-none');
+    $('.spinner-border').addClass('d-none');
+    let currentDate = new Date();
+    let currentMonth = currentDate.getMonth();
+    let currentYear = currentDate.getFullYear();
+    let selectedDate = currentDate.getDate();
+
+    let events = [];
+
+    function fetchEvents() {
+        $.ajax({
+            url: '/calendar/events',
+            type: 'GET',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function (response) {
+                if (response.error) {
+                    window.location.href = response.redirect_url;
+                } else {
+                    events = response ?? [];
+                    generateCalendar(currentMonth, currentYear);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error fetching events:", status, error);
+            }
+        });
+    }
+
+    function updateMonthLabel() {
+        document.getElementById("monthLabel").innerText =
+            `${new Date(currentYear, currentMonth).toLocaleString('default', {month: 'long'})} ${currentYear}`;
+    }
+
+    function generateYearDropdown() {
+        const existingDropdown = document.getElementById("yearDropdown");
+        if (existingDropdown) {
+            existingDropdown.remove();
+            return;
+        }
+
+        const yearDropdown = document.createElement("div");
+        yearDropdown.classList.add("year-dropdown");
+        yearDropdown.id = "yearDropdown";
+
+        for (let i = currentYear - 10; i <= currentYear + 10; i++) {
+            const yearOption = document.createElement("div");
+            yearOption.classList.add("year-option");
+            yearOption.innerText = i;
+            yearOption.addEventListener("click", () => {
+                currentYear = i;
+                document.getElementById("yearDropdown").remove();
+                updateMonthLabel();
+                generateCalendar(currentMonth, currentYear);
+            });
+            yearDropdown.appendChild(yearOption);
+        }
+
+        document.getElementById("monthLabel").parentElement.appendChild(yearDropdown);
+    }
+
+    function generateCalendar(month, year) {
+        const calendarGrid = document.getElementById("calendarGrid");
+        calendarGrid.innerHTML = "";
+
+        const firstDay = new Date(year, month, 1).getDay();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+        for (let i = 0; i < firstDay; i++) {
+            const emptyCell = document.createElement("div");
+            emptyCell.classList.add("calendar-cell", "empty");
+            calendarGrid.appendChild(emptyCell);
+        }
+
+        for (let day = 1; day <= daysInMonth; day++) {
+            const dayCell = document.createElement("div");
+            dayCell.classList.add("calendar-cell");
+            dayCell.innerText = day;
+
+            if (year === currentDate.getFullYear() && month === currentDate.getMonth() && day === currentDate.getDate()) {
+                dayCell.classList.add("today");
+            }
+
+            if (day === selectedDate && month === currentMonth && year === currentYear) {
+                dayCell.classList.add("active");
+            }
+
+            const eventDate = `${year}-${(month + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+            const dayEvents = events.filter(event => {
+                let eventStartDate = event.start.split('T')[0];
+                let eventEndDate = event.end ? event.end.split('T')[0] : eventStartDate;
+                return eventStartDate <= eventDate && eventEndDate >= eventDate;
+            });
+
+            if (dayEvents.length > 0) {
+                let renderedEvents = new Set(); // Track already rendered events
+
+                dayEvents.forEach(event => {
+                    let eventStartDate = event.start.split('T')[0];
+                    let eventEndDate = event.end ? event.end.split('T')[0] : eventStartDate;
+                    let eventStart = new Date(eventStartDate);
+                    let eventEnd = new Date(eventEndDate);
+                    let eventDays = (eventEnd - eventStart) / (1000 * 60 * 60 * 24) + 1; // Duration in days
+
+                    let eventLabel = document.createElement("div");
+
+                    if (eventStartDate !== eventEndDate && eventStartDate === eventDate && !renderedEvents.has(event.title)) {
+                        eventLabel.classList.add("event-bar");
+                        eventLabel.innerText = event.title;
+
+                        // Calculate width based on number of days
+                        // Styling for multi-day events
+                        let calendarCellWidth = document.querySelector(".calendar-cell").offsetWidth;
+                        eventLabel.style.width = (calendarCellWidth * eventDays) + "px";
+                        eventLabel.style.position = "absolute";
+                        eventLabel.style.left = "0";
+                        eventLabel.style.zIndex = "1";
+                        eventLabel.style.top = "0";
+                        eventLabel.style.right = "0";
+
+
+                        renderedEvents.add(event.title);
+                    } else if (eventStartDate === eventEndDate || eventStartDate === eventDate) {
+                        eventLabel.classList.add("event-bar");
+                        eventLabel.innerText = event.title;
+                    } else {
+                        eventLabel.classList.add("event-radio");
+                        eventLabel.innerHTML = `<input type='radio' name='event-${eventDate}'/> ${event.title}`;
+                    }
+
+                    // Append only on the first occurrence
+                    if (eventStartDate === eventDate) {
+                        dayCell.appendChild(eventLabel);
+                    }
+                });
+            }
+
+
+            dayCell.addEventListener("click", function () {
+                document.querySelectorAll(".calendar-cell.active").forEach(cell => cell.classList.remove("active"));
+                dayCell.classList.add("active");
+                selectedDate = day;
+            });
+
+            calendarGrid.appendChild(dayCell);
+        }
+    }
+
+    document.getElementById("monthLabel").addEventListener("click", generateYearDropdown);
+
+    document.getElementById("prevMonth").addEventListener("click", function () {
+        currentMonth--;
+        if (currentMonth < 0) {
+            currentMonth = 11;
+            currentYear--;
+        }
+        selectedDate = null;
+        updateMonthLabel();
+        generateCalendar(currentMonth, currentYear);
+    });
+
+    document.getElementById("nextMonth").addEventListener("click", function () {
+        currentMonth++;
+        if (currentMonth > 11) {
+            currentMonth = 0;
+            currentYear++;
+        }
+        selectedDate = null;
+        updateMonthLabel();
+        generateCalendar(currentMonth, currentYear);
+    });
+
+    updateMonthLabel();
+    fetchEvents();
+}

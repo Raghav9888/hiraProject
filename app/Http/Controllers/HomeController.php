@@ -146,7 +146,6 @@ class HomeController extends Controller
     public function getTimeSlots(Request $request, $date, $id)
     {
         $timeSlots = [];
-        $date = date('Y-m-d', strtotime($date));
 
         $offering = Offering::find($id);
 
@@ -154,6 +153,7 @@ class HomeController extends Controller
         if (!$offering) {
             return response()->json(['error' => 'Offering not found'], 404);
         }
+        dd($offering);
 
         // Ensure dates are valid
         if (empty($offering->from_date) || empty($offering->to_date)) {
