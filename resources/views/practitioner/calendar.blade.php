@@ -10,36 +10,48 @@
                     <div class="col-md-9">
                         <h2 class="practitioner-profile-text mb-2 ">Booking Calendar</h2>
                     </div>
-                    <div class="card">
-                        <div class="card-body">
-                            <div id="calendar"></div>
+                    <div class="row my-4">
+                        <div class="col-md-12">
+                            <div class="card rounded h-100">
+                                <div class="card-body">
+                                    <div id="customCalendar" class="d-none">
+                                        <div class="bg-light p-3 rounded mb-4">
+                                            <div class="d-flex justify-content-center align-items-center">
+                                                <button class="btn text-green" id="prevMonth">
+                                                    <i class="fas fa-chevron-left"></i>
+                                                </button>
+                                                <span class="mx-3 text-green fw-medium"
+                                                      id="monthLabel">March 2025</span>
+                                                <button class="btn text-green" id="nextMonth">
+                                                    <i class="fas fa-chevron-right"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="calendar-grid text-green fw-medium">
+                                            <div>Su</div>
+                                            <div>Mo</div>
+                                            <div>Tu</div>
+                                            <div>We</div>
+                                            <div>Th</div>
+                                            <div>Fr</div>
+                                            <div>Sa</div>
+                                        </div>
+                                        <div class="calendar-grid mt-2" id="calendarGrid">
+                                        </div>
+                                    </div>
+
+                                    <div class="text-center">
+                                        <div class="spinner-border" style="width: 3rem; height: 3rem;"
+                                             role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-
-<!-- Modal for Event Creation -->
-<div id="eventModal" class="modal" style="display: none;">
-    <div class="modal-content">
-        <span class="close" id="closeModal">&times;</span>
-        <h2>Create Event</h2>
-        <form id="createEventForm">
-            <label for="eventTitle">Event Title:</label>
-            <input type="text" id="eventTitle" required>
-
-            <label for="eventDescription">Description:</label>
-            <textarea id="eventDescription"></textarea>
-
-            <label for="eventStartTime">Start Time:</label>
-            <input type="datetime-local" id="eventStartTime" required>
-
-            <label for="eventEndTime">End Time:</label>
-            <input type="datetime-local" id="eventEndTime" required>
-
-            <button type="submit">Save Event</button>
-        </form>
-    </div>
-</div>
 @endsection
