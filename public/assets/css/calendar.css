@@ -28,11 +28,11 @@
     background-color: lightblue;
     font-weight: bold;
 }
-.active {
-    background-color: green;
-    color: white;
-    font-weight: bold;
-}
+/*.active {*/
+/*    background-color: green;*/
+/*    color: white;*/
+/*    font-weight: bold;*/
+/*}*/
 .event-label {
     position: absolute;
     top: 0;

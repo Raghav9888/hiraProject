@@ -169,41 +169,25 @@
                                          aria-labelledby="offering-tab" tabindex="0">
                                         <div class="my-4">
                                             <label for="booking-duration" class="fw-bold">Duration of offering</label>
-                                            <select id="booking-duration" name="booking_duration_offering" class="form-select">
-                                                <option value="">Select</option>
-                                                <option
-                                                    value="15 minutes" {{ $offering->booking_duration  == '15 minutes' ? 'selected' : ''}}>
-                                                    15 minutes
-                                                </option>
-                                                <option
-                                                    value="30 minutes" {{ $offering->booking_duration  == '30 minutes' ? 'selected' : ''}}>
-                                                    30 minutes
-                                                </option>
-                                                <option
-                                                    value="45 minutes" {{ $offering->booking_duration  == '45 minutes' ? 'selected' : ''}}>
-                                                    45 minutes
-                                                </option>
-                                                <option
-                                                    value="1 hour" {{ $offering->booking_duration  == '1 hour' ? 'selected' : ''}}>
-                                                    1 hour
-                                                </option>
-                                                <option
-                                                    value="1:15 hour" {{ $offering->booking_duration  == '1:15 hour' ? 'selected' : ''}}>
-                                                    1:15 hour
-                                                </option>
-                                                <option
-                                                    value="1:30 hour" {{ $offering->booking_duration  == '1:30 hour' ? 'selected' : ''}}>
-                                                    1:30 hour
-                                                </option>
-                                                <option
-                                                    value="1:45 hour" {{ $offering->booking_duration  == '1:45 hour' ? 'selected' : ''}}>
-                                                    1:45 hour
-                                                </option>
-                                                <option
-                                                    value="2 hour" {{ $offering->booking_duration  == '2 hour' ? 'selected' : ''}}>
-                                                    2 hour
-                                                </option>
-                                            </select>
+                                                <select id="booking-duration" name="booking_duration_offering" class="form-select">
+                                                    <option value="15 minutes" {{ $offering->booking_duration  == '15 minutes' ? 'selected' : ''}}>15 minutes</option>
+                                                    <option value="20 minutes" {{ $offering->booking_duration  == '20 minutes' ? 'selected' : ''}}>20 minutes</option>
+                                                    <option value="30 minutes" {{ $offering->booking_duration  == '30 minutes' ? 'selected' : ''}}>30 minutes</option>
+                                                    <option value="45 minutes" {{ $offering->booking_duration  == '45 minutes' ? 'selected' : ''}}>45 minutes</option>
+                                                    <option value="50 minutes" {{ $offering->booking_duration  == '50 minutes' ? 'selected' : ''}}>50 minutes</option>
+                                                    <option value="1 hour" {{ $offering->booking_duration  == '1 hour' ? 'selected' : ''}}>1 hour</option>
+                                                    <option value="1:15 hour" {{ $offering->booking_duration  == '1:15 hour' ? 'selected' : ''}}>1:15 hour</option>
+                                                    <option value="1:30 hour" {{ $offering->booking_duration  == '1:30 hour' ? 'selected' : ''}}>1:30 hour</option>
+                                                    <option value="1:45 hour" {{ $offering->booking_duration  == '1:45 hour' ? 'selected' : ''}}>1:45 hour</option>
+                                                    <option value="1:50 hour" {{ $offering->booking_duration  == '1:50 hour' ? 'selected' : ''}}>1:50 hour</option>
+                                                    <option value="2 hour" {{ $offering->booking_duration  == '2 hour' ? 'selected' : ''}}>2 hours</option>
+                                                    <option value="3 hour" {{ $offering->booking_duration  == '3 hour' ? 'selected' : ''}}>3 hour</option>
+                                                    <option value="4 hour" {{ $offering->booking_duration  == '4 hour' ? 'selected' : ''}}>4 hour</option>
+                                                    <option value="1 Month" {{ $offering->booking_duration  == '1 Months' ? 'selected' : ''}}>1 Month</option>
+                                                    <option value="2 Month" {{ $offering->booking_duration  == '2 Months' ? 'selected' : ''}}>2 Months</option>
+                                                    <option value="3 Month" {{ $offering->booking_duration  == '3 Months' ? 'selected' : ''}}>3 Months</option>
+                                                    <option value="4 Month" {{ $offering->booking_duration  == '4 Month' ? 'selected' : ''}}>4 Months</option>
+                                                </select>
                                         </div>
                                         <div class="row mb-4">
                                             <div class="col">
