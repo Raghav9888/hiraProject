@@ -7,11 +7,13 @@
             <div class="row">
                 @include('layouts.partitioner_nav')
                 <div class="booking-calender-container">
-                    <div class="col-md-9">
-                        <h2 class="practitioner-profile-text mb-2 ">Booking Calendar</h2>
+                    <div class="row">
+                        <div class="col-md-9">
+                            <h2 class="practitioner-profile-text mb-2 ">Booking Calendar</h2>
+                        </div>
                     </div>
                     <div class="row my-4">
-                        <div class="col-md-12">
+                        <div class="col-md-9">
                             <div class="card rounded h-100">
                                 <div class="card-body">
                                     <div id="customCalendar" class="d-none">
@@ -48,6 +50,29 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="col-md-3">
+                            <h1 class="practitioner-profile-text mb-2"
+                                style="font-weight:700;font-size: 32px; line-height: 100%;letter-spacing: 1px;color: #424E3E;border-bottom: 3px solid #BA9B8B;">
+                                Featured</h1>
+
+                            <div class="d-flex align-items-center mb-2">
+                                <div style="width: 30px;height: 30px;background: #BA9B8B;border-radius: 8px;"></div>
+                                <div  style="font-size: 16px;font-weight: bold;color: black; margin-left: 10px;">Booking</div>
+                            </div>
+                            <div class="d-flex align-items-center mb-2">
+                                <div style="width: 30px;height: 30px;background: #D8977A;;border-radius: 8px;"></div>
+                                <div  style="font-size: 16px;font-weight: bold;color: black; margin-left: 10px;">Community Events</div>
+                            </div>
+                            <div class="d-flex align-items-center mb-2">
+                                <div style="width: 30px;height: 30px;background: #E9DCCF;border-radius: 8px;"></div>
+                                <div  style="font-size: 16px;font-weight: bold;color: black; margin-left: 10px;">Personal</div>
+                            </div>
+                            <div class="d-flex align-items-center mb-2">
+                                <div style="width: 30px;height: 30px;background: #AED8B9;border-radius: 8px;"></div>
+                                <div  style="font-size: 16px;font-weight: bold;color: black; margin-left: 10px;">Meetings</div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
