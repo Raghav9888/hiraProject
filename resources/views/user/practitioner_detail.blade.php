@@ -9,24 +9,22 @@
         width: 100%;
         height: 100%;
         background-color: rgba(0, 0, 0, 0.7);
-        z-index: 999;
+        z-index: 99999;
         overflow-y: auto;
     }
 
     /* Popup content */
     .popup-content {
         background-color: #fff;
-        width: 80%; /* Increase width to 80% */
-        max-width: 1000px; /* Set a max-width */
-        height: 100%; /* Increase height to 80% of the screen */
-        /*max-height: 90vh; !* Limit maximum height to 90% of viewport height *!*/
-        /*padding: 20px;*/
+        width: 80%;
+        max-width: 1000px;
+        height: 100%;
+        min-height: 700px;
         border-radius: 8px;
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        /*overflow-y: auto; !* Enable scrolling if content overflows *!*/
     }
 
     /* Close button */
@@ -158,10 +156,9 @@
                                                 <h4 class="mb-2">{{$offering->name}}</h4>
                                                 <div class="d-flex align-items-center">
                                                     <h6 class="offer-prize me-2 m-0">${{$offering->client_price}}</h6>
-{{--                                                    <a href="javascript:void(0)" class="home-blog-btn"--}}
-                                                    {{--                                                       onclick="openPopup(event)" data-offering-id="{{$offering->id}}">BOOK NOW</a>--}}
+                                                    <button  class="home-blog-btn"  onclick="openPopup(event)" data-offering-id="{{$offering->id}}" data-availability="{{$offering?->availability_type ?? ''}}">BOOK NOW</button>
 
-                                                    <a href="{{ route('practitionerOfferingDetail',$offering->id)}}" class="home-blog-btn">BOOK NOW</a>
+{{--                                                    <a href="{{ route('practitionerOfferingDetail',$offering->id)}}" class="home-blog-btn">BOOK NOW</a>--}}
                                                 </div>
                                             </div>
                                             <ul class="practitioner-accordian-lists">
@@ -283,162 +280,6 @@
                                 </div>
                             </div>
                         </div>
-                        {{--                        <div class="accordion-item">--}}
-                        {{--                            <h2 class="accordion-header" id="headingSix">--}}
-                        {{--                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"--}}
-                        {{--                                        data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">--}}
-                        {{--                                    Reviews--}}
-                        {{--                                </button>--}}
-                        {{--                            </h2>--}}
-                        {{--                            <div id="collapseSix" class="accordion-collapse collapse show" aria-labelledby="headingSix"--}}
-                        {{--                                 data-bs-parent="#accordionExample">--}}
-                        {{--                                <div class="accordion-body review-dv-data">--}}
-                        {{--                                    <div class="d-flex justify-content-between flex-wrap mb-3">--}}
-                        {{--                                        <div>--}}
-                        {{--                                            <div class="d-flex align-items-center mb-3">--}}
-                        {{--                                                <h6 class="font-weight-bold">5.0</h6>--}}
-                        {{--                                                <div class="mx-2">--}}
-                        {{--                                                    <div class="progress">--}}
-                        {{--                                                        <div class="progress-bar" role="progressbar" style="width: 80%;"--}}
-                        {{--                                                             aria-valuenow="80" aria-valuemin="0"--}}
-                        {{--                                                             aria-valuemax="100"></div>--}}
-                        {{--                                                    </div>--}}
-                        {{--                                                </div>--}}
-                        {{--                                                <h6 class="review-count-text">26 Reviews</h5>--}}
-                        {{--                                            </div>--}}
-                        {{--                                            <div class="d-flex align-items-center mb-3">--}}
-                        {{--                                                <h6 class="font-weight-bold">4.0</h6>--}}
-                        {{--                                                <div class="mx-2">--}}
-                        {{--                                                    <div class="progress">--}}
-                        {{--                                                        <div class="progress-bar" role="progressbar" style="width: 70%;"--}}
-                        {{--                                                             aria-valuenow="70" aria-valuemin="0"--}}
-                        {{--                                                             aria-valuemax="100"></div>--}}
-                        {{--                                                    </div>--}}
-                        {{--                                                </div>--}}
-                        {{--                                                <h6 class="review-count-text">23 Reviews</h5>--}}
-                        {{--                                            </div>--}}
-                        {{--                                            <div class="d-flex align-items-center mb-3">--}}
-                        {{--                                                <h6 class="font-weight-bold">3.0</h6>--}}
-                        {{--                                                <div class="mx-2">--}}
-                        {{--                                                    <div class="progress">--}}
-                        {{--                                                        <div class="progress-bar" role="progressbar" style="width: 50%;"--}}
-                        {{--                                                             aria-valuenow="50" aria-valuemin="0"--}}
-                        {{--                                                             aria-valuemax="100"></div>--}}
-                        {{--                                                    </div>--}}
-                        {{--                                                </div>--}}
-                        {{--                                                <h6 class="review-count-text">15 Reviews</h5>--}}
-                        {{--                                            </div>--}}
-                        {{--                                            <div class="d-flex align-items-center mb-3">--}}
-                        {{--                                                <h6 class="font-weight-bold">2.0</h6>--}}
-                        {{--                                                <div class="mx-2">--}}
-                        {{--                                                    <div class="progress">--}}
-                        {{--                                                        <div class="progress-bar" role="progressbar" style="width: 20%;"--}}
-                        {{--                                                             aria-valuenow="20" aria-valuemin="0"--}}
-                        {{--                                                             aria-valuemax="100"></div>--}}
-                        {{--                                                    </div>--}}
-                        {{--                                                </div>--}}
-                        {{--                                                <h6 class="review-count-text">6 Reviews</sh5>--}}
-                        {{--                                            </div>--}}
-                        {{--                                            <div class="d-flex align-items-center mb-3">--}}
-                        {{--                                                <span class="font-weight-bold">1.0</span>--}}
-                        {{--                                                <div class="mx-2">--}}
-                        {{--                                                    <div class="progress">--}}
-                        {{--                                                        <div class="progress-bar" role="progressbar" style="width: 10%;"--}}
-                        {{--                                                             aria-valuenow="10" aria-valuemin="0"--}}
-                        {{--                                                             aria-valuemax="100"></div>--}}
-                        {{--                                                    </div>--}}
-                        {{--                                                </div>--}}
-                        {{--                                                <h6 class="review-count-text">4 Reviews</sh5>--}}
-                        {{--                                            </div>--}}
-                        {{--                                        </div>--}}
-                        {{--                                        <div class="text-right">--}}
-                        {{--                                            <div class="d-flex justify-content-end mb-2" style="gap: 5px;">--}}
-                        {{--                                                <i class="fa-regular fa-gem"></i>--}}
-                        {{--                                                <i class="fa-regular fa-gem"></i>--}}
-                        {{--                                                <i class="fa-regular fa-gem"></i>--}}
-                        {{--                                                <i class="fa-regular fa-gem"></i>--}}
-                        {{--                                                <i class="fa-regular fa-gem"></i>--}}
-                        {{--                                            </div>--}}
-                        {{--                                            <h2>4.9/5.0</h2>--}}
-                        {{--                                            <p>74 Total Reviews</p>--}}
-                        {{--                                        </div>--}}
-                        {{--                                    </div>--}}
-                        {{--                                    <div class="sort-by">--}}
-                        {{--                                        <p>Sort By</p>--}}
-                        {{--                                        <div class="dropdown">--}}
-                        {{--                                            <button onclick="toggleDropdown()" class="dropdown-button">--}}
-                        {{--                                                <span>ALL CATEGORIES</span>--}}
-                        {{--                                                <i class="fas fa-chevron-down"></i>--}}
-                        {{--                                            </button>--}}
-                        {{--                                            <div id="dropdownMenuData" class="dropdown-menu">--}}
-                        {{--                                                <ul>--}}
-                        {{--                                                    <li><a href="#">Category 1</a></li>--}}
-                        {{--                                                    <li><a href="#">Category 2</a></li>--}}
-                        {{--                                                    <li><a href="#">Category 3</a></li>--}}
-                        {{--                                                </ul>--}}
-                        {{--                                            </div>--}}
-                        {{--                                        </div>--}}
-                        {{--                                    </div>--}}
-                        {{--                                    <div class="person-review-dv">--}}
-                        {{--                                        <div class="d-flex justify-content-between flex-wrap align-items-center mt-3">--}}
-                        {{--                                            <div class="reviewer mb-3">--}}
-                        {{--                                                <div class="reviewer-img-text">MJ</div>--}}
-                        {{--                                                <div class="reviewer-info">--}}
-                        {{--                                                    <div class="name">Micheal Johnson</div>--}}
-                        {{--                                                    <div class="stars">--}}
-                        {{--                                                        <i class="fa-regular fa-gem"></i>--}}
-                        {{--                                                        <i class="fa-regular fa-gem"></i>--}}
-                        {{--                                                        <i class="fa-regular fa-gem"></i>--}}
-                        {{--                                                        <i class="fa-regular fa-gem"></i>--}}
-                        {{--                                                        <i class="fa-regular fa-gem"></i>--}}
-                        {{--                                                    </div>--}}
-                        {{--                                                </div>--}}
-                        {{--                                            </div>--}}
-                        {{--                                            <h3>5.0/5.0</h3>--}}
-                        {{--                                        </div>--}}
-                        {{--                                        <div class="review-text mb-3">--}}
-                        {{--                                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod--}}
-                        {{--                                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,--}}
-                        {{--                                            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo--}}
-                        {{--                                            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse--}}
-                        {{--                                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat--}}
-                        {{--                                            non proident, sunt in culpa qui officia deserunt mollit anim id est--}}
-                        {{--                                            laborum."--}}
-                        {{--                                        </div>--}}
-                        {{--                                    </div>--}}
-                        {{--                                    <div class="person-review-dv">--}}
-                        {{--                                        <div class="d-flex justify-content-between flex-wrap align-items-center mt-3">--}}
-                        {{--                                            <div class="reviewer mb-3">--}}
-                        {{--                                                <div class="reviewer-img-text">MJ</div>--}}
-                        {{--                                                <div class="reviewer-info">--}}
-                        {{--                                                    <div class="name">Micheal Johnson</div>--}}
-                        {{--                                                    <div class="stars">--}}
-                        {{--                                                        <i class="fa-regular fa-gem"></i>--}}
-                        {{--                                                        <i class="fa-regular fa-gem"></i>--}}
-                        {{--                                                        <i class="fa-regular fa-gem"></i>--}}
-                        {{--                                                        <i class="fa-regular fa-gem"></i>--}}
-                        {{--                                                        <i class="fa-regular fa-gem"></i>--}}
-                        {{--                                                    </div>--}}
-                        {{--                                                </div>--}}
-                        {{--                                            </div>--}}
-                        {{--                                            <h3>5.0/5.0</h3>--}}
-                        {{--                                        </div>--}}
-                        {{--                                        <div class="review-text mb-3">--}}
-                        {{--                                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod--}}
-                        {{--                                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,--}}
-                        {{--                                            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo--}}
-                        {{--                                            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse--}}
-                        {{--                                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat--}}
-                        {{--                                            non proident, sunt in culpa qui officia deserunt mollit anim id est--}}
-                        {{--                                            laborum."--}}
-                        {{--                                        </div>--}}
-                        {{--                                    </div>--}}
-                        {{--                                    <div class="d-flex justify-content-end mt-4">--}}
-                        {{--                                        <button class="home-blog-btn">Load More</button>--}}
-                        {{--                                    </div>--}}
-                        {{--                                </div>--}}
-                        {{--                            </div>--}}
-                        {{--                        </div>--}}
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-3 col-lg-3">
@@ -453,13 +294,8 @@
                             <h5 class="py-2" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapseFour"><i class="fa-solid fa-circle me-3"></i>Certifications
                             </h5>
-                            {{--                            <h5 data-bs-toggle="collapse" data-bs-target="#collapseSix"><i class="fa-solid fa-circle me-3"></i>Reviews</h5>--}}
-                            {{--                            <h5><i class="fa-solid fa-circle me-3"></i>More About Me</h5>--}}
                         </div>
-                        {{--                        <h4>Sessions, Insights & More</h4>--}}
-                        {{--                        <video class="video" src=""></video>--}}
-                        {{--                        <video class="video" src=""></video>--}}
-                        {{--                        <video class="video" src=""></video>--}}
+
                     </div>
                 </div>
             </div>
@@ -520,6 +356,8 @@
         </div>
     </div>
     <input type="hidden" name="offering_id" id="offering_id">
+    <input type="hidden" name="availability" id="availability">
+    <input type="hidden" name="offering_price" id="offering_price">
 
     <!-- Popup Structure -->
     <div id="popup" class="popup-overlay">
@@ -530,25 +368,34 @@
     </div>
     <script>
         function openPopup(event) {
-            event.preventDefault(); // Prevent default action of the anchor tag
+            event.preventDefault();
 
             let offeringId = event.target.getAttribute('data-offering-id');
+            let availabilityData = event.target.getAttribute('data-availability');
+            let priceData = event.target.getAttribute('data-price');
             let inputElement = document.querySelector('[name="offering_id"]');
+            let availabilityInput = document.querySelector('[name="availability"]');
+            let offeringPriceInput = document.querySelector('[name="offering_price"]');
 
             let popupElement = document.getElementById('popup');
 
             if (inputElement) {
                 inputElement.value = offeringId;
                 inputElement.classList.add('activeInput');
+                availabilityInput.value = availabilityData;
+                offeringPriceInput.value = priceData;
             } else {
                 console.error("Element with ID 'offering_id' not found");
             }
 
             if (popupElement) {
                 popupElement.style.display = 'block';
+                generateCalendar(currentMonth, currentYear);
             } else {
                 console.error("Element with ID 'popup' not found");
             }
+
+
         }
 
         function closePopup() {
@@ -627,4 +474,169 @@
         }
     </script>
 
+    <script>
+        let currentDate = new Date();
+        let currentMonth = currentDate.getMonth();
+        let currentYear = currentDate.getFullYear();
+        let activeDate = formatDate(currentDate);
+
+
+        const availableSlotsData = {
+            '2025-03-18': ['9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM'],
+            '2025-03-19': ['9:00 AM', '10:00 AM', '11:00 AM'],
+            '2025-03-20': ['2:00 PM', '3:00 PM'],
+            '2025-09-21': ['9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM'],
+        };
+
+
+        function formatDate(date) {
+            return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+        }
+
+        function getAllowedDays() {
+            let availability = document.getElementById('availability')?.value || 'own_specific_date';
+            let dayMapping = {
+                "every_monday": [1],
+                "every_tuesday": [2],
+                "every_wednesday": [3],
+                "every_thursday": [4],
+                "every_friday": [5],
+                "weekend_every_saturday_sunday": [0, 6],
+                "every_day": [0, 1, 2, 3, 4, 5, 6],
+                "own_specific_date": []
+            };
+            return dayMapping[availability] || [];
+        }
+
+        function generateCalendar(month, year) {
+            console.log(month ,year)
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const calendarGrid = document.getElementById('calendarGrid');
+            const monthLabel = document.getElementById('monthLabel');
+            calendarGrid.innerHTML = '';
+
+            monthLabel.innerText = `${firstDay.toLocaleString('default', {month: 'long'})} ${year}`;
+            const daysInMonth = lastDay.getDate();
+            const startDay = firstDay.getDay();
+            const allowedDays = getAllowedDays();
+
+            for (let i = 0; i < startDay; i++) {
+                const emptyCell = document.createElement('div');
+                emptyCell.classList.add('inactive');
+                calendarGrid.appendChild(emptyCell);
+            }
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayCell = document.createElement('div');
+                dayCell.classList.add('dates');
+                const dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const currentDayOfWeek = new Date(year, month, day).getDay();
+
+                if (dateString === formatDate(currentDate)) {
+                    dayCell.classList.add('active');
+                    activeDate = dateString;
+                }
+
+                if (
+                    (!availableSlotsData[dateString] && allowedDays.length > 0 && !allowedDays.includes(currentDayOfWeek)) &&
+                    document.getElementById('availability')?.value !== 'own_specific_date'
+                ) {
+                    dayCell.classList.add('inactive');
+                }
+
+                dayCell.innerText = day;
+                dayCell.setAttribute('data-date', dateString);
+
+                dayCell.addEventListener('click', () => {
+                    if (
+                        (!availableSlotsData[dateString] && allowedDays.length > 0 && !allowedDays.includes(currentDayOfWeek)) &&
+                        document.getElementById('availability')?.value !== 'own_specific_date'
+                    ) {
+                        return;
+                    }
+
+                    if (activeDate) {
+                        document.querySelector(`[data-date='${activeDate}']`)?.classList.remove('active');
+                    }
+
+                    activeDate = dateString;
+                    dayCell.classList.add('active');
+                    fetchCalendarTimeSlots(activeDate);
+                    showAvailableSlots(activeDate);
+                });
+
+                calendarGrid.appendChild(dayCell);
+            }
+
+            fetchCalendarTimeSlots(activeDate);
+            showAvailableSlots(activeDate);
+        }
+
+        function fetchCalendarTimeSlots(selectedDate) {
+            let inputElement = document.getElementById('offering_id');
+
+            if (!inputElement) {
+                console.error("Element with ID 'offering_id' not found");
+                return;
+            }
+
+            let id = inputElement.value;
+            if (!id || id === "undefined") {
+                return;
+            }
+
+            let encodedDate = encodeURIComponent(selectedDate);
+
+            $.ajax({
+                url: `/calendar/time-slots/${encodedDate}/${id}`,
+                type: 'GET',
+                success: function (response) {
+                    console.log('Success:', response);
+                },
+                error: function (xhr) {
+                    console.error('Error:', xhr);
+                }
+            });
+        }
+
+        function showAvailableSlots(date) {
+            const slotsContainer = document.getElementById('availableSlots');
+            const dateLabel = document.getElementById('selectedDate');
+            slotsContainer.innerHTML = '';
+            dateLabel.innerText = date.split('-').reverse().join('/');
+
+            let availableSlots = availableSlotsData[date] || [];
+
+            if (availableSlots.length === 0) {
+                slotsContainer.innerHTML = '<p class="text-muted">No available slots</p>';
+            } else {
+                availableSlots.forEach(slot => {
+                    const slotButton = document.createElement('div');
+                    slotButton.classList.add('col-4');
+                    slotButton.innerHTML = `<button class="btn btn-outline-green w-100">${slot}</button>`;
+                    slotsContainer.appendChild(slotButton);
+                });
+            }
+        }
+
+        document.getElementById('prevMonth').addEventListener('click', () => {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            generateCalendar(currentMonth, currentYear);
+        });
+
+        document.getElementById('nextMonth').addEventListener('click', () => {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            generateCalendar(currentMonth, currentYear);
+        });
+
+    </script>
 @endsection
