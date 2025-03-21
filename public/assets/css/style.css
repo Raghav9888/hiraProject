@@ -911,6 +911,7 @@ section {
 .contact-us-wrrpr form textarea,
 .login-body form .input-group input,
 .add-offering-dv input,
+.form-container input,
 .add-offering-dv textarea {
     font-family: "Montserrat-Regular";
     font-size: 16px;
@@ -931,6 +932,38 @@ section {
 .contact-us-wrrpr form textarea {
     box-shadow: none;
     border: none;
+}
+
+.creat-account{
+    border-radius: 33px;
+    padding-top: 10px;
+    padding-right: 40px;
+    padding-bottom: 10px;
+    padding-left: 40px;
+    background: #9F8B72;
+    color: #fff;
+    border: #9F8B72;
+}
+.login-container {
+    border-radius: 24px;
+    background: #fff;
+}
+.login-container .alert-green{
+    border-radius: 13px;
+}
+.confirm-booking{
+    border-radius: 33px;
+    padding-top: 10px;
+    margin: 14px 0px;
+    padding-right: 40px;
+    padding-bottom: 10px;
+    padding-left: 40px;
+    background: #424E3E;
+    color: #fff;
+    border: #424E3E;
+}
+.bottom-line {
+    font-size: 13px;
 }
 
 .add-offering-dv textarea:focus,
@@ -2712,9 +2745,47 @@ textarea, input[type="time"] {
     border-color: #424E3E;
 }
 
-.btn-outline-green:hover {
+.btn-outline-green:hover,
+.btn-outline-green.active {
     color: white;
     background-color: #424E3E;
+}
+
+.practition-detail-container {
+    display: flex;
+    flex-direction: column;
+    color: #424E3E;
+    gap: 5px;
+}
+
+h4.form-title {
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 135%;
+    text-align: center;
+}
+.practition-img-container {
+    width: 80px;
+    height: 80px;
+}
+span.booking-date-container {
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 130%;
+    vertical-align: middle;
+}
+h4.practition-name {
+    font-weight: 600;
+    font-size: 22px;
+    margin-bottom: 0;
+    line-height: 135%;
+}
+span.practition-des {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 130%;
+    vertical-align: middle;
+    color: #9F8B72;
 }
 
 .btn-green {

@@ -57,6 +57,6 @@
         </div>
 
 
-        <button class="btn btn-green rounded-pill">PROCEED TO CHECK OUT</button>
+        <button class="btn btn-green rounded-pill proceed_to_checkout">PROCEED TO CHECK OUT</button>
     </div>
 </div>

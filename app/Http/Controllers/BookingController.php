@@ -27,9 +27,32 @@ class BookingController extends Controller
                 'booking_time' => $request->booking_time,
             ]
         ]);
+        $bookingDate = $request->booking_date;
+        $bookingTime = $request->booking_time;
+        $offering = Offering::find($request->offering_id);
 
         
+        return response()->json([
+            "success" => true,
+            "data" => "Booking saved in session!",
+            'html' => view('user.login-popup', compact('offering', 'bookingDate', 'bookingTime'))->render()
+        ]);
+        // return redirect()->route('checkout');
+    }
 
+    public function preCheckout(Request $request)
+    {    
+        $request->validate([
+            'email' => 'required',
+            'name' => 'required',
+        ]); 
+
+        session([
+            'user' => [
+                'email' => $request->email,
+                'name' => $request->name,
+            ]
+        ]);
         return redirect()->route('checkout');
     }
 
