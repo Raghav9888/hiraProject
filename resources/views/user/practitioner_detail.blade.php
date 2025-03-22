@@ -72,8 +72,8 @@
                                 <i class="fa-solid fa-share-nodes"></i>
                             </div>
                         </div>
-                        <h5>{{$userDetails->company ??'Alternative and Holistic Health Practitioner' }}</h5>
-                        <p class="mb-4">{{$userDetails->bio}}</p>
+                        <h5>{{$userDetail->company ??'Alternative and Holistic Health Practitioner' }}</h5>
+                        <p class="mb-4">{{$userDetail->bio}}</p>
                         @if($locations && $userLocations)
                             @foreach($locations as  $location)
                                 @if(in_array($location->id,$userLocations))
@@ -92,7 +92,7 @@
                     <div class="col-sm-12 col-md-3 col-lg-3">
 
                         @php
-                            $imageUrl = isset($image) ? asset(env('media_path') . '/practitioners/' . $userDetails->id . '/profile/' . $image) :asset(env('local_path').'/images/no_image.png');
+                            $imageUrl = isset($image) ? asset(env('media_path') . '/practitioners/' . $userDetail->id . '/profile/' . $image) :asset(env('local_path').'/images/no_image.png');
                         @endphp
                         <img class="mb-4 img-fluid rounded-5" src="{{ $imageUrl }}" alt="darrel">
                         <div class="d-flex justify-content-between flex-wrap align-items-center">
@@ -114,7 +114,7 @@
                         @foreach ($mediaImages as $image)
                             <div class="swiper-slide">
                                 <img
-                                    src="{{ asset(env('media_path') . '/practitioners/' . $userDetails->id . '/media/' . $image) }}"
+                                    src="{{ asset(env('media_path') . '/practitioners/' . $userDetail->id . '/media/' . $image) }}"
                                     alt="media image">
 
                             </div>
@@ -151,14 +151,23 @@
                                         </div>
                                     </div>
                                     @foreach($offerings as $offering)
+
                                         <div class="accordian-body-data">
                                             <div class="d-flex justify-content-between flex-wrap align-items-center">
                                                 <h4 class="mb-2">{{$offering->name}}</h4>
                                                 <div class="d-flex align-items-center">
-                                                    <h6 class="offer-prize me-2 m-0">${{$offering->client_price}}</h6>
-                                                    <button  class="home-blog-btn"  onclick="openPopup(event)" data-offering-id="{{$offering->id}}" data-availability="{{$offering?->availability_type ?? ''}}">BOOK NOW</button>
+                                                    <h6 class="offer-prize me-2 m-0">${{$offering?->client_price ?? 0}}</h6>
+                                                    <button type="button" class="home-blog-btn" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                                            onclick="openPopup(event)"
+                                                            data-offering-id="{{$offering->id}}"
+                                                            data-availability="{{$offering?->availability_type ?? ''}}"
+                                                            data-specific-day-start="{{$offering->from_date}}"
+                                                            data-specific-day-end="{{$offering->to_date}}"
+                                                            data-price="{{$offering->client_price ?? 0}}"
+                                                            data-store-availability="{{$storeAvailable}}">BOOK NOW
+                                                    </button>
 
-{{--                                                    <a href="{{ route('practitionerOfferingDetail',$offering->id)}}" class="home-blog-btn">BOOK NOW</a>--}}
+                                                    {{--                                                    <a href="{{ route('practitionerOfferingDetail',$offering->id)}}" class="home-blog-btn">BOOK NOW</a>--}}
                                                 </div>
                                             </div>
                                             <ul class="practitioner-accordian-lists">
@@ -173,7 +182,7 @@
                                                 <div class="toggle-data-dv">
                                                     <div class="toggle-dv-desc">
                                                         @php
-                                                            $imageUrl = (isset($offering->featured_image) and $offering->featured_image) ? asset(env('media_path') . '/practitioners/' . $userDetails->id . '/offering/'  . $offering->featured_image) :
+                                                            $imageUrl = (isset($offering->featured_image) and $offering->featured_image) ? asset(env('media_path') . '/practitioners/' . $userDetail->id . '/offering/'  . $offering->featured_image) :
                                                         asset(env('local_path') . '/images/no_image.png');
                                                         @endphp
 
@@ -198,8 +207,12 @@
                                                             {{--                                                                Reviews--}}
                                                             {{--                                                            </button>--}}
                                                         </div>
-                                                        <p class="mb-1"><span class="mr-2">Scheduling Window: {{@$offering->scheduling_window}}</span> | Client Price: {{@$offering->client_price}}</p>
-                                                        <p><span class="mr-2">Date Time: {{@$offering->event->date_and_time? date('d M, Y', strtotime($offering->event->date_and_time)): ''}}</span> | Event Duration: {{@$offering->event->event_duration}}</p>
+                                                        <p class="mb-1"><span
+                                                                class="mr-2">Scheduling Window: {{@$offering->scheduling_window}}</span>
+                                                            | Client Price: {{@$offering->client_price}}</p>
+                                                        <p><span
+                                                                class="mr-2">Date Time: {{@$offering->event->date_and_time? date('d M, Y', strtotime($offering->event->date_and_time)): ''}}</span>
+                                                            | Event Duration: {{@$offering->event->event_duration}}</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -357,39 +370,67 @@
     </div>
     <input type="hidden" name="offering_id" id="offering_id">
     <input type="hidden" name="availability" id="availability">
+
     <input type="hidden" name="offering_price" id="offering_price">
+
     <input type="hidden" name="booking_date" id="booking_date">
     <input type="hidden" name="booking_time" id="booking_time">
 
-    <!-- Popup Structure -->
-    <div id="popup" class="popup-overlay">
-        <div class="popup-content">
-            {{--            <span class="close-btn" onclick="closePopup()">&times;</span>--}}
-            <div class="booking-container">
-                @include('user.offering_detail_page')
-            </div>
-            <div class="login-container" style="display: none">
+    <input type="hidden" name="store-availability" id="store-availability">
+    <input type="hidden" name="offering-specific-days" id="offering-specific-days">
+
+
+    <!-- Modal -->
+    <div class="modal fade xl" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="booking-container">
+                        @include('user.offering_detail_page')
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
+
+
     <script>
         function openPopup(event) {
             event.preventDefault();
 
             let offeringId = event.target.getAttribute('data-offering-id');
             let availabilityData = event.target.getAttribute('data-availability');
+            let storeAvailability = event.target.getAttribute('data-store-availability');
             let priceData = event.target.getAttribute('data-price');
+            let specificDayStart = event.target.getAttribute('data-specific-day-start');
+            let specificDayEnd = event.target.getAttribute('data-specific-day-end');
+
             let inputElement = document.querySelector('[name="offering_id"]');
             let availabilityInput = document.querySelector('[name="availability"]');
             let offeringPriceInput = document.querySelector('[name="offering_price"]');
+            let offeringSlotsInput = document.querySelector('[name="store-availability"]');
+            let priceDiv = document.getElementById('modalPrice')
 
+            let offeringSpecificDaysInput = document.querySelector('[name="offering-specific-days"]');
             let popupElement = document.getElementById('popup');
 
             if (inputElement) {
                 inputElement.value = offeringId;
                 inputElement.classList.add('activeInput');
                 availabilityInput.value = availabilityData;
+                offeringSlotsInput.value = storeAvailability;
                 offeringPriceInput.value = priceData;
+                priceDiv.textContent = priceData;
+
+                offeringSpecificDaysInput.setAttribute('data-specific-day-start', specificDayStart);
+                offeringSpecificDaysInput.setAttribute('data-specific-day-end', specificDayEnd);
+                offeringSpecificDaysInput.value= specificDayStart + ' - ' + specificDayEnd;
+
             } else {
                 console.error("Element with ID 'offering_id' not found");
             }
@@ -440,7 +481,7 @@
             },
         });
     </script>
-    </script>
+
     <script>
         function toggleDropdown() {
             var dropdownMenu = document.getElementById("dropdownMenu");
@@ -487,35 +528,97 @@
         let activeDate = formatDate(currentDate);
 
 
-        const availableSlotsData = {
-            '2025-03-18': ['9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM'],
-            '2025-03-19': ['9:00 AM', '10:00 AM', '11:00 AM'],
-            '2025-03-20': ['2:00 PM', '3:00 PM'],
-            '2025-09-21': ['9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM'],
-        };
-
+        let availableSlotsData = {};
 
         function formatDate(date) {
             return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
         }
 
+
         function getAllowedDays() {
             let availability = document.getElementById('availability')?.value || 'own_specific_date';
+            let storeAvailabilityRaw = document.getElementById('store-availability')?.value;
+
             let dayMapping = {
-                "every_monday": [1],
-                "every_tuesday": [2],
-                "every_wednesday": [3],
-                "every_thursday": [4],
-                "every_friday": [5],
-                "weekend_every_saturday_sunday": [0, 6],
-                "every_day": [0, 1, 2, 3, 4, 5, 6],
-                "own_specific_date": []
+                "every_monday": [1], "every_tuesday": [2], "every_wednesday": [3],
+                "every_thursday": [4], "every_friday": [5], "weekend_every_saturday_sunday": [0, 6],
+                "every_day": [0, 1, 2, 3, 4, 5, 6], "own_specific_date": [0, 1, 2, 3, 4, 5, 6]
             };
-            return dayMapping[availability] || [];
+
+            if (availability === 'following_store_hours') {
+
+                if (!storeAvailabilityRaw) return [];
+
+                try {
+                    let storeAvailability = JSON.parse(storeAvailabilityRaw.replace(/&quot;/g, '"'));
+
+                    let allowedDays = Object.keys(storeAvailability)
+                        .filter(day => storeAvailability[day]?.enabled === "1")
+                        .map(day => {
+                            let normalizedDay = day.replace("every_", "").toLowerCase();
+                            return ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"]
+                                .indexOf(normalizedDay);
+                        })
+                        .filter(dayIndex => dayIndex !== -1);
+
+                    console.log("Allowed Days from Store Availability:", allowedDays);
+                    return allowedDays;
+                } catch (error) {
+                    console.error("Error parsing store availability JSON:", error);
+                    return [];
+                }
+
+            } else {
+                return dayMapping[availability] || [];
+            }
+        }
+
+        function generateTimeSlots(from = null, to = null ,date = null,allDay = false) {
+            let slots = [];
+            let startTime = '';
+            let endTime = '';
+
+            if(allDay)
+            {
+                 startTime = new Date(`${date}T12:00`);
+                 endTime = new Date(`${date}T12:00`);
+            }else {
+                 startTime = new Date(`2025-01-01T${from}`);
+                 endTime = new Date(`2025-01-01T${to}`);
+            }
+                let isNextDay = endTime <= startTime;
+                if (isNextDay) {
+                    endTime.setDate(endTime.getDate() + 1); // Move end time to the next day
+                }
+
+                while (startTime < endTime) {
+                    slots.push(formatTime(startTime));
+                    startTime.setMinutes(startTime.getMinutes() + 60);
+                }
+
+
+
+            // Sort slots correctly from AM to PM
+            slots.sort((a, b) => convertTo24Hour(a) - convertTo24Hour(b));
+
+            return slots;
+        }
+
+        // Convert Date object to "HH:MM AM/PM" format
+        function formatTime(date) {
+            return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+        }
+
+        // Convert "HH:MM AM/PM" to 24-hour format for correct sorting
+        function convertTo24Hour(time) {
+            let [hour, minute] = time.split(/:| /);
+            let period = time.includes("AM") ? "AM" : "PM";
+
+            let date = new Date(`2025-01-01 ${hour}:${minute} ${period}`);
+            return date.getHours() * 60 + date.getMinutes();
         }
 
         function generateCalendar(month, year) {
-            console.log(month ,year)
             const firstDay = new Date(year, month, 1);
             const lastDay = new Date(year, month + 1, 0);
             const calendarGrid = document.getElementById('calendarGrid');
@@ -534,20 +637,17 @@
             }
 
             for (let day = 1; day <= daysInMonth; day++) {
-                const dayCell = document.createElement('div');
-                dayCell.classList.add('dates');
                 const dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
                 const currentDayOfWeek = new Date(year, month, day).getDay();
+                const dayCell = document.createElement('div');
+                dayCell.classList.add('dates');
 
                 if (dateString === formatDate(currentDate)) {
                     dayCell.classList.add('active');
                     activeDate = dateString;
                 }
 
-                if (
-                    (!availableSlotsData[dateString] && allowedDays.length > 0 && !allowedDays.includes(currentDayOfWeek)) &&
-                    document.getElementById('availability')?.value !== 'own_specific_date'
-                ) {
+                if (!allowedDays.includes(currentDayOfWeek)) {
                     dayCell.classList.add('inactive');
                 }
 
@@ -555,12 +655,7 @@
                 dayCell.setAttribute('data-date', dateString);
 
                 dayCell.addEventListener('click', () => {
-                    if (
-                        (!availableSlotsData[dateString] && allowedDays.length > 0 && !allowedDays.includes(currentDayOfWeek)) &&
-                        document.getElementById('availability')?.value !== 'own_specific_date'
-                    ) {
-                        return;
-                    }
+                    if (!allowedDays.includes(currentDayOfWeek)) return;
 
                     if (activeDate) {
                         document.querySelector(`[data-date='${activeDate}']`)?.classList.remove('active');
@@ -568,72 +663,73 @@
 
                     activeDate = dateString;
                     dayCell.classList.add('active');
-                    fetchCalendarTimeSlots(activeDate);
                     showAvailableSlots(activeDate);
                 });
 
                 calendarGrid.appendChild(dayCell);
-                $('.calendar-grid .dates').on('click', function(){
-                    const date = $(this).data('date');
-                    $('#booking_date').val(date);
-                })
             }
 
-            fetchCalendarTimeSlots(activeDate);
-            showAvailableSlots(activeDate);
         }
 
-        function fetchCalendarTimeSlots(selectedDate) {
-            let inputElement = document.getElementById('offering_id');
-
-            if (!inputElement) {
-                console.error("Element with ID 'offering_id' not found");
-                return;
-            }
-
-            let id = inputElement.value;
-            if (!id || id === "undefined") {
-                return;
-            }
-
-            let encodedDate = encodeURIComponent(selectedDate);
-
-            $.ajax({
-                url: `/calendar/time-slots/${encodedDate}/${id}`,
-                type: 'GET',
-                success: function (response) {
-                    console.log('Success:', response);
-                },
-                error: function (xhr) {
-                    console.error('Error:', xhr);
-                }
-            });
-        }
 
         function showAvailableSlots(date) {
             const slotsContainer = document.getElementById('availableSlots');
             const dateLabel = document.getElementById('selectedDate');
+            let availability = document.getElementById('availability')?.value || 'own_specific_date';
+            let storeAvailabilityRaw = document.getElementById('store-availability')?.value;
+            let specificDays = document.getElementById('offering-specific-days')?.value;
+            let specificDayStart = specificDays.split(' - ')[0];
+            let specificDayEnd = specificDays.split(' - ')[1];
+console.log(specificDayStart,specificDayEnd)
             slotsContainer.innerHTML = '';
             dateLabel.innerText = date.split('-').reverse().join('/');
 
-            let availableSlots = availableSlotsData[date] || [];
+            let availableSlots = [];
 
-            if (availableSlots.length === 0) {
-                slotsContainer.innerHTML = '<p class="text-muted">No available slots</p>';
-            } else {
-                availableSlots.forEach(slot => {
-                    const slotButton = document.createElement('div');
-                    slotButton.classList.add('col-4');
-                    slotButton.innerHTML = `<button class="btn btn-outline-green w-100 offering-slot" data-time=${slot}>${slot}</button>`;
-                    slotsContainer.appendChild(slotButton);
+            if (availability === 'following_store_hours') {
+                if (!storeAvailabilityRaw) {
+                    console.error("Store availability data is missing.");
+                    return;
+                }
+
+                let storeAvailability = JSON.parse(storeAvailabilityRaw.replace(/&quot;/g, '"'));
+                let dayOfWeekIndex = new Date(date).getDay();
+                let dayNames = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+
+                // Collect all slots
+                let allSlots = [];
+
+                Object.keys(storeAvailability).forEach(dayKey => {
+                    let normalizedDay = dayKey.replace("every_", "").toLowerCase();
+                    let dayIndex = dayNames.indexOf(normalizedDay);
+
+                    if (dayIndex === dayOfWeekIndex && storeAvailability[dayKey]?.enabled === "1") {
+                        let fromTime = storeAvailability[dayKey]?.from;
+                        let toTime = storeAvailability[dayKey]?.to;
+
+                        if (fromTime && toTime) {
+                            allSlots = allSlots.concat(generateTimeSlots(fromTime,toTime));
+                        }
+                    }
                 });
-                $('.offering-slot').on('click', function(){
-                    $('.offering-slot').removeClass('active')
-                    $(this).addClass('active')
-                    const time = $(this).data('time');
-                    $('#booking_time').val(time)
-                })
+
+                availableSlots = [...new Set(allSlots)].sort((a, b) => convertTo24Hour(a) - convertTo24Hour(b));
+            } else {
+                console.log(date)
+                availableSlots = generateTimeSlots(null,null, date ,true);
             }
+
+            renderSlots(availableSlots);
+        }
+
+
+
+
+        function renderSlots(availableSlots) {
+            const slotsContainer = document.getElementById('availableSlots');
+            slotsContainer.innerHTML = availableSlots.length
+                ? availableSlots.map(slot => `<div class="col-4"><button class="btn btn-outline-green w-100" data-time="${slot}">${slot}</button></div>`).join('')
+                : '<p class="text-muted">No available slots</p>';
         }
 
         document.getElementById('prevMonth').addEventListener('click', () => {
@@ -654,6 +750,10 @@
             generateCalendar(currentMonth, currentYear);
         });
 
+
+        generateCalendar(currentMonth, currentYear);
+
+
         $('.proceed_to_checkout').on('click', function(){
             const offeringId = $('#offering_id').val();
             const bookingDate = $('#booking_date').val();
@@ -666,12 +766,12 @@
                 type:"POST",
                 url: "{{route('storeBooking')}}",
                 headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
                 data: {
                     offering_id: offeringId,
                     booking_date: bookingDate,
-                    booking_time: bookingTime 
+                    booking_time: bookingTime
                 },
                 success:function(response){
                     if(!response.success){
@@ -690,6 +790,6 @@
                 }
             })
         })
-
     </script>
+
 @endsection

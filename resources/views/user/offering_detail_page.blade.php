@@ -53,10 +53,9 @@
     <div class="d-flex justify-content-between align-items-center mt-4">
         <div>
             <div class="text-muted me-2">Total Amount to Pay</div>
-            <div class="text-green fw-bold">$1,444.00</div>
+            <div class="text-green fw-bold"><span id="symbol">$</span>
+            <span id="modalPrice">0</span></div>
         </div>
-
-
         <button class="btn btn-green rounded-pill proceed_to_checkout">PROCEED TO CHECK OUT</button>
     </div>
 </div>
