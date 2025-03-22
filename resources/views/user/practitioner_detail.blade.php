@@ -384,10 +384,6 @@
     <div class="modal fade xl" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
                 <div class="modal-body">
                     <div class="booking-container">
                         @include('user.offering_detail_page')
@@ -397,68 +393,7 @@
         </div>
     </div>
 
-
-
     <script>
-        function openPopup(event) {
-            event.preventDefault();
-
-            let offeringId = event.target.getAttribute('data-offering-id');
-            let availabilityData = event.target.getAttribute('data-availability');
-            let storeAvailability = event.target.getAttribute('data-store-availability');
-            let priceData = event.target.getAttribute('data-price');
-            let specificDayStart = event.target.getAttribute('data-specific-day-start');
-            let specificDayEnd = event.target.getAttribute('data-specific-day-end');
-
-            let inputElement = document.querySelector('[name="offering_id"]');
-            let availabilityInput = document.querySelector('[name="availability"]');
-            let offeringPriceInput = document.querySelector('[name="offering_price"]');
-            let offeringSlotsInput = document.querySelector('[name="store-availability"]');
-            let priceDiv = document.getElementById('modalPrice')
-
-            let offeringSpecificDaysInput = document.querySelector('[name="offering-specific-days"]');
-            let popupElement = document.getElementById('popup');
-
-            if (inputElement) {
-                inputElement.value = offeringId;
-                inputElement.classList.add('activeInput');
-                availabilityInput.value = availabilityData;
-                offeringSlotsInput.value = storeAvailability;
-                offeringPriceInput.value = priceData;
-                priceDiv.textContent = priceData;
-
-                offeringSpecificDaysInput.setAttribute('data-specific-day-start', specificDayStart);
-                offeringSpecificDaysInput.setAttribute('data-specific-day-end', specificDayEnd);
-                offeringSpecificDaysInput.value= specificDayStart + ' - ' + specificDayEnd;
-
-            } else {
-                console.error("Element with ID 'offering_id' not found");
-            }
-
-            if (popupElement) {
-                popupElement.style.display = 'block';
-                generateCalendar(currentMonth, currentYear);
-            } else {
-                console.error("Element with ID 'popup' not found");
-            }
-
-
-        }
-
-        function closePopup() {
-            let inputElement = document.getElementById('offering_hidden_id');
-            let popupElement = document.getElementById('popup');
-
-            if (inputElement) {
-                inputElement.value = '';
-            }
-
-            if (popupElement) {
-                popupElement.style.display = 'none';
-            }
-        }
-
-
         var swiper = new Swiper(".mySwiper", {
             spaceBetween: 30,
             breakpoints: {
@@ -530,6 +465,44 @@
 
         let availableSlotsData = {};
 
+        function openPopup(event) {
+            event.preventDefault();
+
+            let offeringId = event.target.getAttribute('data-offering-id');
+            let availabilityData = event.target.getAttribute('data-availability');
+            let storeAvailability = event.target.getAttribute('data-store-availability');
+            let priceData = event.target.getAttribute('data-price');
+            let specificDayStart = event.target.getAttribute('data-specific-day-start');
+            let specificDayEnd = event.target.getAttribute('data-specific-day-end');
+
+            let inputElement = document.querySelector('[name="offering_id"]');
+            let availabilityInput = document.querySelector('[name="availability"]');
+            let offeringPriceInput = document.querySelector('[name="offering_price"]');
+            let offeringSlotsInput = document.querySelector('[name="store-availability"]');
+            let priceDiv = document.getElementById('modalPrice')
+
+            let offeringSpecificDaysInput = document.querySelector('[name="offering-specific-days"]');
+            let popupElement = document.getElementById('popup');
+
+            if (inputElement) {
+                inputElement.value = offeringId;
+                inputElement.classList.add('activeInput');
+                availabilityInput.value = availabilityData;
+                offeringSlotsInput.value = storeAvailability;
+                offeringPriceInput.value = priceData;
+                priceDiv.textContent = priceData;
+
+                offeringSpecificDaysInput.setAttribute('data-specific-day-start', specificDayStart);
+                offeringSpecificDaysInput.setAttribute('data-specific-day-end', specificDayEnd);
+                offeringSpecificDaysInput.value= specificDayStart + ' - ' + specificDayEnd;
+                generateCalendar(currentMonth, currentYear);
+            } else {
+                console.error("Element with ID 'offering_id' not found");
+            }
+
+
+        }
+
         function formatDate(date) {
             return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
         }
@@ -545,8 +518,31 @@
                 "every_day": [0, 1, 2, 3, 4, 5, 6], "own_specific_date": [0, 1, 2, 3, 4, 5, 6]
             };
 
-            if (availability === 'following_store_hours') {
+            if (availability === 'own_specific_date') {
+                let specificDaysInput = document.querySelector('[name="offering-specific-days"]');
+                if (!specificDaysInput) return [];
 
+                let specificDays = specificDaysInput.value.split(' - ');
+                let specificDayStart = new Date(specificDays[0]);
+                let specificDayEnd = new Date(specificDays[1]);
+
+                // Calculate the total number of days
+                let totalDays = Math.ceil((specificDayEnd - specificDayStart) / (1000 * 60 * 60 * 24)) + 1;
+
+                // Generate an array of allowed dates
+                let allowedDates = Array.from({ length: totalDays }, (_, index) => {
+                    let date = new Date(specificDayStart);
+                    date.setDate(date.getDate() + index);
+                    return date.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+                });
+
+                console.log("Allowed Dates for Own Specific Date:", allowedDates);
+                return allowedDates; // ✅ Correctly returning the allowed dates
+            }
+
+
+
+            if (availability === 'following_store_hours') {
                 if (!storeAvailabilityRaw) return [];
 
                 try {
@@ -567,11 +563,11 @@
                     console.error("Error parsing store availability JSON:", error);
                     return [];
                 }
-
-            } else {
-                return dayMapping[availability] || [];
             }
+
+            return dayMapping[availability] || [];
         }
+
 
         function generateTimeSlots(from = null, to = null ,date = null,allDay = false) {
             let slots = [];
@@ -625,10 +621,10 @@
             const monthLabel = document.getElementById('monthLabel');
             calendarGrid.innerHTML = '';
 
-            monthLabel.innerText = `${firstDay.toLocaleString('default', {month: 'long'})} ${year}`;
+            monthLabel.innerText = `${firstDay.toLocaleString('default', { month: 'long' })} ${year}`;
             const daysInMonth = lastDay.getDate();
             const startDay = firstDay.getDay();
-            const allowedDays = getAllowedDays();
+            const allowedDays = getAllowedDays(); // ✅ Get allowed full dates
 
             for (let i = 0; i < startDay; i++) {
                 const emptyCell = document.createElement('div');
@@ -647,7 +643,8 @@
                     activeDate = dateString;
                 }
 
-                if (!allowedDays.includes(currentDayOfWeek)) {
+                // ✅ Check for full date match (if own_specific_date) OR check by day of week
+                if (!(allowedDays.includes(dateString) || allowedDays.includes(currentDayOfWeek))) {
                     dayCell.classList.add('inactive');
                 }
 
@@ -655,7 +652,7 @@
                 dayCell.setAttribute('data-date', dateString);
 
                 dayCell.addEventListener('click', () => {
-                    if (!allowedDays.includes(currentDayOfWeek)) return;
+                    if (!(allowedDays.includes(dateString) || allowedDays.includes(currentDayOfWeek))) return;
 
                     if (activeDate) {
                         document.querySelector(`[data-date='${activeDate}']`)?.classList.remove('active');
@@ -667,9 +664,15 @@
                 });
 
                 calendarGrid.appendChild(dayCell);
-            }
 
+                $('.calendar-grid .dates').on('click', function(){
+                    const date = $(this).data('date');
+                    $('#booking_date').val(date);
+                })
+            }
         }
+
+
 
 
         function showAvailableSlots(date) {
@@ -680,7 +683,6 @@
             let specificDays = document.getElementById('offering-specific-days')?.value;
             let specificDayStart = specificDays.split(' - ')[0];
             let specificDayEnd = specificDays.split(' - ')[1];
-console.log(specificDayStart,specificDayEnd)
             slotsContainer.innerHTML = '';
             dateLabel.innerText = date.split('-').reverse().join('/');
 
@@ -728,8 +730,15 @@ console.log(specificDayStart,specificDayEnd)
         function renderSlots(availableSlots) {
             const slotsContainer = document.getElementById('availableSlots');
             slotsContainer.innerHTML = availableSlots.length
-                ? availableSlots.map(slot => `<div class="col-4"><button class="btn btn-outline-green w-100" data-time="${slot}">${slot}</button></div>`).join('')
+                ? availableSlots.map(slot => `<div class="col-4"><button class="btn btn-outline-green w-100 offering-slot" data-time="${slot}">${slot}</button></div>`).join('')
                 : '<p class="text-muted">No available slots</p>';
+
+            $('.offering-slot').on('click', function(){
+                $('.offering-slot').removeClass('active')
+                $(this).addClass('active')
+                const time = $(this).data('time');
+                $('#booking_time').val(time)
+            })
         }
 
         document.getElementById('prevMonth').addEventListener('click', () => {
@@ -749,9 +758,6 @@ console.log(specificDayStart,specificDayEnd)
             }
             generateCalendar(currentMonth, currentYear);
         });
-
-
-        generateCalendar(currentMonth, currentYear);
 
 
         $('.proceed_to_checkout').on('click', function(){

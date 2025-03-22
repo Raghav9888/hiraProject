@@ -3,9 +3,9 @@
         class="alert alert-green alert-dismissible fade show d-flex justify-content-between align-items-center f-5"
         role="alert">
         <h2 class="h5 mb-0">Check Available Slots and Confirm Booking</h2>
-        <span type="button" class="btn-white" aria-label="Close" onclick="closePopup()">
+        <button type="button" class="btn text-white" data-bs-dismiss="modal" aria-label="Close">
             <i class="fa-solid fa-xmark"></i>
-        </span>
+        </button>
     </div>
 
     <div class="bg-light p-3 rounded mb-4">
