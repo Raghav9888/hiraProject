@@ -385,8 +385,13 @@
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-body">
-                    <div class="booking-container">
+                    <div class="booking-container" >
                         @include('user.offering_detail_page')
+                    </div>
+                    <div class="billing-container"></div>
+                    <div class="checkout-container"></div>
+                    <div class="login-container" style="display: none;">
+                        @include('user.login-popup')
                     </div>
                 </div>
             </div>
@@ -783,13 +788,12 @@
                     if(!response.success){
                         alert("Something went wrong!")
                     }
-                    console.log(response);
                     $('.booking-container').hide();
-                    $('.login-container').show();
-                    $('.login-container').html(response.html);
-                    $('.popup-content').css('width', "60%")
-                    $('.popup-content').css('background-color', "transparent")
-                    $('.popup-content .container').css('padding', "30px")
+                    $('.billing-container').show();
+                    $('.billing-container').html(response.html);
+                    // $('.popup-content').css('width', "60%")
+                    // $('.popup-content').css('background-color', "transparent")
+                    // $('.popup-content .container').css('padding', "30px")
                 },
                 error:function(error){
                     alert("Something went wrong!")

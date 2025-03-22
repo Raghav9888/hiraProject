@@ -912,6 +912,7 @@ section {
 .login-body form .input-group input,
 .add-offering-dv input,
 .form-container input,
+.form-container select,
 .add-offering-dv textarea {
     font-family: "Montserrat-Regular";
     font-size: 16px;
@@ -921,6 +922,9 @@ section {
     border-radius: 24px;
     height: 46px;
     padding: 17px 21px;
+}
+.form-container select{
+    padding: 0 22px;
 }
 
 .contact-us-wrrpr form textarea,
@@ -934,7 +938,117 @@ section {
     border: none;
 }
 
-.creat-account{
+.creat-account, .proceed_to_checkout {
+    border-radius: 33px;
+    padding-top: 10px;
+    padding-right: 40px;
+    padding-bottom: 10px;
+    padding-left: 40px;
+    background: #9F8B72;
+    color: #fff;
+    border: #9F8B72;
+}
+
+.age-container a {
+    color: #424E3E;
+    width: 52px;
+    height: 36px;
+    background: #ecedec;
+    border-radius: 174px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.age-container-inner {
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+    border-radius: 24px;
+    padding: 0 6px;
+}
+#ageInput{
+    border: none;
+    padding: 0;
+    width: 100%;
+}
+h4.container-title {
+    text-align: center;
+    background: #424E3E;
+    color: #fff;
+    padding: 17px;
+    border-radius: 12px;
+    font-size: 18px;
+}
+.container-p{
+    font-size: 13px;
+    line-height: 21px;
+    margin-top: 14px;
+    margin-bottom: 0;
+}
+.session-confirm-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px;
+}
+.you-are-here-container .choose-us-dv {
+    border-radius: 12px;
+}
+.go-home {
+    border-radius: 33px;
+    border-width: 1.5px;
+    padding-top: 10px;
+    padding-right: 24px;
+    padding-bottom: 10px;
+    padding-left: 24px;
+    background: transparent;
+    margin-bottom: 25px;
+    display: inline-block;
+    border: 1.5px solid #424E3E;
+    color: #424E3E;
+}
+.you-are-here-container {
+    padding: 18px;
+    border: 2px solid #424E3E1A;
+    border-radius: 12px;
+}
+p.container-p span {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+#loginForm .form-check .form-check-input {
+    float: left;
+    margin-left: -1.5em;
+    padding: 7px 0px;
+    height: auto;
+}
+.theme-btn {
+    border-radius: 33px;
+    padding-top: 5px;
+    padding-right: 30px;
+    padding-bottom: 7px;
+    padding-left: 30px;
+    background: #424E3E;
+    color: #fff;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+#loginForm .form-check {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+.bottom-line.my-2 {
+    padding-left: 23px;
+}
+
+.proceed_to_checkout :hover{
+    border: #9F8B72;
+}
+.place-order{
     border-radius: 33px;
     padding-top: 10px;
     padding-right: 40px;
@@ -2763,6 +2877,7 @@ h4.form-title {
     font-size: 20px;
     line-height: 135%;
     text-align: center;
+    margin-bottom: 25px;
 }
 .practition-img-container {
     width: 80px;

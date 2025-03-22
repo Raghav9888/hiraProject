@@ -52,6 +52,7 @@ Route::get('/payment-failed', [PaymentController::class, 'failed'])->name('payme
 Route::get('/calendar/time-slots/{date}/{id}', [HomeController::class, 'getTimeSlots'])->name('get_time_slots');
 
 Route::post('/storeBooking', [BookingController::class, 'storeBooking'])->name('storeBooking');
+Route::post('/pre-checkout-register', [BookingController::class, 'preCheckoutRegister'])->name('preCheckout.register');
 Route::post('/pre-checkout', [BookingController::class, 'preCheckout'])->name('preCheckout');
 Route::get('/checkout', [BookingController::class, 'checkout'])->name('checkout');
 

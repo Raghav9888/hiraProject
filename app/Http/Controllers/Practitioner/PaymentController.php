@@ -87,56 +87,52 @@ class PaymentController extends Controller
 
     public function storeCheckout(Request $request)
     {
-        /* $request->validate([
-            'name' => 'required|string',
-            'address' => 'required|string',
-            'country' => 'required|string',
-            'city' => 'required|string',
-            'postcode' => 'required|string',
-            'phone' => 'required|string',
-            'email' => 'required|email',
-        ]); */
-
-       $user = auth()->user();
-
-        $booking = session('booking');
-        if (!$booking) {
-            return redirect()->route('home')->with('error', 'Booking session expired.');
+        try {
+            $user = auth()->user();
+     
+             $booking = session('booking');
+             $billing = session('billing');
+             if (!$booking || !$billing) {
+                 return response()->json([
+                     "success" => false,
+                     "data" => "Booking session expired.",
+                 ], 404);
+             }        
+             // Save Booking
+             $order = Booking::create([
+                  'user_id' => $user? $user->id : null, 
+                 'offering_id' => $booking['offering_id'],
+                 'booking_date' => $booking['booking_date'],
+                 'time_slot' => $booking['booking_time'],
+                 'total_amount' => $request->total_amount,
+                 'tax_amount' => $request->tax_amount,
+                 'price' => Offering::find($booking['offering_id'])->client_price,
+                 'status' => 'pending',
+                 'first_name' => $billing['first_name'],
+                 'last_name' => $billing['last_name'],
+                 'billing_address' => $billing['billing_address'],
+                 'billing_address2' => $billing['billing_address2'],
+                 'billing_country' => $billing['billing_country'],
+                 'billing_city' => $billing['billing_city'],
+                 'billing_state' => $billing['billing_state'],
+                 'billing_postcode' => $billing['billing_postcode'],
+                 'billing_phone' => $billing['billing_phone'],
+                 'billing_email' => $billing['billing_email'],
+             ]);
+     
+             session()->forget('booking');
+             session()->forget('billing');
+             $url = $this->processStripePayment($order->id);
+             return response()->json([
+                 "success" => true,
+                 "data" => $url,
+             ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                "success" => false,
+                "data" => $th->getMessage(),
+            ], 500);
         }
-        
-        /* $Offering = Offering::find($booking['offering_id']);
-        echo '<pre>';
-        Print_r($Offering->price);
-        echo '</pre>';
-        exit(); */
-        
-        // Save Booking
-        $order = Booking::create([
-             'user_id' => $user? $user->id : null, 
-            'offering_id' => $booking['offering_id'],
-            'booking_date' => $booking['booking_date'],
-            'time_slot' => $booking['booking_time'],
-            'total_amount' => $request->total_amount,
-            'tax_amount' => $request->tax_amount,
-            'price' => Offering::find($booking['offering_id'])->client_price,
-            'status' => 'pending',
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'billing_company' => $request->billing_company,
-            'billing_address' => $request->billing_address,
-            'billing_address2' => $request->billing_address2,
-            'billing_country' => $request->billing_country,
-            'billing_city' => $request->billing_city,
-            'billing_state' => $request->billing_state,
-            'billing_postcode' => $request->billing_postcode,
-            'billing_phone' => $request->billing_phone,
-            'billing_email' => $request->billing_email,
-            'notes' => $request->notes,
-        ]);
-
-        session()->forget('booking');
-
-        return redirect()->route('payment', ['order_id' => $order->id]);
     }
 
     public function showPaymentPage($order_id)
@@ -145,12 +141,12 @@ class PaymentController extends Controller
         return view('payment', compact('order'));
     }
 
-    public function processStripePayment(Request $request)
+    public function processStripePayment($orderId)
 {
     try {
         Stripe::setApiKey(env('STRIPE_SECRET'));
 
-        $order = Booking::findOrFail($request->order_id);
+        $order = Booking::findOrFail($orderId);
         $vendorId = $order->offering->user_id;
         $vendorStripe = UserStripeSetting::where("user_id", $vendorId)->first();
         // Stripe Checkout Session
@@ -187,14 +183,10 @@ class PaymentController extends Controller
             'status' => 'pending', // Change to "completed" after Stripe confirmation
         ]);
 
-        return redirect($session->url);
+        return $session->url;
         
     } catch (\Exception $e) {
-        echo '<pre>';
-        Print_r($e->getMessage());
-        echo '</pre>';
-        exit();
-        return back()->with('error', 'Payment failed: ' . $e->getMessage());
+        throw new \Exception($e->getMessage());
     }
 }
 
@@ -214,19 +206,11 @@ class PaymentController extends Controller
 
 
 
-    public function sucess(Request $request){
+    public function sucess(Request $request)
+    {
 
         $input =$request->all();
-        echo '<pre>';
-        Print_r("payment sucessfull");
-        echo '</pre>';
-        exit();
-        /* return view('payment.success', [
-            'payment_id' => $request->payment_id,
-            'amount' => $request->amount,
-            'currency' => $request->currency,
-            'status' => $request->status
-        ]); */
+        return view("user.payment-success");
     }   
 
     public function failed(Request $request){

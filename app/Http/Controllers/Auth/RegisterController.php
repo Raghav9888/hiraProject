@@ -83,6 +83,7 @@ class RegisterController extends Controller
             'location' => $data['location'] ?? null,
             'tags' => isset($data['tags']) ? json_encode($data['tags']) : json_encode([]),
             'images' => isset($data['images']) ? json_encode($data['images']) : json_encode([]),
+            'seeking_for' => isset($data['seeking_for']) ? json_encode($data['seeking_for']) : json_encode([]),
             'about_me' => $data['about_me'] ?? null,
             'help' => $data['help'] ?? null,
             'specialities' => $data['specialities'] ?? null,

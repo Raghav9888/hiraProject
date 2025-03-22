@@ -8,6 +8,9 @@ use App\Models\UserDetail;
 use App\Models\Offering;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ContactUsMail;
+use App\Models\GoogleAccount;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class BookingController extends Controller
 {
@@ -35,25 +38,106 @@ class BookingController extends Controller
         return response()->json([
             "success" => true,
             "data" => "Booking saved in session!",
-            'html' => view('user.login-popup', compact('offering', 'bookingDate', 'bookingTime'))->render()
+            'html' => view('user.billing-popup', compact('offering', 'bookingDate', 'bookingTime'))->render()
         ]);
         // return redirect()->route('checkout');
     }
 
     public function preCheckout(Request $request)
     {    
-        $request->validate([
-            'email' => 'required',
-            'name' => 'required',
-        ]); 
-
         session([
-            'user' => [
-                'email' => $request->email,
-                'name' => $request->name,
+            'billing' => [
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+                'billing_address' => $request->billing_address,
+                'billing_address2' => $request->billing_address2,
+                'billing_country' => $request->billing_country,
+                'billing_city' => $request->billing_city,
+                'billing_state' => $request->billing_state,
+                'billing_postcode' => $request->billing_postcode,
+                'billing_phone' => $request->billing_phone,
+                'billing_email' => $request->billing_email,
             ]
         ]);
-        return redirect()->route('checkout');
+
+        $booking = session('booking');  
+        if (!$booking) {
+            return response()->json([
+                "success" => false,
+                "data" => "No booking details found.",
+            ], 404);
+        }
+
+        $product = Offering::findOrFail($booking['offering_id']);
+
+        return response()->json([
+            "success" => true,
+            "data" => "Billing details saved in session!",
+            'html' => view('user.checkout-popup', compact('booking', 'product'))->render()
+        ]);
+    }
+
+
+    public function preCheckoutRegister(Request $request)
+    {  
+        $user = User::create([
+            'name' => $request->first_name. ' ' . $request->last_name,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->billing_email,
+//            role 0 = pending, role 1 = practitioner, role 2 = Admin
+            'role' => 1,
+            //  default status  0 = Inactive, status 1 = Active, status 2 = pending,
+            'status' => 2,
+            'password' => Hash::make("P@ssw0rd"),
+        ]);
+        $seekingFor = [
+            "nutritional_support" => isset($request->nutritional_support)? true: false,
+            "women_wellness" =>  isset($request->women_wellness)? true: false,
+            "womb_healing" => isset($request->womb_healing)? true: false,
+            "mindset_coaching" =>  isset($request->mindset_coaching)? true: false,
+            "transformation_coachin" => isset($request->transformation_coachin)? true: false,
+            "health_practitioner" => isset($request->health_practitioner)? true: false
+        ];
+        Auth::login($user);
+        UserDetail::create([
+            'user_id' => $user->id,
+            'seeking_for' => json_encode($seekingFor)
+        ]);
+
+        GoogleAccount::create([
+                'user_id' => $user->id,
+            ]
+        );
+        session([
+            'billing' => [
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+                'billing_address' => $request->billing_address,
+                'billing_address2' => $request->billing_address2,
+                'billing_country' => $request->billing_country,
+                'billing_city' => $request->billing_city,
+                'billing_state' => $request->billing_state,
+                'billing_postcode' => $request->billing_postcode,
+                'billing_phone' => $request->billing_phone,
+                'billing_email' => $request->billing_email,
+            ]
+        ]);
+
+        $booking = session('booking');  
+        if (!$booking) {
+            return response()->json([
+                "success" => false,
+                "data" => "No booking details found.",
+            ], 404);
+        }
+
+        $product = Offering::findOrFail($booking['offering_id']);
+        return response()->json([
+            "success" => true,
+            "data" => "Billing details saved in session!",
+            'html' => view('user.checkout-popup', compact('booking', 'product'))->render()
+        ]);
     }
 
     public function checkout()

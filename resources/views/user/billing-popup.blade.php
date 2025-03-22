@@ -11,14 +11,31 @@
     <div
         class="alert alert-green fade show d-flex justify-content-between align-items-center f-5"
         role="alert">
-        <h2 class="h5 mb-0">Create An Account</h2>
+        <h2 class="h5 mb-0">Your Booking</h2>
         <span type="button" class="btn-white close-modal" aria-label="Close" data-bs-dismiss="modal">
             <i class="fa-solid fa-xmark"></i>
         </span>
-    </div>    
-    <form id="loginForm" method="post">
+    </div>
+
+    <div class="bg-light p-3 rounded mb-4">
+        <div class="d-flex gap-3 align-items-center">
+           <div class="practition-img-container">
+                <img src="{{$imageUrl}}" alt="" class="img-fluid">
+           </div>
+           <div class="practition-detail-container">
+                <h4 class="practition-name">{{@$offering->user->name}}</h4>
+                <span class="practition-des">{{@$offering->user->userDetail->company ?? "Alternative Health Practitioner"}}</span>
+                <span class="booking-date-container">
+                    {{date('M d, Y', strtotime($bookingDate))}} | {{date("H:i", strtotime($bookingTime))}}
+                </span>
+           </div>
+        </div>
+    </div>
+    
+    <form id="billingForm" method="post">
         @csrf                       
         <div class="form-container">
+            <h4 class="form-title">Enter Billing Details</h4>
             <div class="row">
                 <div class="col-md-6">
                     <div class="mb-3">
@@ -32,28 +49,16 @@
                         <input type="text" class="form-control" required name="last_name" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Last Name">
                     </div> 
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" required class="form-label mb-2">Email Address</label>
                         <input type="email" class="form-control" name="billing_email" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter a valid email address">
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label mb-2">Phone Number</label>
                         <input type="text" class="form-control" required name="billing_phone" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Phone Number">
-                    </div> 
-                </div>
-                <div class="col-md-4">
-                    <div class="mb-3">
-                        <div class="flex items-center space-x-2 age-container">
-                            <label class="text-gray-700 font-medium mb-2">Age</label>
-                            <div class="border border-gray-300 flex items-center rounded-lg age-container-inner">
-                                <a href="javascript:void(0);" onclick="decrease()" class="bg-gray-100 justify-center rounded-full text-gray-600">−</a>
-                                <input id="ageInput" type="text" value="26" name="age" class="text-center border-none outline-none bg-transparent" readonly>
-                                <a href="javascript:void(0);" onclick="increase()" class="bg-gray-100 justify-center rounded-full text-gray-600">+</a>
-                            </div>
-                        </div>
                     </div> 
                 </div>
                 <div class="col-md-12">
@@ -92,85 +97,37 @@
                         </select>
                     </div> 
                 </div>
-                <div class="col-md-12 bg-light p-3 rounded mb-4">
-                    <p class="seeking_for">Seeking For <span>(Optional)</span></p>
-                    <div class="mb-3">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-check ">
-                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name="nutritional_support">
-                                    <label class="form-check-label" for="inlineCheckbox1">Nutritional Support</label>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-check ">
-                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox2" name="women_wellness" >
-                                    <label class="form-check-label" for="inlineCheckbox2">Women’s Wellness</label>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-check ">
-                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox3" name="womb_healing" >
-                                    <label class="form-check-label" for="inlineCheckbox3">Womb Healing</label>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-check ">
-                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox4" name="mindset_coaching" >
-                                    <label class="form-check-label" for="inlineCheckbox4">Mindset  Coaching</label>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-check ">
-                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox5" name="transformation_coachin" >
-                                    <label class="form-check-label" for="inlineCheckbox5">Transformation Coaching</label>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-check ">
-                                    <input class="form-check-input" type="checkbox" name="health_practitioner" id="inlineCheckbox6" >
-                                    <label class="form-check-label" for="inlineCheckbox6">Health Practitioner</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div> 
-                </div>
+            </div>
+            <div class="or-container text-center mb-3">OR</div>
+            <div class="d-flex justify-content-center mb-3">
+                <button class="creat-account">Create An Account</button>
             </div>
         </div>
         <div class="bottom-container">
             <div class="form-check ">
-                <input class="form-check-input" type="checkbox" id="inlineCheckbox7" required value="privacy">
-                <label class="form-check-label fw-bold" for="inlineCheckbox7">I agree to to The Hira Collective’s Terms of Service and Privacy Policy.</label>
+                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" required value="privacy">
+                <label class="form-check-label" for="inlineCheckbox1">I agree to to The Hira Collective’s Terms of Service and Privacy Policy.</label>
             </div>
             <div class="form-check ">
-                <input class="form-check-input" type="checkbox" id="inlineCheckbox8" required  value="yes">
-                <label class="form-check-label fw-bold" for="inlineCheckbox8">Yes, I want to receive emails from The Hira Collective!</label>
+                <input class="form-check-input" type="checkbox" id="inlineCheckbox2" required  value="yes">
+                <label class="form-check-label" for="inlineCheckbox2">Yes, I want to receive emails from The Hira Collective!</label>
             </div>
-            <div class="bottom-line my-2" >
-                By checking this box, you consent to receive emails from The Hira Collective, including care-packages, resources, updates, promotions, practitioner spotlights, and community offerings. You can unsubscribe at any time by clicking the link in our emails.<br>The Hira Collective | info@thehiracollective.com
+            <button class="confirm-booking w-100" type="submit">Confirm Booking</button>
+            <div class="bottom-line">
+                Use of this website, content, and products are for informational purposes only. TheHiraCollective does not provide medical advice, diagnosis, or treatment.
             </div>
-            <button class="confirm-booking w-100" type="submit">Create Account And Proceed To Checkout</button>
         </div>
     </form>
 </div>
 <script>
-    function increase() {
-        let input = document.getElementById("ageInput");
-        input.value = parseInt(input.value) + 1;
-    }
-    function decrease() {
-        let input = document.getElementById("ageInput");
-        if (parseInt(input.value) > 0) {
-            input.value = parseInt(input.value) - 1;
-        }
-    }
-    $("#loginForm").on("submit", function (e) {
+    
+    $("#billingForm").on("submit", function (e) {
         e.preventDefault(); // Prevent default form submission
 
         let formData = $(this).serialize();
         $.ajax({
             type:"POST",
-            url: "{{route('preCheckout.register')}}",
+            url: "{{route('preCheckout')}}",
             data:formData,
             success:function(response){
                 if(!response.success){
@@ -178,7 +135,6 @@
                 }
                 $('.booking-container').hide();
                 $('.billing-container').hide();
-                $('.login-container').hide();
                 $('.checkout-container').show();
                 $('.checkout-container').html(response.html);
             },
