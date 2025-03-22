@@ -196,7 +196,7 @@
                                                         name="availability_type_offering" data-type="change"
                                                         data-target-one="custom_hours"
                                                         data-match-one="own_specific_date">
-                                                    <option value="">Following store hours</option>
+                                                    <option value="following_store_hours"{{$offering->availability_type == 'following_store_hours'? 'selected': ''}}>Following store hours</option>
                                                     <option value="every_day" {{$offering->availability_type == 'every_day'? 'selected': ''}}>Every day</option>
                                                     <option value="every_monday" {{$offering->availability_type == 'every_monday'? 'selected': ''}}>Every monday</option>
                                                     <option value="every_tuesday" {{$offering->availability_type == 'every_tuesday'? 'selected': ''}}>Every tuesday</option>

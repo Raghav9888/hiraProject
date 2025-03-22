@@ -98,26 +98,26 @@ class HomeController extends Controller
     public function practitionerDetail($id)
     {
         $user = User::findOrFail($id);
-        $userDetails = $user->userDetail;
+        $userDetail = $user->userDetail;
         //  $userDetails = UserDetail::where('user_id', $id)->first();
-        $endorsements = $userDetails && $userDetails->endorsements
-            ? json_decode($userDetails->endorsements, true)
+        $endorsements = $userDetail && $userDetail->endorsements
+            ? json_decode($userDetail->endorsements, true)
             : [];
         $endorsedUsers = User::whereIn('id', $endorsements)->get();
-        $selectedTerms = explode(',', $userDetails->IHelpWith ?? '');
+        $selectedTerms = explode(',', $userDetail->IHelpWith ?? '');
         $IHelpWith = IHelpWith::whereIn('id', $selectedTerms)->pluck('name')->toArray();
 
 
-        $selectedHowIHelp = explode(',', $userDetails->HowIHelp ?? '');
+        $selectedHowIHelp = explode(',', $userDetail->HowIHelp ?? '');
         $HowIHelp = HowIHelp::whereIn('id', $selectedHowIHelp)->pluck('name')->toArray();
 
-        $Certification = explode(',', $userDetails->certifications ?? '');
+        $Certification = explode(',', $userDetail->certifications ?? '');
         $Certifications = HowIHelp::whereIn('id', $Certification)->pluck('name')->toArray();
 
 
         $offerings = Offering::where('user_id', $user->id)->get();
 
-        $images = json_decode($userDetails->images, true);
+        $images = json_decode($userDetail->images, true);
         $image = isset($images['profile_image']) ? $images['profile_image'] : null;
         $mediaImages = isset($images['media_images']) && is_array($images['media_images']) ? $images['media_images'] : [];
 
@@ -125,15 +125,30 @@ class HomeController extends Controller
         $locations = Locations::get();
         $users = User::where('role', 1)->with('userDetail')->get();
         $categories = Category::get();
-
-        return view('user.practitioner_detail', compact('user', 'users', 'userDetails', 'offerings','categories', 'image', 'mediaImages', 'locations', 'userLocations', 'IHelpWith', 'HowIHelp', 'Certifications' ,'endorsedUsers'));
+        $storeAvailable = $userDetail?->store_availabilities ? $userDetail->store_availabilities : [];
+        return view('user.practitioner_detail', [
+            'user' => $user,
+            'userDetail' => $userDetail,
+            'endorsedUsers' => $endorsedUsers,
+            'IHelpWith' => $IHelpWith,
+            'HowIHelp' => $HowIHelp,
+            'Certifications' => $Certifications,
+            'offerings' => $offerings,
+            'image' => $image,
+            'mediaImages' => $mediaImages,
+            'userLocations' => $userLocations,
+            'locations' => $locations,
+            'users' => $users,
+            'categories' => $categories,
+            'storeAvailable' => $storeAvailable
+        ]);
     }
 
     public function practitionerOfferingDetail($id)
     {
         $offeringDetail = Offering::findOrFail($id);
         $user = $offeringDetail->user;
-        return view('user.offering_detail', compact( 'offeringDetail','user'));
+        return view('user.offering_detail', compact('offeringDetail', 'user'));
     }
 
     public function checkout()
@@ -201,7 +216,7 @@ class HomeController extends Controller
         $query = User::with('userDetail'); // Eager load userDetail relation
 
         if (isset($search) && $search) {
-            $query->where(function($query) use ($search) {
+            $query->where(function ($query) use ($search) {
                 $query->where('first_name', 'like', '%' . $search . '%')
                     ->orWhere('last_name', 'like', '%' . $search . '%')
                     ->orWhere('name', 'like', '%' . $search . '%');
@@ -209,13 +224,13 @@ class HomeController extends Controller
         }
 
         if (isset($category) && $category) {
-            $query->whereHas('userDetail', function($query) use ($category) {
+            $query->whereHas('userDetail', function ($query) use ($category) {
                 $query->where('specialities', 'like', '%' . $category . '%');
             });
         }
 
         if (isset($location) && $location) {
-            $query->whereHas('userDetail', function($query) use ($location) {
+            $query->whereHas('userDetail', function ($query) use ($location) {
                 $query->where('location', 'like', '%' . $location . '%');
             });
         }
@@ -260,7 +275,7 @@ class HomeController extends Controller
         // Save the updated endorsements back to the user detail
         $userDetail->endorsements = json_encode($endorsements);
         if ($userDetail->save()) {
-            return response()->json(['success' => 'Endorsement added successfully' , 'userDetail' => $userDetail]);
+            return response()->json(['success' => 'Endorsement added successfully', 'userDetail' => $userDetail]);
         } else {
             return response()->json(['error' => 'Failed to save endorsement'], 500);
         }
@@ -271,11 +286,11 @@ class HomeController extends Controller
     {
         $user = Auth::user();
 
-        if ( $user->status != 2) {
+        if ($user->status != 2) {
             return redirect()->route('home');
         }
 
-        return view('user.pending_user',[
+        return view('user.pending_user', [
             'user' => $user
         ]);
     }

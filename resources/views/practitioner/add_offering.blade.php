@@ -158,7 +158,7 @@
                                                         name="availability_type_offering" data-type="change"
                                                         data-target-one="custom_hours"
                                                         data-match-one="own_specific_date">
-                                                    <option value="">Following store hours</option>
+                                                    <option value="following_store_hours">Following store hours</option>
                                                     <option value="every_day">Every day</option>
                                                     <option value="every_monday">Every monday</option>
                                                     <option value="every_tuesday">Every tuesday</option>
