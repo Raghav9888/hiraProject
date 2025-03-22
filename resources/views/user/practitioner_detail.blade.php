@@ -358,12 +358,18 @@
     <input type="hidden" name="offering_id" id="offering_id">
     <input type="hidden" name="availability" id="availability">
     <input type="hidden" name="offering_price" id="offering_price">
+    <input type="hidden" name="booking_date" id="booking_date">
+    <input type="hidden" name="booking_time" id="booking_time">
 
     <!-- Popup Structure -->
     <div id="popup" class="popup-overlay">
         <div class="popup-content">
             {{--            <span class="close-btn" onclick="closePopup()">&times;</span>--}}
-            @include('user.offering_detail_page')
+            <div class="booking-container">
+                @include('user.offering_detail_page')
+            </div>
+            <div class="login-container" style="display: none">
+            </div>
         </div>
     </div>
     <script>
@@ -567,6 +573,10 @@
                 });
 
                 calendarGrid.appendChild(dayCell);
+                $('.calendar-grid .dates').on('click', function(){
+                    const date = $(this).data('date');
+                    $('#booking_date').val(date);
+                })
             }
 
             fetchCalendarTimeSlots(activeDate);
@@ -614,9 +624,15 @@
                 availableSlots.forEach(slot => {
                     const slotButton = document.createElement('div');
                     slotButton.classList.add('col-4');
-                    slotButton.innerHTML = `<button class="btn btn-outline-green w-100">${slot}</button>`;
+                    slotButton.innerHTML = `<button class="btn btn-outline-green w-100 offering-slot" data-time=${slot}>${slot}</button>`;
                     slotsContainer.appendChild(slotButton);
                 });
+                $('.offering-slot').on('click', function(){
+                    $('.offering-slot').removeClass('active')
+                    $(this).addClass('active')
+                    const time = $(this).data('time');
+                    $('#booking_time').val(time)
+                })
             }
         }
 
@@ -637,6 +653,43 @@
             }
             generateCalendar(currentMonth, currentYear);
         });
+
+        $('.proceed_to_checkout').on('click', function(){
+            const offeringId = $('#offering_id').val();
+            const bookingDate = $('#booking_date').val();
+            const bookingTime = $('#booking_time').val();
+            if(!offeringId || !bookingDate || !bookingTime){
+                alert("Please select slot!");
+                return;
+            }
+            $.ajax({
+                type:"POST",
+                url: "{{route('storeBooking')}}",
+                headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                data: {
+                    offering_id: offeringId,
+                    booking_date: bookingDate,
+                    booking_time: bookingTime 
+                },
+                success:function(response){
+                    if(!response.success){
+                        alert("Something went wrong!")
+                    }
+                    console.log(response);
+                    $('.booking-container').hide();
+                    $('.login-container').show();
+                    $('.login-container').html(response.html);
+                    $('.popup-content').css('width', "60%")
+                    $('.popup-content').css('background-color', "transparent")
+                    $('.popup-content .container').css('padding', "30px")
+                },
+                error:function(error){
+                    alert("Something went wrong!")
+                }
+            })
+        })
 
     </script>
 @endsection
