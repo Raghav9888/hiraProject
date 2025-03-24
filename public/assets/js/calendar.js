@@ -104,22 +104,22 @@ function sendToServer(eventData, calendar) {
 
 $(document).ready(function () {
     if ($('#upcomingEventsRowDiv').length > 0) {
-        upComingEvents();
+        upComingAppointments();
     }
 });
 
-function upComingEvents() {
+function upComingAppointments() {
     $.ajax({
-        url: '/calendar/up-coming-events',
+        url: '/calendar/up-coming-appointments',
         type: 'GET',
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         success: function (response) {
-            $('#upcomingEventsRowDiv').empty();
+            $('#upcomingAppointmentsDiv').empty();
 
             if (!response || !response.events || response.events.length === 0) {
-                $('#upcomingEventsRowDiv').append(`
+                $('#upcomingAppointmentsDiv').append(`
                     <div class="col-sm-12 my-4 text-center">
                        No results found
                     </div>
@@ -148,7 +148,7 @@ function upComingEvents() {
                             </div>
                         </div>`;
 
-                    $('#upcomingEventsRowDiv').append(eventDiv);
+                    $('#upcomingAppointmentsDiv').append(eventDiv);
                 });
             }
         },

@@ -76,7 +76,7 @@ class CalenderController extends Controller
     }
 
 
-    public function upComingEvents()
+    public function upComingAppointments()
     {
         $user = Auth::user();
         $googleAccount = GoogleAccount::where('user_id', $user->id)->first();
