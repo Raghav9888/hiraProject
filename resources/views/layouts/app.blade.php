@@ -72,11 +72,7 @@
     // Loader Debugging
     document.addEventListener("DOMContentLoaded", function () {
         let imageUrl = `{{ asset('assets/images/header-logo.svg') }}`;
-        if (window.loadingScreen && typeof window.loadingScreen.addPageLoading === "function") {
-            window.loadingScreen.addPageLoading(imageUrl);
-        } else {
-            console.error("❌ Loader not found. Check loader.js");
-        }
+        window.loadingScreen.addPageLoading(imageUrl);
     });
 </script>
 <script src="{{ asset('assets/js/loader.js') }}"></script>
