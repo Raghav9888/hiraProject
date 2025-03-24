@@ -9,32 +9,40 @@
             </div>
             <div class="home-search-wrrpr">
                 <p> Search for what you seek</p>
-                <div class="search-dv-body">
-                    <div class="search-container align-items-center">
-                        <input type="text" class="search-input" id="search"
-                               placeholder="Search by modality, ailment, symptom or practitioner">
-                        <div class="search-button">
-                            <i class="fas fa-search"></i>
+                <form action="{{ route('searchPractitioner') }}">
+                    @csrf
+
+                    <div class="search-dv-body">
+                        <div class="search-container align-items-center">
+                            <input type="text" class="search-input" id="search"
+                                   placeholder="Search by modality, ailment, symptom or practitioner">
+                            <div class="search-button">
+                                <i class="fas fa-search"></i>
+                            </div>
                         </div>
+                        <div class="dropdown">
+                            <select class="form-select" id="practitionerType" aria-label="Default select example"
+                                    style="border-radius: 30px !important;padding:11px 37px 12px 20px;text-align: start;color: #838383;">
+                                <option value="">Select type</option>
+                                <option value="in-person">In person Offering</option>
+                                <option value="virtual">Virtual Practitioners Only</option>
+                                <option value="both">Both in personal and virtual</option>
+                            </select>
+                        </div>
+                        <div class="search-container location-input align-items-center">
+                            <select class="form-select" aria-label="Default select example"
+                                    style="border-radius: 30px !important;padding:11px 37px 12px 20px;text-align: start;color: #838383;"
+                                    id="location">
+                                <option value="">select location</option>
+                                @foreach($defaultLocations as $defaultLocationId => $defaultLocation)
+                                    <option value="{{ $defaultLocationId }}">{{ $defaultLocation }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <button class="home-search-btn" id="searchFilter">Search</button>
                     </div>
-                    <div class="dropdown">
-                        <select class="form-select" id="practitionerType" aria-label="Default select example"
-                                style="border-radius: 30px !important;padding:11px 37px 12px 20px;text-align: start;color: #838383;">
-                            <option value="">Select type</option>
-                            <option value="in-person">In person Offering</option>
-                            <option value="virtual">Virtual Practitioners Only</option>
-                            <option value="both">Both in personal and virtual</option>
-                        </select>
-                    </div>
-                    <div class="search-container location-input align-items-center">
-                        <input type="text" class="search-input" placeholder="Select your preferred location"
-                               id="location">
-                        <button class="search-button">
-                            <i class="fa-solid fa-location-dot"></i>
-                        </button>
-                    </div>
-                    <button class="home-search-btn" id="searchFilter">Search</button>
-                </div>
+                </form>
+
                 {{--                <div class="searched-category">--}}
                 {{--                    <p style="font-weight: 400;">Most Searched Categories</p>--}}
                 {{--                    @foreach($categories as $category)--}}
@@ -54,9 +62,9 @@
 
             <div class="row mt-3">
                 @foreach($categories as $category)
-                  @php
-                  $name = $snakeCaseText = str_replace(' ', '_', strtolower($category->name));;
-                 @endphp
+                    @php
+                        $name = $snakeCaseText = str_replace(' ', '_', strtolower($category->name));;
+                    @endphp
                     <div class="col-sm-12 col-md-4 col-lg-3 mb-4">
                         <div class="explore-img-dv {{ $name}}">
                             <p>{{$category->name}}</p>
@@ -79,7 +87,8 @@
                     <h1 class="home-title">Featured Practitioners </h1>
                 </div>
                 <div class="col-md-4">
-                    <select class="form-select" id="category" aria-label="Default select example" style="border-radius: 30px !important;padding: 10px 15px 10px 40px;text-align: start;">
+                    <select class="form-select" id="category" aria-label="Default select example"
+                            style="border-radius: 30px !important;padding: 10px 15px 10px 40px;text-align: start;">
                         <option class="selected-category" value="">Select by Categories</option>
                         @foreach($categories as $category)
                             <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -94,6 +103,7 @@
                         @foreach($users->chunk(4) as $chunk)
                             <div class="row">
                                 @foreach($chunk as $user)
+
                                     @php
                                         $images = isset($user->userDetail->images) ? json_decode($user->userDetail->images, true) : null;
                                         $image = isset($images['profile_image']) && $images['profile_image'] ? $images['profile_image'] : null;
@@ -101,7 +111,7 @@
                                             ? asset(env('media_path') . '/practitioners/' . $user->userDetail->id . '/profile/' . $image)
                                             : asset(env('local_path') . '/images/no_image.png');
 
-                                        $userLocations = isset($user->location) && $user->location ? json_decode($user->location, true) : [];
+                                      $userLocations = isset($user->location) && $user->location ? json_decode($user->location, true) : [];
 
                                     @endphp
 
@@ -118,15 +128,14 @@
                                                 <h5>
 
                                                     @if(!empty($userLocations))
-                                                        @foreach($userLocations as $userLocation)
-                                                            @foreach($defaultLocations as $key => $defaultLocation)
-                                                                @if(in_array($key, $userLocation))
-                                                                    <i class="fa-solid fa-location-dot"></i> {{ $defaultLocation }},
-                                                                @endif
-                                                            @endforeach
+                                                        @foreach($defaultLocations as $defaultLocationId => $defaultLocation)
+
+                                                            @if(in_array($defaultLocationId, $userLocations))
+                                                                <i class="fa-solid fa-location-dot"></i>
+                                                                {{ $defaultLocation }} ,
+                                                            @endif
                                                         @endforeach
                                                     @endif
-
                                                 </h5>
                                                 <p>{{$user->userDetail->company ?? 'Alternative and Holistic Health Practitioner'}}</p>
 
@@ -328,16 +337,17 @@
             </div>
             <div class="row">
                 @forEach($blogs as $blog)
-                <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
-                    <div class="home-blog-dv">
-                        <img src="{{ asset(env('media_path') . '/admin/blog/' . $blog->image) }}" alt="yoga">
-                        <div class="home-blog-label">
-                            <h5>{{@$blog->category->name}}</h5>
+                    <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
+                        <div class="home-blog-dv">
+                            <img src="{{ asset(env('media_path') . '/admin/blog/' . $blog->image) }}" alt="yoga">
+                            <div class="home-blog-label">
+                                <h5>{{@$blog->category->name}}</h5>
+                            </div>
+                            <h4>{{$blog->name}}</h4>
+                            <a href="{{route('blogDetail', $blog->slug)}}">Learn More<i
+                                    class="fa-solid fa-arrow-right"></i></a>
                         </div>
-                        <h4>{{$blog->name}}</h4>
-                        <a href="{{route('blogDetail', $blog->slug)}}">Learn More<i class="fa-solid fa-arrow-right"></i></a>
                     </div>
-                </div>
                 @endforeach
             </div>
         </div>
@@ -525,18 +535,18 @@
                 getPractitioners(search, null, location, practitionerType);
             });
 
-            $(document).on('click','.loadPractitioner', function (e) {
+            $(document).on('click', '.loadPractitioner', function (e) {
                 e.preventDefault();
                 let search = $('#search').val();
                 let location = $('#location').val();
                 let practitionerType = $('#practitionerType').val();
                 let category = $('#category').val();
-                let count = ($(this).data('count')  ?? 1) + 1
+                let count = ($(this).data('count') ?? 1) + 1
 
                 getPractitioners(search, category, location, practitionerType, count);
             });
 
-            $('#category').on('change',function (e){
+            $('#category').on('change', function (e) {
                 e.preventDefault();
                 let search = $('#search').val();
                 let location = $('#location').val();
@@ -553,7 +563,7 @@
             $.ajax({
                 url: '/search/practitioner',
                 type: 'get',
-                data: { search, category, location, practitionerType, count },
+                data: {search, category, location, practitionerType, count},
                 success: function (response) {
                     let practitionersHTML = '';
                     let maxItems = 8;

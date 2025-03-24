@@ -1,6 +1,5 @@
 console.log('script.js')
 
-
 $(document).on('click', '[data-action="bootbox"]', function (e) {
     e.preventDefault();
     let url = $(this).attr('href');

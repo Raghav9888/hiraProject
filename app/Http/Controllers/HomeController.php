@@ -37,6 +37,7 @@ class HomeController extends Controller
             $locations[$location->id] = $location->name;
         }
         json_encode($locations);
+
         return view('home', [
             'users' => $users,
             'categories' => $categories,
@@ -213,7 +214,7 @@ class HomeController extends Controller
         $location = $request->input('location');
         $buttonHitCount = $request->input('count') ?? 1;
 
-        $query = User::with('userDetail'); // Eager load userDetail relation
+        $query = User::where('role', 1)->with('userDetail'); // Eager load userDetail relation
 
         if (isset($search) && $search) {
             $query->where(function ($query) use ($search) {
