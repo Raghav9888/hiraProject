@@ -235,12 +235,17 @@ class PractitionerController extends Controller
 
     public function appointment()
     {
-        $user = Auth::user();
+        $user = User::where('id', Auth::id())->with('offerings.bookings')->first();
         $userDetails = $user->userDetail;
-        $appointments = $user->appointments;
 
-        return view('practitioner.appoinement', compact('user', 'userDetails'));
+        return view('practitioner.appointment', [
+            'user' => $user,
+            'userDetails' => $userDetails,
+            'appointments' => $user->offerings,
+        ]);
     }
+
+
 
     public function earning()
     {
