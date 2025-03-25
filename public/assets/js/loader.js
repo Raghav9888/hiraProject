@@ -11,7 +11,7 @@ const LoadingScreen = {
         $(this.loadingParentElement).append(overlay);
     },
 
-    addPageLoading: function (imageUrl = "your-image.jpg") {
+    addPageLoading: function (imageUrl = "/assets/images/header-logo.svg") {
         const overlay = `
             <div class="loader-container">
                 <img src="${imageUrl}" alt="Loading..." class="flip-loader">

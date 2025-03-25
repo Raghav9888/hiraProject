@@ -9,19 +9,19 @@
             </div>
             <div class="home-search-wrrpr">
                 <p> Search for what you seek</p>
-                <form action="{{ route('searchPractitioner') }}">
+                <form action="{{ route('searchPractitioner') }}" method="GET" id="searchform">
                     @csrf
 
                     <div class="search-dv-body">
                         <div class="search-container align-items-center">
-                            <input type="text" class="search-input" id="search"
+                            <input type="text" class="search-input" id="search" name="search"
                                    placeholder="Search by modality, ailment, symptom or practitioner">
-                            <div class="search-button">
+                            <button type="submit" class="search-button">
                                 <i class="fas fa-search"></i>
-                            </div>
+                            </button>
                         </div>
                         <div class="dropdown">
-                            <select class="form-select" id="practitionerType" aria-label="Default select example"
+                            <select class="form-select" id="practitionerType" name="practitionerType"
                                     style="border-radius: 30px !important;padding:11px 37px 12px 20px;text-align: start;color: #838383;">
                                 <option value="">Select type</option>
                                 <option value="in-person">In person Offering</option>
@@ -30,18 +30,18 @@
                             </select>
                         </div>
                         <div class="search-container location-input align-items-center">
-                            <select class="form-select" aria-label="Default select example"
-                                    style="border-radius: 30px !important;padding:11px 37px 12px 20px;text-align: start;color: #838383;"
-                                    id="location">
-                                <option value="">select location</option>
+                            <select class="form-select" id="location" name="location"
+                                    style="border-radius: 30px !important;padding:11px 37px 12px 20px;text-align: start;color: #838383;">
+                                <option value="">Select location</option>
                                 @foreach($defaultLocations as $defaultLocationId => $defaultLocation)
                                     <option value="{{ $defaultLocationId }}">{{ $defaultLocation }}</option>
                                 @endforeach
                             </select>
                         </div>
-                        <button class="home-search-btn" id="searchFilter">Search</button>
+                        <button type="submit" class="home-search-btn" id="searchFilter">Search</button>
                     </div>
                 </form>
+
 
                 {{--                <div class="searched-category">--}}
                 {{--                    <p style="font-weight: 400;">Most Searched Categories</p>--}}
@@ -525,14 +525,34 @@
 
     <script>
         $(document).ready(function () {
-            $('#searchFilter').on('click', function (e) {
-                e.preventDefault();
-
+            function performSearch() {
                 let search = $('#search').val();
                 let location = $('#location').val();
                 let practitionerType = $('#practitionerType').val();
 
+                console.log("Performing search with:", { search, location, practitionerType }); // Debugging
+
                 getPractitioners(search, null, location, practitionerType);
+            }
+
+            // Prevent form submission and trigger AJAX on Enter key inside the search input
+            $('#search').on('keypress', function (e) {
+                if (e.which === 13) { // 13 = Enter key
+                    e.preventDefault();
+                    performSearch();
+                }
+            });
+
+            // Prevent form submission and trigger AJAX when clicking the Search button
+            $('#searchFilter').on('click', function (e) {
+                e.preventDefault();
+                performSearch();
+            });
+
+            // Prevent form submission globally on #searchform
+            $('#searchform').on('submit', function (e) {
+                e.preventDefault();
+                performSearch();
             });
 
             $(document).on('click', '.loadPractitioner', function (e) {
@@ -541,7 +561,7 @@
                 let location = $('#location').val();
                 let practitionerType = $('#practitionerType').val();
                 let category = $('#category').val();
-                let count = ($(this).data('count') ?? 1) + 1
+                let count = ($(this).data('count') ?? 1) + 1;
 
                 getPractitioners(search, category, location, practitionerType, count);
             });
@@ -553,8 +573,9 @@
                 let practitionerType = $('#practitionerType').val();
                 let category = $('#category').val();
                 getPractitioners(search, category, location, practitionerType);
-            })
+            });
         });
+
 
         function getPractitioners(search = null, category = null, location = null, practitionerType = null, count = 1) {
             const imagePath = `{{env('media_path')}}`;
@@ -564,7 +585,11 @@
                 url: '/search/practitioner',
                 type: 'get',
                 data: {search, category, location, practitionerType, count},
+                beforeSend: function () {
+                    window.loadingScreen.addPageLoading();
+                },
                 success: function (response) {
+
                     let practitionersHTML = '';
                     let maxItems = 8;
 
@@ -615,6 +640,7 @@
 
                             practitionersHTML += `</div>`; // Close row
                         }
+
                     }
 
                     // Check if the number of practitioners exceeds the maxItems and add a Load More button
@@ -624,9 +650,14 @@
                         <button class="category-load-more loadPractitioner" data-count="${count}">Load More</button>
                     </div>`;
                     }
-
+                    $('html, body').animate({
+                        scrollTop: $('.featured-section').offset().top
+                    }, 700);
                     // Inject the generated HTML into the practitioners list container
                     $('#practitionersList').html(practitionersHTML);
+                },
+                complete: function () {
+                    window.loadingScreen.removeLoading();
                 }
             });
         }
