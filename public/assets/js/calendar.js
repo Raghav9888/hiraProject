@@ -1,90 +1,10 @@
 console.log('calendar.js');
-document.addEventListener('DOMContentLoaded', function () {
-    let calendarEl = document.getElementById('calendar');
 
-    if (calendarEl) {
+function sendToServer(eventData) {
 
-        let calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
-            editable: true,
-            selectable: true,
-            dayMaxEvents: true,
-            events: function (info, successCallback, failureCallback) {
-                $.ajax({
-                    url: '/calendar/events',
-                    type: 'GET',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    success: function (response) {
-                        if (response.error) {
-                            window.location.href = response.redirect_url;
-                        } else {
-                            successCallback(response);
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        console.error("Error fetching events:", status, error);
-                        failureCallback(error);
-                    }
-                });
-            },
-            select: function (info) {
-                console.log(info);
-                const formatDateTime = (dateStr, allDay) => {
-                    return allDay ? `${dateStr}T00:00` : new Date(dateStr).toISOString().slice(0, 16);
-                };
-
-                document.getElementById('eventStartTime').value = formatDateTime(info.startStr, info.allDay);
-                document.getElementById('eventEndTime').value = formatDateTime(info.endStr, info.allDay);
-
-                document.getElementById('eventModal').style.display = 'block';
-            },
-            eventDrop: function (info) {
-                // updateEvent(info.event);
-            },
-            eventClick: function (info) {
-                if (confirm('Do you want to delete this event?')) {
-                    info.event.remove();
-                }
-            }
-        });
-
-        calendar.render();
-    }
-
-    if (document.getElementById('closeModal')) {
-
-        // Close modal functionality
-        document.getElementById('closeModal').onclick = function () {
-            document.getElementById('eventModal').style.display = 'none';
-        };
-    }
-
-    if (document.getElementById('createEventForm')) {
-
-        // Handle form submission
-        document.getElementById('createEventForm').addEventListener('submit', function (event) {
-            event.preventDefault();
-
-            const eventData = {
-                title: document.getElementById('eventTitle').value,
-                description: document.getElementById('eventDescription').value,
-                start_time: new Date(document.getElementById('eventStartTime').value).toISOString(),
-                end_time: new Date(document.getElementById('eventEndTime').value).toISOString(),
-            };
-
-            sendToServer(eventData, calendar);
-            document.getElementById('createEventForm').reset(); // Reset form fields
-            document.getElementById('eventModal').style.display = 'none';
-        });
-    }
-});
-
-
-function sendToServer(eventData, calendar) {
+    let url = eventData.event_id ? '/calendar/update-event' : '/calendar/create-event'
     $.ajax({
-        url: '/calendar/create-events',
+        url: url,
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(eventData),
@@ -254,11 +174,35 @@ if ($('#customCalendar').length > 0) {
         eventModal.show();
     }
 
+    function openEventModal(event) {
+        console.log(event);
+
+
+        document.getElementById("eventId").value = event.id || "";
+        document.getElementById("eventTitle").value = event.title || "";
+        document.getElementById("eventCategory").value = event.category || "";
+        document.getElementById("eventDescription").value = event.description || "";
+
+        // Format start & end time correctly for datetime-local input
+        document.getElementById("eventStartTime").value = event.start ? event.start.substring(0, 16) : "";
+        document.getElementById("eventEndTime").value = event.end ? event.end.substring(0, 16) : "";
+
+        document.getElementById("eventDate").value = event.start ? event.start.split('T')[0] : "";
+
+        document.getElementById("eventModalLabel").innerText = `Edit Event: ${event.title}`;
+
+        let eventModal = new bootstrap.Modal(document.getElementById("eventModal"));
+        eventModal.show();
+    }
+
+
+
     if (document.getElementById("eventForm").length > 0) {
         document.getElementById("eventForm").addEventListener("submit", function (event) {
             event.preventDefault();
 
             const eventData = {
+                event_id: document.getElementById("eventId").value,
                 title: document.getElementById("eventTitle").value,
                 category: document.getElementById("eventCategory").value,
                 description: document.getElementById("eventDescription").value,
@@ -269,7 +213,6 @@ if ($('#customCalendar').length > 0) {
 
             console.log("Event Data:", eventData);
 
-            // Send data to the server (Example)
             sendToServer(eventData);
 
             // Close modal
@@ -324,7 +267,10 @@ if ($('#customCalendar').length > 0) {
                     let eventLabel = document.createElement("div");
 
                     eventLabel.style.backgroundColor = getEventColor(event.category);
-
+                    eventLabel.addEventListener("click", function (e) {
+                        e.stopPropagation();
+                        openEventModal(event);
+                    });
                     if (eventStartDate !== eventEndDate && eventStartDate === eventDate && !renderedEvents.has(event.title)) {
                         eventLabel.classList.add("event-bar");
                         eventLabel.innerText = event.title;

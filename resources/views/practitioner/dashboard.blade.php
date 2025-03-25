@@ -176,7 +176,7 @@
 
     <script>
         let typingTimer;
-        const doneTypingInterval = 500; 
+        const doneTypingInterval = 500;
 
         $("#endorsements").on('input', function () {
             clearTimeout(typingTimer);
