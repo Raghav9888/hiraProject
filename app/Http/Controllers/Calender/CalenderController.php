@@ -108,10 +108,39 @@ class CalenderController extends Controller
         }
     }
 
-    public function updateCalendarEvent(Request $request)
+    public function upComingAppointments()
     {
+        $user = Auth::user();
+        $googleAccount = GoogleAccount::where('user_id', $user->id)->first();
 
+        if (!$googleAccount || $googleAccount->access_token == null) {
+            return;
+        }
 
+        // Get the response and extract JSON data
+        $response = $this->getGoogleCalendarEvents();
+
+        // Convert JSON response to array
+        $events = json_decode($response->getContent(), true);
+
+        // If decoding fails or error occurs, return an empty array
+        if (!is_array($events)) {
+            return ['events' => []];
+        }
+
+        $now = new \DateTime();
+        $filterEvents = array_filter($events, function ($event) use ($now) {
+            if (empty($event['start']) || empty($event['end'])) {
+                return false;
+            }
+
+            $eventStart = new \DateTime($event['start']);
+            return $eventStart >= $now;
+        });
+
+        return [
+            'events' => array_values($filterEvents),
+        ];
     }
 
 
