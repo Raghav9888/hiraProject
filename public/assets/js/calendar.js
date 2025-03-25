@@ -158,63 +158,6 @@ function upComingAppointments() {
     });
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-    var calendarEl = document.getElementById('booking_calendar');
-    if (calendarEl) {
-
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
-            selectable: true,
-            fixedWeekCount: true,
-            dateClick: function (info) {
-                if (info.dateStr < new Date().toISOString().slice(0, 10)) {
-                    alert('You cannot book for past dates');
-                    return;
-                }
-
-                var selectedDate = info.dateStr;
-                // fetchTimeSlots(selectedDate);
-            }
-        });
-        calendar.render();
-    }
-});
-
-
-fetchTimeSlots = (selectedDate) => {
-    id = $('.product_id').val();
-
-    $.ajax({
-        url: `/calendar/time-slots/${selectedDate}/${id}`,
-        type: 'GET',
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        success: function (response) {
-            console.log(response);
-            $('.booking_date').val(selectedDate);
-
-            let options = '<option value="">Select a Time Slot</option>';
-            response.availableSlots.forEach(slot => {
-                options += `<option value="${slot}">${slot}</option>`;
-            });
-
-            let selectHtml = `
-                <label for="time_slot">Choose a Time Slot:</label>
-                <select id="time_slot" name="booking_time" class="form-control">
-                    ${options}
-                </select>
-            `;
-
-            $('#showTimeSlot').html(selectHtml);
-        },
-        error: function (xhr) {
-            console.log(xhr);
-        }
-    });
-};
-
-
 $(document).ready(function () {
     $(document).on('click', '[data-type="hide"]', function () {
 
@@ -301,6 +244,7 @@ if ($('#customCalendar').length > 0) {
 
         document.getElementById("monthLabel").parentElement.appendChild(yearDropdown);
     }
+
     function getEventCreateForm(eventDate) {
         document.getElementById("eventDate").value = eventDate;
         document.getElementById("eventModalLabel").innerText = `Create Event for ${eventDate}`;
@@ -310,30 +254,29 @@ if ($('#customCalendar').length > 0) {
         eventModal.show();
     }
 
+    if (document.getElementById("eventForm").length > 0) {
+        document.getElementById("eventForm").addEventListener("submit", function (event) {
+            event.preventDefault();
 
-    document.getElementById("eventForm").addEventListener("submit", function (event) {
-        event.preventDefault();
+            const eventData = {
+                title: document.getElementById("eventTitle").value,
+                category: document.getElementById("eventCategory").value,
+                description: document.getElementById("eventDescription").value,
+                start: document.getElementById("eventStartTime").value,
+                end: document.getElementById("eventEndTime").value,
+                date: document.getElementById("eventDate").value
+            };
 
-        const eventData = {
-            title: document.getElementById("eventTitle").value,
-            category: document.getElementById("eventCategory").value,
-            description: document.getElementById("eventDescription").value,
-            start: document.getElementById("eventStartTime").value,
-            end: document.getElementById("eventEndTime").value,
-            date: document.getElementById("eventDate").value
-        };
+            console.log("Event Data:", eventData);
 
-        console.log("Event Data:", eventData);
+            // Send data to the server (Example)
+            sendToServer(eventData);
 
-        // Send data to the server (Example)
-        sendToServer(eventData);
-
-        // Close modal
-        let eventModal = bootstrap.Modal.getInstance(document.getElementById("eventModal"));
-        eventModal.hide();
-    });
-
-
+            // Close modal
+            let eventModal = bootstrap.Modal.getInstance(document.getElementById("eventModal"));
+            eventModal.hide();
+        });
+    }
 
     function generateCalendar(month, year) {
         const calendarGrid = document.getElementById("calendarGrid");
