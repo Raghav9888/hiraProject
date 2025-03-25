@@ -142,8 +142,7 @@ class PractitionerController extends Controller
         ]);
     }
 
-    public
-    function updateProfile(Request $request)
+    public function updateProfile(Request $request)
     {
         $input = $request->all();
         $id = $input['id'];
@@ -226,8 +225,7 @@ class PractitionerController extends Controller
         return redirect()->back()->with('success', 'Profile updated successfully');
     }
 
-    public
-    function discount()
+    public function discount()
     {
         $user = Auth::user();
         $userDetails = $user->userDetail;
@@ -235,33 +233,30 @@ class PractitionerController extends Controller
         return view('practitioner.discount', compact('user', 'userDetails'));
     }
 
-    public
-    function appointment()
+    public function appointment()
     {
         $user = Auth::user();
         $userDetails = $user->userDetail;
+        $appointments = $user->appointments;
 
         return view('practitioner.appoinement', compact('user', 'userDetails'));
     }
 
-    public
-    function earning()
+    public function earning()
     {
         $user = Auth::user();
         $userDetails = $user->userDetail;
         return view('practitioner.earning', compact('user', 'userDetails'));
     }
 
-    public
-    function refundRequest()
+    public function refundRequest()
     {
         $user = Auth::user();
         $userDetails = $user->userDetail;
         return view('practitioner.refund_request', compact('user', 'userDetails'));
     }
 
-    public
-    function updateClientPolicy(Request $request)
+    public function updateClientPolicy(Request $request)
     {
         $input = $request->all();
         $id = $input['id'];
@@ -276,8 +271,7 @@ class PractitionerController extends Controller
     }
 
 
-    public
-    function accounting(Request $request)
+    public function accounting(Request $request)
     {
         $user = Auth::user();
         $userDetails = $user->userDetail;
@@ -285,8 +279,7 @@ class PractitionerController extends Controller
     }
 
 
-    public
-    function add_term(Request $request)
+    public function add_term(Request $request)
     {
 
         $type = $request->type;
@@ -300,8 +293,7 @@ class PractitionerController extends Controller
         return response()->json(['success' => false, 'message' => 'Invalid request']);
     }
 
-    public
-    function save_term(Request $request)
+    public function save_term(Request $request)
     {
 
         $user = Auth::user();
@@ -367,8 +359,7 @@ class PractitionerController extends Controller
         return response()->json(['success' => false, 'message' => 'Invalid request']);
     }
 
-    public
-    function deleteImage(Request $request)
+    public function deleteImage(Request $request)
     {
         $user_id = $request->user_id;
         $image = $request->image;
@@ -434,8 +425,7 @@ class PractitionerController extends Controller
 
     }
 
-    public
-    function membership(Request $request)
+    public function membership(Request $request)
     {
         $user = Auth::user();
         $membership = MemberShip::where('user_id', $user->id)->first();
@@ -457,15 +447,13 @@ class PractitionerController extends Controller
         ]);
     }
 
-    public
-    function storeMembership(Request $request)
+    public function storeMembership(Request $request)
     {
         $inputs = $request->all();
         dd($inputs);
     }
 
-    public
-    function community()
+    public function community()
     {
         $user = Auth::user();
         $userDetails = $user->userDetail;
@@ -473,16 +461,14 @@ class PractitionerController extends Controller
     }
 
 
-    public
-    function help()
+    public function help()
     {
         $user = Auth::user();
         $userDetails = $user->userDetail;
         return view('practitioner.help', compact('user', 'userDetails'));
     }
 
-    public
-    function membershipPersonalInformation(Request $request)
+    public function membershipPersonalInformation(Request $request)
     {
         $user = Auth::user();
         $userId = $user->id;
@@ -515,8 +501,7 @@ class PractitionerController extends Controller
     }
 
 
-    public
-    function professionalServiceInformation(Request $request)
+    public function professionalServiceInformation(Request $request)
     {
         $user = Auth::user();
         $userId = $user->id;
@@ -576,8 +561,7 @@ class PractitionerController extends Controller
     }
 
 
-    public
-    function communityEngagement(Request $request)
+    public function communityEngagement(Request $request)
     {
 
         $user = Auth::user();

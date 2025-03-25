@@ -106,12 +106,17 @@ class GoogleCalendarController extends Controller
 
     public function createEvent(Request $request)
     {
+
         // Validate request data
         $request->validate([
             'title' => 'required|string',
-            'start_time' => 'required|date',
-            'end_time' => 'required|date|after:start_time',
+            'category' => 'required|string',
+            'description' => 'nullable|string',
+            'start' => 'required|date',
+            'end' => 'required|date|after:start_time',
+            'date' => 'required|date',
         ]);
+
 
         // Retrieve authenticated user's Google token
         $user = Auth::user();
@@ -142,15 +147,23 @@ class GoogleCalendarController extends Controller
         // Create Event
         $event = new Google_Service_Calendar_Event([
             'summary' => $request->title,
+            'description' => $request->description,
             'start' => [
-                'dateTime' => date('c', strtotime($request->start_time)),
-                'timeZone' => 'Asia/Kolkata',
+                'dateTime' => date('c', strtotime($request->start)),
+                'timeZone' => 'America/Vancouver',
             ],
             'end' => [
-                'dateTime' => date('c', strtotime($request->end_time)),
-                'timeZone' => 'Asia/Kolkata',
+                'dateTime' => date('c', strtotime($request->end)),
+                'timeZone' => 'America/Vancouver',
+
+            ],
+            'extendedProperties' => [
+                'private' => [
+                    'category' => $request->category,
+                ]
             ],
         ]);
+
 
         try {
             $calendarService->events->insert('primary', $event);

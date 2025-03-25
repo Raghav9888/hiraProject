@@ -207,6 +207,9 @@
         </div>
     </section>
 
+
+    @include('practitioner.event_form')
+
     <script>
         let typingTimer;
         const doneTypingInterval = 500; // Adjust delay time as needed

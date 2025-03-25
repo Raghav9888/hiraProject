@@ -79,4 +79,7 @@
             </div>
         </div>
     </section>
+
+    @include('practitioner.event_form')
+
 @endsection

@@ -22,7 +22,7 @@
                         <div class="mb-3 col-md-6">
                             <label for="last-name" class="form-label">Last name <span
                                     class="text-danger">*</span></label>
-                            <input type="text" name="last_name" required class="form-control" id="last-name" placeholder="Kumar">
+                            <input type="text" name="last_name" class="form-control" id="last-name" placeholder="Kumar">
                         </div>
                     </div>
                         <div class="mb-3">
@@ -89,7 +89,7 @@
                             <tr>
                                 <td>
                                     <div class="d-flex align-items-center">
-                                       
+
                                         <div>
                                             <p class="mb-0">{{$product->name}}</p>
                                             <p class="mb-0 text-muted small"><span>Booking Date:</span> {{ \Carbon\Carbon::parse($booking['booking_date'])->format('F j, Y') }}</p>
@@ -108,7 +108,7 @@
                             $taxAmount = 0;
                             ?>
                             @if($product->tax_amount)
-                            <?php 
+                            <?php
                              $taxPercentage = $product->tax_amount; // Assuming this is stored in the vendor model
                              $taxAmount = $product->client_price * ($taxPercentage / 100);
                              ?>
@@ -159,7 +159,7 @@
             card: card
         }).then(function (result) {
             if (result.error) {
-                alert(result.error.message);                
+                alert(result.error.message);
             } else {
                 var formData = $("#payment-form").serializeArray();
                 formData.push({ name: "payment_method", value: result.paymentMethod.id });

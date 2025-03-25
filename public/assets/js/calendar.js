@@ -92,8 +92,8 @@ function sendToServer(eventData, calendar) {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         success: function (response) {
-            calendar.addEvent(eventData);
-            calendar.refetchEvents();
+
+            fetchEvents()
             alert('Event created successfully');
         },
         error: function (xhr) {
@@ -234,6 +234,21 @@ if ($('#customCalendar').length > 0) {
 
     let events = [];
 
+    // Helper function to get color based on event type
+    function getEventColor(category) {
+        console.log(category)
+        switch (category) {
+            case 'Booking':
+                return '#BA9B8B';
+            case 'Community Events':
+                return '#D8977A';
+            case 'Meetings':
+                return '#AED8B9';
+            default:
+                return '#E9DCCF';
+        }
+    }
+
     function fetchEvents() {
         $.ajax({
             url: '/calendar/events',
@@ -286,6 +301,39 @@ if ($('#customCalendar').length > 0) {
 
         document.getElementById("monthLabel").parentElement.appendChild(yearDropdown);
     }
+    function getEventCreateForm(eventDate) {
+        document.getElementById("eventDate").value = eventDate;
+        document.getElementById("eventModalLabel").innerText = `Create Event for ${eventDate}`;
+
+        // Show Bootstrap modal
+        let eventModal = new bootstrap.Modal(document.getElementById("eventModal"));
+        eventModal.show();
+    }
+
+
+    document.getElementById("eventForm").addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const eventData = {
+            title: document.getElementById("eventTitle").value,
+            category: document.getElementById("eventCategory").value,
+            description: document.getElementById("eventDescription").value,
+            start: document.getElementById("eventStartTime").value,
+            end: document.getElementById("eventEndTime").value,
+            date: document.getElementById("eventDate").value
+        };
+
+        console.log("Event Data:", eventData);
+
+        // Send data to the server (Example)
+        sendToServer(eventData);
+
+        // Close modal
+        let eventModal = bootstrap.Modal.getInstance(document.getElementById("eventModal"));
+        eventModal.hide();
+    });
+
+
 
     function generateCalendar(month, year) {
         const calendarGrid = document.getElementById("calendarGrid");
@@ -332,12 +380,13 @@ if ($('#customCalendar').length > 0) {
 
                     let eventLabel = document.createElement("div");
 
+                    eventLabel.style.backgroundColor = getEventColor(event.category);
+
                     if (eventStartDate !== eventEndDate && eventStartDate === eventDate && !renderedEvents.has(event.title)) {
                         eventLabel.classList.add("event-bar");
                         eventLabel.innerText = event.title;
 
                         // Calculate width based on number of days
-                        // Styling for multi-day events
                         let calendarCellWidth = document.querySelector(".calendar-cell").offsetWidth;
                         eventLabel.style.width = (calendarCellWidth * eventDays) + "px";
                         eventLabel.style.position = "absolute";
@@ -345,7 +394,6 @@ if ($('#customCalendar').length > 0) {
                         eventLabel.style.zIndex = "1";
                         eventLabel.style.top = "0";
                         eventLabel.style.right = "0";
-
 
                         renderedEvents.add(event.title);
                     } else if (eventStartDate === eventEndDate || eventStartDate === eventDate) {
@@ -356,18 +404,18 @@ if ($('#customCalendar').length > 0) {
                         eventLabel.innerHTML = `<input type='radio' name='event-${eventDate}'/> ${event.title}`;
                     }
 
-                    // Append only on the first occurrence
+                    // Append only on the first occurrence of the event on that day
                     if (eventStartDate === eventDate) {
                         dayCell.appendChild(eventLabel);
                     }
                 });
             }
 
-
             dayCell.addEventListener("click", function () {
                 document.querySelectorAll(".calendar-cell.active").forEach(cell => cell.classList.remove("active"));
                 dayCell.classList.add("active");
                 selectedDate = day;
+                getEventCreateForm(eventDate);
             });
 
             calendarGrid.appendChild(dayCell);
@@ -401,3 +449,4 @@ if ($('#customCalendar').length > 0) {
     updateMonthLabel();
     fetchEvents();
 }
+
