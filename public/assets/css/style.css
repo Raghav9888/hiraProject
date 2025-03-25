@@ -1060,6 +1060,21 @@ h4.container-title {
 .upcoming-event-container  .swiper-button-prev-event {
     left: -75px;
 }
+.membership-plans p {
+    text-align: left !important;
+    margin-bottom: 11px !important;
+}
+.membership-plans .card {
+    border-radius: 17px;
+}
+.membership-plans button {
+    border-radius: 10px;
+    padding: 3px 20px;
+    background-color: #424E3E;
+    list-style-type: none;
+    color: #fff;
+    border: none;
+}
 .upcoming-event-container > h4 {
     color: #424E3E;
     font-weight: bolder;

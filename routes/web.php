@@ -16,6 +16,7 @@ use App\Http\Controllers\Practitioner\OfferingController;
 use App\Http\Controllers\Practitioner\PaymentController;
 use App\Http\Controllers\Practitioner\PractitionerController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\StripeWebhookController;
 use App\Http\Controllers\WordpressUserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -24,6 +25,7 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::post('/reset-password', [ForgotPasswordController::class, 'sendResetLink'])->name('send.resetLink');
+Route::post('/stripe/webhook', [StripeWebhookController::class, 'handleWebhook']);
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/pending/user', [HomeController::class, 'pendingUser'])->name('pendingUserRequest');
@@ -85,6 +87,7 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::get('/dashboard', [PractitionerController::class, 'dashboard'])->name('dashboard');
     Route::get('/community', [PractitionerController::class, 'community'])->name('community');
     Route::get('/my-membership', [PractitionerController::class, 'membership'])->name('my_membership');
+    Route::post('/membership-buy', [PractitionerController::class, 'membershipBuy'])->name('membership.buy');
     Route::get('/store/membership', [PractitionerController::class, 'storeMembership'])->name('store_membership');
     Route::post('/term/add', [PractitionerController::class, 'add_term'])->name('add_term');
     Route::post('/term/save', [PractitionerController::class, 'save_term'])->name('save_term');

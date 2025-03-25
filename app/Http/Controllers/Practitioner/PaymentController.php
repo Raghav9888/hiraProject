@@ -123,6 +123,12 @@ class PaymentController extends Controller
              session()->forget('booking');
              session()->forget('billing');
              $url = $this->processStripePayment($order->id);
+             if(!$url){
+                return response()->json([
+                    "success" => false,
+                    "data" => "Practitioner does not link there stripe account",
+                ], 200);
+             }
              return response()->json([
                  "success" => true,
                  "data" => $url,
@@ -149,6 +155,9 @@ class PaymentController extends Controller
         $order = Booking::findOrFail($orderId);
         $vendorId = $order->offering->user_id;
         $vendorStripe = UserStripeSetting::where("user_id", $vendorId)->first();
+        if(!$vendorStripe && !$vendorStripe->stripe_user_id){
+            return false;
+        }
         // Stripe Checkout Session
         $session = StripeSession::create([
             'payment_method_types' => ['card'],

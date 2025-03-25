@@ -50,9 +50,9 @@
                                     <div class="form-group">
                                         <label for="exampleInputName1">Billing Interval</label>
                                         <select class="form-control" name="interval">
-                                            <option value="month">Monthly</option>
                                             <option value="year">Yearly</option>
                                             <option value="two_years">Two-Yearly</option>
+                                            <option value="twenty_five_years">Two-Yearly</option>
                                         </select>
                                         @error('interval')
                                             <span class="text-danger">{{ $message }}</span>

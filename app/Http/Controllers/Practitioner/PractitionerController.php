@@ -16,10 +16,12 @@ use App\Models\User;
 use App\Models\UserDetail;
 use App\Models\UserStripeSetting;
 use App\Models\Certifications;
+use App\Models\Plan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-
+use Stripe\Checkout\Session;
+use Stripe\Stripe;
 
 class PractitionerController extends Controller
 {
@@ -448,13 +450,63 @@ class PractitionerController extends Controller
         $images = isset($membership->certificates_images) && $membership->certificates_images ? json_decode($membership->certificates_images, true) : [];
 
         $membershipModality = MembershipModality::all();
+        $userPlan = null;
+        if($user->subscribed('default')){
+            $planId = $user->subscription('default')->plan_id;
+            $userPlan = Plan::find($planId);
+        }
+        $plans = Plan::latest()->get();
         return view('practitioner.membership', [
             'user' => $user,
             'membership' => $membership,
             'defaultLocations' => $locations,
             'mediaImages' => $images,
-            'membershipModality' => $membershipModality
+            'membershipModality' => $membershipModality,
+            'plans' => $plans,
+            'userPlan' => $userPlan
         ]);
+    }
+
+    public function membershipBuy(Request $request)
+    {
+        $user = auth()->user();
+        $planId = $request->plan_id;
+        $plan = Plan::findOrFail($planId);
+        try {
+            if (!$user->hasStripeId()) {
+                $user->createAsStripeCustomer();
+            }
+            // Set Stripe API Key
+            Stripe::setApiKey(env('STRIPE_SECRET'));
+
+            // Create a Stripe Checkout session
+            $session = Session::create([
+                'payment_method_types' => ['card'],
+                'mode' => 'subscription',
+                'allow_promotion_codes' => true,
+                'customer' => $user->stripe_id ?? null, // If user has a Stripe ID, use it
+                'line_items' => [[
+                    'price' => $plan->stripe_price_id,
+                    'quantity' => 1,
+                    'tax_rates' => [$plan->stripe_tax_rate_id],
+                ]],
+                'metadata' => [
+                    'user_id' => $user->id,  // Store user ID
+                    'plan_id' => $plan->id,  // Store plan ID
+                    'price_id' => $plan->stripe_price_id,  // Store price ID
+                ],
+                'success_url' => route('my_membership') . '?session_id={CHECKOUT_SESSION_ID}',
+                'cancel_url' => route('my_membership'),
+            ]);
+
+            // Redirect to the Stripe checkout page
+            return redirect()->away($session->url);
+        } catch (\Throwable $th) {
+            dd($th->getMessage());
+            return redirect()->back()->with('error', 'Something went wrong: ' . $th->getMessage());
+
+        }
+         
     }
 
     public

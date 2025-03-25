@@ -23,5 +23,9 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
         Paginator::useBootstrap();
+        \Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::except([
+            '/stripe/webhook'
+        ]);
+        
     }
 }

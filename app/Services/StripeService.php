@@ -17,8 +17,12 @@ class StripeService
     public function createPlan($name, $price, $interval)
     {
        // Convert custom intervals to Stripe-compatible format
-        $stripeInterval = $interval === 'two_years' ? ['interval' => 'year', 'interval_count' => 2] : ['interval' => $interval];
-
+        // $stripeInterval = $interval === 'two_years' ? ['interval' => 'year', 'interval_count' => 2] : ['interval' => $interval];
+        $stripeInterval = match ($interval) {
+            'two_years' => ['interval' => 'year', 'interval_count' => 2], // 2 years
+            'twenty_five_years' => ['interval' => 'month', 'interval_count' => 300], // 25 years (300 months)
+            default => ['interval' => $interval], // 1 year or other valid intervals
+        };
         // Create a Product
         $product = Product::create([
             'name' => $name,

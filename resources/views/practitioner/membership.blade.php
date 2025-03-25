@@ -124,36 +124,56 @@
                                  aria-labelledby="profile-tab" tabindex="0">
 
                                 <div class="container mt-5">
+                                    @if($user->subscribed('default'))
                                     <form>
                                         <div class="mb-4">
-                                            <label class="form-label fw-bold">Membership Start Date:</label>
+                                            <label class="form-label ">Membership Start Date: <span class="fw-bold">{{date('M d, Y', strtotime($user->subscription('default')->created_at))}}</span></label>
                                         </div>
 
                                         <div class="mb-4">
-                                            <label class="form-label fw-bold">Membership Type:</label>
+                                            <label class="form-label ">Membership Type: <span class="fw-bold">{{$userPlan? $userPlan->name: null}}</span></label>
                                         </div>
 
                                         <div class="mb-4">
-                                            <label class="form-label fw-bold">Payment Status:</label>
+                                            <label class="form-label ">Payment Status: <span class="fw-bold">{{$user->subscription('default')->stripe_status === 'active'? "Paid": "Unpaid"}}</span></label>
                                         </div>
 
                                         <div class="mb-4">
-                                            <label class="form-label fw-bold">Subscription Status:</label>
+                                            <label class="form-label ">Subscription Status: <span class="fw-bold">{{$user->subscription('default')->stripe_status}}</span></label>
                                         </div>
 
                                         <div class="mb-4">
-                                            <label class="form-label fw-bold">Renewal Date:</label>
+                                            <label class="form-label ">Renewal Date: <span class="fw-bold">{{date('M d, Y', strtotime($user->subscription('default')->ends_at))}}</span></label>
                                         </div>
 
-                                        <div class="mb-4">
-                                            <label class="form-label fw-bold">Cancellation Date:</label>
+                                        {{-- <div class="mb-4">
+                                            <label class="form-label ">Cancellation Date:</label>
                                         </div>
 
                                         <div class="mb-4">
                                             <label class="form-label fw-bold">Cancellation Reason:</label>
-                                        </div>
+                                        </div> --}}
 
                                     </form>
+                                    @else
+                                    <div class="row membership-plans">
+                                        @forEach($plans as $p)
+                                        <div class="col-md-3">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <form action="{{route('membership.buy')}}" method="POST">
+                                                        @csrf
+                                                        <h4>{{$p->name}}</h4>
+                                                        <p>${{$p->price}} (+{{$p->tax_percentage}}% Tax) /{{$p->interval}}</p>
+                                                        <input type="hidden" name="plan_id" value="{{$p->id}}">
+                                                        <button type="submit">Buy Now</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @endforeach
+                                    </div>
+                                    @endif
                                 </div>
 
                             </div>
