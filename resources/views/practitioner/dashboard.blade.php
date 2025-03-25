@@ -53,7 +53,7 @@
                     <h5 class="practitioner-profile-text mb-2">Upcoming <span
                             style="font-weight: 800;">appointments</span></h5>
                 </div>
-                <div class="col-12" id="upcomingAppointmentsDiv">
+                <div class="row" id="upcomingAppointmentsDiv">
                     {{-- We show the data by ajax --}}
                     <div class="col-sm-12 my-4 text-center">
                         loading...
