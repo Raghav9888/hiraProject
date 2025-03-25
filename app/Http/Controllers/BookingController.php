@@ -16,12 +16,12 @@ class BookingController extends Controller
 {
 
     public function storeBooking(Request $request)
-    {    
+    {
         $request->validate([
             'offering_id' => 'required|exists:offerings,id',
             'booking_date' => 'required|date',
             'booking_time' => 'required'
-        ]); 
+        ]);
 
         session([
             'booking' => [
@@ -34,7 +34,7 @@ class BookingController extends Controller
         $bookingTime = $request->booking_time;
         $offering = Offering::find($request->offering_id);
 
-        
+
         return response()->json([
             "success" => true,
             "data" => "Booking saved in session!",
@@ -44,7 +44,7 @@ class BookingController extends Controller
     }
 
     public function preCheckout(Request $request)
-    {    
+    {
         session([
             'billing' => [
                 'first_name' => $request->first_name,
@@ -60,7 +60,7 @@ class BookingController extends Controller
             ]
         ]);
 
-        $booking = session('booking');  
+        $booking = session('booking');
         if (!$booking) {
             return response()->json([
                 "success" => false,
@@ -79,14 +79,14 @@ class BookingController extends Controller
 
 
     public function preCheckoutRegister(Request $request)
-    {  
+    {
         $user = User::create([
             'name' => $request->first_name. ' ' . $request->last_name,
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->billing_email,
-//            role 0 = pending, role 1 = practitioner, role 2 = Admin
-            'role' => 1,
+//            role 0 = pending, role 1 = practitioner, role 2 = Admin , role 3 = User
+            'role' => 3,
             //  default status  0 = Inactive, status 1 = Active, status 2 = pending,
             'status' => 2,
             'password' => Hash::make("P@ssw0rd"),
@@ -124,7 +124,7 @@ class BookingController extends Controller
             ]
         ]);
 
-        $booking = session('booking');  
+        $booking = session('booking');
         if (!$booking) {
             return response()->json([
                 "success" => false,
@@ -142,15 +142,15 @@ class BookingController extends Controller
 
     public function checkout()
     {
-        $booking = session('booking');  
-        
+        $booking = session('booking');
+
 
         if (!$booking) {
             return redirect()->route('home')->with('error', 'No booking details found.');
         }
 
         $product = Offering::findOrFail($booking['offering_id']);
-        
+
 
         return view('checkout', compact('booking', 'product'));
     }

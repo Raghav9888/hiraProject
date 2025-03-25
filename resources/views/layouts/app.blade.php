@@ -9,82 +9,47 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'thehiracollective') }}</title>
-    <link rel="icon" type="image/x-icon" href="{{ asset('assets/images/header-logo.svg') }}">
-
+    <link rel="icon" type="image/x-icon" href="{{ url('./assets/images/header-logo.svg') }}">
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
+
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
-
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Swiper -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
-    <!-- FullCalendar -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
 
-    <!-- Custom Styles -->
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/calendar.css') }}">
-
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-
-    <!-- jQuery -->
+    <!-- Scripts -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
-    <!-- Select2 -->
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
-    <!-- Owl Carousel -->
     <link rel="stylesheet" href="{{ asset('assets/plugin/OwlCarousel2-2.3.4/dist/assets/owl.theme.default.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugin/OwlCarousel2-2.3.4/dist/assets/owl.carousel.css') }}">
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.css"/>
+    <!-- Add the slick-theme.css if you want default styling -->
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick-theme.css"/>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.min.js"></script>
     <script src="{{ asset('assets/plugin/OwlCarousel2-2.3.4/dist/owl.carousel.js') }}"></script>
-
-    <!-- Slick Carousel -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.css"/>
-    <link rel="stylesheet" type="text/css"
-          href="https://cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick-theme.css"/>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.min.js"></script>
+    {{--    @vite(['resources/sass/app.scss', 'resources/js/app.js'])--}}
 </head>
-
 <body>
 @include('layouts.header')
-
 <div id="app">
     <main class="">
         @yield('content')
     </main>
 </div>
-
 @include('layouts.footer')
 @stack('custom_scripts')
+<script type="module">
 
-<script>
-    // Loader Debugging
-    document.addEventListener("DOMContentLoaded", function () {
-        let imageUrl = `{{ asset('assets/images/header-logo.svg') }}`;
-        window.loadingScreen.addPageLoading(imageUrl);
-    });
-</script>
-<script src="{{ asset('assets/js/loader.js') }}"></script>
-<script src="{{ asset('assets/js/script.js') }}"></script>
-<script src="{{ asset('assets/js/calendar.js') }}"></script>
-
-<!-- Bootbox -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/6.0.0/bootbox.min.js"></script>
-
-<script>
-    // Owl Carousel Initialization
-    $(document).ready(function () {
+    $(document).ready(function(){
         $(".owl-carousel").owlCarousel({
             items: 6,
             loop: true,
@@ -94,42 +59,63 @@
             nav: true,
             dots: true,
             responsive: {
-                0: {items: 1},
-                600: {items: 2},
-                1000: {items: 6}
+                0: {
+                    items: 1
+                },
+                600: {
+                    items: 2
+                },
+                1000: {
+                    items: 6
+                }
             }
         });
 
-        // Manual Navigation Fix
-        $(".owl-prev").click(function () {
+        // Ensure manual click on navigation arrows works
+        $(".owl-prev").click(function() {
             $(".owl-carousel").trigger('prev.owl.carousel');
         });
-        $(".owl-next").click(function () {
+
+        $(".owl-next").click(function() {
             $(".owl-carousel").trigger('next.owl.carousel');
         });
-
-        // Select2 Initialization
-        $(".select2").select2();
     });
 
-    // Timezone Dropdown Initialization
-    document.addEventListener("DOMContentLoaded", function () {
+
+
+    $(".select2").select2({
+        /* maximumSelectionLength: 2 */
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
         const select = document.getElementById("timezone");
-        if (select) {
-            const timezones = Intl.supportedValuesOf("timeZone");
+        const timezones = Intl.supportedValuesOf("timeZone"); // Get all supported timezones
+
+        if(select){
             timezones.forEach(zone => {
                 let option = document.createElement("option");
                 option.value = zone;
                 option.textContent = zone;
                 select.appendChild(option);
             });
+            // Auto-select user's timezone
             select.value = Intl.DateTimeFormat().resolvedOptions().timeZone;
         }
     });
 
 
 </script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        window.loadingScreen.addPageLoading();
+    });
+</script>
 
+<script  src="{{ asset('assets/js/loader.js') }}"></script>
+<script  src="{{ asset('assets/js/script.js') }}"></script>
+<script src="{{ asset('assets/js/calendar.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/6.0.0/bootbox.min.js" integrity="sha512-oVbWSv2O4y1UzvExJMHaHcaib4wsBMS5tEP3/YkMP6GmkwRJAa79Jwsv+Y/w7w2Vb/98/Xhvck10LyJweB8Jsw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         window.loadingScreen.removeLoading();

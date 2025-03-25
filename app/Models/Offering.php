@@ -52,4 +52,9 @@ class Offering extends Model
         return $this->hasOne(Event::class, 'offering_id', 'id');
     }
 
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
+    }
+
 }

@@ -1,90 +1,10 @@
 console.log('calendar.js');
-document.addEventListener('DOMContentLoaded', function () {
-    let calendarEl = document.getElementById('calendar');
 
-    if (calendarEl) {
+function sendToServer(eventData) {
 
-        let calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
-            editable: true,
-            selectable: true,
-            dayMaxEvents: true,
-            events: function (info, successCallback, failureCallback) {
-                $.ajax({
-                    url: '/calendar/events',
-                    type: 'GET',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    success: function (response) {
-                        if (response.error) {
-                            window.location.href = response.redirect_url;
-                        } else {
-                            successCallback(response);
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        console.error("Error fetching events:", status, error);
-                        failureCallback(error);
-                    }
-                });
-            },
-            select: function (info) {
-                console.log(info);
-                const formatDateTime = (dateStr, allDay) => {
-                    return allDay ? `${dateStr}T00:00` : new Date(dateStr).toISOString().slice(0, 16);
-                };
-
-                document.getElementById('eventStartTime').value = formatDateTime(info.startStr, info.allDay);
-                document.getElementById('eventEndTime').value = formatDateTime(info.endStr, info.allDay);
-
-                document.getElementById('eventModal').style.display = 'block';
-            },
-            eventDrop: function (info) {
-                // updateEvent(info.event);
-            },
-            eventClick: function (info) {
-                if (confirm('Do you want to delete this event?')) {
-                    info.event.remove();
-                }
-            }
-        });
-
-        calendar.render();
-    }
-
-    if (document.getElementById('closeModal')) {
-
-        // Close modal functionality
-        document.getElementById('closeModal').onclick = function () {
-            document.getElementById('eventModal').style.display = 'none';
-        };
-    }
-
-    if (document.getElementById('createEventForm')) {
-
-        // Handle form submission
-        document.getElementById('createEventForm').addEventListener('submit', function (event) {
-            event.preventDefault();
-
-            const eventData = {
-                title: document.getElementById('eventTitle').value,
-                description: document.getElementById('eventDescription').value,
-                start_time: new Date(document.getElementById('eventStartTime').value).toISOString(),
-                end_time: new Date(document.getElementById('eventEndTime').value).toISOString(),
-            };
-
-            sendToServer(eventData, calendar);
-            document.getElementById('createEventForm').reset(); // Reset form fields
-            document.getElementById('eventModal').style.display = 'none';
-        });
-    }
-});
-
-
-function sendToServer(eventData, calendar) {
+    let url = eventData.event_id ? '/calendar/update-event' : '/calendar/create-event'
     $.ajax({
-        url: '/calendar/create-events',
+        url: url,
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(eventData),
@@ -92,8 +12,8 @@ function sendToServer(eventData, calendar) {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         success: function (response) {
-            calendar.addEvent(eventData);
-            calendar.refetchEvents();
+
+            fetchEvents()
             alert('Event created successfully');
         },
         error: function (xhr) {
@@ -158,63 +78,6 @@ function upComingAppointments() {
     });
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-    var calendarEl = document.getElementById('booking_calendar');
-    if (calendarEl) {
-
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
-            selectable: true,
-            fixedWeekCount: true,
-            dateClick: function (info) {
-                if (info.dateStr < new Date().toISOString().slice(0, 10)) {
-                    alert('You cannot book for past dates');
-                    return;
-                }
-
-                var selectedDate = info.dateStr;
-                // fetchTimeSlots(selectedDate);
-            }
-        });
-        calendar.render();
-    }
-});
-
-
-fetchTimeSlots = (selectedDate) => {
-    id = $('.product_id').val();
-
-    $.ajax({
-        url: `/calendar/time-slots/${selectedDate}/${id}`,
-        type: 'GET',
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        success: function (response) {
-            console.log(response);
-            $('.booking_date').val(selectedDate);
-
-            let options = '<option value="">Select a Time Slot</option>';
-            response.availableSlots.forEach(slot => {
-                options += `<option value="${slot}">${slot}</option>`;
-            });
-
-            let selectHtml = `
-                <label for="time_slot">Choose a Time Slot:</label>
-                <select id="time_slot" name="booking_time" class="form-control">
-                    ${options}
-                </select>
-            `;
-
-            $('#showTimeSlot').html(selectHtml);
-        },
-        error: function (xhr) {
-            console.log(xhr);
-        }
-    });
-};
-
-
 $(document).ready(function () {
     $(document).on('click', '[data-type="hide"]', function () {
 
@@ -233,6 +96,21 @@ if ($('#customCalendar').length > 0) {
     let selectedDate = currentDate.getDate();
 
     let events = [];
+
+    // Helper function to get color based on event type
+    function getEventColor(category) {
+        console.log(category)
+        switch (category) {
+            case 'Booking':
+                return '#BA9B8B';
+            case 'Community Events':
+                return '#D8977A';
+            case 'Meetings':
+                return '#AED8B9';
+            default:
+                return '#E9DCCF';
+        }
+    }
 
     function fetchEvents() {
         $.ajax({
@@ -287,6 +165,62 @@ if ($('#customCalendar').length > 0) {
         document.getElementById("monthLabel").parentElement.appendChild(yearDropdown);
     }
 
+    function getEventCreateForm(eventDate) {
+        document.getElementById("eventDate").value = eventDate;
+        document.getElementById("eventModalLabel").innerText = `Create Event for ${eventDate}`;
+
+        // Show Bootstrap modal
+        let eventModal = new bootstrap.Modal(document.getElementById("eventModal"));
+        eventModal.show();
+    }
+
+    function openEventModal(event) {
+        console.log(event);
+
+
+        document.getElementById("eventId").value = event.id || "";
+        document.getElementById("eventTitle").value = event.title || "";
+        document.getElementById("eventCategory").value = event.category || "";
+        document.getElementById("eventDescription").value = event.description || "";
+
+        // Format start & end time correctly for datetime-local input
+        document.getElementById("eventStartTime").value = event.start ? event.start.substring(0, 16) : "";
+        document.getElementById("eventEndTime").value = event.end ? event.end.substring(0, 16) : "";
+
+        document.getElementById("eventDate").value = event.start ? event.start.split('T')[0] : "";
+
+        document.getElementById("eventModalLabel").innerText = `Edit Event: ${event.title}`;
+
+        let eventModal = new bootstrap.Modal(document.getElementById("eventModal"));
+        eventModal.show();
+    }
+
+
+
+    if (document.getElementById("eventForm").length > 0) {
+        document.getElementById("eventForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const eventData = {
+                event_id: document.getElementById("eventId").value,
+                title: document.getElementById("eventTitle").value,
+                category: document.getElementById("eventCategory").value,
+                description: document.getElementById("eventDescription").value,
+                start: document.getElementById("eventStartTime").value,
+                end: document.getElementById("eventEndTime").value,
+                date: document.getElementById("eventDate").value
+            };
+
+            console.log("Event Data:", eventData);
+
+            sendToServer(eventData);
+
+            // Close modal
+            let eventModal = bootstrap.Modal.getInstance(document.getElementById("eventModal"));
+            eventModal.hide();
+        });
+    }
+
     function generateCalendar(month, year) {
         const calendarGrid = document.getElementById("calendarGrid");
         calendarGrid.innerHTML = "";
@@ -332,12 +266,16 @@ if ($('#customCalendar').length > 0) {
 
                     let eventLabel = document.createElement("div");
 
+                    eventLabel.style.backgroundColor = getEventColor(event.category);
+                    eventLabel.addEventListener("click", function (e) {
+                        e.stopPropagation();
+                        openEventModal(event);
+                    });
                     if (eventStartDate !== eventEndDate && eventStartDate === eventDate && !renderedEvents.has(event.title)) {
                         eventLabel.classList.add("event-bar");
                         eventLabel.innerText = event.title;
 
                         // Calculate width based on number of days
-                        // Styling for multi-day events
                         let calendarCellWidth = document.querySelector(".calendar-cell").offsetWidth;
                         eventLabel.style.width = (calendarCellWidth * eventDays) + "px";
                         eventLabel.style.position = "absolute";
@@ -345,7 +283,6 @@ if ($('#customCalendar').length > 0) {
                         eventLabel.style.zIndex = "1";
                         eventLabel.style.top = "0";
                         eventLabel.style.right = "0";
-
 
                         renderedEvents.add(event.title);
                     } else if (eventStartDate === eventEndDate || eventStartDate === eventDate) {
@@ -356,18 +293,18 @@ if ($('#customCalendar').length > 0) {
                         eventLabel.innerHTML = `<input type='radio' name='event-${eventDate}'/> ${event.title}`;
                     }
 
-                    // Append only on the first occurrence
+                    // Append only on the first occurrence of the event on that day
                     if (eventStartDate === eventDate) {
                         dayCell.appendChild(eventLabel);
                     }
                 });
             }
 
-
             dayCell.addEventListener("click", function () {
                 document.querySelectorAll(".calendar-cell.active").forEach(cell => cell.classList.remove("active"));
                 dayCell.classList.add("active");
                 selectedDate = day;
+                getEventCreateForm(eventDate);
             });
 
             calendarGrid.appendChild(dayCell);
@@ -401,3 +338,4 @@ if ($('#customCalendar').length > 0) {
     updateMonthLabel();
     fetchEvents();
 }
+

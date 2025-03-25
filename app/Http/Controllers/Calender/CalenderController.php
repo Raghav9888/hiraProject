@@ -7,9 +7,9 @@ use App\Models\GoogleAccount;
 use Exception;
 use Google_Client;
 use Google_Service_Calendar;
-use Google_Service_Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Request;
 
 class CalenderController extends Controller
 {
@@ -21,6 +21,7 @@ class CalenderController extends Controller
             'user' => $user,
         ]);
     }
+
     public function getGoogleCalendarEvents()
     {
         $user = Auth::user();
@@ -34,7 +35,7 @@ class CalenderController extends Controller
         $client->setAuthConfig(storage_path('app/google-calendar/google-calendar.json'));
         $client->setAccessToken($googleAccount->access_token);
 
-        // **If Token is Expired, Try Refreshing**
+        // Refresh token if expired
         if ($client->isAccessTokenExpired()) {
             $newToken = $client->fetchAccessTokenWithRefreshToken($googleAccount->refresh_token);
 
@@ -47,7 +48,7 @@ class CalenderController extends Controller
 
             $googleAccount->update([
                 'access_token' => $newToken['access_token'],
-                'refresh_token' => $newToken['refresh_token'] ?? $googleAccount->refresh_token, // Keep old refresh token if new one isn't provided
+                'refresh_token' => $newToken['refresh_token'] ?? $googleAccount->refresh_token,
                 'expires_at' => now()->addSeconds($newToken['expires_in'] ?? 3600),
             ]);
 
@@ -60,21 +61,52 @@ class CalenderController extends Controller
             $userEvents = [];
 
             foreach ($events->getItems() as $event) {
+                // **Check if it's a meeting**
+                $isMeeting = false;
+
+                //  Check if attendees exist (Meetings usually have attendees)
+                if (!empty($event->getAttendees())) {
+                    $isMeeting = true;
+                }
+
+                // Check if the event has a Google Meet link
+                if (!empty($event->getHangoutLink())) {
+                    $isMeeting = true;
+                }
+
+                //  Check if the title contains "Meeting"
+                if (stripos($event->getSummary(), 'Meeting') !== false) {
+                    $isMeeting = true;
+                }
+
+                //  Check if the description contains "Category: Meetings"
+                $description = $event->getDescription() ?? '';
+                if (stripos($description, 'Category: Meetings') !== false) {
+                    $isMeeting = true;
+                }
+
+                // **Assign category based on detection**
+                $category = $isMeeting ? 'Meetings' : ($event->getExtendedProperties()->private['category'] ?? 'default');
+
+                // **Store event details**
                 $userEvents[] = [
                     'id' => $event->getId(),
                     'title' => $event->getSummary(),
-                    'description' => $event->getDescription(),
+                    'description' => $description,
                     'start' => $event->getStart()->getDateTime() ?: $event->getStart()->getDate(),
                     'end' => $event->getEnd()->getDateTime() ?: $event->getEnd()->getDate(),
+                    'category' => $category,
+                    'attendees' => $event->getAttendees() ?? [],
+                    'meet_link' => $event->getHangoutLink() ?? null,
                 ];
             }
+
 
             return response()->json($userEvents);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
-
 
     public function upComingAppointments()
     {
@@ -110,6 +142,7 @@ class CalenderController extends Controller
             'events' => array_values($filterEvents),
         ];
     }
+
 
 
 
