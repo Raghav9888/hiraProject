@@ -169,7 +169,6 @@ class HomeController extends Controller
         if (!$offering) {
             return response()->json(['error' => 'Offering not found'], 404);
         }
-        dd($offering);
 
         // Ensure dates are valid
         if (empty($offering->from_date) || empty($offering->to_date)) {

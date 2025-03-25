@@ -49,7 +49,7 @@ Route::post('/storeCheckout', [PaymentController::class, 'storeCheckout'])->name
 Route::get('/payment/{order_id}', [PaymentController::class, 'showPaymentPage'])->name('payment');
 Route::post('/stripe/payment', [PaymentController::class, 'processStripePayment'])->name('stripe.payment');
 Route::get('/confirm-payment', [PaymentController::class, 'confirmPayment'])->name('confirm-payment');
-Route::get('/payment-success', [PaymentController::class, 'sucess'])->name('thankyou');
+Route::get('/payment-success', [PaymentController::class, 'success'])->name('thankyou');
 Route::get('/payment-failed', [PaymentController::class, 'failed'])->name('payment.cancel');
 Route::get('/calendar/time-slots/{date}/{id}', [HomeController::class, 'getTimeSlots'])->name('get_time_slots');
 

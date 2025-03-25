@@ -1,9 +1,11 @@
 <?php
 namespace App\Http\Controllers\Practitioner;
 
+use App\Http\Controllers\Calender\GoogleCalendarController;
 use App\Http\Controllers\Controller;
 use App\Models\Blog;
 use App\Models\Event;
+use App\Models\User;
 use App\Models\UserStripeSetting;
 use App\Models\Payment;
 use App\Models\Booking;
@@ -205,19 +207,41 @@ class PaymentController extends Controller
     {
         $order = Booking::findOrFail($request->order_id);
 
-        $payment = Payment::where("order_id", $order->id)->firstorFail();
+        $payment = Payment::where("order_id", $order->id)->firstOrFail();
         $payment->status = 'completed';
         $payment->save();
 
         // Update order status
         $order->update(['status' => 'paid']);
 
+
+        $this->createGoogleCalendarEvent($order);
+
         return redirect()->route('thankyou')->with('success', 'Payment successful!');
+    }
+
+    private function createGoogleCalendarEvent($order)
+    {
+       $offering =  Offering::where('id', $order->offering_id)->firstOrFail();
+
+        $eventData = [
+            'title' => 'Booking: ' . $order->service_name, // Customize this
+            'category' => 'Booking',
+            'description' => 'Customer: ' . $order->customer_name,
+            'start' => $order->time_slot,
+            'date' => $order->booking_date,
+        ];
+
+        $response = Http::post(route('calendar_create'), $eventData);
+        if ($response->failed()) {
+            \Log::error('Google Calendar Event Creation Failed', ['response' => $response->body()]);
+        }
     }
 
 
 
-    public function sucess(Request $request)
+
+    public function success(Request $request)
     {
 
         $input =$request->all();
