@@ -2,6 +2,8 @@
 namespace App\Http\Controllers\Practitioner;
 
 use App\Http\Controllers\Controller;
+use App\Models\Blog;
+use App\Models\Event;
 use App\Models\UserStripeSetting;
 use App\Models\Payment;
 use App\Models\Booking;
@@ -89,7 +91,7 @@ class PaymentController extends Controller
     {
         try {
             $user = auth()->user();
-     
+
              $booking = session('booking');
              $billing = session('billing');
              if (!$booking || !$billing) {
@@ -97,10 +99,10 @@ class PaymentController extends Controller
                      "success" => false,
                      "data" => "Booking session expired.",
                  ], 404);
-             }        
+             }
              // Save Booking
              $order = Booking::create([
-                  'user_id' => $user? $user->id : null, 
+                  'user_id' => $user? $user->id : null,
                  'offering_id' => $booking['offering_id'],
                  'booking_date' => $booking['booking_date'],
                  'time_slot' => $booking['booking_time'],
@@ -119,7 +121,7 @@ class PaymentController extends Controller
                  'billing_phone' => $billing['billing_phone'],
                  'billing_email' => $billing['billing_email'],
              ]);
-     
+
              session()->forget('booking');
              session()->forget('billing');
              $url = $this->processStripePayment($order->id);
@@ -171,7 +173,7 @@ class PaymentController extends Controller
             'cancel_url' => route('payment.cancel', ['order_id' => $order->id]),
         ]);
 
-        
+
 
         // Save Payment Data
         Payment::create([
@@ -184,7 +186,7 @@ class PaymentController extends Controller
         ]);
 
         return $session->url;
-        
+
     } catch (\Exception $e) {
         throw new \Exception($e->getMessage());
     }
@@ -210,8 +212,24 @@ class PaymentController extends Controller
     {
 
         $input =$request->all();
-        return view("user.payment-success");
-    }   
+
+        $blogs = Blog::where('is_active', 1)->orderBy('created_at', 'desc')->limit(3)->get();
+        $offeringsData = Offering::all();
+
+        $offerings = [];
+        $now = now();
+        foreach ($offeringsData as $offeringData) {
+            if (isset($offeringData->event) && $offeringData?->event && $offeringData?->event?->date_and_time > $now) {
+                $offerings[$offeringData->event->date_and_time] = $offeringData;
+            }
+        }
+
+        return view("user.payment-success",[
+            'blogs' => $blogs,
+            'offerings' => $offerings,
+
+        ]);
+    }
 
     public function failed(Request $request){
 
@@ -226,7 +244,7 @@ class PaymentController extends Controller
             'currency' => $request->currency,
             'status' => $request->status
         ]); */
-    } 
+    }
 
 }
 
