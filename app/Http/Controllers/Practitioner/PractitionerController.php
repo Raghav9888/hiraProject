@@ -45,7 +45,11 @@ class PractitionerController extends Controller
         $user = Auth::user();
 
         $userDetails = $user->userDetail;
-dd($userDetails);
+        if (!$userDetails) {
+            $userDetails = new UserDetail();
+            $userDetails->user_id = $user->id;
+            $userDetails->save();
+        }
         $Categories = Category::get();
         $practitionerTag = PractitionerTag::get();
         $IHelpWith = IHelpWith::get();
@@ -53,7 +57,7 @@ dd($userDetails);
         $certifications = Certifications::get();
         $stripeAccount = UserStripeSetting::where('user_id', Auth::id())->first();
         $googleAccount = GoogleAccount::where('user_id', Auth::id())->first();
-        $images = isset($userDetails->images) && $userDetails->images ? json_decode($userDetails->images, true): null;
+        $images = isset($userDetails->images) && $userDetails->images ? json_decode($userDetails->images, true) : null;
         $mediaImages = isset($images['media_images']) && is_array($images['media_images']) ? $images['media_images'] : [];
         $image = isset($images['profile_image']) ? $images['profile_image'] : null;
         $userLocations = json_decode($userDetails->location, true);
@@ -248,7 +252,6 @@ dd($userDetails);
     }
 
 
-
     public function earning()
     {
         $user = Auth::user();
@@ -383,7 +386,7 @@ dd($userDetails);
         if ($isProfileImage) {
             $userDetails = $user->userDetail;
 
-            $images = isset($userDetails->images) && $userDetails->images ?json_decode($userDetails->images, true) : null;
+            $images = isset($userDetails->images) && $userDetails->images ? json_decode($userDetails->images, true) : null;
             $mediaImages = isset($images['media_images']) && is_array($images['media_images']) ? $images['media_images'] : [];
             $profileImage = isset($images['profile_image']) ? $images['profile_image'] : null;
 
@@ -446,7 +449,7 @@ dd($userDetails);
 
         $membershipModality = MembershipModality::all();
         $userPlan = null;
-        if($user->subscribed('default')){
+        if ($user->subscribed('default')) {
             $planId = $user->subscription('default')->plan_id;
             $userPlan = Plan::find($planId);
         }
