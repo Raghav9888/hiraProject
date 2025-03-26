@@ -116,5 +116,23 @@ class UserController extends Controller
         return redirect()->route('admin.users.index', ['userType' => 'new']);
     }
 
+    public function loginAs(Request $request)
+    {
+        try {
+            $id = $request->id;
+            Auth::loginUsingId($id);
+            return response()->json([
+                "success" => true,
+                "data" => "Logged in successfully!"
+            ]);
+            //code...
+        } catch (\Throwable $th) {
+            return response()->json([
+                "success" => false,
+                "data" => $th->getMessage()
+            ], 500);
+        }
+    }
+
 
 }

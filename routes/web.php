@@ -66,6 +66,7 @@ Route::middleware(['auth', 'user-access:admin'])->name('admin.')->prefix('admin'
     Route::post('/user/update/{id}', [UserController::class, 'update'])->name('user.update');
     Route::get('/delete/user/', [UserController::class, 'delete'])->name('user.delete');
     Route::get('/approve/user/', [UserController::class, 'approve'])->name('user.approve');
+    Route::post('/login/as', [UserController::class, 'loginAs'])->name('login.as');
     Route::resource('blogs', BlogController::class);
     Route::resource('plans', PlanController::class);
 

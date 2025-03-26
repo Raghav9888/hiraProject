@@ -93,6 +93,10 @@
                                                                        data-size="large"
                                                                        data-table="usersTable">Edit</a>
                                                                 </li>
+                                                                <li>
+                                                                    <a class="dropdown-item login_as" data-id="{{$user->id}}"
+                                                                       href="javascript:void(0);">Login as</a>
+                                                                </li>
                                                                 @if($user->status != 3)
                                                                     <li>
                                                                         <a class="dropdown-item" data-type="alert"  data-title="Are you sure?"
@@ -130,3 +134,35 @@
         </div>
     </div>
 @endsection
+
+@push('custom_scripts')
+
+<script>
+    $('.login_as').on('click', function(){
+        const userId = $(this).data('id');
+        $.ajax({
+            url: "{{route('admin.login.as')}}",
+            type: "POST",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data:{
+                id: userId
+            },
+            success:function(response){
+                if(!response.success){
+                    toastr.error("Someting went wrong!");
+                }
+                toastr.success(response.data);
+                setTimeout(() => {
+                    window.location.href = "{{route('dashboard')}}"
+                }, 1000);
+            },
+            error:function(error){
+                toastr.error("Someting went wrong!");
+            }
+        })
+    })
+</script>
+    
+@endpush
