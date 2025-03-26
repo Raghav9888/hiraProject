@@ -95,7 +95,7 @@
                                             <label for="company_name">Title Name</label>
                                             <input type="text" class="form-control" id="company" name="company"
                                                    value="{{ $userDetails->company ?? 'Alternative Health Practitioner' }}">
-                                            <p style="text-align: start;">Your shop name is public and must be
+                                            <p style="text-align: start;">Your title name is public and must be
                                                 unique.</p>
                                         </div>
 
