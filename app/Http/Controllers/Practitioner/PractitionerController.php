@@ -53,7 +53,7 @@ class PractitionerController extends Controller
         $certifications = Certifications::get();
         $stripeAccount = UserStripeSetting::where('user_id', Auth::id())->first();
         $googleAccount = GoogleAccount::where('user_id', Auth::id())->first();
-        $images = json_decode($userDetails->images, true);
+        $images = isset($userDetails->images) && $userDetails->images ? json_decode($userDetails->images, true): null;
         $mediaImages = isset($images['media_images']) && is_array($images['media_images']) ? $images['media_images'] : [];
         $image = isset($images['profile_image']) ? $images['profile_image'] : null;
         $userLocations = json_decode($userDetails->location, true);
