@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ImpersonationController;
 use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\UserController;
@@ -77,6 +78,8 @@ Route::middleware(['auth', 'user-access:admin'])->name('admin.')->prefix('admin'
     Route::post('/delete/location/{id}', [LocationController::class, 'deleteLocation'])->name('location.delete');
 
     Route::resource('category', CategoryController::class);
+    Route::get('/impersonate/{id}', [ImpersonationController::class, 'startImpersonation'])->name('impersonate.start');
+    Route::get('/impersonate/leave', [ImpersonationController::class, 'stopImpersonation'])->name('impersonate.stop');
 });
 
 Route::middleware(['auth', 'user-access:user'])->group(function () {
@@ -138,6 +141,7 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::post('/calendar/create-event', [GoogleCalendarController::class, 'createEvent'])->name('calendar_create');
     Route::post('/calendar/update-event', [GoogleCalendarController::class, 'updateEvent'])->name('calendar_create');
     Route::post('/calendar/delete', [GoogleCalendarController::class, 'deleteEvent'])->name('calendar_delete');
+    Route::get('/getBookedSlots', [GoogleCalendarController::class, 'getBookedSlots'])->name('getBookedSlots');
 
 
     /**** Stripe route */
