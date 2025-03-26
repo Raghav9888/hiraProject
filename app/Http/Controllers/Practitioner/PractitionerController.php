@@ -45,7 +45,7 @@ class PractitionerController extends Controller
         $user = Auth::user();
 
         $userDetails = $user->userDetail;
-
+dd($userDetails);
         $Categories = Category::get();
         $practitionerTag = PractitionerTag::get();
         $IHelpWith = IHelpWith::get();
