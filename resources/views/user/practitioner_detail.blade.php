@@ -730,6 +730,11 @@
                 });
 
                 calendarGrid.appendChild(dayCell);
+                $('.calendar-grid .dates').on('click', function(){
+                    const date = $(this).data('date');
+                    $('#booking_date').val(date);
+                })
+
             }
         }
 
