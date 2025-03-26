@@ -45,7 +45,11 @@ class PractitionerController extends Controller
         $user = Auth::user();
 
         $userDetails = $user->userDetail;
-
+        if (!$userDetails) {
+            $userDetails = new UserDetail();
+            $userDetails->user_id = $user->id;
+            $userDetails->save();
+        }
         $Categories = Category::get();
         $practitionerTag = PractitionerTag::get();
         $IHelpWith = IHelpWith::get();
@@ -53,7 +57,7 @@ class PractitionerController extends Controller
         $certifications = Certifications::get();
         $stripeAccount = UserStripeSetting::where('user_id', Auth::id())->first();
         $googleAccount = GoogleAccount::where('user_id', Auth::id())->first();
-        $images = json_decode($userDetails->images, true);
+        $images = isset($userDetails->images) && $userDetails->images ? json_decode($userDetails->images, true) : null;
         $mediaImages = isset($images['media_images']) && is_array($images['media_images']) ? $images['media_images'] : [];
         $image = isset($images['profile_image']) ? $images['profile_image'] : null;
         $userLocations = json_decode($userDetails->location, true);
@@ -248,7 +252,6 @@ class PractitionerController extends Controller
     }
 
 
-
     public function earning()
     {
         $user = Auth::user();
@@ -383,7 +386,7 @@ class PractitionerController extends Controller
         if ($isProfileImage) {
             $userDetails = $user->userDetail;
 
-            $images = json_decode($userDetails->images, true);
+            $images = isset($userDetails->images) && $userDetails->images ? json_decode($userDetails->images, true) : null;
             $mediaImages = isset($images['media_images']) && is_array($images['media_images']) ? $images['media_images'] : [];
             $profileImage = isset($images['profile_image']) ? $images['profile_image'] : null;
 
@@ -446,7 +449,7 @@ class PractitionerController extends Controller
 
         $membershipModality = MembershipModality::all();
         $userPlan = null;
-        if($user->subscribed('default')){
+        if ($user->subscribed('default')) {
             $planId = $user->subscription('default')->plan_id;
             $userPlan = Plan::find($planId);
         }
@@ -562,7 +565,7 @@ class PractitionerController extends Controller
             return redirect()->back()->with('error', 'Something went wrong: ' . $th->getMessage());
 
         }
-         
+
     }
 
     public

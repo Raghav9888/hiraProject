@@ -34,8 +34,10 @@
                                     <tr>
                                         <th class="tn"><i class="wcv-icon wcv-icon-image"></i></th>
                                         <th scope="col">Detail</th>
-                                        <th class="price"><i class="wcv-icon wcv-icon-shopping-cart"></i></th>
+                                        <th class="price">Offering price</th>
+                                        <th scope="col">Type</th>
                                         <th scope="col">Status</th>
+
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -44,7 +46,8 @@
                                             <td class="tn"></td>
                                             <td class="details">
                                                 <h4>{{ $offering->name  }}</h4>
-                                                <div class="wcv_mobile_status wcv_mobile">{{$offering->offering_type}}</div>
+                                                <div
+                                                    class="wcv_mobile_status wcv_mobile">{{$offering->offering_type}}</div>
                                                 <div class="cat_tags">
                                                     Categories:@foreach($categories as $term)
                                                         @if(isset($offering->categories) && in_array($term->id, json_decode($offering->categories)))
@@ -63,21 +66,34 @@
                                                 <div class="row-actions row-actions-product">
                                                     <div class="d-flex">
                                                         <a href="{{route('edit_offering',$offering->id)}}">Edit</a>
-                                                        <form method="post" action="{{route('duplicate_offering',$offering->id)}}">@csrf
-                                                            <button type="submit" style="cursor: pointer; border: none; background: none;color: #000;">Duplicate</button>
+                                                        <form method="post"
+                                                              action="{{route('duplicate_offering',$offering->id)}}">@csrf
+                                                            <button type="submit"
+                                                                    style="cursor: pointer; border: none; background: none;color: #000;">
+                                                                Duplicate
+                                                            </button>
                                                         </form>
                                                         {{--                                                    <a href="https://thehiracollective.com/dashboard/product/duplicate/9694">Duplicate</a>--}}
-                                                        <form method="post" action="{{route('delete_offering', $offering->id)}}">@csrf
-                                                            <button type="submit" style="cursor: pointer; border: none; background: none;color: #000;">Delete</button>
+                                                        <form method="post"
+                                                              action="{{route('delete_offering', $offering->id)}}">@csrf
+                                                            <button type="submit"
+                                                                    style="cursor: pointer; border: none; background: none;color: #000;">
+                                                                Delete
+                                                            </button>
                                                         </form>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td class="price">
                                                 <span class="woocommerce-Price-amount amount">
-                                                    <bdi><span class="woocommerce-Price-currencySymbol">$</span>{{ $offering->client_price ?? 0 }}</bdi>
+                                                    <bdi><span class="woocommerce-Price-currencySymbol">$</span>
+                                                        {{(isset($offering?->event?->client_price) && $offering?->event?->client_price !== 0) ? ( $offering?->event?->client_price ?? 0) : $offering?->client_price }}</bdi>
                                                 </span>
                                             </td>
+                                            <td>
+                                                {{isset($offering?->event?->client_price) && $offering?->event?->client_price ? 'Event' : 'Offering'}}
+                                            </td>
+
                                             <td class="status">
                                                 <span class="status online">Online</span><br>
                                                 <span class="product_type bookable-product">Bookable Product</span><br>

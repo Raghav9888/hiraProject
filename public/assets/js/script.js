@@ -146,7 +146,8 @@ $(document).ready(function () {
     if ($('.location-select2').length > 0) {
         $('.location-select2').select2({
             placeholder: "Select options", // Placeholder text
-            allowClear: true // Enables clear button
+            allowClear: true ,// Enables clear button
+            required:false,
         });
     }
 
@@ -154,7 +155,19 @@ $(document).ready(function () {
         $('.category-select2').select2({
             placeholder: "Select options", // Placeholder text
             allowClear: true, // Enables clear button
-            maximumSelectionLength: 3
+            maximumSelectionLength: 3,
+            required:false,
+        });
+    }
+
+
+    if($('#certifications').length > 0)
+    {
+        $('#certifications').select2({
+            placeholder: "Select options",
+            required:false,
+            // allowClear: true,
+            // maximumSelectionLength: 3
         });
     }
 })

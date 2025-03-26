@@ -156,8 +156,10 @@
                                             <div class="d-flex justify-content-between flex-wrap align-items-center">
                                                 <h4 class="mb-2">{{$offering->name}}</h4>
                                                 <div class="d-flex align-items-center">
-                                                    <h6 class="offer-prize me-2 m-0">${{$offering?->client_price ?? 0}}</h6>
-                                                    <button type="button" class="home-blog-btn" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                                    <h6 class="offer-prize me-2 m-0">
+                                                        ${{$offering?->client_price ?? 0}}</h6>
+                                                    <button type="button" class="home-blog-btn" data-bs-toggle="modal"
+                                                            data-bs-target="#exampleModal"
                                                             onclick="openPopup(event)"
                                                             data-offering-id="{{$offering->id}}"
                                                             data-availability="{{$offering?->availability_type ?? ''}}"
@@ -369,6 +371,8 @@
         </div>
     </div>
     <input type="hidden" name="offering_id" id="offering_id">
+    <input type="hidden" name="user_id" id="user_id">
+
     <input type="hidden" name="availability" id="availability">
 
     <input type="hidden" name="offering_price" id="offering_price">
@@ -378,6 +382,8 @@
 
     <input type="hidden" name="store-availability" id="store-availability">
     <input type="hidden" name="offering-specific-days" id="offering-specific-days">
+    <input type="hidden" name="already_booked_slots" id="already_booked_slots">
+
 
 
     <!-- Modal -->
@@ -385,7 +391,7 @@
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-body">
-                    <div class="booking-container" >
+                    <div class="booking-container">
                         @include('user.offering_detail_page')
                     </div>
                     <div class="billing-container"></div>
@@ -472,6 +478,7 @@
 
         function openPopup(event) {
             event.preventDefault();
+            window.loadingScreen.addPageLoading();
 
             let offeringId = event.target.getAttribute('data-offering-id');
             let availabilityData = event.target.getAttribute('data-availability');
@@ -481,11 +488,11 @@
             let specificDayEnd = event.target.getAttribute('data-specific-day-end');
 
             let inputElement = document.querySelector('[name="offering_id"]');
+            let userIdInput = document.querySelector('[name="user_id"]');
             let availabilityInput = document.querySelector('[name="availability"]');
             let offeringPriceInput = document.querySelector('[name="offering_price"]');
             let offeringSlotsInput = document.querySelector('[name="store-availability"]');
-            let priceDiv = document.getElementById('modalPrice')
-
+            let priceDiv = document.getElementById('modalPrice');
             let offeringSpecificDaysInput = document.querySelector('[name="offering-specific-days"]');
             let popupElement = document.getElementById('popup');
 
@@ -496,17 +503,47 @@
                 offeringSlotsInput.value = storeAvailability;
                 offeringPriceInput.value = priceData;
                 priceDiv.textContent = priceData;
-
+                userIdInput.value = '{{ $user->id }}';
                 offeringSpecificDaysInput.setAttribute('data-specific-day-start', specificDayStart);
                 offeringSpecificDaysInput.setAttribute('data-specific-day-end', specificDayEnd);
-                offeringSpecificDaysInput.value= specificDayStart + ' - ' + specificDayEnd;
+                offeringSpecificDaysInput.value = specificDayStart + ' - ' + specificDayEnd;
+
+                $.ajax({
+                    type: 'GET',
+                    url: "{{ route('getBookedSlots') }}",
+                    data: { user_id: '{{ $user->id }}' },
+                    beforeSend: function () {
+                        window.loadingScreen.addPageLoading();
+                    },
+                    success: function (response) {
+                        console.log("Fetched booked dates:", response.bookedDates);
+
+                        if (response.status === 'success' && Array.isArray(response.bookedDates)) {
+                            $('#already_booked_slots').val(JSON.stringify(response.bookedDates));
+                        } else {
+                            console.error("Invalid booked dates:", response);
+                            $('#already_booked_slots').val("[]");
+                        }
+
+                        // ✅ Call `generateCalendar` after data is updated
+                        generateCalendar(currentMonth, currentYear);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("AJAX Error:", error);
+                    },
+                    complete: function () {
+                        window.loadingScreen.removeLoading();
+                    }
+                });
+
                 generateCalendar(currentMonth, currentYear);
             } else {
-                console.error("Element with ID 'offering_id' not found");
+                console.error("Element with name 'offering_id' not found");
             }
 
-
+            window.loadingScreen.removeLoading();
         }
+
 
         function formatDate(date) {
             return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
@@ -535,16 +572,15 @@
                 let totalDays = Math.ceil((specificDayEnd - specificDayStart) / (1000 * 60 * 60 * 24)) + 1;
 
                 // Generate an array of allowed dates
-                let allowedDates = Array.from({ length: totalDays }, (_, index) => {
+                let allowedDates = Array.from({length: totalDays}, (_, index) => {
                     let date = new Date(specificDayStart);
                     date.setDate(date.getDate() + index);
                     return date.toISOString().split('T')[0]; // Format as YYYY-MM-DD
                 });
 
                 console.log("Allowed Dates for Own Specific Date:", allowedDates);
-                return allowedDates; // ✅ Correctly returning the allowed dates
+                return allowedDates;
             }
-
 
 
             if (availability === 'following_store_hours') {
@@ -574,29 +610,27 @@
         }
 
 
-        function generateTimeSlots(from = null, to = null ,date = null,allDay = false) {
+        function generateTimeSlots(from = null, to = null, date = null, allDay = false) {
             let slots = [];
             let startTime = '';
             let endTime = '';
 
-            if(allDay)
-            {
-                 startTime = new Date(`${date}T12:00`);
-                 endTime = new Date(`${date}T12:00`);
-            }else {
-                 startTime = new Date(`2025-01-01T${from}`);
-                 endTime = new Date(`2025-01-01T${to}`);
+            if (allDay) {
+                startTime = new Date(`${date}T12:00`);
+                endTime = new Date(`${date}T12:00`);
+            } else {
+                startTime = new Date(`2025-01-01T${from}`);
+                endTime = new Date(`2025-01-01T${to}`);
             }
-                let isNextDay = endTime <= startTime;
-                if (isNextDay) {
-                    endTime.setDate(endTime.getDate() + 1); // Move end time to the next day
-                }
+            let isNextDay = endTime <= startTime;
+            if (isNextDay) {
+                endTime.setDate(endTime.getDate() + 1); // Move end time to the next day
+            }
 
-                while (startTime < endTime) {
-                    slots.push(formatTime(startTime));
-                    startTime.setMinutes(startTime.getMinutes() + 60);
-                }
-
+            while (startTime < endTime) {
+                slots.push(formatTime(startTime));
+                startTime.setMinutes(startTime.getMinutes() + 60);
+            }
 
 
             // Sort slots correctly from AM to PM
@@ -607,7 +641,7 @@
 
         // Convert Date object to "HH:MM AM/PM" format
         function formatTime(date) {
-            return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+            return date.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit', hour12: true});
         }
 
         // Convert "HH:MM AM/PM" to 24-hour format for correct sorting
@@ -626,10 +660,30 @@
             const monthLabel = document.getElementById('monthLabel');
             calendarGrid.innerHTML = '';
 
-            monthLabel.innerText = `${firstDay.toLocaleString('default', { month: 'long' })} ${year}`;
+            monthLabel.innerText = `${firstDay.toLocaleString('default', {month: 'long'})} ${year}`;
             const daysInMonth = lastDay.getDate();
             const startDay = firstDay.getDay();
-            const allowedDays = getAllowedDays(); // ✅ Get allowed full dates
+            const allowedDays = getAllowedDays();
+
+            // Retrieve already booked slots from hidden input
+            let bookedSlotsElement = document.getElementById('already_booked_slots');
+            let bookedDates = [];
+
+            if (bookedSlotsElement) {
+                let value = bookedSlotsElement.value.trim(); // Remove any extra spaces
+
+                if (value) { // Ensure the value is not empty
+                    try {
+                        bookedDates = JSON.parse(value);
+                    } catch (error) {
+                        console.error("Error parsing booked slots JSON:", error, value);
+                    }
+                }
+            }
+
+            console.log("Parsed bookedDates:", bookedDates);
+
+
 
             for (let i = 0; i < startDay; i++) {
                 const emptyCell = document.createElement('div');
@@ -653,11 +707,18 @@
                     dayCell.classList.add('inactive');
                 }
 
+                // ✅ Disable already booked dates
+                if (bookedDates.includes(dateString)) {
+                    dayCell.classList.add('inactive');
+                    dayCell.classList.add('booked'); // Optional: Add a booked class for styling
+                    dayCell.setAttribute('title', 'This date is already booked');
+                }
+
                 dayCell.innerText = day;
                 dayCell.setAttribute('data-date', dateString);
 
                 dayCell.addEventListener('click', () => {
-                    if (!(allowedDays.includes(dateString) || allowedDays.includes(currentDayOfWeek))) return;
+                    if (dayCell.classList.contains('inactive')) return;
 
                     if (activeDate) {
                         document.querySelector(`[data-date='${activeDate}']`)?.classList.remove('active');
@@ -669,15 +730,13 @@
                 });
 
                 calendarGrid.appendChild(dayCell);
-
                 $('.calendar-grid .dates').on('click', function(){
                     const date = $(this).data('date');
                     $('#booking_date').val(date);
                 })
+
             }
         }
-
-
 
 
         function showAvailableSlots(date) {
@@ -715,7 +774,7 @@
                         let toTime = storeAvailability[dayKey]?.to;
 
                         if (fromTime && toTime) {
-                            allSlots = allSlots.concat(generateTimeSlots(fromTime,toTime));
+                            allSlots = allSlots.concat(generateTimeSlots(fromTime, toTime));
                         }
                     }
                 });
@@ -723,13 +782,11 @@
                 availableSlots = [...new Set(allSlots)].sort((a, b) => convertTo24Hour(a) - convertTo24Hour(b));
             } else {
                 console.log(date)
-                availableSlots = generateTimeSlots(null,null, date ,true);
+                availableSlots = generateTimeSlots(null, null, date, true);
             }
 
             renderSlots(availableSlots);
         }
-
-
 
 
         function renderSlots(availableSlots) {
@@ -738,7 +795,7 @@
                 ? availableSlots.map(slot => `<div class="col-4"><button class="btn btn-outline-green w-100 offering-slot" data-time="${slot}">${slot}</button></div>`).join('')
                 : '<p class="text-muted">No available slots</p>';
 
-            $('.offering-slot').on('click', function(){
+            $('.offering-slot').on('click', function () {
                 $('.offering-slot').removeClass('active')
                 $(this).addClass('active')
                 const time = $(this).data('time');
@@ -765,16 +822,16 @@
         });
 
 
-        $('.proceed_to_checkout').on('click', function(){
+        $('.proceed_to_checkout').on('click', function () {
             const offeringId = $('#offering_id').val();
             const bookingDate = $('#booking_date').val();
             const bookingTime = $('#booking_time').val();
-            if(!offeringId || !bookingDate || !bookingTime){
+            if (!offeringId || !bookingDate || !bookingTime) {
                 alert("Please select slot!");
                 return;
             }
             $.ajax({
-                type:"POST",
+                type: "POST",
                 url: "{{route('storeBooking')}}",
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -784,8 +841,8 @@
                     booking_date: bookingDate,
                     booking_time: bookingTime
                 },
-                success:function(response){
-                    if(!response.success){
+                success: function (response) {
+                    if (!response.success) {
                         alert("Something went wrong!")
                     }
                     $('.booking-container').hide();
@@ -795,7 +852,7 @@
                     // $('.popup-content').css('background-color', "transparent")
                     // $('.popup-content .container').css('padding', "30px")
                 },
-                error:function(error){
+                error: function (error) {
                     alert("Something went wrong!")
                 }
             })
