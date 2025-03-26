@@ -340,7 +340,7 @@
                                             <label for="certifications" class="fw-bold">Certifications</label>
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    <select id="certifications" class="form-select location-select2"
+                                                    <select id="certifications" class="form-select"
                                                             name="certifications[]" multiple>
                                                         @php
                                                             $selectedTerms = explode(',', $userDetails->certifications ?? '');
