@@ -87,11 +87,11 @@
                                             <td class="price">
                                                 <span class="woocommerce-Price-amount amount">
                                                     <bdi><span class="woocommerce-Price-currencySymbol">$</span>
-                                                        {{(isset($offering->event) && $offering?->event) ?  $offering?->event?->client_price ?? 0 : 0 }}</bdi>
+                                                        {{(isset($offering?->event?->client_price) && $offering?->event?->client_price !== 0) ? ( $offering?->event?->client_price ?? 0) : $offering?->client_price }}</bdi>
                                                 </span>
                                             </td>
                                             <td>
-                                                {{isset($offering->event) && $offering?->event ? 'Event' : 'Offering'}}
+                                                {{isset($offering?->event?->client_price) && $offering?->event?->client_price ? 'Event' : 'Offering'}}
                                             </td>
 
                                             <td class="status">
