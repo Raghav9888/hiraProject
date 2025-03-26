@@ -383,7 +383,7 @@ class PractitionerController extends Controller
         if ($isProfileImage) {
             $userDetails = $user->userDetail;
 
-            $images = json_decode($userDetails->images, true);
+            $images = isset($userDetails->images) && $userDetails->images ?json_decode($userDetails->images, true) : null;
             $mediaImages = isset($images['media_images']) && is_array($images['media_images']) ? $images['media_images'] : [];
             $profileImage = isset($images['profile_image']) ? $images['profile_image'] : null;
 
@@ -501,7 +501,7 @@ class PractitionerController extends Controller
             return redirect()->back()->with('error', 'Something went wrong: ' . $th->getMessage());
 
         }
-         
+
     }
 
     public
