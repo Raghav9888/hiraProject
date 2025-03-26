@@ -451,6 +451,67 @@ class PractitionerController extends Controller
             $userPlan = Plan::find($planId);
         }
         $plans = Plan::latest()->get();
+        $addedMemberships = [
+            'Founding Membership T1' => [
+                'AzucenaAnna@gmail.com',
+                'sm.sethmohan@gmail.com',
+                'sacredwombwellness@gmail.com',
+                'info@vyshfitness.com',
+                'sacredcoastco@gmail.com',
+                'mindfullycreateddesigns@gmail.com',
+                'drbrigitta@mailfence.com',
+                'vitalresonance@gmail.com',
+                'linda@lwara.com',
+                'brigittemassage@gmail.com',
+                'rainbow.vibrations4444@gmail.com',
+                'annasilfawellness@gmail.com',
+                'righteoussun00@gmail.com',
+                'julie@balancelifewithjulie.com',
+                'info@jothi.ca',
+                'isabelnantaba@gmail.com',
+                'trace@innatewisdom.love',
+                'laurenwelchner@gmail.com'
+            ],
+            'Founding Membership - 10 years' => [
+                'joanne@consciousbirth.ca'
+            ],
+            'Founding Membership T2' => [
+                'info@nutristica.com',
+                'jaiti.srivastava@gmail.com',
+                'sam@samcoretrainer.com',
+                'sonia.plusa@gmail.com',
+                'hello@lauren-best.com',
+                'Sherien@sherienwellness.com',
+                'dfahlman@gmail.com',
+                'auralignedhealing@gmail.com',
+                'tiana@tianapollari.com'
+            ],
+            'Diamond Pre-Launch Membership' => [
+                'candice.warrior.shaman@gmail.com',
+                'sarah@meb4we.ca',
+                'divinebeautywithin@gmail.com',
+                'mvwellsbury@gmail.com',
+                'mvwellsbury@gmail.com',
+                'king.oils@hotmail.com',
+                'kingsley@kingskitchenmedia.com',
+                'revolution9wellness@gmail.com'
+            ]
+        ];
+        $userEmail = $user->email;
+        $allowedPlans = [];
+
+        // Check if the user's email is found in any membership category
+        foreach ($addedMemberships as $addMembership => $emails) {
+            if (in_array($userEmail, $emails)) {
+                $allowedPlans[] = $addMembership; // Store the membership name
+            }
+        }
+
+        // If user has specific membership, filter the plans accordingly
+        if (!empty($allowedPlans)) {
+            $plans = $plans->whereIn('name', $allowedPlans); // Filter based on membership type
+        }
+        // dd($plans);
         return view('practitioner.membership', [
             'user' => $user,
             'membership' => $membership,

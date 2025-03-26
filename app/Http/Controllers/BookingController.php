@@ -8,6 +8,7 @@ use App\Models\UserDetail;
 use App\Models\Offering;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ContactUsMail;
+use App\Mail\TemporaryPasswordMail;
 use App\Models\GoogleAccount;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -80,6 +81,7 @@ class BookingController extends Controller
 
     public function preCheckoutRegister(Request $request)
     {
+        $tempPassword = "P@ssw0rd";
         $user = User::create([
             'name' => $request->first_name. ' ' . $request->last_name,
             'first_name' => $request->first_name,
@@ -89,7 +91,7 @@ class BookingController extends Controller
             'role' => 3,
             //  default status  0 = Inactive, status 1 = Active, status 2 = pending,
             'status' => 2,
-            'password' => Hash::make("P@ssw0rd"),
+            'password' => Hash::make($tempPassword),
         ]);
         $seekingFor = [
             "nutritional_support" => isset($request->nutritional_support)? true: false,
@@ -99,6 +101,7 @@ class BookingController extends Controller
             "transformation_coachin" => isset($request->transformation_coachin)? true: false,
             "health_practitioner" => isset($request->health_practitioner)? true: false
         ];
+        Mail::to($user->email)->send(new TemporaryPasswordMail($user, $tempPassword));
         Auth::login($user);
         UserDetail::create([
             'user_id' => $user->id,
