@@ -10,7 +10,8 @@ use Google_Service_Calendar_Event;
 use Google_Service_Calendar_EventDateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Google\Client;
+use Google\Service\Calendar;
 class GoogleCalendarController extends Controller
 {
     private function getClient()
@@ -174,5 +175,45 @@ class GoogleCalendarController extends Controller
             return back()->with('error', 'Failed to delete event: ' . $e->getMessage());
         }
     }
+
+    public function getBookedSlots(Request $request) {
+        $userId = $request->user_id;
+
+        // Fetch booked slots from Google Calendar (excluding HiraCollective)
+        $bookedSlots = $this->fetchGoogleCalendarEvents();
+
+        return response()->json([
+            'status' => 'success',
+            'bookedDates' => $bookedSlots,
+        ]);
+    }
+
+
+    private function fetchGoogleCalendarEvents() {
+        $client = $this->getClient();
+        $service = new Calendar($client);
+        $calendarId = 'primary'; // Change if needed
+
+        $events = $service->events->listEvents($calendarId);
+        $bookedDates = [];
+
+        foreach ($events->getItems() as $event) {
+            // Check if event has extended properties
+            $extendedProps = $event->getExtendedProperties();
+
+            // If it's set and contains 'category' with 'hiracollective', skip it
+            if ($extendedProps && isset($extendedProps->private['category']) && $extendedProps->private['category'] === 'hiracollective') {
+                continue;
+            }
+
+            // Store only non-HiraCollective bookings
+            if (!empty($event->start->date)) {
+                $bookedDates[] = $event->start->date;
+            }
+        }
+
+        return $bookedDates;
+    }
+
 }
 
