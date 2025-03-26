@@ -663,7 +663,7 @@
             monthLabel.innerText = `${firstDay.toLocaleString('default', {month: 'long'})} ${year}`;
             const daysInMonth = lastDay.getDate();
             const startDay = firstDay.getDay();
-            const allowedDays = getAllowedDays(); // ✅ Get allowed full dates
+            const allowedDays = getAllowedDays();
 
             // Retrieve already booked slots from hidden input
             let bookedSlotsElement = document.getElementById('already_booked_slots');
