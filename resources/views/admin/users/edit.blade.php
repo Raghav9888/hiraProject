@@ -54,7 +54,7 @@
                                     </div>
 
                                     <button type="submit" class="btn btn-primary mr-2">Submit</button>
-                                    <a href="{{route('admin.users.index',['userType' => $userType])}}"
+                                    <a href="{{route('admin.user.index',['userType' => $userType])}}"
                                     class="btn btn-light">Cancel</a>
                                 </div>
                             </div>
