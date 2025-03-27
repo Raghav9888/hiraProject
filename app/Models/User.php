@@ -3,11 +3,13 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Models\Subscription as ModelsSubscription;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Cashier\Billable;
-
+use Laravel\Cashier\Subscription;
 
 class User extends Authenticatable
 {
@@ -72,6 +74,11 @@ class User extends Authenticatable
     public function bookings()
     {
         return $this->hasMany(Booking::class, 'user_id', 'id');
+    }
+
+    public function cusSubscription()
+    {
+        return $this->hasMany(ModelsSubscription::class, 'user_id', 'id');
     }
 
 }
