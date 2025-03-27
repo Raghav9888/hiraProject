@@ -88,6 +88,20 @@
                 </ul>
             </div>
         </li>
+        <li class="nav-item {{request()->routeIs('admin.feedback.*')? 'active': ''}}">
+            <a class="nav-link" data-bs-toggle="collapse" href="#feedback-elements" aria-expanded="false"
+               aria-controls="feedback-elements">
+                <i class="menu-icon mdi mdi-map-marker-multiple"></i>
+                <span class="menu-title">Feedback Management</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse {{request()->routeIs('admin.feedback.*')? 'show': ''}}" id="feedback-elements">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"><a class="nav-link location{{request()->routeIs('admin.feedback.create')? 'active': ''}}" href="{{route('admin.feedback.create')}}">Add Feedback</a></li>
+                    <li class="nav-item"><a class="nav-link {{request()->routeIs('admin.feedback.index')? 'active': ''}}" href="{{route('admin.feedback.index')}}">All feedbacks</a></li>
+                </ul>
+            </div>
+        </li>
 
         {{--            <li class="nav-item">--}}
         {{--              <a class="nav-link" data-bs-toggle="collapse" href="#charts" aria-expanded="false" aria-controls="charts">--}}

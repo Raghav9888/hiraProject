@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\FeedbackController;
 use App\Http\Controllers\Admin\ImpersonationController;
 use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Admin\PlanController;
@@ -80,8 +81,8 @@ Route::middleware(['auth', 'user-access:admin'])->name('admin.')->prefix('admin'
     Route::post('/delete/location/{id}', [LocationController::class, 'deleteLocation'])->name('location.delete');
 
     Route::resource('category', CategoryController::class);
-    Route::get('/impersonate/{id}', [ImpersonationController::class, 'startImpersonation'])->name('impersonate.start');
-    Route::get('/impersonate/leave', [ImpersonationController::class, 'stopImpersonation'])->name('impersonate.stop');
+    Route::resource('feedback', FeedbackController::class);
+    Route::get('/feedback/get-offerings/{userId}', [FeedbackController::class, 'getOfferingsByUser'])->name('getOfferingsByUser');
 });
 
 Route::middleware(['auth', 'user-access:user'])->group(function () {

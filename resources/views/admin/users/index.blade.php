@@ -77,10 +77,12 @@
                                                                     <li>
                                                                         <a class="dropdown-item"
                                                                            href="{{route('admin.user.approve')}} "
-                                                                           data-type="alert"  data-title="Are you sure?"
-                                                                           data-text="Are you sure you want to approve this user!" data-icon-type="warning"
-                                                                           data-confirm-text="approved" data-cancel-text="cancel"
-                                                                          >Approve user</a>
+                                                                           data-type="alert" data-title="Are you sure?"
+                                                                           data-text="Are you sure you want to approve this user!"
+                                                                           data-icon-type="warning"
+                                                                           data-confirm-text="approved"
+                                                                           data-cancel-text="cancel"
+                                                                        >Approve user</a>
                                                                     </li>
                                                                 @endif
 
@@ -94,14 +96,18 @@
                                                                        data-table="usersTable">Edit</a>
                                                                 </li>
                                                                 <li>
-                                                                    <a class="dropdown-item login_as" data-id="{{$user->id}}"
+                                                                    <a class="dropdown-item login_as"
+                                                                       data-id="{{$user->id}}"
                                                                        href="javascript:void(0);">Login as</a>
                                                                 </li>
                                                                 @if($user->status != 3)
                                                                     <li>
-                                                                        <a class="dropdown-item" data-type="alert"  data-title="Are you sure?"
-                                                                            data-text="Are you sure you want to delete this record?" data-icon-type="warning"
-                                                                           data-confirm-text="delete" data-cancel-text="cancel"
+                                                                        <a class="dropdown-item" data-type="alert"
+                                                                           data-title="Are you sure?"
+                                                                           data-text="Are you sure you want to delete this record?"
+                                                                           data-icon-type="warning"
+                                                                           data-confirm-text="delete"
+                                                                           data-cancel-text="cancel"
                                                                            href="{{route('admin.user.delete', ['id' => $user->id,'type' =>$type])}}">Delete</a>
                                                                     </li>
                                                                 @endif
@@ -137,32 +143,32 @@
 
 @push('custom_scripts')
 
-<script>
-    $('.login_as').on('click', function(){
-        const userId = $(this).data('id');
-        $.ajax({
-            url: "{{route('admin.login.as')}}",
-            type: "POST",
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            data:{
-                id: userId
-            },
-            success:function(response){
-                if(!response.success){
+    <script>
+        $('.login_as').on('click', function () {
+            const userId = $(this).data('id');
+            $.ajax({
+                url: "{{route('admin.login.as')}}",
+                type: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: {
+                    id: userId
+                },
+                success: function (response) {
+                    if (!response.success) {
+                        toastr.error("Someting went wrong!");
+                    }
+                    toastr.success(response.data);
+                    setTimeout(() => {
+                        window.location.href = "{{route('dashboard')}}"
+                    }, 1000);
+                },
+                error: function (error) {
                     toastr.error("Someting went wrong!");
                 }
-                toastr.success(response.data);
-                setTimeout(() => {
-                    window.location.href = "{{route('dashboard')}}"
-                }, 1000);
-            },
-            error:function(error){
-                toastr.error("Someting went wrong!");
-            }
+            })
         })
-    })
-</script>
-    
+    </script>
+
 @endpush
