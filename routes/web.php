@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ImpersonationController;
 use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\UserController;
@@ -38,6 +39,7 @@ Route::get('/blog/{slug}', [HomeController::class, 'blogDetail'])->name('blogDet
 Route::get('/search/practitioner', [HomeController::class, 'searchPractitioner'])->name('searchPractitioner');
 Route::get('/practitioners', [HomeController::class, 'partitionerLists'])->name('partitionerLists');
 Route::get('/land-acknowledgement', [HomeController::class, 'acknowledgement'])->name('acknowledgement');
+Route::post('/getBookedSlots/{userId}', [GoogleCalendarController::class, 'getBookedSlots'])->name('getBookedSlots');
 
 
 Route::get('/practitioner/detail/{id}', [HomeController::class, 'practitionerDetail'])->name('practitioner_detail');
@@ -78,6 +80,8 @@ Route::middleware(['auth', 'user-access:admin'])->name('admin.')->prefix('admin'
     Route::post('/delete/location/{id}', [LocationController::class, 'deleteLocation'])->name('location.delete');
 
     Route::resource('category', CategoryController::class);
+    Route::get('/impersonate/{id}', [ImpersonationController::class, 'startImpersonation'])->name('impersonate.start');
+    Route::get('/impersonate/leave', [ImpersonationController::class, 'stopImpersonation'])->name('impersonate.stop');
 });
 
 Route::middleware(['auth', 'user-access:user'])->group(function () {
@@ -137,7 +141,7 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::get('/google/disconnect', [GoogleAuthController::class, 'disconnectToGoogle'])->name('disconnect_to_google');
     Route::get('/google/callback', [GoogleAuthController::class, 'handleGoogleCallback'])->name('google_callback');
     Route::post('/calendar/create-event', [GoogleCalendarController::class, 'createEvent'])->name('calendar_create');
-    Route::post('/calendar/update-event', [GoogleCalendarController::class, 'updateEvent'])->name('calendar_create');
+    Route::post('/calendar/update-event', [GoogleCalendarController::class, 'updateEvent'])->name('calendar_update');
     Route::post('/calendar/delete', [GoogleCalendarController::class, 'deleteEvent'])->name('calendar_delete');
 
 

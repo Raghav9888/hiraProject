@@ -10,6 +10,8 @@ use App\Models\UserStripeSetting;
 use App\Models\Payment;
 use App\Models\Booking;
 use App\Models\Offering;
+use Carbon\Carbon;
+use Google_Service_Calendar_Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -214,31 +216,85 @@ class PaymentController extends Controller
         // Update order status
         $order->update(['status' => 'paid']);
 
-
-        $this->createGoogleCalendarEvent($order);
+        // Attempt to create a Google Calendar event
+        try {
+            $this->createGoogleCalendarEvent($order);
+        } catch (\Exception $e) {
+            \Log::error('Google Calendar Event Creation Failed: ' . $e->getMessage());
+        }
 
         return redirect()->route('thankyou')->with('success', 'Payment successful!');
     }
 
+    /**
+     * @throws \Exception
+     */
     private function createGoogleCalendarEvent($order)
     {
-       $offering =  Offering::where('id', $order->offering_id)->firstOrFail();
+        $offering = Offering::findOrFail($order->offering_id);
+        $user = User::with('userDetail')->findOrFail($offering->user_id);
+
+        // Get store availabilities from user details
+        $storeAvailabilities = json_decode($user->userDetail->store_availabilities, true);
+
+        // Determine booking date and weekday
+        $bookingDate = Carbon::parse($order->booking_date);
+        $dayOfWeek = strtolower($bookingDate->format('l'));
+
+        $availabilityKey = in_array($dayOfWeek, ['saturday', 'sunday']) ? "weekends_only_-_every_sat_&_sundays" : "every_{$dayOfWeek}";
+
+        $storeHours = $this->getStoreAvailability($availabilityKey, $storeAvailabilities);
+
+
+        $startTime = Carbon::parse($order->time_slot);
+        $duration = $offering->duration ?? 60;
+        $endTime = $startTime->copy()->addMinutes($duration)->format('H:i');
 
         $eventData = [
-            'title' => 'Booking: ' . $order->service_name, // Customize this
-            'category' => 'Booking',
-            'description' => 'Customer: ' . $order->customer_name,
-            'start' => $order->time_slot,
-            'date' => $order->booking_date,
+            'title'       => 'Booking: ' . (($order?->first_name . $order?->last_name)?? 'Unknown Service'),
+            'category'    => 'Booking',
+            'description' => 'Customer: ' . (($order?->first_name . $order?->last_name)?? 'Unknown Service'),
+            'start'       => $bookingDate->toDateString() . ' ' . $startTime->format('H:i'),
+            'end'         => $bookingDate->toDateString() . ' ' . $endTime,
+            'date'        => $order->booking_date,
+            'user_id'     => $offering->user_id,
         ];
 
-        $response = Http::post(route('calendar_create'), $eventData);
-        if ($response->failed()) {
-            \Log::error('Google Calendar Event Creation Failed', ['response' => $response->body()]);
+        try {
+            $googleCalendar = new GoogleCalendarController();
+            $response = $googleCalendar->createGoogleEvent($eventData);
+
+
+            if (!isset($response) || method_exists($response, 'getStatusCode') && $response->getStatusCode() != 200) {
+                \Log::error('Google Calendar Event Creation Failed', [
+                    'response' => $response ?? 'No response received',
+                    'eventData' => $eventData
+                ]);
+                throw new \Exception('Failed to create Google Calendar event.');
+            }
+        } catch (\Exception $e) {
+            \Log::error('Error creating Google Calendar event', [
+                'error' => $e->getMessage(),
+                'eventData' => $eventData
+            ]);
+            throw new \Exception('Error creating Google Calendar event: ' . $e->getMessage());
         }
     }
 
 
+
+    private function getStoreAvailability($availabilityKey, $storeAvailabilities): array
+    {
+        $from = null;
+        $to = null;
+
+        if (!empty($storeAvailabilities[$availabilityKey]) && $storeAvailabilities[$availabilityKey]['enabled'] == "1") {
+            $from = $storeAvailabilities[$availabilityKey]['from'] ?? 'Not Set';
+            $to = $storeAvailabilities[$availabilityKey]['to'] ?? 'Not Set';
+        }
+
+        return ['from' => $from, 'to' => $to];
+    }
 
 
     public function success(Request $request)
