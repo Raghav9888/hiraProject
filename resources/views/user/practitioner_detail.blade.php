@@ -509,9 +509,11 @@
                 offeringSpecificDaysInput.value = specificDayStart + ' - ' + specificDayEnd;
 
                 $.ajax({
-                    type: 'GET',
-                    url: "{{ route('getBookedSlots') }}",
-                    data: { user_id: '{{ $user->id }}' },
+                    type: 'post',
+                    url: "{{ route('getBookedSlots',$user->id) }}",
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
                     beforeSend: function () {
                         window.loadingScreen.addPageLoading();
                     },

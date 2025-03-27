@@ -39,6 +39,7 @@ Route::get('/blog/{slug}', [HomeController::class, 'blogDetail'])->name('blogDet
 Route::get('/search/practitioner', [HomeController::class, 'searchPractitioner'])->name('searchPractitioner');
 Route::get('/practitioners', [HomeController::class, 'partitionerLists'])->name('partitionerLists');
 Route::get('/land-acknowledgement', [HomeController::class, 'acknowledgement'])->name('acknowledgement');
+Route::post('/getBookedSlots/{userId}', [GoogleCalendarController::class, 'getBookedSlots'])->name('getBookedSlots');
 
 
 Route::get('/practitioner/detail/{id}', [HomeController::class, 'practitionerDetail'])->name('practitioner_detail');
@@ -139,9 +140,8 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::get('/google/disconnect', [GoogleAuthController::class, 'disconnectToGoogle'])->name('disconnect_to_google');
     Route::get('/google/callback', [GoogleAuthController::class, 'handleGoogleCallback'])->name('google_callback');
     Route::post('/calendar/create-event', [GoogleCalendarController::class, 'createEvent'])->name('calendar_create');
-    Route::post('/calendar/update-event', [GoogleCalendarController::class, 'updateEvent'])->name('calendar_create');
+    Route::post('/calendar/update-event', [GoogleCalendarController::class, 'updateEvent'])->name('calendar_update');
     Route::post('/calendar/delete', [GoogleCalendarController::class, 'deleteEvent'])->name('calendar_delete');
-    Route::get('/getBookedSlots', [GoogleCalendarController::class, 'getBookedSlots'])->name('getBookedSlots');
 
 
     /**** Stripe route */
