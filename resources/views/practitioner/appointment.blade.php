@@ -14,19 +14,27 @@
                             <i class="fas fa-search"></i>
                         </button>
                     </div>
-                    @foreach($appointments as $appointment)
+                    @if(count($appointments) > 0)
+                        @foreach($appointments as $appointment)
 
-                        @if($appointment->status != 'pending')
-                            <div class="appointment-data">
-                                <div>
-                                    <h6>{{( $appointment?->first_name .' '. $appointment?->last_name) ?? 'N/A' }}</h6>
+                            @if($appointment->status != 'pending')
+                                <div class="appointment-data">
+                                    <div>
+                                        <h6>{{( $appointment?->first_name .' '. $appointment?->last_name) ?? 'N/A' }}</h6>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <p> {{ $appointment?->booking_date .' '. $appointment?->time_slot}}</p>
+                                    </div>
                                 </div>
-                                <div class="d-flex align-items-center">
-                                    <p> {{ $appointment?->booking_date .' '. $appointment?->time_slot}}</p>
-                                </div>
+                            @endif
+                        @endforeach
+                    @else
+                        <div class="appointment-data">
+                            <div>
+                                <h6>No Appointments</h6>
                             </div>
-                        @endif
-                    @endforeach
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
