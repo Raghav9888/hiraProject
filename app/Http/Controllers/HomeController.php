@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ContactUsMail;
 use App\Models\Blog;
+use App\Models\Plan;
 use Illuminate\Support\Facades\Log;
 
 class HomeController extends Controller
@@ -27,8 +28,19 @@ class HomeController extends Controller
      */
     public function index()
     {
-
-        $users = User::where('role', 1)->with('userDetail')->get()->take(8);
+        $foundingPlans = [
+            'Founding Membership T1',
+            'Founding Membership - 10 years',
+            'Founding Membership T2' 
+        ];
+        $users = User::where('role', 1)
+                ->whereHas('cusSubscription', function ($query) use ($foundingPlans) {
+                    $query->whereHas('plan', function ($planQuery) use ($foundingPlans) {
+                            $planQuery->whereIn('name', $foundingPlans);
+                        });
+                })
+                ->with('userDetail')
+                ->get()->take(8);
         $categories = Category::all();
         $defaultLocations = Locations::get();
         $blogs = Blog::latest()->get()->take(3);
