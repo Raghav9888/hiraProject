@@ -15,18 +15,14 @@
                         </button>
                     </div>
                     @foreach($appointments as $appointment)
-                        @if($appointment->bookings->isNotEmpty())
+
+                        @if($appointment->status != 'pending')
                             <div class="appointment-data">
                                 <div>
-                                    <h6>{{ $appointment->user->name ?? 'N/A' }}</h6> {{-- Check if user exists --}}
-                                    <p>{{ $appointment->name ?? 'No Name' }}</p>
+                                    <h6>{{( $appointment?->first_name .' '. $appointment?->last_name) ?? 'N/A' }}</h6>
                                 </div>
                                 <div class="d-flex align-items-center">
-
-                                    @foreach($appointment->bookings as $booking)
-                                        <p>{{ $booking->booking_date ?? 'No Date' }}</p>
-                                    @endforeach
-
+                                    <p> {{ $appointment?->booking_date .' '. $appointment?->time_slot}}</p>
                                 </div>
                             </div>
                         @endif

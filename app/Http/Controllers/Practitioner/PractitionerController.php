@@ -242,12 +242,16 @@ class PractitionerController extends Controller
     public function appointment()
     {
         $user = User::where('id', Auth::id())->with('offerings.bookings')->first();
+        $bookings = $user->offerings()->with('bookings')->get()->flatMap(function ($offering) {;
+            return $offering->bookings;
+        });
+
         $userDetails = $user->userDetail;
 
         return view('practitioner.appointment', [
             'user' => $user,
             'userDetails' => $userDetails,
-            'appointments' => $user->offerings,
+            'appointments' => $bookings,
         ]);
     }
 
