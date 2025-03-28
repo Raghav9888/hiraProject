@@ -65,7 +65,7 @@
                                 would be Ayuvedic massage and hot stone massage)
                                 Practitioner Offerings
                             </span>
-                            <select name="categories[]" multiple="multiple" class="form-control category-select2" id="">
+                            <select name="categories[]" multiple="multiple" class="form-control" data-type="multiselect" id="categories" data-maxshow="3">
                                 @foreach($categories as $term)
                                     <option value="{{$term->id}}">{{$term->name}}</option>
                                 @endforeach
@@ -84,7 +84,7 @@
                             <div class="col-md-6">
                                 <div class="form-group select2-div">
                                     <select name="tags[]" id="tags" multiple="multiple"
-                                            class="form-select location-select2">
+                                            class="form-select" data-type="multiselect">
                                         @foreach($practitionerTag as $term)
                                             <option value="{{$term->id}}">{{$term->name}}</option>
                                         @endforeach
