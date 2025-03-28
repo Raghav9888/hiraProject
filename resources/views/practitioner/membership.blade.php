@@ -202,7 +202,7 @@
                                             <div class="row align-items-center">
                                                 <div class="col-md-6">
                                                     <select id="modalityPractice" name="modality_practice[]"
-                                                            class="form-select location-select2"
+                                                            class="form-select" data-type="multiselect"
                                                             multiple>
                                                         @php
                                                             $selectedTerms = explode(',', $membership->modality_practice ?? '');

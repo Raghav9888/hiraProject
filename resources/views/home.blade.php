@@ -650,9 +650,9 @@
                         <button class="category-load-more loadPractitioner" data-count="${count}">Load More</button>
                     </div>`;
                     }
-                    $('html, body').animate({
-                        scrollTop: $('.featured-section').offset().top
-                    }, 700);
+                    // $('html, body').animate({
+                    //     scrollTop: $('.featured-section').offset().top
+                    // }, 700);
                     // Inject the generated HTML into the practitioners list container
                     $('#practitionersList').html(practitionersHTML);
                 },

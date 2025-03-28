@@ -1,176 +1,26 @@
 console.log('script.js')
 
-$(document).on('click', '[data-action="bootbox"]', function (e) {
-    e.preventDefault();
-    let url = $(this).attr('href');
-
-    $.ajax({
-        type: 'GET',
-        url: url,
-        success: function (response) {
-            bootbox.dialog({
-                title: "Modal Title",
-                message: response,
-                size: 'large',
-                buttons: {
-                    ok: {
-                        label: 'OK',
-                        className: 'btn-success',
-                        callback: function () {
-                            console.log('OK button clicked');
-                        }
-                    },
-                    cancel: {
-                        label: 'Cancel',
-                        className: 'btn-danger',
-                        callback: function () {
-                            console.log('Cancel button clicked');
-                        }
-                    }
-                }
-            });
-        },
-        error: function () {
-            bootbox.alert('An error occurred during the request.');
-        }
-    });
-});
-
-
-/*========== Use for bootbox form submit start ===========*/
-$(document).on('click', '[data-action="bootbox_form"]', function (event) {
-
-    event.preventDefault();
-
-    const $panelButton = $(this.submitTarget);
-    const url = $panelButton.attr('href');
-    const title = $panelButton.data('title');
-    const submit = $panelButton.data('submit');
-    const size = $panelButton.data('size');
-    const tableId = $panelButton.data('table');
-
-    $.ajax({
-        type: 'GET',
-        url: url,
-        beforeSend: function () {
-            // window.loadingScreen.addPageLoading();
-        },
-        success: function (response) {
-            bootbox.dialog({
-                title: title,
-                size: size || 'extra-large',
-                centerVertical: true,
-                message: response,
-                buttons: {
-                    cancel: {
-                        label: 'Close',
-                        className: 'btn-primary',
-                    },
-                    submit: {
-                        label: submit || 'Submit',
-                        className: 'btn-success',
-                        callback: function () {
-                            const $form = $(this).find('form');
-
-                            $form.find('[required]').on('input', function () {
-                                if ($(this).val()) {
-                                    if ($(this).attr('type') === 'email' && !isValidEmail($(this).val())) {
-                                        $(this).removeClass('is-valid').addClass('is-invalid');
-                                    } else {
-                                        $(this).removeClass('is-invalid').addClass('is-valid');
-                                    }
-                                } else {
-                                    $(this).removeClass('is-valid').addClass('is-invalid');
-                                }
-                            });
-
-                            function isValidEmail(email) {
-                                const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-                                return emailPattern.test(email);
-                            }
-
-                            let hasEmptyFields = false;
-                            $form.find('[required]').each(function () {
-                                if (!$(this).val()) {
-                                    hasEmptyFields = true;
-                                    $(this).addClass('is-invalid');
-                                } else {
-                                    $(this).addClass('is-valid');
-                                }
-                            });
-
-                            if (hasEmptyFields) {
-                                alertify.warning('Please fill all required fields');
-                                return false;
-                            }
-
-
-                            const formData = new FormData($form[0]);
-                            $.ajax({
-                                type: 'POST',
-                                processData: false,
-                                contentType: false,
-                                cache: false,
-                                url: url,
-                                data: formData,
-                                enctype: 'multipart/form-data',
-                                beforeSend: function () {
-                                    // window.loadingScreen.addPageLoading();
-                                },
-                                success: function (response) {
-                                    window.location.reload();
-                                },
-                                error: function (xhr, error, status) {
-                                    alertify.error(xhr.responseJSON.message);
-                                },
-                                complete: function () {
-                                    // window.loadingScreen.removeLoading();
-                                }
-                            });
-                        },
-                    },
-                },
-            });
-        },
-        complete: function () {
-            // window.loadingScreen.removeLoading();
-        }
-    });
-});
-
-
-/*========== Use for bootbox form submit end ===========*/
-
-
 $(document).ready(function () {
-    if ($('.location-select2').length > 0) {
-        $('.location-select2').select2({
-            placeholder: "Select options", // Placeholder text
-            allowClear: true ,// Enables clear button
-            required:false,
-        });
-    }
+    $('[data-type="multiselect"]').each(function () {
+        let select2Element = $(this);
+        let maxShow = select2Element.data('maxshow');
 
-    if ($('.category-select2').length > 0) {
-        $('.category-select2').select2({
-            placeholder: "Select options", // Placeholder text
-            allowClear: true, // Enables clear button
-            maximumSelectionLength: 3,
-            required:false,
-        });
-    }
-
-
-    if($('#certifications').length > 0)
-    {
-        $('#certifications').select2({
+        let options = {
             placeholder: "Select options",
-            required:false,
-            // allowClear: true,
-            // maximumSelectionLength: 3
+        };
+
+        if (maxShow !== undefined && maxShow !== null && maxShow !== '') {
+            options.maximumSelectionLength = maxShow;
+        }
+
+        select2Element.select2(options);
+
+        select2Element.on('change', function () {
+            $('#save-button').trigger('click');
         });
-    }
-})
+    });
+});
+
 $(document).on('change', '#type', function () {
     let targetElement = $('#location');
     $(elm).val() !== 'in-person' ? targetElement.addClass('d-none') : targetElement.removeClass('d-none');

@@ -69,7 +69,7 @@
                                 Practitioner Offerings
                             </span>
 
-                            <select name="categories[]" multiple="multiple" class="form-control category-select2">
+                            <select name="categories[]" multiple="multiple" class="form-control"  data-type="multiselect" data-maxshow="3">
 
                                 @foreach($categories as $term)
                                     <option
@@ -90,7 +90,7 @@
                                 @endphp
 
                                 <div class="form-group select2-div">
-                                    <select name="tags[]" id="tags" multiple="multiple" class="form-select location-select2">
+                                    <select name="tags[]" id="tags" multiple="multiple" class="form-select" data-type="multiselect">
                                         @foreach($practitionerTag as $tag)
                                             <option value="{{$tag->id}}"
                                                 {{ in_array($tag->id, $selectedTags) ? 'selected' : '' }}>

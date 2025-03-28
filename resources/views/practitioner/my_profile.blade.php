@@ -117,8 +117,8 @@
 
                                         <div class="mb-4 select2-div">
                                             <label for="location" class="fw-bold">Location</label>
-                                            <select name="location[]" multiple="multiple"
-                                                    class="form-control location-select2">
+                                            <select name="location[]" multiple="multiple" id="location"
+                                                    class="form-control" data-type="multiselect">
                                                 @foreach($locations as $location)
                                                     <option value="{{ $location->id }}"
                                                             @if(!empty($user->location) && in_array($location->id, json_decode($user->location, true)))
@@ -147,7 +147,7 @@
 
                                                 <div class="form-group select2-div">
                                                     <select name="tags[]" id="tags" multiple="multiple"
-                                                            class="form-select location-select2">
+                                                            class="form-select" data-type="multiselect">
                                                         @foreach($practitionerTag as $tag)
                                                             <option value="{{$tag->id}}"
                                                                 {{ in_array($tag->id, $selectedTags) ? 'selected' : '' }}>
@@ -214,7 +214,7 @@
                                             <div class="row align-items-center">
                                                 <div class="col-md-6 select2-div">
                                                     <select id="IHelpWith" name="IHelpWith[]"
-                                                            class="form-select location-select2"
+                                                            class="form-select" data-type="multiselect"
                                                             multiple>
                                                         @php
                                                             $selectedTerms = explode(',', $userDetails->IHelpWith ?? '');
@@ -255,8 +255,7 @@
                                             <div class="row align-items-center">
                                                 <div class="col-md-6">
                                                     <select id="HowIHelp" name="HowIHelp[]"
-                                                            class="form-select location-select2"
-                                                            multiple>
+                                                            class="form-select" data-type="multiselect" multiple>
                                                         @php
                                                             $selectedTerms = explode(',', $userDetails->HowIHelp ?? '');
                                                         @endphp
@@ -279,8 +278,8 @@
 
                                         <div class="mb-4 select2-div">
                                             <label for="specialities" class="fw-bold">Categories (only select 3)</label>
-                                            <select id="specialities" class="form-control form-select category-select2"
-                                                    multiple="multiple"
+                                            <select id="specialities" class="form-control form-select"
+                                                    multiple="multiple" data-type="multiselect" data-maxshow="3"
                                                     name="specialities[]">
                                                 @foreach($Categories as $term)
                                                     <option
@@ -341,7 +340,7 @@
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <select id="certifications" class="form-select"
-                                                            name="certifications[]" multiple>
+                                                            name="certifications[]" multiple data-type="multiselect">
                                                         @php
                                                             $selectedTerms = explode(',', $userDetails->certifications ?? '');
                                                         @endphp
@@ -364,7 +363,7 @@
 
                                         <div class="mb-4 select2-div">
                                             <label for="timezone1" class="fw-bold">Timezone</label>
-                                            <select id="timezone1" name="timezone" class="form-select location-select2">
+                                            <select id="timezone1" name="timezone" class="form-select" data-type="multiselect">
                                                 <option value="">Select</option>
                                                 @foreach ($timezones as $timezone)
                                                     <option
