@@ -143,31 +143,38 @@ $(document).on('click', '[data-action="bootbox_form"]', function (event) {
 
 
 $(document).ready(function () {
-    if ($('.location-select2').length > 0) {
-        $('.location-select2').select2({
-            placeholder: "Select options", // Placeholder text
-            required:false,
-        });
-    }
+    $(document).ready(function () {
+        if ($('.location-select2').length > 0) {
+            $('.location-select2').select2({
+                placeholder: "Select options",
+                required: false
+            }).on('select2:unselecting', function (e) {
+                let select2Dropdown = $(this).data('select2').$dropdown;
+                let scrollTop = select2Dropdown.find('.select2-results__options').scrollTop();
 
-    if ($('.category-select2').length > 0) {
-        $('.category-select2').select2({
-            placeholder: "Select options",
-            maximumSelectionLength: 3,
-            required:false,
-        });
-    }
+                setTimeout(() => {
+                    select2Dropdown.find('.select2-results__options').scrollTop(scrollTop);
+                }, 0);
+            });
+        }
+
+        if ($('.category-select2').length > 0) {
+            $('.category-select2').select2({
+                placeholder: "Select options",
+                maximumSelectionLength: 3,
+                required: false
+            });
+        }
+
+        if ($('#certifications').length > 0) {
+            $('#certifications').select2({
+                placeholder: "Select options",
+                required: false
+            });
+        }
+    });
 
 
-    if($('#certifications').length > 0)
-    {
-        $('#certifications').select2({
-            placeholder: "Select options",
-            required:false,
-            // allowClear: true,
-            // maximumSelectionLength: 3
-        });
-    }
 })
 $(document).on('change', '#type', function () {
     let targetElement = $('#location');
