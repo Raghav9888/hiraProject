@@ -152,7 +152,7 @@ $(document).ready(function () {
 
     if ($('.category-select2').length > 0) {
         $('.category-select2').select2({
-            placeholder: "Select options", 
+            placeholder: "Select options",
             maximumSelectionLength: 3,
             required:false,
         });
