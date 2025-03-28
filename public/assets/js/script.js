@@ -146,15 +146,13 @@ $(document).ready(function () {
     if ($('.location-select2').length > 0) {
         $('.location-select2').select2({
             placeholder: "Select options", // Placeholder text
-            allowClear: true ,// Enables clear button
             required:false,
         });
     }
 
     if ($('.category-select2').length > 0) {
         $('.category-select2').select2({
-            placeholder: "Select options", // Placeholder text
-            allowClear: true, // Enables clear button
+            placeholder: "Select options", 
             maximumSelectionLength: 3,
             required:false,
         });
