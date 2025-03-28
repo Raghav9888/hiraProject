@@ -35,7 +35,7 @@
                                         ? asset(env('media_path') . "/practitioners/{$offering->user->id}/offering/{$offering->featured_image}")
                                         : asset(env('local_path') . '/images/no_image.png');
                                 @endphp
-                                <div class="swiper-slide" style="height: 100%;width: 100%; max-height: 400px;min-height: 400px">
+                                <div class="swiper-slide" style="height: 100%;width: 100%; max-height: 250px;min-height: 250px">
                                     <div class="slider-img">
                                         <img src="{{$imageUrl}}" alt="calm">
                                     </div>

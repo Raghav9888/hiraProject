@@ -78,7 +78,40 @@
         </div>
     </section>
     <!-- explore categories section end -->
+<div class="container">
+    <div class="upcoming-event-container position-relative">
+        <h4>Upcoming Events</h4>
+        <div class="upcoming-event-inner upcoming-events-slider">
+            <div class="swiper-wrapper">
+                @if(count($offerings) > 0)
+                    @foreach($offerings as $date => $offering)
+                        @php
+                            $imageUrl = $offering->featured_image
+                                ? asset(env('media_path') . "/practitioners/{$offering->user->id}/offering/{$offering->featured_image}")
+                                : asset(env('local_path') . '/images/no_image.png');
+                        @endphp
+                        <div class="swiper-slide" style="height: 100%;width: 100%; max-height: 250px;min-height: 250px">
+                            <div class="slider-img">
+                                <img src="{{$imageUrl}}" alt="calm">
+                            </div>
+                            <div class="card-body">
+                                <h5>{{$offering?->name}}</h5>
+                                <h6>{{$offering?->short_description}}</h6>
+                                <div class="d-flex">
+                                    <img src="{{url('./assets/images/Clock.svg')}}" alt="" class="me-2" style="width: 1px">
+                                    <p class="ms-2">{{$date}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                @endif
 
+            </div>
+        </div>
+        <div class="swiper-button-prev-event"><i class="fa-solid fa-arrow-left-long"></i></div>
+        <div class="swiper-button-next-event"><i class="fa-solid fa-arrow-right-long"></i></div>
+    </div>
+</div>
     <!-- featured section start -->
     <section class="featured-section">
         <div class="container">
@@ -664,3 +697,70 @@
 
     </script>
 @endsection
+@push('custom_scripts')
+    <script>
+        var swiper = new Swiper(".upcoming-events-slider", {
+            spaceBetween: 30,
+            slidesPerGroup: 1, // Moves 2 slides at a time
+            loop: true, // Enables infinite looping
+            autoplay: {
+                delay: 3000, // Auto slide every 3 seconds
+                disableOnInteraction: false, // Keep autoplay running after interaction
+            },
+            breakpoints: {
+                640: {
+                    slidesPerView: 1,
+                    spaceBetween: 20,
+                },
+                768: {
+                    slidesPerView: 2,
+                    spaceBetween: 30,
+                },
+                1024: {
+                    slidesPerView: 2.5,
+                    spaceBetween: 30,
+                },
+            },
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+            navigation: {
+                nextEl: ".swiper-button-next-event",
+                prevEl: ".swiper-button-prev-event",
+            },
+        });
+        var swiper = new Swiper(".related-article-slider", {
+            spaceBetween: 30,
+            slidesPerGroup: 1, // Moves 2 slides at a time
+            loop: true, // Enables infinite looping
+            // autoplay: {
+            //     delay: 3000, // Auto slide every 3 seconds
+            //     disableOnInteraction: false, // Keep autoplay running after interaction
+            // },
+            breakpoints: {
+                640: {
+                    slidesPerView: 1,
+                    spaceBetween: 20,
+                },
+                768: {
+                    slidesPerView: 2,
+                    spaceBetween: 30,
+                },
+                1024: {
+                    slidesPerView: 2.5,
+                    spaceBetween: 30,
+                },
+            },
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+        });
+    </script>
+
+@endpush
