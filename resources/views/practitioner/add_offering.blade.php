@@ -117,13 +117,13 @@
                                                 aria-controls="events-tab-pane" aria-selected="false">Events
                                         </button>
                                     </li>
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link" id="package-offering-tab" data-bs-toggle="tab"
-                                                data-bs-target="#package_offering" type="button" role="tab"
-                                                aria-controls="package-offering-tab-pane" aria-selected="false">Package
-                                            offering
-                                        </button>
-                                    </li>
+{{--                                    <li class="nav-item" role="presentation">--}}
+{{--                                        <button class="nav-link" id="package-offering-tab" data-bs-toggle="tab"--}}
+{{--                                                data-bs-target="#package_offering" type="button" role="tab"--}}
+{{--                                                aria-controls="package-offering-tab-pane" aria-selected="false">Package--}}
+{{--                                            offering--}}
+{{--                                        </button>--}}
+{{--                                    </li>--}}
 
                                 </ul>
                                 <div class="tab-content" id="myTabContent">
@@ -287,7 +287,6 @@
                                             <label class="form-check-label mb-3 fw-bold"
                                                    for="can-be-cancelled">Requires Confirmation</label>
                                         </div>
-
                                     </div>
                                     <div class="tab-pane fade" id="events" role="tabpanel" aria-labelledby="events-tab"
                                          tabindex="0">
@@ -441,10 +440,42 @@
                                                    for="can-be-cancelled">Requires Confirmation</label>
                                         </div>
                                     </div>
-                                    <div class="tab-pane fade" id="package_offering" role="tabpanel"
-                                         aria-labelledby="package-offering-tab" tabindex="0">
-                                        <h5>Coming soon</h5>
-                                    </div>
+{{--                                    <div class="tab-pane fade" id="package_offering" role="tabpanel"--}}
+{{--                                         aria-labelledby="package-offering-tab" tabindex="0">--}}
+{{--                                        <div class="my-4">--}}
+{{--                                            <label for="duration-session-package-offering" class="fw-bold">Duration of each session</label>--}}
+{{--                                            <select id="duration-session-package-offering" name="duration_session_package_offering" class="form-select">--}}
+{{--                                                <option value="15 minutes">15 minutes</option>--}}
+{{--                                                <option value="20 minutes">20 minutes</option>--}}
+{{--                                                <option value="30 minutes">30 minutes</option>--}}
+{{--                                                <option value="45 minutes">45 minutes</option>--}}
+{{--                                                <option value="50 minutes">50 minutes</option>--}}
+{{--                                                <option value="1 hour">1 hour</option>--}}
+{{--                                                <option value="1:15 hour">1:15 hour</option>--}}
+{{--                                                <option value="1:30 hour">1:30 hour</option>--}}
+{{--                                                <option value="1:45 hour">1:45 hour</option>--}}
+{{--                                                <option value="1:50 hour">1:50 hour</option>--}}
+{{--                                                <option value="2 hour">2 hours</option>--}}
+{{--                                                <option value="3 hour">3 hour</option>--}}
+{{--                                                <option value="4 hour">4 hour</option>--}}
+{{--                                                <option value="1 Month">1 Month</option>--}}
+{{--                                                <option value="2 Month">2 Months</option>--}}
+{{--                                                <option value="3 Month">3 Months</option>--}}
+{{--                                                <option value="4 Month">4 Months</option>--}}
+{{--                                            </select>--}}
+{{--                                        </div>--}}
+
+{{--                                        <div class="my-4">--}}
+{{--                                            <label for="number-session-package-offering" class="fw-bold">Number of session</label>--}}
+{{--                                            <input type="number" class="form-control mt-2" name="number_session_package_offering" placeholder="Enter the number of sessions">--}}
+{{--                                        </div>--}}
+
+{{--                                        <div class="my-4">--}}
+{{--                                            <label for="time-period-package-offering" class="fw-bold">Number of session</label>--}}
+{{--                                            <input type="number" class="form-control mt-2" name="time_period_package_offering" placeholder="Enter the number of sessions">--}}
+{{--                                        </div>--}}
+
+{{--                                    </div>--}}
 
                                 </div>
                             </div>
