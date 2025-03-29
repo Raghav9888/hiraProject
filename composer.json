@@ -8,11 +8,15 @@
     "require": {
         "php": "^8.2",
         "google/apiclient": "^2.18",
+        "guzzlehttp/psr7": "^2.7",
         "laravel/cashier": "^15.6",
         "laravel/framework": "^11.31",
         "laravel/socialite": "^5.18",
         "laravel/tinker": "^2.9",
         "laravel/ui": "^4.6",
+        "mailerlite/mailerlite-php": "^1.0",
+        "php-http/curl-client": "^2.3",
+        "php-http/message": "^1.16",
         "socialiteproviders/google": "^4.1",
         "stripe/stripe-php": "*"
     },
