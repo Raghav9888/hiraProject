@@ -101,7 +101,7 @@
                                     <i class="fa-regular fa-gem"></i>
                                 @endfor
                             </div>
-                            <h6 style="color: #9F8B72; margin: 0;">{{ $averageProfileRating .' '. 'Ratings' }} </h6>
+                            <h6 style="color: #9F8B72; margin: 0;">{{ ($averageProfileRating != 0.0 ? $averageProfileRating:'5.0') .' '. 'Ratings' }} </h6>
                         </div>
                     </div>
                 </div>
