@@ -33,13 +33,13 @@ class HomeController extends Controller
             'Founding Membership T2'
         ];
         $users = User::where('role', 1)
-                ->whereHas('cusSubscription', function ($query) use ($foundingPlans) {
-                    $query->whereHas('plan', function ($planQuery) use ($foundingPlans) {
-                            $planQuery->whereIn('name', $foundingPlans);
-                        });
-                })
-                ->with('userDetail')
-                ->get()->take(8);
+            ->whereHas('cusSubscription', function ($query) use ($foundingPlans) {
+                $query->whereHas('plan', function ($planQuery) use ($foundingPlans) {
+                    $planQuery->whereIn('name', $foundingPlans);
+                });
+            })
+            ->with('userDetail')
+            ->get()->take(8);
         $categories = Category::all();
         $defaultLocations = Locations::get();
         $blogs = Blog::latest()->get()->take(3);
@@ -331,5 +331,21 @@ class HomeController extends Controller
         ]);
     }
 
+    public function getEvent(Request $request)
+    {
+        $userId = $request->get('userId');
+
+        $offeringId = $request->get('offeringId');
+        $user = User::findOrFail($userId);
+        $userDetail = $user->userDetail;
+        $offering = Offering::where('id', $offeringId)->with('event')->first();
+
+        return response()->json([
+            "success" => true,
+            "data" => "Booking saved in session!",
+            'html' => view('user.event_detail_popup',['user' => $user, 'userDetail' => $userDetail, 'offering' => $offering])->render()
+        ]);
+
+    }
 
 }

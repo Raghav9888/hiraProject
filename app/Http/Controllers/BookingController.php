@@ -69,7 +69,7 @@ class BookingController extends Controller
             ], 404);
         }
 
-        $product = Offering::findOrFail($booking['offering_id']);
+        $product = Offering::where('id',$booking['offering_id'])->with('event')->first();
 
         return response()->json([
             "success" => true,

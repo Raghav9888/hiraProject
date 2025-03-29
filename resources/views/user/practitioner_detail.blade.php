@@ -47,8 +47,6 @@
 
 </style>
 @section('content')
-{{dump($profileFeedback)}}
-{{dump($offeringFeedback)}}
     <div class="practitioner-detail-wrrpr">
         <div class="container">
             <div class="practitioner-search-dv">
@@ -99,7 +97,9 @@
                         <img class="mb-4 img-fluid rounded-5" src="{{ $imageUrl }}" alt="darrel">
                         <div class="d-flex justify-content-between flex-wrap align-items-center">
                             <div>
-                                @for($i= 1; $i<= $averageProfileRating; $i++)<i class="fa-regular fa-gem"></i>@endfor
+                                @for($i= 1; $i<= $averageProfileRating; $i++)
+                                    <i class="fa-regular fa-gem"></i>
+                                @endfor
                             </div>
                             <h6 style="color: #9F8B72; margin: 0;">{{ $averageProfileRating .' '. 'Ratings' }} </h6>
                         </div>
@@ -154,15 +154,17 @@
                                                 <h4 class="mb-2">{{$offering->name}}</h4>
                                                 <div class="d-flex align-items-center">
                                                     <h6 class="offer-prize me-2 m-0">
-                                                        ${{$offering->offering_event_type == 'event' ? $offering->event->client_price :$offering?->client_price ?? 0}}</h6>
+                                                        ${{$offering->offering_event_type == 'event' ? $offering->event->client_price :($offering?->client_price ?? 0)}}</h6>
                                                     <button type="button" class="home-blog-btn" data-bs-toggle="modal"
                                                             data-bs-target="#exampleModal"
                                                             onclick="openPopup(event)"
                                                             data-offering-id="{{$offering->id}}"
+                                                            data-offering-event-type="{{$offering->offering_event_type}}"
+                                                            data-event-start="{{$offering->offering_event_type =='event' ? $offering->event->date_and_time : ''}}"
                                                             data-availability="{{$offering?->availability_type ?? ''}}"
                                                             data-specific-day-start="{{$offering->from_date}}"
                                                             data-specific-day-end="{{$offering->to_date}}"
-                                                            data-price="{{$offering->client_price ?? 0}}"
+                                                            data-price="{{$offering->offering_event_type =='event' ? $offering->event->client_price :$offering->client_price ?? 0}}"
                                                             data-store-availability="{{$storeAvailable}}">BOOK NOW
                                                     </button>
 
@@ -206,13 +208,16 @@
                                                             {{--                                                                Reviews--}}
                                                             {{--                                                            </button>--}}
                                                         </div>
+
                                                         <p>
                                                             <span
-                                                                class="mr-2 mb-1 d-block">Event Duration:: {{@$offering->event->event_duration}}</span>
+                                                                class="mr-2 mb-1 d-block">Event Duration: {{@$offering->event->event_duration}}</span>
                                                             <span
-                                                                class="mr-2 mb-1 d-block"> Client Price:: {{@$offering->event->client_price}}</span>
+                                                                class="mr-2 mb-1 d-block"> Client Price: ${{ @$offering->event->client_price}}</span>
                                                             <span
-                                                                class="mr-2 mb-1 d-block">Date Time:: {{@$offering->event->date_and_time? date('d M, Y', strtotime($offering->event->date_and_time)): ''}}</span>
+                                                                class="mr-2 mb-1 d-block">Date Time: {{@$offering->event->date_and_time? date('d M, Y', strtotime($offering->event->date_and_time)): ''}}</span>
+                                                            <span
+                                                                class="mr-2 mb-1 d-block">Total slots: {{@$offering->event->sports ? $offering->event->sports: ''}}</span>
 
                                                         </p>
                                                     </div>
@@ -295,162 +300,162 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="headingSix">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
-                                    Reviews
-                                </button>
-                            </h2>
-                            <div id="collapseSix" class="accordion-collapse collapse show" aria-labelledby="headingSix"
-                                 data-bs-parent="#accordionExample">
-                                <div class="accordion-body review-dv-data">
-                                    <div class="d-flex justify-content-between flex-wrap mb-3">
-                                        <div>
-                                            <div class="d-flex align-items-center mb-3">
-                                                <h6 class="font-weight-bold">5.0</h6>
-                                                <div class="mx-2">
-                                                    <div class="progress">
-                                                        <div class="progress-bar" role="progressbar" style="width: 80%;"
-                                                             aria-valuenow="80" aria-valuemin="0"
-                                                             aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
-                                                <h6 class="review-count-text">26 Reviews</h5>
-                                            </div>
-                                            <div class="d-flex align-items-center mb-3">
-                                                <h6 class="font-weight-bold">4.0</h6>
-                                                <div class="mx-2">
-                                                    <div class="progress">
-                                                        <div class="progress-bar" role="progressbar" style="width: 70%;"
-                                                             aria-valuenow="70" aria-valuemin="0"
-                                                             aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
-                                                <h6 class="review-count-text">23 Reviews</h5>
-                                            </div>
-                                            <div class="d-flex align-items-center mb-3">
-                                                <h6 class="font-weight-bold">3.0</h6>
-                                                <div class="mx-2">
-                                                    <div class="progress">
-                                                        <div class="progress-bar" role="progressbar" style="width: 50%;"
-                                                             aria-valuenow="50" aria-valuemin="0"
-                                                             aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
-                                                <h6 class="review-count-text">15 Reviews</h5>
-                                            </div>
-                                            <div class="d-flex align-items-center mb-3">
-                                                <h6 class="font-weight-bold">2.0</h6>
-                                                <div class="mx-2">
-                                                    <div class="progress">
-                                                        <div class="progress-bar" role="progressbar" style="width: 20%;"
-                                                             aria-valuenow="20" aria-valuemin="0"
-                                                             aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
-                                                <h6 class="review-count-text">6 Reviews</sh5>
-                                            </div>
-                                            <div class="d-flex align-items-center mb-3">
-                                                <span class="font-weight-bold">1.0</span>
-                                                <div class="mx-2">
-                                                    <div class="progress">
-                                                        <div class="progress-bar" role="progressbar" style="width: 10%;"
-                                                             aria-valuenow="10" aria-valuemin="0"
-                                                             aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
-                                                <h6 class="review-count-text">4 Reviews</sh5>
-                                            </div>
-                                        </div>
-                                        <div class="text-right">
-                                            <div class="d-flex justify-content-end mb-2" style="gap: 5px;">
-                                                <i class="fa-regular fa-gem"></i>
-                                                <i class="fa-regular fa-gem"></i>
-                                                <i class="fa-regular fa-gem"></i>
-                                                <i class="fa-regular fa-gem"></i>
-                                                <i class="fa-regular fa-gem"></i>
-                                            </div>
-                                            <h2>4.9/5.0</h2>
-                                            <p>74 Total Reviews</p>
-                                        </div>
-                                    </div>
-                                    <div class="sort-by">
-                                        <p>Sort By</p>
-                                        <div class="dropdown">
-                                            <button onclick="toggleDropdown()" class="dropdown-button">
-                                                <span>ALL CATEGORIES</span>
-                                                <i class="fas fa-chevron-down"></i>
-                                            </button>
-                                            <div id="dropdownMenuData" class="dropdown-menu">
-                                                <ul>
-                                                    <li><a href="#">Category 1</a></li>
-                                                    <li><a href="#">Category 2</a></li>
-                                                    <li><a href="#">Category 3</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="person-review-dv">
-                                        <div class="d-flex justify-content-between flex-wrap align-items-center mt-3">
-                                            <div class="reviewer mb-3">
-                                                <div class="reviewer-img-text">MJ</div>
-                                                <div class="reviewer-info">
-                                                    <div class="name">Micheal Johnson</div>
-                                                    <div class="stars">
-                                                        <i class="fa-regular fa-gem"></i>
-                                                        <i class="fa-regular fa-gem"></i>
-                                                        <i class="fa-regular fa-gem"></i>
-                                                        <i class="fa-regular fa-gem"></i>
-                                                        <i class="fa-regular fa-gem"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <h3>5.0/5.0</h3>
-                                        </div>
-                                        <div class="review-text mb-3">
-                                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-                                            non proident, sunt in culpa qui officia deserunt mollit anim id est
-                                            laborum."
-                                        </div>
-                                    </div>
-                                    <div class="person-review-dv">
-                                        <div class="d-flex justify-content-between flex-wrap align-items-center mt-3">
-                                            <div class="reviewer mb-3">
-                                                <div class="reviewer-img-text">MJ</div>
-                                                <div class="reviewer-info">
-                                                    <div class="name">Micheal Johnson</div>
-                                                    <div class="stars">
-                                                        <i class="fa-regular fa-gem"></i>
-                                                        <i class="fa-regular fa-gem"></i>
-                                                        <i class="fa-regular fa-gem"></i>
-                                                        <i class="fa-regular fa-gem"></i>
-                                                        <i class="fa-regular fa-gem"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <h3>5.0/5.0</h3>
-                                        </div>
-                                        <div class="review-text mb-3">
-                                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-                                            non proident, sunt in culpa qui officia deserunt mollit anim id est
-                                            laborum."
-                                        </div>
-                                    </div>
-                                    <div class="d-flex justify-content-end mt-4">
-                                        <button class="home-blog-btn">Load More</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        {{--                        <div class="accordion-item">--}}
+                        {{--                            <h2 class="accordion-header" id="headingSix">--}}
+                        {{--                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"--}}
+                        {{--                                        data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">--}}
+                        {{--                                    Reviews--}}
+                        {{--                                </button>--}}
+                        {{--                            </h2>--}}
+                        {{--                            <div id="collapseSix" class="accordion-collapse collapse show" aria-labelledby="headingSix"--}}
+                        {{--                                 data-bs-parent="#accordionExample">--}}
+                        {{--                                <div class="accordion-body review-dv-data">--}}
+                        {{--                                    <div class="d-flex justify-content-between flex-wrap mb-3">--}}
+                        {{--                                        <div>--}}
+                        {{--                                            <div class="d-flex align-items-center mb-3">--}}
+                        {{--                                                <h6 class="font-weight-bold">5.0</h6>--}}
+                        {{--                                                <div class="mx-2">--}}
+                        {{--                                                    <div class="progress">--}}
+                        {{--                                                        <div class="progress-bar" role="progressbar" style="width: 80%;"--}}
+                        {{--                                                             aria-valuenow="80" aria-valuemin="0"--}}
+                        {{--                                                             aria-valuemax="100"></div>--}}
+                        {{--                                                    </div>--}}
+                        {{--                                                </div>--}}
+                        {{--                                                <h6 class="review-count-text">26 Reviews</h5>--}}
+                        {{--                                            </div>--}}
+                        {{--                                            <div class="d-flex align-items-center mb-3">--}}
+                        {{--                                                <h6 class="font-weight-bold">4.0</h6>--}}
+                        {{--                                                <div class="mx-2">--}}
+                        {{--                                                    <div class="progress">--}}
+                        {{--                                                        <div class="progress-bar" role="progressbar" style="width: 70%;"--}}
+                        {{--                                                             aria-valuenow="70" aria-valuemin="0"--}}
+                        {{--                                                             aria-valuemax="100"></div>--}}
+                        {{--                                                    </div>--}}
+                        {{--                                                </div>--}}
+                        {{--                                                <h6 class="review-count-text">23 Reviews</h5>--}}
+                        {{--                                            </div>--}}
+                        {{--                                            <div class="d-flex align-items-center mb-3">--}}
+                        {{--                                                <h6 class="font-weight-bold">3.0</h6>--}}
+                        {{--                                                <div class="mx-2">--}}
+                        {{--                                                    <div class="progress">--}}
+                        {{--                                                        <div class="progress-bar" role="progressbar" style="width: 50%;"--}}
+                        {{--                                                             aria-valuenow="50" aria-valuemin="0"--}}
+                        {{--                                                             aria-valuemax="100"></div>--}}
+                        {{--                                                    </div>--}}
+                        {{--                                                </div>--}}
+                        {{--                                                <h6 class="review-count-text">15 Reviews</h5>--}}
+                        {{--                                            </div>--}}
+                        {{--                                            <div class="d-flex align-items-center mb-3">--}}
+                        {{--                                                <h6 class="font-weight-bold">2.0</h6>--}}
+                        {{--                                                <div class="mx-2">--}}
+                        {{--                                                    <div class="progress">--}}
+                        {{--                                                        <div class="progress-bar" role="progressbar" style="width: 20%;"--}}
+                        {{--                                                             aria-valuenow="20" aria-valuemin="0"--}}
+                        {{--                                                             aria-valuemax="100"></div>--}}
+                        {{--                                                    </div>--}}
+                        {{--                                                </div>--}}
+                        {{--                                                <h6 class="review-count-text">6 Reviews</sh5>--}}
+                        {{--                                            </div>--}}
+                        {{--                                            <div class="d-flex align-items-center mb-3">--}}
+                        {{--                                                <span class="font-weight-bold">1.0</span>--}}
+                        {{--                                                <div class="mx-2">--}}
+                        {{--                                                    <div class="progress">--}}
+                        {{--                                                        <div class="progress-bar" role="progressbar" style="width: 10%;"--}}
+                        {{--                                                             aria-valuenow="10" aria-valuemin="0"--}}
+                        {{--                                                             aria-valuemax="100"></div>--}}
+                        {{--                                                    </div>--}}
+                        {{--                                                </div>--}}
+                        {{--                                                <h6 class="review-count-text">4 Reviews</sh5>--}}
+                        {{--                                            </div>--}}
+                        {{--                                        </div>--}}
+                        {{--                                        <div class="text-right">--}}
+                        {{--                                            <div class="d-flex justify-content-end mb-2" style="gap: 5px;">--}}
+                        {{--                                                <i class="fa-regular fa-gem"></i>--}}
+                        {{--                                                <i class="fa-regular fa-gem"></i>--}}
+                        {{--                                                <i class="fa-regular fa-gem"></i>--}}
+                        {{--                                                <i class="fa-regular fa-gem"></i>--}}
+                        {{--                                                <i class="fa-regular fa-gem"></i>--}}
+                        {{--                                            </div>--}}
+                        {{--                                            <h2>4.9/5.0</h2>--}}
+                        {{--                                            <p>74 Total Reviews</p>--}}
+                        {{--                                        </div>--}}
+                        {{--                                    </div>--}}
+                        {{--                                    <div class="sort-by">--}}
+                        {{--                                        <p>Sort By</p>--}}
+                        {{--                                        <div class="dropdown">--}}
+                        {{--                                            <button onclick="toggleDropdown()" class="dropdown-button">--}}
+                        {{--                                                <span>ALL CATEGORIES</span>--}}
+                        {{--                                                <i class="fas fa-chevron-down"></i>--}}
+                        {{--                                            </button>--}}
+                        {{--                                            <div id="dropdownMenuData" class="dropdown-menu">--}}
+                        {{--                                                <ul>--}}
+                        {{--                                                    <li><a href="#">Category 1</a></li>--}}
+                        {{--                                                    <li><a href="#">Category 2</a></li>--}}
+                        {{--                                                    <li><a href="#">Category 3</a></li>--}}
+                        {{--                                                </ul>--}}
+                        {{--                                            </div>--}}
+                        {{--                                        </div>--}}
+                        {{--                                    </div>--}}
+                        {{--                                    <div class="person-review-dv">--}}
+                        {{--                                        <div class="d-flex justify-content-between flex-wrap align-items-center mt-3">--}}
+                        {{--                                            <div class="reviewer mb-3">--}}
+                        {{--                                                <div class="reviewer-img-text">MJ</div>--}}
+                        {{--                                                <div class="reviewer-info">--}}
+                        {{--                                                    <div class="name">Micheal Johnson</div>--}}
+                        {{--                                                    <div class="stars">--}}
+                        {{--                                                        <i class="fa-regular fa-gem"></i>--}}
+                        {{--                                                        <i class="fa-regular fa-gem"></i>--}}
+                        {{--                                                        <i class="fa-regular fa-gem"></i>--}}
+                        {{--                                                        <i class="fa-regular fa-gem"></i>--}}
+                        {{--                                                        <i class="fa-regular fa-gem"></i>--}}
+                        {{--                                                    </div>--}}
+                        {{--                                                </div>--}}
+                        {{--                                            </div>--}}
+                        {{--                                            <h3>5.0/5.0</h3>--}}
+                        {{--                                        </div>--}}
+                        {{--                                        <div class="review-text mb-3">--}}
+                        {{--                                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod--}}
+                        {{--                                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,--}}
+                        {{--                                            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo--}}
+                        {{--                                            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse--}}
+                        {{--                                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat--}}
+                        {{--                                            non proident, sunt in culpa qui officia deserunt mollit anim id est--}}
+                        {{--                                            laborum."--}}
+                        {{--                                        </div>--}}
+                        {{--                                    </div>--}}
+                        {{--                                    <div class="person-review-dv">--}}
+                        {{--                                        <div class="d-flex justify-content-between flex-wrap align-items-center mt-3">--}}
+                        {{--                                            <div class="reviewer mb-3">--}}
+                        {{--                                                <div class="reviewer-img-text">MJ</div>--}}
+                        {{--                                                <div class="reviewer-info">--}}
+                        {{--                                                    <div class="name">Micheal Johnson</div>--}}
+                        {{--                                                    <div class="stars">--}}
+                        {{--                                                        <i class="fa-regular fa-gem"></i>--}}
+                        {{--                                                        <i class="fa-regular fa-gem"></i>--}}
+                        {{--                                                        <i class="fa-regular fa-gem"></i>--}}
+                        {{--                                                        <i class="fa-regular fa-gem"></i>--}}
+                        {{--                                                        <i class="fa-regular fa-gem"></i>--}}
+                        {{--                                                    </div>--}}
+                        {{--                                                </div>--}}
+                        {{--                                            </div>--}}
+                        {{--                                            <h3>5.0/5.0</h3>--}}
+                        {{--                                        </div>--}}
+                        {{--                                        <div class="review-text mb-3">--}}
+                        {{--                                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod--}}
+                        {{--                                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,--}}
+                        {{--                                            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo--}}
+                        {{--                                            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse--}}
+                        {{--                                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat--}}
+                        {{--                                            non proident, sunt in culpa qui officia deserunt mollit anim id est--}}
+                        {{--                                            laborum."--}}
+                        {{--                                        </div>--}}
+                        {{--                                    </div>--}}
+                        {{--                                    <div class="d-flex justify-content-end mt-4">--}}
+                        {{--                                        <button class="home-blog-btn">Load More</button>--}}
+                        {{--                                    </div>--}}
+                        {{--                                </div>--}}
+                        {{--                            </div>--}}
+                        {{--                        </div>--}}
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-3 col-lg-3">
@@ -529,6 +534,8 @@
     <input type="hidden" name="offering_id" id="offering_id">
     <input type="hidden" name="user_id" id="user_id">
 
+    <input type="hidden" name="offering_event_type" id="offering_event_type">
+    <input type="hidden" name="offering_event_start_date_time" id="offering_event_start_date_time">
     <input type="hidden" name="availability" id="availability">
 
     <input type="hidden" name="offering_price" id="offering_price">
@@ -547,8 +554,11 @@
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-body">
-                    <div class="booking-container">
+                    <div class="booking-container d-none">
                         @include('user.offering_detail_page')
+                    </div>
+                    <div class="event-container d-none">
+                        @include('user.event_detail_popup')
                     </div>
                     <div class="billing-container"></div>
                     <div class="checkout-container"></div>
@@ -642,27 +652,57 @@
             let priceData = event.target.getAttribute('data-price');
             let specificDayStart = event.target.getAttribute('data-specific-day-start');
             let specificDayEnd = event.target.getAttribute('data-specific-day-end');
+            let offeringEventType = event.target.getAttribute('data-offering-event-type');
+            let offeringEventStart = event.target.getAttribute('data-event-start');
 
             let inputElement = document.querySelector('[name="offering_id"]');
             let userIdInput = document.querySelector('[name="user_id"]');
             let availabilityInput = document.querySelector('[name="availability"]');
             let offeringPriceInput = document.querySelector('[name="offering_price"]');
             let offeringSlotsInput = document.querySelector('[name="store-availability"]');
-            let priceDiv = document.getElementById('modalPrice');
+            let priceDiv = offeringEventType === 'event' ? document.getElementById('eventPrice') : document.getElementById('offeringPrice');
             let offeringSpecificDaysInput = document.querySelector('[name="offering-specific-days"]');
+            let offeringEventInput = document.querySelector('[name="offering_event_type"]');
+            let offeringEventStartDateTime = document.querySelector('[name="offering_event_start_date_time"]');
             let popupElement = document.getElementById('popup');
 
-            if (inputElement) {
-                inputElement.value = offeringId;
-                inputElement.classList.add('activeInput');
-                availabilityInput.value = availabilityData;
-                offeringSlotsInput.value = storeAvailability;
-                offeringPriceInput.value = priceData;
-                priceDiv.textContent = priceData;
-                userIdInput.value = '{{ $user->id }}';
-                offeringSpecificDaysInput.setAttribute('data-specific-day-start', specificDayStart);
-                offeringSpecificDaysInput.setAttribute('data-specific-day-end', specificDayEnd);
-                offeringSpecificDaysInput.value = specificDayStart + ' - ' + specificDayEnd;
+            if (offeringEventType === 'event') {
+                $.ajax({
+                    url: '{{ route('getEvent') }}',
+                    type: 'POST',
+                    data: {
+                        offeringId: offeringId,
+                        userId: '{{ $user->id }}',
+                        _token: '{{ csrf_token() }}'
+                    },
+                    beforeSend: function () {
+                        window.loadingScreen.addPageLoading();
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            // Populate the event data in the modal
+                            document.querySelector('.event-container').innerHTML = response.html;
+                            document.querySelector('.event-container').classList.remove('d-none');
+                            document.querySelector('.booking-container').classList.add('d-none');
+                        }else{
+                            console.log('error')
+                        }
+
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("AJAX Error:", error);
+                    },
+
+                    complete: function () {
+                        window.loadingScreen.removeLoading();
+                    }
+
+
+                })
+
+            } else {
+                document.querySelector('.event-container').classList.add('d-none');
+                document.querySelector('.booking-container').classList.remove('d-none');
 
                 $.ajax({
                     type: 'post',
@@ -695,6 +735,22 @@
                 });
 
                 generateCalendar(currentMonth, currentYear);
+            }
+
+
+            if (inputElement) {
+                inputElement.value = offeringId;
+                inputElement.classList.add('activeInput');
+                availabilityInput.value = availabilityData;
+                offeringSlotsInput.value = storeAvailability;
+                offeringEventInput.value = offeringEventType;
+                offeringPriceInput.value = priceData;
+                priceDiv.textContent = priceData;
+                offeringEventStartDateTime.value = offeringEventStart;
+                userIdInput.value = '{{ $user->id }}';
+                offeringSpecificDaysInput.setAttribute('data-specific-day-start', specificDayStart);
+                offeringSpecificDaysInput.setAttribute('data-specific-day-end', specificDayEnd);
+                offeringSpecificDaysInput.value = specificDayStart + ' - ' + specificDayEnd;
             } else {
                 console.error("Element with name 'offering_id' not found");
             }
@@ -1007,14 +1063,34 @@
         });
 
 
-        $('.proceed_to_checkout').on('click', function () {
+        $(document).on('click', '.proceed_to_checkout', function () {
+            console.log('click');
+
             const offeringId = $('#offering_id').val();
-            const bookingDate = $('#booking_date').val();
-            const bookingTime = $('#booking_time').val();
+            const offeringEventType = $('#offering_event_type').val();
+            const startEventDate = $('#offering_event_start_date_time').val();
+
+            let bookingDate = '';
+            let bookingTime = '';
+
+            if (offeringEventType !== 'event') {
+                bookingDate = $('#booking_date').val();
+                bookingTime = $('#booking_time').val();
+            } else {
+                [bookingDate, bookingTime] = startEventDate.split(" ");
+            }
+
+            paymentAjax(offeringId, bookingDate, bookingTime, offeringEventType);
+        });
+
+
+        function paymentAjax(offeringId, bookingDate, bookingTime, offeringEventType) {
+
             if (!offeringId || !bookingDate || !bookingTime) {
                 alert("Please select slot!");
                 return;
             }
+
             $.ajax({
                 type: "POST",
                 url: "{{route('storeBooking')}}",
@@ -1024,13 +1100,15 @@
                 data: {
                     offering_id: offeringId,
                     booking_date: bookingDate,
-                    booking_time: bookingTime
+                    booking_time: bookingTime,
+                    offering_event_type: offeringEventType
                 },
                 success: function (response) {
                     if (!response.success) {
                         alert("Something went wrong!")
                     }
                     $('.booking-container').hide();
+                    $('.event-container').hide();
                     $('.billing-container').show();
                     $('.billing-container').html(response.html);
                     // $('.popup-content').css('width', "60%")
@@ -1038,10 +1116,11 @@
                     // $('.popup-content .container').css('padding', "30px")
                 },
                 error: function (error) {
-                    alert("Something went wrong!")
+                    alert("Something went wrong!");
                 }
-            })
-        })
+            });
+        }
+
     </script>
 
 @endsection
