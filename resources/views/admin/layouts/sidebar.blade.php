@@ -91,7 +91,7 @@
         <li class="nav-item {{request()->routeIs('admin.feedback.*')? 'active': ''}}">
             <a class="nav-link" data-bs-toggle="collapse" href="#feedback-elements" aria-expanded="false"
                aria-controls="feedback-elements">
-                <i class="menu-icon mdi mdi-map-marker-multiple"></i>
+                <i class="menu-icon mdi mdi-message-alert"></i>
                 <span class="menu-title">Feedback Management</span>
                 <i class="menu-arrow"></i>
             </a>

@@ -262,7 +262,7 @@ if ($('#customCalendar').length > 0) {
                     let eventEndDate = event.end ? event.end.split('T')[0] : eventStartDate;
                     let eventStart = new Date(eventStartDate);
                     let eventEnd = new Date(eventEndDate);
-                    let eventDays = (eventEnd - eventStart) / (1000 * 60 * 60 * 24) + 1; // Duration in days
+                    let eventDays = (eventEnd - eventStart) / (1000 * 60 * 60 * 24) + 1;
 
                     let eventLabel = document.createElement("div");
 

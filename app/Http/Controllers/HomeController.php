@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use App\Models\Event;
+use App\Models\Feedback;
 use App\Models\Locations;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -16,8 +16,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ContactUsMail;
 use App\Models\Blog;
-use App\Models\Plan;
-use Illuminate\Support\Facades\Log;
 
 class HomeController extends Controller
 {
@@ -32,7 +30,7 @@ class HomeController extends Controller
         $foundingPlans = [
             'Founding Membership T1',
             'Founding Membership - 10 years',
-            'Founding Membership T2' 
+            'Founding Membership T2'
         ];
         $users = User::where('role', 1)
                 ->whereHas('cusSubscription', function ($query) use ($foundingPlans) {
@@ -140,7 +138,12 @@ class HomeController extends Controller
 
 
         $offerings = Offering::where('user_id', $user->id)->get();
-
+        $offeringIds = $offerings->pluck('id')->toArray();
+        $feedback = Feedback::where('user_id', $user->id)
+            ->orWhereIn('offering_id', $offeringIds)
+            ->with('admin') // Load admin info who gave the feedback
+            ->orderBy('created_at', 'desc') // Order by latest feedback
+            ->get();
         $images = json_decode($userDetail->images, true);
         $image = isset($images['profile_image']) ? $images['profile_image'] : null;
         $mediaImages = isset($images['media_images']) && is_array($images['media_images']) ? $images['media_images'] : [];

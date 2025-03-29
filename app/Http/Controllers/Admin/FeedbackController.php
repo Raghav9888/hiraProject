@@ -14,7 +14,8 @@ class FeedbackController extends Controller
     public function index()
     {
         $feedbacks = Feedback::with(['admin', 'user', 'offering'])->paginate(10);
-        $users = User::all(); // Fetching users
+        $users = User::where('status', 1)->where('role', 1)->get();
+
         return view('admin.feedback.index', compact('feedbacks', 'users'));
     }
 
@@ -23,7 +24,8 @@ class FeedbackController extends Controller
      */
     public function create()
     {
-        $users = User::where('role', 1)->get(); // Fetching practitioners
+        $users = User::where('status', 1)->where('role', 1)->get();
+
         return view('admin.feedback.create', compact('users'));
     }
 
@@ -94,7 +96,7 @@ class FeedbackController extends Controller
     /**
      * Fetch offerings dynamically based on selected user (AJAX request).
      */
-    public function getOfferingsByUser(Request $request,$userId)
+    public function getOfferingsByUser(Request $request, $userId)
     {
 
         $offerings = Offering::where('user_id', $userId)->get();
