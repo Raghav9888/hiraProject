@@ -211,13 +211,13 @@
 
                                                         <p>
                                                             <span
-                                                                class="mr-2 mb-1 d-block">Event Duration: {{@$offering->event->event_duration}}</span>
+                                                                class="mr-2 mb-1 d-block">Event Duration: {{@$offering?->event?->event_duration ?? 0}}</span>
                                                             <span
-                                                                class="mr-2 mb-1 d-block"> Client Price: ${{ @$offering->event->client_price}}</span>
+                                                                class="mr-2 mb-1 d-block"> Client Price: ${{ @$offering?->event?->client_price ?? 0}}</span>
                                                             <span
                                                                 class="mr-2 mb-1 d-block">Date Time: {{@$offering->event->date_and_time? date('d M, Y', strtotime($offering->event->date_and_time)): ''}}</span>
                                                             <span
-                                                                class="mr-2 mb-1 d-block">Total slots: {{@$offering->event->sports > 0 ? $offering->event->sports: 0}}</span>
+                                                                class="mr-2 mb-1 d-block">Total slots: {{@$offering?->event->sports > 0 ? $offering->event->sports: 0}}</span>
 
                                                         </p>
                                                     </div>
