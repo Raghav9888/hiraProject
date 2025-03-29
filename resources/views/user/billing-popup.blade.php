@@ -31,9 +31,9 @@
            </div>
         </div>
     </div>
-    
+
     <form id="billingForm" method="post">
-        @csrf                       
+        @csrf
         <div class="form-container">
             <h4 class="form-title">Enter Billing Details</h4>
             <div class="row">
@@ -41,13 +41,13 @@
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label mb-2">First Name</label>
                         <input type="text" class="form-control" required name="first_name" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter First Name">
-                    </div> 
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label mb-2">Last Name</label>
                         <input type="text" class="form-control" required name="last_name" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Last Name">
-                    </div> 
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
@@ -59,34 +59,34 @@
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label mb-2">Phone Number</label>
                         <input type="text" class="form-control" required name="billing_phone" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Phone Number">
-                    </div> 
+                    </div>
                 </div>
                 <div class="col-md-12">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label mb-2">Street Address</label>
                         <input type="text" class="form-control" required name="billing_address" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter address line 1">
-                    </div> 
+                    </div>
                     <div class="mb-3">
                         <input type="text" class="form-control" required name="billing_address2" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter address line 2">
-                    </div> 
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label mb-2">City</label>
                         <input type="text" class="form-control" required name="billing_city" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter city">
-                    </div> 
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label mb-2">State</label>
                         <input type="text" class="form-control" required name="billing_state" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter state">
-                    </div> 
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label mb-2">Postcode</label>
                         <input type="text" class="form-control" required name="billing_postcode" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter postcode">
-                    </div> 
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
@@ -95,13 +95,13 @@
                             <option value="India">India</option>
                             <option value="Canada">Canada</option>
                         </select>
-                    </div> 
+                    </div>
                 </div>
             </div>
-            <div class="or-container text-center mb-3">OR</div>
-            <div class="d-flex justify-content-center mb-3">
-                <button class="creat-account">Create An Account</button>
-            </div>
+{{--            <div class="or-container text-center mb-3">OR</div>--}}
+{{--            <div class="d-flex justify-content-center mb-3">--}}
+{{--                <button class="creat-account">Create An Account</button>--}}
+{{--            </div>--}}
         </div>
         <div class="bottom-container">
             <div class="form-check ">
@@ -112,7 +112,9 @@
                 <input class="form-check-input" type="checkbox" id="inlineCheckbox2" required  value="yes">
                 <label class="form-check-label" for="inlineCheckbox2">Yes, I want to receive emails from The Hira Collective!</label>
             </div>
-            <button class="confirm-booking w-100" type="submit">Confirm Booking</button>
+            <div class="col-12 text-center">
+                <button class="confirm-booking" type="submit">Confirm Booking</button>
+            </div>
             <div class="bottom-line">
                 Use of this website, content, and products are for informational purposes only. TheHiraCollective does not provide medical advice, diagnosis, or treatment.
             </div>
@@ -120,7 +122,7 @@
     </form>
 </div>
 <script>
-    
+
     $("#billingForm").on("submit", function (e) {
         e.preventDefault(); // Prevent default form submission
 
