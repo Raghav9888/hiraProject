@@ -10,7 +10,7 @@
         <p class="mb-2"><i class="fa-solid fa-clock text-muted me-2"></i><strong>Event Duration:</strong> {{@$offering->event->event_duration}}</p>
         <p class="mb-2"><i class="fa-solid fa-dollar-sign text-muted me-2"></i><strong>Client Price:</strong> ${{ @$offering->event->client_price}}</p>
         <p class="mb-2"><i class="fa-solid fa-calendar text-muted me-2"></i><strong>Date & Time:</strong> {{@$offering->event->date_and_time? date('d M, Y', strtotime($offering->event->date_and_time)): ''}}</p>
-        <p class="mb-0"><i class="fa-solid fa-users text-muted me-2"></i><strong>Total Slots:</strong> {{@$offering->event->sports ? $offering->event->sports: ''}}</p>
+        <p class="mb-0"><i class="fa-solid fa-users text-muted me-2"></i><strong>Total Slots:</strong> {{@$offering->event->sports > 0 ? $offering->event->sports: 0}}</p>
     </div>
 
     <div class="d-flex justify-content-between align-items-center mt-4">
@@ -21,8 +21,10 @@
                 <span id="eventPrice">{{$offering->event->client_price}} </span>
             </div>
         </div>
-        <button class="btn btn-green rounded-pill px-4 py-2 proceed_to_checkout">
-            <i class="fa-solid fa-credit-card me-2"></i> PROCEED TO CHECK OUT
-        </button>
+        @if($offering->event->sports > 0)
+            <button class="btn btn-green rounded-pill px-4 py-2 proceed_to_checkout">
+                <i class="fa-solid fa-credit-card me-2"></i> PROCEED TO CHECK OUT
+            </button>
+        @endif
     </div>
 </div>

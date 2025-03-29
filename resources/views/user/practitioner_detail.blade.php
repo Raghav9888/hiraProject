@@ -217,7 +217,7 @@
                                                             <span
                                                                 class="mr-2 mb-1 d-block">Date Time: {{@$offering->event->date_and_time? date('d M, Y', strtotime($offering->event->date_and_time)): ''}}</span>
                                                             <span
-                                                                class="mr-2 mb-1 d-block">Total slots: {{@$offering->event->sports ? $offering->event->sports: ''}}</span>
+                                                                class="mr-2 mb-1 d-block">Total slots: {{@$offering->event->sports > 0 ? $offering->event->sports: 0}}</span>
 
                                                         </p>
                                                     </div>
