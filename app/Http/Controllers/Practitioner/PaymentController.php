@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Practitioner;
 
 use App\Http\Controllers\Calender\GoogleCalendarController;
@@ -96,49 +97,49 @@ class PaymentController extends Controller
         try {
             $user = auth()->user();
 
-             $booking = session('booking');
-             $billing = session('billing');
-             if (!$booking || !$billing) {
-                 return response()->json([
-                     "success" => false,
-                     "data" => "Booking session expired.",
-                 ], 404);
-             }
-             // Save Booking
-             $order = Booking::create([
-                  'user_id' => $user? $user->id : null,
-                 'offering_id' => $booking['offering_id'],
-                 'booking_date' => $booking['booking_date'],
-                 'time_slot' => $booking['booking_time'],
-                 'total_amount' => $request->total_amount,
-                 'tax_amount' => $request->tax_amount,
-                 'price' => Offering::find($booking['offering_id'])->client_price,
-                 'status' => 'pending',
-                 'first_name' => $billing['first_name'],
-                 'last_name' => $billing['last_name'],
-                 'billing_address' => $billing['billing_address'],
-                 'billing_address2' => $billing['billing_address2'],
-                 'billing_country' => $billing['billing_country'],
-                 'billing_city' => $billing['billing_city'],
-                 'billing_state' => $billing['billing_state'],
-                 'billing_postcode' => $billing['billing_postcode'],
-                 'billing_phone' => $billing['billing_phone'],
-                 'billing_email' => $billing['billing_email'],
-             ]);
+            $booking = session('booking');
+            $billing = session('billing');
+            if (!$booking || !$billing) {
+                return response()->json([
+                    "success" => false,
+                    "data" => "Booking session expired.",
+                ], 404);
+            }
+            // Save Booking
+            $order = Booking::create([
+                'user_id' => $user ? $user->id : null,
+                'offering_id' => $booking['offering_id'],
+                'booking_date' => $booking['booking_date'],
+                'time_slot' => $booking['booking_time'],
+                'total_amount' => $request->total_amount,
+                'tax_amount' => $request->tax_amount,
+                'price' => Offering::find($booking['offering_id'])->client_price,
+                'status' => 'pending',
+                'first_name' => $billing['first_name'],
+                'last_name' => $billing['last_name'],
+                'billing_address' => $billing['billing_address'],
+                'billing_address2' => $billing['billing_address2'],
+                'billing_country' => $billing['billing_country'],
+                'billing_city' => $billing['billing_city'],
+                'billing_state' => $billing['billing_state'],
+                'billing_postcode' => $billing['billing_postcode'],
+                'billing_phone' => $billing['billing_phone'],
+                'billing_email' => $billing['billing_email'],
+            ]);
 
-             session()->forget('booking');
-             session()->forget('billing');
-             $url = $this->processStripePayment($order->id);
-             if(!$url){
+            session()->forget('booking');
+            session()->forget('billing');
+            $url = $this->processStripePayment($order->id);
+            if (!$url) {
                 return response()->json([
                     "success" => false,
                     "data" => "Practitioner does not link there stripe account",
                 ], 200);
-             }
-             return response()->json([
-                 "success" => true,
-                 "data" => $url,
-             ], 200);
+            }
+            return response()->json([
+                "success" => true,
+                "data" => $url,
+            ], 200);
         } catch (\Throwable $th) {
             return response()->json([
                 "success" => false,
@@ -154,60 +155,63 @@ class PaymentController extends Controller
     }
 
     public function processStripePayment($orderId)
-{
-    try {
-        Stripe::setApiKey(env('STRIPE_SECRET'));
+    {
+        try {
 
-        $order = Booking::findOrFail($orderId);
-        $vendorId = $order->offering->user_id;
-        $vendorStripe = UserStripeSetting::where("user_id", $vendorId)->first();
-        if(!$vendorStripe && !$vendorStripe->stripe_user_id){
-            return false;
+            Stripe::setApiKey(env('STRIPE_SECRET'));
+
+            $order = Booking::findOrFail($orderId);
+            $vendorId = $order->offering->user_id;
+            $vendorStripe = UserStripeSetting::where("user_id", $vendorId)->first();
+            if (!$vendorStripe && !$vendorStripe->stripe_user_id) {
+                return false;
+            }
+            // Stripe Checkout Session
+            $session = StripeSession::create([
+                'payment_method_types' => ['card'],
+                'line_items' => [[
+                    'price_data' => [
+                        'currency' => 'usd',
+                        'product_data' => ['name' => 'Booking Payment'],
+                        'unit_amount' => $order->total_amount * 100, // Convert to cents
+                    ],
+                    'quantity' => 1,
+                ]],
+                'mode' => 'payment',
+                'payment_intent_data' => [
+                    'application_fee_amount' => intval($order->total_amount * 0.22 * 100), // 22% to admin
+                    'transfer_data' => [
+                        'destination' => $vendorStripe->stripe_user_id, // 78% to vendor
+                    ],
+                ],
+                'success_url' => route('confirm-payment', ['order_id' => $order->id]),
+                'cancel_url' => route('payment.cancel', ['order_id' => $order->id]),
+            ]);
+
+
+            // Save Payment Data
+            Payment::create([
+                'order_id' => $order->id,
+                'payment_method' => 'stripe',
+                'amount' => $order->total_amount,
+                'transaction_id' => $session->id,
+                'response' => json_encode($session),
+                'status' => 'pending', // Change to "completed" after Stripe confirmation
+            ]);
+
+            return $session->url;
+
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
         }
-        // Stripe Checkout Session
-        $session = StripeSession::create([
-            'payment_method_types' => ['card'],
-            'line_items' => [[
-                'price_data' => [
-                    'currency' => 'usd',
-                    'product_data' => ['name' => 'Booking Payment'],
-                    'unit_amount' => $order->total_amount * 100, // Convert to cents
-                ],
-                'quantity' => 1,
-            ]],
-            'mode' => 'payment',
-            'payment_intent_data' => [
-                'application_fee_amount' => intval($order->total_amount * 0.22 * 100), // 22% to admin
-                'transfer_data' => [
-                    'destination' => $vendorStripe->stripe_user_id, // 78% to vendor
-                ],
-            ],
-            'success_url' => route('confirm-payment', ['order_id' => $order->id]),
-            'cancel_url' => route('payment.cancel', ['order_id' => $order->id]),
-        ]);
-
-
-
-        // Save Payment Data
-        Payment::create([
-            'order_id' => $order->id,
-            'payment_method' => 'stripe',
-            'amount' => $order->total_amount,
-            'transaction_id' => $session->id,
-            'response' => json_encode($session),
-            'status' => 'pending', // Change to "completed" after Stripe confirmation
-        ]);
-
-        return $session->url;
-
-    } catch (\Exception $e) {
-        throw new \Exception($e->getMessage());
     }
-}
 
     public function confirmPayment(Request $request)
     {
+
         $order = Booking::findOrFail($request->order_id);
+        $offeringId = $order->offering->id;
+
 
         $payment = Payment::where("order_id", $order->id)->firstOrFail();
         $payment->status = 'completed';
@@ -215,6 +219,16 @@ class PaymentController extends Controller
 
         // Update order status
         $order->update(['status' => 'paid']);
+
+        $offering = Offering::where('id', $offeringId)->with('event')->first();
+
+        if ($offering->offering_event_type === 'event') {
+            $event = Event::where('offering_id', $offeringId)->firstOrFail();
+
+            $totalSlots = $offering->event->sports > 0 ? $offering->event->sports - 1 : 0;
+            $event->sports = "$totalSlots";
+            $event->save();
+        }
 
         // Attempt to create a Google Calendar event
         try {
@@ -226,55 +240,68 @@ class PaymentController extends Controller
         return redirect()->route('thankyou')->with('success', 'Payment successful!');
     }
 
-    /**
-     * @throws \Exception
-     */
     private function createGoogleCalendarEvent($order)
     {
         $offering = Offering::findOrFail($order->offering_id);
         $user = User::with('userDetail')->findOrFail($offering->user_id);
 
-        // Get store availabilities from user details
-        $storeAvailabilities = json_decode($user->userDetail->store_availabilities, true);
-
         // Determine booking date and weekday
         $bookingDate = Carbon::parse($order->booking_date);
         $dayOfWeek = strtolower($bookingDate->format('l'));
 
-        $availabilityKey = in_array($dayOfWeek, ['saturday', 'sunday']) ? "weekends_only_-_every_sat_&_sundays" : "every_{$dayOfWeek}";
+        if ($offering->offering_event_type === 'event') {
+            $startTime = Carbon::parse($order->time_slot);
+            $duration = optional($offering->event)->event_duration ?? 60;
+        } else {
+            // Get store availabilities from user details (ensure valid JSON)
+            $storeAvailabilities = json_decode($user->userDetail->store_availabilities, true) ?? [];
 
-        $storeHours = $this->getStoreAvailability($availabilityKey, $storeAvailabilities);
+            $availabilityKey = in_array($dayOfWeek, ['saturday', 'sunday'])
+                ? "weekends_only_-_every_sat_&_sundays"
+                : "every_{$dayOfWeek}";
 
+            // Check if availability key exists
+            if (!isset($storeAvailabilities[$availabilityKey])) {
+                \Log::warning("Availability key {$availabilityKey} not found in store availabilities.");
+                $storeHours = [];
+            } else {
+                $storeHours = $this->getStoreAvailability($availabilityKey, $storeAvailabilities);
+            }
 
-        $startTime = Carbon::parse($order->time_slot);
-        $duration = $offering->duration ?? 60;
-        $endTime = $startTime->copy()->addMinutes($duration)->format('H:i');
+            $startTime = Carbon::parse($order->time_slot);
+            $duration = $offering->duration ?? 60;
+        }
 
+        // Ensure valid end time calculation
+        $endTime = isset($startTime) ? $startTime->copy()->addMinutes($duration)->format('H:i') : null;
+
+        // Event Data
         $eventData = [
-            'title'       => 'Booking: ' . (($order?->first_name . $order?->last_name)?? 'Unknown Service'),
+            'title'       => 'Booking: ' . (($order->first_name ?? '') . ' ' . ($order->last_name ?? '')),
             'category'    => 'Booking',
-            'description' => 'Customer: ' . (($order?->first_name . $order?->last_name)?? 'Unknown Service'),
-            'start'       => $bookingDate->toDateString() . ' ' . $startTime->format('H:i'),
-            'end'         => $bookingDate->toDateString() . ' ' . $endTime,
+            'description' => 'Customer: ' . (($order->first_name ?? '') . ' ' . ($order->last_name ?? '')),
+            'start'       => $bookingDate->toDateString() . ' ' . ($startTime->format('H:i') ?? ''),
+            'end'         => $bookingDate->toDateString() . ' ' . ($endTime ?? ''),
             'date'        => $order->booking_date,
             'user_id'     => $offering->user_id,
         ];
 
+        // Google Calendar API Integration
         try {
             $googleCalendar = new GoogleCalendarController();
             $response = $googleCalendar->createGoogleEvent($eventData);
 
-
-            if (!isset($response) || method_exists($response, 'getStatusCode') && $response->getStatusCode() != 200) {
+            // Check response status
+            if (!isset($response) || (method_exists($response, 'getStatusCode') && $response->getStatusCode() != 200)) {
                 \Log::error('Google Calendar Event Creation Failed', [
-                    'response' => $response ?? 'No response received',
+                    'response'  => $response ?? 'No response received',
                     'eventData' => $eventData
                 ]);
                 throw new \Exception('Failed to create Google Calendar event.');
             }
         } catch (\Exception $e) {
             \Log::error('Error creating Google Calendar event', [
-                'error' => $e->getMessage(),
+                'error'     => $e->getMessage(),
                 'eventData' => $eventData
             ]);
             throw new \Exception('Error creating Google Calendar event: ' . $e->getMessage());
@@ -300,7 +327,7 @@ class PaymentController extends Controller
     public function success(Request $request)
     {
 
-        $input =$request->all();
+        $input = $request->all();
 
         $blogs = Blog::where('is_active', 1)->orderBy('created_at', 'desc')->limit(3)->get();
         $offeringsData = Offering::all();
@@ -313,16 +340,17 @@ class PaymentController extends Controller
             }
         }
 
-        return view("user.payment-success",[
+        return view("user.payment-success", [
             'blogs' => $blogs,
             'offerings' => $offerings,
 
         ]);
     }
 
-    public function failed(Request $request){
+    public function failed(Request $request)
+    {
 
-        $input =$request->all();
+        $input = $request->all();
         echo '<pre>';
         Print_r($input);
         echo '</pre>';

@@ -202,12 +202,8 @@ class GoogleCalendarController extends Controller
         }
     }
 
-    /**
-     * @throws \Google\Service\Exception
-     * @throws Exception
-     */
-    public function getBookedSlots(Request $request ,$userId){
-
+    public function getBookedSlots(Request $request, $userId)
+    {
         if (!$userId) {
             return response()->json([
                 'status' => 'error',
@@ -227,10 +223,11 @@ class GoogleCalendarController extends Controller
 
             return response()->json([
                 'status' => 'error',
-                'message' => 'Failed to fetch booked slots.',
+                'message' => 'Failed to fetch booked slots. Error: ' . $e->getMessage(),
             ], 500);
         }
     }
+
 
     /**
      * Fetch Google Calendar events, excluding HiraCollective bookings.
@@ -238,23 +235,48 @@ class GoogleCalendarController extends Controller
      * @throws Exception
      * @throws \Google\Service\Exception
      */
-    private function fetchGoogleCalendarEvents($userId) {
-        $googleAccount = GoogleAccount::where('user_id', $userId)->firstOrFail();
-        $accessToken = json_decode($googleAccount->access_token, true);
+    private function fetchGoogleCalendarEvents($userId)
+    {
+
+        $googleAccount = GoogleAccount::where('user_id', $userId)->first();
+
+        if (!$googleAccount) {
+            throw new Exception('No Google account linked for this user.');
+        }
+
+        // Decode the access token from the database
+        $accessToken = $googleAccount->access_token;
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new Exception('Invalid JSON token: ' . json_last_error_msg());
+        }
 
         // Initialize Google Client
         $client = new Google_Client();
-        $client->setAuthConfig(storage_path('app/google-calendar/google-calendar.json'));
+
+        // Validate the JSON credentials file
+        $credentialsPath = storage_path('app/google-calendar/google-calendar.json');
+
+        if (!file_exists($credentialsPath)) {
+            throw new Exception('Google credentials file is missing.');
+        }
+
+        $client->setAuthConfig($credentialsPath);
         $client->setAccessToken($accessToken);
 
         // Refresh token if expired
         if ($client->isAccessTokenExpired()) {
             if (!empty($googleAccount->refresh_token)) {
-                $client->fetchAccessTokenWithRefreshToken($googleAccount->refresh_token);
-                $newAccessToken = $client->getAccessToken();
+                $newAccessToken = $client->fetchAccessTokenWithRefreshToken($googleAccount->refresh_token);
+
+                if (isset($newAccessToken['error'])) {
+                    throw new Exception('Failed to refresh access token: ' . $newAccessToken['error_description']);
+                }
 
                 $googleAccount->access_token = json_encode($newAccessToken);
                 $googleAccount->save();
+
+                $client->setAccessToken($newAccessToken);
             } else {
                 throw new Exception('Google Token Expired. Please reauthorize.');
             }

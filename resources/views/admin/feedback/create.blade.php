@@ -31,7 +31,7 @@
                                             <div class="col-sm-4">
                                                 <div class="form-check">
                                                     <label class="form-check-label" for="practitionerFeedback">
-                                                        <input type="radio" class="form-check-input" name="feedback_type" id="practitionerFeedback" value="practitioner" >
+                                                        <input type="radio" class="form-check-input" name="feedback_type" id="practitionerFeedback" value="practitioner" checked >
                                                       Practitioner Feedback
                                                         <i class="input-helper"></i>
                                                     </label>
@@ -49,7 +49,7 @@
                                     </div>
 
 
-                                    <div id="userSection" class="mb-3" style="display: none;">
+                                    <div id="userSection" class="mb-3 d-none">
                                         <label class="form-label">User:</label>
                                         <select name="user_id" id="userSelect" class="form-control">
                                             <option value="">Select User</option>
@@ -59,7 +59,7 @@
                                         </select>
                                     </div>
 
-                                    <div id="offeringSection" class="mb-3" style="display: none;">
+                                    <div id="offeringSection" class="mb-3 d-none">
                                         <label class="form-label">Offering:</label>
                                         <select name="offering_id" id="offeringSelect" class="form-control">
                                             <option value="">Select Offering</option>
@@ -90,7 +90,7 @@
 
 @push('custom_scripts')
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             const practitionerFeedback = document.getElementById("practitionerFeedback");
             const offeringFeedback = document.getElementById("offeringFeedback");
             const userSection = document.getElementById("userSection");
@@ -99,21 +99,19 @@
             const offeringSelect = document.getElementById("offeringSelect");
 
             function toggleSections() {
-                if (practitionerFeedback.checked) {
-                    userSection.style.display = "block";
-                    offeringSection.style.display = "none";
-                } else if (offeringFeedback.checked) {
-                    userSection.style.display = "block";
-                    offeringSection.style.display = "block";
-                } else {
-                    userSection.style.display = "none";
-                    offeringSection.style.display = "none";
-                }
+                // Show user section if either checkbox is checked
+                userSection.classList.toggle("d-none", !(practitionerFeedback.checked || offeringFeedback.checked));
+
+                // Show offering section only if offeringFeedback is checked
+                offeringSection.classList.toggle("d-none", !offeringFeedback.checked);
             }
 
+            // Event listeners for checkboxes
             practitionerFeedback.addEventListener("change", toggleSections);
             offeringFeedback.addEventListener("change", toggleSections);
-            userSelect.addEventListener("change", function() {
+
+            // Fetch offerings dynamically when user is selected
+            userSelect.addEventListener("change", function () {
                 if (this.value) {
                     fetch("{{ url('/admin/feedback/get-offerings') }}/" + this.value)
                         .then(response => response.json())
@@ -127,6 +125,8 @@
                 }
             });
 
+            // Initialize correct visibility on page load
+            toggleSections();
         });
     </script>
 

@@ -12,6 +12,7 @@ class Offering extends Model
 
     protected $fillable = [
         'user_id',
+        'offering_event_type',
         'name',
         'long_description',
         'short_description',

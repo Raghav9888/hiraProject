@@ -35,7 +35,7 @@
                                         ? asset(env('media_path') . "/practitioners/{$offering->user->id}/offering/{$offering->featured_image}")
                                         : asset(env('local_path') . '/images/no_image.png');
                                 @endphp
-                                <div class="swiper-slide" style="height: 100%;width: 100%; max-height: 400px;min-height: 400px">
+                                <div class="swiper-slide" style="height: 100%;width: 100%; max-height: 250px;min-height: 250px">
                                     <div class="slider-img">
                                         <img src="{{$imageUrl}}" alt="calm">
                                     </div>
@@ -59,11 +59,12 @@
             <div class="upcoming-event-container position-relative blog-section">
                 <h4>Related Articles</h4>
                 <div class="upcoming-event-inner related-article-slider">
-                    <div class="swiper-wrapper">
+                    <div class="swiper-wrapper row">
                         @foreach($blogs as $blog)
                                 <?php
                                 $imageUrl = asset(env('media_path') . '/admin/blog/' . $blog->image);
                                 ?>
+                        <div class="col-md-6 col-lg-4 mb-4">
                             <a href="{{route('blogDetail', $blog->slug)}}" style="text-decoration: none;"
                                class="resources-body">
 
@@ -79,6 +80,8 @@
                                     </div>
                                 </div>
                             </a>
+                        </div>
+
                         @endforeach
                     </div>
                 </div>

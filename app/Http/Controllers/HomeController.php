@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Feedback;
 use App\Models\Locations;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -15,8 +16,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ContactUsMail;
 use App\Models\Blog;
-use App\Models\Plan;
-use Illuminate\Support\Facades\Log;
 
 class HomeController extends Controller
 {
@@ -31,16 +30,16 @@ class HomeController extends Controller
         $foundingPlans = [
             'Founding Membership T1',
             'Founding Membership - 10 years',
-            'Founding Membership T2' 
+            'Founding Membership T2'
         ];
         $users = User::where('role', 1)
-                ->whereHas('cusSubscription', function ($query) use ($foundingPlans) {
-                    $query->whereHas('plan', function ($planQuery) use ($foundingPlans) {
-                            $planQuery->whereIn('name', $foundingPlans);
-                        });
-                })
-                ->with('userDetail')
-                ->get()->take(8);
+            ->whereHas('cusSubscription', function ($query) use ($foundingPlans) {
+                $query->whereHas('plan', function ($planQuery) use ($foundingPlans) {
+                    $planQuery->whereIn('name', $foundingPlans);
+                });
+            })
+            ->with('userDetail')
+            ->get()->take(8);
         $categories = Category::all();
         $defaultLocations = Locations::get();
         $blogs = Blog::latest()->get()->take(3);
@@ -49,12 +48,22 @@ class HomeController extends Controller
             $locations[$location->id] = $location->name;
         }
         json_encode($locations);
+        $offeringsData = Offering::all();
+
+        $offerings = [];
+        $now = now();
+        foreach ($offeringsData as $offeringData) {
+            if (isset($offeringData->event) && $offeringData?->event && $offeringData?->event?->date_and_time > $now) {
+                $offerings[$offeringData->event->date_and_time] = $offeringData;
+            }
+        }
 
         return view('home', [
             'users' => $users,
             'categories' => $categories,
             'defaultLocations' => $locations,
-            'blogs' => $blogs
+            'blogs' => $blogs,
+            'offerings' => $offerings
         ]);
     }
 
@@ -129,6 +138,18 @@ class HomeController extends Controller
 
 
         $offerings = Offering::where('user_id', $user->id)->get();
+        $offeringIds = $offerings->pluck('id')->toArray();
+
+        $profileFeedback = Feedback::where('user_id', $user->id)
+            ->where('feedback_type', 'practitioner')
+            ->pluck('rating');
+
+        $averageProfileRating = $profileFeedback->isNotEmpty() ? number_format($profileFeedback->avg(), 1) : '0.0';
+        $offeringFeedback = Feedback::where('user_id', $user->id)
+            ->where('feedback_type', 'offering')
+            ->with('admin')
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         $images = json_decode($userDetail->images, true);
         $image = isset($images['profile_image']) ? $images['profile_image'] : null;
@@ -153,7 +174,10 @@ class HomeController extends Controller
             'locations' => $locations,
             'users' => $users,
             'categories' => $categories,
-            'storeAvailable' => $storeAvailable
+            'storeAvailable' => $storeAvailable,
+            'profileFeedback' => $profileFeedback,
+            'averageProfileRating' => $averageProfileRating,
+            'offeringFeedback' => $offeringFeedback,
         ]);
     }
 
@@ -307,5 +331,21 @@ class HomeController extends Controller
         ]);
     }
 
+    public function getEvent(Request $request)
+    {
+        $userId = $request->get('userId');
+
+        $offeringId = $request->get('offeringId');
+        $user = User::findOrFail($userId);
+        $userDetail = $user->userDetail;
+        $offering = Offering::where('id', $offeringId)->with('event')->first();
+
+        return response()->json([
+            "success" => true,
+            "data" => "Booking saved in session!",
+            'html' => view('user.event_detail_popup',['user' => $user, 'userDetail' => $userDetail, 'offering' => $offering])->render()
+        ]);
+
+    }
 
 }

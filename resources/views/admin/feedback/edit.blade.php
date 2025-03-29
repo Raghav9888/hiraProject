@@ -50,7 +50,7 @@
                                         </div>
                                     </div>
 
-                                    <div id="userSection" class="mb-3" style="display: none;">
+                                    <div id="userSection" class="mb-3 {{$feedback->feedback_type == 'practitioner' ? '':'d-none'}}">
                                         <label class="form-label">User:</label>
                                         <select name="user_id" id="userSelect" class="form-control">
                                             <option value="">Select User</option>
@@ -62,7 +62,7 @@
                                         </select>
                                     </div>
 
-                                    <div id="offeringSection" class="mb-3" style="display: none;">
+                                    <div id="offeringSection" class="mb-3 {{$feedback->feedback_type == 'practitioner' ? 'd-none' : '' }}">
                                         <label class="form-label">Offering:</label>
                                         <select name="offering_id" id="offeringSelect" class="form-control">
                                             <option value="">Select Offering</option>
@@ -94,4 +94,57 @@
                     </div>
                 </div>
             </div> <!-- End of content-wrapper -->
-        </div> <!--
+        </div>
+    </div>
+    <!-- End of main-panel -->
+@endsection
+@push('custom_scripts')
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const practitionerFeedback = document.getElementById("practitionerFeedback");
+            const offeringFeedback = document.getElementById("offeringFeedback");
+            const userSection = document.getElementById("userSection");
+            const offeringSection = document.getElementById("offeringSection");
+            const userSelect = document.getElementById("userSelect");
+            const offeringSelect = document.getElementById("offeringSelect");
+
+            function toggleSections() {
+                // Show user section if either checkbox is checked
+                userSection.classList.toggle("d-none", !(practitionerFeedback.checked || offeringFeedback.checked));
+
+                // Show offering section only if offeringFeedback is checked
+                offeringSection.classList.toggle("d-none", !offeringFeedback.checked);
+            }
+
+            // Event listeners for checkboxes
+            practitionerFeedback.addEventListener("change", toggleSections);
+            offeringFeedback.addEventListener("change", toggleSections);
+
+            // Fetch offerings dynamically when user is selected
+            userSelect.addEventListener("change", function () {
+                if (this.value) {
+                    fetch("{{ url('/admin/feedback/get-offerings') }}/" + this.value)
+                        .then(response => response.json())
+                        .then(data => {
+                            offeringSelect.innerHTML = '<option value="">Select Offering</option>';
+                            data.forEach(offering => {
+                                offeringSelect.innerHTML += `<option value="${offering.id}">${offering.name}</option>`;
+                            });
+                        })
+                        .catch(error => console.error("Error fetching offerings:", error));
+                }
+            });
+
+            // Initialize correct visibility on page load
+            toggleSections();
+        });
+
+    </script>
+
+    <script>
+        ClassicEditor.create(document.querySelector('#comment'))
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+@endpush

@@ -50,6 +50,7 @@ class OfferingController extends Controller
 
         $offeringData = [
             'user_id' => $user_id,
+            'offering_event_type' => $input['offering_event_type'],
             "name" => $input['name'],
             "long_description" => $input['long_description'],
             "short_description" => $input['short_description'],
@@ -82,6 +83,7 @@ class OfferingController extends Controller
             $image->move(public_path('uploads/practitioners/' . $user_id . '/offering/'), $imageName);
             $offeringData['featured_image'] = $imageName;
         }
+
         $offering = Offering::create($offeringData);
 
         $data = [
@@ -161,6 +163,7 @@ class OfferingController extends Controller
 
         $offeringData = [
             'user_id' => $user_id,
+            'offering_event_type' => $input['offering_event_type'],
             "name" => $input['name'],
             "long_description" => $input['long_description'],
             "short_description" => $input['short_description'],

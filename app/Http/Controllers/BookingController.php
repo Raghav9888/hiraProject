@@ -70,7 +70,7 @@ class BookingController extends Controller
             ], 404);
         }
 
-        $product = Offering::findOrFail($booking['offering_id']);
+        $product = Offering::where('id',$booking['offering_id'])->with('event')->first();
         if($request->subscribe == true){
             $mailerLite = new MailerLite(['api_key' => env("MAILERLITE_KEY")]);
             $data = [
