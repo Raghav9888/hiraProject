@@ -151,13 +151,12 @@
                                         </div>
                                     </div>
                                     @foreach($offerings as $offering)
-
                                         <div class="accordian-body-data">
                                             <div class="d-flex justify-content-between flex-wrap align-items-center">
                                                 <h4 class="mb-2">{{$offering->name}}</h4>
                                                 <div class="d-flex align-items-center">
                                                     <h6 class="offer-prize me-2 m-0">
-                                                        ${{$offering?->client_price ?? 0}}</h6>
+                                                        ${{$offering->offering_event_type == 'event' ? $offering->event->client_price :$offering?->client_price ?? 0}}</h6>
                                                     <button type="button" class="home-blog-btn" data-bs-toggle="modal"
                                                             data-bs-target="#exampleModal"
                                                             onclick="openPopup(event)"
@@ -173,7 +172,7 @@
                                                 </div>
                                             </div>
                                             <ul class="practitioner-accordian-lists">
-                                                <li>{{$offering->booking_duration}}</li>
+                                                <li>{{ $offering->offering_event_type == 'event' ? $offering->event->event_duration:$offering->booking_duration}}</li>
                                             </ul>
 
                                             <button id="view-more-btn" class="blog-view-more mb-2"
@@ -194,10 +193,10 @@
                                                     <div class="toggle-dv-review">
                                                         <div class="d-flex mb-2" style="gap: 20px;">
                                                             <button>Description</button>
-                                                                                                                        <button
-                                                                                                                            style="background-color: transparent;color: #9F8B72;">
-                                                                                                                            Reviews
-                                                                                                                        </button>
+                                                            <button
+                                                                style="background-color: transparent;color: #9F8B72;">
+                                                                Reviews
+                                                            </button>
                                                         </div>
                                                         {{$offering->long_description}}
                                                     </div>
@@ -209,12 +208,12 @@
                                                             {{--                                                                Reviews--}}
                                                             {{--                                                            </button>--}}
                                                         </div>
-                                                        <p class="mb-1"><span
-                                                                class="mr-2">Scheduling Window: {{@$offering->scheduling_window}}</span>
-                                                            | Client Price: {{@$offering->client_price}}</p>
-                                                        <p><span
-                                                                class="mr-2">Date Time: {{@$offering->event->date_and_time? date('d M, Y', strtotime($offering->event->date_and_time)): ''}}</span>
-                                                            | Event Duration: {{@$offering->event->event_duration}}</p>
+                                                        <p>
+                                                            <span class="mr-2 mb-1 d-block">Event Duration:: {{@$offering->event->event_duration}}</span>
+                                                            <span class="mr-2 mb-1 d-block"> Client Price:: {{@$offering->event->client_price}}</span>
+                                                            <span class="mr-2 mb-1 d-block">Date Time:: {{@$offering->event->date_and_time? date('d M, Y', strtotime($offering->event->date_and_time)): ''}}</span>
+
+                                                        </p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -855,7 +854,6 @@
             console.log("Parsed bookedDates:", bookedDates);
 
 
-
             for (let i = 0; i < startDay; i++) {
                 const emptyCell = document.createElement('div');
                 emptyCell.classList.add('inactive');
@@ -901,7 +899,7 @@
                 });
 
                 calendarGrid.appendChild(dayCell);
-                $('.calendar-grid .dates').on('click', function(){
+                $('.calendar-grid .dates').on('click', function () {
                     const date = $(this).data('date');
                     $('#booking_date').val(date);
                 })
@@ -973,7 +971,6 @@
 
             renderSlots(availableSlots);
         }
-
 
 
         function renderSlots(availableSlots) {
