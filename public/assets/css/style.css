@@ -864,6 +864,7 @@ section {
 .contact-us-wrrpr {
     background-image: url('../images/home-banner.png');
     background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .contact-us-right-dv {
