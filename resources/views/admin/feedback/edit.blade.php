@@ -28,7 +28,6 @@
                                     <div class="col-md-6">
                                         <div class="form-group row">
                                             <label class="col-sm-3 col-form-label">Feedback Type:</label>
-                                            {{dump($feedback->feedback_type)}}
                                             <div class="col-sm-4">
                                                 <div class="form-check">
                                                     <label class="form-check-label" for="practitionerFeedback">

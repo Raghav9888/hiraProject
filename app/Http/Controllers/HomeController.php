@@ -139,11 +139,18 @@ class HomeController extends Controller
 
         $offerings = Offering::where('user_id', $user->id)->get();
         $offeringIds = $offerings->pluck('id')->toArray();
-        $feedback = Feedback::where('user_id', $user->id)
-            ->orWhereIn('offering_id', $offeringIds)
-            ->with('admin') // Load admin info who gave the feedback
-            ->orderBy('created_at', 'desc') // Order by latest feedback
+
+        $profileFeedback = Feedback::where('user_id', $user->id)
+            ->where('feedback_type', 'practitioner')
+            ->pluck('rating');
+
+        $averageProfileRating = $profileFeedback->isNotEmpty() ? number_format($profileFeedback->avg(), 1) : '0.0';
+        $offeringFeedback = Feedback::where('user_id', $user->id)
+            ->where('feedback_type', 'offering')
+            ->with('admin')
+            ->orderBy('created_at', 'desc')
             ->get();
+
         $images = json_decode($userDetail->images, true);
         $image = isset($images['profile_image']) ? $images['profile_image'] : null;
         $mediaImages = isset($images['media_images']) && is_array($images['media_images']) ? $images['media_images'] : [];
@@ -167,7 +174,10 @@ class HomeController extends Controller
             'locations' => $locations,
             'users' => $users,
             'categories' => $categories,
-            'storeAvailable' => $storeAvailable
+            'storeAvailable' => $storeAvailable,
+            'profileFeedback' => $profileFeedback,
+            'averageProfileRating' => $averageProfileRating,
+            'offeringFeedback' => $offeringFeedback,
         ]);
     }
 

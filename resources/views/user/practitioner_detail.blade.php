@@ -47,6 +47,8 @@
 
 </style>
 @section('content')
+{{dump($profileFeedback)}}
+{{dump($offeringFeedback)}}
     <div class="practitioner-detail-wrrpr">
         <div class="container">
             <div class="practitioner-search-dv">
@@ -97,13 +99,9 @@
                         <img class="mb-4 img-fluid rounded-5" src="{{ $imageUrl }}" alt="darrel">
                         <div class="d-flex justify-content-between flex-wrap align-items-center">
                             <div>
-                                <i class="fa-regular fa-gem"></i>
-                                <i class="fa-regular fa-gem"></i>
-                                <i class="fa-regular fa-gem"></i>
-                                <i class="fa-regular fa-gem"></i>
-                                <i class="fa-regular fa-gem"></i>
+                                @for($i= 1; $i<= $averageProfileRating; $i++)<i class="fa-regular fa-gem"></i>@endfor
                             </div>
-                            <h6 style="color: #9F8B72; margin: 0;">5.0 Ratings</h6>
+                            <h6 style="color: #9F8B72; margin: 0;">{{ $averageProfileRating .' '. 'Ratings' }} </h6>
                         </div>
                     </div>
                 </div>
@@ -209,9 +207,12 @@
                                                             {{--                                                            </button>--}}
                                                         </div>
                                                         <p>
-                                                            <span class="mr-2 mb-1 d-block">Event Duration:: {{@$offering->event->event_duration}}</span>
-                                                            <span class="mr-2 mb-1 d-block"> Client Price:: {{@$offering->event->client_price}}</span>
-                                                            <span class="mr-2 mb-1 d-block">Date Time:: {{@$offering->event->date_and_time? date('d M, Y', strtotime($offering->event->date_and_time)): ''}}</span>
+                                                            <span
+                                                                class="mr-2 mb-1 d-block">Event Duration:: {{@$offering->event->event_duration}}</span>
+                                                            <span
+                                                                class="mr-2 mb-1 d-block"> Client Price:: {{@$offering->event->client_price}}</span>
+                                                            <span
+                                                                class="mr-2 mb-1 d-block">Date Time:: {{@$offering->event->date_and_time? date('d M, Y', strtotime($offering->event->date_and_time)): ''}}</span>
 
                                                         </p>
                                                     </div>
