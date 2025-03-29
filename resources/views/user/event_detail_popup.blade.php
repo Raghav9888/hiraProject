@@ -21,7 +21,7 @@
                 <span id="eventPrice">{{$offering?->event?->client_price ?? 0}} </span>
             </div>
         </div>
-        @if($offering->event->sports > 0)
+        @if($offering?->event?->sports ?? 0 > 0)
             <button class="btn btn-green rounded-pill px-4 py-2 proceed_to_checkout">
                 <i class="fa-solid fa-credit-card me-2"></i> PROCEED TO CHECK OUT
             </button>
