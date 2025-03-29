@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Event;
 use App\Models\Locations;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -49,12 +50,22 @@ class HomeController extends Controller
             $locations[$location->id] = $location->name;
         }
         json_encode($locations);
+        $offeringsData = Offering::all();
+
+        $offerings = [];
+        $now = now();
+        foreach ($offeringsData as $offeringData) {
+            if (isset($offeringData->event) && $offeringData?->event && $offeringData?->event?->date_and_time > $now) {
+                $offerings[$offeringData->event->date_and_time] = $offeringData;
+            }
+        }
 
         return view('home', [
             'users' => $users,
             'categories' => $categories,
             'defaultLocations' => $locations,
-            'blogs' => $blogs
+            'blogs' => $blogs,
+            'offerings' => $offerings
         ]);
     }
 

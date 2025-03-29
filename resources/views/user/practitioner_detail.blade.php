@@ -589,23 +589,36 @@
                 if (!storeAvailabilityRaw) return [];
 
                 try {
-                    let storeAvailability = JSON.parse(storeAvailabilityRaw.replace(/&quot;/g, '"'));
+                    console.log("Raw Store Availability JSON:", storeAvailabilityRaw);
 
-                    let allowedDays = Object.keys(storeAvailability)
-                        .filter(day => storeAvailability[day]?.enabled === "1")
-                        .map(day => {
-                            let normalizedDay = day.replace("every_", "").toLowerCase();
-                            return ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"]
-                                .indexOf(normalizedDay);
-                        })
-                        .filter(dayIndex => dayIndex !== -1);
+                    let storeAvailability = JSON.parse(storeAvailabilityRaw);
+                    console.log("Parsed Store Availability:", storeAvailability);
+
+                    let allowedDays = [];
+
+                    if (storeAvailability.every_day?.enabled === "1") {
+                        // "every_day" is enabled, so allow all days (0 = Sunday, 6 = Saturday)
+                        allowedDays = [0, 1, 2, 3, 4, 5, 6];
+                    } else {
+                        // Otherwise, check individually enabled days
+                        allowedDays = Object.keys(storeAvailability)
+                            .filter(day => storeAvailability[day]?.enabled === "1")
+                            .map(day => {
+                                let normalizedDay = day.replace("every_", "").toLowerCase();
+                                return ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"]
+                                    .indexOf(normalizedDay);
+                            })
+                            .filter(dayIndex => dayIndex !== -1);
+                    }
 
                     console.log("Allowed Days from Store Availability:", allowedDays);
                     return allowedDays;
                 } catch (error) {
-                    console.error("Error parsing store availability JSON:", error);
+                    console.error("Error parsing store availability JSON:", error, storeAvailabilityRaw);
                     return [];
                 }
+
+
             }
 
             return dayMapping[availability] || [];
@@ -746,9 +759,7 @@
             const dateLabel = document.getElementById('selectedDate');
             let availability = document.getElementById('availability')?.value || 'own_specific_date';
             let storeAvailabilityRaw = document.getElementById('store-availability')?.value;
-            let specificDays = document.getElementById('offering-specific-days')?.value;
-            let specificDayStart = specificDays.split(' - ')[0];
-            let specificDayEnd = specificDays.split(' - ')[1];
+
             slotsContainer.innerHTML = '';
             dateLabel.innerText = date.split('-').reverse().join('/');
 
@@ -760,35 +771,53 @@
                     return;
                 }
 
-                let storeAvailability = JSON.parse(storeAvailabilityRaw.replace(/&quot;/g, '"'));
+                let storeAvailability;
+                try {
+                    storeAvailability = JSON.parse(storeAvailabilityRaw.replace(/&quot;/g, '"'));
+                } catch (error) {
+                    console.error("Error parsing store availability JSON:", error, storeAvailabilityRaw);
+                    return;
+                }
+
                 let dayOfWeekIndex = new Date(date).getDay();
                 let dayNames = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
 
-                // Collect all slots
                 let allSlots = [];
 
-                Object.keys(storeAvailability).forEach(dayKey => {
-                    let normalizedDay = dayKey.replace("every_", "").toLowerCase();
-                    let dayIndex = dayNames.indexOf(normalizedDay);
+                if (storeAvailability.every_day?.enabled === "1") {
+                    // If "every_day" is enabled, generate slots for any day
+                    let fromTime = storeAvailability.every_day?.from;
+                    let toTime = storeAvailability.every_day?.to;
 
-                    if (dayIndex === dayOfWeekIndex && storeAvailability[dayKey]?.enabled === "1") {
-                        let fromTime = storeAvailability[dayKey]?.from;
-                        let toTime = storeAvailability[dayKey]?.to;
-
-                        if (fromTime && toTime) {
-                            allSlots = allSlots.concat(generateTimeSlots(fromTime, toTime));
-                        }
+                    if (fromTime && toTime) {
+                        allSlots = generateTimeSlots(fromTime, toTime);
                     }
-                });
+                } else {
+                    // Otherwise, check individual days
+                    Object.keys(storeAvailability).forEach(dayKey => {
+                        let normalizedDay = dayKey.replace("every_", "").toLowerCase();
+                        let dayIndex = dayNames.indexOf(normalizedDay);
+
+                        if (dayIndex === dayOfWeekIndex && storeAvailability[dayKey]?.enabled === "1") {
+                            let fromTime = storeAvailability[dayKey]?.from;
+                            let toTime = storeAvailability[dayKey]?.to;
+
+                            if (fromTime && toTime) {
+                                allSlots = allSlots.concat(generateTimeSlots(fromTime, toTime));
+                            }
+                        }
+                    });
+                }
 
                 availableSlots = [...new Set(allSlots)].sort((a, b) => convertTo24Hour(a) - convertTo24Hour(b));
             } else {
-                console.log(date)
+                // Default case (all-day availability)
                 availableSlots = generateTimeSlots(null, null, date, true);
             }
 
             renderSlots(availableSlots);
         }
+
 
 
         function renderSlots(availableSlots) {
