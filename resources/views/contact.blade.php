@@ -95,7 +95,7 @@
             const copySection = document.getElementById("copy_section");
             const submitSection = document.getElementById("submit_section");
 
-            function updateFields() {
+            function resetFields() {
                 bookingCategory.classList.add("d-none");
                 technicalCategory.classList.add("d-none");
                 bookingLinkSection.classList.add("d-none");
@@ -104,6 +104,14 @@
                 messageSection.classList.add("d-none");
                 copySection.classList.add("d-none");
                 submitSection.classList.add("d-none");
+
+                // Reset dropdown selections when switching categories
+                bookingCategory.value = " ";
+                technicalCategory.value = " ";
+            }
+
+            function updateFields() {
+                resetFields();
 
                 if (supportType.value === "booking_support") {
                     bookingCategory.classList.remove("d-none");
@@ -116,6 +124,7 @@
                 const selectedBookingCategory = bookingCategory.value;
                 const selectedTechnicalCategory = technicalCategory.value;
 
+                // Reset all sections before applying new logic
                 bookingLinkSection.classList.add("d-none");
                 whatsappLinkSection.classList.add("d-none");
                 subjectSection.classList.add("d-none");
@@ -135,11 +144,16 @@
                 }
             }
 
-            supportType.addEventListener("change", updateFields);
+            supportType.addEventListener("change", function () {
+                updateFields();
+                updateDetails(); // Ensure correct categories are handled
+            });
+
             bookingCategory.addEventListener("change", updateDetails);
             technicalCategory.addEventListener("change", updateDetails);
 
-            updateFields();
+            updateFields(); // Initialize correctly on page load
         });
     </script>
+
 @endsection
