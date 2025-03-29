@@ -18,7 +18,7 @@
             <div class="text-muted me-2">Total Amount to Pay</div>
             <div class="text-green fw-bold">
                 <span id="symbol">$</span>
-                <span id="eventPrice">{{$offering->event->client_price}} </span>
+                <span id="eventPrice">{{$offering?->event?->client_price ?? 0}} </span>
             </div>
         </div>
         @if($offering->event->sports > 0)
