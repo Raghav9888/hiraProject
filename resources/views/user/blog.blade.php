@@ -29,7 +29,7 @@
                                                 $imageUrl = asset(env('media_path') . '/admin/blog/' . $blog->image);
                                                 ?>
 
-                                            <img src="{{$imageUrl}}" alt="calm" class="img-fluid">
+                                            <img src="{{$imageUrl}}" alt="calm" height="160" width="160" class="rounded-4">
                                         </div>
                                         <div class="col-md-8">
                                             <div class="card-body">

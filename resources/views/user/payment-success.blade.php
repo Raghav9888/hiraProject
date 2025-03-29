@@ -59,11 +59,12 @@
             <div class="upcoming-event-container position-relative blog-section">
                 <h4>Related Articles</h4>
                 <div class="upcoming-event-inner related-article-slider">
-                    <div class="swiper-wrapper">
+                    <div class="swiper-wrapper row">
                         @foreach($blogs as $blog)
                                 <?php
                                 $imageUrl = asset(env('media_path') . '/admin/blog/' . $blog->image);
                                 ?>
+                        <div class="col-md-6">
                             <a href="{{route('blogDetail', $blog->slug)}}" style="text-decoration: none;"
                                class="resources-body">
 
@@ -79,6 +80,9 @@
                                     </div>
                                 </div>
                             </a>
+                            
+                        </div>
+
                         @endforeach
                     </div>
                 </div>
