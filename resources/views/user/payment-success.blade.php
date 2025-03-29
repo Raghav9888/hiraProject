@@ -64,7 +64,7 @@
                                 <?php
                                 $imageUrl = asset(env('media_path') . '/admin/blog/' . $blog->image);
                                 ?>
-                        <div class="col-md-6">
+                        <div class="col-md-6 col-lg-4 mb-4">
                             <a href="{{route('blogDetail', $blog->slug)}}" style="text-decoration: none;"
                                class="resources-body">
 
@@ -80,7 +80,6 @@
                                     </div>
                                 </div>
                             </a>
-                            
                         </div>
 
                         @endforeach
