@@ -459,7 +459,7 @@ class PractitionerController extends Controller
         }
         $plans = Plan::latest()->get();
         $addedMemberships = [
-            'Founding Membership T1' => [
+            'Founding Members T1' => [
                 'AzucenaAnna@gmail.com',
                 'sm.sethmohan@gmail.com',
                 'sacredwombwellness@gmail.com',
@@ -482,7 +482,7 @@ class PractitionerController extends Controller
             'Founding Membership - 10 years' => [
                 'joanne@consciousbirth.ca'
             ],
-            'Founding Membership T2' => [
+            'Founding Members T2' => [
                 'info@nutristica.com',
                 'jaiti.srivastava@gmail.com',
                 'sam@samcoretrainer.com',
@@ -542,17 +542,24 @@ class PractitionerController extends Controller
             // Set Stripe API Key
             Stripe::setApiKey(env('STRIPE_SECRET'));
 
+            // Prepare line items
+            $lineItem = [
+                'price' => $plan->stripe_price_id,
+                'quantity' => 1,
+            ];
+
+            // Only add tax_rates if it's set
+            if (!empty($plan->stripe_tax_rate_id)) {
+                $lineItem['tax_rates'] = [$plan->stripe_tax_rate_id];
+            }
+
             // Create a Stripe Checkout session
             $session = Session::create([
                 'payment_method_types' => ['card'],
                 'mode' => 'subscription',
                 'allow_promotion_codes' => true,
                 'customer' => $user->stripe_id ?? null, // If user has a Stripe ID, use it
-                'line_items' => [[
-                    'price' => $plan->stripe_price_id,
-                    'quantity' => 1,
-                    'tax_rates' => [$plan->stripe_tax_rate_id],
-                ]],
+                'line_items' => [$lineItem],
                 'metadata' => [
                     'user_id' => $user->id,  // Store user ID
                     'plan_id' => $plan->id,  // Store plan ID
@@ -565,7 +572,7 @@ class PractitionerController extends Controller
             // Redirect to the Stripe checkout page
             return redirect()->away($session->url);
         } catch (\Throwable $th) {
-            dd($th->getMessage());
+            // dd($th->getMessage());
             return redirect()->back()->with('error', 'Something went wrong: ' . $th->getMessage());
 
         }

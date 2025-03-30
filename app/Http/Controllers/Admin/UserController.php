@@ -113,7 +113,7 @@ class UserController extends Controller
             $userData->update(['status' => 1]);
         }
 
-        return redirect()->route('admin.users.index', ['userType' => 'new']);
+        return redirect()->back();
     }
 
     public function loginAs(Request $request)

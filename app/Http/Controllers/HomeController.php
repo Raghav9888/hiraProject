@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ContactUsMail;
 use App\Models\Blog;
+use MailerLite\MailerLite;
 
 class HomeController extends Controller
 {
@@ -28,9 +29,9 @@ class HomeController extends Controller
     public function index()
     {
         $foundingPlans = [
-            'Founding Membership T1',
+            'Founding Members T1',
             'Founding Membership - 10 years',
-            'Founding Membership T2'
+            'Founding Members T2'
         ];
         $users = User::where('role', 1)
             ->whereHas('cusSubscription', function ($query) use ($foundingPlans) {
@@ -65,6 +66,37 @@ class HomeController extends Controller
             'blogs' => $blogs,
             'offerings' => $offerings
         ]);
+    }
+
+    public function comingIndex()
+    {
+        return view('user.coming-soon');
+    }
+
+    public function subscribe(Request $request)
+    {
+        try {
+            $email = $request->email;
+            $fName = $request->first_name;
+            
+            $mailerLite = new MailerLite(['api_key' => env("MAILERLITE_KEY")]);
+            $data = [
+                'email' => $email,
+                "fields" => [
+                    "name" => $fName,
+                ],
+            ];
+            $mailerLite->subscribers->create($data);
+            return response()->json([
+                "success" => true,
+                "data" => "Subscribes successfully!"
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                "success" => false,
+                "data" => $th->getMessage()
+            ], 500);
+        }
     }
 
     public function partitionerLists()
