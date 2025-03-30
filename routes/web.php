@@ -29,8 +29,8 @@ Auth::routes();
 Route::post('/reset-password', [ForgotPasswordController::class, 'sendResetLink'])->name('send.resetLink');
 Route::post('/stripe/webhook', [StripeWebhookController::class, 'handleWebhook']);
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
-// Route::get('/', [HomeController::class, 'comingIndex'])->name('home');
+// Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'comingIndex'])->name('home');
 Route::post('/subscribe', [HomeController::class, 'subscribe'])->name('subscribe');
 Route::get('/pending/user', [HomeController::class, 'pendingUser'])->name('pendingUserRequest');
 Route::get('/contact-us', [HomeController::class, 'contact'])->name('contact');
