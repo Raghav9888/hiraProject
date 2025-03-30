@@ -109,7 +109,7 @@
                 <label class="form-check-label" for="inlineCheckbox1">I agree to to The Hira Collective’s Terms of Service and Privacy Policy.</label>
             </div>
             <div class="form-check ">
-                <input class="form-check-input" type="checkbox" id="inlineCheckbox2" required  value="yes">
+                <input class="form-check-input" type="checkbox" id="inlineCheckbox2" name="subscribe"  value="yes">
                 <label class="form-check-label" for="inlineCheckbox2">Yes, I want to receive emails from The Hira Collective!</label>
             </div>
             <div class="col-12 text-center">

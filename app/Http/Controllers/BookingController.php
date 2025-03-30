@@ -12,6 +12,7 @@ use App\Mail\TemporaryPasswordMail;
 use App\Models\GoogleAccount;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use MailerLite\MailerLite;
 
 class BookingController extends Controller
 {
@@ -70,7 +71,13 @@ class BookingController extends Controller
         }
 
         $product = Offering::where('id',$booking['offering_id'])->with('event')->first();
-
+        if($request->subscribe == true){
+            $mailerLite = new MailerLite(['api_key' => env("MAILERLITE_KEY")]);
+            $data = [
+                'email' => $request->billing_email,
+            ];
+            $mailerLite->subscribers->create($data);
+        }
         return response()->json([
             "success" => true,
             "data" => "Billing details saved in session!",
@@ -135,6 +142,13 @@ class BookingController extends Controller
             ], 404);
         }
 
+        if($request->subscribe == true){
+            $mailerLite = new MailerLite(['api_key' => env("MAILERLITE_KEY")]);
+            $data = [
+                'email' => $request->billing_email,
+            ];
+            $mailerLite->subscribers->create($data);
+        }
         $product = Offering::findOrFail($booking['offering_id']);
         return response()->json([
             "success" => true,
