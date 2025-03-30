@@ -75,6 +75,9 @@ class BookingController extends Controller
             $mailerLite = new MailerLite(['api_key' => env("MAILERLITE_KEY")]);
             $data = [
                 'email' => $request->billing_email,
+                "fields" => [
+                    "name" => $request->first_name,
+                ],
             ];
             $mailerLite->subscribers->create($data);
         }
@@ -146,6 +149,9 @@ class BookingController extends Controller
             $mailerLite = new MailerLite(['api_key' => env("MAILERLITE_KEY")]);
             $data = [
                 'email' => $request->billing_email,
+                "fields" => [
+                    "name" => $request->first_name,
+                ],
             ];
             $mailerLite->subscribers->create($data);
         }

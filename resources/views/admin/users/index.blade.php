@@ -76,7 +76,7 @@
                                                                 @if($user->status == 2)
                                                                     <li>
                                                                         <a class="dropdown-item"
-                                                                           href="{{route('admin.user.approve')}} "
+                                                                           href="{{route('admin.user.approve', ['id' => $user->id])}} "
                                                                            data-type="alert" data-title="Are you sure?"
                                                                            data-text="Are you sure you want to approve this user!"
                                                                            data-icon-type="warning"

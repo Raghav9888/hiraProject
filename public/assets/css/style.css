@@ -1085,6 +1085,75 @@ h4.container-title {
     text-transform: uppercase;
     margin-bottom: 25px;
 }
+
+
+section.coming-soon-container {
+    background: #efe4d7;
+}
+
+h2.coming-title {
+    font-size: 37px;
+    font-weight: 600;
+    color: #384135;
+    margin-bottom: 20px;
+    letter-spacing: 0.5px;
+}
+h5.coming-subtitle {
+    letter-spacing: 0.5px;
+    margin-bottom: 20px;
+}
+.coming-form-container {
+    background: #424e3e;
+    padding: 30px;
+    border-radius: 25px;
+    color: #fff;
+}
+h3.form-title {
+    font-size: 31px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 22px;
+}
+#coming-form .form-group {
+    margin-bottom: 20px;
+}
+#coming-form input.form-control {
+    padding: 10px;
+}
+#coming-form p.form-text {
+    color: #fff;
+    font-size: 20px;
+    font-weight: 500;
+}
+#coming-form p.form-text a {
+    color: #fff;
+    text-decoration: underline !important;
+}
+#coming-form button.theme-btn {
+    width: 100%;
+    background: #ba9b8b;
+    border: none;
+    padding: 10px;
+    font-size: 19px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+a.apply-prac-btn {
+    background: #ba9b8b;
+    color: #fff;
+    padding: 10px 32px;
+    display: inline-block;
+    margin-top: 32px;
+    font-size: 25px;
+    border-radius: 32px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+.apply-practitioner-btn-container {
+    text-align: center;
+}
+
 .upcoming-event-inner .swiper-slide img {
     width: 100%;
     margin-right: 60px;
