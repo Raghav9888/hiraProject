@@ -121,7 +121,7 @@ class FeedbackController extends Controller
 
             $data['image'] = $fileName;
         }
-        
+
         $feedback->update($data);
 
         return redirect()->route('admin.feedback.index')->with('success', 'Feedback updated successfully.');

@@ -174,12 +174,13 @@ class HomeController extends Controller
         $offerings = Offering::where('user_id', $user->id)->get();
         $offeringIds = $offerings->pluck('id')->toArray();
 
-        $profileFeedback = Feedback::where('user_id', $user->id)
+        $profileFeedback = Feedback::where('practitioner_id', $user->id)
             ->where('feedback_type', 'practitioner')
-            ->pluck('rating');
+            ->get();
 
-        $averageProfileRating = $profileFeedback->isNotEmpty() ? number_format($profileFeedback->avg(), 1) : '0.0';
-        $offeringFeedback = Feedback::where('user_id', $user->id)
+        $averageProfileRating = $profileFeedback->isNotEmpty() ? number_format($profileFeedback->pluck('rating')->avg(), 1) : '0.0';
+
+        $offeringFeedback = Feedback::where('practitioner_id', $user->id)
             ->where('feedback_type', 'offering')
             ->with('admin')
             ->orderBy('created_at', 'desc')
@@ -194,6 +195,28 @@ class HomeController extends Controller
         $users = User::where('role', 1)->with('userDetail')->get();
         $categories = Category::get();
         $storeAvailable = $userDetail?->store_availabilities ? $userDetail->store_availabilities : [];
+
+        $ratingCounts = $profileFeedback->groupBy('rating')->map->count();
+
+        $totalReviews = $profileFeedback->count();
+
+        $ratings = [
+            5 => 0,
+            4 => 0,
+            3 => 0,
+            2 => 0,
+            1 => 0
+        ];
+
+        foreach ($ratingCounts as $rating => $count) {
+            $ratings[$rating] = $count;
+        }
+
+        $ratingPercentages = [];
+        foreach ($ratings as $star => $count) {
+            $ratingPercentages[$star] = $totalReviews > 0 ? ($count / $totalReviews) * 100 : 0;
+        }
+
         return view('user.practitioner_detail', [
             'user' => $user,
             'userDetail' => $userDetail,
@@ -212,6 +235,8 @@ class HomeController extends Controller
             'profileFeedback' => $profileFeedback,
             'averageProfileRating' => $averageProfileRating,
             'offeringFeedback' => $offeringFeedback,
+            'ratings' => $ratings,
+            'ratingPercentages' => $ratingPercentages,
         ]);
     }
 
@@ -377,7 +402,7 @@ class HomeController extends Controller
         return response()->json([
             "success" => true,
             "data" => "Booking saved in session!",
-            'html' => view('user.event_detail_popup',['user' => $user, 'userDetail' => $userDetail, 'offering' => $offering])->render()
+            'html' => view('user.event_detail_popup', ['user' => $user, 'userDetail' => $userDetail, 'offering' => $offering])->render()
         ]);
 
     }
