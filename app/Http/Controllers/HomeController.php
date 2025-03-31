@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Certifications;
 use App\Models\Feedback;
 use App\Models\Locations;
 use Illuminate\Http\Request;
@@ -78,7 +79,7 @@ class HomeController extends Controller
         try {
             $email = $request->email;
             $fName = $request->first_name;
-            
+
             $mailerLite = new MailerLite(['api_key' => env("MAILERLITE_KEY")]);
             $data = [
                 'email' => $email,
@@ -166,7 +167,7 @@ class HomeController extends Controller
         $HowIHelp = HowIHelp::whereIn('id', $selectedHowIHelp)->pluck('name')->toArray();
 
         $Certification = explode(',', $userDetail->certifications ?? '');
-        $Certifications = HowIHelp::whereIn('id', $Certification)->pluck('name')->toArray();
+        $Certifications = Certifications::whereIn('id', $Certification)->pluck('name')->toArray();
 
 
         $offerings = Offering::where('user_id', $user->id)->get();
