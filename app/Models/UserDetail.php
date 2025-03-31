@@ -38,4 +38,21 @@ class UserDetail extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function tags()
+    {
+        return $this->hasMany(PractitionerTag::class, 'id', 'tags');
+    }
+
+    public function  IHelpWith()
+    {
+        return $this->hasMany(IHelpWith::class, 'id', 'IHelpWith');
+    }
+
+    public function HowIHelp()
+    {
+        return $this->hasMany(HowIHelp::class, 'id', 'HowIHelp');
+    }
+
+
 }

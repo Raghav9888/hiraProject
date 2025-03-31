@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Certifications;
 use App\Models\Feedback;
 use App\Models\Locations;
+use App\Models\PractitionerTag;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\UserDetail;
@@ -305,29 +306,47 @@ class HomeController extends Controller
         $location = $request->input('location');
         $buttonHitCount = $request->input('count') ?? 1;
 
-        $query = User::where('role', 1)->with('userDetail'); // Eager load userDetail relation
 
-        if (isset($search) && $search) {
-            $query->where(function ($query) use ($search) {
-                $query->where('first_name', 'like', '%' . $search . '%')
-                    ->orWhere('last_name', 'like', '%' . $search . '%')
-                    ->orWhere('name', 'like', '%' . $search . '%');
-            });
-        }
+        $tagId = PractitionerTag::where('name', 'like', '%' . $search . '%')->value('id');
+        $howIHelpId = HowIHelp::where('name', 'like', '%' . $search . '%')->value('id');
+        $iHelpWithId = IHelpWith::where('name', 'like', '%' . $search . '%')->value('id');
 
-        if (isset($category) && $category) {
+        $query = User::where('role', 1)->with('userDetail');
+
+        $query->where(function ($q) use ($search, $tagId, $howIHelpId, $iHelpWithId) {
+            $q->where('first_name', 'like', '%' . $search . '%')
+                ->orWhere('last_name', 'like', '%' . $search . '%')
+                ->orWhere('name', 'like', '%' . $search . '%')
+                ->orWhereHas('userDetail', function ($query) use ($tagId, $howIHelpId, $iHelpWithId) {
+                    if (!empty($tagId)) {
+                        $query->where('tags', 'like', '%' . $tagId . '%');
+                    }
+                    if (!empty($howIHelpId)) {
+                        $query->where('HowIHelp', 'like', '%' . $howIHelpId . '%');
+                    }
+                    if (!empty($iHelpWithId)) {
+                        $query->where('IHelpWith', 'like', '%' . $iHelpWithId . '%');
+                    }
+                });
+        });
+
+
+        // Filtering by category (specialities)
+        if (!empty($category)) {
             $query->whereHas('userDetail', function ($query) use ($category) {
                 $query->where('specialities', 'like', '%' . $category . '%');
             });
         }
 
-        if (isset($location) && $location) {
+        // Filtering by location
+        if (!empty($location)) {
             $query->whereHas('userDetail', function ($query) use ($location) {
                 $query->where('location', 'like', '%' . $location . '%');
             });
         }
 
-        $practitioners = $query->get()->take($buttonHitCount * 8);
+        // Fetch practitioners with pagination
+        $practitioners = $query->take($buttonHitCount * 8)->get();
 
         return response()->json([
             'practitioners' => $practitioners,
@@ -404,4 +423,10 @@ class HomeController extends Controller
 
     }
 
+    public function privacyPolicy()
+    {
+
+        return view('user.privacy_policy');
+
+    }
 }
