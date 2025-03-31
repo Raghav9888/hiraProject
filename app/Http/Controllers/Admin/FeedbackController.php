@@ -14,6 +14,7 @@ class FeedbackController extends Controller
     public function index()
     {
         $feedbacks = Feedback::with(['admin', 'user', 'offering'])->paginate(10);
+
         $users = User::where('status', 1)->where('role', 1)->get();
 
         return view('admin.feedback.index', compact('feedbacks', 'users'));
@@ -34,20 +35,39 @@ class FeedbackController extends Controller
      */
     public function store(Request $request)
     {
+
         $request->validate([
-            'user_id' => 'nullable|exists:users,id',
+            'practitioner_id' => 'nullable|exists:users,id',
             'offering_id' => 'nullable|exists:offerings,id',
             'comment' => 'required|string|max:500',
             'rating' => 'nullable|integer|min:1|max:5',
         ]);
 
-        Feedback::create([
+        $data = [
             'admin_id' => auth()->id(), // Storing admin who created the feedback
-            'user_id' => $request->user_id,
+            'practitioner_id' => $request->practitioner_id,
             'offering_id' => $request->offering_id,
             'comment' => $request->comment,
+            'name' => $request->name,
             'rating' => $request->rating,
-        ]);
+            'feedback_type' => $request->feedback_type == 'practitioner' ? 'practitioner' : 'offering',
+        ];
+
+        // Handle file upload if provided
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $fileName = time() . '.' . $file->getClientOriginalExtension();
+            if($request->feedback_type !== 'offering')
+            {
+                $file->move(public_path('uploads/practitioners/' . $request->practitioner_id . '/feedback/profile/'), $fileName);
+            }else{
+                $file->move(public_path('uploads/practitioners/' . $request->practitioner_id . '/feedback/offering/'), $fileName);
+            }
+
+            $data['image'] = $fileName;
+        }
+
+        Feedback::create($data);
 
         return redirect()->route('admin.feedback.index')->with('success', 'Feedback added successfully.');
     }
@@ -57,8 +77,11 @@ class FeedbackController extends Controller
      */
     public function edit(Feedback $feedback)
     {
-        $users = User::all();
-        $offerings = Offering::where('user_id', $feedback->user_id)->get();
+
+        $users = User::where('status', 1)->where('role', 1)->get();
+
+        $offerings = Offering::where('user_id', $feedback->practitioner_id)->get();
+
         return view('admin.feedback.edit', compact('feedback', 'users', 'offerings'));
     }
 
@@ -67,19 +90,39 @@ class FeedbackController extends Controller
      */
     public function update(Request $request, Feedback $feedback)
     {
+
         $request->validate([
-            'user_id' => 'nullable|exists:users,id',
+            'practitioner_id' => 'nullable|exists:users,id',
             'offering_id' => 'nullable|exists:offerings,id',
             'comment' => 'required|string|max:500',
             'rating' => 'nullable|integer|min:1|max:5',
         ]);
 
-        $feedback->update([
-            'user_id' => $request->user_id,
+        $data = [
+            'admin_id' => auth()->id(), // Storing admin who created the feedback
+            'practitioner_id' => $request->practitioner_id,
             'offering_id' => $request->offering_id,
             'comment' => $request->comment,
+            'name' => $request->name,
             'rating' => $request->rating,
-        ]);
+            'feedback_type' => $request->feedback_type == 'practitioner' ? 'practitioner' : 'offering',
+        ];
+
+        // Handle file upload if provided
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $fileName = time() . '.' . $file->getClientOriginalExtension();
+            if($request->feedback_type !== 'offering')
+            {
+                $file->move(public_path('uploads/practitioners/' . $request->practitioner_id . '/feedback/profile/'), $fileName);
+            }else{
+                $file->move(public_path('uploads/practitioners/' . $request->practitioner_id . '/feedback/offering/'), $fileName);
+            }
+
+            $data['image'] = $fileName;
+        }
+        
+        $feedback->update($data);
 
         return redirect()->route('admin.feedback.index')->with('success', 'Feedback updated successfully.');
     }
