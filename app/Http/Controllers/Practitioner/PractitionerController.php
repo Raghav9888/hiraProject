@@ -477,11 +477,12 @@ class PractitionerController extends Controller
                 'info@jothi.ca',
                 'isabelnantaba@gmail.com',
                 'trace@innatewisdom.love',
-                'laurenwelchner@gmail.com'
-            ],
-            'Founding Membership - 10 years' => [
+                'laurenwelchner@gmail.com',
                 'joanne@consciousbirth.ca'
             ],
+            // 'Founding Membership - 10 years' => [
+            //     'joanne@consciousbirth.ca'
+            // ],
             'Founding Members T2' => [
                 'info@nutristica.com',
                 'jaiti.srivastava@gmail.com',
@@ -501,7 +502,8 @@ class PractitionerController extends Controller
                 'mvwellsbury@gmail.com',
                 'king.oils@hotmail.com',
                 'kingsley@kingskitchenmedia.com',
-                'revolution9wellness@gmail.com'
+                'revolution9wellness@gmail.com',
+                'mirb7000@gmail.com'
             ]
         ];
         $userEmail = $user->email;
