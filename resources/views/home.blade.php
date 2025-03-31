@@ -3,9 +3,9 @@
 @section('content')
     <section class="home-main-section">
         <div class="container">
-            <div class="d-flex justify-content-center align-items-center flex-column">
+            <div class="d-flex justify-content-center align-items-center flex-column position-relative">
                 <img class="hira-collective" src="{{url('/assets/images/hira-collective.svg')}}" alt="hira-collective">
-                <h5 class="roots-title text-center mb-4">Honouring Roots, Nurturing Growth</h5>
+                <h5 class="roots-title text-center mb-4 position-absolute" style="bottom: 10px">Honouring Roots, Nurturing Growth</h5>
             </div>
             <div class="home-search-wrrpr">
                 <p> Search for what you seek</p>
@@ -683,9 +683,9 @@
                         <button class="category-load-more loadPractitioner" data-count="${count}">Load More</button>
                     </div>`;
                     }
-                    // $('html, body').animate({
-                    //     scrollTop: $('.featured-section').offset().top
-                    // }, 700);
+                    $('html, body').animate({
+                        scrollTop: $('.featured-section').offset().top
+                    }, 700);
                     // Inject the generated HTML into the practitioners list container
                     $('#practitionersList').html(practitionersHTML);
                 },
