@@ -68,8 +68,20 @@
                         <div class="d-flex justify-content-between flex-wrap">
                             <h4>{{$user->name}}</h4>
                             <div style="display: flex; gap: 10px; font-size: 25px">
-                                <i class="fa-regular fa-heart"></i>
-                                <i class="fa-solid fa-share-nodes"></i>
+{{--                                <i class="fa-regular fa-heart"></i>--}}
+                                <div class="dropdown">
+                                    <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 25px">
+                                        <i class="fa-solid fa-share-nodes"></i>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#"><i class="fa-solid fa-copy"></i> Copy Link</a></li>
+                                        <li><a class="dropdown-item" href="#"><i class="fa-brands fa-instagram"></i> Instagram</a></li>
+                                        <li><a class="dropdown-item" href="#"><i class="fa-brands fa-whatsapp"></i> Whatsapp</a></li>
+                                        <li><a class="dropdown-item" href="#"><i class="fa-brands fa-facebook"></i> Facebook</a></li>
+                                        <li><a class="dropdown-item" href="#"><i class="fa-brands fa-x-twitter"></i> X-twitter</a></li>
+                                    </ul>
+                                </div>
+
                             </div>
                         </div>
                         <h5>{{$userDetail->company ??'Alternative and Holistic Health Practitioner' }}</h5>
@@ -191,14 +203,52 @@
                                                         <p class="m-0 mb-1">{{$offering->short_description}}</p>
                                                     </div>
                                                     <div class="toggle-dv-review">
-                                                        <div class="d-flex mb-2" style="gap: 20px;">
-                                                            <button>Description</button>
-                                                            <button
-                                                                style="background-color: transparent;color: #9F8B72;">
-                                                                Reviews
-                                                            </button>
+
+
+                                                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                                            <li class="nav-item" role="presentation">
+                                                                <button class="nav-link active mx-2" id="description-tab" data-bs-toggle="tab"
+                                                                        data-bs-target="#description-tab-pane" type="button" role="tab" aria-controls="description-tab-pane" aria-selected="true">Description</button>
+                                                            </li>
+                                                            <li class="nav-item" role="presentation">
+                                                                <button class="nav-link mx-2" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews-tab-pane" type="button" role="tab" aria-controls="reviews-tab-pane" aria-selected="false">Reviews</button>
+                                                            </li>
+
+                                                        </ul>
+                                                        <div class="tab-content" id="myTabContent">
+                                                            <div class="tab-pane fade show active" id="description-tab-pane" role="tabpanel" aria-labelledby="description-tab" tabindex="0">
+                                                                {{$offering->long_description}}
+                                                            </div>
+                                                            <div class="tab-pane fade" id="reviews-tab-pane" role="tabpanel" aria-labelledby="reviews-tab" tabindex="0">
+                                                                <div class="review-dv-data">
+                                                                    @foreach ($offeringFeedback as $feedback)
+                                                                        <div class="person-review-dv">
+                                                                            <div class="d-flex justify-content-between flex-wrap align-items-center mt-3">
+                                                                                <div class="reviewer mb-3">
+                                                                                    <div class="reviewer-img-text">
+                                                                                        {{ strtoupper(substr($feedback->name, 0, 2)) }} {{-- Show initials --}}
+                                                                                    </div>
+                                                                                    <div class="reviewer-info">
+                                                                                        <div class="name">{{ $feedback->name }}</div>
+                                                                                        <div class="stars">
+                                                                                            @for ($i = 1; $i <= 5; $i++)
+                                                                                                <i class="fa-regular fa-gem {{ $i <= $feedback->rating ? 'text-warning' : '' }}"></i>
+                                                                                            @endfor
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <h3>{{ number_format($feedback->rating, 1) }}/5.0</h3>
+
+                                                                            </div>
+                                                                            <div class="review-text mb-3">
+                                                                                {!! $feedback->comment !!}
+
+                                                                            </div>
+                                                                        </div>
+                                                                    @endforeach
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                        {{$offering->long_description}}
                                                     </div>
                                                     <div class="toggle-dv-review mt-3">
                                                         <div class="d-flex mb-2" style="gap: 20px;">
@@ -383,7 +433,7 @@
                                     @endforeach
 
                                     <div class="d-flex justify-content-end mt-4">
-                                        <button class="home-blog-btn">Load More</button>
+                                        {!! $profileFeedback->links() !!}
                                     </div>
                                 </div>
                             </div>

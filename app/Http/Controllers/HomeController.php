@@ -156,9 +156,7 @@ class HomeController extends Controller
         $user = User::findOrFail($id);
         $userDetail = $user->userDetail;
         //  $userDetails = UserDetail::where('user_id', $id)->first();
-        $endorsements = $userDetail && $userDetail->endorsements
-            ? json_decode($userDetail->endorsements, true)
-            : [];
+        $endorsements = $userDetail && $userDetail->endorsements ? json_decode($userDetail->endorsements, true) : [];
         $endorsedUsers = User::whereIn('id', $endorsements)->get();
         $selectedTerms = explode(',', $userDetail->IHelpWith ?? '');
         $IHelpWith = IHelpWith::whereIn('id', $selectedTerms)->pluck('name')->toArray();
@@ -175,10 +173,9 @@ class HomeController extends Controller
         $offeringIds = $offerings->pluck('id')->toArray();
 
         $profileFeedback = Feedback::where('practitioner_id', $user->id)
-            ->where('feedback_type', 'practitioner')
-            ->get();
+            ->where('feedback_type', 'practitioner');
 
-        $averageProfileRating = $profileFeedback->isNotEmpty() ? number_format($profileFeedback->pluck('rating')->avg(), 1) : '0.0';
+        $averageProfileRating = $profileFeedback->get()->isNotEmpty() ? number_format($profileFeedback->get()->pluck('rating')->avg(), 1) : '0.0';
 
         $offeringFeedback = Feedback::where('practitioner_id', $user->id)
             ->where('feedback_type', 'offering')
@@ -196,9 +193,9 @@ class HomeController extends Controller
         $categories = Category::get();
         $storeAvailable = $userDetail?->store_availabilities ? $userDetail->store_availabilities : [];
 
-        $ratingCounts = $profileFeedback->groupBy('rating')->map->count();
+        $ratingCounts = $profileFeedback->get()->groupBy('rating')->map->count();
 
-        $totalReviews = $profileFeedback->count();
+        $totalReviews = $profileFeedback->get()->count();
 
         $ratings = [
             5 => 0,
@@ -232,7 +229,7 @@ class HomeController extends Controller
             'users' => $users,
             'categories' => $categories,
             'storeAvailable' => $storeAvailable,
-            'profileFeedback' => $profileFeedback,
+            'profileFeedback' => $profileFeedback->paginate(10),
             'averageProfileRating' => $averageProfileRating,
             'offeringFeedback' => $offeringFeedback,
             'ratings' => $ratings,
