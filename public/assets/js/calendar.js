@@ -120,6 +120,7 @@ if ($('#customCalendar').length > 0) {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             success: function (response) {
+                console.log(response)
                 if (response.error) {
                     window.location.href = response.redirect_url;
                 } else {
@@ -249,9 +250,10 @@ if ($('#customCalendar').length > 0) {
 
             const eventDate = `${year}-${(month + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
             const dayEvents = events.filter(event => {
-                let eventStartDate = event.start.split('T')[0];
+                if (!event.start) return false;
+                let eventStartDate = event.start ? event.start.split('T')[0] : null;
                 let eventEndDate = event.end ? event.end.split('T')[0] : eventStartDate;
-                return eventStartDate <= eventDate && eventEndDate >= eventDate;
+                return eventStartDate && eventStartDate <= eventDate && eventEndDate >= eventDate;
             });
 
             if (dayEvents.length > 0) {

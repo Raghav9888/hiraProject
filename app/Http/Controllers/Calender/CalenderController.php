@@ -93,15 +93,13 @@ class CalenderController extends Controller
                     'id' => $event->getId(),
                     'title' => $event->getSummary(),
                     'description' => $description,
-                    'start' => $event->getStart()->getDateTime() ?: $event->getStart()->getDate(),
-                    'end' => $event->getEnd()->getDateTime() ?: $event->getEnd()->getDate(),
+                    'start' => $event->getStart() ? ($event->getStart()->getDateTime() ?? $event->getStart()->getDate()) : null,
+                    'end' => $event->getEnd() ? ($event->getEnd()->getDateTime() ?? $event->getEnd()->getDate()) : null,
                     'category' => $category,
                     'attendees' => $event->getAttendees() ?? [],
                     'meet_link' => $event->getHangoutLink() ?? null,
                 ];
             }
-
-
             return response()->json($userEvents);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
