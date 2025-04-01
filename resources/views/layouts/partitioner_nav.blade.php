@@ -1,6 +1,6 @@
-<h1 style="text-transform: capitalize;" class="home-title mb-5">Welcome,<span
-        style="color: #ba9b8b;"> {{ $user->first_name ?? 'User' }}  {{ $user->last_name ?? '' }}</span>
-</h1>
+<h1 style="text-transform: capitalize;" class="home-title mb-5">
+    Welcome,<span style="color: #ba9b8b;"> {{ $user->first_name ?? 'User' }}  {{ $user->last_name ?? '' }}</span>
+    <button class="sidebar-toggle-btn d-lg-none" onclick="toggleSidebar()">☰</button></h1>
 <div class="col-sm-12 col-lg-5"></div>
 
 <ul class="practitioner-profile-btns">

@@ -1,5 +1,8 @@
-<div class="positioned-dv">
-    <ul class="text-center">
+
+
+<!-- Sidebar -->
+<div class="positioned-dv" id="sidebar">
+    <ul class="text-lg-center">
         <li>
             <a href="{{route('dashboard')}}">
                 <img src="{{url('./assets/images/grid.svg')}}" alt="">
@@ -18,11 +21,9 @@
                 <p>Community</p>
             </a>
         </li>
-
         <li>
             <img src="{{url('./assets/images/business.svg')}}" alt="">
-            <p>Business<br/>
-                Referals</p>
+            <p>Business<br/>Referals</p>
         </li>
         <li>
             <img src="{{url('./assets/images/calendar.svg')}}" alt="">

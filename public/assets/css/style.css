@@ -2144,14 +2144,12 @@ p.container-p span {
 
 .practitioner-profile-btns {
     padding: 0;
+    margin-bottom: 50px;
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
 }
 
-.practitioner-profile-btns {
-    padding: 0 50px;
-}
 
 .practitioner-profile-btns li {
     border-radius: 0.9rem !important;
