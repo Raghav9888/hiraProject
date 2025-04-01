@@ -33,7 +33,9 @@
                         <h4>Support</h4>
                         <ul>
                             <li>Terms and Conditions</li>
-                            <li>Privacy Policy</li>
+                            <li>
+                                <a href="{{route('privacy_policy')}}"> Privacy Policy</a>
+                            </li>
                         </ul>
                     </div>
                 </div>

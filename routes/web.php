@@ -29,8 +29,8 @@ Auth::routes();
 Route::post('/reset-password', [ForgotPasswordController::class, 'sendResetLink'])->name('send.resetLink');
 Route::post('/stripe/webhook', [StripeWebhookController::class, 'handleWebhook']);
 
-// Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/', [HomeController::class, 'comingIndex'])->name('home');
+ Route::get('/', [HomeController::class, 'index'])->name('home');
+//Route::get('/', [HomeController::class, 'comingIndex'])->name('home');
 Route::post('/subscribe', [HomeController::class, 'subscribe'])->name('subscribe');
 Route::get('/pending/user', [HomeController::class, 'pendingUser'])->name('pendingUserRequest');
 Route::get('/contact-us', [HomeController::class, 'contact'])->name('contact');
@@ -48,6 +48,7 @@ Route::post('/getBookedSlots/{userId}', [GoogleCalendarController::class, 'getBo
 
 Route::get('/practitioner/detail/{id}', [HomeController::class, 'practitionerDetail'])->name('practitioner_detail');
 Route::get('/practitioner/offering/detail/{id}', [HomeController::class, 'practitionerOfferingDetail'])->name('practitionerOfferingDetail');
+Route::get('/privacy-policy', [HomeController::class, 'privacyPolicy'])->name('privacy_policy');
 //Route::get('/checkout', [HomeController::class, 'checkout'])->name('checkout');
 
 Route::post('/create-payment', [PaymentController::class, 'createPayment'])->name('create.payment');

@@ -22,9 +22,10 @@
                                         <tr>
                                             <th>#</th>
                                             <th>Admin</th>
-                                            <th>User</th>
+                                            <th>Practitioner</th>
+                                            <th>Name</th>
                                             <th>Offering</th>
-                                            <th>Comment</th>
+{{--                                            <th>Comment</th>--}}
                                             <th>Rating</th>
                                             <th>Action</th>
                                         </tr>
@@ -36,8 +37,9 @@
                                                     <td>{{ $loop->iteration }}</td>
                                                     <td>{{ $feedback->admin->name }}</td>
                                                     <td>{{ $feedback->user ? $feedback->user->name : '-' }}</td>
+                                                    <td>{{ $feedback->name ? $feedback->name : '-' }}</td>
                                                     <td>{{ $feedback->offering ? $feedback->offering->name : '-' }}</td>
-                                                    <td>{{ Str::limit(strip_tags($feedback->comment), 50) }}</td>
+{{--                                                    <td>{{ Str::limit(strip_tags($feedback->comment), 50) }}</td>--}}
 
                                                     <td>
                                                         @if($feedback->rating)

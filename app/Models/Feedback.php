@@ -10,7 +10,7 @@ class Feedback extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['admin_id', 'user_id', 'offering_id', 'comment', 'rating',];
+    protected $fillable = ['admin_id', 'practitioner_id', 'offering_id', 'name', 'image', 'comment', 'rating','feedback_type'];
 
     public function admin()
     {
@@ -19,7 +19,7 @@ class Feedback extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'practitioner_id');
     }
 
     public function offering()

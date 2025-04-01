@@ -13,17 +13,9 @@
                             <div class="card-body">
                                 <h4 class="card-title">Add Feedback</h4>
 
-                                <form action="{{ route('admin.feedback.store') }}" method="POST">
+                                <form action="{{ route('admin.feedback.store') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
 
-                                    <div class="mb-3">
-                                        <label class="form-label">Comment:</label>
-                                        <textarea class="form-control" id="comment" name="comment" rows="4">{{old('comment')}}</textarea>
-                                        @error('comment')
-                                        <span class="text-danger">{{ $message }}</span>
-                                        @enderror
-
-                                    </div>
 
                                     <div class="col-md-6">
                                         <div class="form-group row">
@@ -47,12 +39,10 @@
                                             </div>
                                         </div>
                                     </div>
-
-
                                     <div id="userSection" class="mb-3 d-none">
-                                        <label class="form-label">User:</label>
-                                        <select name="user_id" id="userSelect" class="form-control">
-                                            <option value="">Select User</option>
+                                        <label class="form-label">Practitioner:</label>
+                                        <select name="practitioner_id" id="practitionerSelect" class="form-control">
+                                            <option value="">Select Practitioner</option>
                                             @foreach($users as $user)
                                                 <option value="{{ $user->id }}">{{ $user->name }}</option>
                                             @endforeach
@@ -65,6 +55,28 @@
                                             <option value="">Select Offering</option>
                                         </select>
                                     </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Name</label>
+                                        <input type="text" placeholder="Enter user name" name="name" class="form-control">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <div class="form-group">
+                                            <label>Image upload</label>
+                                            <input type="file" name="image" class="file-upload-default" accept="image/*">
+                                            <div class="input-group col-xs-12">
+                                                <input type="text" class="form-control file-upload-info" disabled
+                                                       placeholder="Upload Image">
+                                                <span class="input-group-append">
+                                                <button class="file-upload-browse btn btn-primary"
+                                                        type="button">Upload</button>
+                                            </span>
+                                            </div>
+                                            @error('image')
+                                            <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
 
                                     <div class="mb-3">
                                         <label class="form-label">Rating:</label>
@@ -75,6 +87,15 @@
                                             @endfor
                                         </select>
                                     </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Comment:</label>
+                                        <textarea class="form-control" id="comment" name="comment" rows="4">{{old('comment')}}</textarea>
+                                        @error('comment')
+                                        <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+
 
                                     <button type="submit" class="btn btn-primary">Submit Feedback</button>
                                     <a href="{{ route('admin.feedback.index') }}" class="btn btn-secondary">Cancel</a>
@@ -95,7 +116,7 @@
             const offeringFeedback = document.getElementById("offeringFeedback");
             const userSection = document.getElementById("userSection");
             const offeringSection = document.getElementById("offeringSection");
-            const userSelect = document.getElementById("userSelect");
+            const userSelect = document.getElementById("practitionerSelect");
             const offeringSelect = document.getElementById("offeringSelect");
 
             function toggleSections() {

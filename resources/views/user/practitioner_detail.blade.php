@@ -68,8 +68,20 @@
                         <div class="d-flex justify-content-between flex-wrap">
                             <h4>{{$user->name}}</h4>
                             <div style="display: flex; gap: 10px; font-size: 25px">
-                                <i class="fa-regular fa-heart"></i>
-                                <i class="fa-solid fa-share-nodes"></i>
+{{--                                <i class="fa-regular fa-heart"></i>--}}
+                                <div class="dropdown">
+                                    <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 25px">
+                                        <i class="fa-solid fa-share-nodes"></i>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#"><i class="fa-solid fa-copy"></i> Copy Link</a></li>
+                                        <li><a class="dropdown-item" href="#"><i class="fa-brands fa-instagram"></i> Instagram</a></li>
+                                        <li><a class="dropdown-item" href="#"><i class="fa-brands fa-whatsapp"></i> Whatsapp</a></li>
+                                        <li><a class="dropdown-item" href="#"><i class="fa-brands fa-facebook"></i> Facebook</a></li>
+                                        <li><a class="dropdown-item" href="#"><i class="fa-brands fa-x-twitter"></i> X-twitter</a></li>
+                                    </ul>
+                                </div>
+
                             </div>
                         </div>
                         <h5>{{$userDetail->company ??'Alternative and Holistic Health Practitioner' }}</h5>
@@ -191,14 +203,52 @@
                                                         <p class="m-0 mb-1">{{$offering->short_description}}</p>
                                                     </div>
                                                     <div class="toggle-dv-review">
-                                                        <div class="d-flex mb-2" style="gap: 20px;">
-                                                            <button>Description</button>
-                                                            <button
-                                                                style="background-color: transparent;color: #9F8B72;">
-                                                                Reviews
-                                                            </button>
+
+
+                                                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                                            <li class="nav-item" role="presentation">
+                                                                <button class="nav-link active mx-2" id="description-tab" data-bs-toggle="tab"
+                                                                        data-bs-target="#description-tab-pane" type="button" role="tab" aria-controls="description-tab-pane" aria-selected="true">Description</button>
+                                                            </li>
+                                                            <li class="nav-item" role="presentation">
+                                                                <button class="nav-link mx-2" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews-tab-pane" type="button" role="tab" aria-controls="reviews-tab-pane" aria-selected="false">Reviews</button>
+                                                            </li>
+
+                                                        </ul>
+                                                        <div class="tab-content" id="myTabContent">
+                                                            <div class="tab-pane fade show active" id="description-tab-pane" role="tabpanel" aria-labelledby="description-tab" tabindex="0">
+                                                                {{$offering->long_description}}
+                                                            </div>
+                                                            <div class="tab-pane fade" id="reviews-tab-pane" role="tabpanel" aria-labelledby="reviews-tab" tabindex="0">
+                                                                <div class="review-dv-data">
+                                                                    @foreach ($offeringFeedback as $feedback)
+                                                                        <div class="person-review-dv">
+                                                                            <div class="d-flex justify-content-between flex-wrap align-items-center mt-3">
+                                                                                <div class="reviewer mb-3">
+                                                                                    <div class="reviewer-img-text">
+                                                                                        {{ strtoupper(substr($feedback->name, 0, 2)) }} {{-- Show initials --}}
+                                                                                    </div>
+                                                                                    <div class="reviewer-info">
+                                                                                        <div class="name">{{ $feedback->name }}</div>
+                                                                                        <div class="stars">
+                                                                                            @for ($i = 1; $i <= 5; $i++)
+                                                                                                <i class="fa-regular fa-gem {{ $i <= $feedback->rating ? 'text-warning' : '' }}"></i>
+                                                                                            @endfor
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <h3>{{ number_format($feedback->rating, 1) }}/5.0</h3>
+
+                                                                            </div>
+                                                                            <div class="review-text mb-3">
+                                                                                {!! $feedback->comment !!}
+
+                                                                            </div>
+                                                                        </div>
+                                                                    @endforeach
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                        {{$offering->long_description}}
                                                     </div>
                                                     <div class="toggle-dv-review mt-3">
                                                         <div class="d-flex mb-2" style="gap: 20px;">
@@ -300,162 +350,94 @@
                                 </div>
                             </div>
                         </div>
-                        {{--                        <div class="accordion-item">--}}
-                        {{--                            <h2 class="accordion-header" id="headingSix">--}}
-                        {{--                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"--}}
-                        {{--                                        data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">--}}
-                        {{--                                    Reviews--}}
-                        {{--                                </button>--}}
-                        {{--                            </h2>--}}
-                        {{--                            <div id="collapseSix" class="accordion-collapse collapse show" aria-labelledby="headingSix"--}}
-                        {{--                                 data-bs-parent="#accordionExample">--}}
-                        {{--                                <div class="accordion-body review-dv-data">--}}
-                        {{--                                    <div class="d-flex justify-content-between flex-wrap mb-3">--}}
-                        {{--                                        <div>--}}
-                        {{--                                            <div class="d-flex align-items-center mb-3">--}}
-                        {{--                                                <h6 class="font-weight-bold">5.0</h6>--}}
-                        {{--                                                <div class="mx-2">--}}
-                        {{--                                                    <div class="progress">--}}
-                        {{--                                                        <div class="progress-bar" role="progressbar" style="width: 80%;"--}}
-                        {{--                                                             aria-valuenow="80" aria-valuemin="0"--}}
-                        {{--                                                             aria-valuemax="100"></div>--}}
-                        {{--                                                    </div>--}}
-                        {{--                                                </div>--}}
-                        {{--                                                <h6 class="review-count-text">26 Reviews</h5>--}}
-                        {{--                                            </div>--}}
-                        {{--                                            <div class="d-flex align-items-center mb-3">--}}
-                        {{--                                                <h6 class="font-weight-bold">4.0</h6>--}}
-                        {{--                                                <div class="mx-2">--}}
-                        {{--                                                    <div class="progress">--}}
-                        {{--                                                        <div class="progress-bar" role="progressbar" style="width: 70%;"--}}
-                        {{--                                                             aria-valuenow="70" aria-valuemin="0"--}}
-                        {{--                                                             aria-valuemax="100"></div>--}}
-                        {{--                                                    </div>--}}
-                        {{--                                                </div>--}}
-                        {{--                                                <h6 class="review-count-text">23 Reviews</h5>--}}
-                        {{--                                            </div>--}}
-                        {{--                                            <div class="d-flex align-items-center mb-3">--}}
-                        {{--                                                <h6 class="font-weight-bold">3.0</h6>--}}
-                        {{--                                                <div class="mx-2">--}}
-                        {{--                                                    <div class="progress">--}}
-                        {{--                                                        <div class="progress-bar" role="progressbar" style="width: 50%;"--}}
-                        {{--                                                             aria-valuenow="50" aria-valuemin="0"--}}
-                        {{--                                                             aria-valuemax="100"></div>--}}
-                        {{--                                                    </div>--}}
-                        {{--                                                </div>--}}
-                        {{--                                                <h6 class="review-count-text">15 Reviews</h5>--}}
-                        {{--                                            </div>--}}
-                        {{--                                            <div class="d-flex align-items-center mb-3">--}}
-                        {{--                                                <h6 class="font-weight-bold">2.0</h6>--}}
-                        {{--                                                <div class="mx-2">--}}
-                        {{--                                                    <div class="progress">--}}
-                        {{--                                                        <div class="progress-bar" role="progressbar" style="width: 20%;"--}}
-                        {{--                                                             aria-valuenow="20" aria-valuemin="0"--}}
-                        {{--                                                             aria-valuemax="100"></div>--}}
-                        {{--                                                    </div>--}}
-                        {{--                                                </div>--}}
-                        {{--                                                <h6 class="review-count-text">6 Reviews</sh5>--}}
-                        {{--                                            </div>--}}
-                        {{--                                            <div class="d-flex align-items-center mb-3">--}}
-                        {{--                                                <span class="font-weight-bold">1.0</span>--}}
-                        {{--                                                <div class="mx-2">--}}
-                        {{--                                                    <div class="progress">--}}
-                        {{--                                                        <div class="progress-bar" role="progressbar" style="width: 10%;"--}}
-                        {{--                                                             aria-valuenow="10" aria-valuemin="0"--}}
-                        {{--                                                             aria-valuemax="100"></div>--}}
-                        {{--                                                    </div>--}}
-                        {{--                                                </div>--}}
-                        {{--                                                <h6 class="review-count-text">4 Reviews</sh5>--}}
-                        {{--                                            </div>--}}
-                        {{--                                        </div>--}}
-                        {{--                                        <div class="text-right">--}}
-                        {{--                                            <div class="d-flex justify-content-end mb-2" style="gap: 5px;">--}}
-                        {{--                                                <i class="fa-regular fa-gem"></i>--}}
-                        {{--                                                <i class="fa-regular fa-gem"></i>--}}
-                        {{--                                                <i class="fa-regular fa-gem"></i>--}}
-                        {{--                                                <i class="fa-regular fa-gem"></i>--}}
-                        {{--                                                <i class="fa-regular fa-gem"></i>--}}
-                        {{--                                            </div>--}}
-                        {{--                                            <h2>4.9/5.0</h2>--}}
-                        {{--                                            <p>74 Total Reviews</p>--}}
-                        {{--                                        </div>--}}
-                        {{--                                    </div>--}}
-                        {{--                                    <div class="sort-by">--}}
-                        {{--                                        <p>Sort By</p>--}}
-                        {{--                                        <div class="dropdown">--}}
-                        {{--                                            <button onclick="toggleDropdown()" class="dropdown-button">--}}
-                        {{--                                                <span>ALL CATEGORIES</span>--}}
-                        {{--                                                <i class="fas fa-chevron-down"></i>--}}
-                        {{--                                            </button>--}}
-                        {{--                                            <div id="dropdownMenuData" class="dropdown-menu">--}}
-                        {{--                                                <ul>--}}
-                        {{--                                                    <li><a href="#">Category 1</a></li>--}}
-                        {{--                                                    <li><a href="#">Category 2</a></li>--}}
-                        {{--                                                    <li><a href="#">Category 3</a></li>--}}
-                        {{--                                                </ul>--}}
-                        {{--                                            </div>--}}
-                        {{--                                        </div>--}}
-                        {{--                                    </div>--}}
-                        {{--                                    <div class="person-review-dv">--}}
-                        {{--                                        <div class="d-flex justify-content-between flex-wrap align-items-center mt-3">--}}
-                        {{--                                            <div class="reviewer mb-3">--}}
-                        {{--                                                <div class="reviewer-img-text">MJ</div>--}}
-                        {{--                                                <div class="reviewer-info">--}}
-                        {{--                                                    <div class="name">Micheal Johnson</div>--}}
-                        {{--                                                    <div class="stars">--}}
-                        {{--                                                        <i class="fa-regular fa-gem"></i>--}}
-                        {{--                                                        <i class="fa-regular fa-gem"></i>--}}
-                        {{--                                                        <i class="fa-regular fa-gem"></i>--}}
-                        {{--                                                        <i class="fa-regular fa-gem"></i>--}}
-                        {{--                                                        <i class="fa-regular fa-gem"></i>--}}
-                        {{--                                                    </div>--}}
-                        {{--                                                </div>--}}
-                        {{--                                            </div>--}}
-                        {{--                                            <h3>5.0/5.0</h3>--}}
-                        {{--                                        </div>--}}
-                        {{--                                        <div class="review-text mb-3">--}}
-                        {{--                                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod--}}
-                        {{--                                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,--}}
-                        {{--                                            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo--}}
-                        {{--                                            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse--}}
-                        {{--                                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat--}}
-                        {{--                                            non proident, sunt in culpa qui officia deserunt mollit anim id est--}}
-                        {{--                                            laborum."--}}
-                        {{--                                        </div>--}}
-                        {{--                                    </div>--}}
-                        {{--                                    <div class="person-review-dv">--}}
-                        {{--                                        <div class="d-flex justify-content-between flex-wrap align-items-center mt-3">--}}
-                        {{--                                            <div class="reviewer mb-3">--}}
-                        {{--                                                <div class="reviewer-img-text">MJ</div>--}}
-                        {{--                                                <div class="reviewer-info">--}}
-                        {{--                                                    <div class="name">Micheal Johnson</div>--}}
-                        {{--                                                    <div class="stars">--}}
-                        {{--                                                        <i class="fa-regular fa-gem"></i>--}}
-                        {{--                                                        <i class="fa-regular fa-gem"></i>--}}
-                        {{--                                                        <i class="fa-regular fa-gem"></i>--}}
-                        {{--                                                        <i class="fa-regular fa-gem"></i>--}}
-                        {{--                                                        <i class="fa-regular fa-gem"></i>--}}
-                        {{--                                                    </div>--}}
-                        {{--                                                </div>--}}
-                        {{--                                            </div>--}}
-                        {{--                                            <h3>5.0/5.0</h3>--}}
-                        {{--                                        </div>--}}
-                        {{--                                        <div class="review-text mb-3">--}}
-                        {{--                                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod--}}
-                        {{--                                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,--}}
-                        {{--                                            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo--}}
-                        {{--                                            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse--}}
-                        {{--                                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat--}}
-                        {{--                                            non proident, sunt in culpa qui officia deserunt mollit anim id est--}}
-                        {{--                                            laborum."--}}
-                        {{--                                        </div>--}}
-                        {{--                                    </div>--}}
-                        {{--                                    <div class="d-flex justify-content-end mt-4">--}}
-                        {{--                                        <button class="home-blog-btn">Load More</button>--}}
-                        {{--                                    </div>--}}
-                        {{--                                </div>--}}
-                        {{--                            </div>--}}
-                        {{--                        </div>--}}
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingSix">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                                    Reviews
+                                </button>
+                            </h2>
+                            <div id="collapseSix" class="accordion-collapse collapse show" aria-labelledby="headingSix"
+                                 data-bs-parent="#accordionExample">
+                                <div class="accordion-body review-dv-data">
+                                    <div class="d-flex justify-content-between flex-wrap mb-3">
+                                        <div>
+                                            @foreach ([5, 4, 3, 2, 1] as $star)
+                                                <div class="d-flex align-items-center mb-3">
+                                                    <h6 class="font-weight-bold">{{ $star }}.0</h6>
+                                                    <div class="mx-2">
+                                                        <div class="progress">
+                                                            <div class="progress-bar" role="progressbar"
+                                                                 style="width: {{ $ratingPercentages[$star] }}%;"
+                                                                 aria-valuenow="{{ $ratingPercentages[$star] }}"
+                                                                 aria-valuemin="0"
+                                                                 aria-valuemax="100">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <h6 class="review-count-text">{{ $ratings[$star] }} Reviews</h6>
+                                                </div>
+                                            @endforeach
+                                        </div>
+
+                                        <div class="text-right">
+                                            <div class="d-flex justify-content-end mb-2" style="gap: 5px;">
+                                                @for($i= 1; $i<= $averageProfileRating; $i++)
+                                                    <i class="fa-regular fa-gem"></i>
+                                                @endfor
+                                            </div>
+                                            <h2>{{$averageProfileRating}}/5.0</h2>
+                                            <p>{{count($profileFeedback)}} Total Reviews</p>
+                                        </div>
+                                    </div>
+{{--                                    <div class="sort-by">--}}
+{{--                                        <p>Sort By</p>--}}
+{{--                                        <div class="dropdown">--}}
+{{--                                            <button onclick="toggleDropdown()" class="dropdown-button">--}}
+{{--                                                <span>ALL CATEGORIES</span>--}}
+{{--                                                <i class="fas fa-chevron-down"></i>--}}
+{{--                                            </button>--}}
+{{--                                            <div id="dropdownMenuData" class="dropdown-menu">--}}
+{{--                                                <ul>--}}
+{{--                                                    <li><a href="#">Category 1</a></li>--}}
+{{--                                                    <li><a href="#">Category 2</a></li>--}}
+{{--                                                    <li><a href="#">Category 3</a></li>--}}
+{{--                                                </ul>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+                                    @foreach ($profileFeedback as $feedback)
+                                        <div class="person-review-dv">
+                                            <div class="d-flex justify-content-between flex-wrap align-items-center mt-3">
+                                                <div class="reviewer mb-3">
+                                                    <div class="reviewer-img-text">
+                                                        {{ strtoupper(substr($feedback->name, 0, 2)) }} {{-- Show initials --}}
+                                                    </div>
+                                                    <div class="reviewer-info">
+                                                        <div class="name">{{ $feedback->name }}</div>
+                                                        <div class="stars">
+                                                            @for ($i = 1; $i <= 5; $i++)
+                                                                <i class="fa-regular fa-gem {{ $i <= $feedback->rating ? 'text-warning' : '' }}"></i>
+                                                            @endfor
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <h3>{{ number_format($feedback->rating, 1) }}/5.0</h3>
+
+                                            </div>
+                                            <div class="review-text mb-3">
+                                                {!! $feedback->comment !!}
+
+                                            </div>
+                                        </div>
+                                    @endforeach
+
+                                    <div class="d-flex justify-content-end mt-4">
+                                        {!! $profileFeedback->links() !!}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-3 col-lg-3">

@@ -10,4 +10,9 @@ class PractitionerTag extends Model
     use HasFactory;
 
     protected $fillable = ['name', 'slug', 'description', 'created_by', 'updated_by'];
+
+    public function userDetail()
+    {
+        return $this->belongsTo(UserDetail::class, 'tags', 'id');
+    }
 }

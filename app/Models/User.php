@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Models\Subscription as ModelsSubscription;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Cashier\Billable;
@@ -80,5 +81,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(ModelsSubscription::class, 'user_id', 'id');
     }
-
 }

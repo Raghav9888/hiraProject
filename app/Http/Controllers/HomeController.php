@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Certifications;
 use App\Models\Feedback;
 use App\Models\Locations;
+use App\Models\PractitionerTag;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\UserDetail;
@@ -79,13 +80,14 @@ class HomeController extends Controller
         try {
             $email = $request->email;
             $fName = $request->first_name;
-
+            $groupId = env("MAILERLITE_GROUP_ID");
             $mailerLite = new MailerLite(['api_key' => env("MAILERLITE_KEY")]);
             $data = [
                 'email' => $email,
                 "fields" => [
                     "name" => $fName,
                 ],
+                "groups" => [$groupId],
             ];
             $mailerLite->subscribers->create($data);
             return response()->json([
@@ -155,9 +157,7 @@ class HomeController extends Controller
         $user = User::findOrFail($id);
         $userDetail = $user->userDetail;
         //  $userDetails = UserDetail::where('user_id', $id)->first();
-        $endorsements = $userDetail && $userDetail->endorsements
-            ? json_decode($userDetail->endorsements, true)
-            : [];
+        $endorsements = $userDetail && $userDetail->endorsements ? json_decode($userDetail->endorsements, true) : [];
         $endorsedUsers = User::whereIn('id', $endorsements)->get();
         $selectedTerms = explode(',', $userDetail->IHelpWith ?? '');
         $IHelpWith = IHelpWith::whereIn('id', $selectedTerms)->pluck('name')->toArray();
@@ -173,12 +173,12 @@ class HomeController extends Controller
         $offerings = Offering::where('user_id', $user->id)->get();
         $offeringIds = $offerings->pluck('id')->toArray();
 
-        $profileFeedback = Feedback::where('user_id', $user->id)
-            ->where('feedback_type', 'practitioner')
-            ->pluck('rating');
+        $profileFeedback = Feedback::where('practitioner_id', $user->id)
+            ->where('feedback_type', 'practitioner');
 
-        $averageProfileRating = $profileFeedback->isNotEmpty() ? number_format($profileFeedback->avg(), 1) : '0.0';
-        $offeringFeedback = Feedback::where('user_id', $user->id)
+        $averageProfileRating = $profileFeedback->get()->isNotEmpty() ? number_format($profileFeedback->get()->pluck('rating')->avg(), 1) : '0.0';
+
+        $offeringFeedback = Feedback::where('practitioner_id', $user->id)
             ->where('feedback_type', 'offering')
             ->with('admin')
             ->orderBy('created_at', 'desc')
@@ -193,6 +193,28 @@ class HomeController extends Controller
         $users = User::where('role', 1)->with('userDetail')->get();
         $categories = Category::get();
         $storeAvailable = $userDetail?->store_availabilities ? $userDetail->store_availabilities : [];
+
+        $ratingCounts = $profileFeedback->get()->groupBy('rating')->map->count();
+
+        $totalReviews = $profileFeedback->get()->count();
+
+        $ratings = [
+            5 => 0,
+            4 => 0,
+            3 => 0,
+            2 => 0,
+            1 => 0
+        ];
+
+        foreach ($ratingCounts as $rating => $count) {
+            $ratings[$rating] = $count;
+        }
+
+        $ratingPercentages = [];
+        foreach ($ratings as $star => $count) {
+            $ratingPercentages[$star] = $totalReviews > 0 ? ($count / $totalReviews) * 100 : 0;
+        }
+
         return view('user.practitioner_detail', [
             'user' => $user,
             'userDetail' => $userDetail,
@@ -208,9 +230,11 @@ class HomeController extends Controller
             'users' => $users,
             'categories' => $categories,
             'storeAvailable' => $storeAvailable,
-            'profileFeedback' => $profileFeedback,
+            'profileFeedback' => $profileFeedback->paginate(10),
             'averageProfileRating' => $averageProfileRating,
             'offeringFeedback' => $offeringFeedback,
+            'ratings' => $ratings,
+            'ratingPercentages' => $ratingPercentages,
         ]);
     }
 
@@ -282,29 +306,47 @@ class HomeController extends Controller
         $location = $request->input('location');
         $buttonHitCount = $request->input('count') ?? 1;
 
-        $query = User::where('role', 1)->with('userDetail'); // Eager load userDetail relation
 
-        if (isset($search) && $search) {
-            $query->where(function ($query) use ($search) {
-                $query->where('first_name', 'like', '%' . $search . '%')
-                    ->orWhere('last_name', 'like', '%' . $search . '%')
-                    ->orWhere('name', 'like', '%' . $search . '%');
-            });
-        }
+        $tagId = PractitionerTag::where('name', 'like', '%' . $search . '%')->value('id');
+        $howIHelpId = HowIHelp::where('name', 'like', '%' . $search . '%')->value('id');
+        $iHelpWithId = IHelpWith::where('name', 'like', '%' . $search . '%')->value('id');
 
-        if (isset($category) && $category) {
+        $query = User::where('role', 1)->with('userDetail');
+
+        $query->where(function ($q) use ($search, $tagId, $howIHelpId, $iHelpWithId) {
+            $q->where('first_name', 'like', '%' . $search . '%')
+                ->orWhere('last_name', 'like', '%' . $search . '%')
+                ->orWhere('name', 'like', '%' . $search . '%')
+                ->orWhereHas('userDetail', function ($query) use ($tagId, $howIHelpId, $iHelpWithId) {
+                    if (!empty($tagId)) {
+                        $query->where('tags', 'like', '%' . $tagId . '%');
+                    }
+                    if (!empty($howIHelpId)) {
+                        $query->where('HowIHelp', 'like', '%' . $howIHelpId . '%');
+                    }
+                    if (!empty($iHelpWithId)) {
+                        $query->where('IHelpWith', 'like', '%' . $iHelpWithId . '%');
+                    }
+                });
+        });
+
+
+        // Filtering by category (specialities)
+        if (!empty($category)) {
             $query->whereHas('userDetail', function ($query) use ($category) {
                 $query->where('specialities', 'like', '%' . $category . '%');
             });
         }
 
-        if (isset($location) && $location) {
+        // Filtering by location
+        if (!empty($location)) {
             $query->whereHas('userDetail', function ($query) use ($location) {
                 $query->where('location', 'like', '%' . $location . '%');
             });
         }
 
-        $practitioners = $query->get()->take($buttonHitCount * 8);
+        // Fetch practitioners with pagination
+        $practitioners = $query->take($buttonHitCount * 8)->get();
 
         return response()->json([
             'practitioners' => $practitioners,
@@ -376,9 +418,15 @@ class HomeController extends Controller
         return response()->json([
             "success" => true,
             "data" => "Booking saved in session!",
-            'html' => view('user.event_detail_popup',['user' => $user, 'userDetail' => $userDetail, 'offering' => $offering])->render()
+            'html' => view('user.event_detail_popup', ['user' => $user, 'userDetail' => $userDetail, 'offering' => $offering])->render()
         ]);
 
     }
 
+    public function privacyPolicy()
+    {
+
+        return view('user.privacy_policy');
+
+    }
 }

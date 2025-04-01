@@ -11,4 +11,9 @@ class HowIHelp extends Model
     protected $table = 'how_i_help';
 
     protected $fillable = ['name', 'slug', 'description', 'created_by', 'updated_by'];
+
+    public function userDetail()
+    {
+        return $this->belongsTo(UserDetail::class, 'HowIHelp', 'id');
+    }
 }
