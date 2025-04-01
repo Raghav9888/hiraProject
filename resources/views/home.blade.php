@@ -5,7 +5,9 @@
         <div class="container">
             <div class="d-flex justify-content-center align-items-center flex-column">
                 <img class="hira-collective" src="{{url('/assets/images/hira-collective.svg')}}" alt="hira-collective">
-                <h5 class="roots-title text-center mb-4">Honouring Roots, Nurturing Growth</h5>
+
+                <h5 class="roots-title text-center mb-4 position-absolute" style="bottom: 10px">Honouring Roots,
+                    Nurturing Growth</h5>
             </div>
             <div class="home-search-wrrpr">
                 <p> Search for what you seek</p>
@@ -78,40 +80,42 @@
         </div>
     </section>
     <!-- explore categories section end -->
-<div class="container">
-    <div class="upcoming-event-container position-relative">
-        <h4>Upcoming Events</h4>
-        <div class="upcoming-event-inner upcoming-events-slider">
-            <div class="swiper-wrapper">
-                @if(count($offerings) > 0)
-                    @foreach($offerings as $date => $offering)
-                        @php
-                            $imageUrl = $offering->featured_image
-                                ? asset(env('media_path') . "/practitioners/{$offering->user->id}/offering/{$offering->featured_image}")
-                                : asset(env('local_path') . '/images/no_image.png');
-                        @endphp
-                        <div class="swiper-slide" style="height: 100%;width: 100%; max-height: 250px;min-height: 250px">
-                            <div class="slider-img">
-                                <img src="{{$imageUrl}}" alt="calm">
-                            </div>
-                            <div class="card-body">
-                                <h5>{{$offering?->name}}</h5>
-                                <h6>{{$offering?->short_description}}</h6>
-                                <div class="d-flex">
-                                    <img src="{{url('./assets/images/Clock.svg')}}" alt="" class="me-2" style="width: 1px">
-                                    <p class="ms-2">{{$date}}</p>
+    <div class="container">
+        <div class="upcoming-event-container position-relative">
+            <h4>Upcoming Events</h4>
+            <div class="upcoming-event-inner upcoming-events-slider">
+                <div class="swiper-wrapper">
+                    @if(count($offerings) > 0)
+                        @foreach($offerings as $date => $offering)
+                            @php
+                                $imageUrl = $offering->featured_image
+                                    ? asset(env('media_path') . "/practitioners/{$offering->user->id}/offering/{$offering->featured_image}")
+                                    : asset(env('local_path') . '/images/no_image.png');
+                            @endphp
+                            <div class="swiper-slide"
+                                 style="height: 100%;width: 100%; max-height: 250px;min-height: 250px">
+                                <div class="slider-img">
+                                    <img src="{{$imageUrl}}" alt="calm">
+                                </div>
+                                <div class="card-body">
+                                    <h5>{{$offering?->name}}</h5>
+                                    <h6>{{$offering?->short_description}}</h6>
+                                    <div class="d-flex">
+                                        <img src="{{url('./assets/images/Clock.svg')}}" alt="" class="me-2"
+                                             style="width: 1px">
+                                        <p class="ms-2">{{$date}}</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    @endforeach
-                @endif
+                        @endforeach
+                    @endif
 
+                </div>
             </div>
+            <div class="swiper-button-prev-event"><i class="fa-solid fa-arrow-left-long"></i></div>
+            <div class="swiper-button-next-event"><i class="fa-solid fa-arrow-right-long"></i></div>
         </div>
-        <div class="swiper-button-prev-event"><i class="fa-solid fa-arrow-left-long"></i></div>
-        <div class="swiper-button-next-event"><i class="fa-solid fa-arrow-right-long"></i></div>
     </div>
-</div>
     <!-- featured section start -->
     <section class="featured-section">
         <div class="container">
@@ -563,7 +567,7 @@
                 let location = $('#location').val();
                 let practitionerType = $('#practitionerType').val();
 
-                console.log("Performing search with:", { search, location, practitionerType }); // Debugging
+                console.log("Performing search with:", {search, location, practitionerType}); // Debugging
 
                 getPractitioners(search, null, location, practitionerType);
             }
