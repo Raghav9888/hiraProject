@@ -2914,13 +2914,61 @@ textarea, input[type="time"] {
 
 }
 
+@media screen and (max-width: 994px) {
+    .roots-title{
+        font-size: 23px;
+    }
+    .upcoming-event-container .swiper-button-next, .upcoming-event-container .swiper-button-next-event, .upcoming-event-container .swiper-button-prev, .upcoming-event-container .swiper-button-prev-event {
+        right: 6px !important;
+        top: -10px !important;
+    }
+    .upcoming-event-container .swiper-button-prev, .upcoming-event-container .swiper-button-prev-event {
+        left: auto !important;
+        right: 54px !important;
+    }
+    .home-title{
+        font-size: 26px;
+    }
+    .blog-detail-left-dv h4, .practitioner-detail-wrrpr .accordion-body h4{
+        font-size: 21px;
+    }
+    .category-load-more, .home-blog-btn, .review-dv-data .home-blog-btn {
+        width: 113px;
+        height: 38px;
+        font-size: 12px;
+    }
+
+}
+
 @media screen and (max-width: 767px) {
+    .roots-title{
+        font-size: 12px;
+        margin-bottom: 3px !important;
+    }
+    .blog-detail-left-dv h4, .practitioner-detail-wrrpr .accordion-body h4{
+        font-size: 18px;
+    }
+    .home-title {
+        font-size: 19px;
+    }
+    .find-apply-dv h2 {
+        font-size: 27px;
+    }
     .about-dv {
         align-items: center;
     }
 
+    .blog-detail-left-dv .search-container, .practitioner-search-dv .search-container {
+        background: #F5F6F5;
+        max-width: 630px;
+        margin: 24px 0 7px;
+    }
+    button.proceed_to_checkout {
+        font-size: 11px;
+    }
+
     .vision-and-about-dv p {
-        text-align: center !important;
+        text-align: justify !important;
     }
 
     .why-us-wrrpr .swiper-slide .shadow-quotes {
@@ -2928,8 +2976,9 @@ textarea, input[type="time"] {
     }
 
     .find-apply-dv {
-        padding: 10px;
+        padding: 25px;
         margin-bottom: 20px;
+        height: auto;
     }
 
     .faq-section .accordion-button {
