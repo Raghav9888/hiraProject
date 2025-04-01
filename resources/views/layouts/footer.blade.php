@@ -32,7 +32,11 @@
                     <div class="footer-lists">
                         <h4>Support</h4>
                         <ul>
-                            <li>Terms and Conditions</li>
+                            <li>
+                                <a href="{{route('terms_conditions')}}">
+                                    Terms and Conditions
+                                </a>
+                            </li>
                             <li>
                                 <a href="{{route('privacy_policy')}}"> Privacy Policy</a>
                             </li>
