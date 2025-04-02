@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Practitioner;
 
 use App\Http\Controllers\Calender\GoogleCalendarController;
 use App\Http\Controllers\Controller;
+use App\Mail\BookingConfirmationMail;
 use App\Models\Blog;
 use App\Models\Event;
 use App\Models\User;
@@ -16,6 +17,7 @@ use Google_Service_Calendar_Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
 use Stripe\Stripe;
 use Stripe\Checkout\Session as StripeSession;
 use Stripe\Charge;
@@ -232,6 +234,9 @@ class PaymentController extends Controller
 
         // Attempt to create a Google Calendar event
         try {
+            $practitionerEmailTemplate = $offering->email_template;
+            $intakeForms = $offering->intake_form;
+            Mail::to($order->billing_email)->send(new BookingConfirmationMail($order, $practitionerEmailTemplate, $intakeForms));
             $this->createGoogleCalendarEvent($order);
         } catch (\Exception $e) {
             \Log::error('Google Calendar Event Creation Failed: ' . $e->getMessage());
