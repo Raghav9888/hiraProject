@@ -43,6 +43,9 @@ Route::get('/search/practitioner', [HomeController::class, 'searchPractitioner']
 Route::get('/practitioners', [HomeController::class, 'partitionerLists'])->name('partitionerLists');
 Route::post('/getEvent', [HomeController::class, 'getEvent'])->name('getEvent');
 Route::get('/land-acknowledgement', [HomeController::class, 'acknowledgement'])->name('acknowledgement');
+Route::get('/our-story', [HomeController::class, 'ourStory'])->name('our_story');
+Route::get('/our-vision', [HomeController::class, 'ourVision'])->name('our_vision');
+Route::get('/core-values', [HomeController::class, 'coreValues'])->name('core_values');
 Route::post('/getBookedSlots/{userId}', [GoogleCalendarController::class, 'getBookedSlots'])->name('getBookedSlots');
 
 

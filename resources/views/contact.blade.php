@@ -4,8 +4,27 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-12 col-md-6 col-lg-6">
-                    <div class="contact-us-left-dv">
+                    <div class="position-relative">
                         <img src="{{ url('./assets/images/hira-collective.svg') }}" alt="hira-collective">
+                    <div class="contact-us-right-dv position-absolute top-0" style="backdrop-filter: blur(10px)">
+                        <h2 class="fw-bold mb-3 text-white" style="font-size: 45px">What kind of support do you need?</h2>
+
+                        <h5 class="text-white">Booking Support</h5>
+                        <ul class="list-unstyled ps-3 text-white">
+                            <li>&#8226; Finding a practitioner</li>
+                            <li>&#8226; Help with booking or rescheduling</li>
+                            <li>&#8226; Questions about cancellations or fees</li>
+                            <li>&#8226; Clarification on services or offerings</li>
+                        </ul>
+
+                        <h5 class="text-white">Technical Support</h5>
+                        <ul class="list-unstyled ps-3 text-white">
+                            <li>&#8226; Trouble logging in</li>
+                            <li>&#8226; Payment or checkout errors</li>
+                            <li>&#8226; Site bugs or glitches</li>
+                            <li>&#8226; Problems processing refunds or updates</li>
+                        </ul>
+                    </div>
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-6">
@@ -57,7 +76,9 @@
                                 </select>
                             </div>
                             <div class="mb-3 d-none" id="booking_link_section">
-                                <label class="form-label">Booking Link</label>
+                                <label class="form-label">Booking Link:</label>
+                                <a href="https://calendar.app.google/ff54ToKRwgE1v8gw9">https://calendar.app.google/ff54ToKRwgE1v8gw9 </a>
+
                             </div>
                             <div class="mb-3 d-none" id="whatsapp_link_section">
                                 <label class="form-label">WhatsApp Number</label>

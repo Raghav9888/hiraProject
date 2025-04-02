@@ -22,9 +22,9 @@
                         <ul>
                             <li>Press</li>
                             <li><a href="{{route('contact')}}">Contact Us</a></li>
-                            <li>Our Story</li>
-                            <li>Our Vision</li>
-                            <li>Core Values</li>
+                            <li><a href="{{route('our_story')}}">Our Story </a></li>
+                            <li><a href="{{route('our_vision')}}">Our Vision</a></li>
+                            <li><a href="{{route('core_values')}}">Core Values</a></li>
                         </ul>
                     </div>
                 </div>

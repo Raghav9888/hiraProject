@@ -434,4 +434,19 @@ class HomeController extends Controller
     {
         return view('user.terms_conditions');
     }
+
+    public function ourStory()
+    {
+        return view('user.our_story');
+    }
+
+    public function ourVision()
+    {
+        return view('user.our_vision');
+    }
+
+    public function coreValues()
+    {
+        return view('user.core_values');
+    }
 }
