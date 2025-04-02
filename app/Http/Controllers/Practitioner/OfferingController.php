@@ -240,8 +240,23 @@ class OfferingController extends Controller
         $practitionerTag = PractitionerTag::get();
         $IHelpWith = IHelpWith::get();
         $HowIHelp = HowIHelp::get();
-        $locations = Locations::get();
-        return view('practitioner.edit_offering', compact('user', 'userDetails', 'locations', 'offering', 'categories', 'practitionerTag', 'IHelpWith', 'HowIHelp'));
+        $defaultLocations = Locations::where('status', 1)->get();
+        $locations = [];
+        foreach ($defaultLocations as $location) {
+            $locations[$location->id] = $location->name;
+        }
+
+
+        return view('practitioner.edit_offering',[
+            'user' => $user,
+            'userDetails' => $userDetails,
+            'offering' => $offering,
+            'categories' => $categories,
+            'practitionerTag' => $practitionerTag,
+            'IHelpWith' => $IHelpWith,
+            'HowIHelp' => $HowIHelp,
+            'defaultLocations' => $locations
+        ]);
     }
 
     // Delete an offering

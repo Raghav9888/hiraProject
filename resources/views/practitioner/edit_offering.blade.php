@@ -64,7 +64,10 @@
                             </div>
                             <div class="mb-4">
                                 <label for="type" class="fw-bold">Type of offering</label>
-                                <select id="type" name="offering_type" class="form-select">
+                                <select id="type" name="offering_type" class="form-select"   data-type="change"
+                                        data-target-one="location"
+                                        data-add-one-class="d-block"
+                                        data-match-one="in-person">
                                     <option value="">Select Offering Type</option>
                                     <option
                                         value="virtual" {{ $offering->offering_type  == 'virtual' ? 'selected' : ''}}>
@@ -77,17 +80,19 @@
                                     </option>
                                 </select>
                             </div>
-                            <div class="mb-3 {{  $offering->offering_type  == 'in-person' ? '': 'd-none'}}"
-                                 id="location">
-                                <label for="exampleInputEmail1" class="fw-bold">Location</label>
+                            <div class="mb-3 {{  $offering->offering_type  == 'in-person' ? '': 'd-none'}}" id="location">
+                                <label for="exampleInputEmail1" class="fw-bold d-block">Location</label>
+
                                 <select name="location" class="form-control">
-                                    @foreach($locations as $location)
-                                        <option
-                                            value="{{$location->id}}" {{ $offering->location === $location->id  ? 'selected' : '' }}>
-                                            {{$location->name}}
+                                    @foreach($defaultLocations as $id => $location)
+                                        <option value="{{ $id }}"
+                                            {{ (string) $offering->location === (string) $id ? 'selected' : '' }}>
+                                            {{ $location }}
                                         </option>
                                     @endforeach
                                 </select>
+
+
                             </div>
 
                             <div class="mb-3">
@@ -815,23 +820,6 @@
         </div>
     </section>
     <script>
-        $(document).on('change', '[data-type="change"]', function (e) {
-            let targetOneValue = $(this).data('target-one');
-            let matchOneValue = $(this).data('match-one');
-
-            let targetTwoValue = $(this).data('target-two');
-            let matchTwoValue = $(this).data('match-two');
-
-            if ((targetOneValue && targetOneValue.length > 0) && (matchOneValue && matchOneValue.length > 0)) {
-                $(this).val() == matchOneValue ? $(`#${targetOneValue}`).removeClass('d-none').addClass('d-flex') : $(`#${targetOneValue}`).addClass('d-none').removeClass('d-flex')
-            }
-
-            if ((targetTwoValue && targetTwoValue.length > 0) && (matchTwoValue && matchTwoValue.length > 0)) {
-                $(this).val() == matchTwoValue ? $(`#${targetTwoValue}`).removeClass('d-none').addClass('d-flex') : $(`#${targetTwoValue}`).addClass('d-none').removeClass('d-flex')
-            }
-
-
-        });
 
         document.addEventListener("DOMContentLoaded", function () {
             const offeringSelect = document.querySelector('select[name="offering_event_type"]');

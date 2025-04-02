@@ -21,9 +21,25 @@ $(document).ready(function () {
     });
 });
 
-$(document).on('change', '#type', function () {
-    let targetElement = $('#location');
-    $(elm).val() !== 'in-person' ? targetElement.addClass('d-none') : targetElement.removeClass('d-none');
+$(document).on('change', '[data-type="change"]', function (e) {
+    let targetOneValue = $(this).data('target-one');
+    let matchOneValue = $(this).data('match-one');
+
+    let targetTwoValue = $(this).data('target-two');
+    let matchTwoValue = $(this).data('match-two');
+
+    let addOneClassValue = $(this).data('add-one-class') ?? 'd-flex';
+    let addTowClassValue = $(this).data('add-one-class') ?? 'd-flex';
+
+    if ((targetOneValue && targetOneValue.length > 0) && (matchOneValue && matchOneValue.length > 0)) {
+        $(this).val() == matchOneValue ? $(`#${targetOneValue}`).removeClass('d-none').addClass(addOneClassValue) : $(`#${targetOneValue}`).addClass('d-none').removeClass('d-flex')
+    }
+
+    if ((targetTwoValue && targetTwoValue.length > 0) && (matchTwoValue && matchTwoValue.length > 0)) {
+        $(this).val() == matchTwoValue ? $(`#${targetTwoValue}`).removeClass('d-none').addClass(addTowClassValue) : $(`#${targetTwoValue}`).addClass('d-none').removeClass('d-flex')
+    }
+
+
 });
 
 $('.addterm').on('click', function (e) {
