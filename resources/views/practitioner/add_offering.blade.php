@@ -224,14 +224,14 @@
                                                 <div class="row">
                                                     <div class="row">
                                                         <div class="col-md-6 mb-4">
-                                                            <label for="type" class="fw-bold">Scheduling window (How far
+                                                            <label for="scheduling_window_offering" class="fw-bold">Scheduling window (How far
                                                                 in
                                                                 advance
                                                                 they can book)</label>
 
                                                             <div class="row mb-3">
                                                                 <div class="col-md-6 mt-2">
-                                                                    <input type="text" class="form-control me-2"
+                                                                    <input type="text" id="scheduling_window_offering" class="form-control me-2"
                                                                            name="scheduling_window_offering"
                                                                            placeholder="Please add the price for your offering">
                                                                 </div>
@@ -249,9 +249,9 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-12 mb-4">
-                                                        <label for="type" class="fw-bold">Buffer time between
+                                                        <label for="buffer_time_offering" class="fw-bold">Buffer time between
                                                             appointment</label>
-                                                        <select id="type" class="form-select"
+                                                        <select id="buffer_time_offering" class="form-select"
                                                                 name="buffer_time_offering">
                                                             <option value="15 minutes">15 minutes</option>
                                                             <option value="20 minutes">20 minutes</option>
@@ -275,8 +275,8 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-lg-6 mb-4">
-                                                        <div class="d-flex justify-content-between">
-                                                            <label for="service-hours" class="fw-bold">Email
+                                                        <div class="d-lg-flex justify-content-between">
+                                                            <label for="email_template" class="fw-bold">Email
                                                                 template</label>
 
                                                             <p>Maximum length of 500 words</p>
@@ -287,7 +287,7 @@
                                                         <p id="word-count">0 / 500 words</p>
                                                     </div>
                                                     <div class="col-lg-6 mb-4">
-                                                        <label for="service-hours" class="fw-bold">Intake form
+                                                        <label for="intake_form_offering" class="fw-bold">Intake form
                                                             (Optional)</label>
                                                         <input type="text" class="form-control"
                                                                name="intake_form_offering"
@@ -398,13 +398,13 @@
                                                 </div>
 
                                                 <div class="row">
-                                                    <div class="col mb-4">
+                                                    <div class="col-md-6 mb-4">
                                                         <label for="service-hours" class="fw-bold">Client price</label>
                                                         <input type="text" class="form-control"
                                                                placeholder="Please add the price for your offering"
                                                                name="client_price_event">
                                                     </div>
-                                                    <div class=" col mb-4">
+                                                    <div class="col-md-6 mb-4">
                                                         <label for="tax" class="fw-bold">Tax</label>
                                                         <input type="text" class="form-control"
                                                                placeholder="Enter the applicable tax percentage for your offering"
@@ -413,14 +413,14 @@
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-6 mb-4">
-                                                        <label for="type" class="fw-bold">Scheduling window (How far in
+                                                    <div class="col-12 mb-4">
+                                                        <label for="scheduling_window_event" class="fw-bold">Scheduling window (How far in
                                                             advance
                                                             they can book)</label>
 
                                                         <div class="d-flex mb-3">
                                                             <input type="text" class="form-control me-2"
-                                                                   name="scheduling_window_event"
+                                                                   name="scheduling_window_event" id="scheduling_window_event"
                                                                    placeholder="Please add the price for your offering">
                                                             <select class="form-select"
                                                                     name="scheduling_window_event_type">
@@ -433,8 +433,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col mb-4">
-                                                        <div class="d-flex justify-content-between">
+                                                    <div class="col-lg-6 mb-4">
+                                                        <div class="d-lg-flex justify-content-between">
                                                             <label for="service-hours" class="fw-bold">Email
                                                                 template</label>
 
@@ -445,8 +445,8 @@
                                                                   placeholder=""></textarea>
                                                         <p id="word-count">0 / 500 words</p>
                                                     </div>
-                                                    <div class="col mb-4">
-                                                        <label for="service-hours" class="fw-bold">Intake form
+                                                    <div class="col-lg-6 mb-4">
+                                                        <label for="intake_form_event" class="fw-bold">Intake form
                                                             (Optional)</label>
                                                         <input type="text" class="form-control" name="intake_form_event"
                                                                placeholder="enter your link">
