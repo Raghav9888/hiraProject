@@ -41,7 +41,11 @@
                             </div>
                             <div class="mb-4">
                                 <label for="type" class="fw-bold">Type of offering</label>
-                                <select id="type" name="offering_type" class="form-select">
+                                <select id="type" name="offering_type" class="form-select"
+                                        data-type="change"
+                                        data-target-one="location"
+                                        data-add-one-class="d-block"
+                                        data-match-one="in-person">
                                     <option value="">Select Offering Type</option>
                                     <option value="virtual">Virtual Offering</option>
                                     <option value="in-person">In person Offering</option>
@@ -224,14 +228,16 @@
                                                 <div class="row">
                                                     <div class="row">
                                                         <div class="col-md-6 mb-4">
-                                                            <label for="scheduling_window_offering" class="fw-bold">Scheduling window (How far
+                                                            <label for="scheduling_window_offering" class="fw-bold">Scheduling
+                                                                window (How far
                                                                 in
                                                                 advance
                                                                 they can book)</label>
 
                                                             <div class="row mb-3">
                                                                 <div class="col-md-6 mt-2">
-                                                                    <input type="text" id="scheduling_window_offering" class="form-control me-2"
+                                                                    <input type="text" id="scheduling_window_offering"
+                                                                           class="form-control me-2"
                                                                            name="scheduling_window_offering"
                                                                            placeholder="Please add the price for your offering">
                                                                 </div>
@@ -249,7 +255,8 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-12 mb-4">
-                                                        <label for="buffer_time_offering" class="fw-bold">Buffer time between
+                                                        <label for="buffer_time_offering" class="fw-bold">Buffer time
+                                                            between
                                                             appointment</label>
                                                         <select id="buffer_time_offering" class="form-select"
                                                                 name="buffer_time_offering">
@@ -414,13 +421,15 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-12 mb-4">
-                                                        <label for="scheduling_window_event" class="fw-bold">Scheduling window (How far in
+                                                        <label for="scheduling_window_event" class="fw-bold">Scheduling
+                                                            window (How far in
                                                             advance
                                                             they can book)</label>
 
                                                         <div class="d-flex mb-3">
                                                             <input type="text" class="form-control me-2"
-                                                                   name="scheduling_window_event" id="scheduling_window_event"
+                                                                   name="scheduling_window_event"
+                                                                   id="scheduling_window_event"
                                                                    placeholder="Please add the price for your offering">
                                                             <select class="form-select"
                                                                     name="scheduling_window_event_type">
@@ -541,25 +550,6 @@
         </div>
     </section>
     <script>
-        $(document).on('change', '[data-type="change"]', function (e) {
-            let targetOneValue = $(this).data('target-one');
-            let matchOneValue = $(this).data('match-one');
-
-            let targetTwoValue = $(this).data('target-two');
-            let matchTwoValue = $(this).data('match-two');
-
-            if ((targetOneValue && targetOneValue.length > 0) && (matchOneValue && matchOneValue.length > 0)) {
-                $(this).val() == matchOneValue ? $(`#${targetOneValue}`).removeClass('d-none').addClass('d-flex') : $(`#${targetOneValue}`).addClass('d-none').removeClass('d-flex')
-            }
-
-            if ((targetTwoValue && targetTwoValue.length > 0) && (matchTwoValue && matchTwoValue.length > 0)) {
-                $(this).val() == matchTwoValue ? $(`#${targetTwoValue}`).removeClass('d-none').addClass('d-flex') : $(`#${targetTwoValue}`).addClass('d-none').removeClass('d-flex')
-            }
-
-
-        });
-
-
         document.addEventListener("DOMContentLoaded", function () {
             const offeringSelect = document.querySelector('select[name="offering_event_type"]');
             const offeringTab = document.getElementById("offering-tab");
