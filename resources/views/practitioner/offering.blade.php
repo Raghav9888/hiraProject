@@ -86,7 +86,7 @@
                                             <td class="price">
                                                 <span class="woocommerce-Price-amount amount">
                                                     <bdi><span class="woocommerce-Price-currencySymbol">$</span>
-                                                        {{$offering?->offering_event_type == 'event'? ( $offering?->event?->client_price ?? 0) : $offering?->client_price }}</bdi>
+                                                        {{$offering?->offering_event_type == 'event'? ( $offering?->event?->client_price ?? 0) : $offering?->client_price ?? 0 }}</bdi>
                                                 </span>
                                             </td>
                                             <td>
