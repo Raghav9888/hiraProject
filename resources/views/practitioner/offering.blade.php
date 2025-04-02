@@ -4,9 +4,8 @@
     <section class="practitioner-profile">
         @include('layouts.partitioner_sidebar')
         <div class="container">
-            <div class="row">
+            <div class="row ms-5">
                 @include('layouts.partitioner_nav')
-            </div>
             <div class="offering-wrrpr">
                 <div class="d-flex mb-5" style="gap: 20px;">
                     <div class="search-container">
@@ -114,6 +113,8 @@
                 </div>
                 {{--                <button type="submit" class="category-load-more">Submit</button>--}}
             </div>
+            </div>
+                
         </div>
     </section>
 
