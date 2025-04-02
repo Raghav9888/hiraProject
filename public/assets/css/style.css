@@ -2409,6 +2409,9 @@ textarea, input[type="time"] {
         padding: 0 !important;
     }
 
+    .earnings-section{
+        width: 100%!important;
+    }
 }
 
 

@@ -56,7 +56,7 @@
                             </nav>
                             <form action="{{ route('logout') }}" method="POST">
                                 @csrf
-                                <button class="login-btn" type="submit">Logout</button>
+                                <button class="login-btn mt-2" type="submit">Logout</button>
                             </form>
                         @else
                             <a href="{{ route('register') }}"

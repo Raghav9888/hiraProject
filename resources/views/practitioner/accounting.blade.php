@@ -19,11 +19,11 @@
                                     <input type="date">
                                 </div>
                             </div>
-                            <div class="col-sm-12 col-md-3 col-lg-3">
+                            <div class="col-sm-12 col-md-3 col-lg-3 mt-2">
                                 <button class="export-btn">Export Earning</button>
                             </div>
                         </div>
-                        <div class="d-flex justify-content-between">
+                        <div class="d-lg-flex justify-content-between">
                             <div class="earnings-section">
                                 <h2>Earnings Due</h2>
                                 <table>
