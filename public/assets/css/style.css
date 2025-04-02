@@ -2405,7 +2405,7 @@ textarea, input[type="time"] {
     .positioned-dv ul li p {
         display: none;
     }
-    .add-offering-dv{
+    .add-offering-dv ,.earning-wrrpr,.offering-wrrpr{
         padding: 0 !important;
     }
 

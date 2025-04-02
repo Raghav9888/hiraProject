@@ -6,8 +6,8 @@
             <div class="row ms-5">
                 @include('layouts.partitioner_nav')
 
-                <div class="row ps-5">
-                    <h3 class="no-request-text mb-4 ps-3">Add Offering</h3>
+                <div class="row">
+                    <h3 class="no-request-text mb-4">Add Offering</h3>
                     <div class="add-offering-dv">
                         <form method="POST" action="{{ route('store_offering') }}" enctype="multipart/form-data">
                             @csrf
@@ -94,7 +94,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6 mt-2">
                                     <button class="update-btn mb-2 addterm" data-type="tags">Add
                                         New Term
                                     </button>
@@ -167,7 +167,7 @@
                                                     </select>
                                                 </div>
                                                 <div class="row mb-4">
-                                                    <div class="col">
+                                                    <div class="col-md-6">
                                                         <label for="service-hours" class="fw-bold mb-4">Service
                                                             hours</label>
                                                         <select class="form-select"
@@ -207,13 +207,13 @@
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col mb-4">
+                                                    <div class="col-md-6 mb-4">
                                                         <label for="service-hours" class="fw-bold">Client price</label>
                                                         <input type="text" class="form-control"
                                                                placeholder="Please add the price for your offering"
                                                                name="client_price_offering">
                                                     </div>
-                                                    <div class=" col mb-4">
+                                                    <div class="col-md-6 mb-4">
                                                         <label for="tax" class="fw-bold">Tax</label>
                                                         <input type="text" class="form-control"
                                                                placeholder="Enter the applicable tax percentage for your offering"
@@ -223,27 +223,32 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="row">
-                                                        <div class="col-6 mb-4">
+                                                        <div class="col-md-6 mb-4">
                                                             <label for="type" class="fw-bold">Scheduling window (How far
                                                                 in
                                                                 advance
                                                                 they can book)</label>
 
-                                                            <div class="d-flex mb-3">
-                                                                <input type="text" class="form-control me-2"
-                                                                       name="scheduling_window_offering"
-                                                                       placeholder="Please add the price for your offering">
-                                                                <select class="form-select"
-                                                                        name="scheduling_window_offering_type">
-                                                                    <option value="minute">minute</option>
-                                                                    <option value="hour">hour</option>
-                                                                    <option value="day">day</option>
-                                                                    <option value="month">month</option>
-                                                                </select>
+                                                            <div class="row mb-3">
+                                                                <div class="col-md-6 mt-2">
+                                                                    <input type="text" class="form-control me-2"
+                                                                           name="scheduling_window_offering"
+                                                                           placeholder="Please add the price for your offering">
+                                                                </div>
+                                                                <div class="col-md-6 mt-2">
+                                                                    <select class="form-select"
+                                                                            name="scheduling_window_offering_type">
+                                                                        <option value="minute">minute</option>
+                                                                        <option value="hour">hour</option>
+                                                                        <option value="day">day</option>
+                                                                        <option value="month">month</option>
+                                                                    </select>
+                                                                </div>
+
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col mb-4">
+                                                    <div class="col-12 mb-4">
                                                         <label for="type" class="fw-bold">Buffer time between
                                                             appointment</label>
                                                         <select id="type" class="form-select"
@@ -269,7 +274,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col mb-4">
+                                                    <div class="col-lg-6 mb-4">
                                                         <div class="d-flex justify-content-between">
                                                             <label for="service-hours" class="fw-bold">Email
                                                                 template</label>
@@ -281,7 +286,7 @@
                                                                   placeholder=""></textarea>
                                                         <p id="word-count">0 / 500 words</p>
                                                     </div>
-                                                    <div class="col mb-4">
+                                                    <div class="col-lg-6 mb-4">
                                                         <label for="service-hours" class="fw-bold">Intake form
                                                             (Optional)</label>
                                                         <input type="text" class="form-control"
