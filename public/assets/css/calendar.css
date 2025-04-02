@@ -1,4 +1,6 @@
-
+#customCalendar{
+    overflow-y: auto;
+}
 .year-dropdown {
     position: absolute;
     background: white;

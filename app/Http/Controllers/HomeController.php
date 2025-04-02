@@ -429,4 +429,9 @@ class HomeController extends Controller
         return view('user.privacy_policy');
 
     }
+
+    public function termsConditions()
+    {
+        return view('user.terms_conditions');
+    }
 }

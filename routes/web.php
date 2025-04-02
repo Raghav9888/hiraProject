@@ -49,6 +49,7 @@ Route::post('/getBookedSlots/{userId}', [GoogleCalendarController::class, 'getBo
 Route::get('/practitioner/detail/{id}', [HomeController::class, 'practitionerDetail'])->name('practitioner_detail');
 Route::get('/practitioner/offering/detail/{id}', [HomeController::class, 'practitionerOfferingDetail'])->name('practitionerOfferingDetail');
 Route::get('/privacy-policy', [HomeController::class, 'privacyPolicy'])->name('privacy_policy');
+Route::get('/terms-conditions', [HomeController::class, 'termsConditions'])->name('terms_conditions');
 //Route::get('/checkout', [HomeController::class, 'checkout'])->name('checkout');
 
 Route::post('/create-payment', [PaymentController::class, 'createPayment'])->name('create.payment');

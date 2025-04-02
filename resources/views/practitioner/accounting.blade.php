@@ -3,7 +3,7 @@
     <section class="practitioner-profile">
         <div class="container">
             @include('layouts.partitioner_sidebar')
-            <div class="row">
+            <div class="row ms-5">
                 @include('layouts.partitioner_nav')
                 <div class="earning-wrrpr">
                     <div class="container">
