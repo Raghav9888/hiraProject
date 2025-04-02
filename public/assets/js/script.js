@@ -230,3 +230,7 @@ $(document).on('change', '#availability_type', function () {
 });
 
 
+$(document).on('click','#sidebar_toogle', function () {
+    let targetElement = $('#sidebar');
+    targetElement.toggleClass('d-none d-flex', $(this).val() !== 'custom');
+})

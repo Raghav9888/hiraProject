@@ -1,6 +1,17 @@
-<h1 style="text-transform: capitalize;" class="home-title mb-5">
-    Welcome,<span style="color: #ba9b8b;"> {{ $user->first_name ?? 'User' }}  {{ $user->last_name ?? '' }}</span>
-</h1>
+<div class="row">
+    <div class="col-2">
+        <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+           <i class="fa-solid fa-bars"></i>
+        </button>
+
+    </div>
+    <div class="col-10">
+        <h5 style="text-transform: capitalize;" class="home-title mb-5">
+            Welcome,<span style="color: #ba9b8b;"> {{ $user->first_name ?? 'User' }}  {{ $user->last_name ?? '' }}</span>
+        </h5>
+    </div>
+</div>
+
 <div class="col-sm-12 col-lg-5"></div>
 
 <ul class="practitioner-profile-btns">

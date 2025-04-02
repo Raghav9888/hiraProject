@@ -4,7 +4,7 @@
     <section class="practitioner-profile">
         <div class="container">
             @include('layouts.partitioner_sidebar')
-            <div class="row ms-5">
+            <div class="row">
                 @include('layouts.partitioner_nav')
                 <div class="booking-calender-container">
                     <div class="row">

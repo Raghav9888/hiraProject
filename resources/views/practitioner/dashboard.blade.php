@@ -3,7 +3,7 @@
     <section class="practitioner-profile">
         <div class="container">
             @include('layouts.partitioner_sidebar')
-            <div class="row ms-5">
+            <div class="row">
                 @include('layouts.partitioner_nav')
 
 
@@ -284,11 +284,6 @@
         });
 
     </script>
-    <script>
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('show');
-        }
 
-    </script>
 
 @endsection

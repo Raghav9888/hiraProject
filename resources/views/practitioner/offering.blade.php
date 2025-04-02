@@ -4,7 +4,7 @@
     <section class="practitioner-profile">
         @include('layouts.partitioner_sidebar')
         <div class="container">
-            <div class="row ms-5">
+            <div class="row">
                 @include('layouts.partitioner_nav')
             <div class="offering-wrrpr">
                 <div class="d-flex mb-5" style="gap: 20px;">

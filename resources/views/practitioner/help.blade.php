@@ -2,7 +2,7 @@
 @section('content')
     <section class="practitioner-profile">
         <div class="container vh-100">
-            <div class="row ms-5">
+            <div class="row">
                 @include('layouts.partitioner_nav')
                 <!-- Main Content -->
                 <div class="col-lg-10 col-md-9 col-12">
