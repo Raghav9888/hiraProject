@@ -5,7 +5,7 @@
     <section class="practitioner-profile">
         <div class="container">
             @include('layouts.partitioner_sidebar')
-            <div class="row">
+            <div class="row ms-5">
                 @include('layouts.partitioner_nav')
                 <div class="add-offering-dv">
                     <div class="container">
@@ -213,7 +213,7 @@
                                                         @endforeach
                                                     </select>
                                                 </div>
-                                                <div class="col-md-6">
+                                                <div class="col-md-6 mt-2">
                                                     <button class="update-btn mb-2 addterm"
                                                             data-type="modalityPractice">Add New
                                                         Term
@@ -225,7 +225,7 @@
 
                                         </div>
                                         <div class="mb-4 mt-4">
-                                            <div class="d-flex">
+                                            <div class="d-lg-flex">
                                                 <label for="media" class="fw-bold">Certifications & Credentials Upload
                                                     (If
                                                     applicable)</label>
@@ -313,13 +313,13 @@
                                             <label for="yearsOfExperience" class="form-label">Years of
                                                 Experience</label>
                                             <div class="row align-items-center">
-                                                <div class="col-4">
+                                                <div class="col-11 col-md-4">
                                                     <input type="number" class="form-control" id="yearsOfExperience"
                                                            placeholder="Enter years of experience"
                                                            name="years_of_experience"
                                                            value="{{ $membership->years_of_experience ?? '' }}">
                                                 </div>
-                                                <div class="col-8">
+                                                <div class="col-1 col-md-8">
                                                     <span>Years</span>
                                                 </div>
                                             </div>
