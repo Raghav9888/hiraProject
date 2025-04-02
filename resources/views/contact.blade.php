@@ -76,13 +76,12 @@
                                 </select>
                             </div>
                             <div class="mb-3 d-none" id="booking_link_section">
-                                <label class="form-label">Booking Link:</label>
-                                <a href="https://calendar.app.google/ff54ToKRwgE1v8gw9">https://calendar.app.google/ff54ToKRwgE1v8gw9 </a>
-
+                                <a href="https://calendar.app.google/ff54ToKRwgE1v8gw9" target="_blank">Booking Link</a>
                             </div>
                             <div class="mb-3 d-none" id="whatsapp_link_section">
-                                <label class="form-label">WhatsApp Number</label>
+                                <a href="https://wa.me/9876044814" target="_blank">Whatsapp Number</a>
                             </div>
+
                             <div class="mb-3 d-none" id="subject_section">
                                 <label for="subject" class="form-label">Subject</label>
                                 <input type="text" class="form-control" name="subject" placeholder="Enter subject">
