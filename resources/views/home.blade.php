@@ -407,13 +407,13 @@
 
     <!-- FAQ start -->
     <section class="faq-section">
-        <div class="container">
+        <div class="container text-end">
             <div class="d-flex justify-content-between align-items-center flex-wrap mb-5">
                 <h1 class="home-title">Frequently Asked Questions</h1>
                 <button class="home-blog-btn">More FAQs</button>
             </div>
             <div class="accordion w-100 max-w-2xl" id="accordionExample">
-                <div class="accordion-item">
+                <div class="accordion-item hidden">
                     <h2 class="accordion-header" id="headingOne">
                         <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -429,7 +429,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="accordion-item">
+                <div class="accordion-item hidden">
                     <h2 class="accordion-header" id="headingTwo">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
@@ -449,7 +449,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="accordion-item">
+                <div class="accordion-item hidden">
                     <h2 class="accordion-header" id="headingThree">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
@@ -466,7 +466,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="accordion-item">
+                <div class="accordion-item hidden">
                     <h2 class="accordion-header" id="headingFour">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
@@ -484,7 +484,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="accordion-item">
+                <div class="accordion-item hidden">
                     <h2 class="accordion-header" id="headingFive">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
@@ -502,7 +502,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="accordion-item">
+                <div class="accordion-item hidden">
                     <h2 class="accordion-header" id="headingSix">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
@@ -517,7 +517,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="accordion-item">
+                <div class="accordion-item hidden">
                     <h2 class="accordion-header" id="headingSeven">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
@@ -544,7 +544,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="accordion-item">
+                <div class="accordion-item hidden">
                     <h2 class="accordion-header" id="headingEight">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
@@ -559,7 +559,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="accordion-item">
+                <div class="accordion-item hidden">
                     <h2 class="accordion-header" id="headingEight">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapseNine" aria-expanded="false" aria-controls="collapseNine">
@@ -578,7 +578,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="accordion-item">
+                <div class="accordion-item hidden">
                     <h2 class="accordion-header" id="headingTen">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapseTen" aria-expanded="false" aria-controls="collapseTen">
@@ -627,7 +627,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="accordion-item">
+                <div class="accordion-item hidden">
                     <h2 class="accordion-header" id="headingEleven">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapseEleven" aria-expanded="false" aria-controls="collapseEleven">
@@ -646,8 +646,7 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="accordion-item">
+                <div class="accordion-item hidden">
                     <h2 class="accordion-header" id="headingTwelve">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapseTwelve" aria-expanded="false" aria-controls="collapseTwelve">
@@ -665,8 +664,7 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="accordion-item">
+                <div class="accordion-item hidden">
                     <h2 class="accordion-header" id="headingThirteen">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapseThirteen" aria-expanded="false" aria-controls="collapseThirteen">
@@ -680,8 +678,7 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="accordion-item">
+                <div class="accordion-item hidden">
                     <h2 class="accordion-header" id="headingFourteen">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapseFourteen" aria-expanded="false" aria-controls="collapseFourteen">
@@ -698,8 +695,7 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="accordion-item">
+                <div class="accordion-item hidden">
                     <h2 class="accordion-header" id="headingFifteen">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapseFifteen" aria-expanded="false" aria-controls="collapseFifteen">
@@ -713,8 +709,7 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="accordion-item">
+                <div class="accordion-item hidden">
                     <h2 class="accordion-header" id="headingSixteen">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapseSixteen" aria-expanded="false" aria-controls="collapseSixteen">
@@ -730,8 +725,7 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="accordion-item">
+                <div class="accordion-item hidden">
                     <h2 class="accordion-header" id="headingSeventeen">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapseSeventeen" aria-expanded="false" aria-controls="collapseSeventeen">
@@ -746,8 +740,7 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="accordion-item">
+                <div class="accordion-item hidden">
                     <h2 class="accordion-header" id="headingEighteen">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapseEighteen" aria-expanded="false" aria-controls="collapseEighteen">
@@ -763,8 +756,7 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="accordion-item">
+                <div class="accordion-item hidden">
                     <h2 class="accordion-header" id="headingNineteen">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapseNineteen" aria-expanded="false" aria-controls="collapseNineteen">
@@ -780,8 +772,7 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="accordion-item">
+                <div class="accordion-item hidden">
                     <h2 class="accordion-header" id="headingTwenty">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapseTwenty" aria-expanded="false" aria-controls="collapseTwenty">
@@ -797,8 +788,7 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="accordion-item">
+                <div class="accordion-item hidden">
                     <h2 class="accordion-header" id="headingTwentyOne">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapseTwentyOne" aria-expanded="false" aria-controls="collapseTwentyOne">
@@ -815,9 +805,7 @@
                         </div>
                     </div>
                 </div>
-
-
-                <div class="accordion-item">
+                <div class="accordion-item hidden">
                     <h2 class="accordion-header" id="headingTwentyTwo">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapseTwentyTwo" aria-expanded="false" aria-controls="collapseTwentyTwo">
@@ -841,8 +829,7 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="accordion-item">
+                <div class="accordion-item hidden">
                     <h2 class="accordion-header" id="headingTwentyThree">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapseTwentyThree" aria-expanded="false" aria-controls="collapseTwentyThree">
@@ -858,9 +845,7 @@
                         </div>
                     </div>
                 </div>
-
-
-                <div class="accordion-item">
+                <div class="accordion-item hidden">
                     <h2 class="accordion-header" id="headingTwentyFour">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapseTwentyFour" aria-expanded="false" aria-controls="collapseTwentyFour">
@@ -885,8 +870,7 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="accordion-item">
+                <div class="accordion-item hidden">
                     <h2 class="accordion-header" id="headingTwentyFive">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapseTwentyFive" aria-expanded="false" aria-controls="collapseTwentyFive">
@@ -909,8 +893,7 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="accordion-item">
+                <div class="accordion-item hidden">
                     <h2 class="accordion-header" id="headingTwentySix">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapseTwentySix" aria-expanded="false" aria-controls="collapseTwentySix">
@@ -942,8 +925,7 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="accordion-item">
+                <div class="accordion-item hidden">
                     <h2 class="accordion-header" id="headingTwentySeven">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapseTwentySeven" aria-expanded="false" aria-controls="collapseTwentySeven">
@@ -967,13 +949,23 @@
                         </div>
                     </div>
                 </div>
-
+            </div>
+            <div class="d-flex justify-content-end mt-4">
+                <button id="loadMoreBtn" class="home-blog-btn text-end">Show More</button>
             </div>
         </div>
     </section>
 
     <!-- FAQ end -->
 
+
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+@endsection
+@push('custom_scripts')
     <script>
         var swiper = new Swiper(".mySwiper", {
             spaceBetween: 30,
@@ -1153,8 +1145,6 @@
         }
 
     </script>
-@endsection
-@push('custom_scripts')
     <script>
         var swiper = new Swiper(".upcoming-events-slider", {
             spaceBetween: 30,
@@ -1217,6 +1207,30 @@
                 nextEl: ".swiper-button-next",
                 prevEl: ".swiper-button-prev",
             },
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let hiddenFAQs = document.querySelectorAll(".accordion-item.hidden");
+            let loadMoreBtn = document.getElementById("loadMoreBtn");
+            let itemsToShow = 10;
+            let currentIndex = 0;
+
+            function showMoreFAQs() {
+                let nextIndex = currentIndex + itemsToShow;
+                for (let i = currentIndex; i < nextIndex && i < hiddenFAQs.length; i++) {
+                    hiddenFAQs[i].classList.remove("hidden");
+                }
+                currentIndex = nextIndex;
+
+                if (currentIndex >= hiddenFAQs.length) {
+                    loadMoreBtn.style.display = "none";
+                }
+            }
+
+            loadMoreBtn.addEventListener("click", showMoreFAQs);
+            showMoreFAQs(); // Show initial 10 FAQs
         });
     </script>
 
