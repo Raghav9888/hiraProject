@@ -12,16 +12,16 @@
                 <div class="col-lg-10 col-md-9 col-12">
                     @include('layouts.partitioner_nav')
 
-                    <div class="row justify-content-center mt-5">
-                        <div class="col-12 col-md-8 text-center">
-                            <div class="appointment-wrrpr ps-3>
-                                <p class="mt-2">
+                    <div class="row mt-5">
+                        <div class="col-12 col-md-8">
+                            <div class="appointment-wrrpr ps-3 ps-md-0">
+                                <p class="mt-2  text-start">
                                 <span class="fw-bold">
                                     For Tech Help: Please reach out to our technical support specialist:
                                 </span>
                                     <a href="mailto:technicalsupport@thehiracollective.com">technicalsupport@thehiracollective.com</a>
                                 </p>
-                                <p class="mt-2">
+                                <p class="mt-2  text-start">
                                 <span class="fw-bold">
                                     For Business help: Please reach out here:
                                 </span>
