@@ -34,7 +34,7 @@
             Calendar
         </a>
     </li>
-    <li class="offering {{ Request::is('earning') ? 'active' : '' }}">
+    <li class="offering {{ Request::is('accounting') ? 'active' : '' }}">
         <a href="{{ route('accounting') }}">
             Accounting
         </a>
