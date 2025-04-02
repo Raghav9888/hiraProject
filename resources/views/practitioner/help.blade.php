@@ -1,16 +1,13 @@
 @extends('layouts.app')
 @section('content')
     <section class="practitioner-profile">
-        <div class="container-fluid vh-100">
-            <div class="row ms-4">
-                <!-- Sidebar (Collapsible for Mobile) -->
-                <div class="col-lg-2 col-md-3">
-                    @include('layouts.partitioner_sidebar')
-                </div>
-
+        <div class="container vh-100">
+            <div class="row ms-5">
+                @include('layouts.partitioner_nav')
                 <!-- Main Content -->
                 <div class="col-lg-10 col-md-9 col-12">
-                    @include('layouts.partitioner_nav')
+
+                    @include('layouts.partitioner_sidebar')
 
                     <div class="row mt-5">
                         <div class="col-12 col-md-8">
