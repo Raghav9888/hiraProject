@@ -2405,6 +2405,9 @@ textarea, input[type="time"] {
     .positioned-dv ul li p {
         display: none;
     }
+    .add-offering-dv{
+        padding: 0 !important;
+    }
 
 }
 

@@ -158,7 +158,7 @@
                                                 </div>
 
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-6 mt-2">
                                                 <button class="update-btn mb-2 addterm" data-type="tags">Add
                                                     New Term
                                                 </button>
@@ -225,7 +225,7 @@
                                                         @endforeach
                                                     </select>
                                                 </div>
-                                                <div class="col-md-6">
+                                                <div class="col-md-6 mt-2">
                                                     <button class="update-btn mb-2 addterm" data-type="IHelpWith">Add
                                                         New Term
                                                     </button>
@@ -265,7 +265,7 @@
                                                         @endforeach
                                                     </select>
                                                 </div>
-                                                <div class="col-md-6">
+                                                <div class="col-md-6 mt-2">
                                                     <button class="update-btn mb-2 addterm" data-type="HowIHelp">Add New
                                                         Term
                                                     </button>
@@ -350,7 +350,7 @@
                                                         @endforeach
                                                     </select>
                                                 </div>
-                                                <div class="col-md-6">
+                                                <div class="col-md-6 mt-2">
                                                     <button class="update-btn mb-2 addterm" data-type="certifications">
                                                         Add New Term
                                                     </button>
