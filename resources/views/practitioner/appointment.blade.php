@@ -3,7 +3,7 @@
     <section class="practitioner-profile vh-100">
         <div class="container">
             @include('layouts.partitioner_sidebar')
-            <div class="row">
+            <div class="row ms-lg-5">
                 @include('layouts.partitioner_nav')
                 <div class="appointment-wrrpr">
                     <h2 style="text-transform: capitalize;" class="home-title">Your Bookings</h2>

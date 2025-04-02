@@ -3,7 +3,7 @@
     <section class="practitioner-profile">
         <div class="container">
             @include('layouts.partitioner_sidebar')
-            <div class="row">
+            <div class="row ms-lg-5">
                 @include('layouts.partitioner_nav')
                 <div class="row">
                     <h3 class="no-request-text mb-4 ps-3">Add Offering</h3>

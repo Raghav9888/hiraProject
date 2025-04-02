@@ -1,7 +1,7 @@
 
 
 <!-- Sidebar -->
-<div class="positioned-dv navbar-expand-lg navbar-collapse collapse" id="sidebar">
+<div class="positioned-dv navbar-expand-lg navbar-collapse collapse d-none d-lg-block" id="sidebar">
     <ul class="text-lg-center">
         <li>
             <a href="{{route('dashboard')}}">

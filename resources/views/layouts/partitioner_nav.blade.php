@@ -1,9 +1,8 @@
 <div class="row">
-    <div class="col-2">
+    <div class="col-2 d-block d-lg-none">
         <button class="navbar-toggler collapsed fs-1" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
            <i class="fa-solid fa-bars"></i>
         </button>
-
     </div>
     <div class="col-10">
         <h5 style="text-transform: capitalize;" class="home-title mb-5">

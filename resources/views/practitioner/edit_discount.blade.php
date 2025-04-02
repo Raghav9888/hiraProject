@@ -3,7 +3,7 @@
     <section class="practitioner-profile">
         <div class="container">
             @include('layouts.partitioner_sidebar')
-            <div class="row">
+            <div class="row ms-lg-5">
                 @include('layouts.partitioner_nav')
                 <div class="add-offering-dv my-5">
                     <h3 class="no-request-text mb-4">Edit Discount</h3>

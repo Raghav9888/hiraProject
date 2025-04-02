@@ -3,7 +3,7 @@
     <section class="practitioner-profile">
         <div class="container my-5">
             @include('layouts.partitioner_sidebar')
-            <div class="row">
+            <div class="row ms-lg-5">
                 @include('layouts.partitioner_nav')
                 <div class="discount-dv">
 
