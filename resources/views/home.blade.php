@@ -207,15 +207,19 @@
     <section>
         <div class="container">
             <div class="why-us-wrrpr">
-                <h1 class="home-title mb-4">why choose us?</h1>
+                <h1 class="home-title mb-4">Why Choose Hira?</h1>
                 <div class="row">
                     <div class="col-sm-12 col-md-6 col-lg-4 mb-5">
                         <div class="choose-us-dv">
                             <div class="choose-us-img-dv">
                                 <img src="{{url('/assets/images/trusted-practitioners.svg')}}" alt="">
                             </div>
-                            <h6>Trusted Practitioners</h6>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor. </p>
+                            <h6>
+                                Support at Every Step
+                            </h6>
+                            <p>We don’t disappear after you book. From helping you choose a practitioner to following up after your session, our real human support team is here for you.
+                                Care is not just a session - it’s a relationship.
+                            </p>
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-4 mb-5">
@@ -223,8 +227,13 @@
                             <div class="choose-us-img-dv">
                                 <img src="{{url('/assets/images/personalized-wellness.svg')}}" alt="">
                             </div>
-                            <h6 class="pt-2">Personalized Wellness</h6>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor. </p>
+                            <h6 class="pt-2">
+                                More Than a Platform - A Movement
+                            </h6>
+                            <p>You’re not just booking a session. You’re joining a collective.
+                                By using Hira, you’re supporting a women-led, purpose-built platform centering healing, justice, and cultural respect.
+                                Plus, you’ll soon earn Diamond Rewards for every booking - redeemable for future sessions and community perks.
+                            </p>
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-4 mb-5">
@@ -232,8 +241,13 @@
                             <div class="choose-us-img-dv">
                                 <img src="{{url('/assets/images/spiritual-growth.svg')}}" alt="">
                             </div>
-                            <h6>Spiritual Growth</h6>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor. </p>
+                            <h6>Vetted, Trusted Practitioners
+                            </h6>
+                            <p>
+                                Only 17% of applicants are accepted. We’ve done the work so you don’t have to.
+                                Every practitioner on The Hira Collective is carefully vetted for ethical care, cultural integrity, and real experience.
+                                No guesswork, no greenwashing - just trustworthy wellness you can feel safe in.
+                            </p>
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-6 mb-5">
@@ -244,22 +258,21 @@
                     <div class="col-sm-12 col-md-6 col-lg-6 mb-5">
                         <div class="vision-and-about-dv">
                             <h2>OUR VISION</h2>
-                            <p>Our vision is to create a world where holistic well-being is accessible to everyone. We
-                                aim to empower individuals by connecting them with experienced practitioners who bring
-                                balance and transformation into their lives. Through The Hira Collective, we envision a
-                                thriving community where wellness is not just a practice but a way of life.</p>
+                            <p>To radically reimagine what wellness can be - rooted in integrity, guided by care, and accessible to all.
+                                The Hira Collective exists to transform how we seek and receive healing. We believe wellness is not a luxury, trend,
+                                or transaction - it’s a birthright. That’s why we’ve built a platform centered around trust, transparency, and community care.
+                            </p>
                             <button>Read More</button>
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-6 mb-5">
                         <div class="vision-and-about-dv about-dv">
                             <h2>ABOUT US</h2>
-                            <p style="text-align: end;">The Hira Collective is a platform designed to connect customers
-                                with trusted wellness practitioners. Whether you seek guidance in Yoga, Reiki, Energy
-                                Healing, or other holistic practices, we provide a space where experts can share their
-                                knowledge, and customers can easily find the right practitioner for their needs. Rooted
-                                in authenticity and community, we strive to make wellness accessible, simple, and
-                                personalized for everyone.</p>
+                            <p style="text-align: end;">The Hira Collective is a curated wellness platform designed to help you find care you can trust—rooted in integrity,
+                                community connection, and ethical practice. We know that searching for the right support can feel overwhelming.
+                                Too often, wellness spaces feel transactional, performative, or disconnected from your lived experience.
+                                That’s why Hira was created—to offer something different.
+                            </p>
                             <button>Read More</button>
                         </div>
                     </div>
@@ -340,20 +353,23 @@
                 <div class="row">
                     <div class="col-sm-12 col-md-6 col-lg-6">
                         <div class="find-apply-dv">
-                            <h2>Find Your Path to</br>
-                                Wellness</h2>
-                            <p>Explore expert-led Yoga, Reiki, and Energy Healing and more sessions. Connect with
-                                certified practitioners and start your journey today</p>
+                            <h2>
+                                Find a Trusted Wellness Practitioner
+                            </h2>
+                            <p>
+                                Search by need, modality, or intention and begin your personalized healing journey today.
+                            </p>
                             <button>Find a Practitioner</button>
                             <img src="{{url('assets/images/footer-butterfly.svg')}}" alt="">
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-6">
                         <div class="find-apply-dv">
-                            <h2>Grow Your Practice</br>
-                                with Us!</h2>
-                            <p>List your services and connect with customers seeking wellness and healing. Expand your
-                                reach and build your client base effortlessly.</p>
+                            <h2>Grow your Holistic Practice <br>
+                                with Hira !</h2>
+                            <p>
+                                Expand your reach, connect with aligned clients, and grow your practice within a supportive community.
+                            </p>
                             <button class="mt-4">Apply as a Practitioner</button>
                             <img src="{{url('assets/images/footer-butterfly.svg')}}" alt="">
                         </div>
