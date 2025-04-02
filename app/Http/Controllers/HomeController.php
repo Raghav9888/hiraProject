@@ -43,7 +43,7 @@ class HomeController extends Controller
             })
             ->with('userDetail')
             ->get()->take(8);
-        $categories = Category::all();
+        $categories = Category::where('status', 1)->get();
         $defaultLocations = Locations::get();
         $blogs = Blog::latest()->get()->take(3);
         $locations = [];
