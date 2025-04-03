@@ -144,13 +144,22 @@ class HomeController extends Controller
             'message' => $request->message,
         ];
 
-        $email = $input['support_type'] === 'technical_support' ? env('TECHNICAL_SUPPORT_EMAIL') : env('BOOKING_SUPPORT_EMAIL');
+        // Get the email from .env, fallback to a default email if missing
+        $email = $input['support_type'] === 'technical_support'
+            ? env('TECHNICAL_SUPPORT_EMAIL', 'default_support@example.com')
+            : env('BOOKING_SUPPORT_EMAIL', 'default_booking@example.com');
 
-        // Send email to admin
+        // Check if the email is valid before sending
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return back()->with('error', 'Support email is not configured correctly.');
+        }
+
+        // Send email
         Mail::to($email)->send(new ContactUsMail($contactData));
 
         return back()->with('success', 'Your message has been sent successfully!');
     }
+
 
     public function blog()
     {
