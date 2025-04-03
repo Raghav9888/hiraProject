@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Plan;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -47,14 +48,14 @@ class UserController extends Controller
         $user = Auth::user();
         $type = $request->get('type');
         $userData = User::find($id);
-
+        $plans = Plan::latest()->get();
         $userType = match ($type) {
             '2' => 'new',
             '3' => 'delete',
             default => 'all',
         };
 
-        return view('admin.users.edit', compact('user', 'userData', 'userType', 'type','id'));
+        return view('admin.users.edit', compact('user', 'userData', 'userType', 'type','id', 'plans'));
     }
 
     /**
@@ -69,13 +70,14 @@ class UserController extends Controller
         if ($user) {
             $user->update($inputs);
         }
-
+        $user->plans = $request->plans? json_encode($request->plans): null;
+        $user->save();
         $userType = match ($type) {
             '2' => 'new',
             '3' => 'delete',
             default => 'all',
         };
-        return redirect()->route('admin.users.index', ['userType' => $userType]);
+        return redirect()->back();
     }
 
 

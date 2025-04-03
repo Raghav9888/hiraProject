@@ -38,6 +38,20 @@
                                             </option>
                                         </select>
                                     </div>
+                                    <div class="form-group plan-select">
+                                        <label for="plans">Plans</label>
+                                        {{--    role 0 = pending, role 1 = practitioner, role 2 = Admin--}}
+                                        <select class="form-control select2" id="plans" name="plans[]" multiple>
+                                            <option value="">Select role</option>
+                                            @php
+                                                $addedPlans = $userData->plans? json_decode($userData->plans): [];
+                                            @endphp
+                                            @foreach ($plans as $p)
+                                                <option value="{{$p->id}}" {{in_array($p->id, $addedPlans)? 'selected': ''}}>{{$p->name}}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
 
                                     <div class="form-group">
                                         <label for="role">Status</label>
@@ -65,3 +79,11 @@
         </div>
     </div>
 @endsection
+
+@push('custom_scripts')
+
+<script>
+    $(".select2").select2();
+</script>
+
+@endpush
