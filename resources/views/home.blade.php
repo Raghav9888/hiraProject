@@ -266,7 +266,7 @@
                                 The Hira Collective exists to transform how we seek and receive healing. We believe wellness is not a luxury, trend,
                                 or transaction - it’s a birthright. That’s why we’ve built a platform centered around trust, transparency, and community care.
                             </p>
-                            <button onclick="window.location.href='{{ route('our_vision') }}'" class="btn btn-secondary">
+                            <button onclick="window.location.href='{{ route('our_vision') }}'" class="btn btn-secondary mt-5">
                                 Read More
                             </button>
                         </div>
@@ -279,7 +279,7 @@
                                 Too often, wellness spaces feel transactional, performative, or disconnected from your lived experience.
                                 That’s why Hira was created—to offer something different.
                             </p>
-                            <button>Read More</button>
+                            <button class="mt-5">Read More</button>
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-6 mb-5">
@@ -365,7 +365,7 @@
                             <p>
                                 Search by need, modality, or intention and begin your personalized healing journey today.
                             </p>
-{{--                            <button>Find a Practitioner</button>--}}
+                            <button class="mt-4">Find a Practitioner</button>
                             <img src="{{url('assets/images/footer-butterfly.svg')}}" alt="">
                         </div>
                     </div>
@@ -376,7 +376,7 @@
                             <p>
                                 Expand your reach, connect with aligned clients, and grow your practice within a supportive community.
                             </p>
-{{--                            <button class="mt-4">Apply as a Practitioner</button>--}}
+                            <button class="mt-4">Apply as a Practitioner</button>
                             <img src="{{url('assets/images/footer-butterfly.svg')}}" alt="">
                         </div>
                     </div>
@@ -424,7 +424,7 @@
         <div class="container">
             <div class="d-flex justify-content-between align-items-center flex-wrap mb-5">
                 <h1 class="home-title">Frequently Asked Questions</h1>
-                <button class="home-blog-btn">More FAQs</button>
+{{--                <button class="home-blog-btn">More FAQs</button>--}}
             </div>
             <div class="accordion w-100 max-w-2xl" id="accordionExample">
                 <div class="accordion-item hidden">
@@ -1074,8 +1074,8 @@
 
 
         function getPractitioners(search = null, category = null, location = null, practitionerType = null, count = 1) {
-            const imagePath = `{{env('media_path')}}`;
-            const localPath = `{{env('local_path')}}`;
+            const imagePath = `{{$mediaPath}}`;
+            const localPath = `{{$localPath}}`;
             let locationArr = @json($defaultLocations);
             $.ajax({
                 url: '/search/practitioner',
