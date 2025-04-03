@@ -28434,6 +28434,14 @@ dl li {
   padding-top: 0;
 }
 
+.plan-select span.select2.select2-container.select2-container--default {
+  display: block;
+  width: 100% !important;
+}
+.plan-select span.select2-selection.select2-selection--multiple{
+  height: 44px;
+}
+
 .main-panel {
   transition: width 0.25s ease, margin 0.25s ease;
   width: calc(100% - 220px);
