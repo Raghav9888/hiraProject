@@ -261,7 +261,9 @@
                                 The Hira Collective exists to transform how we seek and receive healing. We believe wellness is not a luxury, trend,
                                 or transaction - it’s a birthright. That’s why we’ve built a platform centered around trust, transparency, and community care.
                             </p>
-                            <button>Read More</button>
+                            <button onclick="window.location.href='{{ route('our_vision') }}'" class="btn btn-secondary">
+                                Read More
+                            </button>
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-6 mb-5">
