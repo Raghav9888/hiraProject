@@ -135,6 +135,7 @@ class HomeController extends Controller
     public function sendContactMail(Request $request)
     {
         $input = $request->all();
+
         $contactData = [
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
@@ -143,8 +144,10 @@ class HomeController extends Controller
             'message' => $request->message,
         ];
 
+        $email = $input['support_type'] === 'technical_support' ? env('TECHNICAL_SUPPORT_EMAIL') : env('BOOKING_SUPPORT_EMAIL');
+
         // Send email to admin
-        Mail::to('joshiraghav282@gmail.com')->send(new ContactUsMail($contactData));
+        Mail::to($email)->send(new ContactUsMail($contactData));
 
         return back()->with('success', 'Your message has been sent successfully!');
     }

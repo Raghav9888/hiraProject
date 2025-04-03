@@ -68,17 +68,23 @@
                         <div class="d-flex justify-content-between flex-wrap">
                             <h4>{{$user->name}}</h4>
                             <div style="display: flex; gap: 10px; font-size: 25px">
-{{--                                <i class="fa-regular fa-heart"></i>--}}
+                                {{--                                <i class="fa-regular fa-heart"></i>--}}
                                 <div class="dropdown">
-                                    <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 25px">
+                                    <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false"
+                                            style="font-size: 25px">
                                         <i class="fa-solid fa-share-nodes"></i>
                                     </button>
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="#"><i class="fa-solid fa-copy"></i> Copy Link</a></li>
-                                        <li><a class="dropdown-item" href="#"><i class="fa-brands fa-instagram"></i> Instagram</a></li>
-                                        <li><a class="dropdown-item" href="#"><i class="fa-brands fa-whatsapp"></i> Whatsapp</a></li>
-                                        <li><a class="dropdown-item" href="#"><i class="fa-brands fa-facebook"></i> Facebook</a></li>
-                                        <li><a class="dropdown-item" href="#"><i class="fa-brands fa-x-twitter"></i> X-twitter</a></li>
+                                        <li><a class="dropdown-item" href="#"><i class="fa-solid fa-copy"></i> Copy Link</a>
+                                        </li>
+                                        <li><a class="dropdown-item" href="#"><i class="fa-brands fa-instagram"></i>
+                                                Instagram</a></li>
+                                        <li><a class="dropdown-item" href="#"><i class="fa-brands fa-whatsapp"></i>
+                                                Whatsapp</a></li>
+                                        <li><a class="dropdown-item" href="#"><i class="fa-brands fa-facebook"></i>
+                                                Facebook</a></li>
+                                        <li><a class="dropdown-item" href="#"><i class="fa-brands fa-x-twitter"></i>
+                                                X-twitter</a></li>
                                     </ul>
                                 </div>
 
@@ -87,18 +93,24 @@
                         <h5>{{$userDetail->company ??'Alternative and Holistic Health Practitioner' }}</h5>
                         <p class="mb-4">{{$userDetail->bio}}</p>
                         @if($locations && $userLocations)
-                            @foreach($locations as  $location)
-                                @if(in_array($location->id,$userLocations))
-                                    <div class="practitioner-location-dv mb-4">
-                                        <button><i class="fa-solid fa-location-dot me-2"></i>{{$location->name}}
-                                        </button>
-                                        <ul class="m-0">
-                                            <li>Virtual Offerings Available</li>
-                                        </ul>
-                                    </div>
-                                @endif
+                            <div class="row">
+                                @foreach($locations as  $location)
+                                    @if(in_array($location->id,$userLocations))
+                                        <div class="col-md-6">
 
-                            @endforeach
+                                            <div class="practitioner-location-dv mb-4">
+                                                <button><i class="fa-solid fa-location-dot me-2"></i>{{$location->name}}
+                                                </button>
+                                                <ul class="m-0">
+                                                    <li>Virtual Offerings Available</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    @endif
+
+                                @endforeach
+                            </div>
+
                         @endif
                     </div>
                     <div class="col-sm-12 col-md-3 col-lg-3">
@@ -207,29 +219,45 @@
 
                                                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                                                             <li class="nav-item" role="presentation">
-                                                                <button class="nav-link active mx-2" id="description-tab" data-bs-toggle="tab"
-                                                                        data-bs-target="#description-tab-pane" type="button" role="tab" aria-controls="description-tab-pane" aria-selected="true">Description</button>
+                                                                <button class="nav-link active mx-2"
+                                                                        id="description-tab" data-bs-toggle="tab"
+                                                                        data-bs-target="#description-tab-pane"
+                                                                        type="button" role="tab"
+                                                                        aria-controls="description-tab-pane"
+                                                                        aria-selected="true">Description
+                                                                </button>
                                                             </li>
                                                             <li class="nav-item" role="presentation">
-                                                                <button class="nav-link mx-2" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews-tab-pane" type="button" role="tab" aria-controls="reviews-tab-pane" aria-selected="false">Reviews</button>
+                                                                <button class="nav-link mx-2" id="reviews-tab"
+                                                                        data-bs-toggle="tab"
+                                                                        data-bs-target="#reviews-tab-pane" type="button"
+                                                                        role="tab" aria-controls="reviews-tab-pane"
+                                                                        aria-selected="false">Reviews
+                                                                </button>
                                                             </li>
 
                                                         </ul>
                                                         <div class="tab-content" id="myTabContent">
-                                                            <div class="tab-pane fade show active" id="description-tab-pane" role="tabpanel" aria-labelledby="description-tab" tabindex="0">
+                                                            <div class="tab-pane fade show active"
+                                                                 id="description-tab-pane" role="tabpanel"
+                                                                 aria-labelledby="description-tab" tabindex="0">
                                                                 {{$offering->long_description}}
                                                             </div>
-                                                            <div class="tab-pane fade" id="reviews-tab-pane" role="tabpanel" aria-labelledby="reviews-tab" tabindex="0">
+                                                            <div class="tab-pane fade" id="reviews-tab-pane"
+                                                                 role="tabpanel" aria-labelledby="reviews-tab"
+                                                                 tabindex="0">
                                                                 <div class="review-dv-data">
                                                                     @foreach ($offeringFeedback as $feedback)
                                                                         <div class="person-review-dv">
-                                                                            <div class="d-flex justify-content-between flex-wrap align-items-center mt-3">
+                                                                            <div
+                                                                                class="d-flex justify-content-between flex-wrap align-items-center mt-3">
                                                                                 <div class="reviewer mb-3">
                                                                                     <div class="reviewer-img-text">
                                                                                         {{ strtoupper(substr($feedback->name, 0, 2)) }} {{-- Show initials --}}
                                                                                     </div>
                                                                                     <div class="reviewer-info">
-                                                                                        <div class="name">{{ $feedback->name }}</div>
+                                                                                        <div
+                                                                                            class="name">{{ $feedback->name }}</div>
                                                                                         <div class="stars">
                                                                                             @for ($i = 1; $i <= 5; $i++)
                                                                                                 <i class="fa-regular fa-gem {{ $i <= $feedback->rating ? 'text-warning' : '' }}"></i>
@@ -237,7 +265,8 @@
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
-                                                                                <h3>{{ number_format($feedback->rating, 1) }}/5.0</h3>
+                                                                                <h3>{{ number_format($feedback->rating, 1) }}
+                                                                                    /5.0</h3>
 
                                                                             </div>
                                                                             <div class="review-text mb-3">
@@ -340,12 +369,11 @@
                                  data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
                                     <div class="help-you-dv certificate-dv">
-                                        <ul>
+                                        <div class="row">
                                             @foreach($Certifications as $Certification)
-                                                <li>{{$Certification}}</li>
+                                                <li class="col-md-6">{{$Certification}}</li>
                                             @endforeach
-
-                                        </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -390,25 +418,26 @@
                                             <p>{{count($profileFeedback)}} Total Reviews</p>
                                         </div>
                                     </div>
-{{--                                    <div class="sort-by">--}}
-{{--                                        <p>Sort By</p>--}}
-{{--                                        <div class="dropdown">--}}
-{{--                                            <button onclick="toggleDropdown()" class="dropdown-button">--}}
-{{--                                                <span>ALL CATEGORIES</span>--}}
-{{--                                                <i class="fas fa-chevron-down"></i>--}}
-{{--                                            </button>--}}
-{{--                                            <div id="dropdownMenuData" class="dropdown-menu">--}}
-{{--                                                <ul>--}}
-{{--                                                    <li><a href="#">Category 1</a></li>--}}
-{{--                                                    <li><a href="#">Category 2</a></li>--}}
-{{--                                                    <li><a href="#">Category 3</a></li>--}}
-{{--                                                </ul>--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
+                                    {{--                                    <div class="sort-by">--}}
+                                    {{--                                        <p>Sort By</p>--}}
+                                    {{--                                        <div class="dropdown">--}}
+                                    {{--                                            <button onclick="toggleDropdown()" class="dropdown-button">--}}
+                                    {{--                                                <span>ALL CATEGORIES</span>--}}
+                                    {{--                                                <i class="fas fa-chevron-down"></i>--}}
+                                    {{--                                            </button>--}}
+                                    {{--                                            <div id="dropdownMenuData" class="dropdown-menu">--}}
+                                    {{--                                                <ul>--}}
+                                    {{--                                                    <li><a href="#">Category 1</a></li>--}}
+                                    {{--                                                    <li><a href="#">Category 2</a></li>--}}
+                                    {{--                                                    <li><a href="#">Category 3</a></li>--}}
+                                    {{--                                                </ul>--}}
+                                    {{--                                            </div>--}}
+                                    {{--                                        </div>--}}
+                                    {{--                                    </div>--}}
                                     @foreach ($profileFeedback as $feedback)
                                         <div class="person-review-dv">
-                                            <div class="d-flex justify-content-between flex-wrap align-items-center mt-3">
+                                            <div
+                                                class="d-flex justify-content-between flex-wrap align-items-center mt-3">
                                                 <div class="reviewer mb-3">
                                                     <div class="reviewer-img-text">
                                                         {{ strtoupper(substr($feedback->name, 0, 2)) }} {{-- Show initials --}}
@@ -666,7 +695,7 @@
                             document.querySelector('.event-container').innerHTML = response.html;
                             document.querySelector('.event-container').classList.remove('d-none');
                             document.querySelector('.booking-container').classList.add('d-none');
-                        }else{
+                        } else {
                             console.log('error')
                         }
 
