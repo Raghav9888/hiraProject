@@ -78,6 +78,9 @@ class BookingController extends Controller
                 "fields" => [
                     "name" => $request->first_name,
                 ],
+                'groups' => [
+                    env('MAILERLITE_GROUP')
+                ]
             ];
             $mailerLite->subscribers->create($data);
         }
@@ -152,6 +155,9 @@ class BookingController extends Controller
                 "fields" => [
                     "name" => $request->first_name,
                 ],
+                'groups' => [
+                    env('MAILERLITE_GROUP')
+                ]
             ];
             $mailerLite->subscribers->create($data);
         }

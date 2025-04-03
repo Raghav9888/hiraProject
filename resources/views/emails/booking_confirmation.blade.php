@@ -50,11 +50,15 @@
     <p><strong>For Additional Support:</strong></p>
     <h4>Technical Support</h4>
     <p>For anything tech-related - including booking glitches, cancellations, or refund processing:</p>
-    <p>📧 <a href="mailto:technicalsupport@thehiracollective.com">technicalsupport@thehiracollective.com</a></p>
+    <p>Connect with Mohit, Hira’s Technical Director</p>
+    <p>📧 Email: <a href="mailto:technicalsupport@thehiracollective.com">technicalsupport@thehiracollective.com</a></p>
+    <p>📱 Message Mohit on WhatsApp</p>
 
     <h4>Community Support</h4>
     <p>Need help choosing a practitioner or navigating the platform?</p>
-    <p>📧 <a href="mailto:community@thehiracollective.com">community@thehiracollective.com</a></p>
+    <p>Connect with Rashida, Hira’s Community Director</p>
+    <p>📧 Email <a href="mailto:community@thehiracollective.com">community@thehiracollective.com</a></p>
+    <p>📞 Book a call with Rashida - join via video or phone, whichever you prefer!</p>
 
 </body>
 </html>
