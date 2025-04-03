@@ -28,9 +28,9 @@
                                 <li><a class="dropdown-item dropdownText" href="#">Press</a></li>
                                 <li><a class="dropdown-item dropdownText" href="{{ route('contact') }}">Contact Us</a>
                                 </li>
-                                <li><a class="dropdown-item dropdownText" href="#">Our Story</a></li>
-                                <li><a class="dropdown-item dropdownText" href="#"> Our Vision</a></li>
-                                <li><a class="dropdown-item dropdownText" href="#"> Core Values</a></li>
+                                <li><a class="dropdown-item dropdownText" href="{{route('our_story')}}">Our Story</a></li>
+                                <li><a class="dropdown-item dropdownText" href="{{route('our_vision')}}"> Our Vision</a></li>
+                                <li><a class="dropdown-item dropdownText" href="{{route('core_values')}}"> Core Values</a></li>
                             </ul>
                         </li>
                     </ul>
