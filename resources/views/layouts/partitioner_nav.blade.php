@@ -6,7 +6,7 @@
     </div>
     <div class="col-10">
         <h5 style="text-transform: capitalize;" class="home-title mb-5">
-            Welcome,<span style="color: #ba9b8b;"> {{ $user->first_name ?? 'User' }}  {{ $user->last_name ?? '' }}</span>
+            Welcome,<span style="color: #715549;"> {{ $user->first_name ?? 'User' }}  {{ $user->last_name ?? '' }}</span>
         </h5>
     </div>
 </div>

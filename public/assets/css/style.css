@@ -45,7 +45,7 @@ section {
     font-family: "Montserrat-Medium";
     font-size: 16px;
     font-weight: 500;
-    color: #D6CFBF;
+    color: #ffffff;
     margin: 0;
 }
 
@@ -60,14 +60,14 @@ section {
     font-family: "Montserrat-Medium";
     font-size: 16px;
     font-weight: 500;
-    color: #D6CFBF;
+    color: #ffffff;
 }
 
 .header ul li .dropdown:hover,
 .header ul li a:hover,
 .header ul li .dropdown:focus,
 .header ul li a:focus {
-    color: #D6CFBF;
+    color: #ffffff;
 }
 
 .header .login-btn {
@@ -75,7 +75,7 @@ section {
     font-size: 16px;
     font-weight: 600;
     color: #424E3E;
-    background-color: #D6CFBF;
+    background-color: #ffffff;
     height: 48px;
     width: 134px;
     border: none;
@@ -88,26 +88,26 @@ section {
 
 .header .login-btn:hover {
     background-color: transparent;
-    color: #D6CFBF;
-    border: 1.5px solid #D6CFBF;
+    color: #ffffff;
+    border: 1.5px solid #ffffff;
 }
 
 .header .join-btn {
     font-family: "Montserrat-Medium";
     font-size: 16px;
     font-weight: 600;
-    color: #D6CFBF;
+    color: #ffffff;
     background-color: transparent;
     height: 48px;
     width: 295px;
-    border: 2px solid #D6CFBF;
+    border: 2px solid #ffffff;
     border-radius: 33px;
     margin-right: 10px;
     text-transform: uppercase;
 }
 
 .header .join-btn:hover {
-    background-color: #D6CFBF;
+    background-color: #ffffff;
     color: #424E3E;
 }
 
@@ -136,7 +136,7 @@ section {
 /* home main css start */
 
 .home-main-section {
-    background-image: url('../images/home-banner.png');
+    background-image: url('../images/logo_bg.png');
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -2165,12 +2165,12 @@ p.container-p span {
     font-family: "Montserrat-Regular";
     font-size: 18px;
     font-weight: 700;
-    color: #FFE9CD;
+    color: #ffffff;
     text-decoration: none;
 }
 
 .practitioner-profile-btns .active {
-    background-color: #D6CFBF;
+    background-color: #ffffff;
 }
 
 .practitioner-profile-btns .active a {

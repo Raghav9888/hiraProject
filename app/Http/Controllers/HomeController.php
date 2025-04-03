@@ -314,9 +314,9 @@ class HomeController extends Controller
         $query = User::where('role', 1)->with('userDetail');
 
         $query->where(function ($q) use ($search, $tagId, $howIHelpId, $iHelpWithId) {
-            $q->where('first_name', 'like', '%' . $search . '%')
+            $q->where('name', 'like', '%' . $search . '%')
+                ->orWhere('first_name', 'like', '%' . $search . '%')
                 ->orWhere('last_name', 'like', '%' . $search . '%')
-                ->orWhere('name', 'like', '%' . $search . '%')
                 ->orWhereHas('userDetail', function ($query) use ($tagId, $howIHelpId, $iHelpWithId) {
                     if (!empty($tagId)) {
                         $query->where('tags', 'like', '%' . $tagId . '%');

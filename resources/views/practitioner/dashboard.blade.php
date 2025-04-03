@@ -8,7 +8,7 @@
 
 
                 <div class="row pb-3">
-                    <div class="col-md-12 mb-3" style="border-bottom: 2px solid#BA9B8B; margin-bottom: 20px;">
+                    <div class="col-md-12 mb-3" style="border-bottom: 2px solid#715549; margin-bottom: 20px;">
                         <h5 class="practitioner-profile-text">Upcoming
                             <span style="font-weight: 800;">community events</span>
                         </h5>
@@ -53,7 +53,7 @@
                 </div>
 
                 <div class="row pb-3">
-                    <div class="col-12 px-0" style="border-bottom: 2px solid#BA9B8B; margin-bottom: 20px;">
+                    <div class="col-12 px-0" style="border-bottom: 2px solid#715549; margin-bottom: 20px;">
                         <h5 class="practitioner-profile-text mb-2">Upcoming <span
                                 style="font-weight: 800;">appointments</span></h5>
                     </div>

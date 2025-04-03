@@ -4,8 +4,7 @@
     <section class="home-main-section">
         <div class="container">
             <div class="d-flex justify-content-center align-items-center flex-column position-relative">
-                <img class="hira-collective" src="{{url('/assets/images/hira-collective.svg')}}" alt="hira-collective">
-                <h5 class="roots-title text-center mb-4 position-absolute" style="bottom: 10px">Honouring Roots, Nurturing Growth</h5>
+                <img class="hira-collective" src="{{url('/assets/images/company_logo.png')}}" alt="hira-collective">
             </div>
             <div class="home-search-wrrpr">
                 <p> Search for what you seek</p>
@@ -407,7 +406,7 @@
 
     <!-- FAQ start -->
     <section class="faq-section">
-        <div class="container text-end">
+        <div class="container">
             <div class="d-flex justify-content-between align-items-center flex-wrap mb-5">
                 <h1 class="home-title">Frequently Asked Questions</h1>
                 <button class="home-blog-btn">More FAQs</button>
@@ -950,7 +949,7 @@
                     </div>
                 </div>
             </div>
-            <div class="d-flex justify-content-end mt-4">
+            <div class="d-flex justify-content-center mt-4">
                 <button id="loadMoreBtn" class="home-blog-btn text-end">Show More</button>
             </div>
         </div>
