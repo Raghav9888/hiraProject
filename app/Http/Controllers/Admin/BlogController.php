@@ -28,7 +28,7 @@ class BlogController extends Controller
     public function create()
     {
         $user = Auth::user();
-        $categories = Category::latest()->get();
+        $categories = Category::where('status',1)->get();
         return view("admin.blogs.create",compact('user', 'categories'));
     }
 
@@ -92,7 +92,7 @@ class BlogController extends Controller
     public function edit(string $id)
     {
         $blog = Blog::findOrFail($id);
-        $categories = Category::latest()->get();
+        $categories = Category::where('status',1)->get();
         return view('admin.blogs.edit', compact('blog', 'categories'));
     }
 
