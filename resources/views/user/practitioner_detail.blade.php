@@ -214,8 +214,8 @@
                                                 <div class="toggle-data-dv">
                                                     <div class="toggle-dv-desc">
                                                         @php
-                                                            $imageUrl = (isset($offering->featured_image) and $offering->featured_image) ? asset(env('media_path') . '/practitioners/' . $userDetail->id . '/offering/'  . $offering->featured_image) :
-                                                        asset(env('local_path') . '/images/no_image.png');
+                                                            $imageUrl = (isset($offering->featured_image) and $offering->featured_image) ? asset($mediaPath . '/practitioners/' . $userDetail->id . '/offering/'  . $offering->featured_image) :
+                                                        asset($localPath . '/images/no_image.png');
                                                         @endphp
 
                                                         <img src="{{$imageUrl}}" alt="">

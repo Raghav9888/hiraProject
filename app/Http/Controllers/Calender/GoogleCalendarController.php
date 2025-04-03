@@ -297,7 +297,6 @@ class GoogleCalendarController extends Controller
         $bookedDates = [];
 
         foreach ($events->getItems() as $event) {
-            // Check if event has extended properties
             $extendedProps = $event->getExtendedProperties();
 
             // Skip if category is 'hiracollective'
@@ -305,16 +304,27 @@ class GoogleCalendarController extends Controller
                 continue;
             }
 
-            // Store only non-HiraCollective bookings
-            if (!empty($event->start->dateTime)) {
-                $date = Carbon::parse($event->start->dateTime)->format('Y-m-d');
-                $bookedDates[] = $date;
+            // Store event with both date and time
+            if (!empty($event->start->dateTime) && !empty($event->end->dateTime)) {
+                $bookedDates[] = [
+                    'date' => Carbon::parse($event->start->dateTime)->format('Y-m-d'),
+                    'start_time' => Carbon::parse($event->start->dateTime)->format('h:i A'), // 12-hour format with AM/PM
+                    'end_time' => Carbon::parse($event->end->dateTime)->format('h:i A') // 12-hour format with AM/PM
+                ];
             } elseif (!empty($event->start->date)) {
-                $bookedDates[] = $event->start->date;
+                // All-day event (no specific time)
+                $bookedDates[] = [
+                    'date' => $event->start->date,
+                    'start_time' => null,
+                    'end_time' => null
+                ];
             }
         }
 
-        return array_values(array_unique($bookedDates)); // Ensure unique dates
+
+        $bookedDates = array_map("unserialize", array_unique(array_map("serialize", $bookedDates)));
+        return array_values($bookedDates);
+
     }
 
 
