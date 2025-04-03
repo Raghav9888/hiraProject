@@ -394,11 +394,19 @@
             </div>
             <div class="row">
                 @forEach($blogs as $blog)
+                    @php
+                        $mediaPath = config('app.media_path', 'uploads');
+                        $localPath = config('app.local_path', 'assets');
+
+                        $imageUrl = $blog->image
+                            ? asset("$mediaPath/admin/blog/{$blog->image}")
+                            : asset("$localPath/images/no_image.png");
+                    @endphp
                     <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
                         <div class="home-blog-dv">
-                            <img src="{{ asset(env('media_path') . '/admin/blog/' . $blog->image) }}" alt="yoga">
+                            <img src="{{$imageUrl}}" alt="calm" height="160" width="160" class="rounded-4">
                             <div class="home-blog-label">
-                                <h5>{{@$blog->category->name}}</h5>
+                                <h5>{{$blog->category->name}}</h5>
                             </div>
                             <h4>{{$blog->name}}</h4>
                             <a href="{{route('blogDetail', $blog->slug)}}">Learn More<i

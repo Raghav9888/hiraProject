@@ -47,6 +47,10 @@
 
 </style>
 @section('content')
+    @php
+        $mediaPath = config('app.media_path', 'uploads');
+        $localPath = config('app.local_path', 'assets');
+    @endphp
     <div class="practitioner-detail-wrrpr">
         <div class="container">
             <div class="practitioner-search-dv">
@@ -114,11 +118,10 @@
                         @endif
                     </div>
                     <div class="col-sm-12 col-md-3 col-lg-3">
-
                         @php
-                            $imageUrl = isset($image) ? asset(env('media_path') . '/practitioners/' . $userDetail->id . '/profile/' . $image) :asset(env('local_path').'/images/no_image.png');
+                            $imageUrl = isset($image) ? asset($mediaPath . '/practitioners/' . $userDetail->id . '/profile/' . $image) :asset($localPath.'/images/no_image.png');
                         @endphp
-                        <img class="mb-4 img-fluid rounded-5" src="{{ $imageUrl }}" alt="darrel">
+                        <img class="mb-4 img-fit rounded-5" src="{{ $imageUrl }}" alt="darrel">
                         <div class="d-flex justify-content-between flex-wrap align-items-center">
                             <div>
                                 @for($i= 1; $i<= $averageProfileRating; $i++)
@@ -134,13 +137,17 @@
                 <div class="{{count($mediaImages) > 0 ? 'swiper-wrapper' : 'images'}}">
                     @if(count($mediaImages) > 0)
                         @foreach ($mediaImages as $image)
-                            <div class="swiper-slide">
-                                <img
-                                    src="{{ asset(env('media_path') . '/practitioners/' . $userDetail->id . '/media/' . $image) }}"
-                                    alt="media image">
+                            @php
 
+                                $imageUrl = $image
+                                    ? asset("$mediaPath/practitioners/$userDetail->id/media/$image")
+                                    : asset("$localPath/images/no_image.png");
+                            @endphp
+                            <div class="swiper-slide">
+                                <img src="{{ $imageUrl }}" alt="media image" class="img-fit">
                             </div>
                         @endforeach
+
                     @else
                         <p>No images available</p>
                     @endif
@@ -175,7 +182,7 @@
                                     @foreach($offerings as $offering)
                                         <div class="accordian-body-data">
                                             <div class="d-flex justify-content-between flex-wrap align-items-center">
-                                                <h4 class="mb-2">{{$offering->name}}</h4>
+                                                <h6 class="mb-2">{{$offering->name}}</h6>
                                                 <div class="d-flex align-items-center">
                                                     <h6 class="offer-prize me-2 m-0">
                                                         ${{$offering->offering_event_type == 'event' ? $offering->event->client_price :($offering?->client_price ?? 0)}}</h6>
