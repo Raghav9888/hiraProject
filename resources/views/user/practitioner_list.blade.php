@@ -28,6 +28,7 @@
                         $images = isset($user->userDetail->images) ? json_decode($user->userDetail->images, true) : null;
                         $image = isset($images['profile_image']) && $images['profile_image'] ? $images['profile_image'] : null;
                         $imageUrl = $image  ? asset(env('media_path') . '/practitioners/' . $user->userDetail->id . '/profile/' . $image) : asset(env('local_path').'/images/no_image.png');
+                        $userLocations = isset($user->location) && $user->location ? json_decode($user->location, true) : [];
                     @endphp
 
                     <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
@@ -40,13 +41,13 @@
                                     <i class="fa-regular fa-heart"></i>
                                 </div>
                                 <h5>
+                                    @if(!empty($userLocations))
+                                        @foreach($defaultLocations as $defaultLocationId => $defaultLocation)
 
-                                    @php
-                                        $locations = isset($user->location) && $user->location ? json_decode($user->location, true) : null;
-                                    @endphp
-                                    @if($locations)
-                                        @foreach($locations as $location)
-                                            <i class="fa-solid fa-location-dot"></i>  {{ $location .',' }}
+                                            @if(in_array($defaultLocationId, $userLocations))
+                                                <i class="fa-solid fa-location-dot"></i>
+                                                {{ $defaultLocation }} ,
+                                            @endif
                                         @endforeach
                                     @endif
                                 </h5>

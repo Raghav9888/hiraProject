@@ -44,7 +44,7 @@ class HomeController extends Controller
             ->with('userDetail')
             ->get()->take(8);
         $categories = Category::where('status', 1)->get();
-        $defaultLocations = Locations::get();
+        $defaultLocations = Locations::where('status', 1)->get();
         $blogs = Blog::latest()->get()->take(3);
         $locations = [];
         foreach ($defaultLocations as $location) {
@@ -105,9 +105,18 @@ class HomeController extends Controller
     public function partitionerLists()
     {
         $users = User::where('role', 1)->with('userDetail')->get();
-        $categories = Category::all();
-
-        return view('user.practitioner_list', compact('users', 'categories'));
+        $categories = Category::where('status', 1)->get();
+        $defaultLocations = Locations::where('status', 1)->get();
+        $locations = [];
+        foreach ($defaultLocations as $location) {
+            $locations[$location->id] = $location->name;
+        }
+        json_encode($locations);
+        return view('user.practitioner_list', [
+            'users' => $users,
+            'categories' => $categories,
+            'defaultLocations' => $locations
+        ]);
     }
 
     public function adminHome()
