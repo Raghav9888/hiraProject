@@ -85,10 +85,15 @@
                     @if(count($offerings) > 0)
                         @foreach($offerings as $date => $offering)
                             @php
+                                $mediaPath = config('app.media_path', 'uploads');
+                                $localPath = config('app.local_path', 'assets');
+
                                 $imageUrl = $offering->featured_image
-                                    ? asset(env('media_path') . "/practitioners/{$offering->user->id}/offering/{$offering->featured_image}")
-                                    : asset(env('local_path') . '/images/no_image.png');
+                                    ? asset("$mediaPath/practitioners/{$offering->user->id}/offering/{$offering->featured_image}")
+                                    : asset("$localPath/images/no_image.png");
+
                             @endphp
+
                             <div class="swiper-slide"
                                  style="height: 100%;width: 100%; max-height: 250px;min-height: 250px">
                                 <div class="slider-img">
