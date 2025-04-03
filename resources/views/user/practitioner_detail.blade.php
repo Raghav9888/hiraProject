@@ -816,7 +816,6 @@
 
 
             if (availability === 'following_store_hours') {
-                if (!storeAvailabilityRaw) return [];
 
                 try {
                     console.log("Raw Store Availability JSON:", storeAvailabilityRaw);
@@ -951,7 +950,7 @@
                     dayCell.classList.add('inactive');
                 }
 
-                // ✅ Disable already booked dates
+                // // ✅ Disable already booked dates
                 if (bookedDates.includes(dateString)) {
                     dayCell.classList.add('inactive');
                     dayCell.classList.add('booked'); // Optional: Add a booked class for styling
@@ -982,6 +981,19 @@
             }
         }
 
+
+        function filterBookedSlots(date, slots) {
+            let bookedDates = JSON.parse(document.getElementById('already_booked_slots').value || '[]');
+            return slots.filter(slot => {
+                let slotMinutes = convertTo24Hour(slot);
+                return !bookedDates.some(b => {
+                    if (b.date !== date) return false;
+                    let start = convertTo24Hour(b.start_time);
+                    let end = convertTo24Hour(b.end_time);
+                    return slotMinutes >= start && slotMinutes < end;
+                });
+            });
+        }
 
         function showAvailableSlots(date) {
             const slotsContainer = document.getElementById('availableSlots');
@@ -1014,7 +1026,6 @@
                 let allSlots = [];
 
                 if (storeAvailability.every_day?.enabled === "1") {
-                    // If "every_day" is enabled, generate slots for any day
                     let fromTime = storeAvailability.every_day?.from;
                     let toTime = storeAvailability.every_day?.to;
 
@@ -1022,7 +1033,6 @@
                         allSlots = generateTimeSlots(fromTime, toTime);
                     }
                 } else {
-                    // Otherwise, check individual days
                     Object.keys(storeAvailability).forEach(dayKey => {
                         let normalizedDay = dayKey.replace("every_", "").toLowerCase();
                         let dayIndex = dayNames.indexOf(normalizedDay);
@@ -1040,15 +1050,17 @@
 
                 availableSlots = [...new Set(allSlots)].sort((a, b) => convertTo24Hour(a) - convertTo24Hour(b));
             } else {
-                // Default case (all-day availability)
                 availableSlots = generateTimeSlots(null, null, date, true);
             }
+
+            // ❗ Filter out booked slots
+            availableSlots = filterBookedSlots(date, availableSlots);
 
             renderSlots(availableSlots);
         }
 
-
         function renderSlots(availableSlots) {
+            console.log(availableSlots)
             const slotsContainer = document.getElementById('availableSlots');
             slotsContainer.innerHTML = availableSlots.length
                 ? availableSlots.map(slot => `<div class="col-4"><button class="btn btn-outline-green w-100 offering-slot" data-time="${slot}">${slot}</button></div>`).join('')
@@ -1061,6 +1073,7 @@
                 $('#booking_time').val(time)
             })
         }
+
 
         document.getElementById('prevMonth').addEventListener('click', () => {
             currentMonth--;
