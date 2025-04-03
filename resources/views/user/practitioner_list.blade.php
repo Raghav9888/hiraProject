@@ -7,28 +7,30 @@
                 <div class="col-md-8">
                     <h1 class="home-title">Practitioners</h1>
                 </div>
-{{--                <div class="col-md-4">--}}
-{{--                    <select class="form-select" id="category" aria-label="Default select example"--}}
-{{--                            style="border-radius: 30px !important;padding: 10px 15px 10px 40px;text-align: start;">--}}
-{{--                        <option class="selected-category">Select by Categories</option>--}}
-{{--                        @foreach($categories as $category)--}}
-{{--                            <option value="{{ $category->id }}">{{ $category->name }}</option>--}}
-{{--                            <option>--}}
-{{--                                <hr>--}}
-{{--                            </option>--}}
-{{--                        @endforeach--}}
-{{--                    </select>--}}
-{{--                </div>--}}
+                {{--                <div class="col-md-4">--}}
+                {{--                    <select class="form-select" id="category" aria-label="Default select example"--}}
+                {{--                            style="border-radius: 30px !important;padding: 10px 15px 10px 40px;text-align: start;">--}}
+                {{--                        <option class="selected-category">Select by Categories</option>--}}
+                {{--                        @foreach($categories as $category)--}}
+                {{--                            <option value="{{ $category->id }}">{{ $category->name }}</option>--}}
+                {{--                            <option>--}}
+                {{--                                <hr>--}}
+                {{--                            </option>--}}
+                {{--                        @endforeach--}}
+                {{--                    </select>--}}
+                {{--                </div>--}}
             </div>
 
             <div class="row" id="practitionersList">
                 @foreach($users as $user)
 
                     @php
-                        $images = isset($user->userDetail->images) ? json_decode($user->userDetail->images, true) : null;
-                        $image = isset($images['profile_image']) && $images['profile_image'] ? $images['profile_image'] : null;
-                        $imageUrl = $image  ? asset(env('media_path') . '/practitioners/' . $user->userDetail->id . '/profile/' . $image) : asset(env('local_path').'/images/no_image.png');
-                        $userLocations = isset($user->location) && $user->location ? json_decode($user->location, true) : [];
+                        $mediaPath = config('app.media_path', 'uploads');
+                                                   $localPath = config('app.local_path', 'assets');
+                           $images = isset($user->userDetail->images) ? json_decode($user->userDetail->images, true) : null;
+                           $image = isset($images['profile_image']) && $images['profile_image'] ? $images['profile_image'] : null;
+                           $imageUrl = $image  ? asset($mediaPath . '/practitioners/' . $user->userDetail->id . '/profile/' . $image) : asset($localPath.'/images/no_image.png');
+                           $userLocations = isset($user->location) && $user->location ? json_decode($user->location, true) : [];
                     @endphp
 
                     <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
@@ -51,7 +53,7 @@
                                         @endforeach
                                     @endif
                                 </h5>
-{{--                                <p>Alternative and Holistic Health Practitioner</p>--}}
+                                {{--                                <p>Alternative and Holistic Health Practitioner</p>--}}
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div>
                                         <i class="fa-regular fa-gem"></i>
