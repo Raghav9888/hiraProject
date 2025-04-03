@@ -25,9 +25,17 @@
                                    class="resources-body">
                                     <div class="row g-0">
                                         <div class="col-md-4 px-2">
-                                                <?php
-                                                $imageUrl = asset(env('media_path') . '/admin/blog/' . $blog->image);
-                                                ?>
+                                            @php
+                                                $mediaPath = config('app.media_path', 'uploads');
+                                                $localPath = config('app.local_path', 'assets');
+
+                                                $imageUrl = $blog->image
+                                                    ? asset("$mediaPath/admin/blog/{$blog->image}")
+                                                    : asset("$localPath/images/no_image.png");
+
+                                            @endphp
+
+
 
                                             <img src="{{$imageUrl}}" alt="calm" height="160" width="160" class="rounded-4">
                                         </div>
