@@ -57,13 +57,6 @@
                 <div class="d-flex justify-content-between flex-wrap align-items-center mb-4">
                     <a href="{{ route('home') }}" class="blog-view-more"><i
                             class="fa-solid fa-chevron-left me-2"></i>Back</a>
-{{--                    <div class="search-container location-input">--}}
-{{--                        <input type="text" class="search-input" placeholder="Search other practitioners">--}}
-{{--                        <button class="search-button">--}}
-{{--                            <i class="fas fa-search"></i>--}}
-{{--                        </button>--}}
-{{--                        <button class="blog-search-btn">Search</button>--}}
-{{--                    </div>--}}
                 </div>
             </div>
             <div class="practitioner-detail-dv">
@@ -78,17 +71,55 @@
                                             style="font-size: 25px">
                                         <i class="fa-solid fa-share-nodes"></i>
                                     </button>
+
+
+                                    @php
+                                        $shareUrl = urlencode(route('practitioner_detail', $user->id));
+                                    @endphp
+
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="#"><i class="fa-solid fa-copy"></i> Copy Link</a>
+                                        <!-- Copy Direct Link -->
+                                        <li>
+                                            <a class="dropdown-item" href="javascript:void(0)"
+                                               onclick="copyLink(event)"
+                                               data-link="{{ route('practitioner_detail', $user->id) }}">
+                                                <i class="fa-solid fa-copy"></i> Copy Link
+                                            </a>
                                         </li>
-                                        <li><a class="dropdown-item" href="#"><i class="fa-brands fa-instagram"></i>
-                                                Instagram</a></li>
-                                        <li><a class="dropdown-item" href="#"><i class="fa-brands fa-whatsapp"></i>
-                                                Whatsapp</a></li>
-                                        <li><a class="dropdown-item" href="#"><i class="fa-brands fa-facebook"></i>
-                                                Facebook</a></li>
-                                        <li><a class="dropdown-item" href="#"><i class="fa-brands fa-x-twitter"></i>
-                                                X-twitter</a></li>
+
+                                        <!-- Instagram (No direct share, opens homepage) -->
+                                        <li>
+                                            <a class="dropdown-item" href="https://www.instagram.com/" target="_blank">
+                                                <i class="fa-brands fa-instagram"></i> Instagram
+                                            </a>
+                                        </li>
+
+                                        <!-- WhatsApp Share -->
+                                        <li>
+                                            <a class="dropdown-item"
+                                               href="https://wa.me/?text={{ $shareUrl }}"
+                                               target="_blank">
+                                                <i class="fa-brands fa-whatsapp"></i> WhatsApp
+                                            </a>
+                                        </li>
+
+                                        <!-- Facebook Share -->
+                                        <li>
+                                            <a class="dropdown-item"
+                                               href="https://www.facebook.com/sharer/sharer.php?u={{ $shareUrl }}"
+                                               target="_blank">
+                                                <i class="fa-brands fa-facebook"></i> Facebook
+                                            </a>
+                                        </li>
+
+                                        <!-- Twitter (X) Share -->
+                                        <li>
+                                            <a class="dropdown-item"
+                                               href="https://twitter.com/intent/tweet?url={{ $shareUrl }}&text=Check this out!"
+                                               target="_blank">
+                                                <i class="fa-brands fa-x-twitter"></i> X-twitter
+                                            </a>
+                                        </li>
                                     </ul>
                                 </div>
 
@@ -291,10 +322,6 @@
                                                     <div class="toggle-dv-review mt-3">
                                                             <div class="d-flex mb-2" style="gap: 20px;">
                                                                 <button>Events</button>
-                                                                {{--                                                            <button--}}
-                                                                {{--                                                                style="background-color: transparent;color: #9F8B72;">--}}
-                                                                {{--                                                                Reviews--}}
-                                                                {{--                                                            </button>--}}
                                                             </div>
 
                                                             <p>
@@ -429,22 +456,6 @@
                                             <p>{{count($profileFeedback)}} Total Reviews</p>
                                         </div>
                                     </div>
-                                    {{--                                    <div class="sort-by">--}}
-                                    {{--                                        <p>Sort By</p>--}}
-                                    {{--                                        <div class="dropdown">--}}
-                                    {{--                                            <button onclick="toggleDropdown()" class="dropdown-button">--}}
-                                    {{--                                                <span>ALL CATEGORIES</span>--}}
-                                    {{--                                                <i class="fas fa-chevron-down"></i>--}}
-                                    {{--                                            </button>--}}
-                                    {{--                                            <div id="dropdownMenuData" class="dropdown-menu">--}}
-                                    {{--                                                <ul>--}}
-                                    {{--                                                    <li><a href="#">Category 1</a></li>--}}
-                                    {{--                                                    <li><a href="#">Category 2</a></li>--}}
-                                    {{--                                                    <li><a href="#">Category 3</a></li>--}}
-                                    {{--                                                </ul>--}}
-                                    {{--                                            </div>--}}
-                                    {{--                                        </div>--}}
-                                    {{--                                    </div>--}}
                                     @foreach ($profileFeedback as $feedback)
                                         <div class="person-review-dv">
                                             <div
@@ -593,7 +604,38 @@
         </div>
     </div>
 
+
     <script>
+        function copyLink(event) {
+            event.preventDefault();
+            const link = event.currentTarget.getAttribute('data-link');
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(link)
+                    .then(() => alert("Link copied!"))
+                    .catch(err => alert("Failed to copy: " + err));
+            } else {
+                // Fallback method
+                const tempInput = document.createElement("input");
+                tempInput.value = link;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                try {
+                    document.execCommand("copy");
+                    // alert("Link copied using fallback!");
+                } catch (err) {
+                    alert("Fallback failed: " + err);
+                }
+                document.body.removeChild(tempInput);
+            }
+        }
+
+
+
+    </script>
+
+    <script>
+
         var swiper = new Swiper(".mySwiper", {
             spaceBetween: 30,
             breakpoints: {
@@ -656,9 +698,5 @@
         }
     </script>
 
-    <script>
-
-
-    </script>
 
 @endsection
