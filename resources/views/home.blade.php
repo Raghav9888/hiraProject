@@ -384,7 +384,7 @@
                                 Search by need, modality, or intention and begin your personalized healing journey
                                 today.
                             </p>
-                            <button class="mt-4">Find a Practitioner</button>
+                              <button onclick="window.location.href='{{route('partitionerLists')}}'" class="mt-4">Find a Practitioner</button>
                             <img src="{{url('assets/images/footer-butterfly.svg')}}" alt="">
                         </div>
                     </div>
@@ -396,7 +396,8 @@
                                 Expand your reach, connect with aligned clients, and grow your practice within a
                                 supportive community.
                             </p>
-                            <button class="mt-4">Apply as a Practitioner</button>
+                            <button onclick="window.location.href='{{route('register')}}'" class="mt-4">Apply as a Practitioner</button>
+
                             <img src="{{url('assets/images/footer-butterfly.svg')}}" alt="">
                         </div>
                     </div>
