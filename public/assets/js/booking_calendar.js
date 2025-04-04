@@ -18,6 +18,7 @@ function openPopup(event) {
     let specificDayEnd = event.target.getAttribute('data-specific-day-end');
     let offeringEventType = event.target.getAttribute('data-offering-event-type');
     let offeringEventStart = event.target.getAttribute('data-event-start');
+    let userId = event.target.getAttribute('data-user-id');
 
 
     let inputElement = document.querySelector('[name="offering_id"]');
@@ -29,7 +30,7 @@ function openPopup(event) {
     let offeringEventInput = document.querySelector('[name="offering_event_type"]');
     let offeringEventStartDateTime = document.querySelector('[name="offering_event_start_date_time"]');
     let popupElement = document.getElementById('popup');
-    let userId = document.getElementById('user_id').value;
+    let userIdInput = document.getElementById('user_id');
     if (inputElement) {
         inputElement.value = offeringId;
         inputElement.classList.add('activeInput');
@@ -42,6 +43,7 @@ function openPopup(event) {
         offeringSpecificDaysInput.setAttribute('data-specific-day-start', specificDayStart);
         offeringSpecificDaysInput.setAttribute('data-specific-day-end', specificDayEnd);
         offeringSpecificDaysInput.value = specificDayStart + ' - ' + specificDayEnd;
+        userIdInput.value = userId;
     } else {
         console.error("Element with name 'offering_id' not found");
     }

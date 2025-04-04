@@ -189,6 +189,7 @@
                                                     <button type="button" class="home-blog-btn" data-bs-toggle="modal"
                                                             data-bs-target="#exampleModal"
                                                             onclick="openPopup(event)"
+                                                            data-user-id="{{$user->id}}"
                                                             data-offering-id="{{$offering->id}}"
                                                             data-offering-event-type="{{$offering->offering_event_type}}"
                                                             data-event-start="{{$offering->offering_event_type =='event' ? $offering->event->date_and_time : ''}}"
@@ -286,27 +287,30 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    @if($offering?->event->sports > 0)
                                                     <div class="toggle-dv-review mt-3">
-                                                        <div class="d-flex mb-2" style="gap: 20px;">
-                                                            <button>Events</button>
-                                                            {{--                                                            <button--}}
-                                                            {{--                                                                style="background-color: transparent;color: #9F8B72;">--}}
-                                                            {{--                                                                Reviews--}}
-                                                            {{--                                                            </button>--}}
-                                                        </div>
+                                                            <div class="d-flex mb-2" style="gap: 20px;">
+                                                                <button>Events</button>
+                                                                {{--                                                            <button--}}
+                                                                {{--                                                                style="background-color: transparent;color: #9F8B72;">--}}
+                                                                {{--                                                                Reviews--}}
+                                                                {{--                                                            </button>--}}
+                                                            </div>
 
-                                                        <p>
+                                                            <p>
                                                             <span
                                                                 class="mr-2 mb-1 d-block">Event Duration: {{@$offering?->event?->event_duration ?? 0}}</span>
-                                                            <span
-                                                                class="mr-2 mb-1 d-block"> Client Price: ${{ @$offering?->event?->client_price ?? 0}}</span>
-                                                            <span
-                                                                class="mr-2 mb-1 d-block">Date Time: {{@$offering->event->date_and_time? date('d M, Y', strtotime($offering->event->date_and_time)): ''}}</span>
-                                                            <span
-                                                                class="mr-2 mb-1 d-block">Total slots: {{@$offering?->event->sports > 0 ? $offering->event->sports: 0}}</span>
+                                                                <span
+                                                                    class="mr-2 mb-1 d-block"> Client Price: ${{ @$offering?->event?->client_price ?? 0}}</span>
+                                                                <span
+                                                                    class="mr-2 mb-1 d-block">Date Time: {{@$offering->event->date_and_time? date('d M, Y', strtotime($offering->event->date_and_time)): ''}}</span>
+                                                                <span
+                                                                    class="mr-2 mb-1 d-block">Total slots: {{@$offering?->event->sports > 0 ? $offering->event->sports: 0}}</span>
 
-                                                        </p>
-                                                    </div>
+                                                            </p>
+                                                        </div>
+
+                                                    @endif
                                                 </div>
                                             </div>
 
@@ -550,7 +554,7 @@
         </div>
     </div>
     <input type="hidden" name="offering_id" id="offering_id">
-    <input type="hidden" name="user_id" id="user_id" value="{{ $user->id }}">
+    <input type="hidden" name="user_id" id="user_id">
 
     <input type="hidden" name="offering_event_type" id="offering_event_type">
     <input type="hidden" name="offering_event_start_date_time" id="offering_event_start_date_time">
