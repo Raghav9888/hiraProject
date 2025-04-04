@@ -190,7 +190,9 @@
                                                     @foreach ($mediaImages as $image)
                                                         <div class="media-item">
                                                             @php
-                                                                $imageUrl = asset($mediaPath . '/practitioners/' . $userDetails->id . '/media/' . $image) ;
+                                                                $mediaPath = config('app.media_path', 'uploads');
+                                                                $localPath = config('app.local_path', 'assets');
+                                                                    $imageUrl = asset($mediaPath . '/practitioners/' . $userDetails->id . '/media/' . $image) ;
                                                             @endphp
                                                             <img
                                                                 src="{{ $imageUrl }}"
