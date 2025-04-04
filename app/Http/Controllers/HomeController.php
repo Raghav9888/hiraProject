@@ -428,7 +428,8 @@ class HomeController extends Controller
         $now = now();
         foreach ($offeringsData as $offeringData) {
             if ($offeringData->event && $offeringData->event->date_and_time > $now) {
-                $events[] = $offeringData;
+                $events[$offeringData->event->date_and_time] = $offeringData;
+
             }
         }
 

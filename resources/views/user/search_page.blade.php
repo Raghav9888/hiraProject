@@ -117,59 +117,158 @@
     <div class="container">
         <div class="upcoming-event-container position-relative">
             <h4>Upcoming Events</h4>
-            @if(count($offerings) > 0)
             <div class="upcoming-event-inner upcoming-events-slider">
-                <div class="swiper-wrapper">
+                <div class="swiper-wrapper row">
+                    @if(count($offerings) > 0)
+                            @foreach($offerings as $date => $offering)
 
-                        @foreach($offerings as $date => $offering)
-                            @php
-                                $mediaPath = config('app.media_path', 'uploads');
-                                $localPath = config('app.local_path', 'assets');
+                                @php
+                                    $mediaPath = config('app.media_path', 'uploads');
+                                    $localPath = config('app.local_path', 'assets');
 
-                                $imageUrl = $offering->featured_image
-                                    ? asset("$mediaPath/practitioners/{$offering->user->id}/offering/{$offering->featured_image}")
-                                    : asset("$localPath/images/no_image.png");
+                                    $imageUrl = $offering->featured_image
+                                        ? asset("$mediaPath/practitioners/{$offering->user->id}/offering/{$offering->featured_image}")
+                                        : asset("$localPath/images/no_image.png");
 
-                            @endphp
-                            <div class="card swiper-slide" style="max-height: 250px;min-height: 250px; cursor:pointer;"
-                                 onclick="window.location.href='{{route('practitioner_detail', $offering->user->id)}}'">
+                                @endphp
+                                <div class="col-md-4">
 
-                                <div class="card-body">
+                                    <div class="card swiper-slide"
+                                         style="max-height: 250px;min-height: 250px; cursor:pointer;"
+                                         onclick="window.location.href='{{route('practitioner_detail', $offering->user->id)}}'">
 
-                                    <div class="row">
-                                        <div class="col-md-5">
-                                            <img src="{{$imageUrl}}" alt="calm"
-                                                 style="max-height: 150px; max-width: 200px">
-                                        </div>
-                                        <div class="col-md-7">
-                                            <h5>{{$offering?->name}}</h5>
-                                            <h6>{{ implode(' ', array_slice(explode(' ', strip_tags($offering->short_description)), 0, 20)) . '...' }}</h6>
-                                            <div class="d-flex justify-content-end align-items-center">
-                                                <img src="{{url('./assets/images/Clock.svg')}}" alt="" class="me-2"
-                                                     style="width: 20px">
-                                                <span>{{$date}}</span>
+                                        <div class="card-body">
+
+                                            <div class="row">
+                                                <div class="col-md-5">
+                                                    <img src="{{$imageUrl}}" alt="calm"
+                                                         style="max-height: 150px; max-width: 200px">
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <h5>{{$offering?->name}}</h5>
+                                                    <h6>{{ implode(' ', array_slice(explode(' ', strip_tags($offering->short_description)), 0, 20)) . '...' }}</h6>
+                                                    <div class="d-flex justify-content-end align-items-center">
+                                                        <img src="{{url('./assets/images/Clock.svg')}}" alt=""
+                                                             class="me-2"
+                                                             style="width: 20px">
+                                                        <span>{{$date}}</span>
+                                                    </div>
+
+                                                </div>
                                             </div>
 
                                         </div>
-                                    </div>
 
+                                    </div>
                                 </div>
 
+                            @endforeach
+                    @else
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h5>No result</h5>
                             </div>
-                        @endforeach
+                        </div>
+                    @endif
+
                 </div>
             </div>
             <div class="swiper-button-prev-event"><i class="fa-solid fa-arrow-left-long"></i></div>
             <div class="swiper-button-next-event"><i class="fa-solid fa-arrow-right-long"></i></div>
-            @else
-                <div class="row">
-                    <div class="col-md-12">
-                        <h5>No result</h5>
-                    </div>
-                </div>
-            @endif
 
         </div>
     </div>
 
+    <script>
+        var swiper = new Swiper(".mySwiper", {
+            spaceBetween: 30,
+            breakpoints: {
+                640: {
+                    slidesPerView: 1,
+                    spaceBetween: 20,
+                },
+                768: {
+                    slidesPerView: 2,
+                    spaceBetween: 40,
+                },
+                1024: {
+                    slidesPerView: 3,
+                    spaceBetween: 50,
+                },
+            },
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+        });
+
+    </script>
+    <script>
+        var swiper = new Swiper(".upcoming-events-slider", {
+            spaceBetween: 30,
+            slidesPerGroup: 1, // Moves 2 slides at a time
+            loop: true, // Enables infinite looping
+            autoplay: {
+                delay: 3000, // Auto slide every 3 seconds
+                disableOnInteraction: false, // Keep autoplay running after interaction
+            },
+            breakpoints: {
+                640: {
+                    slidesPerView: 1,
+                    spaceBetween: 20,
+                },
+                768: {
+                    slidesPerView: 2,
+                    spaceBetween: 30,
+                },
+                1024: {
+                    slidesPerView: 2.5,
+                    spaceBetween: 30,
+                },
+            },
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+            navigation: {
+                nextEl: ".swiper-button-next-event",
+                prevEl: ".swiper-button-prev-event",
+            },
+        });
+        var swiper = new Swiper(".related-article-slider", {
+            spaceBetween: 30,
+            slidesPerGroup: 1, // Moves 2 slides at a time
+            loop: true, // Enables infinite looping
+            // autoplay: {
+            //     delay: 3000, // Auto slide every 3 seconds
+            //     disableOnInteraction: false, // Keep autoplay running after interaction
+            // },
+            breakpoints: {
+                640: {
+                    slidesPerView: 1,
+                    spaceBetween: 20,
+                },
+                768: {
+                    slidesPerView: 2,
+                    spaceBetween: 30,
+                },
+                1024: {
+                    slidesPerView: 2.5,
+                    spaceBetween: 30,
+                },
+            },
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+        });
+    </script>
 @endsection

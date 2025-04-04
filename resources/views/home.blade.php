@@ -392,7 +392,7 @@
                                 Search by need, modality, or intention and begin your personalized healing journey
                                 today.
                             </p>
-                            <button onclick="window.location.href='{{route('partitionerLists')}}'" class="mt-4">Find a
+                            <button onclick="window.location.href='{{route('searchPractitioner')}}'" class="mt-4">Find a
                                 Practitioner
                             </button>
                             <img src="{{url('assets/images/footer-butterfly.svg')}}" alt="">
