@@ -12,7 +12,7 @@
                             <li><a href="https://www.youtube.com/@TheHiraCollective"> <i class="fa-brands fa-youtube"></i></a></li>
                             <li><i class="fa-brands fa-pinterest"></i></li>
                             <li><i class="fa-brands fa-facebook-f"></i></li>
-                            <li><a href=""> <i class="fa-brands fa-instagram"></i></a></li>
+                            <li><a href="https://www.instagram.com/thehiracollective/"> <i class="fa-brands fa-instagram"></i></a></li>
                         </ul>
                     </div>
                 </div>
