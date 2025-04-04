@@ -295,9 +295,8 @@
                                 can feel overwhelming.
                                 Too often, wellness spaces feel transactional, performative, or disconnected from your
                                 lived experience.
-                                That’s why Hira was created—to offer something different.
                             </p>
-                            <button class="mt-5" onclick="window.location.href='{{ route('our_story') }}'">Read More</button>
+                            <button class="btn btn-secondary mt-5" onclick="window.location.href='{{ route('our_story') }}'">Read More</button>
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-6 mb-5">
