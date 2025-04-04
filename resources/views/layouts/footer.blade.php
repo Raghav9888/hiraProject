@@ -9,10 +9,10 @@
                         <img src="{{url('./assets/images/footer-logo.svg')}}" alt="logo">
                         <h4>Follow Us</h4>
                         <ul class="footer-social-media-icon">
-                            <li><i class="fa-brands fa-youtube"></i></li>
+                            <li><a href="https://www.youtube.com/@TheHiraCollective"> <i class="fa-brands fa-youtube"></i></a></li>
                             <li><i class="fa-brands fa-pinterest"></i></li>
                             <li><i class="fa-brands fa-facebook-f"></i></li>
-                            <li><i class="fa-brands fa-instagram"></i></li>
+                            <li><a href=""> <i class="fa-brands fa-instagram"></i></a></li>
                         </ul>
                     </div>
                 </div>
