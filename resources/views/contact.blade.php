@@ -4,8 +4,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-12 col-md-6 col-lg-6">
-                    <div class="position-relative">
-                        <img src="{{ url('./assets/images/home_logo.png') }}" alt="hira-collective">
+{{--                    <div class="position-relative">--}}
+                        <img src="{{ url('./assets/images/home_logo.png') }}" alt="hira-collective" class="img-fluid">
 {{--                        <div class="contact-us-right-dv position-absolute top-0" style="backdrop-filter: blur(10px)">--}}
 {{--                            <h2 class="fw-bold mb-3 text-white" style="font-size: 45px">What kind of support do you--}}
 {{--                                need?</h2>--}}
@@ -26,7 +26,7 @@
 {{--                                <li>&#8226; Problems processing refunds or updates</li>--}}
 {{--                            </ul>--}}
 {{--                        </div>--}}
-                    </div>
+{{--                    </div>--}}
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-6">
                     <div class="contact-us-right-dv">
