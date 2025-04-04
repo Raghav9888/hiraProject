@@ -484,13 +484,14 @@
                     <div class="practitioner-detail-right-dv">
                         <div class="practitioner-detail-right-dv-lists mb-5">
                             <h5 class="py-2" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseOne"><i class="fa-solid fa-circle me-3"></i>Offerings</h5>
+                                data-bs-target="#collapseOne"><i class="fa-solid fa-circle me-3"></i>Offering</h5>
                             <h5 class="py-2" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseTwo"><i class="fa-solid fa-circle me-3"></i>Ailments</h5>
+                                data-bs-target="#collapseTwo"><i class="fa-solid fa-circle me-3"></i>
+                                I Help With</h5>
                             <h5 class="py-2" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseThree"><i class="fa-solid fa-circle me-3"></i>Treatments</h5>
+                                data-bs-target="#collapseThree"><i class="fa-solid fa-circle me-3"></i>   How I Help</h5>
                             <h5 class="py-2" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseFour"><i class="fa-solid fa-circle me-3"></i>Certifications
+                                data-bs-target="#collapseFour"><i class="fa-solid fa-circle me-3"></i> Certifications
                             </h5>
                         </div>
 
