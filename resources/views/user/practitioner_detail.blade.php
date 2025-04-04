@@ -133,7 +133,7 @@
                     </div>
                 </div>
             </div>
-            <div class="swiper mySwiper mb-5">
+            <div class="swiper mySwiper mb-5" style="max-height: 250px">
                 <div class="{{count($mediaImages) > 0 ? 'swiper-wrapper' : 'images'}}">
                     @if(count($mediaImages) > 0)
                         @foreach ($mediaImages as $image)
