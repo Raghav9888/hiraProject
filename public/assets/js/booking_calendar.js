@@ -350,7 +350,7 @@ function showAvailableSlots(date) {
     let availability = document.getElementById('availability')?.value || 'own_specific_date';
     let storeAvailabilityRaw = document.getElementById('store-availability')?.value;
 
-    slotsContainer.innerHTML = '';
+    slotsContainer.innerHTML = '<p class="text-muted">No available slots</p>';
     dateLabel.innerText = date.split('-').reverse().join('/');
 
     let availableSlots = [];
@@ -411,7 +411,8 @@ function showAvailableSlots(date) {
 function renderSlots(availableSlots) {
     console.log(availableSlots)
     const slotsContainer = document.getElementById('availableSlots');
-    slotsContainer.innerHTML = availableSlots.length
+    console.log(availableSlots);
+    slotsContainer.innerHTML = availableSlots.length > 0
         ? availableSlots.map(slot => `<div class="col-4"><button class="btn btn-outline-green w-100 offering-slot" data-time="${slot}">${slot}</button></div>`).join('')
         : '<p class="text-muted">No available slots</p>';
 

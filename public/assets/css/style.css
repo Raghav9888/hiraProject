@@ -862,7 +862,7 @@ section {
 /* contact us css start */
 
 .contact-us-wrrpr {
-    background-image: url('../images/home-banner.png');
+    background-image: url('../images/logo_bg.png');
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -1324,7 +1324,7 @@ p.container-p span {
 /* blog css start */
 
 .blog-banner {
-    background-image: url(../images/blog-banner.png);
+    background-image: url('../images/blog-banner.png');
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -1727,7 +1727,7 @@ p.container-p span {
 }
 
 .practitioner-detail-wrrpr .accordion-button::after {
-    background-image: url(../images/chevron.svg);
+    background-image: url('../images/chevron.svg');
 }
 
 .practitioner-detail-wrrpr .accordian-body-data {
