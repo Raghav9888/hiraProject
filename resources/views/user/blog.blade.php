@@ -13,10 +13,14 @@
                 <button class="blog-search-btn">Search</button>
             </div>
         </div>
-{{--        <div class="recent-resources">--}}
-{{--            <div class="container">--}}
-{{--                <h1 class="home-title mb-3">Recent Resources</h1>--}}
-{{--                <div class="row">--}}
+        <div class="recent-resources">
+            <div class="container">
+                <h1 class="home-title mb-3">Recent Resources</h1>
+
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <h3>Coming soon...</h3>
+                    </div>
 {{--                    @if(!$blogs->isEmpty())--}}
 {{--                        @foreach($blogs as $blog)--}}
 
@@ -56,12 +60,12 @@
 {{--                            <p class="text-center">No Blogs found..</p>--}}
 {{--                        </div>--}}
 {{--                    @endif--}}
-{{--                    --}}{{-- <div class="d-flex justify-content-center">--}}
+{{--                     <div class="d-flex justify-content-center">--}}
 {{--                        <button class="home-blog-btn">Load More</button>--}}
 {{--                    </div> --}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
+                </div>
+            </div>
+        </div>
     </div>
     <div class="blog-category-wrrpr blog-section">
         <div class="container">
