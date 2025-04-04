@@ -10,7 +10,7 @@
                         <h4>Follow Us</h4>
                         <ul class="footer-social-media-icon">
                             <li><a href="https://www.youtube.com/@TheHiraCollective"> <i class="fa-brands fa-youtube"></i></a></li>
-{{--                            <li><i class="fa-brands fa-pinterest"></i></li>--}}
+                            <li><a href="https://pin.it/3b7V2zHvv"><i class="fa-brands fa-pinterest"></i></a></li>
 {{--                            <li><i class="fa-brands fa-facebook-f"></i></li>--}}
                             <li><a href="https://www.instagram.com/thehiracollective/"> <i class="fa-brands fa-instagram"></i></a></li>
                         </ul>
