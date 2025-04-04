@@ -56,7 +56,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="support_type" class="form-label">Support Type</label>
-                                <select name="support_type" id="support_type" class="form-select">
+                                <select name="support_type" id="support_type" class="form-select" style="border-radius: 24px !important; padding: 10px 10px !important;">
                                     <option value="booking_support">Booking support</option>
                                     <option value="technical_support">Technical support</option>
                                 </select>
@@ -65,14 +65,14 @@
                                 <label class="form-label">Support Category</label>
 
                                 <select name="support_booking_category" class="form-select d-none"
-                                        id="subject_booking_input_category">
+                                        id="subject_booking_input_category" style="border-radius: 24px !important; padding: 10px 10px !important;">
                                     <option value=" ">Select booking category</option>
                                     <option value="booking_link">Booking link</option>
                                     <option value="email">Email</option>
                                 </select>
 
                                 <select name="support_technical_category" class="form-select d-none"
-                                        id="support_technical_category">
+                                        id="support_technical_category" style="border-radius: 24px !important; padding: 10px 10px !important;">
                                     <option value=" ">Select technical category</option>
                                     <option value="whatsapp_number">Whatsapp Number</option>
                                     <option value="email">Email</option>
