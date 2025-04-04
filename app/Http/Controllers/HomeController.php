@@ -104,7 +104,7 @@ class HomeController extends Controller
 
     public function partitionerLists()
     {
-        $users = User::where('role', 1)->with('userDetail')->get();
+        $users = User::where('role', 1)->where('status',1)->with('userDetail')->get();
         $categories = Category::where('status', 1)->get();
         $defaultLocations = Locations::where('status', 1)->get();
         $locations = [];
