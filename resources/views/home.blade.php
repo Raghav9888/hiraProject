@@ -101,10 +101,10 @@
                                 </div>
                                 <div class="card-body">
                                     <h5>{{$offering?->name}}</h5>
-                                    <h6>{{$offering?->short_description}}</h6>
+                                    <h6>{{ implode(' ', array_slice(explode(' ', strip_tags($offering->short_description)), 0, 30)) . '...' }}</h6>
+
                                     <div class="d-flex">
-                                        <img src="{{url('./assets/images/Clock.svg')}}" alt="" class="me-2"
-                                             style="width: 1px">
+                                        <img src="{{url('./assets/images/Clock.svg')}}" alt="" class="me-2 img-fluid" style="width: 1px">
                                         <p class="ms-2">{{$date}}</p>
                                     </div>
                                 </div>
