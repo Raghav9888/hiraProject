@@ -6,10 +6,10 @@
         <div class="login-wrrpr">
             <div class="login-body">
                 <div class="d-flex justify-content-center mb-4">
-                    <img src="../../../asserts/header-logo.svg" alt="">
+                    <img src="{{ url('./assets/images/home_logo.png') }}" alt="" width="300px">
                 </div>
                 <div class="contact-us-right-dv">
-                    <h3 style="margin-bottom: 40px;">Login (As Practitioner)</h3>
+                    <h3 style="margin-bottom: 40px;">Login (For Practitioners)</h3>
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
                         <div class="mb-3">
