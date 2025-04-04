@@ -267,7 +267,7 @@
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-6 mb-5">
                         <div class="vision-about-img-dv">
-                            <img src="{{url('/assets/images/our_vision.jpg')}}" alt="our-vision" class="rounded-4">
+                            <img src="{{url('/assets/images/our_vision.jpg')}}" alt="our-vision" class="rounded-4" style="max-height: 340px">
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-6 mb-5">
@@ -302,7 +302,7 @@
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-6 mb-5">
                         <div class="vision-about-img-dv">
-                            <img src="{{url('/assets/images/about_us.jpg')}}" alt="about-us" class="rounded-4">
+                            <img src="{{url('/assets/images/about_us.jpg')}}" alt="about-us" class="rounded-4" style="max-height: 340px">
                         </div>
                     </div>
                 </div>
