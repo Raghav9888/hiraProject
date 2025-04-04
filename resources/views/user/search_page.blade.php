@@ -117,9 +117,10 @@
     <div class="container">
         <div class="upcoming-event-container position-relative">
             <h4>Upcoming Events</h4>
+            @if(count($offerings) > 0)
             <div class="upcoming-event-inner upcoming-events-slider">
                 <div class="swiper-wrapper">
-                    @if(count($offerings) > 0)
+
                         @foreach($offerings as $date => $offering)
                             @php
                                 $mediaPath = config('app.media_path', 'uploads');
@@ -156,12 +157,18 @@
 
                             </div>
                         @endforeach
-                    @endif
-
                 </div>
             </div>
             <div class="swiper-button-prev-event"><i class="fa-solid fa-arrow-left-long"></i></div>
             <div class="swiper-button-next-event"><i class="fa-solid fa-arrow-right-long"></i></div>
+            @else
+                <div class="row">
+                    <div class="col-md-12">
+                        <h5>No result</h5>
+                    </div>
+                </div>
+            @endif
+
         </div>
     </div>
 
