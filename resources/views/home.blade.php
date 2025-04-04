@@ -96,7 +96,7 @@
                                 <div class="swiper-slide"
                                      style="height: 100%;width: 100%; max-height: 250px;min-height: 250px">
                                     <div class="slider-img">
-                                        <img src="{{$imageUrl}}" alt="calm" style="max-height: 200px; max-width: 200px">
+                                        <img src="{{$imageUrl}}" alt="calm" style="max-height: 200px; max-width: 300px">
                                     </div>
                                     <div class="card-body">
                                         <h5>{{$offering?->name}}</h5>
