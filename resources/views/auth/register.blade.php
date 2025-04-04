@@ -59,6 +59,7 @@
                                         <i class="fas fa-eye"></i>
                                     </span>
                                 </div>
+                                <p class="text-white pt-2">Create a password that is a minimum of 8 characters</p>
                             </div>
                             <div class="d-flex justify-content-center mt-5">
                             <button class="w-100" type="submit">Sign Up</button>
