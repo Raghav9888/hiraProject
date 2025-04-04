@@ -338,19 +338,23 @@ class HomeController extends Controller
         $query->where(function ($q) use ($search, $tagId, $howIHelpId, $iHelpWithId) {
             $q->where('name', 'like', '%' . $search . '%')
                 ->orWhere('first_name', 'like', '%' . $search . '%')
-                ->orWhere('last_name', 'like', '%' . $search . '%')
-                ->orWhereHas('userDetail', function ($query) use ($tagId, $howIHelpId, $iHelpWithId) {
-                    if (!empty($tagId)) {
-                        $query->where('tags', 'like', '%' . $tagId . '%');
-                    }
-                    if (!empty($howIHelpId)) {
-                        $query->where('HowIHelp', 'like', '%' . $howIHelpId . '%');
-                    }
-                    if (!empty($iHelpWithId)) {
-                        $query->where('IHelpWith', 'like', '%' . $iHelpWithId . '%');
-                    }
-                });
+                ->orWhere('last_name', 'like', '%' . $search . '%');
+
         });
+
+        if($tagId || $howIHelpId || $iHelpWithId) {
+            $query->orWhereHas('userDetail', function ($q) use ($tagId, $howIHelpId, $iHelpWithId) {
+                if ($tagId) {
+                    $q->where('tags', 'like', '%' . $tagId . '%');
+                }
+                if ($howIHelpId) {
+                    $q->where('HowIHelp', 'like', '%' . $howIHelpId . '%');
+                }
+                if ($iHelpWithId) {
+                    $q->where('IHelpWith', 'like', '%' . $iHelpWithId . '%');
+                }
+            });
+        }
 
 
         // Filtering by category (specialities)
