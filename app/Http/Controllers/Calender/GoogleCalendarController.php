@@ -246,7 +246,6 @@ class GoogleCalendarController extends Controller
 
         // Decode the access token from the database
         $accessToken = $googleAccount->access_token;
-
         if (json_last_error() !== JSON_ERROR_NONE) {
             throw new Exception('Invalid JSON token: ' . json_last_error_msg());
         }
