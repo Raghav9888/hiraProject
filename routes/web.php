@@ -39,7 +39,7 @@ Route::post('/contact', [HomeController::class, 'sendContactMail'])->name('sendC
 Route::post('/setEndorsement/{id}', [HomeController::class, 'addEndorsement']);
 Route::get('/blog', [HomeController::class, 'blog'])->name('blog');
 Route::get('/blog/{slug}', [HomeController::class, 'blogDetail'])->name('blogDetail');
-Route::get('/search/practitioner', [HomeController::class, 'searchPractitioner'])->name('searchPractitioner');
+Route::get('/search/practitioner/{categoryType?}', [HomeController::class, 'searchPractitioner'])->name('searchPractitioner');
 Route::get('/practitioners', [HomeController::class, 'partitionerLists'])->name('partitionerLists');
 Route::post('/getEvent', [HomeController::class, 'getEvent'])->name('getEvent');
 Route::get('/land-acknowledgement', [HomeController::class, 'acknowledgement'])->name('acknowledgement');

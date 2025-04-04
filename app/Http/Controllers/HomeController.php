@@ -105,7 +105,7 @@ class HomeController extends Controller
 
     public function partitionerLists()
     {
-        $users = User::where('role', 1)->where('status',1)->with('userDetail')->get();
+        $users = User::where('role', 1)->where('status', 1)->with('userDetail')->get();
         $categories = Category::where('status', 1)->get();
         $defaultLocations = Locations::where('status', 1)->get();
         $locations = [];
@@ -320,65 +320,125 @@ class HomeController extends Controller
         return response()->json(['availableSlots' => $availableSlots]);
     }
 
-    public function searchPractitioner(Request $request)
+    public function searchPractitioner(Request $request, ?string $categoryType = null)
     {
         $search = $request->input('search');
-        $category = $request->input('category');
+        $category = $categoryType ?? $request->input('categoryType');
         $type = $request->input('practitionerType');
         $location = $request->input('location');
         $buttonHitCount = $request->input('count') ?? 1;
 
+        // Use collections for cleaner merging & uniqueness
+        $userIds = collect();
 
+        // 1. Search users by name, first_name, last_name
+        $userByName = User::where('role', 1)
+            ->where('status', 1)
+            ->where(function ($q) use ($search) {
+                $q->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('first_name', 'like', '%' . $search . '%')
+                    ->orWhere('last_name', 'like', '%' . $search . '%');
+            })
+            ->pluck('id');
+        $userIds = $userIds->merge($userByName);
+
+        // 2. Search in PractitionerTag, HowIHelp, IHelpWith
         $tagId = PractitionerTag::where('name', 'like', '%' . $search . '%')->value('id');
         $howIHelpId = HowIHelp::where('name', 'like', '%' . $search . '%')->value('id');
         $iHelpWithId = IHelpWith::where('name', 'like', '%' . $search . '%')->value('id');
 
-        $query = User::where('role', 1)->where('status', 1)->with('userDetail');
-
-        $query->where(function ($q) use ($search, $tagId, $howIHelpId, $iHelpWithId) {
-            $q->where('name', 'like', '%' . $search . '%')
-                ->orWhere('first_name', 'like', '%' . $search . '%')
-                ->orWhere('last_name', 'like', '%' . $search . '%');
-
-        });
-
-        if($tagId || $howIHelpId || $iHelpWithId) {
-            $query->orWhereHas('userDetail', function ($q) use ($tagId, $howIHelpId, $iHelpWithId) {
+        if ($tagId || $howIHelpId || $iHelpWithId) {
+            $userByDetails = UserDetail::where(function ($q) use ($tagId, $howIHelpId, $iHelpWithId) {
                 if ($tagId) {
-                    $q->where('tags', 'like', '%' . $tagId . '%');
+                    $q->orWhere('tags', $tagId);
                 }
                 if ($howIHelpId) {
-                    $q->where('HowIHelp', 'like', '%' . $howIHelpId . '%');
+                    $q->orWhere('HowIHelp', $howIHelpId);
                 }
                 if ($iHelpWithId) {
-                    $q->where('IHelpWith', 'like', '%' . $iHelpWithId . '%');
+                    $q->orWhere('IHelpWith', $iHelpWithId);
                 }
-            });
+            })->pluck('user_id');
+
+            $userIds = $userIds->merge($userByDetails);
         }
 
+        // 3. Search in Offerings
+        $offeringUserIds = Offering::where('name', 'like', '%' . $search . '%')
+            ->pluck('user_id');
+        $userIds = $userIds->merge($offeringUserIds);
 
-        // Filtering by category (specialities)
+        // 4. Make unique
+        $userIds = $userIds->unique()->values();
+
+        // 5. Prepare base query
+        $query = User::where('role', 1)
+            ->where('status', 1)
+            ->with('userDetail');
+
+        if ($userIds->isNotEmpty()) {
+            $query->whereIn('id', $userIds);
+        } else {
+            // Prevent full fetch if no matches
+            $query->where('id', -1);
+        }
+
+        // 6. Category filter (JSON field 'specialities')
         if (!empty($category)) {
-            $query->whereHas('userDetail', function ($query) use ($category) {
-                $query->where('specialities', 'like', '%' . $category . '%');
-            });
+            $formattedCategory = ucwords(str_replace('_', ' ', $category));
+            $categoryIds = Category::where('name', 'like', '%' . $formattedCategory . '%')->pluck('id')->toArray();
+
+            if (!empty($categoryIds)) {
+                $query->whereHas('userDetail', function ($q) use ($categoryIds) {
+                    foreach ($categoryIds as $id) {
+                        $q->orWhereRaw('JSON_CONTAINS(specialities, ?)', ['"' . $id . '"']);
+                    }
+                });
+            }
         }
 
-        // Filtering by location
+        // 7. Location filter
         if (!empty($location)) {
-            $query->whereHas('userDetail', function ($query) use ($location) {
-                $query->where('location', 'like', '%' . $location . '%');
+            $query->whereHas('userDetail', function ($q) use ($location) {
+                $q->where('location', 'like', '%' . $location . '%');
             });
         }
 
-        // Fetch practitioners with pagination
+        // 8. Practitioner type filter
+        if (!empty($type)) {
+            $query->whereHas('offerings', function ($q) use ($type) {
+                $q->where('offering_type', 'like', '%' . $type . '%');
+            });
+        }
+
+        // 9. Final data with lazy loading/pagination logic
         $practitioners = $query->take($buttonHitCount * 8)->get();
 
-        return response()->json([
+        // 10. Location dropdown
+        $defaultLocations = Locations::where('status', 1)->pluck('name', 'id');
+
+        // 11. Fetch future offerings for matching event data
+        $offeringsData = Offering::where('name', 'like', '%' . $search . '%')
+            ->when($type, fn($q) => $q->where('offering_type', 'like', '%' . $type . '%'))
+            ->when($location, fn($q) => $q->where('location', 'like', '%' . $location . '%'))
+            ->with('event')
+            ->get();
+
+        $events = [];
+        $now = now();
+        foreach ($offeringsData as $offeringData) {
+            if ($offeringData->event && $offeringData->event->date_and_time > $now) {
+                $events[] = $offeringData;
+            }
+        }
+
+        return view('user.search_page', [
             'practitioners' => $practitioners,
             'search' => $search,
             'category' => $category,
-            'location' => $location
+            'location' => $location,
+            'defaultLocations' => $defaultLocations,
+            'offerings' => $events,
         ]);
     }
 
