@@ -96,7 +96,7 @@
                                 <div class="swiper-slide"
                                      style="height: 100%;width: 100%; max-height: 250px;min-height: 250px">
                                     <div class="slider-img">
-                                        <img src="{{$imageUrl}}" alt="calm">
+                                        <img src="{{$imageUrl}}" alt="calm" class="img-fluid">
                                     </div>
                                     <div class="card-body">
                                         <h5>{{$offering?->name}}</h5>
@@ -104,7 +104,7 @@
 
                                         <div class="d-flex">
                                             <img src="{{url('./assets/images/Clock.svg')}}" alt=""
-                                                 class="me-2" style="max-height: 20px; width: 20px">
+                                                 class="me-2" style="width: 1px">
                                             <p class="ms-2">{{$date}}</p>
                                         </div>
                                         <div class="row">
