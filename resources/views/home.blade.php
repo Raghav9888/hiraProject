@@ -238,10 +238,8 @@
                             <div class="choose-us-img-dv">
                                 <img src="{{url('/assets/images/trusted-practitioners.svg')}}" alt="">
                             </div>
-                            <h6>
-                                Support at Every Step
-                            </h6>
-                            <p>We don’t disappear after you book. From helping you choose a practitioner to following up
+                            <h6>Support at Every Step</h6>
+                            <p class="pt-3">We don’t disappear after you book. From helping you choose a practitioner to following up
                                 after your session, our real human support team is here for you.
                                 Care is not just a session - it’s a relationship.
                             </p>
@@ -252,14 +250,10 @@
                             <div class="choose-us-img-dv">
                                 <img src="{{url('/assets/images/personalized-wellness.svg')}}" alt="">
                             </div>
-                            <h6 class="pt-2">
-                                More Than a Platform - A Movement
-                            </h6>
+                            <h6>More Than a Platform - A Movement</h6>
                             <p>You’re not just booking a session. You’re joining a collective.
                                 By using Hira, you’re supporting a women-led, purpose-built platform centering healing,
                                 justice, and cultural respect.
-                                Plus, you’ll soon earn Diamond Rewards for every booking - redeemable for future
-                                sessions and community perks.
                             </p>
                         </div>
                     </div>
@@ -268,13 +262,11 @@
                             <div class="choose-us-img-dv">
                                 <img src="{{url('/assets/images/spiritual-growth.svg')}}" alt="">
                             </div>
-                            <h6>Vetted, Trusted Practitioners
-                            </h6>
-                            <p>
+                            <h6>Vetted, Trusted Practitioners</h6>
+                            <p class="pt-3">
                                 Only 17% of applicants are accepted. We’ve done the work so you don’t have to.
                                 Every practitioner on The Hira Collective is carefully vetted for ethical care, cultural
                                 integrity, and real experience.
-                                No guesswork, no greenwashing - just trustworthy wellness you can feel safe in.
                             </p>
                         </div>
                     </div>
