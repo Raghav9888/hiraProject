@@ -104,7 +104,7 @@
 
                                         <div class="d-flex">
                                             <img src="{{url('./assets/images/Clock.svg')}}" alt=""
-                                                 class="me-2 img-fluid" style="width: 1px">
+                                                 class="me-2" style="max-height: 20px; width: 20px">
                                             <p class="ms-2">{{$date}}</p>
                                         </div>
                                         <div class="row">
