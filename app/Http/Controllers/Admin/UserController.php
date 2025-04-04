@@ -97,7 +97,7 @@ class UserController extends Controller
             '3' => 'delete',
             default => 'all',
         };
-        return redirect()->route('admin.users.index', ['userType' => $userType]);
+        return redirect()->route('admin.user.index', ['userType' => $userType]);
 
     }
 

@@ -402,8 +402,8 @@
                                     <div class="d-flex justify-content-between flex-wrap mb-3">
                                         <div>
                                             @foreach ([5, 4, 3, 2, 1] as $star)
-                                                <div class="d-flex align-items-center mb-3">
-                                                    <h6 class="font-weight-bold">{{ $star }}.0</h6>
+                                                <div class="d-lg-flex align-items-center mb-3">
+                                                    <h6 class="font-weight-bold py-2">{{ $star }}.0</h6>
                                                     <div class="mx-2">
                                                         <div class="progress">
                                                             <div class="progress-bar" role="progressbar"
@@ -414,7 +414,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <h6 class="review-count-text">{{ $ratings[$star] }} Reviews</h6>
+                                                    <h6 class="review-count-text py-2">{{ $ratings[$star] }} Reviews</h6>
                                                 </div>
                                             @endforeach
                                         </div>

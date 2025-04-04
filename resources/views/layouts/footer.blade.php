@@ -53,7 +53,7 @@
                         </h5>
                     </div>
                     <div class="footer-lists pt-4">
-                        <p class="text-white pt-2">
+                        <p class="text-white pt-3">
                             The Hira Collective acknowledges that we are created, built, and operating on lands that
                             have long been home to Indigenous Peoples, including the Anishi...
                         </p>
@@ -67,7 +67,7 @@
                             TheHiraCollective does not provide medical advice, diagnosis, or treatment.</p>
                     </div>
                     <div class="col-sm-12 col-md-2 col-lg-2">
-                        <button><i class="fa-solid fa-globe"></i>English</button>
+                        <button class="mt-2"><i class="fa-solid fa-globe"></i>English</button>
                     </div>
                 </div>
             </div>
