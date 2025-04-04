@@ -63,7 +63,7 @@ class PractitionerController extends Controller
         $userLocations = json_decode($userDetails->location, true);
         $locations = Locations::get();
         $tags = json_decode($userDetails->tags, true);
-        $users = User::where('role', 1)->with('userDetail')->get();
+        $users = User::where('role', 1)->where('status', 1)->with('userDetail')->get();
 
         $allowedOffsets = [
             "UTC-8", "UTC-7", "UTC-6", "UTC-5", "UTC-4", "UTC-3:30"

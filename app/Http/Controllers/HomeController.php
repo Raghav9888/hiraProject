@@ -36,6 +36,7 @@ class HomeController extends Controller
             'Founding Members T2'
         ];
         $users = User::where('role', 1)
+            ->where('status', 1)
             ->whereHas('cusSubscription', function ($query) use ($foundingPlans) {
                 $query->whereHas('plan', function ($planQuery) use ($foundingPlans) {
                     $planQuery->whereIn('name', $foundingPlans);
@@ -211,7 +212,7 @@ class HomeController extends Controller
 
         $userLocations = json_decode($user->location, true);
         $locations = Locations::get();
-        $users = User::where('role', 1)->with('userDetail')->get();
+        $users = User::where('role', 1)->where('status', 1)->with('userDetail')->get();
         $categories = Category::get();
         $storeAvailable = $userDetail?->store_availabilities ? $userDetail->store_availabilities : [];
 
@@ -332,7 +333,7 @@ class HomeController extends Controller
         $howIHelpId = HowIHelp::where('name', 'like', '%' . $search . '%')->value('id');
         $iHelpWithId = IHelpWith::where('name', 'like', '%' . $search . '%')->value('id');
 
-        $query = User::where('role', 1)->with('userDetail');
+        $query = User::where('role', 1)->where('status', 1)->with('userDetail');
 
         $query->where(function ($q) use ($search, $tagId, $howIHelpId, $iHelpWithId) {
             $q->where('name', 'like', '%' . $search . '%')
