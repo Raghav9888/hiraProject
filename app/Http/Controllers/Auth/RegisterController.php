@@ -9,6 +9,7 @@ use App\Models\UserDetail;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use MailerLite\MailerLite;
 
 class RegisterController extends Controller
 {
@@ -101,7 +102,18 @@ class RegisterController extends Controller
                 'user_id' => $user->id,
             ]
         );
-
+        $mailerLite = new MailerLite(['api_key' => env("MAILERLITE_KEY")]);
+        $data = [
+            'email' => $data['email'],
+            "fields" => [
+                "name" => $data['first_name'],
+                "last_name" => $data['last_name']
+            ],
+            'groups' => [
+                env('MAILERLITE_PRACTITIONER_GROUP')
+            ]
+        ];
+        $mailerLite->subscribers->create($data);
         return $user;
     }
 
