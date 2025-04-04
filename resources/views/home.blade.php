@@ -267,7 +267,7 @@
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-6 mb-5">
                         <div class="vision-about-img-dv">
-                            <img src="{{url('/assets/images/our-vision.png')}}" alt="our-vision">
+                            <img src="{{url('/assets/images/our_vision.jpg')}}" alt="our-vision" class="rounded-4">
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-6 mb-5">
@@ -297,12 +297,12 @@
                                 lived experience.
                                 That’s why Hira was created—to offer something different.
                             </p>
-                            <button class="mt-5">Read More</button>
+                            <button class="mt-5" onclick="window.location.href='{{ route('our_story') }}'">Read More</button>
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-6 mb-5">
                         <div class="vision-about-img-dv">
-                            <img src="{{url('/assets/images/choose-about.png')}}" alt="about-us">
+                            <img src="{{url('/assets/images/about_us.jpg')}}" alt="about-us" class="rounded-4">
                         </div>
                     </div>
                 </div>
