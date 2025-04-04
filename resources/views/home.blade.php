@@ -8,9 +8,16 @@
             </div>
             <div class="home-search-wrrpr">
                 <p> Search for what you seek</p>
-                <form action="{{ route('searchPractitioner') }}" method="GET" id="searchform">
-                    @csrf
+                <form
+                @php
+                    $routeParams = [];
+                    if (request()->route('categoryType')) {
+                        $routeParams['categoryType'] = request()->route('categoryType');
+                    }
+                @endphp
 
+                <form action="{{ route('searchPractitioner', $routeParams) }}" method="GET" id="searchform">
+                    @csrf
                     <div class="search-dv-body">
                         <div class="search-container align-items-center">
                             <input type="text" class="search-input" id="search" name="search"
@@ -65,9 +72,13 @@
                         $name = $snakeCaseText = str_replace(' ', '_', strtolower($category->name));;
                     @endphp
                     <div class="col-sm-12 col-md-4 col-lg-3 mb-4">
-                        <div class="explore-img-dv {{ $name}}">
-                            <p>{{$category->name}}</p>
-                        </div>
+                        <a href="{{ route('searchPractitioner', ['categoryType' => $snakeCaseText]) }}">
+
+                            <div class="explore-img-dv {{ $name}}">
+                                <p>{{$category->name}}</p>
+                            </div>
+
+                        </a>
                     </div>
                 @endforeach
                 {{--                <div class="d-flex justify-content-center mt-2">--}}
@@ -93,29 +104,31 @@
                                     : asset("$localPath/images/no_image.png");
 
                             @endphp
-                                <div class="swiper-slide"
-                                     style="height: 100%;width: 100%; max-height: 250px;min-height: 250px">
-                                    <div class="slider-img">
-                                        <img src="{{$imageUrl}}" alt="calm" style="max-height: 250px; max-width: 250px">
-                                    </div>
-                                    <div class="card-body">
-                                        <h5>{{$offering?->name}}</h5>
-                                        <h6>{{ implode(' ', array_slice(explode(' ', strip_tags($offering->short_description)), 0, 20)) . '...' }}</h6>
+                            <div class="card swiper-slide" style="max-height: 250px;min-height: 250px; cursor:pointer;"
+                                 onclick="window.location.href='{{route('practitioner_detail', $offering->user->id)}}'">
 
-                                        <div class="d-flex">
-                                            <img src="{{url('./assets/images/Clock.svg')}}" alt=""
-                                                 class="me-2" style="width: 1px">
-                                            <p class="ms-2">{{$date}}</p>
+                                <div class="card-body">
+
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <img src="{{$imageUrl}}" alt="calm"
+                                                 style="max-height: 150px; max-width: 200px">
                                         </div>
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <a href="{{route('practitioner_detail', $offering->user->id)}}">
-                                                   Book Now
-                                                </a>
+                                        <div class="col-md-7">
+                                            <h5>{{$offering?->name}}</h5>
+                                            <h6>{{ implode(' ', array_slice(explode(' ', strip_tags($offering->short_description)), 0, 20)) . '...' }}</h6>
+                                            <div class="d-flex justify-content-end align-items-center">
+                                                <img src="{{url('./assets/images/Clock.svg')}}" alt="" class="me-2"
+                                                     style="width: 20px">
+                                                <span>{{$date}}</span>
                                             </div>
+
                                         </div>
                                     </div>
+
                                 </div>
+
+                            </div>
                         @endforeach
                     @endif
 
@@ -267,7 +280,8 @@
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-6 mb-5">
                         <div class="vision-about-img-dv">
-                            <img src="{{url('/assets/images/our_vision.jpg')}}" alt="our-vision" class="rounded-4" style="max-height: 340px">
+                            <img src="{{url('/assets/images/our_vision.jpg')}}" alt="our-vision" class="rounded-4"
+                                 style="max-height: 340px">
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-6 mb-5">
@@ -296,83 +310,86 @@
                                 Too often, wellness spaces feel transactional, performative, or disconnected from your
                                 lived experience.
                             </p>
-                            <button class="btn btn-secondary mt-5" onclick="window.location.href='{{ route('our_story') }}'">Read More</button>
+                            <button class="btn btn-secondary mt-5"
+                                    onclick="window.location.href='{{ route('our_story') }}'">Read More
+                            </button>
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-6 mb-5">
                         <div class="vision-about-img-dv">
-                            <img src="{{url('/assets/images/about_us.jpg')}}" alt="about-us" class="rounded-4" style="max-height: 340px">
+                            <img src="{{url('/assets/images/about_us.jpg')}}" alt="about-us" class="rounded-4"
+                                 style="max-height: 340px">
                         </div>
                     </div>
                 </div>
-{{--                <div class="position-relative row align-items-center">--}}
-{{--                    <div class="col-md-6">--}}
-{{--                        <h1 class="home-title mb-4 mt-5">What our community says</h1>--}}
-{{--                    </div>--}}
-{{--                    <div class="col-md-6">--}}
-{{--                        <div class="swiper-button-next"></div>--}}
-{{--                        <div class="swiper-button-prev"></div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--                <div class="swiper mySwiper mb-5">--}}
-{{--                    <div class="swiper-wrapper">--}}
-{{--                        <div class="swiper-slide">--}}
-{{--                            <img src="{{url('assets/images/quotes.svg')}}" alt="quotes">--}}
-{{--                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt--}}
-{{--                                ut labore. Lorem ipsum dolor sit amet, consect adipicing elit, sed do eiusmod tempor--}}
-{{--                                incididunt ut labore.</p>--}}
-{{--                            <h4>Robert Fox</h4>--}}
-{{--                            <p class="mb-0">Yoga Student</p>--}}
-{{--                            <img class="shadow-quotes" src="{{ url('/assets/images/shadow-quotes.svg') }}" alt="quotes">--}}
-{{--                        </div>--}}
-{{--                        <div class="swiper-slide">--}}
-{{--                            <img src="{{ url('assets/images/quotes.svg') }}" alt="quotes">--}}
-{{--                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt--}}
-{{--                                ut labore. Lorem ipsum dolor sit amet, consect adipicing elit, sed do eiusmod tempor--}}
-{{--                                incididunt ut labore.</p>--}}
-{{--                            <h4>Jenny Wilson</h4>--}}
-{{--                            <p class="mb-0">Yoga Student</p>--}}
-{{--                            <img class="shadow-quotes" src="{{ url('/assets/images/shadow-quotes.svg') }}" alt="quotes">--}}
-{{--                        </div>--}}
-{{--                        <div class="swiper-slide">--}}
-{{--                            <img src="{{url('assets/images/quotes.svg')}}" alt="quotes">--}}
-{{--                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt--}}
-{{--                                ut labore. Lorem ipsum dolor sit amet, consect adipicing elit, sed do eiusmod tempor--}}
-{{--                                incididunt ut labore.</p>--}}
-{{--                            <h4>Guy Hawkins</h4>--}}
-{{--                            <p class="mb-0">Yoga Student</p>--}}
-{{--                            <img class="shadow-quotes" src="{{ url('/assets/images/shadow-quotes.svg') }}" alt="quotes">--}}
-{{--                        </div>--}}
-{{--                        <div class="swiper-slide">--}}
-{{--                            <img src="{{url('assets/images/quotes.svg')}}" alt="quotes">--}}
-{{--                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt--}}
-{{--                                ut labore. Lorem ipsum dolor sit amet, consect adipicing elit, sed do eiusmod tempor--}}
-{{--                                incididunt ut labore.</p>--}}
-{{--                            <h4>Robert Fox</h4>--}}
-{{--                            <p class="mb-0">Yoga Student</p>--}}
-{{--                            <img class="shadow-quotes" src="{{ url('/assets/images/shadow-quotes.svg') }}" alt="quotes">--}}
-{{--                        </div>--}}
-{{--                        <div class="swiper-slide">--}}
-{{--                            <img src="{{url('assets/images/quotes.svg')}}" alt="quotes">--}}
-{{--                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt--}}
-{{--                                ut labore. Lorem ipsum dolor sit amet, consect adipicing elit, sed do eiusmod tempor--}}
-{{--                                incididunt ut labore.</p>--}}
-{{--                            <h4>Jenny Wilson</h4>--}}
-{{--                            <p class="mb-0">Yoga Student</p>--}}
-{{--                            <img class="shadow-quotes" src="{{ url('/assets/images/shadow-quotes.svg') }}" alt="quotes">--}}
-{{--                        </div>--}}
-{{--                        <div class="swiper-slide">--}}
-{{--                            <img src="{{url('assets/images/quotes.svg')}}" alt="quotes">--}}
-{{--                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt--}}
-{{--                                ut labore. Lorem ipsum dolor sit amet, consect adipicing elit, sed do eiusmod tempor--}}
-{{--                                incididunt ut labore.</p>--}}
-{{--                            <h4>Guy Hawkins</h4>--}}
-{{--                            <p class="mb-0">Yoga Student</p>--}}
-{{--                            <img class="shadow-quotes" src="{{ url('/assets/images/shadow-quotes.svg') }}" alt="quotes">--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                    <div class="swiper-pagination"></div>--}}
-{{--                </div>--}}
+                {{--                <div class="position-relative row align-items-center">--}}
+                {{--                    <div class="col-md-6">--}}
+                {{--                        <h1 class="home-title mb-4 mt-5">What our community says</h1>--}}
+                {{--                    </div>--}}
+                {{--                    <div class="col-md-6">--}}
+                {{--                        <div class="swiper-button-next"></div>--}}
+                {{--                        <div class="swiper-button-prev"></div>--}}
+                {{--                    </div>--}}
+                {{--                </div>--}}
+                {{--                <div class="swiper mySwiper mb-5">--}}
+                {{--                    <div class="swiper-wrapper">--}}
+                {{--                        <div class="swiper-slide">--}}
+                {{--                            <img src="{{url('assets/images/quotes.svg')}}" alt="quotes">--}}
+                {{--                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt--}}
+                {{--                                ut labore. Lorem ipsum dolor sit amet, consect adipicing elit, sed do eiusmod tempor--}}
+                {{--                                incididunt ut labore.</p>--}}
+                {{--                            <h4>Robert Fox</h4>--}}
+                {{--                            <p class="mb-0">Yoga Student</p>--}}
+                {{--                            <img class="shadow-quotes" src="{{ url('/assets/images/shadow-quotes.svg') }}" alt="quotes">--}}
+                {{--                        </div>--}}
+                {{--                        <div class="swiper-slide">--}}
+                {{--                            <img src="{{ url('assets/images/quotes.svg') }}" alt="quotes">--}}
+                {{--                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt--}}
+                {{--                                ut labore. Lorem ipsum dolor sit amet, consect adipicing elit, sed do eiusmod tempor--}}
+                {{--                                incididunt ut labore.</p>--}}
+                {{--                            <h4>Jenny Wilson</h4>--}}
+                {{--                            <p class="mb-0">Yoga Student</p>--}}
+                {{--                            <img class="shadow-quotes" src="{{ url('/assets/images/shadow-quotes.svg') }}" alt="quotes">--}}
+                {{--                        </div>--}}
+                {{--                        <div class="swiper-slide">--}}
+                {{--                            <img src="{{url('assets/images/quotes.svg')}}" alt="quotes">--}}
+                {{--                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt--}}
+                {{--                                ut labore. Lorem ipsum dolor sit amet, consect adipicing elit, sed do eiusmod tempor--}}
+                {{--                                incididunt ut labore.</p>--}}
+                {{--                            <h4>Guy Hawkins</h4>--}}
+                {{--                            <p class="mb-0">Yoga Student</p>--}}
+                {{--                            <img class="shadow-quotes" src="{{ url('/assets/images/shadow-quotes.svg') }}" alt="quotes">--}}
+                {{--                        </div>--}}
+                {{--                        <div class="swiper-slide">--}}
+                {{--                            <img src="{{url('assets/images/quotes.svg')}}" alt="quotes">--}}
+                {{--                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt--}}
+                {{--                                ut labore. Lorem ipsum dolor sit amet, consect adipicing elit, sed do eiusmod tempor--}}
+                {{--                                incididunt ut labore.</p>--}}
+                {{--                            <h4>Robert Fox</h4>--}}
+                {{--                            <p class="mb-0">Yoga Student</p>--}}
+                {{--                            <img class="shadow-quotes" src="{{ url('/assets/images/shadow-quotes.svg') }}" alt="quotes">--}}
+                {{--                        </div>--}}
+                {{--                        <div class="swiper-slide">--}}
+                {{--                            <img src="{{url('assets/images/quotes.svg')}}" alt="quotes">--}}
+                {{--                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt--}}
+                {{--                                ut labore. Lorem ipsum dolor sit amet, consect adipicing elit, sed do eiusmod tempor--}}
+                {{--                                incididunt ut labore.</p>--}}
+                {{--                            <h4>Jenny Wilson</h4>--}}
+                {{--                            <p class="mb-0">Yoga Student</p>--}}
+                {{--                            <img class="shadow-quotes" src="{{ url('/assets/images/shadow-quotes.svg') }}" alt="quotes">--}}
+                {{--                        </div>--}}
+                {{--                        <div class="swiper-slide">--}}
+                {{--                            <img src="{{url('assets/images/quotes.svg')}}" alt="quotes">--}}
+                {{--                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt--}}
+                {{--                                ut labore. Lorem ipsum dolor sit amet, consect adipicing elit, sed do eiusmod tempor--}}
+                {{--                                incididunt ut labore.</p>--}}
+                {{--                            <h4>Guy Hawkins</h4>--}}
+                {{--                            <p class="mb-0">Yoga Student</p>--}}
+                {{--                            <img class="shadow-quotes" src="{{ url('/assets/images/shadow-quotes.svg') }}" alt="quotes">--}}
+                {{--                        </div>--}}
+                {{--                    </div>--}}
+                {{--                    <div class="swiper-pagination"></div>--}}
+                {{--                </div>--}}
                 <div class="row">
                     <div class="col-sm-12 col-md-6 col-lg-6">
                         <div class="find-apply-dv">
@@ -383,7 +400,9 @@
                                 Search by need, modality, or intention and begin your personalized healing journey
                                 today.
                             </p>
-                              <button onclick="window.location.href='{{route('partitionerLists')}}'" class="mt-4">Find a Practitioner</button>
+                            <button onclick="window.location.href='{{route('partitionerLists')}}'" class="mt-4">Find a
+                                Practitioner
+                            </button>
                             <img src="{{url('assets/images/footer-butterfly.svg')}}" alt="">
                         </div>
                     </div>
@@ -395,7 +414,9 @@
                                 Expand your reach, connect with aligned clients, and grow your practice within a
                                 supportive community.
                             </p>
-                            <button onclick="window.location.href='{{route('register')}}'" class="mt-4">Apply as a Practitioner</button>
+                            <button onclick="window.location.href='{{route('register')}}'" class="mt-4">Apply as a
+                                Practitioner
+                            </button>
 
                             <img src="{{url('assets/images/footer-butterfly.svg')}}" alt="">
                         </div>
@@ -1184,146 +1205,146 @@
         }
     </script>
 
-    <script>
-        $(document).ready(function () {
-            function performSearch() {
-                let search = $('#search').val();
-                let location = $('#location').val();
-                let practitionerType = $('#practitionerType').val();
+    {{--    <script>--}}
+    {{--        $(document).ready(function () {--}}
+    {{--            function performSearch() {--}}
+    {{--                let search = $('#search').val();--}}
+    {{--                let location = $('#location').val();--}}
+    {{--                let practitionerType = $('#practitionerType').val();--}}
 
-                console.log("Performing search with:", {search, location, practitionerType}); // Debugging
+    {{--                console.log("Performing search with:", {search, location, practitionerType}); // Debugging--}}
 
-                getPractitioners(search, null, location, practitionerType);
-            }
+    {{--                getPractitioners(search, null, location, practitionerType);--}}
+    {{--            }--}}
 
-            // Prevent form submission and trigger AJAX on Enter key inside the search input
-            $('#search').on('keypress', function (e) {
-                if (e.which === 13) { // 13 = Enter key
-                    e.preventDefault();
-                    performSearch();
-                }
-            });
+    {{--            // Prevent form submission and trigger AJAX on Enter key inside the search input--}}
+    {{--            $('#search').on('keypress', function (e) {--}}
+    {{--                if (e.which === 13) { // 13 = Enter key--}}
+    {{--                    e.preventDefault();--}}
+    {{--                    performSearch();--}}
+    {{--                }--}}
+    {{--            });--}}
 
-            // Prevent form submission and trigger AJAX when clicking the Search button
-            $('#searchFilter').on('click', function (e) {
-                e.preventDefault();
-                performSearch();
-            });
+    {{--            // Prevent form submission and trigger AJAX when clicking the Search button--}}
+    {{--            $('#searchFilter').on('click', function (e) {--}}
+    {{--                e.preventDefault();--}}
+    {{--                performSearch();--}}
+    {{--            });--}}
 
-            // Prevent form submission globally on #searchform
-            $('#searchform').on('submit', function (e) {
-                e.preventDefault();
-                performSearch();
-            });
+    {{--            // Prevent form submission globally on #searchform--}}
+    {{--            $('#searchform').on('submit', function (e) {--}}
+    {{--                e.preventDefault();--}}
+    {{--                performSearch();--}}
+    {{--            });--}}
 
-            $(document).on('click', '.loadPractitioner', function (e) {
-                e.preventDefault();
-                let search = $('#search').val();
-                let location = $('#location').val();
-                let practitionerType = $('#practitionerType').val();
-                let category = $('#category').val();
-                let count = ($(this).data('count') ?? 1) + 1;
+    {{--            $(document).on('click', '.loadPractitioner', function (e) {--}}
+    {{--                e.preventDefault();--}}
+    {{--                let search = $('#search').val();--}}
+    {{--                let location = $('#location').val();--}}
+    {{--                let practitionerType = $('#practitionerType').val();--}}
+    {{--                let category = $('#category').val();--}}
+    {{--                let count = ($(this).data('count') ?? 1) + 1;--}}
 
-                getPractitioners(search, category, location, practitionerType, count);
-            });
+    {{--                getPractitioners(search, category, location, practitionerType, count);--}}
+    {{--            });--}}
 
-            $('#category').on('change', function (e) {
-                e.preventDefault();
-                let search = $('#search').val();
-                let location = $('#location').val();
-                let practitionerType = $('#practitionerType').val();
-                let category = $('#category').val();
-                getPractitioners(search, category, location, practitionerType);
-            });
-        });
+    {{--            $('#category').on('change', function (e) {--}}
+    {{--                e.preventDefault();--}}
+    {{--                let search = $('#search').val();--}}
+    {{--                let location = $('#location').val();--}}
+    {{--                let practitionerType = $('#practitionerType').val();--}}
+    {{--                let category = $('#category').val();--}}
+    {{--                getPractitioners(search, category, location, practitionerType);--}}
+    {{--            });--}}
+    {{--        });--}}
 
 
-        function getPractitioners(search = null, category = null, location = null, practitionerType = null, count = 1) {
-            const imagePath = `{{$mediaPath}}`;
-            const localPath = `{{$localPath}}`;
-            let locationArr = @json($defaultLocations);
-            $.ajax({
-                url: '/search/practitioner',
-                type: 'get',
-                data: {search, category, location, practitionerType, count},
-                beforeSend: function () {
-                    window.loadingScreen.addPageLoading();
-                },
-                success: function (response) {
+    {{--        function getPractitioners(search = null, category = null, location = null, practitionerType = null, count = 1) {--}}
+    {{--            const imagePath = `{{$mediaPath}}`;--}}
+    {{--            const localPath = `{{$localPath}}`;--}}
+    {{--            let locationArr = @json($defaultLocations);--}}
+    {{--            $.ajax({--}}
+    {{--                url: '/search/practitioner',--}}
+    {{--                type: 'get',--}}
+    {{--                data: {search, category, location, practitionerType, count},--}}
+    {{--                beforeSend: function () {--}}
+    {{--                    window.loadingScreen.addPageLoading();--}}
+    {{--                },--}}
+    {{--                success: function (response) {--}}
 
-                    let practitionersHTML = '';
-                    let maxItems = 8;
+    {{--                    let practitionersHTML = '';--}}
+    {{--                    let maxItems = 8;--}}
 
-                    if (!response.practitioners || response.practitioners.length === 0) {
-                        practitionersHTML = '<p class="text-center">No practitioners found.</p>';
-                    } else {
-                        // Chunking into rows of 4
-                        for (let i = 0; i < response.practitioners.length; i += 4) {
-                            practitionersHTML += `<div class="row">`;
+    {{--                    if (!response.practitioners || response.practitioners.length === 0) {--}}
+    {{--                        practitionersHTML = '<p class="text-center">No practitioners found.</p>';--}}
+    {{--                    } else {--}}
+    {{--                        // Chunking into rows of 4--}}
+    {{--                        for (let i = 0; i < response.practitioners.length; i += 4) {--}}
+    {{--                            practitionersHTML += `<div class="row">`;--}}
 
-                            for (let j = i; j < i + 4 && j < response.practitioners.length; j++) {
-                                let practitioner = response.practitioners[j];
+    {{--                            for (let j = i; j < i + 4 && j < response.practitioners.length; j++) {--}}
+    {{--                                let practitioner = response.practitioners[j];--}}
 
-                                // Handling location names
-                                let locationNames = '';
-                                if (practitioner.location && practitioner.location.length > 0) {
-                                    locationNames = JSON.parse(practitioner.location).map(function (locationId) {
-                                        return locationArr[locationId] || 'location';
-                                    }).slice(0, 2).join(', ');
-                                } else {
-                                    locationNames = 'no found';
-                                }
+    {{--                                // Handling location names--}}
+    {{--                                let locationNames = '';--}}
+    {{--                                if (practitioner.location && practitioner.location.length > 0) {--}}
+    {{--                                    locationNames = JSON.parse(practitioner.location).map(function (locationId) {--}}
+    {{--                                        return locationArr[locationId] || 'location';--}}
+    {{--                                    }).slice(0, 2).join(', ');--}}
+    {{--                                } else {--}}
+    {{--                                    locationNames = 'no found';--}}
+    {{--                                }--}}
 
-                                let images = practitioner.user_detail?.images ? JSON.parse(practitioner.user_detail.images) : null;
-                                let imageUrl = images?.profile_image
-                                    ? `${imagePath}/practitioners/${practitioner.user_detail.id}/profile/${images.profile_image}`
-                                    : `${localPath}/images/no_image.png`;
+    {{--                                let images = practitioner.user_detail?.images ? JSON.parse(practitioner.user_detail.images) : null;--}}
+    {{--                                let imageUrl = images?.profile_image--}}
+    {{--                                    ? `${imagePath}/practitioners/${practitioner.user_detail.id}/profile/${images.profile_image}`--}}
+    {{--                                    : `${localPath}/images/no_image.png`;--}}
 
-                                practitionersHTML += `
-                            <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
-                                <div class="featured-dv">
-                                    <a href="/practitioner/detail/${practitioner.id}">
-                                        <img src="${imageUrl}" alt="person" class="img-fit">
-                                        <div class="d-flex justify-content-between align-items-center mb-2">
-                                            <h4>${practitioner.name}</h4>
-                                            <i class="fa-regular fa-heart"></i>
-                                        </div>
-                                        <h5><i class="fa-solid fa-location-dot"></i> ${locationNames}</h5>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div>${'<i class="fa-regular fa-gem"></i>'.repeat(5)}</div>
-                                            <h6>5.0 Ratings</h6>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                        `;
-                            }
+    {{--                                practitionersHTML += `--}}
+    {{--                            <div class="col-sm-12 col-md-6 col-lg-3 mb-4">--}}
+    {{--                                <div class="featured-dv">--}}
+    {{--                                    <a href="/practitioner/detail/${practitioner.id}">--}}
+    {{--                                        <img src="${imageUrl}" alt="person" class="img-fit">--}}
+    {{--                                        <div class="d-flex justify-content-between align-items-center mb-2">--}}
+    {{--                                            <h4>${practitioner.name}</h4>--}}
+    {{--                                            <i class="fa-regular fa-heart"></i>--}}
+    {{--                                        </div>--}}
+    {{--                                        <h5><i class="fa-solid fa-location-dot"></i> ${locationNames}</h5>--}}
+    {{--                                        <div class="d-flex justify-content-between align-items-center">--}}
+    {{--                                            <div>${'<i class="fa-regular fa-gem"></i>'.repeat(5)}</div>--}}
+    {{--                                            <h6>5.0 Ratings</h6>--}}
+    {{--                                        </div>--}}
+    {{--                                    </a>--}}
+    {{--                                </div>--}}
+    {{--                            </div>--}}
+    {{--                        `;--}}
+    {{--                            }--}}
 
-                            practitionersHTML += `</div>`; // Close row
-                        }
+    {{--                            practitionersHTML += `</div>`; // Close row--}}
+    {{--                        }--}}
 
-                    }
+    {{--                    }--}}
 
-                    // Check if the number of practitioners exceeds the maxItems and add a Load More button
-                    if (response.practitioners.length >= maxItems) {
-                        practitionersHTML += `
-                    <div class="d-flex justify-content-center mt-2">
-                        <button class="category-load-more loadPractitioner" data-count="${count}">Load More</button>
-                    </div>`;
-                    }
-                    $('html, body').animate({
-                        scrollTop: $('.featured-section').offset().top
-                    }, 700);
-                    // Inject the generated HTML into the practitioners list container
-                    $('#practitionersList').html(practitionersHTML);
-                },
-                complete: function () {
-                    window.loadingScreen.removeLoading();
-                }
-            });
-        }
+    {{--                    // Check if the number of practitioners exceeds the maxItems and add a Load More button--}}
+    {{--                    if (response.practitioners.length >= maxItems) {--}}
+    {{--                        practitionersHTML += `--}}
+    {{--                    <div class="d-flex justify-content-center mt-2">--}}
+    {{--                        <button class="category-load-more loadPractitioner" data-count="${count}">Load More</button>--}}
+    {{--                    </div>`;--}}
+    {{--                    }--}}
+    {{--                    $('html, body').animate({--}}
+    {{--                        scrollTop: $('.featured-section').offset().top--}}
+    {{--                    }, 700);--}}
+    {{--                    // Inject the generated HTML into the practitioners list container--}}
+    {{--                    $('#practitionersList').html(practitionersHTML);--}}
+    {{--                },--}}
+    {{--                complete: function () {--}}
+    {{--                    window.loadingScreen.removeLoading();--}}
+    {{--                }--}}
+    {{--            });--}}
+    {{--        }--}}
 
-    </script>
+    {{--    </script>--}}
     <script>
         var swiper = new Swiper(".upcoming-events-slider", {
             spaceBetween: 30,
