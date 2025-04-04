@@ -2,7 +2,7 @@
 @section('content')
     <section class="contact-us-wrrpr">
         <div class="container">
-            <div class="row">
+            <div class="row align-items-center">
                 <div class="col-sm-12 col-md-6 col-lg-6">
 {{--                    <div class="position-relative">--}}
                         <img src="{{ url('./assets/images/home_logo.png') }}" alt="hira-collective" class="img-fluid">
@@ -100,7 +100,7 @@
                             </div>
                             <button type="submit" class="d-none" id="submit_section"> Send message</button>
                         </form>
-                        <img class="star-2" src="{{ url('./assets/images/Star 2.svg') }}" alt="">
+{{--                        <img class="star-2" src="{{ url('./assets/images/Star 2.svg') }}" alt="">--}}
                     </div>
                 </div>
             </div>
