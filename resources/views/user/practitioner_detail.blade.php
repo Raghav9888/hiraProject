@@ -287,7 +287,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    @if($offering?->event?->sports > 0)
+                                                    @if($offering?->event?->sports > 0 && $offering?->offering_event_type == 'event')
                                                     <div class="toggle-dv-review mt-3">
                                                             <div class="d-flex mb-2" style="gap: 20px;">
                                                                 <button>Events</button>
