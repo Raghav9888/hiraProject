@@ -9,7 +9,7 @@
                         <img src="../../../asserts/header-logo.svg" alt="">
                     </div>
                     <div class="contact-us-right-dv">
-                        <h3 class="m-5 p-5" style="margin-bottom: 40px; width: 100%">Sign up</h3>
+                        <h3 style="margin-bottom: 40px; width: 100%">Sign up</h3>
                         @if ($errors->any())
                             <div class="alert alert-danger">
                                 <ul>
