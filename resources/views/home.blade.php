@@ -427,14 +427,16 @@
                             : asset("$localPath/images/no_image.png");
                     @endphp
                     <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
-                        <div class="home-blog-dv">
-                            <img src="{{$imageUrl}}" alt="calm" height="160" width="160" class="rounded-4">
+                        <div class="featured-dv">
+                            <img src="{{ $imageUrl }}" alt="person" class="img-fit">
+{{--                            <img src="{{$imageUrl}}" alt="calm" height="160" width="160" class="rounded-4">--}}
                             <div class="home-blog-label">
                                 <h5>{{$blog->category->name}}</h5>
                             </div>
                             <h4>{{$blog->name}}</h4>
-                            <a href="{{route('blogDetail', $blog->slug)}}">Learn More<i
-                                    class="fa-solid fa-arrow-right"></i></a>
+                            <div class="text-end">
+                                <a href="{{route('blogDetail', $blog->slug)}}" class="place-order btn btn-green text-end ">Learn More <i class="fa-solid fa-arrow-right "></i></a>
+                            </div>
                         </div>
                     </div>
                 @endforeach
