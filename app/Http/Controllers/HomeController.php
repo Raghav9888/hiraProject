@@ -325,7 +325,7 @@ class HomeController extends Controller
         $search = $request->get('search');
         $category = $categoryType ?? $request->get('category');
         $offeringType = $request->get('searchType');
-        $location = $request->get('location');
+        $locationName = $request->get('location');
         $page = $request->get('page', 1);
 
         $userIds = collect();
@@ -372,7 +372,9 @@ class HomeController extends Controller
         // 3. Build the base query
         $query = User::where('role', 1)
             ->where('status', 1)
-            ->with('userDetail');
+            ->with('userDetail')
+            ->with('feedback');
+
 
         if ($userIds->isNotEmpty()) {
             $query->whereIn('id', $userIds);
@@ -409,11 +411,17 @@ class HomeController extends Controller
         }
 
 //         6. Location filter (from dropdown)
-//        if (!empty($location)) {
-//            $query->whereHas('userDetail', function ($q) use ($location) {
-//                $q->where('location', 'like', '%' . $location . '%');
-//            });
-//        }
+        if (!empty($locationName)) {
+            $locationId = Locations::where('name', $locationName)->value('id');
+
+            if ($locationId) {
+                $query->whereHas('userDetail', function ($q) use ($locationId) {
+                    $q->whereJsonContains('location', (string) $locationId);
+                });
+            }
+
+        }
+
 
         // 7. Default Locations
         $defaultLocations = Locations::where('status', 1)->pluck('name', 'id');
@@ -431,13 +439,14 @@ class HomeController extends Controller
             }
         }
 
+
         // 9. Build final params
         $params = [
             'pendingResult' =>  ceil($query->count() / 8) > $page,
             'practitioners' => $query->take($page * 8)->get(),
             'search' => $search,
             'category' => $category,
-            'location' => $location,
+//            'location' => $location,
             'defaultLocations' => $defaultLocations,
             'offerings' => $offeringsData,
             'offeringEvents' => $events,

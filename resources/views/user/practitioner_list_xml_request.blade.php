@@ -7,6 +7,9 @@
            $image = isset($images['profile_image']) && $images['profile_image'] ? $images['profile_image'] : null;
            $imageUrl = $image  ? asset($mediaPath . '/practitioners/' . $user->userDetail->id . '/profile/' . $image) : asset($localPath.'/images/no_image.png');
            $userLocations = isset($user->location) && $user->location ? json_decode($user->location, true) : [];
+
+        $averageProfileRating = $user->get()->isNotEmpty() ? number_format($user->feedback->pluck('rating')->avg(), 1) : '0.0';
+
     @endphp
 
     <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
@@ -32,13 +35,12 @@
                 {{--                                <p>Alternative and Holistic Health Practitioner</p>--}}
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
-                        <i class="fa-regular fa-gem"></i>
-                        <i class="fa-regular fa-gem"></i>
-                        <i class="fa-regular fa-gem"></i>
-                        <i class="fa-regular fa-gem"></i>
-                        <i class="fa-regular fa-gem"></i>
+                        @for($i= 1; $i<= $averageProfileRating; $i++)
+                            <i class="fa-regular fa-gem"></i>
+                        @endfor
                     </div>
-                    <h6>5.0 Ratings</h6>
+                    <h6 style="color: #9F8B72; margin: 0;">{{ ($averageProfileRating != 0.0 ? $averageProfileRating:'No') .' '. 'Ratings' }} </h6>
+
                 </div>
             </a>
 
