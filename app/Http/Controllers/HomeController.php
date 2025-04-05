@@ -322,84 +322,98 @@ class HomeController extends Controller
 
     public function searchPractitioner(Request $request, ?string $categoryType = null)
     {
-        $search = $request->input('search');
-        $category = $categoryType ?? $request->input('categoryType');
-        $type = $request->input('practitionerType');
-        $location = $request->input('location');
+        $search = $request->get('search');
+        $category = $categoryType ?? $request->get('category');
+        $type = $request->get('practitionerType');
+        $location = $request->get('location');
         $buttonHitCount = $request->get('count') ?? 1;
-
-        // Use collections for cleaner merging & uniqueness
+//dd($search, $category, $location, $buttonHitCount);
         $userIds = collect();
 
-        // 1. Search users by name, first_name, last_name
-        $userByName = User::where('role', 1)
-            ->where('status', 1)
-            ->where(function ($q) use ($search) {
-                $q->where('name', 'like', '%' . $search . '%')
-                    ->orWhere('first_name', 'like', '%' . $search . '%')
-                    ->orWhere('last_name', 'like', '%' . $search . '%');
-            })
-            ->pluck('id');
+        // 1. Search by name
+        if (!empty($search)) {
+            $userByName = User::where('role', 1)
+                ->where('status', 1)
+                ->where(function ($q) use ($search) {
+                    $q->where('name', 'like', '%' . $search . '%')
+                        ->orWhere('first_name', 'like', '%' . $search . '%')
+                        ->orWhere('last_name', 'like', '%' . $search . '%');
+                })
+                ->pluck('id');
 
-        $userIds = $userIds->merge($userByName);
-
-        // 2. Search in PractitionerTag, HowIHelp, IHelpWith
-        $tagId = PractitionerTag::where('name', 'like', '%' . $search . '%')->value('id');
-        $howIHelpId = HowIHelp::where('name', 'like', '%' . $search . '%')->value('id');
-        $iHelpWithId = IHelpWith::where('name', 'like', '%' . $search . '%')->value('id');
-        $certificationId = Certifications::where('name', 'like', '%' . $search . '%')->value('id');
-        $locationId = Locations::where('name', 'like', '%' . $search . '%')->value('id');
-        $categoryId = Category::where('name', 'like', '%' . $search . '%')->value('id');
-
-        if ($tagId || $howIHelpId || $iHelpWithId || $certificationId || $locationId || $categoryId) {
-            $userByDetails = UserDetail::where(function ($q) use ($tagId, $howIHelpId, $iHelpWithId, $certificationId, $locationId, $categoryId) {
-                $q->where(function ($sub) use ($tagId, $howIHelpId, $iHelpWithId, $certificationId, $locationId, $categoryId) {
-                    if ($tagId) {
-                        $sub->orWhere('tags', $tagId);
-                    }
-                    if ($howIHelpId) {
-                        $sub->orWhere('HowIHelp', $howIHelpId);
-                    }
-                    if ($iHelpWithId) {
-                        $sub->orWhere('IHelpWith', $iHelpWithId);
-                    }
-                    if ($certificationId) {
-                        $sub->orWhere('certifications', $certificationId);
-                    }
-                    if ($locationId) {
-                        $sub->orWhere('location', $locationId);
-                    }
-                    if ($categoryId) {
-                        $sub->orWhere('specialities', 'like', '%' . $categoryId . '%');
-                    }
-                });
-            })->pluck('user_id');
-
-            $userIds = $userIds->merge($userByDetails);
+            $userIds = $userIds->merge($userByName);
         }
 
+        // 2. Search in userDetails (tags, help fields, etc.)
+        if (!empty($search)) {
+            $tagId = PractitionerTag::where('name', 'like', $search . '%')->value('id');
+            $howIHelpId = HowIHelp::where('name', 'like', $search . '%')->value('id');
+            $iHelpWithId = IHelpWith::where('name', 'like', $search . '%')->value('id');
+            $certificationId = Certifications::where('name', 'like', $search . '%')->value('id');
+            $locationId = Locations::where('name', 'like', $search . '%')->value('id');
+            $categoryIdFromSearch = Category::where('name', 'like', '%' . $search . '%')->value('id');
 
-        // 3. Make unique
+            if ($tagId || $howIHelpId || $iHelpWithId || $certificationId || $locationId || $categoryIdFromSearch) {
+                $userByDetails = UserDetail::where(function ($q) use ($tagId, $howIHelpId, $iHelpWithId, $certificationId, $locationId, $categoryIdFromSearch) {
+                    if ($tagId) $q->orWhereJsonContains('tags', (string) $tagId);
+                    if ($howIHelpId) $q->orWhereJsonContains('HowIHelp', (string) $howIHelpId);
+                    if ($iHelpWithId) $q->orWhereJsonContains('IHelpWith',(string) $iHelpWithId);
+                    if ($certificationId) $q->orWhereJsonContains('certifications', (string) $certificationId);
+                    if ($locationId) $q->orWhereJsonContains('location',(string) $locationId);
+                    if ($categoryIdFromSearch) $q->orWhereJsonContains('specialities', (string) $categoryIdFromSearch);
+                })->pluck('user_id');
+
+                $userIds = $userIds->merge($userByDetails);
+            }
+        }
+
         $userIds = $userIds->unique()->values();
-        // 4. Prepare base query
+
+        // 3. Build the base query
         $query = User::where('role', 1)
             ->where('status', 1)
-            ->with('userDetail')
-            ->whereIn('id', $userIds);
+            ->with('userDetail');
 
-
-        // 8. Practitioner type filter
-        if (!empty($type)) {
-            $query->whereHas('offerings', function ($q) use ($type) {
-                $q->where('offering_type', 'like', '%' . $type . '%');
-            });
+        if ($userIds->isNotEmpty()) {
+            $query->whereIn('id', $userIds);
         }
 
+        // 4. Category filter (dropdown or route param)
+        if (!empty($category)) {
+            $formattedCategory = ucwords(str_replace('_', ' ', $category));
 
-        // 10. Location dropdown
+            $categoryIds = Category::where('name', 'like', '%' . $formattedCategory . '%')
+                ->orWhere('slug', 'like', '%' . $category . '%')
+                ->pluck('id')
+                ->toArray();
+
+            if (!empty($categoryIds)) {
+                $query->whereHas('userDetail', function ($q) use ($categoryIds) {
+                    foreach ($categoryIds as $id) {
+                        $q->orWhereJsonContains('specialities', (string) $id);
+                    }
+                });
+            }
+        }
+
+        // 5. Practitioner type filter (from dropdown)
+//        if (!empty($type)) {
+//            $query->whereHas('offerings', function ($q) use ($type) {
+//                $q->where('offering_type', 'like', '%' . $type . '%');
+//            });
+//        }
+
+        // 6. Location filter (from dropdown)
+//        if (!empty($location)) {
+//            $query->whereHas('userDetail', function ($q) use ($location) {
+//                $q->where('location', 'like', '%' . $location . '%');
+//            });
+//        }
+
+        // 7. Default Locations
         $defaultLocations = Locations::where('status', 1)->pluck('name', 'id');
 
-        // 11. Fetch future offerings for matching event data
+        // 8. Offerings (for showing event matches)
         $offeringsData = Offering::where('name', 'like', '%' . $search . '%')
             ->when($type, fn($q) => $q->where('offering_type', 'like', '%' . $type . '%'))
             ->when($location, fn($q) => $q->where('location', 'like', '%' . $location . '%'))
@@ -411,10 +425,10 @@ class HomeController extends Controller
         foreach ($offeringsData as $offeringData) {
             if ($offeringData->event && $offeringData->event->date_and_time > $now) {
                 $events[$offeringData->event->date_and_time] = $offeringData;
-
             }
         }
 
+        // 9. Build final params
         $params = [
             'totalPractitioners' => $query->get(),
             'practitioners' => $query->take($buttonHitCount * 8)->get(),
@@ -429,12 +443,15 @@ class HomeController extends Controller
         ];
 
         if ($request->isXmlHttpRequest() && $request->get('isPractitioner')) {
-            return response()->json(['success' => true,
-                'html' => view('user.practitioner_list_xml_request',$params)->render()]);
+            return response()->json([
+                'success' => true,
+                'html' => view('user.practitioner_list_xml_request', $params)->render()
+            ]);
         }
 
         return view('user.search_page', $params);
     }
+
 
 
     public function acknowledgement()

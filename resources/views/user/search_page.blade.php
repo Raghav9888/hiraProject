@@ -7,9 +7,7 @@
             </div>
             <div class="home-search-wrrpr">
                 <p> Search for what you seek</p>
-                <form
-                    action="{{ route('searchPractitioner', ['categoryType' => request()->route('categoryType') ?? 'all']) }}"
-                    method="GET" id="searchform">
+                <form id="searchForm" method="GET" >
                     <div class="search-dv-body">
                         <div class="search-container align-items-center">
                             <input type="text" class="search-input" id="search" name="search"
@@ -32,7 +30,7 @@
                                     style="border-radius: 30px !important;padding:11px 37px 12px 20px;text-align: start;color: #838383;">
                                 <option value="">Select location</option>
                                 @foreach($defaultLocations as $defaultLocationId => $defaultLocation)
-                                    <option value="{{ $defaultLocationId }}">{{ $defaultLocation }}</option>
+                                    <option value="{{ $defaultLocation }}">{{ $defaultLocation }}</option>
                                 @endforeach
                             </select>
                         </div>
