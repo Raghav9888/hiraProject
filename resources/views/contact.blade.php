@@ -5,7 +5,7 @@
             <div class="row align-items-center">
                 <div class="col-sm-12 col-md-6 col-lg-6">
 {{--                    <div class="position-relative">--}}
-                        <img src="{{ url('./assets/images/home_logo.png') }}" alt="hira-collective" class="img-fluid">
+                        <img src="{{ url('./assets/images/header_logo.png') }}" alt="hira-collective" class="img-fluid">
 {{--                        <div class="contact-us-right-dv position-absolute top-0" style="backdrop-filter: blur(10px)">--}}
 {{--                            <h2 class="fw-bold mb-3 text-white" style="font-size: 45px">What kind of support do you--}}
 {{--                                need?</h2>--}}

@@ -2,9 +2,9 @@
 @section('content')
     <div class="blog-section">
         <div class="blog-banner">
-            <h2>Holistic Wellness Resources:</br>
-                Articles, Blogs & Videos</h2>
-            <p>THE COLLECTIVE SHELF-CARE</p>
+            <div class="d-flex justify-content-center align-items-center flex-column position-relative py-5">
+                <img class="hira-collective" src="{{url('/assets/images/header_logo.png')}}" alt="hira-collective" style="width: 100%; max-width: 600px">
+            </div>
             <div class="search-container location-input">
                 <input type="text" class="search-input" placeholder="Search Articles, Blogs and Videos">
                 <button class="search-button">

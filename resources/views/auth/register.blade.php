@@ -6,7 +6,7 @@
                 <div class="login-wrrpr register-data">
                     <div class="login-body">
                         <div class="d-flex justify-content-center mb-4">
-                        <img src="{{ url('./assets/images/home_logo.png') }}" alt="" width="300px">
+                        <img src="{{ url('./assets/images/header_logo.png') }}" alt="" width="300px">
                     </div>
                     <div class="contact-us-right-dv">
                         <h3 style="margin-bottom: 40px; width: 100%">Sign up (For Practitioners)</h3>

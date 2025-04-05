@@ -4,7 +4,7 @@
     <section class="home-main-section">
         <div class="container">
             <div class="d-flex justify-content-center align-items-center flex-column position-relative py-5">
-                <img class="hira-collective" src="{{url('/assets/images/home_logo.png')}}" alt="hira-collective">
+                <img class="hira-collective" src="{{url('/assets/images/header_logo.png')}}" alt="hira-collective">
             </div>
             <div class="home-search-wrrpr">
                 <p> Search for what you seek</p>
