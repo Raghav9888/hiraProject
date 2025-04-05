@@ -562,7 +562,18 @@ class HomeController extends Controller
     {
         $name = $request->get('name') ?? '';
         $email = $request->get('email') ?? '';
-
+        $mailerLite = new MailerLite(['api_key' => env("MAILERLITE_KEY")]);
+        $data = [
+            'email' => $email,
+            "fields" => [
+                "name" => $name,
+            ],
+            'groups' => [
+                env('MAILERLITE_GENERAL_GROUP')
+            ]
+        ];
+        $m = $mailerLite->subscribers->create($data);
+        dd($m);
         return response()->json([
             'success' => true,
             'message' => 'Subscribed successfully',
