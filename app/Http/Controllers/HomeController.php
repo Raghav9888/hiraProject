@@ -113,7 +113,7 @@ class HomeController extends Controller
             $locations[$location->id] = $location->name;
         }
         json_encode($locations);
-        return view('user.practitioner_list', [
+        return view('user.practitioners', [
             'users' => $users,
             'categories' => $categories,
             'defaultLocations' => $locations
@@ -418,6 +418,22 @@ class HomeController extends Controller
             }
         }
 
+        if($request->isXmlHttpRequest() && $request->get('isPractitioner'))
+        {
+            return response()->json([
+                'success' => true,
+                'data' => view('user.search_practitioner', [
+                    'practitioners' => $practitioners,
+                    'search' => $search,
+                    'category' => $category,
+                    'location' => $location,
+                    'defaultLocations' => $defaultLocations,
+                    'offerings' => $offeringsData,
+                    'offeringEvents' => $events
+                ])->render()
+            ]);
+        }
+
         return view('user.search_page', [
             'practitioners' => $practitioners,
             'search' => $search,
@@ -426,6 +442,7 @@ class HomeController extends Controller
             'defaultLocations' => $defaultLocations,
             'offerings' => $offeringsData,
             'offeringEvents' => $events,
+            'categories' => Category::where('status', 1)->get(),
         ]);
     }
 
