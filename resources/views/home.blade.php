@@ -414,32 +414,35 @@
         <div class="container">
             <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
                 <h1 class="home-title">Holistic Wellness Resources</h1>
-                <a href="{{route('blog')}}" class="home-blog-btn">View All</a>
+{{--                <a href="{{route('blog')}}" class="home-blog-btn">View All</a>--}}
             </div>
             <div class="row">
-                @forEach($blogs as $blog)
-                    @php
-                        $mediaPath = config('app.media_path', 'uploads');
-                        $localPath = config('app.local_path', 'assets');
+                <div class="col-md-12 text-center">
+                    <h3>Coming soon...</h3>
+                </div>
+{{--                @forEach($blogs as $blog)--}}
+{{--                    @php--}}
+{{--                        $mediaPath = config('app.media_path', 'uploads');--}}
+{{--                        $localPath = config('app.local_path', 'assets');--}}
 
-                        $imageUrl = $blog->image
-                            ? asset("$mediaPath/admin/blog/{$blog->image}")
-                            : asset("$localPath/images/no_image.png");
-                    @endphp
-                    <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
-                        <div class="featured-dv">
-                            <img src="{{ $imageUrl }}" alt="person" class="img-fit">
+{{--                        $imageUrl = $blog->image--}}
+{{--                            ? asset("$mediaPath/admin/blog/{$blog->image}")--}}
+{{--                            : asset("$localPath/images/no_image.png");--}}
+{{--                    @endphp--}}
+{{--                    <div class="col-sm-12 col-md-6 col-lg-4 mb-4">--}}
+{{--                        <div class="featured-dv">--}}
+{{--                            <img src="{{ $imageUrl }}" alt="person" class="img-fit">--}}
 {{--                            <img src="{{$imageUrl}}" alt="calm" height="160" width="160" class="rounded-4">--}}
-                            <div class="home-blog-label">
-                                <h5>{{$blog->category->name}}</h5>
-                            </div>
-                            <h4>{{$blog->name}}</h4>
-                            <div class="text-end">
-                                <a href="{{route('blogDetail', $blog->slug)}}" class="place-order btn btn-green text-end ">Learn More <i class="fa-solid fa-arrow-right "></i></a>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
+{{--                            <div class="home-blog-label">--}}
+{{--                                <h5>{{$blog->category->name}}</h5>--}}
+{{--                            </div>--}}
+{{--                            <h4>{{$blog->name}}</h4>--}}
+{{--                            <div class="text-end">--}}
+{{--                                <a href="{{route('blogDetail', $blog->slug)}}" class="place-order btn btn-green text-end ">Learn More <i class="fa-solid fa-arrow-right "></i></a>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                @endforeach--}}
             </div>
         </div>
     </section>
