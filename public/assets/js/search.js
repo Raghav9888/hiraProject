@@ -76,8 +76,7 @@ function performSearch(isPractitioner = false, page = 1) {
         },
         success: function (response) {
             if (response.success && response.html) {
-                $(`#
-                ${$rowId}`).html(response.html);
+                $(`#${$rowId}`).html(response.html);
             }
         },
         error: function (xhr, status, error) {

@@ -46,7 +46,7 @@
     </div>
 @endforeach
 
-@if($totalPractitioners > 8)
+@if($pendingResult)
     <!-- Load More Button (Only if there are practitioners) -->
     <div class="d-flex justify-content-center mt-2">
         <button class="category-load-more loadMore"

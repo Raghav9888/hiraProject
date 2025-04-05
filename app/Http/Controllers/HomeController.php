@@ -326,7 +326,7 @@ class HomeController extends Controller
         $category = $categoryType ?? $request->get('category');
         $type = $request->get('practitionerType');
         $location = $request->get('location');
-        $page = $request->get('page' , 1);
+        $page = $request->get('page', 1);
 
         $userIds = collect();
 
@@ -430,12 +430,13 @@ class HomeController extends Controller
         $page = $request->get('page', 1);
 
 
-
+        $totalResult = $query->count();
+        $totalPage = ceil($totalResult / 8);
 
 
         // 9. Build final params
         $params = [
-            'totalPractitioners' => $query->get()->count(),
+            'pendingResult' => $totalPage > $page,
             'practitioners' => $query->take($page * 8)->get(),
             'search' => $search,
             'category' => $category,
@@ -450,6 +451,7 @@ class HomeController extends Controller
         if ($request->isXmlHttpRequest() && $request->get('isPractitioner')) {
             return response()->json([
                 'success' => true,
+                'pendingResult' => ($totalPage > $page ),
                 'html' => view('user.practitioner_list_xml_request', $params)->render()
             ]);
         }
