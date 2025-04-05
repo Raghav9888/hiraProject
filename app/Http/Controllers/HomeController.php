@@ -427,16 +427,10 @@ class HomeController extends Controller
                 $events[$offeringData->event->date_and_time] = $offeringData;
             }
         }
-        $page = $request->get('page', 1);
-
-
-        $totalResult = $query->count();
-        $totalPage = ceil($totalResult / 8);
-
 
         // 9. Build final params
         $params = [
-            'pendingResult' => $totalPage > $page,
+            'pendingResult' =>  ceil($query->count() / 8) > $page,
             'practitioners' => $query->take($page * 8)->get(),
             'search' => $search,
             'category' => $category,
