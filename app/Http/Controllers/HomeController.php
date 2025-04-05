@@ -114,6 +114,7 @@ class HomeController extends Controller
         }
         json_encode($locations);
         return view('user.practitioners', [
+            'pendingResult' => 0,
             'practitioners' => $practitioners,
             'categories' => $categories,
             'defaultLocations' => $locations
