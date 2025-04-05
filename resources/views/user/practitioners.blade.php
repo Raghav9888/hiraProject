@@ -22,7 +22,7 @@
             </div>
 
             <div class="row" id="practitionersList">
-                @include('user.practitioner_list')
+                @include('user.practitioner_list_xml_request')
             </div>
         </div>
         {{--        <div class="d-flex justify-content-center mt-2">--}}

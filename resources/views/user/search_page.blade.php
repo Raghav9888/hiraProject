@@ -48,65 +48,23 @@
                 <div class="col-md-8">
                     <h1 class="home-title">Practitioners</h1>
                 </div>
-            </div>
-            @if($practitioners->isNotEmpty())
-                @foreach($practitioners->chunk(4) as $chunk)
-                    <div class="row">
-                        @foreach($chunk as $user)
-
+                <div class="col-md-4">
+                    <select class="form-select" id="category" aria-label="Default select example"
+                            style="border-radius: 30px !important;padding: 10px 15px 10px 40px;text-align: start;">
+                        <option class="selected-category" value="">Select by Categories</option>
+                        @foreach($categories as $category)
                             @php
-                                $images = isset($user->userDetail->images) ? json_decode($user->userDetail->images, true) : null;
-                                $image = isset($images['profile_image']) && $images['profile_image'] ? $images['profile_image'] : null;
-                                $imageUrl = $image
-                                    ? asset(env('media_path') . '/practitioners/' . $user->userDetail->id . '/profile/' . $image)
-                                    : asset(env('local_path') . '/images/no_image.png');
-
-                              $userLocations = isset($user->location) && $user->location ? json_decode($user->location, true) : [];
-
+                                $name = $snakeCaseText = str_replace(' ', '_', strtolower($category->name));;
                             @endphp
-
-                            <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
-                                <div class="featured-dv">
-                                    <a href="{{ route('practitioner_detail', $user->id) }}">
-                                        <img src="{{ $imageUrl }}" class="img-fit" alt="person">
-
-                                        <div class="d-flex justify-content-between align-items-center mb-2">
-                                            <h4>{{ $user->name }}</h4>
-                                            <i class="fa-regular fa-heart"></i>
-                                        </div>
-
-                                        <h5>
-
-                                            @if(!empty($userLocations))
-                                                @foreach($defaultLocations as $defaultLocationId => $defaultLocation)
-                                                    @if(in_array($defaultLocationId, $userLocations))
-                                                        <i class="fa-solid fa-location-dot"></i>
-                                                        {{ $defaultLocation }} ,
-                                                    @endif
-
-                                                @endforeach
-                                            @endif
-                                        </h5>
-                                        <p>{{$user->userDetail->company ?? 'Alternative and Holistic Health Practitioner'}}</p>
-
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div>
-                                                @for ($i = 0; $i < 5; $i++)
-                                                    <i class="fa-regular fa-gem"></i>
-                                                @endfor
-                                            </div>
-                                            <h6>5.0 Ratings</h6>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
+                            <option value="{{ $name }}">{{ $category->name }}</option>
                         @endforeach
-                    </div>
-                @endforeach
+                    </select>
+                </div>
+            </div>
 
-                <!-- Load More Button (Only if there are practitioners) -->
-                <div class="d-flex justify-content-center mt-2">
-                    <button class="category-load-more loadPractitioner" data-count="1">Load More</button>
+            @if($practitioners->isNotEmpty())
+                <div class="row" id="practitionerRowDiv">
+                    @include('user.practitioner_list_xml_request')
                 </div>
             @else
                 <p class="text-center">No practitioners found.</p>
@@ -114,137 +72,138 @@
         </div>
     </section>
 
-    <div class="container">
-        <div class="upcoming-event-container position-relative">
-            <h4>Offerings</h4>
-            <div class="upcoming-event-inner upcoming-events-slider">
-                <div class="swiper-wrapper row">
-                    @if(count($offerings) > 0)
-                        @foreach($offerings as $offering)
-                            @php
-                                $mediaPath = config('app.media_path', 'uploads');
-                                $localPath = config('app.local_path', 'assets');
+    {{--    <div class="container">--}}
+    {{--        <div class="upcoming-event-container position-relative">--}}
+    {{--            <h4>Offerings</h4>--}}
+    {{--            <div class="upcoming-event-inner upcoming-events-slider">--}}
+    {{--                <div class="swiper-wrapper row">--}}
+    {{--                    @if(count($offerings) > 0)--}}
+    {{--                        @foreach($offerings as $offering)--}}
+    {{--                            @php--}}
+    {{--                                $mediaPath = config('app.media_path', 'uploads');--}}
+    {{--                                $localPath = config('app.local_path', 'assets');--}}
 
-                                $imageUrl = $offering->featured_image
-                                    ? asset("$mediaPath/practitioners/{$offering->user->id}/offering/{$offering->featured_image}")
-                                    : asset("$localPath/images/no_image.png");
+    {{--                                $imageUrl = $offering->featured_image--}}
+    {{--                                    ? asset("$mediaPath/practitioners/{$offering->user->id}/offering/{$offering->featured_image}")--}}
+    {{--                                    : asset("$localPath/images/no_image.png");--}}
 
-                            @endphp
+    {{--                            @endphp--}}
 
 
-                            <div class="col-md-4">
+    {{--                            <div class="col-md-4">--}}
 
-                                <div class="card swiper-slide"
-                                     style="max-height: 250px;min-height: 250px; cursor:pointer;"
-                                     onclick="window.location.href='{{route('practitioner_detail', $offering->user->id)}}'">
+    {{--                                <div class="card swiper-slide"--}}
+    {{--                                     style="max-height: 250px;min-height: 250px; cursor:pointer;"--}}
+    {{--                                     onclick="window.location.href='{{route('practitioner_detail', $offering->user->id)}}'">--}}
 
-                                    <div class="card-body">
+    {{--                                    <div class="card-body">--}}
 
-                                        <div class="row">
-                                            <div class="col-md-5">
-                                                <img src="{{$imageUrl}}" alt="calm" style="max-height: 150px; max-width: 200px">
-                                            </div>
-                                            <div class="col-md-7">
-                                                <h5>{{$offering?->name}}</h5>
-                                                <h6>{{ implode(' ', array_slice(explode(' ', strip_tags($offering->short_description)), 0, 20)) . '...' }}</h6>
-                                               <div>
-                                                   <span>$</span> <span>{{$offering->client_price ?? 0}}</span>
-                                               </div>
-                                                <div class="d-flex justify-content-end align-items-center">
-                                                    <img src="{{url('./assets/images/Clock.svg')}}" alt=""
-                                                         class="me-2"
-                                                         style="width: 20px">
-                                                    <span>{{$offering->from_date}}</span>
-                                                </div>
+    {{--                                        <div class="row">--}}
+    {{--                                            <div class="col-md-5">--}}
+    {{--                                                <img src="{{$imageUrl}}" alt="calm"--}}
+    {{--                                                     style="max-height: 150px; max-width: 200px">--}}
+    {{--                                            </div>--}}
+    {{--                                            <div class="col-md-7">--}}
+    {{--                                                <h5>{{$offering?->name}}</h5>--}}
+    {{--                                                <h6>{{ implode(' ', array_slice(explode(' ', strip_tags($offering->short_description)), 0, 20)) . '...' }}</h6>--}}
+    {{--                                                <div>--}}
+    {{--                                                    <span>$</span> <span>{{$offering->client_price ?? 0}}</span>--}}
+    {{--                                                </div>--}}
+    {{--                                                <div class="d-flex justify-content-end align-items-center">--}}
+    {{--                                                    <img src="{{url('./assets/images/Clock.svg')}}" alt=""--}}
+    {{--                                                         class="me-2"--}}
+    {{--                                                         style="width: 20px">--}}
+    {{--                                                    <span>{{$offering->from_date}}</span>--}}
+    {{--                                                </div>--}}
 
-                                            </div>
-                                        </div>
+    {{--                                            </div>--}}
+    {{--                                        </div>--}}
 
-                                    </div>
+    {{--                                    </div>--}}
 
-                                </div>
-                            </div>
+    {{--                                </div>--}}
+    {{--                            </div>--}}
 
-                        @endforeach
-                    @else
-                        <div class="row">
-                            <div class="col-md-12 text-center">
-                                <h5>No result</h5>
-                            </div>
-                        </div>
-                    @endif
+    {{--                        @endforeach--}}
+    {{--                    @else--}}
+    {{--                        <div class="row">--}}
+    {{--                            <div class="col-md-12 text-center">--}}
+    {{--                                <h5>No result</h5>--}}
+    {{--                            </div>--}}
+    {{--                        </div>--}}
+    {{--                    @endif--}}
 
-                </div>
-            </div>
-            <div class="swiper-button-prev-event"><i class="fa-solid fa-arrow-left-long"></i></div>
-            <div class="swiper-button-next-event"><i class="fa-solid fa-arrow-right-long"></i></div>
+    {{--                </div>--}}
+    {{--            </div>--}}
+    {{--            <div class="swiper-button-prev-event"><i class="fa-solid fa-arrow-left-long"></i></div>--}}
+    {{--            <div class="swiper-button-next-event"><i class="fa-solid fa-arrow-right-long"></i></div>--}}
 
-        </div>
-    </div>
-    <div class="container">
-        <div class="upcoming-event-container position-relative">
-            <h4>Upcoming Events</h4>
-            <div class="upcoming-event-inner upcoming-events-slider">
-                <div class="swiper-wrapper row">
-                    @if(count($offeringEvents) > 0)
-                            @foreach($offeringEvents as $date => $offering)
+    {{--        </div>--}}
+    {{--    </div>--}}
+    {{--    <div class="container">--}}
+    {{--        <div class="upcoming-event-container position-relative">--}}
+    {{--            <h4>Upcoming Events</h4>--}}
+    {{--            <div class="upcoming-event-inner upcoming-events-slider">--}}
+    {{--                <div class="swiper-wrapper row">--}}
+    {{--                    @if(count($offeringEvents) > 0)--}}
+    {{--                        @foreach($offeringEvents as $date => $offering)--}}
 
-                                @php
-                                    $mediaPath = config('app.media_path', 'uploads');
-                                    $localPath = config('app.local_path', 'assets');
+    {{--                            @php--}}
+    {{--                                $mediaPath = config('app.media_path', 'uploads');--}}
+    {{--                                $localPath = config('app.local_path', 'assets');--}}
 
-                                    $imageUrl = $offering->featured_image
-                                        ? asset("$mediaPath/practitioners/{$offering->user->id}/offering/{$offering->featured_image}")
-                                        : asset("$localPath/images/no_image.png");
+    {{--                                $imageUrl = $offering->featured_image--}}
+    {{--                                    ? asset("$mediaPath/practitioners/{$offering->user->id}/offering/{$offering->featured_image}")--}}
+    {{--                                    : asset("$localPath/images/no_image.png");--}}
 
-                                @endphp
-                                <div class="col-md-4">
+    {{--                            @endphp--}}
+    {{--                            <div class="col-md-4">--}}
 
-                                    <div class="card swiper-slide"
-                                         style="max-height: 250px;min-height: 250px; cursor:pointer;"
-                                         onclick="window.location.href='{{route('practitioner_detail', $offering->user->id)}}'">
+    {{--                                <div class="card swiper-slide"--}}
+    {{--                                     style="max-height: 250px;min-height: 250px; cursor:pointer;"--}}
+    {{--                                     onclick="window.location.href='{{route('practitioner_detail', $offering->user->id)}}'">--}}
 
-                                        <div class="card-body">
+    {{--                                    <div class="card-body">--}}
 
-                                            <div class="row">
-                                                <div class="col-md-5">
-                                                    <img src="{{$imageUrl}}" alt="calm"
-                                                         style="max-height: 150px; max-width: 200px">
-                                                </div>
-                                                <div class="col-md-7">
-                                                    <h5>{{$offering?->name}}</h5>
-                                                    <h6>{{ implode(' ', array_slice(explode(' ', strip_tags($offering->short_description)), 0, 20)) . '...' }}</h6>
-                                                    <div class="d-flex justify-content-end align-items-center">
-                                                        <img src="{{url('./assets/images/Clock.svg')}}" alt=""
-                                                             class="me-2"
-                                                             style="width: 20px">
-                                                        <span>{{$date}}</span>
-                                                    </div>
+    {{--                                        <div class="row">--}}
+    {{--                                            <div class="col-md-5">--}}
+    {{--                                                <img src="{{$imageUrl}}" alt="calm"--}}
+    {{--                                                     style="max-height: 150px; max-width: 200px">--}}
+    {{--                                            </div>--}}
+    {{--                                            <div class="col-md-7">--}}
+    {{--                                                <h5>{{$offering?->name}}</h5>--}}
+    {{--                                                <h6>{{ implode(' ', array_slice(explode(' ', strip_tags($offering->short_description)), 0, 20)) . '...' }}</h6>--}}
+    {{--                                                <div class="d-flex justify-content-end align-items-center">--}}
+    {{--                                                    <img src="{{url('./assets/images/Clock.svg')}}" alt=""--}}
+    {{--                                                         class="me-2"--}}
+    {{--                                                         style="width: 20px">--}}
+    {{--                                                    <span>{{$date}}</span>--}}
+    {{--                                                </div>--}}
 
-                                                </div>
-                                            </div>
+    {{--                                            </div>--}}
+    {{--                                        </div>--}}
 
-                                        </div>
+    {{--                                    </div>--}}
 
-                                    </div>
-                                </div>
+    {{--                                </div>--}}
+    {{--                            </div>--}}
 
-                            @endforeach
-                    @else
-                        <div class="row">
-                            <div class="col-md-12 text-center">
-                                <h5>No result</h5>
-                            </div>
-                        </div>
-                    @endif
+    {{--                        @endforeach--}}
+    {{--                    @else--}}
+    {{--                        <div class="row">--}}
+    {{--                            <div class="col-md-12 text-center">--}}
+    {{--                                <h5>No result</h5>--}}
+    {{--                            </div>--}}
+    {{--                        </div>--}}
+    {{--                    @endif--}}
 
-                </div>
-            </div>
-            <div class="swiper-button-prev-event"><i class="fa-solid fa-arrow-left-long"></i></div>
-            <div class="swiper-button-next-event"><i class="fa-solid fa-arrow-right-long"></i></div>
+    {{--                </div>--}}
+    {{--            </div>--}}
+    {{--            <div class="swiper-button-prev-event"><i class="fa-solid fa-arrow-left-long"></i></div>--}}
+    {{--            <div class="swiper-button-next-event"><i class="fa-solid fa-arrow-right-long"></i></div>--}}
 
-        </div>
-    </div>
+    {{--        </div>--}}
+    {{--    </div>--}}
 
     <script>
         var swiper = new Swiper(".mySwiper", {
@@ -306,7 +265,7 @@
                 prevEl: ".swiper-button-prev-event",
             },
         });
-        var swiper = new Swiper(".related-article-slider", {
+        var swiper = new Swiper(".upcoming-events-slider", {
             spaceBetween: 30,
             slidesPerGroup: 1, // Moves 2 slides at a time
             loop: true, // Enables infinite looping
@@ -337,5 +296,10 @@
                 prevEl: ".swiper-button-prev",
             },
         });
+    </script>
+
+    <script>
+
+        ;
     </script>
 @endsection

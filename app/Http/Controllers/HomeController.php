@@ -105,7 +105,7 @@ class HomeController extends Controller
 
     public function partitionerLists()
     {
-        $users = User::where('role', 1)->where('status', 1)->with('userDetail')->get();
+        $practitioners = User::where('role', 1)->where('status', 1)->with('userDetail')->get();
         $categories = Category::where('status', 1)->get();
         $defaultLocations = Locations::where('status', 1)->get();
         $locations = [];
@@ -114,7 +114,7 @@ class HomeController extends Controller
         }
         json_encode($locations);
         return view('user.practitioners', [
-            'users' => $users,
+            'practitioners' => $practitioners,
             'categories' => $categories,
             'defaultLocations' => $locations
         ]);
@@ -326,7 +326,7 @@ class HomeController extends Controller
         $category = $categoryType ?? $request->input('categoryType');
         $type = $request->input('practitionerType');
         $location = $request->input('location');
-        $buttonHitCount = $request->input('count') ?? 1;
+        $buttonHitCount = $request->get('count') ?? 1;
 
         // Use collections for cleaner merging & uniqueness
         $userIds = collect();
@@ -352,8 +352,8 @@ class HomeController extends Controller
         $categoryId = Category::where('name', 'like', '%' . $search . '%')->value('id');
 
         if ($tagId || $howIHelpId || $iHelpWithId || $certificationId || $locationId || $categoryId) {
-            $userByDetails = UserDetail::where(function ($q) use ($tagId, $howIHelpId, $iHelpWithId, $certificationId, $locationId,$categoryId) {
-                $q->where(function ($sub) use ($tagId, $howIHelpId, $iHelpWithId, $certificationId, $locationId ,$categoryId) {
+            $userByDetails = UserDetail::where(function ($q) use ($tagId, $howIHelpId, $iHelpWithId, $certificationId, $locationId, $categoryId) {
+                $q->where(function ($sub) use ($tagId, $howIHelpId, $iHelpWithId, $certificationId, $locationId, $categoryId) {
                     if ($tagId) {
                         $sub->orWhere('tags', $tagId);
                     }
@@ -369,8 +369,7 @@ class HomeController extends Controller
                     if ($locationId) {
                         $sub->orWhere('location', $locationId);
                     }
-                    if($categoryId)
-                    {
+                    if ($categoryId) {
                         $sub->orWhere('specialities', 'like', '%' . $categoryId . '%');
                     }
                 });
@@ -396,8 +395,6 @@ class HomeController extends Controller
             });
         }
 
-        // 9. Final data with lazy loading/pagination logic
-        $practitioners = $query->take($buttonHitCount * 8)->get();
 
         // 10. Location dropdown
         $defaultLocations = Locations::where('status', 1)->pluck('name', 'id');
@@ -418,24 +415,9 @@ class HomeController extends Controller
             }
         }
 
-        if($request->isXmlHttpRequest() && $request->get('isPractitioner'))
-        {
-            return response()->json([
-                'success' => true,
-                'data' => view('user.search_practitioner', [
-                    'practitioners' => $practitioners,
-                    'search' => $search,
-                    'category' => $category,
-                    'location' => $location,
-                    'defaultLocations' => $defaultLocations,
-                    'offerings' => $offeringsData,
-                    'offeringEvents' => $events
-                ])->render()
-            ]);
-        }
-
-        return view('user.search_page', [
-            'practitioners' => $practitioners,
+        $params = [
+            'totalPractitioners' => $query->get(),
+            'practitioners' => $query->take($buttonHitCount * 8)->get(),
             'search' => $search,
             'category' => $category,
             'location' => $location,
@@ -443,7 +425,15 @@ class HomeController extends Controller
             'offerings' => $offeringsData,
             'offeringEvents' => $events,
             'categories' => Category::where('status', 1)->get(),
-        ]);
+            'buttonHitCount' => $buttonHitCount
+        ];
+
+        if ($request->isXmlHttpRequest() && $request->get('isPractitioner')) {
+            return response()->json(['success' => true,
+                'html' => view('user.practitioner_list_xml_request',$params)->render()]);
+        }
+
+        return view('user.search_page', $params);
     }
 
 
