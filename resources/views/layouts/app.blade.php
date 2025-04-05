@@ -45,6 +45,34 @@
         @yield('content')
     </main>
 </div>
+<!-- Popup Modal -->
+<div class="modal fade" id="userPopup" tabindex="-1" aria-labelledby="userPopupLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="userPopupLabel">Welcome To Hira Collective News Letter</h5>
+            </div>
+            <div class="modal-body">
+                <form id="popupForm">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="popupName" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="popupName" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="popupEmail" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="popupEmail" name="email" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="cancelPopup" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" form="popupForm" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @include('layouts.footer')
 @stack('custom_scripts')
 <script type="module">
@@ -111,6 +139,88 @@
         window.loadingScreen.addPageLoading();
     });
 </script>
+
+<script>
+    // Optional: Clear all cookies (only use in dev/testing)
+    // document.cookie.split(";").forEach(cookie => {
+    //     const eqPos = cookie.indexOf("=");
+    //     const name = eqPos > -1 ? cookie.substr(0, eqPos).trim() : cookie.trim();
+    //     document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+    // });
+
+    // Get a cookie by name
+    function getCookie(name) {
+        return document.cookie
+            .split('; ')
+            .find(row => row.startsWith(name + '='))?.split('=')[1];
+    }
+
+    // Set cookie with ISO timestamp value and 10-year expiry
+    function setNewsLetterCookie() {
+        const now = new Date().toISOString(); // Current time in ISO format
+        const expires = new Date();
+        expires.setFullYear(expires.getFullYear() + 10); // 10 years ahead
+        document.cookie = `newsLetters=${now}; expires=${expires.toUTCString()}; path=/`;
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        // Show popup if 'newsLetter' cookie is not set
+        if (!getCookie('newsLetter')) {
+            const myModal = new bootstrap.Modal(document.getElementById('userPopup'));
+            myModal.show();
+        }
+
+        // Handle newsletter form submission
+        const form = document.getElementById('popupForm');
+        if (form) {
+            form.addEventListener('submit', async function (e) {
+                e.preventDefault();
+
+                const name = document.getElementById('popupName').value;
+                const email = document.getElementById('popupEmail').value;
+
+                try {
+                    const response = await fetch('/news-letter', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        body: JSON.stringify({ name, email })
+                    });
+
+                    const result = await response.json();
+
+                    // Set the cookie
+                    setNewsLetterCookie();
+
+                    // Hide modal
+                    const modalInstance = bootstrap.Modal.getInstance(document.getElementById('userPopup'));
+                    modalInstance.hide();
+                } catch (error) {
+                    console.error('Error submitting form:', error);
+                }
+            });
+        }
+
+        // Handle cancel button
+        const cancelBtn = document.getElementById('cancelPopup');
+        if (cancelBtn) {
+            cancelBtn.addEventListener('click', function () {
+                setNewsLetterCookie();
+
+                const modalInstance = bootstrap.Modal.getInstance(document.getElementById('userPopup'));
+                modalInstance.hide();
+            });
+        }
+    });
+</script>
+
+
+
+
+
+
 
 <script  src="{{ asset('assets/js/loader.js') }}"></script>
 <script  src="{{ asset('assets/js/script.js') }}"></script>

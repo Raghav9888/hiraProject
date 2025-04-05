@@ -385,7 +385,7 @@ class HomeController extends Controller
         if (!empty($category)) {
             $formattedCategory = ucwords(str_replace('_', ' ', $category));
 
-            $categoryId = Category::where('name',  $formattedCategory)->value('id');
+            $categoryId = Category::where('name', $formattedCategory)->value('id');
 
             if (!empty($categoryId)) {
                 $query->whereHas('userDetail', function ($q) use ($categoryId) {
@@ -397,11 +397,10 @@ class HomeController extends Controller
 //         5. Practitioner type filter (from dropdown)
         if (!empty($offeringType)) {
 
-          $types =   match ($offeringType)
-          {
-            'both' => ['in_person', 'virtual'],
-              default => [$offeringType]
-          };
+            $types = match ($offeringType) {
+                'both' => ['in_person', 'virtual'],
+                default => [$offeringType]
+            };
             $query->whereHas('offerings', function ($q) use ($types) {
                 foreach ($types as $type) {
                     $q->orWhere('offering_type', 'like', '%' . $type . '%');
@@ -415,7 +414,7 @@ class HomeController extends Controller
 
             if ($locationId) {
                 $query->whereHas('userDetail', function ($q) use ($locationId) {
-                    $q->whereJsonContains('location', (string) $locationId);
+                    $q->whereJsonContains('location', (string)$locationId);
                 });
             }
 
@@ -442,7 +441,7 @@ class HomeController extends Controller
         $blogs = Blog::latest()->get();
         // 9. Build final params
         $params = [
-            'pendingResult' =>  ceil($query->count() / 8) > $page,
+            'pendingResult' => ceil($query->count() / 8) > $page,
             'practitioners' => $query->take($page * 8)->get(),
             'search' => $search,
             'category' => $category,
@@ -558,4 +557,23 @@ class HomeController extends Controller
     {
         return view('user.core_values');
     }
+
+    public function newsLetter(Request $request)
+    {
+        $name = $request->get('name') ?? '';
+        $email = $request->get('email') ?? '';
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Subscribed successfully',
+            'data' => [
+                'name' => $name,
+                'email' => $email
+            ],
+        ]);
+
+    }
+
+
+
 }
