@@ -82,7 +82,7 @@ function performSearch(isPractitioner = false, page = 1) {
                 const halfWindow = window.innerHeight / 2;
                 $('html, body').animate({ scrollTop: elementTop - halfWindow }, 500);
             }
-            
+
         },
         error: function (xhr, status, error) {
             console.error('AJAX request failed:', status, error);
