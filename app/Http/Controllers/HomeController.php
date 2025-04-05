@@ -326,8 +326,8 @@ class HomeController extends Controller
         $category = $categoryType ?? $request->get('category');
         $type = $request->get('practitionerType');
         $location = $request->get('location');
-        $buttonHitCount = $request->get('count') ?? 1;
-//dd($search, $category, $location, $buttonHitCount);
+        $page = $request->get('page' , 1);
+
         $userIds = collect();
 
         // 1. Search by name
@@ -355,12 +355,12 @@ class HomeController extends Controller
 
             if ($tagId || $howIHelpId || $iHelpWithId || $certificationId || $locationId || $categoryIdFromSearch) {
                 $userByDetails = UserDetail::where(function ($q) use ($tagId, $howIHelpId, $iHelpWithId, $certificationId, $locationId, $categoryIdFromSearch) {
-                    if ($tagId) $q->orWhereJsonContains('tags', (string) $tagId);
-                    if ($howIHelpId) $q->orWhereJsonContains('HowIHelp', (string) $howIHelpId);
-                    if ($iHelpWithId) $q->orWhereJsonContains('IHelpWith',(string) $iHelpWithId);
-                    if ($certificationId) $q->orWhereJsonContains('certifications', (string) $certificationId);
-                    if ($locationId) $q->orWhereJsonContains('location',(string) $locationId);
-                    if ($categoryIdFromSearch) $q->orWhereJsonContains('specialities', (string) $categoryIdFromSearch);
+                    if ($tagId) $q->orWhereJsonContains('tags', (string)$tagId);
+                    if ($howIHelpId) $q->orWhereJsonContains('HowIHelp', (string)$howIHelpId);
+                    if ($iHelpWithId) $q->orWhereJsonContains('IHelpWith', (string)$iHelpWithId);
+                    if ($certificationId) $q->orWhereJsonContains('certifications', (string)$certificationId);
+                    if ($locationId) $q->orWhereJsonContains('location', (string)$locationId);
+                    if ($categoryIdFromSearch) $q->orWhereJsonContains('specialities', (string)$categoryIdFromSearch);
                 })->pluck('user_id');
 
                 $userIds = $userIds->merge($userByDetails);
@@ -390,7 +390,7 @@ class HomeController extends Controller
             if (!empty($categoryIds)) {
                 $query->whereHas('userDetail', function ($q) use ($categoryIds) {
                     foreach ($categoryIds as $id) {
-                        $q->orWhereJsonContains('specialities', (string) $id);
+                        $q->orWhereJsonContains('specialities', (string)$id);
                     }
                 });
             }
@@ -427,11 +427,16 @@ class HomeController extends Controller
                 $events[$offeringData->event->date_and_time] = $offeringData;
             }
         }
+        $page = $request->get('page', 1);
+
+
+
+
 
         // 9. Build final params
         $params = [
-            'totalPractitioners' => $query->get(),
-            'practitioners' => $query->take($buttonHitCount * 8)->get(),
+            'totalPractitioners' => $query->get()->count(),
+            'practitioners' => $query->take($page * 8)->get(),
             'search' => $search,
             'category' => $category,
             'location' => $location,
@@ -439,7 +444,7 @@ class HomeController extends Controller
             'offerings' => $offeringsData,
             'offeringEvents' => $events,
             'categories' => Category::where('status', 1)->get(),
-            'buttonHitCount' => $buttonHitCount
+            'page' => $page
         ];
 
         if ($request->isXmlHttpRequest() && $request->get('isPractitioner')) {
@@ -451,7 +456,6 @@ class HomeController extends Controller
 
         return view('user.search_page', $params);
     }
-
 
 
     public function acknowledgement()

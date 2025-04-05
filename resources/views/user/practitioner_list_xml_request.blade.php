@@ -44,13 +44,16 @@
 
         </div>
     </div>
-
 @endforeach
-@if(count($totalPractitioners) > 8)
+
+@if($totalPractitioners > 8)
     <!-- Load More Button (Only if there are practitioners) -->
     <div class="d-flex justify-content-center mt-2">
-        <button class="category-load-more loadPractitioner" data-count="{{$buttonHitCount}}"
-                data-render="practitionerRowDiv" data-is-practitioner="1">Load More
+        <button class="category-load-more loadMore"
+                data-page="{{ $page + 1 }}"
+                data-render="practitionerRowDiv"
+                data-is-practitioner="1">
+            Load More
         </button>
     </div>
 @endif
