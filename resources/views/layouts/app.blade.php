@@ -49,12 +49,12 @@
     </main>
 </div>
 <div class="modal fade" id="userPopup" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-dialog modal-md modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body">
                 <div class="container my-3">
                     <div class="alert alert-green fade show d-flex justify-content-between align-items-center f-5" role="alert">
-                        <h2 class="h5 mb-0">Welcome To Hira Collective News Letter</h2>
+                        <h2 class="h6 mb-0">Welcome To Hira Collective News Letter</h2>
                         <span type="button" class="btn-white close-modal" id="closeModalBtn" aria-label="Close" data-bs-dismiss="modal">
                             <i class="fa-solid fa-xmark"></i>
                         </span>
@@ -113,7 +113,7 @@
         const modalEl = document.getElementById('userPopup');
         const modal = new bootstrap.Modal(modalEl);
 
-        if (!getCookie('newsLetter')) {
+        if (!getCookie('newsgLetter')) {
             modal.show();
         }
 
