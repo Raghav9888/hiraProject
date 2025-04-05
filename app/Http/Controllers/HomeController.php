@@ -324,7 +324,7 @@ class HomeController extends Controller
     {
         $search = $request->get('search');
         $category = $categoryType ?? $request->get('category');
-        $type = $request->get('practitionerType');
+        $offeringType = $request->get('searchType');
         $location = $request->get('location');
         $page = $request->get('page', 1);
 
@@ -393,14 +393,22 @@ class HomeController extends Controller
 
 
 
-        // 5. Practitioner type filter (from dropdown)
-//        if (!empty($type)) {
-//            $query->whereHas('offerings', function ($q) use ($type) {
-//                $q->where('offering_type', 'like', '%' . $type . '%');
-//            });
-//        }
+//         5. Practitioner type filter (from dropdown)
+        if (!empty($offeringType)) {
 
-        // 6. Location filter (from dropdown)
+          $types =   match ($offeringType)
+          {
+            'both' => ['in_person', 'virtual'],
+              default => [$offeringType]
+          };
+            $query->whereHas('offerings', function ($q) use ($types) {
+                foreach ($types as $type) {
+                    $q->orWhere('offering_type', 'like', '%' . $type . '%');
+                }
+            });
+        }
+
+//         6. Location filter (from dropdown)
 //        if (!empty($location)) {
 //            $query->whereHas('userDetail', function ($q) use ($location) {
 //                $q->where('location', 'like', '%' . $location . '%');
@@ -411,9 +419,7 @@ class HomeController extends Controller
         $defaultLocations = Locations::where('status', 1)->pluck('name', 'id');
 
         // 8. Offerings (for showing event matches)
-        $offeringsData = Offering::where('name', 'like', '%' . $search . '%')
-            ->when($type, fn($q) => $q->where('offering_type', 'like', '%' . $type . '%'))
-            ->when($location, fn($q) => $q->where('location', 'like', '%' . $location . '%'))
+        $offeringsData = Offering::where('offering_type', $offeringType)
             ->with('event')
             ->get();
 
