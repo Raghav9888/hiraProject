@@ -40,36 +40,6 @@
             </div>
         </div>
     </section>
-    <section>
-        <div class="container">
-            <div class="row my-4">
-                <div class="col-md-8">
-                    <h1 class="home-title">Practitioners</h1>
-                </div>
-                <div class="col-md-4">
-                    <select class="form-select" id="category" aria-label="Default select example"
-                            style="border-radius: 30px !important;padding: 10px 15px 10px 40px;text-align: start;">
-                        <option class="selected-category" value="">Select by Categories</option>
-                        @foreach($categories as $category)
-                            @php
-                                $name = $snakeCaseText = str_replace(' ', '_', strtolower($category->name));;
-                            @endphp
-                            <option value="{{ $name }}">{{ $category->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-
-            @if($practitioners->isNotEmpty())
-                <div class="row" id="practitionerRowDiv">
-                    @include('user.practitioner_list_xml_request')
-                </div>
-            @else
-                <p class="text-center">No practitioners found.</p>
-            @endif
-        </div>
-    </section>
-
     <div class="container">
         <div class="upcoming-event-container position-relative">
             <h4>Offerings</h4>
@@ -136,8 +106,9 @@
     <div class="container">
         <div class="upcoming-event-container position-relative">
             <h4>Upcoming Events</h4>
-            <div class="upcoming-event-inner upcoming-events-slider">
-                @if(count($offeringEvents) > 0)
+            @if(count($offeringEvents) > 0)
+                <div class="upcoming-event-inner upcoming-events-slider">
+
                     <div class="swiper-wrapper">
 
                         @foreach($offeringEvents as $date => $offering)
@@ -182,20 +153,50 @@
 
                         @endforeach
                     </div>
-                @else
-                    <div class="row">
-                        <div class="col-md-12 text-center">
-                            <h5>No result</h5>
-                        </div>
+                    <div class="swiper-button-prev-event"><i class="fa-solid fa-arrow-left-long"></i></div>
+                    <div class="swiper-button-next-event"><i class="fa-solid fa-arrow-right-long"></i></div>
+                </div>
+            @else
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <h5>No result</h5>
                     </div>
-                @endif
-
-            </div>
-            <div class="swiper-button-prev-event"><i class="fa-solid fa-arrow-left-long"></i></div>
-            <div class="swiper-button-next-event"><i class="fa-solid fa-arrow-right-long"></i></div>
+                </div>
+            @endif
 
         </div>
     </div>
+    <section>
+        <div class="container">
+            <div class="row my-4">
+                <div class="col-md-8">
+                    <h1 class="home-title">Practitioners</h1>
+                </div>
+                <div class="col-md-4">
+                    <select class="form-select" id="category" aria-label="Default select example"
+                            style="border-radius: 30px !important;padding: 10px 15px 10px 40px;text-align: start;">
+                        <option class="selected-category" value="">Select by Categories</option>
+                        @foreach($categories as $category)
+                            @php
+                                $name = $snakeCaseText = str_replace(' ', '_', strtolower($category->name));;
+                            @endphp
+                            <option value="{{ $name }}">{{ $category->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
+            @if($practitioners->isNotEmpty())
+                <div class="row" id="practitionerRowDiv">
+                    @include('user.practitioner_list_xml_request')
+                </div>
+            @else
+                <p class="text-center">No practitioners found.</p>
+            @endif
+        </div>
+    </section>
+
+
 
     <script>
         var swiper = new Swiper(".mySwiper", {
