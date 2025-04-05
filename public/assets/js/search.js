@@ -78,6 +78,7 @@ function performSearch(isPractitioner = false, page = 1) {
             if (response.success && response.html) {
                 $(`#${$rowId}`).html(response.html);
             }
+            $('html, body').animate({scrollTop: $(`#${$rowId}`).offset().top}, 500);
         },
         error: function (xhr, status, error) {
             console.error('AJAX request failed:', status, error);
