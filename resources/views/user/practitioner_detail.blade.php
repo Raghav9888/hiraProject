@@ -409,7 +409,10 @@
                                     <div class="help-you-dv certificate-dv">
                                         <div class="row">
                                             @foreach($Certifications as $Certification)
-                                                <li class="col-md-6">{{$Certification}}</li>
+                                                <li class="col-md-6 d-flex align-items-start text-green">
+                                                    <i class="fa-solid fa-caret-right mt-1 me-2"></i>
+                                                    <span>{{ $Certification }}</span>
+                                                </li>
                                             @endforeach
                                         </div>
                                     </div>
