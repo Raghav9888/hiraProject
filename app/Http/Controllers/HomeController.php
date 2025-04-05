@@ -382,19 +382,16 @@ class HomeController extends Controller
         if (!empty($category)) {
             $formattedCategory = ucwords(str_replace('_', ' ', $category));
 
-            $categoryIds = Category::where('name', 'like', '%' . $formattedCategory . '%')
-                ->orWhere('slug', 'like', '%' . $category . '%')
-                ->pluck('id')
-                ->toArray();
+            $categoryId = Category::where('name',  $formattedCategory)->value('id');
 
-            if (!empty($categoryIds)) {
-                $query->whereHas('userDetail', function ($q) use ($categoryIds) {
-                    foreach ($categoryIds as $id) {
-                        $q->orWhereJsonContains('specialities', (string)$id);
-                    }
+            if (!empty($categoryId)) {
+                $query->whereHas('userDetail', function ($q) use ($categoryId) {
+                    $q->whereJsonContains('specialities', (string)$categoryId);
                 });
             }
         }
+
+
 
         // 5. Practitioner type filter (from dropdown)
 //        if (!empty($type)) {
@@ -445,7 +442,7 @@ class HomeController extends Controller
         if ($request->isXmlHttpRequest() && $request->get('isPractitioner')) {
             return response()->json([
                 'success' => true,
-                'pendingResult' => ($totalPage > $page ),
+                'pendingResult' => ceil($query->count() / 8) > $page,
                 'html' => view('user.practitioner_list_xml_request', $params)->render()
             ]);
         }
