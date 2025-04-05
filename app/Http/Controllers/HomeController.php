@@ -394,8 +394,6 @@ class HomeController extends Controller
             }
         }
 
-
-
 //         5. Practitioner type filter (from dropdown)
         if (!empty($offeringType)) {
 
@@ -441,6 +439,7 @@ class HomeController extends Controller
         }
 
 
+        $blogs = Blog::latest()->get();
         // 9. Build final params
         $params = [
             'pendingResult' =>  ceil($query->count() / 8) > $page,

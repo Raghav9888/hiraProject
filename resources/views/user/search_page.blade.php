@@ -166,6 +166,8 @@
 
         </div>
     </div>
+    <hr>
+
     <section>
         <div class="container">
             <div class="row my-4">
@@ -195,6 +197,58 @@
             @endif
         </div>
     </section>
+<hr>
+    <div class="container py-5">
+        <h1 class="home-title mb-3">Recent Resources</h1>
+
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h3>Coming soon...</h3>
+            </div>
+            {{--                    @if(!$blogs->isEmpty())--}}
+            {{--                        @foreach($blogs as $blog)--}}
+
+            {{--                            <div class="col-sm-12 col-md-6 col-lg-6 mb-4">--}}
+            {{--                                <a href="{{route('blogDetail', $blog->slug)}}" style="text-decoration: none;"--}}
+            {{--                                   class="resources-body">--}}
+            {{--                                    <div class="row g-0">--}}
+            {{--                                        <div class="col-md-4 px-2">--}}
+            {{--                                            @php--}}
+            {{--                                                $mediaPath = config('app.media_path', 'uploads');--}}
+            {{--                                                $localPath = config('app.local_path', 'assets');--}}
+
+            {{--                                                $imageUrl = $blog->image--}}
+            {{--                                                    ? asset("$mediaPath/admin/blog/{$blog->image}")--}}
+            {{--                                                    : asset("$localPath/images/no_image.png");--}}
+
+            {{--                                            @endphp--}}
+
+
+
+            {{--                                            <img src="{{$imageUrl}}" alt="calm" height="160" width="160" class="rounded-4">--}}
+            {{--                                        </div>--}}
+            {{--                                        <div class="col-md-8">--}}
+            {{--                                            <div class="card-body">--}}
+            {{--                                                <h5>{{$blog->name}}</h5>--}}
+            {{--                                                <button>{{@$blog->category->name}}</button>--}}
+            {{--                                                <p>{{date('M d, Y', strtotime($blog->date))}}</p>--}}
+            {{--                                            </div>--}}
+            {{--                                        </div>--}}
+            {{--                                    </div>--}}
+
+            {{--                                </a>--}}
+            {{--                            </div>--}}
+            {{--                        @endforeach--}}
+            {{--                    @else--}}
+            {{--                        <div class="col-sm-12 col-md-6 col-lg-6 mb-4">--}}
+            {{--                            <p class="text-center">No Blogs found..</p>--}}
+            {{--                        </div>--}}
+            {{--                    @endif--}}
+            {{--                     <div class="d-flex justify-content-center">--}}
+            {{--                        <button class="home-blog-btn">Load More</button>--}}
+            {{--                    </div> --}}
+        </div>
+    </div>
 
 
 
