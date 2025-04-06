@@ -40,7 +40,7 @@
     <script type="text/javascript" src="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.min.js"></script>
     <script src="{{ asset('assets/plugin/OwlCarousel2-2.3.4/dist/owl.carousel.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/luxon@3/build/global/luxon.min.js"></script>
-
+        <script src="https://www.google.com/recaptcha/enterprise.js?render=6LcHEAwrAAAAAPAOqh949AjS1TkQ5ixAjL1GUUhe"></script>
 
     {{--    @vite(['resources/sass/app.scss', 'resources/js/app.js'])--}}
 
@@ -260,17 +260,14 @@
 </script>
 
 <!-- reCAPTCHA v3 script -->
-<script src="https://www.google.com/recaptcha/api.js?render=6LfhCwwrAAAAACLhbJUozjetIfqLun5YgGpfk8z7"></script>
 
-<!-- Put this script BELOW the reCAPTCHA script -->
 <script>
-    window.onload = function () {
-        grecaptcha.ready(function () {
-            grecaptcha.execute('6LfhCwwrAAAAACLhbJUozjetIfqLun5YgGpfk8z7', { action: 'contact' }).then(function (token) {
-                document.getElementById('recaptcha_token').value = token;
-            });
+    function onClick(e) {
+        e.preventDefault();
+        grecaptcha.enterprise.ready(async () => {
+            const token = await grecaptcha.enterprise.execute('6LcHEAwrAAAAAPAOqh949AjS1TkQ5ixAjL1GUUhe', {action: 'LOGIN'});
         });
-    };
+    }
 </script>
 
 </body>
