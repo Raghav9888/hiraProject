@@ -212,7 +212,7 @@ function getAllowedDays() {
 
 
     }
-
+console.log('availability is here ' ,availability)
     return dayMapping[availability] || [];
 }
 
