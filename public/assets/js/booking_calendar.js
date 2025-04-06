@@ -16,9 +16,11 @@ function openPopup(event) {
     let priceData = event.target.getAttribute('data-price');
     let specificDayStart = event.target.getAttribute('data-specific-day-start');
     let specificDayEnd = event.target.getAttribute('data-specific-day-end');
-    let offeringEventType = event.target.getAttribute('data-offering-event-type');
+    let offeringEventType = event.target.getAttribute('data-offering-event-type') !== '' ? event.target.getAttribute('data-offering-event-type') : 'offering';
     let offeringEventStart = event.target.getAttribute('data-event-start');
     let userId = event.target.getAttribute('data-user-id');
+    let currency = event.target.getAttribute('data-currency');
+    let currencySymbol = event.target.getAttribute('data-currency-symbol');
 
 
     let inputElement = document.querySelector('[name="offering_id"]');
@@ -31,6 +33,9 @@ function openPopup(event) {
     let offeringEventStartDateTime = document.querySelector('[name="offering_event_start_date_time"]');
     let popupElement = document.getElementById('popup');
     let userIdInput = document.getElementById('user_id');
+    let currencyInput = document.getElementById('currency');
+    let currencySymbolInput = document.getElementById('currency_symbol');
+
     if (inputElement) {
         inputElement.value = offeringId;
         inputElement.classList.add('activeInput');
@@ -44,6 +49,8 @@ function openPopup(event) {
         offeringSpecificDaysInput.setAttribute('data-specific-day-end', specificDayEnd);
         offeringSpecificDaysInput.value = specificDayStart + ' - ' + specificDayEnd;
         userIdInput.value = userId;
+        currencyInput.value = currency;
+        currencySymbolInput.value = currencySymbol;
     } else {
         console.error("Element with name 'offering_id' not found");
     }
@@ -58,6 +65,8 @@ function openPopup(event) {
             data: {
                 offeringId: offeringId,
                 userId: `${userId}`,
+                price: `${priceData}`,
+                currency: `${currencySymbol}`,
             },
             beforeSend: function () {
                 window.loadingScreen.addPageLoading();
@@ -67,6 +76,7 @@ function openPopup(event) {
                     // Populate the event data in the modal
                     document.querySelector('.event-container').innerHTML = response.html;
                     document.querySelector('.event-container').classList.remove('d-none');
+                    document.querySelector('.event-container').style.display = 'block';
                     document.querySelector('.booking-container').classList.add('d-none');
                 } else {
                     console.log('error')
@@ -334,7 +344,6 @@ function generateCalendar(month, year) {
 }
 
 
-
 // function generateCalendar(month, year) {
 //     const firstDay = new Date(year, month, 1);
 //     const lastDay = new Date(year, month + 1, 0);
@@ -522,6 +531,7 @@ function renderSlots(availableSlots) {
         $('#booking_time').val(time);
     })
 }
+
 // function showAvailableSlots(date) {
 //     const slotsContainer = document.getElementById('availableSlots');
 //     const dateLabel = document.getElementById('selectedDate');
@@ -628,7 +638,11 @@ $(document).on('click', '.proceed_to_checkout', function () {
     const offeringId = $('#offering_id').val();
     const offeringEventType = $('#offering_event_type').val();
     const startEventDate = $('#offering_event_start_date_time').val();
+    const price = $('#offering_price').val();
+    const currency = $('#currency').val();
+    const currencySymbol = $('#currency_symbol').val();
 
+console.log(currencySymbol)
     let bookingDate = '';
     let bookingTime = '';
 
@@ -639,11 +653,11 @@ $(document).on('click', '.proceed_to_checkout', function () {
         [bookingDate, bookingTime] = startEventDate.split(" ");
     }
 
-    paymentAjax(offeringId, bookingDate, bookingTime, offeringEventType);
+    paymentAjax(offeringId, bookingDate, bookingTime, offeringEventType, price, currency, currencySymbol);
 });
 
 
-function paymentAjax(offeringId, bookingDate, bookingTime, offeringEventType) {
+function paymentAjax(offeringId, bookingDate, bookingTime, offeringEventType, price, currency, currencySymbol) {
 
     if (!offeringId || !bookingDate || !bookingTime) {
         alert("Please select slot!");
@@ -660,7 +674,10 @@ function paymentAjax(offeringId, bookingDate, bookingTime, offeringEventType) {
             offering_id: offeringId,
             booking_date: bookingDate,
             booking_time: bookingTime,
-            offering_event_type: offeringEventType
+            offering_event_type: offeringEventType,
+            price: price,
+            currency_symbol: currencySymbol,
+            currency: currency,
         },
         success: function (response) {
             if (!response.success) {
@@ -679,3 +696,6 @@ function paymentAjax(offeringId, bookingDate, bookingTime, offeringEventType) {
         }
     });
 }
+
+
+

@@ -519,6 +519,8 @@ class HomeController extends Controller
         $userId = $request->get('userId');
 
         $offeringId = $request->get('offeringId');
+        $currency = $request->get('currency');
+        $price = $request->get('price');
         $user = User::findOrFail($userId);
         $userDetail = $user->userDetail;
         $offering = Offering::where('id', $offeringId)->with('event')->first();
@@ -526,7 +528,13 @@ class HomeController extends Controller
         return response()->json([
             "success" => true,
             "data" => "Booking saved in session!",
-            'html' => view('user.event_detail_popup', ['user' => $user, 'userDetail' => $userDetail, 'offering' => $offering])->render()
+            'html' => view('user.event_detail_popup', [
+                'user' => $user,
+                'userDetail' => $userDetail,
+                'offering' => $offering,
+                'currency' => $currency,
+                'price' => $price
+                ])->render()
         ]);
 
     }

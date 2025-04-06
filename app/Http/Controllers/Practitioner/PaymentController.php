@@ -100,6 +100,7 @@ class PaymentController extends Controller
             $user = auth()->user();
 
             $booking = session('booking');
+           
             $billing = session('billing');
             if (!$booking || !$billing) {
                 return response()->json([
@@ -115,6 +116,8 @@ class PaymentController extends Controller
                 'time_slot' => $booking['booking_time'],
                 'total_amount' => $request->total_amount,
                 'tax_amount' => $request->tax_amount,
+                'currency' => $booking['currency'],
+                'currency_symbol' => $booking['currency_symbol'],
                 'price' => Offering::find($booking['offering_id'])->client_price,
                 'status' => 'pending',
                 'first_name' => $billing['first_name'],
@@ -173,7 +176,7 @@ class PaymentController extends Controller
                 'payment_method_types' => ['card'],
                 'line_items' => [[
                     'price_data' => [
-                        'currency' => 'usd',
+                        'currency' => $order->currency,
                         'product_data' => ['name' => 'Booking Payment'],
                         'unit_amount' => $order->total_amount * 100, // Convert to cents
                     ],
