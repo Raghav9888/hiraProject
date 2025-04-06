@@ -47,7 +47,7 @@ Route::get('/our-story', [HomeController::class, 'ourStory'])->name('our_story')
 Route::get('/our-vision', [HomeController::class, 'ourVision'])->name('our_vision');
 Route::get('/core-values', [HomeController::class, 'coreValues'])->name('core_values');
 Route::post('/getBookedSlots/{userId}', [GoogleCalendarController::class, 'getBookedSlots'])->name('getBookedSlots');
-
+Route::post('/news-letter', [HomeController::class, 'newsLetter'])->name('newsLetter');
 
 Route::get('/practitioner/detail/{id}', [HomeController::class, 'practitionerDetail'])->name('practitioner_detail');
 Route::get('/practitioner/offering/detail/{id}', [HomeController::class, 'practitionerOfferingDetail'])->name('practitionerOfferingDetail');

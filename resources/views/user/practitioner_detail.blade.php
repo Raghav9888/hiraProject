@@ -185,6 +185,7 @@
                 </div>
                 <!-- <div class="swiper-pagination"></div> -->
             </div>
+
             <div class="row">
                 <div class="col-sm-12 col-md-9 col-lg-9">
                     <div class="accordion" id="accordionExample">
@@ -203,9 +204,10 @@
                                         <div class="dropdown Currency-select">
                                             <div class="dropdown">
                                                 <select class="form-select" aria-label="Default select example"
+                                                        id="currencySelect"
                                                         style="border-radius: 30px !important;padding: 10px 36px 10px 10px;text-align: start;">
-                                                    <option value="cad">CAD</option>
                                                     <option value="usd">USD</option>
+                                                    <option value="cad">CAD</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -216,20 +218,28 @@
                                                 <h6 class="mb-2">{{$offering->name}}</h6>
                                                 <div class="d-flex align-items-center">
                                                     <h6 class="offer-prize me-2 m-0">
-                                                        ${{$offering->offering_event_type == 'event' ? $offering->event->client_price :($offering?->client_price ?? 0)}}</h6>
-                                                    <button type="button" class="home-blog-btn" data-bs-toggle="modal"
-                                                            data-bs-target="#exampleModal"
-                                                            onclick="openPopup(event)"
-                                                            data-user-id="{{$user->id}}"
-                                                            data-offering-id="{{$offering->id}}"
-                                                            data-offering-event-type="{{$offering->offering_event_type}}"
-                                                            data-event-start="{{$offering->offering_event_type =='event' ? $offering->event->date_and_time : ''}}"
-                                                            data-availability="{{$offering?->availability_type ?? ''}}"
-                                                            data-specific-day-start="{{$offering->from_date}}"
-                                                            data-specific-day-end="{{$offering->to_date}}"
-                                                            data-price="{{$offering->offering_event_type =='event' ? $offering->event->client_price :$offering->client_price ?? 0}}"
-                                                            data-store-availability="{{$storeAvailable}}">BOOK NOW
-                                                    </button>
+                                                        ${{ number_format($offering->offering_event_type == 'event'
+                                                         ? $offering->event->client_price
+                                                            : ($offering?->client_price ?? 0), 2) }}
+                                                    </h6>
+                                                        <button type="button" class="home-blog-btn offering_process"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#exampleModal"
+                                                                onclick="openPopup(event)"
+                                                                data-user-id="{{$user->id}}"
+                                                                data-offering-id="{{$offering->id}}"
+                                                                data-offering-event-type="{{$offering->offering_event_type}}"
+                                                                data-event-start="{{$offering->offering_event_type =='event' ? $offering->event->date_and_time : ''}}"
+                                                                data-availability="{{$offering?->availability_type ?? ''}}"
+                                                                data-specific-day-start="{{$offering->from_date}}"
+                                                                data-specific-day-end="{{$offering->to_date}}"
+                                                                data-price="{{$offering->offering_event_type =='event' ? $offering->event->client_price :$offering->client_price ?? 0}}"
+                                                                data-currency-symbol="$"
+                                                                data-currency="usd"
+                                                                data-timezone="{{$userDetail->timezone}}"
+                                                                data-usd-price="{{$offering->offering_event_type =='event' ? $offering->event->client_price :$offering->client_price ?? 0}}"
+                                                                data-store-availability="{{$storeAvailable}}">BOOK NOW
+                                                        </button>
 
                                                     {{--                                                    <a href="{{ route('practitionerOfferingDetail',$offering->id)}}" class="home-blog-btn">BOOK NOW</a>--}}
                                                 </div>
@@ -319,7 +329,7 @@
                                                         </div>
                                                     </div>
                                                     @if($offering?->event?->sports > 0 && $offering?->offering_event_type == 'event')
-                                                    <div class="toggle-dv-review mt-3">
+                                                        <div class="toggle-dv-review mt-3">
                                                             <div class="d-flex mb-2" style="gap: 20px;">
                                                                 <button>Events</button>
                                                             </div>
@@ -409,7 +419,10 @@
                                     <div class="help-you-dv certificate-dv">
                                         <div class="row">
                                             @foreach($Certifications as $Certification)
-                                                <li class="col-md-6">{{$Certification}}</li>
+                                                <li class="col-md-6 d-flex align-items-start text-green">
+                                                    <i class="fa-solid fa-caret-right mt-1 me-2"></i>
+                                                    <span>{{ $Certification }}</span>
+                                                </li>
                                             @endforeach
                                         </div>
                                     </div>
@@ -441,7 +454,8 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <h6 class="review-count-text py-2">{{ $ratings[$star] }} Reviews</h6>
+                                                    <h6 class="review-count-text py-2">{{ $ratings[$star] }}
+                                                        Reviews</h6>
                                                 </div>
                                             @endforeach
                                         </div>
@@ -500,7 +514,7 @@
                                 data-bs-target="#collapseTwo"><i class="fa-solid fa-circle me-3"></i>
                                 I Help With</h5>
                             <h5 class="py-2" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseThree"><i class="fa-solid fa-circle me-3"></i>   How I Help</h5>
+                                data-bs-target="#collapseThree"><i class="fa-solid fa-circle me-3"></i> How I Help</h5>
                             <h5 class="py-2" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapseFour"><i class="fa-solid fa-circle me-3"></i> Certifications
                             </h5>
@@ -576,10 +590,13 @@
 
     <input type="hidden" name="booking_date" id="booking_date">
     <input type="hidden" name="booking_time" id="booking_time">
+    <input type="hidden" name="practitioner_timezone" id="practitioner_timezone">
 
     <input type="hidden" name="store-availability" id="store-availability">
     <input type="hidden" name="offering-specific-days" id="offering-specific-days">
     <input type="hidden" name="already_booked_slots" id="already_booked_slots">
+    <input type="hidden" name="currency" id="currency">
+    <input type="hidden" name="currency_symbol" id="currency_symbol">
 
 
 
@@ -629,7 +646,6 @@
                 document.body.removeChild(tempInput);
             }
         }
-
 
 
     </script>
@@ -697,6 +713,5 @@
             }
         }
     </script>
-
 
 @endsection

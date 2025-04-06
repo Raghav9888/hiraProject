@@ -4,7 +4,7 @@
     <section class="home-main-section">
         <div class="container">
             <div class="d-flex justify-content-center align-items-center flex-column position-relative py-5">
-                <img class="hira-collective" src="{{url('/assets/images/home_logo.png')}}" alt="hira-collective">
+                <img class="hira-collective" src="{{url('/assets/images/header_logo.png')}}" alt="hira-collective">
             </div>
             <div class="home-search-wrrpr">
                 <p> Search for what you seek</p>
@@ -144,15 +144,6 @@
             <div class="row my-4">
                 <div class="col-md-8">
                     <h1 class="home-title">Featured Practitioners </h1>
-                </div>
-                <div class="col-md-4">
-                    <select class="form-select" id="category" aria-label="Default select example"
-                            style="border-radius: 30px !important;padding: 10px 15px 10px 40px;text-align: start;">
-                        <option class="selected-category" value="">Select by Categories</option>
-                        @foreach($categories as $category)
-                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                        @endforeach
-                    </select>
                 </div>
             </div>
 
@@ -392,7 +383,7 @@
                                 Search by need, modality, or intention and begin your personalized healing journey
                                 today.
                             </p>
-                            <button onclick="window.location.href='{{route('partitionerLists')}}'" class="mt-4">Find a
+                            <button onclick="window.location.href='{{route('searchPractitioner')}}'" class="mt-4">Find a
                                 Practitioner
                             </button>
                             <img src="{{url('assets/images/footer-butterfly.svg')}}" alt="">
@@ -423,30 +414,35 @@
         <div class="container">
             <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
                 <h1 class="home-title">Holistic Wellness Resources</h1>
-                <a href="{{route('blog')}}" class="home-blog-btn">View All</a>
+{{--                <a href="{{route('blog')}}" class="home-blog-btn">View All</a>--}}
             </div>
             <div class="row">
-                @forEach($blogs as $blog)
-                    @php
-                        $mediaPath = config('app.media_path', 'uploads');
-                        $localPath = config('app.local_path', 'assets');
+                <div class="col-md-12 text-center">
+                    <h3>Coming soon...</h3>
+                </div>
+{{--                @forEach($blogs as $blog)--}}
+{{--                    @php--}}
+{{--                        $mediaPath = config('app.media_path', 'uploads');--}}
+{{--                        $localPath = config('app.local_path', 'assets');--}}
 
-                        $imageUrl = $blog->image
-                            ? asset("$mediaPath/admin/blog/{$blog->image}")
-                            : asset("$localPath/images/no_image.png");
-                    @endphp
-                    <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
-                        <div class="home-blog-dv">
-                            <img src="{{$imageUrl}}" alt="calm" height="160" width="160" class="rounded-4">
-                            <div class="home-blog-label">
-                                <h5>{{$blog->category->name}}</h5>
-                            </div>
-                            <h4>{{$blog->name}}</h4>
-                            <a href="{{route('blogDetail', $blog->slug)}}">Learn More<i
-                                    class="fa-solid fa-arrow-right"></i></a>
-                        </div>
-                    </div>
-                @endforeach
+{{--                        $imageUrl = $blog->image--}}
+{{--                            ? asset("$mediaPath/admin/blog/{$blog->image}")--}}
+{{--                            : asset("$localPath/images/no_image.png");--}}
+{{--                    @endphp--}}
+{{--                    <div class="col-sm-12 col-md-6 col-lg-4 mb-4">--}}
+{{--                        <div class="featured-dv">--}}
+{{--                            <img src="{{ $imageUrl }}" alt="person" class="img-fit">--}}
+{{--                            <img src="{{$imageUrl}}" alt="calm" height="160" width="160" class="rounded-4">--}}
+{{--                            <div class="home-blog-label">--}}
+{{--                                <h5>{{$blog->category->name}}</h5>--}}
+{{--                            </div>--}}
+{{--                            <h4>{{$blog->name}}</h4>--}}
+{{--                            <div class="text-end">--}}
+{{--                                <a href="{{route('blogDetail', $blog->slug)}}" class="place-order btn btn-green text-end ">Learn More <i class="fa-solid fa-arrow-right "></i></a>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                @endforeach--}}
             </div>
         </div>
     </section>
@@ -1197,146 +1193,6 @@
         }
     </script>
 
-    {{--    <script>--}}
-    {{--        $(document).ready(function () {--}}
-    {{--            function performSearch() {--}}
-    {{--                let search = $('#search').val();--}}
-    {{--                let location = $('#location').val();--}}
-    {{--                let practitionerType = $('#practitionerType').val();--}}
-
-    {{--                console.log("Performing search with:", {search, location, practitionerType}); // Debugging--}}
-
-    {{--                getPractitioners(search, null, location, practitionerType);--}}
-    {{--            }--}}
-
-    {{--            // Prevent form submission and trigger AJAX on Enter key inside the search input--}}
-    {{--            $('#search').on('keypress', function (e) {--}}
-    {{--                if (e.which === 13) { // 13 = Enter key--}}
-    {{--                    e.preventDefault();--}}
-    {{--                    performSearch();--}}
-    {{--                }--}}
-    {{--            });--}}
-
-    {{--            // Prevent form submission and trigger AJAX when clicking the Search button--}}
-    {{--            $('#searchFilter').on('click', function (e) {--}}
-    {{--                e.preventDefault();--}}
-    {{--                performSearch();--}}
-    {{--            });--}}
-
-    {{--            // Prevent form submission globally on #searchform--}}
-    {{--            $('#searchform').on('submit', function (e) {--}}
-    {{--                e.preventDefault();--}}
-    {{--                performSearch();--}}
-    {{--            });--}}
-
-    {{--            $(document).on('click', '.loadPractitioner', function (e) {--}}
-    {{--                e.preventDefault();--}}
-    {{--                let search = $('#search').val();--}}
-    {{--                let location = $('#location').val();--}}
-    {{--                let practitionerType = $('#practitionerType').val();--}}
-    {{--                let category = $('#category').val();--}}
-    {{--                let count = ($(this).data('count') ?? 1) + 1;--}}
-
-    {{--                getPractitioners(search, category, location, practitionerType, count);--}}
-    {{--            });--}}
-
-    {{--            $('#category').on('change', function (e) {--}}
-    {{--                e.preventDefault();--}}
-    {{--                let search = $('#search').val();--}}
-    {{--                let location = $('#location').val();--}}
-    {{--                let practitionerType = $('#practitionerType').val();--}}
-    {{--                let category = $('#category').val();--}}
-    {{--                getPractitioners(search, category, location, practitionerType);--}}
-    {{--            });--}}
-    {{--        });--}}
-
-
-    {{--        function getPractitioners(search = null, category = null, location = null, practitionerType = null, count = 1) {--}}
-    {{--            const imagePath = `{{$mediaPath}}`;--}}
-    {{--            const localPath = `{{$localPath}}`;--}}
-    {{--            let locationArr = @json($defaultLocations);--}}
-    {{--            $.ajax({--}}
-    {{--                url: '/search/practitioner',--}}
-    {{--                type: 'get',--}}
-    {{--                data: {search, category, location, practitionerType, count},--}}
-    {{--                beforeSend: function () {--}}
-    {{--                    window.loadingScreen.addPageLoading();--}}
-    {{--                },--}}
-    {{--                success: function (response) {--}}
-
-    {{--                    let practitionersHTML = '';--}}
-    {{--                    let maxItems = 8;--}}
-
-    {{--                    if (!response.practitioners || response.practitioners.length === 0) {--}}
-    {{--                        practitionersHTML = '<p class="text-center">No practitioners found.</p>';--}}
-    {{--                    } else {--}}
-    {{--                        // Chunking into rows of 4--}}
-    {{--                        for (let i = 0; i < response.practitioners.length; i += 4) {--}}
-    {{--                            practitionersHTML += `<div class="row">`;--}}
-
-    {{--                            for (let j = i; j < i + 4 && j < response.practitioners.length; j++) {--}}
-    {{--                                let practitioner = response.practitioners[j];--}}
-
-    {{--                                // Handling location names--}}
-    {{--                                let locationNames = '';--}}
-    {{--                                if (practitioner.location && practitioner.location.length > 0) {--}}
-    {{--                                    locationNames = JSON.parse(practitioner.location).map(function (locationId) {--}}
-    {{--                                        return locationArr[locationId] || 'location';--}}
-    {{--                                    }).slice(0, 2).join(', ');--}}
-    {{--                                } else {--}}
-    {{--                                    locationNames = 'no found';--}}
-    {{--                                }--}}
-
-    {{--                                let images = practitioner.user_detail?.images ? JSON.parse(practitioner.user_detail.images) : null;--}}
-    {{--                                let imageUrl = images?.profile_image--}}
-    {{--                                    ? `${imagePath}/practitioners/${practitioner.user_detail.id}/profile/${images.profile_image}`--}}
-    {{--                                    : `${localPath}/images/no_image.png`;--}}
-
-    {{--                                practitionersHTML += `--}}
-    {{--                            <div class="col-sm-12 col-md-6 col-lg-3 mb-4">--}}
-    {{--                                <div class="featured-dv">--}}
-    {{--                                    <a href="/practitioner/detail/${practitioner.id}">--}}
-    {{--                                        <img src="${imageUrl}" alt="person" class="img-fit">--}}
-    {{--                                        <div class="d-flex justify-content-between align-items-center mb-2">--}}
-    {{--                                            <h4>${practitioner.name}</h4>--}}
-    {{--                                            <i class="fa-regular fa-heart"></i>--}}
-    {{--                                        </div>--}}
-    {{--                                        <h5><i class="fa-solid fa-location-dot"></i> ${locationNames}</h5>--}}
-    {{--                                        <div class="d-flex justify-content-between align-items-center">--}}
-    {{--                                            <div>${'<i class="fa-regular fa-gem"></i>'.repeat(5)}</div>--}}
-    {{--                                            <h6>5.0 Ratings</h6>--}}
-    {{--                                        </div>--}}
-    {{--                                    </a>--}}
-    {{--                                </div>--}}
-    {{--                            </div>--}}
-    {{--                        `;--}}
-    {{--                            }--}}
-
-    {{--                            practitionersHTML += `</div>`; // Close row--}}
-    {{--                        }--}}
-
-    {{--                    }--}}
-
-    {{--                    // Check if the number of practitioners exceeds the maxItems and add a Load More button--}}
-    {{--                    if (response.practitioners.length >= maxItems) {--}}
-    {{--                        practitionersHTML += `--}}
-    {{--                    <div class="d-flex justify-content-center mt-2">--}}
-    {{--                        <button class="category-load-more loadPractitioner" data-count="${count}">Load More</button>--}}
-    {{--                    </div>`;--}}
-    {{--                    }--}}
-    {{--                    $('html, body').animate({--}}
-    {{--                        scrollTop: $('.featured-section').offset().top--}}
-    {{--                    }, 700);--}}
-    {{--                    // Inject the generated HTML into the practitioners list container--}}
-    {{--                    $('#practitionersList').html(practitionersHTML);--}}
-    {{--                },--}}
-    {{--                complete: function () {--}}
-    {{--                    window.loadingScreen.removeLoading();--}}
-    {{--                }--}}
-    {{--            });--}}
-    {{--        }--}}
-
-    {{--    </script>--}}
     <script>
         var swiper = new Swiper(".upcoming-events-slider", {
             spaceBetween: 30,

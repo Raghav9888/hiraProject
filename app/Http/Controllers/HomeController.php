@@ -105,7 +105,7 @@ class HomeController extends Controller
 
     public function partitionerLists()
     {
-        $users = User::where('role', 1)->where('status', 1)->with('userDetail')->get();
+        $practitioners = User::where('role', 1)->where('status', 1)->with('userDetail')->get();
         $categories = Category::where('status', 1)->get();
         $defaultLocations = Locations::where('status', 1)->get();
         $locations = [];
@@ -113,8 +113,9 @@ class HomeController extends Controller
             $locations[$location->id] = $location->name;
         }
         json_encode($locations);
-        return view('user.practitioner_list', [
-            'users' => $users,
+        return view('user.practitioners', [
+            'pendingResult' => 0,
+            'practitioners' => $practitioners,
             'categories' => $categories,
             'defaultLocations' => $locations
         ]);
@@ -322,105 +323,109 @@ class HomeController extends Controller
 
     public function searchPractitioner(Request $request, ?string $categoryType = null)
     {
-        $search = $request->input('search');
-        $category = $categoryType ?? $request->input('categoryType');
-        $type = $request->input('practitionerType');
-        $location = $request->input('location');
-        $buttonHitCount = $request->input('count') ?? 1;
+        $search = $request->get('search');
+        $category = $categoryType ?? $request->get('category');
+        $offeringType = $request->get('searchType');
+        $locationName = $request->get('location');
+        $page = $request->get('page', 1);
 
-        // Use collections for cleaner merging & uniqueness
         $userIds = collect();
 
-        // 1. Search users by name, first_name, last_name
-        $userByName = User::where('role', 1)
-            ->where('status', 1)
-            ->where(function ($q) use ($search) {
-                $q->where('name', 'like', '%' . $search . '%')
-                    ->orWhere('first_name', 'like', '%' . $search . '%')
-                    ->orWhere('last_name', 'like', '%' . $search . '%');
-            })
-            ->pluck('id');
-        $userIds = $userIds->merge($userByName);
+        // 1. Search by name
+        if (!empty($search)) {
+            $userByName = User::where('role', 1)
+                ->where('status', 1)
+                ->where(function ($q) use ($search) {
+                    $q->where('name', 'like', '%' . $search . '%')
+                        ->orWhere('first_name', 'like', '%' . $search . '%')
+                        ->orWhere('last_name', 'like', '%' . $search . '%');
+                })
+                ->pluck('id');
 
-        // 2. Search in PractitionerTag, HowIHelp, IHelpWith
-        $tagId = PractitionerTag::where('name', 'like', '%' . $search . '%')->value('id');
-        $howIHelpId = HowIHelp::where('name', 'like', '%' . $search . '%')->value('id');
-        $iHelpWithId = IHelpWith::where('name', 'like', '%' . $search . '%')->value('id');
-
-        if ($tagId || $howIHelpId || $iHelpWithId) {
-            $userByDetails = UserDetail::where(function ($q) use ($tagId, $howIHelpId, $iHelpWithId) {
-                if ($tagId) {
-                    $q->orWhere('tags', $tagId);
-                }
-                if ($howIHelpId) {
-                    $q->orWhere('HowIHelp', $howIHelpId);
-                }
-                if ($iHelpWithId) {
-                    $q->orWhere('IHelpWith', $iHelpWithId);
-                }
-            })->pluck('user_id');
-
-            $userIds = $userIds->merge($userByDetails);
+            $userIds = $userIds->merge($userByName);
         }
 
-        // 3. Search in Offerings
-        $offeringUserIds = Offering::where('name', 'like', '%' . $search . '%')
-            ->pluck('user_id');
-        $userIds = $userIds->merge($offeringUserIds);
+        // 2. Search in userDetails (tags, help fields, etc.)
+        if (!empty($search)) {
+            $tagId = PractitionerTag::where('name', 'like', $search . '%')->value('id');
+            $howIHelpId = HowIHelp::where('name', 'like', $search . '%')->value('id');
+            $iHelpWithId = IHelpWith::where('name', 'like', $search . '%')->value('id');
+            $certificationId = Certifications::where('name', 'like', $search . '%')->value('id');
+            $locationId = Locations::where('name', 'like', $search . '%')->value('id');
+            $categoryIdFromSearch = Category::where('name', 'like', '%' . $search . '%')->value('id');
 
-        // 4. Make unique
+            if ($tagId || $howIHelpId || $iHelpWithId || $certificationId || $locationId || $categoryIdFromSearch) {
+                $userByDetails = UserDetail::where(function ($q) use ($tagId, $howIHelpId, $iHelpWithId, $certificationId, $locationId, $categoryIdFromSearch) {
+                    if ($tagId) $q->orWhereJsonContains('tags', (string)$tagId);
+                    if ($howIHelpId) $q->orWhereJsonContains('HowIHelp', (string)$howIHelpId);
+                    if ($iHelpWithId) $q->orWhereJsonContains('IHelpWith', (string)$iHelpWithId);
+                    if ($certificationId) $q->orWhereJsonContains('certifications', (string)$certificationId);
+                    if ($locationId) $q->orWhereJsonContains('location', (string)$locationId);
+                    if ($categoryIdFromSearch) $q->orWhereJsonContains('specialities', (string)$categoryIdFromSearch);
+                })->pluck('user_id');
+
+                $userIds = $userIds->merge($userByDetails);
+            }
+        }
+
         $userIds = $userIds->unique()->values();
 
-        // 5. Prepare base query
+        // 3. Build the base query
         $query = User::where('role', 1)
             ->where('status', 1)
-            ->with('userDetail');
+            ->with('userDetail')
+            ->with('feedback');
+
 
         if ($userIds->isNotEmpty()) {
             $query->whereIn('id', $userIds);
-        } else {
-            // Prevent full fetch if no matches
-            $query->where('id', -1);
         }
 
-        // 6. Category filter (JSON field 'specialities')
+        // 4. Category filter (dropdown or route param)
         if (!empty($category)) {
             $formattedCategory = ucwords(str_replace('_', ' ', $category));
-            $categoryIds = Category::where('name', 'like', '%' . $formattedCategory . '%')->pluck('id')->toArray();
 
-            if (!empty($categoryIds)) {
-                $query->whereHas('userDetail', function ($q) use ($categoryIds) {
-                    foreach ($categoryIds as $id) {
-                        $q->orWhereRaw('JSON_CONTAINS(specialities, ?)', ['"' . $id . '"']);
-                    }
+            $categoryId = Category::where('name', $formattedCategory)->value('id');
+
+            if (!empty($categoryId)) {
+                $query->whereHas('userDetail', function ($q) use ($categoryId) {
+                    $q->whereJsonContains('specialities', (string)$categoryId);
                 });
             }
         }
 
-        // 7. Location filter
-        if (!empty($location)) {
-            $query->whereHas('userDetail', function ($q) use ($location) {
-                $q->where('location', 'like', '%' . $location . '%');
+//         5. Practitioner type filter (from dropdown)
+        if (!empty($offeringType)) {
+
+            $types = match ($offeringType) {
+                'both' => ['in_person', 'virtual'],
+                default => [$offeringType]
+            };
+            $query->whereHas('offerings', function ($q) use ($types) {
+                foreach ($types as $type) {
+                    $q->orWhere('offering_type', 'like', '%' . $type . '%');
+                }
             });
         }
 
-        // 8. Practitioner type filter
-        if (!empty($type)) {
-            $query->whereHas('offerings', function ($q) use ($type) {
-                $q->where('offering_type', 'like', '%' . $type . '%');
-            });
+//         6. Location filter (from dropdown)
+        if (!empty($locationName)) {
+            $locationId = Locations::where('name', $locationName)->value('id');
+
+            if ($locationId) {
+                $query->whereHas('userDetail', function ($q) use ($locationId) {
+                    $q->whereJsonContains('location', (string)$locationId);
+                });
+            }
+
         }
 
-        // 9. Final data with lazy loading/pagination logic
-        $practitioners = $query->take($buttonHitCount * 8)->get();
 
-        // 10. Location dropdown
+        // 7. Default Locations
         $defaultLocations = Locations::where('status', 1)->pluck('name', 'id');
 
-        // 11. Fetch future offerings for matching event data
-        $offeringsData = Offering::where('name', 'like', '%' . $search . '%')
-            ->when($type, fn($q) => $q->where('offering_type', 'like', '%' . $type . '%'))
-            ->when($location, fn($q) => $q->where('location', 'like', '%' . $location . '%'))
+        // 8. Offerings (for showing event matches)
+        $offeringsData = Offering::where('offering_type', $offeringType)
             ->with('event')
             ->get();
 
@@ -428,18 +433,35 @@ class HomeController extends Controller
         $now = now();
         foreach ($offeringsData as $offeringData) {
             if ($offeringData->event && $offeringData->event->date_and_time > $now) {
-                $events[] = $offeringData;
+                $events[$offeringData->event->date_and_time] = $offeringData;
             }
         }
 
-        return view('user.search_page', [
-            'practitioners' => $practitioners,
+
+        $blogs = Blog::latest()->get();
+        // 9. Build final params
+        $params = [
+            'pendingResult' => ceil($query->count() / 8) > $page,
+            'practitioners' => $query->take($page * 8)->get(),
             'search' => $search,
             'category' => $category,
-            'location' => $location,
+//            'location' => $location,
             'defaultLocations' => $defaultLocations,
-            'offerings' => $events,
-        ]);
+            'offerings' => $offeringsData,
+            'offeringEvents' => $events,
+            'categories' => Category::where('status', 1)->get(),
+            'page' => $page
+        ];
+
+        if ($request->isXmlHttpRequest() && $request->get('isPractitioner')) {
+            return response()->json([
+                'success' => true,
+                'pendingResult' => ceil($query->count() / 8) > $page,
+                'html' => view('user.practitioner_list_xml_request', $params)->render()
+            ]);
+        }
+
+        return view('user.search_page', $params);
     }
 
 
@@ -497,6 +519,8 @@ class HomeController extends Controller
         $userId = $request->get('userId');
 
         $offeringId = $request->get('offeringId');
+        $currency = $request->get('currency');
+        $price = $request->get('price');
         $user = User::findOrFail($userId);
         $userDetail = $user->userDetail;
         $offering = Offering::where('id', $offeringId)->with('event')->first();
@@ -504,7 +528,13 @@ class HomeController extends Controller
         return response()->json([
             "success" => true,
             "data" => "Booking saved in session!",
-            'html' => view('user.event_detail_popup', ['user' => $user, 'userDetail' => $userDetail, 'offering' => $offering])->render()
+            'html' => view('user.event_detail_popup', [
+                'user' => $user,
+                'userDetail' => $userDetail,
+                'offering' => $offering,
+                'currency' => $currency,
+                'price' => $price
+                ])->render()
         ]);
 
     }
@@ -535,4 +565,23 @@ class HomeController extends Controller
     {
         return view('user.core_values');
     }
+
+    public function newsLetter(Request $request)
+    {
+        $name = $request->get('name') ?? '';
+        $email = $request->get('email') ?? '';
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Subscribed successfully',
+            'data' => [
+                'name' => $name,
+                'email' => $email
+            ],
+        ]);
+
+    }
+
+
+
 }

@@ -19,6 +19,7 @@ class BookingController extends Controller
 
     public function storeBooking(Request $request)
     {
+
         $request->validate([
             'offering_id' => 'required|exists:offerings,id',
             'booking_date' => 'required|date',
@@ -30,17 +31,23 @@ class BookingController extends Controller
                 'offering_id' => $request->offering_id,
                 'booking_date' => $request->booking_date,
                 'booking_time' => $request->booking_time,
+                'price' => $request->price,
+                'currency' => $request->currency,
+                'currency_symbol' => $request->currency_symbol,
             ]
         ]);
+
         $bookingDate = $request->booking_date;
         $bookingTime = $request->booking_time;
         $offering = Offering::find($request->offering_id);
+        $price = $offering->price;
+        $currency = $offering->currency;
 
 
         return response()->json([
             "success" => true,
             "data" => "Booking saved in session!",
-            'html' => view('user.billing-popup', compact('offering', 'bookingDate', 'bookingTime'))->render()
+            'html' => view('user.billing-popup', compact('offering', 'bookingDate', 'bookingTime','price','currency'))->render()
         ]);
         // return redirect()->route('checkout');
     }
@@ -63,6 +70,10 @@ class BookingController extends Controller
         ]);
 
         $booking = session('booking');
+        $price = $booking['price'];
+        $currency = $booking['currency'];
+        $currencySymbol = $booking['currency_symbol'];
+
         if (!$booking) {
             return response()->json([
                 "success" => false,
@@ -87,7 +98,7 @@ class BookingController extends Controller
         return response()->json([
             "success" => true,
             "data" => "Billing details saved in session!",
-            'html' => view('user.checkout-popup', compact('booking', 'product'))->render()
+            'html' => view('user.checkout-popup', compact('booking', 'product','price','currency' ,'currencySymbol'))->render()
         ]);
     }
 
