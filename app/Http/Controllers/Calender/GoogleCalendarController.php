@@ -241,19 +241,25 @@ class GoogleCalendarController extends Controller
         $googleAccount = GoogleAccount::where('user_id', $userId)->first();
 
         if (!$googleAccount) {
-            throw new Exception('No Google account linked for this user.');
+            throw new \Exception('No Google account linked for this user.');
         }
 
         $accessToken = $googleAccount->access_token;
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new Exception('Invalid JSON token: ' . json_last_error_msg());
+
+        // If access_token is a JSON object (e.g., contains access_token, expires_in, etc.)
+        if (is_string($accessToken) && str_starts_with(trim($accessToken), '{')) {
+            $accessToken = json_decode($accessToken, true);
+
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                throw new \Exception('Invalid JSON token: ' . json_last_error_msg());
+            }
         }
 
-        $client = new Google_Client();
+        $client = new \Google_Client();
 
         $credentialsPath = storage_path('app/google-calendar/google-calendar.json');
         if (!file_exists($credentialsPath)) {
-            throw new Exception('Google credentials file is missing.');
+            throw new \Exception('Google credentials file is missing.');
         }
 
         $client->setAuthConfig($credentialsPath);
