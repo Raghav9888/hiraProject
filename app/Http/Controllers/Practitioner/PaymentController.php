@@ -100,7 +100,7 @@ class PaymentController extends Controller
             $user = auth()->user();
 
             $booking = session('booking');
-           
+
             $billing = session('billing');
             if (!$booking || !$billing) {
                 return response()->json([

@@ -185,6 +185,7 @@
                 </div>
                 <!-- <div class="swiper-pagination"></div> -->
             </div>
+
             <div class="row">
                 <div class="col-sm-12 col-md-9 col-lg-9">
                     <div class="accordion" id="accordionExample">
@@ -235,6 +236,7 @@
                                                                 data-price="{{$offering->offering_event_type =='event' ? $offering->event->client_price :$offering->client_price ?? 0}}"
                                                                 data-currency-symbol="$"
                                                                 data-currency="usd"
+                                                                data-timezone="{{$userDetail->timezone}}"
                                                                 data-usd-price="{{$offering->offering_event_type =='event' ? $offering->event->client_price :$offering->client_price ?? 0}}"
                                                                 data-store-availability="{{$storeAvailable}}">BOOK NOW
                                                         </button>
@@ -588,6 +590,7 @@
 
     <input type="hidden" name="booking_date" id="booking_date">
     <input type="hidden" name="booking_time" id="booking_time">
+    <input type="hidden" name="practitioner_timezone" id="practitioner_timezone">
 
     <input type="hidden" name="store-availability" id="store-availability">
     <input type="hidden" name="offering-specific-days" id="offering-specific-days">

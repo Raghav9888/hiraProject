@@ -21,6 +21,7 @@ function openPopup(event) {
     let userId = event.target.getAttribute('data-user-id');
     let currency = event.target.getAttribute('data-currency');
     let currencySymbol = event.target.getAttribute('data-currency-symbol');
+    let timezone = event.target.getAttribute('data-timezone');
 
 
     let inputElement = document.querySelector('[name="offering_id"]');
@@ -35,6 +36,7 @@ function openPopup(event) {
     let userIdInput = document.getElementById('user_id');
     let currencyInput = document.getElementById('currency');
     let currencySymbolInput = document.getElementById('currency_symbol');
+    let timezoneInput = document.getElementById('practitioner_timezone');
 
     if (inputElement) {
         inputElement.value = offeringId;
@@ -51,6 +53,7 @@ function openPopup(event) {
         userIdInput.value = userId;
         currencyInput.value = currency;
         currencySymbolInput.value = currencySymbol;
+        timezoneInput.value = timezone;
     } else {
         console.error("Element with name 'offering_id' not found");
     }
@@ -214,33 +217,41 @@ function getAllowedDays() {
 
 
 function generateTimeSlots(from = null, to = null, date = null, allDay = false) {
+    const { DateTime } = luxon;
+
+    const practitionerTZ = document.getElementById('practitioner_timezone')?.value || 'UTC';
+    const userTZ = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
     let slots = [];
-    let startTime = '';
-    let endTime = '';
+    let startTime;
+    let endTime;
 
     if (allDay) {
-        startTime = new Date(`${date}T12:00`);
-        endTime = new Date(`${date}T12:00`);
+        // All day: 12:00 PM to 12:00 AM next day in practitioner's timezone
+        startTime = DateTime.fromISO(`${date}T12:00`, { zone: practitionerTZ });
+        endTime = startTime.plus({ hours: 12 });
     } else {
-        startTime = new Date(`2025-01-01T${from}`);
-        endTime = new Date(`2025-01-01T${to}`);
-    }
-    let isNextDay = endTime <= startTime;
-    if (isNextDay) {
-        endTime.setDate(endTime.getDate() + 1); // Move end time to the next day
+        // Custom slot
+        startTime = DateTime.fromISO(`${date}T${from}`, { zone: practitionerTZ });
+        endTime = DateTime.fromISO(`${date}T${to}`, { zone: practitionerTZ });
+
+        if (endTime <= startTime) {
+            endTime = endTime.plus({ days: 1 }); // Handle overnight
+        }
     }
 
     while (startTime < endTime) {
-        slots.push(formatTime(startTime));
-        startTime.setMinutes(startTime.getMinutes() + 60);
+        const userTime = startTime.setZone(userTZ);
+        slots.push(userTime.toLocaleString(DateTime.TIME_SIMPLE));
+
+        // console.log(`Practitioner Time: ${startTime.toFormat('hh:mm a ZZZZ')} | User Time: ${userTime.toFormat('hh:mm a ZZZZ')}`);
+
+        startTime = startTime.plus({ minutes: 60 });
     }
-
-
-    // Sort slots correctly from AM to PM
-    slots.sort((a, b) => convertTo24Hour(a) - convertTo24Hour(b));
 
     return slots;
 }
+
 
 // Convert Date object to "HH:MM AM/PM" format
 function formatTime(date) {
