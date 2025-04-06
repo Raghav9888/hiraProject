@@ -581,7 +581,7 @@ class HomeController extends Controller
             ]
         ];
         $m = $mailerLite->subscribers->create($data);
-        dd($m);
+        
         return response()->json([
             'success' => true,
             'message' => 'Subscribed successfully',
