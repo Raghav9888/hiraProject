@@ -22,10 +22,6 @@ $(document).on('change', '#currencySelect', function () {
         const $btn = $(this);
         let cadPriceRaw = $btn.data('cad-price'); // e.g., "CA$1.0"
 
-        if (typeof cadPriceRaw === 'string') {
-            cadPriceRaw = cadPriceRaw.replace(/[^0-9.]/g, ''); // strip CA$ etc.
-        }
-
         const cadPrice = parseFloat(cadPriceRaw);
 
         const convertedPrice = convertAmount(cadPrice, 'cad', selectedCurrency);
