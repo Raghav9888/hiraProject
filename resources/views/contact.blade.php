@@ -98,7 +98,8 @@
                                 <input type="checkbox" class="form-check-input" name="send_yourself_copy">
                                 <label class="form-check-label">Send yourself a copy</label>
                             </div>
-                            <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
+
+                            <input type="hidden" name="recaptcha_token" id="recaptcha_token">
                             <button type="submit" class="d-none" id="submit_section"> Send message</button>
                         </form>
 {{--                        <img class="star-2" src="{{ url('./assets/images/Star 2.svg') }}" alt="">--}}

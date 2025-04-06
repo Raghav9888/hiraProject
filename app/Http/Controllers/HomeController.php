@@ -147,16 +147,16 @@ class HomeController extends Controller
             'message' => $request->message,
         ];
 
-        $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+        $recaptchaResponse = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
             'secret' => env('RECAPTCHA_SECRET_KEY'),
-            'response' => $request->input('g-recaptcha-response'),
+            'response' => $request->input('recaptcha_token'),
             'remoteip' => $request->ip(),
         ]);
 
-        $responseData = $response->json();
+        $recaptchaData = $recaptchaResponse->json();
 
-        if (!$responseData['success']) {
-            return back()->withErrors(['captcha' => 'reCAPTCHA verification failed. Please try again.'])->withInput();
+        if (!($recaptchaData['success'] ?? false) || ($recaptchaData['score'] ?? 0) < 0.5) {
+            return back()->withErrors(['captcha' => 'reCAPTCHA verification failed.'])->withInput();
         }
 
         // Get the email from .env, fallback to a default email if missing
