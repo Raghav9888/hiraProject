@@ -118,7 +118,7 @@ class PaymentController extends Controller
                 'tax_amount' => $request->tax_amount,
                 'currency' => $booking['currency'],
                 'currency_symbol' => $booking['currency_symbol'],
-                'price' => Offering::find($booking['offering_id'])->client_price,
+                'price' => $booking['price'],
                 'status' => 'pending',
                 'first_name' => $billing['first_name'],
                 'last_name' => $billing['last_name'],
