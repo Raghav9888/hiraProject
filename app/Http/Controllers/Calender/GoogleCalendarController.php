@@ -244,19 +244,14 @@ class GoogleCalendarController extends Controller
             throw new Exception('No Google account linked for this user.');
         }
 
-        // Decode the access token from the database
         $accessToken = $googleAccount->access_token;
-
         if (json_last_error() !== JSON_ERROR_NONE) {
             throw new Exception('Invalid JSON token: ' . json_last_error_msg());
         }
 
-        // Initialize Google Client
         $client = new Google_Client();
 
-        // Validate the JSON credentials file
         $credentialsPath = storage_path('app/google-calendar/google-calendar.json');
-
         if (!file_exists($credentialsPath)) {
             throw new Exception('Google credentials file is missing.');
         }
@@ -264,7 +259,6 @@ class GoogleCalendarController extends Controller
         $client->setAuthConfig($credentialsPath);
         $client->setAccessToken($accessToken);
 
-        // Refresh token if expired
         if ($client->isAccessTokenExpired()) {
             if (!empty($googleAccount->refresh_token)) {
                 $newAccessToken = $client->fetchAccessTokenWithRefreshToken($googleAccount->refresh_token);
@@ -275,19 +269,16 @@ class GoogleCalendarController extends Controller
 
                 $googleAccount->access_token = json_encode($newAccessToken);
                 $googleAccount->save();
-
                 $client->setAccessToken($newAccessToken);
             } else {
                 throw new Exception('Google Token Expired. Please reauthorize.');
             }
         }
 
-        // Initialize Google Calendar service
         $service = new Google_Service_Calendar($client);
-        $calendarId = 'primary'; // Change if needed
-
-        // Get events from today onwards
+        $calendarId = 'primary';
         $now = Carbon::now()->toRfc3339String();
+
         $events = $service->events->listEvents($calendarId, [
             'timeMin' => $now,
             'singleEvents' => true,
@@ -299,20 +290,24 @@ class GoogleCalendarController extends Controller
         foreach ($events->getItems() as $event) {
             $extendedProps = $event->getExtendedProperties();
 
-            // Skip if category is 'hiracollective'
+            // Skip events created by HiraCollective
             if ($extendedProps && isset($extendedProps->private['category']) && $extendedProps->private['category'] === 'hiracollective') {
                 continue;
             }
 
-            // Store event with both date and time
+            // Skip events marked as "Available"
+            if ($event->getTransparency() === 'transparent') {
+                continue;
+            }
+
+            // Add busy events
             if (!empty($event->start->dateTime) && !empty($event->end->dateTime)) {
                 $bookedDates[] = [
                     'date' => Carbon::parse($event->start->dateTime)->format('Y-m-d'),
-                    'start_time' => Carbon::parse($event->start->dateTime)->format('h:i A'), // 12-hour format with AM/PM
-                    'end_time' => Carbon::parse($event->end->dateTime)->format('h:i A') // 12-hour format with AM/PM
+                    'start_time' => Carbon::parse($event->start->dateTime)->format('h:i A'),
+                    'end_time' => Carbon::parse($event->end->dateTime)->format('h:i A')
                 ];
             } elseif (!empty($event->start->date)) {
-                // All-day event (no specific time)
                 $bookedDates[] = [
                     'date' => $event->start->date,
                     'start_time' => null,
@@ -320,7 +315,6 @@ class GoogleCalendarController extends Controller
                 ];
             }
         }
-
 
         $bookedDates = array_map("unserialize", array_unique(array_map("serialize", $bookedDates)));
         return array_values($bookedDates);

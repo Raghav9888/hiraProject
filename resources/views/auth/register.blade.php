@@ -6,10 +6,10 @@
                 <div class="login-wrrpr register-data">
                     <div class="login-body">
                         <div class="d-flex justify-content-center mb-4">
-                        <img src="../../../asserts/header-logo.svg" alt="">
+                        <img src="{{ url('./assets/images/header_logo.png') }}" alt="" width="300px">
                     </div>
                     <div class="contact-us-right-dv">
-                        <h3 style="margin-bottom: 40px;">SignUp your account</h3>
+                        <h3 style="margin-bottom: 40px; width: 100%">Sign up (For Practitioners)</h3>
                         @if ($errors->any())
                             <div class="alert alert-danger">
                                 <ul>
@@ -59,6 +59,7 @@
                                         <i class="fas fa-eye"></i>
                                     </span>
                                 </div>
+                                <p class="text-white pt-2">Create a password that is a minimum of 8 characters</p>
                             </div>
                             <div class="d-flex justify-content-center mt-5">
                             <button class="w-100" type="submit">Sign Up</button>

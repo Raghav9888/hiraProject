@@ -29,7 +29,7 @@ Auth::routes();
 Route::post('/reset-password', [ForgotPasswordController::class, 'sendResetLink'])->name('send.resetLink');
 Route::post('/stripe/webhook', [StripeWebhookController::class, 'handleWebhook']);
 
- Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 //Route::get('/', [HomeController::class, 'comingIndex'])->name('home');
 Route::post('/subscribe', [HomeController::class, 'subscribe'])->name('subscribe');
 Route::get('/pending/user', [HomeController::class, 'pendingUser'])->name('pendingUserRequest');
@@ -39,7 +39,7 @@ Route::post('/contact', [HomeController::class, 'sendContactMail'])->name('sendC
 Route::post('/setEndorsement/{id}', [HomeController::class, 'addEndorsement']);
 Route::get('/blog', [HomeController::class, 'blog'])->name('blog');
 Route::get('/blog/{slug}', [HomeController::class, 'blogDetail'])->name('blogDetail');
-Route::get('/search/practitioner', [HomeController::class, 'searchPractitioner'])->name('searchPractitioner');
+Route::get('/search/practitioner/{categoryType?}', [HomeController::class, 'searchPractitioner'])->name('searchPractitioner');
 Route::get('/practitioners', [HomeController::class, 'partitionerLists'])->name('partitionerLists');
 Route::post('/getEvent', [HomeController::class, 'getEvent'])->name('getEvent');
 Route::get('/land-acknowledgement', [HomeController::class, 'acknowledgement'])->name('acknowledgement');
@@ -47,7 +47,7 @@ Route::get('/our-story', [HomeController::class, 'ourStory'])->name('our_story')
 Route::get('/our-vision', [HomeController::class, 'ourVision'])->name('our_vision');
 Route::get('/core-values', [HomeController::class, 'coreValues'])->name('core_values');
 Route::post('/getBookedSlots/{userId}', [GoogleCalendarController::class, 'getBookedSlots'])->name('getBookedSlots');
-
+Route::post('/news-letter', [HomeController::class, 'newsLetter'])->name('newsLetter');
 
 Route::get('/practitioner/detail/{id}', [HomeController::class, 'practitionerDetail'])->name('practitioner_detail');
 Route::get('/practitioner/offering/detail/{id}', [HomeController::class, 'practitionerOfferingDetail'])->name('practitionerOfferingDetail');

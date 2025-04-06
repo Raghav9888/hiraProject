@@ -2,30 +2,31 @@
 @section('content')
     <section class="contact-us-wrrpr">
         <div class="container">
-            <div class="row">
+            <div class="row align-items-center">
                 <div class="col-sm-12 col-md-6 col-lg-6">
-                    <div class="position-relative">
-                        <img src="{{ url('./assets/images/hira-collective.svg') }}" alt="hira-collective">
-                    <div class="contact-us-right-dv position-absolute top-0" style="backdrop-filter: blur(10px)">
-                        <h2 class="fw-bold mb-3 text-white" style="font-size: 45px">What kind of support do you need?</h2>
+{{--                    <div class="position-relative">--}}
+                        <img src="{{ url('./assets/images/header_logo.png') }}" alt="hira-collective" class="img-fluid">
+{{--                        <div class="contact-us-right-dv position-absolute top-0" style="backdrop-filter: blur(10px)">--}}
+{{--                            <h2 class="fw-bold mb-3 text-white" style="font-size: 45px">What kind of support do you--}}
+{{--                                need?</h2>--}}
 
-                        <h5 class="text-white">Booking Support</h5>
-                        <ul class="list-unstyled ps-3 text-white">
-                            <li>&#8226; Finding a practitioner</li>
-                            <li>&#8226; Help with booking or rescheduling</li>
-                            <li>&#8226; Questions about cancellations or fees</li>
-                            <li>&#8226; Clarification on services or offerings</li>
-                        </ul>
+{{--                            <h5 class="text-white">Booking Support</h5>--}}
+{{--                            <ul class="list-unstyled ps-3 text-white">--}}
+{{--                                <li>&#8226; Finding a practitioner</li>--}}
+{{--                                <li>&#8226; Help with booking or rescheduling</li>--}}
+{{--                                <li>&#8226; Questions about cancellations or fees</li>--}}
+{{--                                <li>&#8226; Clarification on services or offerings</li>--}}
+{{--                            </ul>--}}
 
-                        <h5 class="text-white">Technical Support</h5>
-                        <ul class="list-unstyled ps-3 text-white">
-                            <li>&#8226; Trouble logging in</li>
-                            <li>&#8226; Payment or checkout errors</li>
-                            <li>&#8226; Site bugs or glitches</li>
-                            <li>&#8226; Problems processing refunds or updates</li>
-                        </ul>
-                    </div>
-                    </div>
+{{--                            <h5 class="text-white">Technical Support</h5>--}}
+{{--                            <ul class="list-unstyled ps-3 text-white">--}}
+{{--                                <li>&#8226; Trouble logging in</li>--}}
+{{--                                <li>&#8226; Payment or checkout errors</li>--}}
+{{--                                <li>&#8226; Site bugs or glitches</li>--}}
+{{--                                <li>&#8226; Problems processing refunds or updates</li>--}}
+{{--                            </ul>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-6">
                     <div class="contact-us-right-dv">
@@ -55,7 +56,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="support_type" class="form-label">Support Type</label>
-                                <select name="support_type" id="support_type" class="form-select">
+                                <select name="support_type" id="support_type" class="form-select" style="border-radius: 24px !important; padding: 10px 10px !important;">
                                     <option value="booking_support">Booking support</option>
                                     <option value="technical_support">Technical support</option>
                                 </select>
@@ -63,13 +64,15 @@
                             <div class="mb-3" id="support_category_section">
                                 <label class="form-label">Support Category</label>
 
-                                <select name="support_booking_category" class="form-select d-none" id="subject_booking_input_category">
+                                <select name="support_booking_category" class="form-select d-none"
+                                        id="subject_booking_input_category" style="border-radius: 24px !important; padding: 10px 10px !important;">
                                     <option value=" ">Select booking category</option>
                                     <option value="booking_link">Booking link</option>
                                     <option value="email">Email</option>
                                 </select>
 
-                                <select name="support_technical_category" class="form-select d-none" id="support_technical_category">
+                                <select name="support_technical_category" class="form-select d-none"
+                                        id="support_technical_category" style="border-radius: 24px !important; padding: 10px 10px !important;">
                                     <option value=" ">Select technical category</option>
                                     <option value="whatsapp_number">Whatsapp Number</option>
                                     <option value="email">Email</option>
@@ -88,7 +91,8 @@
                             </div>
                             <div class="mb-3 d-none" id="message_section">
                                 <label for="message">Message</label>
-                                <textarea class="form-control" placeholder="Type your message here" name="message"></textarea>
+                                <textarea class="form-control" placeholder="Type your message here"
+                                          name="message"></textarea>
                             </div>
                             <div class="mb-3 form-check d-none" id="copy_section">
                                 <input type="checkbox" class="form-check-input" name="send_yourself_copy">
@@ -96,7 +100,7 @@
                             </div>
                             <button type="submit" class="d-none" id="submit_section"> Send message</button>
                         </form>
-                        <img class="star-2" src="{{ url('./assets/images/Star 2.svg') }}" alt="">
+{{--                        <img class="star-2" src="{{ url('./assets/images/Star 2.svg') }}" alt="">--}}
                     </div>
                 </div>
             </div>

@@ -789,7 +789,8 @@ section {
     padding: 15px;
     position: relative;
     height: 100% !important;
-    max-height: 480px;
+    max-height: 555px;
+    min-height: 470px;
 }
 
 .featured-dv img {
@@ -862,7 +863,7 @@ section {
 /* contact us css start */
 
 .contact-us-wrrpr {
-    background-image: url('../images/home-banner.png');
+    background-image: url('../images/logo_bg.png');
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -1324,7 +1325,7 @@ p.container-p span {
 /* blog css start */
 
 .blog-banner {
-    background-image: url(../images/blog-banner.png);
+    background-image: url('../images/logo_bg.png');
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -1727,7 +1728,7 @@ p.container-p span {
 }
 
 .practitioner-detail-wrrpr .accordion-button::after {
-    background-image: url(../images/chevron.svg);
+    background-image: url('../images/chevron.svg');
 }
 
 .practitioner-detail-wrrpr .accordian-body-data {
@@ -3014,8 +3015,8 @@ textarea, input[type="time"] {
 
 .img-fit {
     height: 100%;
-    max-height: 250px;
-    min-height: 250px;
+    max-height: 350px;
+    min-height: 350px;
     border-radius: 5%;
 }
 

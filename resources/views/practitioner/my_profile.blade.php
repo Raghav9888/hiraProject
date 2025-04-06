@@ -48,7 +48,9 @@
 
                                                 @if(isset($image))
                                                     @php
-                                                        $imageUrl = asset(env('media_path') . '/practitioners/' . $userDetails->id . '/profile/' . $image);
+                                                        $mediaPath = config('app.media_path', 'uploads');
+                                                        $localPath = config('app.local_path', 'assets');
+                                                        $imageUrl = asset($mediaPath . '/practitioners/' . $userDetails->id . '/profile/' . $image);
                                                     @endphp
                                                     <label class="image-preview rounded-5 " id="imagePreview"
                                                            style=" background-image: url('{{$imageUrl}}'); background-size: cover; background-position: center center;">
@@ -188,7 +190,9 @@
                                                     @foreach ($mediaImages as $image)
                                                         <div class="media-item">
                                                             @php
-                                                                $imageUrl = asset(env('media_path') . '/practitioners/' . $userDetails->id . '/media/' . $image) ;
+                                                                $mediaPath = config('app.media_path', 'uploads');
+                                                                $localPath = config('app.local_path', 'assets');
+                                                                    $imageUrl = asset($mediaPath . '/practitioners/' . $userDetails->id . '/media/' . $image) ;
                                                             @endphp
                                                             <img
                                                                 src="{{ $imageUrl }}"
@@ -243,6 +247,7 @@
                                                 <option>Select</option>
                                                 @foreach($HowIHelp as $term)
                                             <option value="{{$term->id}}">{{$term->name}}</option>
+
 
                                         @endforeach
                                         </select>
@@ -363,7 +368,8 @@
 
                                         <div class="mb-4 select2-div">
                                             <label for="timezone1" class="fw-bold">Timezone</label>
-                                            <select id="timezone1" name="timezone" class="form-select" data-type="multiselect">
+                                            <select id="timezone1" name="timezone" class="form-select"
+                                                    data-type="multiselect">
                                                 <option value="">Select</option>
                                                 @foreach ($timezones as $timezone)
                                                     <option
@@ -377,7 +383,8 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-md-12 store_hours-checkbox-container">
-                                                <label for="service-hours" class="fw-bold">Store Hours Availability</label>
+                                                <label for="service-hours" class="fw-bold">Store Hours
+                                                    Availability</label>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="row">
@@ -552,9 +559,9 @@
     </section>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            document.querySelectorAll(".store_availabilities-checkbox").forEach(function(checkbox) {
-                checkbox.addEventListener("change", function() {
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll(".store_availabilities-checkbox").forEach(function (checkbox) {
+                checkbox.addEventListener("change", function () {
                     let inputDiv = document.getElementById("store_time_" + this.id.replace("store_availabilities", ""));
                     if (this.checked) {
                         inputDiv.style.display = "block";

@@ -20,7 +20,9 @@
 
                                 @if(isset($offering->featured_image))
                                     @php
-                                        $imageUrl = asset(env('media_path') . '/practitioners/' . $userDetails->id . '/offering/'  . $offering->featured_image);
+                                        $mediaPath = config('app.media_path', 'uploads');
+                                        $localPath = config('app.local_path', 'assets');
+                                        $imageUrl = asset($mediaPath . '/practitioners/' . $userDetails->id . '/offering/'  . $offering->featured_image);
                                     @endphp
                                     <label class="image-preview rounded-5 " id="imagePreview"
                                            style=" background-image: url('{{$imageUrl}}'); background-size: cover; background-position: center center;">
@@ -64,7 +66,7 @@
                             </div>
                             <div class="mb-4">
                                 <label for="type" class="fw-bold">Type of offering</label>
-                                <select id="type" name="offering_type" class="form-select"   data-type="change"
+                                <select id="type" name="offering_type" class="form-select" data-type="change"
                                         data-target-one="location"
                                         data-add-one-class="d-block"
                                         data-match-one="in-person">
@@ -80,7 +82,8 @@
                                     </option>
                                 </select>
                             </div>
-                            <div class="mb-3 {{  $offering->offering_type  == 'in-person' ? '': 'd-none'}}" id="location">
+                            <div class="mb-3 {{  $offering->offering_type  == 'in-person' ? '': 'd-none'}}"
+                                 id="location">
                                 <label for="exampleInputEmail1" class="fw-bold d-block">Location</label>
 
                                 <select name="location" class="form-control">

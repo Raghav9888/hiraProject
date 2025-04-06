@@ -81,4 +81,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(ModelsSubscription::class, 'user_id', 'id');
     }
+
+// User.php
+    public function feedback()
+    {
+        return $this->hasMany(Feedback::class, 'practitioner_id', 'id');
+    }
+
 }

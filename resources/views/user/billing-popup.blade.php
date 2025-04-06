@@ -1,10 +1,11 @@
-
 @php
-    $images = isset($offering->user->userDetail->images) ? json_decode($offering->user->userDetail->images, true) : null;
-    $image = isset($images['profile_image']) && $images['profile_image'] ? $images['profile_image'] : null;
-    $imageUrl = $image
-        ? asset(env('media_path') . '/practitioners/' . @$offering->user->userDetail->id . '/profile/' . $image)
-        : asset(env('local_path') . '/images/no_image.png');
+        $mediaPath = config('app.media_path', 'uploads');
+        $localPath = config('app.local_path', 'assets');
+        $images = isset($offering->user->userDetail->images) ? json_decode($offering->user->userDetail->images, true) : null;
+        $image = isset($images['profile_image']) && $images['profile_image'] ? $images['profile_image'] : null;
+        $imageUrl = $image
+            ? asset($mediaPath . '/practitioners/' . @$offering->user->userDetail->id . '/profile/' . $image)
+            : asset($localPath . '/images/no_image.png');
 
 @endphp
 <div class="container my-3">
@@ -19,16 +20,17 @@
 
     <div class="bg-light p-3 rounded mb-4">
         <div class="d-flex gap-3 align-items-center">
-           <div class="practition-img-container">
+            <div class="practition-img-container">
                 <img src="{{$imageUrl}}" alt="" class="img-fluid">
-           </div>
-           <div class="practition-detail-container">
+            </div>
+            <div class="practition-detail-container">
                 <h4 class="practition-name">{{@$offering->user->name}}</h4>
-                <span class="practition-des">{{@$offering->user->userDetail->company ?? "Alternative Health Practitioner"}}</span>
+                <span
+                    class="practition-des">{{@$offering->user->userDetail->company ?? "Alternative Health Practitioner"}}</span>
                 <span class="booking-date-container">
                     {{date('M d, Y', strtotime($bookingDate))}} | {{date("H:i", strtotime($bookingTime))}}
                 </span>
-           </div>
+            </div>
         </div>
     </div>
 
@@ -40,52 +42,61 @@
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label mb-2">First Name</label>
-                        <input type="text" class="form-control" required name="first_name" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter First Name">
+                        <input type="text" class="form-control" required name="first_name" id="exampleInputEmail1"
+                               aria-describedby="emailHelp" placeholder="Enter First Name">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label mb-2">Last Name</label>
-                        <input type="text" class="form-control" required name="last_name" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Last Name">
+                        <input type="text" class="form-control" required name="last_name" id="exampleInputEmail1"
+                               aria-describedby="emailHelp" placeholder="Enter Last Name">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" required class="form-label mb-2">Email Address</label>
-                        <input type="email" class="form-control" name="billing_email" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter a valid email address">
+                        <input type="email" class="form-control" name="billing_email" id="exampleInputEmail1"
+                               aria-describedby="emailHelp" placeholder="Enter a valid email address">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label mb-2">Phone Number</label>
-                        <input type="text" class="form-control" required name="billing_phone" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Phone Number">
+                        <input type="text" class="form-control" required name="billing_phone" id="exampleInputEmail1"
+                               aria-describedby="emailHelp" placeholder="Enter Phone Number">
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label mb-2">Street Address</label>
-                        <input type="text" class="form-control" required name="billing_address" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter address line 1">
+                        <input type="text" class="form-control" required name="billing_address" id="exampleInputEmail1"
+                               aria-describedby="emailHelp" placeholder="Enter address line 1">
                     </div>
                     <div class="mb-3">
-                        <input type="text" class="form-control" required name="billing_address2" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter address line 2">
+                        <input type="text" class="form-control" required name="billing_address2" id="exampleInputEmail1"
+                               aria-describedby="emailHelp" placeholder="Enter address line 2">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label mb-2">City</label>
-                        <input type="text" class="form-control" required name="billing_city" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter city">
+                        <input type="text" class="form-control" required name="billing_city" id="exampleInputEmail1"
+                               aria-describedby="emailHelp" placeholder="Enter city">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label mb-2">State</label>
-                        <input type="text" class="form-control" required name="billing_state" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter state">
+                        <input type="text" class="form-control" required name="billing_state" id="exampleInputEmail1"
+                               aria-describedby="emailHelp" placeholder="Enter state">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label mb-2">Postcode</label>
-                        <input type="text" class="form-control" required name="billing_postcode" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter postcode">
+                        <input type="text" class="form-control" required name="billing_postcode" id="exampleInputEmail1"
+                               aria-describedby="emailHelp" placeholder="Enter postcode">
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -98,25 +109,28 @@
                     </div>
                 </div>
             </div>
-{{--            <div class="or-container text-center mb-3">OR</div>--}}
-{{--            <div class="d-flex justify-content-center mb-3">--}}
-{{--                <button class="creat-account">Create An Account</button>--}}
-{{--            </div>--}}
+            {{--            <div class="or-container text-center mb-3">OR</div>--}}
+            {{--            <div class="d-flex justify-content-center mb-3">--}}
+            {{--                <button class="creat-account">Create An Account</button>--}}
+            {{--            </div>--}}
         </div>
         <div class="bottom-container">
             <div class="form-check ">
                 <input class="form-check-input" type="checkbox" id="inlineCheckbox1" required value="privacy">
-                <label class="form-check-label" for="inlineCheckbox1">I agree to to The Hira Collective’s Terms of Service and Privacy Policy.</label>
+                <label class="form-check-label" for="inlineCheckbox1">I agree to to The Hira Collective’s Terms of
+                    Service and Privacy Policy.</label>
             </div>
             <div class="form-check ">
-                <input class="form-check-input" type="checkbox" id="inlineCheckbox2" name="subscribe"  value="yes">
-                <label class="form-check-label" for="inlineCheckbox2">Yes, I want to receive emails from The Hira Collective!</label>
+                <input class="form-check-input" type="checkbox" id="inlineCheckbox2" name="subscribe" value="yes">
+                <label class="form-check-label" for="inlineCheckbox2">Yes, I want to receive emails from The Hira
+                    Collective!</label>
             </div>
             <div class="col-12 text-center">
                 <button class="confirm-booking" type="submit">Confirm Booking</button>
             </div>
             <div class="bottom-line">
-                Use of this website, content, and products are for informational purposes only. TheHiraCollective does not provide medical advice, diagnosis, or treatment.
+                Use of this website, content, and products are for informational purposes only. TheHiraCollective does
+                not provide medical advice, diagnosis, or treatment.
             </div>
         </div>
     </form>
@@ -128,11 +142,11 @@
 
         let formData = $(this).serialize();
         $.ajax({
-            type:"POST",
+            type: "POST",
             url: "{{route('preCheckout')}}",
-            data:formData,
-            success:function(response){
-                if(!response.success){
+            data: formData,
+            success: function (response) {
+                if (!response.success) {
                     alert(response.data);
                 }
                 $('.booking-container').hide();
@@ -140,20 +154,20 @@
                 $('.checkout-container').show();
                 $('.checkout-container').html(response.html);
             },
-            error:function(error){
+            error: function (error) {
                 alert("Something went wrong!")
             }
         })
     })
 
-    $('.close-modal').on('click', function(){
+    $('.close-modal').on('click', function () {
         $('.booking-container').show();
         $('.billing-container').hide();
         $('.checkout-container').hide();
         $('.login-container').hide();
     })
 
-    $(".creat-account").on('click', function(){
+    $(".creat-account").on('click', function () {
         $('.booking-container').hide();
         $('.billing-container').hide();
         $('.checkout-container').hide();

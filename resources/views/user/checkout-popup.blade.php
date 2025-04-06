@@ -1,15 +1,18 @@
 @php
-    $images = isset($offering->user->userDetail->images) ? json_decode($offering->user->userDetail->images, true) : null;
-    $image = isset($images['profile_image']) && $images['profile_image'] ? $images['profile_image'] : null;
-    $imageUrl = $image
-        ? asset(env('media_path') . '/practitioners/' . @$offering->user->userDetail->id . '/profile/' . $image)
-        : asset(env('local_path') . '/images/no_image.png');
+    use Carbon\Carbon;
+          $mediaPath = config('app.media_path', 'uploads');
+          $localPath = config('app.local_path', 'assets');
+         $images = isset($offering->user->userDetail->images) ? json_decode($offering->user->userDetail->images, true) : null;
+         $image = isset($images['profile_image']) && $images['profile_image'] ? $images['profile_image'] : null;
+         $imageUrl = $image
+             ? asset($mediaPath. '/practitioners/' . @$offering->user->userDetail->id . '/profile/' . $image)
+             : asset($localPath . '/images/no_image.png');
 
-    // Price and Tax Calculation
-    $productPrice = $product->offering_event_type == 'event' ? $product->event->client_price : $product->client_price;
-    $taxPercentage = $product->offering_event_type == 'event' ? $product->event->tax_amount : $product->tax_amount;
-    $taxAmount = $taxPercentage ? ($productPrice * ($taxPercentage / 100)) : 0;
-    $totalAmount = $productPrice + $taxAmount;
+
+
+         $taxPercentage = (float)($product->offering_event_type == 'event' ? $product->event->tax_amount : $product->tax_amount);
+         $taxAmount = $taxPercentage ? ($price * ($taxPercentage / 100)) : 0;
+         $totalAmount = $price + $taxAmount;
 @endphp
 
 <div class="container my-3">
@@ -35,33 +38,33 @@
                         <div>
                             <p class="mb-0">{{$product->name}}</p>
                             <p class="mb-0 text-muted small">
-                                <span>Booking Date:</span> {{ \Carbon\Carbon::parse($booking['booking_date'])->format('F j, Y') }}
+                                <span>Booking Date:</span> {{ Carbon::parse($booking['booking_date'])->format('F j, Y') }}
                             </p>
                             <p class="mb-0 text-muted small">
-                                <span>Booking Time:</span> {{ \Carbon\Carbon::parse($booking['booking_time'])->format('h:i A') }}
+                                <span>Booking Time:</span> {{ Carbon::parse($booking['booking_time'])->format('h:i A') }}
                             </p>
                             <p class="mb-0 text-muted small">Time Zone: Asia/Calcutta</p>
                         </div>
                     </div>
                 </td>
-                <td class="text-end">${{ number_format($productPrice, 2) }}</td>
+                <td class="text-end">{{$currencySymbol .' '. $price}}</td>
             </tr>
 
             <tr>
                 <td class="fw-bold">Subtotal</td>
-                <td class="text-end">${{ number_format($productPrice, 2) }}</td>
+                <td class="text-end">{{$currencySymbol . ' '. $price }}</td>
             </tr>
 
             @if($taxAmount > 0)
                 <tr>
                     <td class="fw-bold">Tax ({{ $taxPercentage }}%)</td>
-                    <td class="text-end">${{ number_format($taxAmount, 2) }}</td>
+                    <td class="text-end">{{$currencySymbol .' '. number_format($taxAmount, 2) }}</td>
                 </tr>
             @endif
 
             <tr>
                 <td class="fw-bold">Total</td>
-                <td class="text-end">${{ number_format($totalAmount, 2) }}</td>
+                <td class="text-end">{{ $currencySymbol .' '.number_format($totalAmount, 2) }}</td>
             </tr>
             </tbody>
         </table>
@@ -87,9 +90,9 @@
         $.ajax({
             type: "POST",
             url: "{{ route('storeCheckout') }}",
-            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-            data: { total_amount, tax_amount },
-            success: function(response) {
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+            data: {total_amount, tax_amount},
+            success: function (response) {
                 if (!response.success) {
                     alert(response.data);
                 } else {
@@ -97,7 +100,7 @@
                     window.location.href = response.data;
                 }
             },
-            error: function(xhr) {
+            error: function (xhr) {
                 alert("Something went wrong: " + xhr.responseJSON?.message || "Unknown error");
             }
         });

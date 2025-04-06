@@ -98,7 +98,7 @@
                             </div>
                             <h6 class="mb-2">Gentle Guidance and Meditations</h6>
                             <p>Grounding practices and wisdom from our practitioners on YouTube. </p>
-                            <a href="#" class="theme-btn">Go to Youtube</a>
+                            <a href="https://www.youtube.com/@TheHiraCollective" class="theme-btn">Go to Youtube</a>
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-4 col-lg-4 mb-3">
@@ -108,7 +108,7 @@
                             </div>
                             <h6 class="mb-2">Our Heartbeat</h6>
                             <p class="mb-4">Learn more about the vision and values that guide us. </p>
-                            <a href="#" class="theme-btn">Read Our Story</a>
+                            <a href="https://thehiracollective.com/our-story" class="theme-btn">Read Our Story</a>
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-4 col-lg-4 mb-3">
@@ -118,7 +118,7 @@
                             </div>
                             <h6 class="mb-2">Come sit with us</h6>
                             <p class="mb-3">Find us on Instagram, where we gather, uplift, and grow together. </p>
-                            <a href="#" class="theme-btn">View Our Instagram</a>
+                            <a href="https://www.instagram.com/thehiracollective/" class="theme-btn">View Our Instagram</a>
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-12 col-lg-12 ">

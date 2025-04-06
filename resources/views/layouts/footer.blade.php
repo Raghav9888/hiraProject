@@ -9,10 +9,10 @@
                         <img src="{{url('./assets/images/footer-logo.svg')}}" alt="logo">
                         <h4>Follow Us</h4>
                         <ul class="footer-social-media-icon">
-                            <li><i class="fa-brands fa-youtube"></i></li>
-                            <li><i class="fa-brands fa-pinterest"></i></li>
-                            <li><i class="fa-brands fa-facebook-f"></i></li>
-                            <li><i class="fa-brands fa-instagram"></i></li>
+                            <li><a href="https://www.youtube.com/@TheHiraCollective"> <i class="fa-brands fa-youtube"></i></a></li>
+                            <li><a href="https://pin.it/3b7V2zHvv"><i class="fa-brands fa-pinterest"></i></a></li>
+{{--                            <li><i class="fa-brands fa-facebook-f"></i></li>--}}
+                            <li><a href="https://www.instagram.com/thehiracollective/"> <i class="fa-brands fa-instagram"></i></a></li>
                         </ul>
                     </div>
                 </div>
@@ -53,7 +53,7 @@
                         </h5>
                     </div>
                     <div class="footer-lists pt-4">
-                        <p class="text-white pt-2">
+                        <p class="text-white pt-3">
                             The Hira Collective acknowledges that we are created, built, and operating on lands that
                             have long been home to Indigenous Peoples, including the Anishi...
                         </p>
@@ -67,7 +67,7 @@
                             TheHiraCollective does not provide medical advice, diagnosis, or treatment.</p>
                     </div>
                     <div class="col-sm-12 col-md-2 col-lg-2">
-                        <button><i class="fa-solid fa-globe"></i>English</button>
+                        <button class="mt-2"><i class="fa-solid fa-globe"></i>English</button>
                     </div>
                 </div>
             </div>
