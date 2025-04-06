@@ -524,10 +524,10 @@
         </div>
         <div class="endorsment-dv">
             <div class="container">
-                <div class="row">
-                    <h4>Endorsements</h4>
-                    <div class="row" id="endorsementRow">
-                        @if($endorsedUsers)
+                @if($endorsedUsers)
+                    <div class="row">
+                        <h4>Endorsements</h4>
+                        <div class="row" id="endorsementRow">
                             @foreach($endorsedUsers as $endorsedUser)
                                 @php
                                     $images = isset($endorsedUser->userDetail->images) ? json_decode($endorsedUser->userDetail->images, true) : null;
@@ -571,9 +571,10 @@
                                     </div>
                                 </div>
                             @endforeach
-                        @endif
+                        </div>
                     </div>
-                </div>
+                @endif
+
             </div>
         </div>
     </div>
