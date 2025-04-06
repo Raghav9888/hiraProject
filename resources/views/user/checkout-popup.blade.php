@@ -10,10 +10,9 @@
 
 
 
-         $productPrice = (float) ($product->offering_event_type == 'event' ? $product->event->client_price : $product->client_price);
          $taxPercentage = (float)($product->offering_event_type == 'event' ? $product->event->tax_amount : $product->tax_amount);
-         $taxAmount = $taxPercentage ? ($productPrice * ($taxPercentage / 100)) : 0;
-         $totalAmount = $productPrice + $taxAmount;
+         $taxAmount = $taxPercentage ? ($price * ($taxPercentage / 100)) : 0;
+         $totalAmount = $price + $taxAmount;
 @endphp
 
 <div class="container my-3">
@@ -48,24 +47,24 @@
                         </div>
                     </div>
                 </td>
-                <td class="text-end">${{ number_format($productPrice, 2) }}</td>
+                <td class="text-end">{{$currencySymbol .' '. $price}}</td>
             </tr>
 
             <tr>
                 <td class="fw-bold">Subtotal</td>
-                <td class="text-end">${{ number_format($productPrice, 2) }}</td>
+                <td class="text-end">{{$currencySymbol . ' '. $price }}</td>
             </tr>
 
             @if($taxAmount > 0)
                 <tr>
                     <td class="fw-bold">Tax ({{ $taxPercentage }}%)</td>
-                    <td class="text-end">${{ number_format($taxAmount, 2) }}</td>
+                    <td class="text-end">{{$currencySymbol .' '. number_format($taxAmount, 2) }}</td>
                 </tr>
             @endif
 
             <tr>
                 <td class="fw-bold">Total</td>
-                <td class="text-end">${{ number_format($totalAmount, 2) }}</td>
+                <td class="text-end">{{ $currencySymbol .' '.number_format($totalAmount, 2) }}</td>
             </tr>
             </tbody>
         </table>

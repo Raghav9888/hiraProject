@@ -16,9 +16,12 @@ function openPopup(event) {
     let priceData = event.target.getAttribute('data-price');
     let specificDayStart = event.target.getAttribute('data-specific-day-start');
     let specificDayEnd = event.target.getAttribute('data-specific-day-end');
-    let offeringEventType = event.target.getAttribute('data-offering-event-type');
+    let offeringEventType = event.target.getAttribute('data-offering-event-type') !== '' ? event.target.getAttribute('data-offering-event-type') : 'offering';
     let offeringEventStart = event.target.getAttribute('data-event-start');
     let userId = event.target.getAttribute('data-user-id');
+    let currency = event.target.getAttribute('data-currency');
+    let currencySymbol = event.target.getAttribute('data-currency-symbol');
+    let timezone = event.target.getAttribute('data-timezone');
 
 
     let inputElement = document.querySelector('[name="offering_id"]');
@@ -31,6 +34,10 @@ function openPopup(event) {
     let offeringEventStartDateTime = document.querySelector('[name="offering_event_start_date_time"]');
     let popupElement = document.getElementById('popup');
     let userIdInput = document.getElementById('user_id');
+    let currencyInput = document.getElementById('currency');
+    let currencySymbolInput = document.getElementById('currency_symbol');
+    let timezoneInput = document.getElementById('practitioner_timezone');
+
     if (inputElement) {
         inputElement.value = offeringId;
         inputElement.classList.add('activeInput');
@@ -44,6 +51,9 @@ function openPopup(event) {
         offeringSpecificDaysInput.setAttribute('data-specific-day-end', specificDayEnd);
         offeringSpecificDaysInput.value = specificDayStart + ' - ' + specificDayEnd;
         userIdInput.value = userId;
+        currencyInput.value = currency;
+        currencySymbolInput.value = currencySymbol;
+        timezoneInput.value = timezone;
     } else {
         console.error("Element with name 'offering_id' not found");
     }
@@ -58,6 +68,8 @@ function openPopup(event) {
             data: {
                 offeringId: offeringId,
                 userId: `${userId}`,
+                price: `${priceData}`,
+                currency: `${currencySymbol}`,
             },
             beforeSend: function () {
                 window.loadingScreen.addPageLoading();
@@ -67,6 +79,7 @@ function openPopup(event) {
                     // Populate the event data in the modal
                     document.querySelector('.event-container').innerHTML = response.html;
                     document.querySelector('.event-container').classList.remove('d-none');
+                    document.querySelector('.event-container').style.display = 'block';
                     document.querySelector('.booking-container').classList.add('d-none');
                 } else {
                     console.log('error')
@@ -204,33 +217,41 @@ function getAllowedDays() {
 
 
 function generateTimeSlots(from = null, to = null, date = null, allDay = false) {
+    const { DateTime } = luxon;
+
+    const practitionerTZ = document.getElementById('practitioner_timezone')?.value || 'UTC';
+    const userTZ = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
     let slots = [];
-    let startTime = '';
-    let endTime = '';
+    let startTime;
+    let endTime;
 
     if (allDay) {
-        startTime = new Date(`${date}T12:00`);
-        endTime = new Date(`${date}T12:00`);
+        // All day: 12:00 PM to 12:00 AM next day in practitioner's timezone
+        startTime = DateTime.fromISO(`${date}T12:00`, { zone: practitionerTZ });
+        endTime = startTime.plus({ hours: 12 });
     } else {
-        startTime = new Date(`2025-01-01T${from}`);
-        endTime = new Date(`2025-01-01T${to}`);
-    }
-    let isNextDay = endTime <= startTime;
-    if (isNextDay) {
-        endTime.setDate(endTime.getDate() + 1); // Move end time to the next day
+        // Custom slot
+        startTime = DateTime.fromISO(`${date}T${from}`, { zone: practitionerTZ });
+        endTime = DateTime.fromISO(`${date}T${to}`, { zone: practitionerTZ });
+
+        if (endTime <= startTime) {
+            endTime = endTime.plus({ days: 1 }); // Handle overnight
+        }
     }
 
     while (startTime < endTime) {
-        slots.push(formatTime(startTime));
-        startTime.setMinutes(startTime.getMinutes() + 60);
+        const userTime = startTime.setZone(userTZ);
+        slots.push(userTime.toLocaleString(DateTime.TIME_SIMPLE));
+
+        // console.log(`Practitioner Time: ${startTime.toFormat('hh:mm a ZZZZ')} | User Time: ${userTime.toFormat('hh:mm a ZZZZ')}`);
+
+        startTime = startTime.plus({ minutes: 60 });
     }
-
-
-    // Sort slots correctly from AM to PM
-    slots.sort((a, b) => convertTo24Hour(a) - convertTo24Hour(b));
 
     return slots;
 }
+
 
 // Convert Date object to "HH:MM AM/PM" format
 function formatTime(date) {
@@ -283,6 +304,7 @@ function generateCalendar(month, year) {
         calendarGrid.appendChild(emptyCell);
     }
 
+    // Inside your `generateCalendar` function where you loop over the `bookedDates`
     for (let day = 1; day <= daysInMonth; day++) {
         const dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
         const currentDayOfWeek = new Date(year, month, day).getDay();
@@ -294,16 +316,18 @@ function generateCalendar(month, year) {
             activeDate = dateString;
         }
 
-        // ✅ Check for full date match (if own_specific_date) OR check by day of week
+        // Check for all-day booked dates or by day of week
         if (!(allowedDays.includes(dateString) || allowedDays.includes(currentDayOfWeek))) {
             dayCell.classList.add('inactive');
         }
 
-        // // ✅ Disable already booked dates
-        if (bookedDates.includes(dateString)) {
+        // Check if the date is booked and it's an all-day event
+        let isBooked = bookedDates.some(booked => booked.date === dateString && !booked.start_time && !booked.end_time);
+
+        if (isBooked) {
             dayCell.classList.add('inactive');
-            dayCell.classList.add('booked'); // Optional: Add a booked class for styling
-            dayCell.setAttribute('title', 'This date is already booked');
+            dayCell.classList.add('booked');
+            dayCell.setAttribute('title', 'This date is fully booked (All-day)');
         }
 
         dayCell.innerText = day;
@@ -325,10 +349,95 @@ function generateCalendar(month, year) {
         $('.calendar-grid .dates').on('click', function () {
             const date = $(this).data('date');
             $('#booking_date').val(date);
-        })
-
+        });
     }
+
 }
+
+
+// function generateCalendar(month, year) {
+//     const firstDay = new Date(year, month, 1);
+//     const lastDay = new Date(year, month + 1, 0);
+//     const calendarGrid = document.getElementById('calendarGrid');
+//     const monthLabel = document.getElementById('monthLabel');
+//     calendarGrid.innerHTML = '';
+//
+//     monthLabel.innerText = `${firstDay.toLocaleString('default', {month: 'long'})} ${year}`;
+//     const daysInMonth = lastDay.getDate();
+//     const startDay = firstDay.getDay();
+//     const allowedDays = getAllowedDays();
+//
+//     // Retrieve already booked slots from hidden input
+//     let bookedSlotsElement = document.getElementById('already_booked_slots');
+//     let bookedDates = [];
+//
+//     if (bookedSlotsElement) {
+//         let value = bookedSlotsElement.value.trim(); // Remove any extra spaces
+//
+//         if (value) { // Ensure the value is not empty
+//             try {
+//                 bookedDates = JSON.parse(value);
+//             } catch (error) {
+//                 console.error("Error parsing booked slots JSON:", error, value);
+//             }
+//         }
+//     }
+//
+//     console.log("Parsed bookedDates:", bookedDates);
+//
+//
+//     for (let i = 0; i < startDay; i++) {
+//         const emptyCell = document.createElement('div');
+//         emptyCell.classList.add('inactive');
+//         calendarGrid.appendChild(emptyCell);
+//     }
+//
+//     for (let day = 1; day <= daysInMonth; day++) {
+//         const dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+//         const currentDayOfWeek = new Date(year, month, day).getDay();
+//         const dayCell = document.createElement('div');
+//         dayCell.classList.add('dates');
+//
+//         if (dateString === formatDate(currentDate)) {
+//             dayCell.classList.add('active');
+//             activeDate = dateString;
+//         }
+//
+//         // ✅ Check for full date match (if own_specific_date) OR check by day of week
+//         if (!(allowedDays.includes(dateString) || allowedDays.includes(currentDayOfWeek))) {
+//             dayCell.classList.add('inactive');
+//         }
+//
+//         // // ✅ Disable already booked dates
+//         if (bookedDates.includes(dateString)) {
+//             dayCell.classList.add('inactive');
+//             dayCell.classList.add('booked'); // Optional: Add a booked class for styling
+//             dayCell.setAttribute('title', 'This date is already booked');
+//         }
+//
+//         dayCell.innerText = day;
+//         dayCell.setAttribute('data-date', dateString);
+//
+//         dayCell.addEventListener('click', () => {
+//             if (dayCell.classList.contains('inactive')) return;
+//
+//             if (activeDate) {
+//                 document.querySelector(`[data-date='${activeDate}']`)?.classList.remove('active');
+//             }
+//
+//             activeDate = dateString;
+//             dayCell.classList.add('active');
+//             showAvailableSlots(activeDate);
+//         });
+//
+//         calendarGrid.appendChild(dayCell);
+//         $('.calendar-grid .dates').on('click', function () {
+//             const date = $(this).data('date');
+//             $('#booking_date').val(date);
+//         })
+//
+//     }
+// }
 
 
 function filterBookedSlots(date, slots) {
@@ -354,6 +463,13 @@ function showAvailableSlots(date) {
     dateLabel.innerText = date.split('-').reverse().join('/');
 
     let availableSlots = [];
+
+    // All-Day Slot Creation
+    availableSlots.push({
+        type: 'all-day',
+        time: 'All Day',
+        date: date
+    });
 
     if (availability === 'following_store_hours') {
         if (!storeAvailabilityRaw) {
@@ -409,20 +525,103 @@ function showAvailableSlots(date) {
 }
 
 function renderSlots(availableSlots) {
-    console.log(availableSlots)
     const slotsContainer = document.getElementById('availableSlots');
-    console.log(availableSlots);
     slotsContainer.innerHTML = availableSlots.length > 0
-        ? availableSlots.map(slot => `<div class="col-4"><button class="btn btn-outline-green w-100 offering-slot" data-time="${slot}">${slot}</button></div>`).join('')
+        ? availableSlots.map(slot => {
+            if (slot.type === 'all-day') {
+                return `<div class="col-12"><button class="btn btn-outline-green w-100 offering-slot all-day" data-time="${slot.time}">${slot.time}</button></div>`;
+            }
+            return `<div class="col-4"><button class="btn btn-outline-green w-100 offering-slot" data-time="${slot}">${slot}</button></div>`;
+        }).join('')
         : '<p class="text-muted">No available slots</p>';
 
     $('.offering-slot').on('click', function () {
-        $('.offering-slot').removeClass('active')
-        $(this).addClass('active')
+        $('.offering-slot').removeClass('active');
+        $(this).addClass('active');
         const time = $(this).data('time');
-        $('#booking_time').val(time)
+        $('#booking_time').val(time);
     })
 }
+
+// function showAvailableSlots(date) {
+//     const slotsContainer = document.getElementById('availableSlots');
+//     const dateLabel = document.getElementById('selectedDate');
+//     let availability = document.getElementById('availability')?.value || 'own_specific_date';
+//     let storeAvailabilityRaw = document.getElementById('store-availability')?.value;
+//
+//     slotsContainer.innerHTML = '<p class="text-muted">No available slots</p>';
+//     dateLabel.innerText = date.split('-').reverse().join('/');
+//
+//     let availableSlots = [];
+//
+//     if (availability === 'following_store_hours') {
+//         if (!storeAvailabilityRaw) {
+//             console.error("Store availability data is missing.");
+//             return;
+//         }
+//
+//         let storeAvailability;
+//         try {
+//             storeAvailability = JSON.parse(storeAvailabilityRaw.replace(/&quot;/g, '"'));
+//         } catch (error) {
+//             console.error("Error parsing store availability JSON:", error, storeAvailabilityRaw);
+//             return;
+//         }
+//
+//         let dayOfWeekIndex = new Date(date).getDay();
+//         let dayNames = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+//
+//         let allSlots = [];
+//
+//         if (storeAvailability.every_day?.enabled === "1") {
+//             let fromTime = storeAvailability.every_day?.from;
+//             let toTime = storeAvailability.every_day?.to;
+//
+//             if (fromTime && toTime) {
+//                 allSlots = generateTimeSlots(fromTime, toTime);
+//             }
+//         } else {
+//             Object.keys(storeAvailability).forEach(dayKey => {
+//                 let normalizedDay = dayKey.replace("every_", "").toLowerCase();
+//                 let dayIndex = dayNames.indexOf(normalizedDay);
+//
+//                 if (dayIndex === dayOfWeekIndex && storeAvailability[dayKey]?.enabled === "1") {
+//                     let fromTime = storeAvailability[dayKey]?.from;
+//                     let toTime = storeAvailability[dayKey]?.to;
+//
+//                     if (fromTime && toTime) {
+//                         allSlots = allSlots.concat(generateTimeSlots(fromTime, toTime));
+//                     }
+//                 }
+//             });
+//         }
+//
+//         availableSlots = [...new Set(allSlots)].sort((a, b) => convertTo24Hour(a) - convertTo24Hour(b));
+//     } else {
+//         availableSlots = generateTimeSlots(null, null, date, true);
+//     }
+//
+//     // ❗ Filter out booked slots
+//     availableSlots = filterBookedSlots(date, availableSlots);
+//
+//     renderSlots(availableSlots);
+// }
+//
+// function renderSlots(availableSlots) {
+//     console.log(availableSlots)
+//     const slotsContainer = document.getElementById('availableSlots');
+//     console.log(availableSlots);
+//     slotsContainer.innerHTML = availableSlots.length > 0
+//         ? availableSlots.map(slot => `<div class="col-4"><button class="btn btn-outline-green w-100 offering-slot" data-time="${slot}">${slot}</button></div>`).join('')
+//         : '<p class="text-muted">No available slots</p>';
+//
+//     $('.offering-slot').on('click', function () {
+//         $('.offering-slot').removeClass('active')
+//         $(this).addClass('active')
+//         const time = $(this).data('time');
+//         $('#booking_time').val(time)
+//     })
+// }
 
 
 document.getElementById('prevMonth').addEventListener('click', () => {
@@ -450,7 +649,11 @@ $(document).on('click', '.proceed_to_checkout', function () {
     const offeringId = $('#offering_id').val();
     const offeringEventType = $('#offering_event_type').val();
     const startEventDate = $('#offering_event_start_date_time').val();
+    const price = $('#offering_price').val();
+    const currency = $('#currency').val();
+    const currencySymbol = $('#currency_symbol').val();
 
+console.log(currencySymbol)
     let bookingDate = '';
     let bookingTime = '';
 
@@ -461,11 +664,11 @@ $(document).on('click', '.proceed_to_checkout', function () {
         [bookingDate, bookingTime] = startEventDate.split(" ");
     }
 
-    paymentAjax(offeringId, bookingDate, bookingTime, offeringEventType);
+    paymentAjax(offeringId, bookingDate, bookingTime, offeringEventType, price, currency, currencySymbol);
 });
 
 
-function paymentAjax(offeringId, bookingDate, bookingTime, offeringEventType) {
+function paymentAjax(offeringId, bookingDate, bookingTime, offeringEventType, price, currency, currencySymbol) {
 
     if (!offeringId || !bookingDate || !bookingTime) {
         alert("Please select slot!");
@@ -482,7 +685,10 @@ function paymentAjax(offeringId, bookingDate, bookingTime, offeringEventType) {
             offering_id: offeringId,
             booking_date: bookingDate,
             booking_time: bookingTime,
-            offering_event_type: offeringEventType
+            offering_event_type: offeringEventType,
+            price: price,
+            currency_symbol: currencySymbol,
+            currency: currency,
         },
         success: function (response) {
             if (!response.success) {
@@ -501,3 +707,6 @@ function paymentAjax(offeringId, bookingDate, bookingTime, offeringEventType) {
         }
     });
 }
+
+
+
