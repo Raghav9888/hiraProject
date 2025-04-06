@@ -181,5 +181,12 @@
             updateFields(); // Initialize correctly on page load
         });
     </script>
-
+    <script>
+        function onClick(e) {
+            e.preventDefault();
+            grecaptcha.enterprise.ready(async () => {
+                const token = await grecaptcha.enterprise.execute('6LcHEAwrAAAAAPAOqh949AjS1TkQ5ixAjL1GUUhe', {action: 'LOGIN'});
+            });
+        }
+    </script>
 @endsection
