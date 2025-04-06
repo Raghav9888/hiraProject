@@ -15,7 +15,6 @@ async function fetchExchangeRate() {
             return null;
         }
 
-        // Set the live rate in your global object
         conversionRates.usd = usdRate;
         console.log(`Live CAD to USD rate: ${usdRate}`);
         return usdRate;
@@ -37,9 +36,24 @@ function convertAmount(amount, fromCurrency, toCurrency) {
     return (amount * toRate) / fromRate;
 }
 
-// Format price with commas
+// Round price based on type
+function roundPrice(value, type = 'two-decimal') {
+    switch (type) {
+        case 'two-decimal':
+            return parseFloat(value.toFixed(2));
+        case 'nearest-0.05':
+            return Math.round(value * 20) / 20;
+        case 'psychological':
+            return parseFloat((Math.floor(value) + 0.99).toFixed(2));
+        case 'whole':
+        default:
+            return Math.round(value);
+    }
+}
+
+// Format number with commas
 function formatPrice(number) {
-    return number.toLocaleString(); // Adds comma like 3,170
+    return number.toLocaleString(); // Adds commas like 3,170.99
 }
 
 // Update all offering prices
@@ -51,7 +65,7 @@ function updatePrices(selectedCurrency) {
         let cadPriceRaw = $btn.data('cad-price'); // e.g. "CA$4,500"
 
         if (typeof cadPriceRaw === 'string') {
-            cadPriceRaw = cadPriceRaw.replace(/[^\d.]/g, ''); // Remove CA$ and commas
+            cadPriceRaw = cadPriceRaw.replace(/[^\d.]/g, ''); // Remove symbols and commas
         }
 
         cadPriceRaw = parseFloat(cadPriceRaw);
@@ -59,7 +73,7 @@ function updatePrices(selectedCurrency) {
         const convertedPrice = convertAmount(cadPriceRaw, 'cad', selectedCurrency);
 
         if (!isNaN(convertedPrice)) {
-            const roundedPrice = Math.round(convertedPrice); // Round to nearest dollar
+            const roundedPrice = roundPrice(convertedPrice, 'whole'); // Change type if needed
             const formattedPrice = formatPrice(roundedPrice);
 
             $btn.attr('data-price', roundedPrice);
@@ -79,13 +93,8 @@ $(document).on('change', '#currencySelect', async function () {
     const selectedCurrency = $(this).val(); // 'usd' or 'cad'
 
     if (selectedCurrency === 'usd') {
-        const rate = await fetchExchangeRate(); // Fetch real-time USD rate
-        if (rate !== null) {
-            updatePrices('usd');
-        } else {
-            console.warn('Using fallback rate (0.70)');
-            updatePrices('usd');
-        }
+        const rate = await fetchExchangeRate();
+        updatePrices('usd'); // Will use live or fallback rate
     } else {
         updatePrices('cad');
     }
