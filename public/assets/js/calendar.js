@@ -60,7 +60,7 @@ function upComingAppointments() {
                         <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
                             <div class="event-name-dv">
                                 <h5>${event.title ?? 'No Title'}</h5>
-                         
+
                                 <div class="d-flex">
                                     <img src="${window.location.origin}/assets/images/Clock.svg" alt="">
                                     <p class="ms-2">Start: ${formattedStartTime}</p>
