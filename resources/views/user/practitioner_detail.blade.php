@@ -524,7 +524,7 @@
         </div>
         <div class="endorsment-dv">
             <div class="container">
-                @if($endorsedUsers)
+                @if(count($endorsedUsers) > 0)
                     <div class="row">
                         <h4>Endorsements</h4>
                         <div class="row" id="endorsementRow">
