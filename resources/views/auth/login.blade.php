@@ -1,9 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <section class="contact-us-wrrpr"
-             style="height: 100vh;display: flex; align-items: center; justify-content: center;">
-        <div class="login-wrrpr">
+    <div class="contact-us-wrrpr" style="display: flex; align-items: center; justify-content: center;">
+        <div class="login-wrrpr register-data">
             <div class="login-body">
                 <div class="d-flex justify-content-center mb-4">
                     <img src="{{ url('./assets/images/header_logo.png') }}" alt="" width="300px">
