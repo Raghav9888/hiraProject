@@ -206,8 +206,8 @@
                                                 <select class="form-select" aria-label="Default select example"
                                                         id="currencySelect"
                                                         style="border-radius: 30px !important;padding: 10px 36px 10px 10px;text-align: start;">
-                                                    <option value="usd">USD</option>
                                                     <option value="cad">CAD</option>
+                                                    <option value="usd">USD</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -215,10 +215,10 @@
                                     @foreach($offerings as $offering)
                                         <div class="accordian-body-data">
                                             <div class="d-flex justify-content-between flex-wrap align-items-center">
-                                                <h6 class="mb-2">{{$offering->name}}</h6>
+                                                <h6 class="mb-2" style="font-size: 15px;font-weight: 800">{{$offering->name}}</h6>
                                                 <div class="d-flex align-items-center">
                                                     <h6 class="offer-prize me-2 m-0">
-                                                        ${{ number_format((float) ($offering->offering_event_type == 'event' ? $offering->event->client_price : ($offering?->client_price ?? 0)), 2) }}
+                                                        CA${{ number_format((float) ($offering->offering_event_type == 'event' ? $offering->event->client_price : ($offering?->client_price ?? 0)), 2) }}
                                                     </h6>
                                                     <button type="button" class="home-blog-btn offering_process"
                                                             data-bs-toggle="modal"
@@ -232,10 +232,10 @@
                                                             data-specific-day-start="{{$offering->from_date}}"
                                                             data-specific-day-end="{{$offering->to_date}}"
                                                             data-price="{{$offering->offering_event_type =='event' ? $offering->event->client_price :$offering->client_price ?? 0}}"
-                                                            data-currency-symbol="$"
-                                                            data-currency="usd"
+                                                            data-currency-symbol="CA$"
+                                                            data-currency="cad"
                                                             data-timezone="{{$userDetail->timezone}}"
-                                                            data-usd-price="{{$offering->offering_event_type =='event' ? $offering->event->client_price :$offering->client_price ?? 0}}"
+                                                            data-cad-price="{{$offering->offering_event_type =='event' ? $offering->event->client_price :$offering->client_price ?? 0}}"
                                                             data-store-availability="{{$storeAvailable}}">BOOK NOW
                                                     </button>
 
