@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
-use Illuminate\Http\Request;
+use App\Services\GoogleAnalyticsService;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,18 +19,22 @@ class DashboardController extends Controller
         $this->middleware('auth');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function index()
+
+    public function index(GoogleAnalyticsService $analyticsService)
     {
         $user = Auth::user();
-        return view('admin.dashboard',[
-            'user' => $user
-        ]);
+
+//        $chartData = $analyticsService->getWeeklyReport();
+        $chartData = [
+            'labels' => ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+            'thisWeek' => [100, 120, 90, 130, 110, 160, 140],
+            'lastWeek' => [80, 100, 70, 110, 90, 140, 120]
+        ];
+
+        return view('admin.dashboard', compact('user','chartData'));
     }
+
+
 
     public function users()
     {

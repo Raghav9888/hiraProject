@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
-@section('content')  
-      
+@section('content')
+
 @include('admin.layouts.nav')
       <!-- partial -->
       <div class="container-fluid page-body-wrapper">
@@ -743,8 +743,14 @@
         <!-- main-panel ends -->
       </div>
       <!-- page-body-wrapper ends -->
-    
+
       @endsection
       @push("custom_scripts")
-    <script src="{{asset('admin/assets/js/dashboard.js')}}"></script>
+          <script>
+              const chartLabels = @json($chartData['labels']);
+              const thisWeekData = @json($chartData['thisWeek']);
+              const lastWeekData = @json($chartData['lastWeek']);
+          </script>
+
+          <script src="{{asset('admin/assets/js/dashboard.js')}}"></script>
       @endpush
