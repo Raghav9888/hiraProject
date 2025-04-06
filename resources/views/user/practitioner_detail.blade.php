@@ -231,11 +231,11 @@
                                                             data-availability="{{$offering?->availability_type ?? ''}}"
                                                             data-specific-day-start="{{$offering->from_date}}"
                                                             data-specific-day-end="{{$offering->to_date}}"
-                                                            data-price="{{$offering->offering_event_type =='event' ? $offering->event->client_price :$offering->client_price ?? 0}}"
+                                                            data-price="{{number_format((float) ($offering->offering_event_type == 'event' ? $offering->event->client_price : ($offering?->client_price ?? 0)), 2)}}"
                                                             data-currency-symbol="CA$"
                                                             data-currency="cad"
                                                             data-timezone="{{$userDetail->timezone}}"
-                                                            data-cad-price="{{$offering->offering_event_type =='event' ? $offering->event->client_price :$offering->client_price ?? 0}}"
+                                                            data-cad-price="{{number_format((float) ($offering->offering_event_type == 'event' ? $offering->event->client_price : ($offering?->client_price ?? 0)), 2)}}"
                                                             data-store-availability="{{$storeAvailable}}">BOOK NOW
                                                     </button>
 
