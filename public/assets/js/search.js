@@ -4,6 +4,8 @@ $(document).ready(function () {
         performSearch(true);
     });
 
+    scrollToResultsIfNeeded();
+
     $('#category').on('change', function () {
         performSearch(true)
     });
@@ -76,11 +78,13 @@ function performSearch(isPractitioner = false, page = 1) {
         },
         success: function (response) {
             if (response.success && response.html) {
-                $(`#${$rowId}`).html(response.html);
+                $(`#
+                ${$rowId}`).html(response.html);
 
-                const elementTop = $(`#${$rowId}`).offset().top;
+                const elementTop = $(`#
+                ${$rowId}`).offset().top;
                 const halfWindow = window.innerHeight / 2;
-                $('html, body').animate({ scrollTop: elementTop - halfWindow }, 500);
+                $('html, body').animate({scrollTop: elementTop - halfWindow}, 500);
             }
 
         },
@@ -91,5 +95,20 @@ function performSearch(isPractitioner = false, page = 1) {
         }
     });
 
+}
+function scrollToResultsIfNeeded() {
+    const urlParams = new URLSearchParams(window.location.search);
+
+    const search = urlParams.get('search')?.trim();
+    const practitionerType = urlParams.get('practitionerType')?.trim();
+    const location = urlParams.get('location')?.trim();
+
+    const shouldScroll = search || practitionerType || location;
+
+    if (shouldScroll && $('#practitionerRowDiv').length) {
+        const elementTop = $('#practitionerRowDiv').offset().top;
+        const halfWindow = window.innerHeight / 2;
+        $('html, body').animate({ scrollTop: elementTop - halfWindow }, 500);
+    }
 }
 
