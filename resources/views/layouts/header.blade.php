@@ -39,7 +39,7 @@
                             <nav class="et-menu-nav">
                                 <ul id="menu-practitioner-menu me-5" class="et-menu nav">
                                     @if((Auth::user()->role === 1 && Auth::user()->status === 1))
-                                        <a href="{{ route('dashboard') }}" class="btn join-btn" type="submit"
+                                        <a href="{{ route('my_membership') }}" class="btn join-btn" type="submit"
                                            style="display: flex;align-items: center;justify-content: center">My Practitioner dashboard</a>
                                     @elseif((Auth::user()->role === 2 && Auth::user()->status === 1))
                                         <a href="{{ route('admin.dashboard') }}" class="btn join-btn" type="submit"
