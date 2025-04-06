@@ -218,28 +218,26 @@
                                                 <h6 class="mb-2">{{$offering->name}}</h6>
                                                 <div class="d-flex align-items-center">
                                                     <h6 class="offer-prize me-2 m-0">
-                                                        ${{ number_format($offering->offering_event_type == 'event'
-                                                         ? $offering->event->client_price
-                                                            : ($offering?->client_price ?? 0), 2) }}
+                                                        ${{ number_format((float) ($offering->offering_event_type == 'event' ? $offering->event->client_price : ($offering?->client_price ?? 0)), 2) }}
                                                     </h6>
-                                                        <button type="button" class="home-blog-btn offering_process"
-                                                                data-bs-toggle="modal"
-                                                                data-bs-target="#exampleModal"
-                                                                onclick="openPopup(event)"
-                                                                data-user-id="{{$user->id}}"
-                                                                data-offering-id="{{$offering->id}}"
-                                                                data-offering-event-type="{{$offering->offering_event_type}}"
-                                                                data-event-start="{{$offering->offering_event_type =='event' ? $offering->event->date_and_time : ''}}"
-                                                                data-availability="{{$offering?->availability_type ?? ''}}"
-                                                                data-specific-day-start="{{$offering->from_date}}"
-                                                                data-specific-day-end="{{$offering->to_date}}"
-                                                                data-price="{{$offering->offering_event_type =='event' ? $offering->event->client_price :$offering->client_price ?? 0}}"
-                                                                data-currency-symbol="$"
-                                                                data-currency="usd"
-                                                                data-timezone="{{$userDetail->timezone}}"
-                                                                data-usd-price="{{$offering->offering_event_type =='event' ? $offering->event->client_price :$offering->client_price ?? 0}}"
-                                                                data-store-availability="{{$storeAvailable}}">BOOK NOW
-                                                        </button>
+                                                    <button type="button" class="home-blog-btn offering_process"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#exampleModal"
+                                                            onclick="openPopup(event)"
+                                                            data-user-id="{{$user->id}}"
+                                                            data-offering-id="{{$offering->id}}"
+                                                            data-offering-event-type="{{$offering->offering_event_type}}"
+                                                            data-event-start="{{$offering->offering_event_type =='event' ? $offering->event->date_and_time : ''}}"
+                                                            data-availability="{{$offering?->availability_type ?? ''}}"
+                                                            data-specific-day-start="{{$offering->from_date}}"
+                                                            data-specific-day-end="{{$offering->to_date}}"
+                                                            data-price="{{$offering->offering_event_type =='event' ? $offering->event->client_price :$offering->client_price ?? 0}}"
+                                                            data-currency-symbol="$"
+                                                            data-currency="usd"
+                                                            data-timezone="{{$userDetail->timezone}}"
+                                                            data-usd-price="{{$offering->offering_event_type =='event' ? $offering->event->client_price :$offering->client_price ?? 0}}"
+                                                            data-store-availability="{{$storeAvailable}}">BOOK NOW
+                                                    </button>
 
                                                     {{--                                                    <a href="{{ route('practitionerOfferingDetail',$offering->id)}}" class="home-blog-btn">BOOK NOW</a>--}}
                                                 </div>
