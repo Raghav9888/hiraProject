@@ -217,40 +217,44 @@ function getAllowedDays() {
 
 
 function generateTimeSlots(from = null, to = null, date = null, allDay = false) {
+    const practitionerTimeZone = document.getElementById('practitioner_timezone')?.value || 'UTC';
     const { DateTime } = luxon;
 
-    const practitionerTZ = document.getElementById('practitioner_timezone')?.value || 'UTC';
-    const userTZ = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
     let slots = [];
-    let startTime;
-    let endTime;
+    let startTime, endTime;
 
     if (allDay) {
-        // All day: 12:00 PM to 12:00 AM next day in practitioner's timezone
-        startTime = DateTime.fromISO(`${date}T12:00`, { zone: practitionerTZ });
-        endTime = startTime.plus({ hours: 12 });
+        // Just create a single placeholder time for all-day
+        startTime = new Date(`${date}T12:00:00`);
+        endTime = new Date(`${date}T12:00:00`);
     } else {
-        // Custom slot
-        startTime = DateTime.fromISO(`${date}T${from}`, { zone: practitionerTZ });
-        endTime = DateTime.fromISO(`${date}T${to}`, { zone: practitionerTZ });
+        // Create datetime in practitioner's timezone using Luxon
+        const baseDate = `${date || '2025-01-01'}`;
+        const startLuxon = DateTime.fromISO(`${baseDate}T${from}`, { zone: practitionerTimeZone });
+        const endLuxon = DateTime.fromISO(`${baseDate}T${to}`, { zone: practitionerTimeZone });
 
-        if (endTime <= startTime) {
-            endTime = endTime.plus({ days: 1 }); // Handle overnight
-        }
+        startTime = startLuxon;
+        endTime = endLuxon;
+    }
+
+    let isNextDay = endTime <= startTime;
+    if (isNextDay) {
+        endTime = endTime.plus({ days: 1 }); // Handle overnight slots
     }
 
     while (startTime < endTime) {
-        const userTime = startTime.setZone(userTZ);
-        slots.push(userTime.toLocaleString(DateTime.TIME_SIMPLE));
-
-        // console.log(`Practitioner Time: ${startTime.toFormat('hh:mm a ZZZZ')} | User Time: ${userTime.toFormat('hh:mm a ZZZZ')}`);
-
+        // Convert to local time zone
+        const localTime = startTime.toLocal();
+        slots.push(localTime.toFormat("hh:mm a")); // eg: 07:00 PM
         startTime = startTime.plus({ minutes: 60 });
     }
 
+    // Sort slots correctly
+    slots.sort((a, b) => convertTo24Hour(a) - convertTo24Hour(b));
     return slots;
 }
+
+
 
 
 // Convert Date object to "HH:MM AM/PM" format
@@ -439,7 +443,6 @@ function generateCalendar(month, year) {
 //     }
 // }
 
-
 function filterBookedSlots(date, slots) {
     let bookedDates = JSON.parse(document.getElementById('already_booked_slots').value || '[]');
     return slots.filter(slot => {
@@ -542,6 +545,7 @@ function renderSlots(availableSlots) {
         $('#booking_time').val(time);
     })
 }
+
 
 // function showAvailableSlots(date) {
 //     const slotsContainer = document.getElementById('availableSlots');
@@ -653,7 +657,7 @@ $(document).on('click', '.proceed_to_checkout', function () {
     const currency = $('#currency').val();
     const currencySymbol = $('#currency_symbol').val();
 
-console.log(currencySymbol)
+    console.log(currencySymbol)
     let bookingDate = '';
     let bookingTime = '';
 
@@ -707,6 +711,3 @@ function paymentAjax(offeringId, bookingDate, bookingTime, offeringEventType, pr
         }
     });
 }
-
-
-
