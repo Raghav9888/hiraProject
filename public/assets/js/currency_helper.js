@@ -1,7 +1,8 @@
 const conversionRates = {
     usd: 1,
-    cad: 1.42308,
+    cad: 1.42373
 };
+
 
 function convertAmount(amount, fromCurrency, toCurrency) {
     if (fromCurrency === toCurrency) {
