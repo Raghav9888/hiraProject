@@ -24,7 +24,7 @@ function openPopup(event) {
     let timezone = event.target.getAttribute('data-timezone');
 
     console.log(priceData , currency , currencySymbol)
-    
+
     let inputElement = document.querySelector('[name="offering_id"]');
     let availabilityInput = document.querySelector('[name="availability"]');
     let offeringPriceInput = document.querySelector('[name="offering_price"]');
