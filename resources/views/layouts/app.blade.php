@@ -40,7 +40,6 @@
     <script type="text/javascript" src="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.min.js"></script>
     <script src="{{ asset('assets/plugin/OwlCarousel2-2.3.4/dist/owl.carousel.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/luxon@3/build/global/luxon.min.js"></script>
-        <script src="https://www.google.com/recaptcha/enterprise.js?render=6LcHEAwrAAAAAPAOqh949AjS1TkQ5ixAjL1GUUhe"></script>
 
     {{--    @vite(['resources/sass/app.scss', 'resources/js/app.js'])--}}
 
@@ -258,10 +257,6 @@
         window.loadingScreen.removeLoading();
     });
 </script>
-
-<!-- reCAPTCHA v3 script -->
-
-
 
 </body>
 </html>
