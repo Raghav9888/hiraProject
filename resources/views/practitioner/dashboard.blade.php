@@ -34,7 +34,7 @@
                                                 <div class="col-md-8">
 
                                                     <h5>{{$offering?->name}}</h5>
-                                                    <h6>{{$offering?->short_description}}</h6>
+{{--                                                    <h6>{{$offering?->short_description}}</h6>--}}
                                                     <div class="d-flex">
                                                         <img src="{{url('./assets/images/Clock.svg')}}" alt="">
                                                         <p class="ms-2">{{$date}}</p>

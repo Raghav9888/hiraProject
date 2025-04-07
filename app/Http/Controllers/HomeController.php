@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\ContactUsMail;
 use App\Models\Blog;
 use MailerLite\MailerLite;
+use Illuminate\Support\Facades\Http;
 
 class HomeController extends Controller
 {
@@ -145,6 +146,18 @@ class HomeController extends Controller
             'subject' => $request->subject,
             'message' => $request->message,
         ];
+
+        $recaptchaResponse = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+            'secret' => env('RECAPTCHA_SECRET_KEY'),
+            'response' => $request->input('recaptcha_token'),
+            'remoteip' => $request->ip(),
+        ]);
+
+        $recaptchaData = $recaptchaResponse->json();
+
+        if (!($recaptchaData['success'] ?? false) || ($recaptchaData['score'] ?? 0) < 0.5) {
+            return back()->withErrors(['captcha' => 'reCAPTCHA verification failed.'])->withInput();
+        }
 
         // Get the email from .env, fallback to a default email if missing
         $email = $input['support_type'] === 'technical_support'
@@ -581,7 +594,7 @@ class HomeController extends Controller
             ]
         ];
         $m = $mailerLite->subscribers->create($data);
-        
+
         return response()->json([
             'success' => true,
             'message' => 'Subscribed successfully',

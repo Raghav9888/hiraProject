@@ -215,11 +215,23 @@
                                     @foreach($offerings as $offering)
                                         <div class="accordian-body-data">
                                             <div class="d-flex justify-content-between flex-wrap align-items-center">
-                                                <h6 class="mb-2" style="font-size: 15px;font-weight: 800">{{$offering->name}}</h6>
+                                                <h6 class="mb-2"
+                                                    style="font-size: 15px;font-weight: 800">{{$offering->name}}</h6>
                                                 <div class="d-flex align-items-center">
+                                                    @php
+                                                        $rawPrice = $offering->offering_event_type == 'event'
+                                                            ? $offering->event->client_price
+                                                            : ($offering->client_price ?? 0);
+
+                                                        // Clean the price: remove commas, convert to float
+                                                        $cadPrice = round(floatval(str_replace(',', '', $rawPrice)));
+
+                                                    @endphp
+
                                                     <h6 class="offer-prize me-2 m-0">
-                                                        CA${{ number_format((float) ($offering->offering_event_type == 'event' ? $offering->event->client_price : ($offering?->client_price ?? 0)), 2) }}
+                                                       CA$ {{ $cadPrice }}
                                                     </h6>
+
                                                     <button type="button" class="home-blog-btn offering_process"
                                                             data-bs-toggle="modal"
                                                             data-bs-target="#exampleModal"
@@ -231,11 +243,11 @@
                                                             data-availability="{{$offering?->availability_type ?? ''}}"
                                                             data-specific-day-start="{{$offering->from_date}}"
                                                             data-specific-day-end="{{$offering->to_date}}"
-                                                            data-price="{{number_format((float) ($offering->offering_event_type == 'event' ? $offering->event->client_price : ($offering?->client_price ?? 0)), 2)}}"
+                                                            data-price="{{$cadPrice}}"
                                                             data-currency-symbol="CA$"
                                                             data-currency="cad"
                                                             data-timezone="{{$userDetail->timezone}}"
-                                                            data-cad-price="{{number_format((float) ($offering->offering_event_type == 'event' ? $offering->event->client_price : ($offering?->client_price ?? 0)), 2)}}"
+                                                            data-cad-price="{{$cadPrice}}"
                                                             data-store-availability="{{$storeAvailable}}">BOOK NOW
                                                     </button>
 

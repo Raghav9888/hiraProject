@@ -212,7 +212,7 @@ function getAllowedDays() {
 
 
     }
-
+console.log('availability is here ' ,availability)
     return dayMapping[availability] || [];
 }
 
@@ -220,37 +220,33 @@ function getAllowedDays() {
 function generateTimeSlots(from = null, to = null, date = null, allDay = false) {
     const practitionerTimeZone = document.getElementById('practitioner_timezone')?.value || 'UTC';
     const { DateTime } = luxon;
+    console.log('to date', to)
+    console.log('to date', date)
 
     let slots = [];
     let startTime, endTime;
 
     if (allDay) {
-        // Just create a single placeholder time for all-day
-        startTime = new Date(`${date}T12:00:00`);
-        endTime = new Date(`${date}T12:00:00`);
+        // Use Luxon DateTime for consistency
+        startTime = DateTime.fromISO(`${date}T12:00:00`, { zone: practitionerTimeZone });
+        endTime = DateTime.fromISO(`${date}T12:00:00`, { zone: practitionerTimeZone });
     } else {
-        // Create datetime in practitioner's timezone using Luxon
-        const baseDate = `${date || '2025-01-01'}`;
-        const startLuxon = DateTime.fromISO(`${baseDate}T${from}`, { zone: practitionerTimeZone });
-        const endLuxon = DateTime.fromISO(`${baseDate}T${to}`, { zone: practitionerTimeZone });
-
-        startTime = startLuxon;
-        endTime = endLuxon;
+        const baseDate = `${date || Date()}`;
+        startTime = DateTime.fromISO(`${baseDate}T${from}`, { zone: practitionerTimeZone });
+        endTime = DateTime.fromISO(`${baseDate}T${to}`, { zone: practitionerTimeZone });
     }
 
     let isNextDay = endTime <= startTime;
     if (isNextDay) {
-        endTime = endTime.plus({ days: 1 }); // Handle overnight slots
+        endTime = endTime.plus({ days: 1 });
     }
 
     while (startTime < endTime) {
-        // Convert to local time zone
         const localTime = startTime.toLocal();
-        slots.push(localTime.toFormat("hh:mm a")); // eg: 07:00 PM
+        slots.push(localTime.toFormat("hh:mm a"));
         startTime = startTime.plus({ minutes: 60 });
     }
 
-    // Sort slots correctly
     slots.sort((a, b) => convertTo24Hour(a) - convertTo24Hour(b));
     return slots;
 }
@@ -446,16 +442,35 @@ function generateCalendar(month, year) {
 
 function filterBookedSlots(date, slots) {
     let bookedDates = JSON.parse(document.getElementById('already_booked_slots').value || '[]');
-    return slots.filter(slot => {
+
+    let grouped = [];
+    let currentGroup = [];
+console.log('slots',slots)
+    slots.forEach(slot => {
         let slotMinutes = convertTo24Hour(slot);
-        return !bookedDates.some(b => {
+        let isBooked = bookedDates.some(b => {
             if (b.date !== date) return false;
             let start = convertTo24Hour(b.start_time);
             let end = convertTo24Hour(b.end_time);
             return slotMinutes >= start && slotMinutes < end;
         });
+
+        if (!isBooked) {
+            currentGroup.push(slot);
+        } else if (currentGroup.length > 0) {
+            grouped.push([...currentGroup]);
+            currentGroup = [];
+        }
     });
+
+    if (currentGroup.length > 0) {
+        grouped.push([...currentGroup]);
+    }
+
+    return grouped; // Now it's an array of arrays (slot groups)
 }
+
+
 
 function showAvailableSlots(date) {
     const slotsContainer = document.getElementById('availableSlots');
@@ -499,19 +514,20 @@ function showAvailableSlots(date) {
             let toTime = storeAvailability.every_day?.to;
 
             if (fromTime && toTime) {
-                allSlots = generateTimeSlots(fromTime, toTime);
+                allSlots = generateTimeSlots(fromTime, toTime,date);
             }
         } else {
             Object.keys(storeAvailability).forEach(dayKey => {
                 let normalizedDay = dayKey.replace("every_", "").toLowerCase();
-                let dayIndex = dayNames.indexOf(normalizedDay);
 
+                let dayIndex = dayNames.indexOf(normalizedDay);
+                console.log(normalizedDay ,dayKey ,dayIndex === dayOfWeekIndex && storeAvailability[dayKey]?.enabled === "1")
                 if (dayIndex === dayOfWeekIndex && storeAvailability[dayKey]?.enabled === "1") {
                     let fromTime = storeAvailability[dayKey]?.from;
                     let toTime = storeAvailability[dayKey]?.to;
 
                     if (fromTime && toTime) {
-                        allSlots = allSlots.concat(generateTimeSlots(fromTime, toTime));
+                        allSlots = allSlots.concat(generateTimeSlots(fromTime, toTime ,date));
                     }
                 }
             });
@@ -528,24 +544,46 @@ function showAvailableSlots(date) {
     renderSlots(availableSlots);
 }
 
-function renderSlots(availableSlots) {
+function renderSlots(availableSlotGroups) {
     const slotsContainer = document.getElementById('availableSlots');
-    slotsContainer.innerHTML = availableSlots.length > 0
-        ? availableSlots.map(slot => {
-            if (slot.type === 'all-day') {
-                return `<div class="col-12"><button class="btn btn-outline-green w-100 offering-slot all-day" data-time="${slot.time}">${slot.time}</button></div>`;
-            }
-            return `<div class="col-4"><button class="btn btn-outline-green w-100 offering-slot" data-time="${slot}">${slot}</button></div>`;
-        }).join('')
-        : '<p class="text-muted">No available slots</p>';
+
+    if (!availableSlotGroups || availableSlotGroups.length === 0) {
+        slotsContainer.innerHTML = '<p class="text-muted">No available slots</p>';
+        return;
+    }
+
+    slotsContainer.innerHTML = '';
+
+    availableSlotGroups.forEach((group, index) => {
+        // Optional: Add a group label
+        if (availableSlotGroups.length > 1) {
+            const label = document.createElement('div');
+            label.innerHTML = `<div class="text-muted mb-1">Slot Group ${index + 1}</div>`;
+            slotsContainer.appendChild(label);
+        }
+
+        const row = document.createElement('div');
+        row.classList.add('row', 'mb-2');
+
+        group.forEach(slot => {
+            const col = document.createElement('div');
+            col.classList.add('col-4');
+            col.classList.add('my-1');
+            col.innerHTML = `<button class="btn btn-outline-green w-100 offering-slot" data-time="${slot}">${slot}</button>`;
+            row.appendChild(col);
+        });
+
+        slotsContainer.appendChild(row);
+    });
 
     $('.offering-slot').on('click', function () {
         $('.offering-slot').removeClass('active');
         $(this).addClass('active');
         const time = $(this).data('time');
         $('#booking_time').val(time);
-    })
+    });
 }
+
 
 
 // function showAvailableSlots(date) {
@@ -629,23 +667,29 @@ function renderSlots(availableSlots) {
 // }
 
 
-document.getElementById('prevMonth').addEventListener('click', () => {
-    currentMonth--;
-    if (currentMonth < 0) {
-        currentMonth = 11;
-        currentYear--;
-    }
-    generateCalendar(currentMonth, currentYear);
-});
+const prevBtn = document.getElementById('prevMonth');
+if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+        currentMonth--;
+        if (currentMonth < 0) {
+            currentMonth = 11;
+            currentYear--;
+        }
+        generateCalendar(currentMonth, currentYear);
+    });
+}
 
-document.getElementById('nextMonth').addEventListener('click', () => {
-    currentMonth++;
-    if (currentMonth > 11) {
-        currentMonth = 0;
-        currentYear++;
-    }
-    generateCalendar(currentMonth, currentYear);
-});
+const nextBtn = document.getElementById('nextMonth');
+if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+        currentMonth++;
+        if (currentMonth > 11) {
+            currentMonth = 0;
+            currentYear++;
+        }
+        generateCalendar(currentMonth, currentYear);
+    });
+}
 
 
 $(document).on('click', '.proceed_to_checkout', function () {
