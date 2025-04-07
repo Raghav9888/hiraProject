@@ -218,26 +218,19 @@
                                                 <h6 class="mb-2"
                                                     style="font-size: 15px;font-weight: 800">{{$offering->name}}</h6>
                                                 <div class="d-flex align-items-center">
-                                                        @php
-                                                            $value = (float)($offering->offering_event_type == 'event'
-                                                                ? $offering->event->client_price
-                                                                : ($offering->client_price ?? 0));
+                                                    @php
+                                                        $rawPrice = $offering->offering_event_type == 'event'
+                                                            ? $offering->event->client_price
+                                                            : ($offering->client_price ?? 0);
 
-                                                            $type = 'whole'; // Change this dynamically if needed
+                                                        // Clean the price: remove commas, convert to float
+                                                        $cadPrice = round(floatval(str_replace(',', '', $rawPrice)));
 
-                                                            $roundedPrice = match ($type) {
-                                                                'two-decimal'    => round($value, 2),
-                                                                'nearest-0.05'   => round($value * 20) / 20,
-                                                                'psychological'  => floor($value) + 0.99,
-                                                                default          => round($value),
-                                                            };
-                                                        @endphp
+                                                    @endphp
 
-                                                        <h6 class="offer-prize me-2 m-0">
-                                                            CA${{ $roundedPrice}}
-                                                        </h6>
-
-
+                                                    <h6 class="offer-prize me-2 m-0">
+                                                       CA$ {{ $cadPrice }}
+                                                    </h6>
 
                                                     <button type="button" class="home-blog-btn offering_process"
                                                             data-bs-toggle="modal"
@@ -250,11 +243,11 @@
                                                             data-availability="{{$offering?->availability_type ?? ''}}"
                                                             data-specific-day-start="{{$offering->from_date}}"
                                                             data-specific-day-end="{{$offering->to_date}}"
-                                                            data-price="{{round((int) ($offering->offering_event_type == 'event' ? $offering->event->client_price : ($offering?->client_price ?? 0)))}}"
+                                                            data-price="{{$cadPrice}}"
                                                             data-currency-symbol="CA$"
                                                             data-currency="cad"
                                                             data-timezone="{{$userDetail->timezone}}"
-                                                            data-cad-price="{{$offering->offering_event_type == 'event' ? $offering->event->client_price : ($offering?->client_price ?? 0)}}"
+                                                            data-cad-price="{{$cadPrice}}"
                                                             data-store-availability="{{$storeAvailable}}">BOOK NOW
                                                     </button>
 
