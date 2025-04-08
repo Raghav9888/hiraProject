@@ -1,3 +1,4 @@
+console.log('bookeding_calendar.js loaded');
 let currentDate = new Date();
 let currentMonth = currentDate.getMonth();
 let currentYear = currentDate.getFullYear();
