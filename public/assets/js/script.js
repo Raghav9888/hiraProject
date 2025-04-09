@@ -255,7 +255,7 @@ $(document).on('click','#sidebar_toogle', function () {
 
 $(document).ready(function()
 {
-    const CURRENT_VERSION = '1.0.5';
+    const CURRENT_VERSION = '1.0.0';
     const LOCAL_KEY = 'app_version';
 console.log('version check')
     const savedVersion = localStorage.getItem(LOCAL_KEY);
