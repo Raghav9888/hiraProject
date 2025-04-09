@@ -253,7 +253,8 @@ $(document).on('click','#sidebar_toogle', function () {
 
 
 
-(function () {
+$(document).ready(function()
+{
     const CURRENT_VERSION = '1.0.4';
     const LOCAL_KEY = 'app_version';
 
@@ -263,5 +264,6 @@ $(document).on('click','#sidebar_toogle', function () {
         localStorage.setItem(LOCAL_KEY, CURRENT_VERSION);
         window.location.reload(true);
     }
-})();
+})
+
 
