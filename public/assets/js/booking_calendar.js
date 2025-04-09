@@ -254,42 +254,44 @@ function getAllowedDays() {
 
 function generateTimeSlots(from = null, to = null, date = null, allDay = false) {
     const practitionerTimeZone = document.getElementById('practitioner_timezone')?.value || 'UTC';
-    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone; // Get user's local timezone
+    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const { DateTime } = luxon;
 
     let slots = [];
     let startTime, endTime;
 
+    const baseDate = date || DateTime.now().toISODate();
+
     if (allDay) {
-        // 12:00 to 12:00 — all day slot
-        startTime = DateTime.fromISO(`${date}T00:00:00`, { zone: practitionerTimeZone });
-        endTime = DateTime.fromISO(`${date}T23:59:59`, { zone: practitionerTimeZone });
+        // All-day block (midnight to 11:59 PM)
+        startTime = DateTime.fromISO(`${baseDate}T00:00:00`, { zone: practitionerTimeZone });
+        endTime = DateTime.fromISO(`${baseDate}T23:59:59`, { zone: practitionerTimeZone });
     } else {
-        // Construct start and end time in practitioner's timezone
-        const baseDate = date || DateTime.now().toISODate(); // fallback if no date
         startTime = DateTime.fromISO(`${baseDate}T${from}`, { zone: practitionerTimeZone });
         endTime = DateTime.fromISO(`${baseDate}T${to}`, { zone: practitionerTimeZone });
 
-        // Handle overnight availability (e.g. 10 PM - 2 AM)
         if (endTime <= startTime) {
-            endTime = endTime.plus({ days: 1 });
+            endTime = endTime.plus({ days: 1 }); // overnight case
         }
     }
 
-    // Loop through and convert each slot to user timezone
     while (startTime < endTime) {
-        const userTime = startTime.setZone(userTimeZone); // convert to user's timezone
+        const userTime = startTime.setZone(userTimeZone);
+
         slots.push({
-            time: userTime.toFormat("hh:mm a"),
-            value: userTime.toFormat("HH:mm"),
-            iso: userTime.toISO(),
+            time: userTime.toFormat("hh:mm a"),   // e.g., "08:30 PM"
+            value: userTime.toFormat("HH:mm"),    // e.g., "20:30" (for sorting)
+            iso: userTime.toISO(),                // full timestamp if needed
         });
-        startTime = startTime.plus({ minutes: 60 });
+
+        startTime = startTime.plus({ minutes: 60 }); // slot duration
     }
+
+    // Sort by 24-hour string value
+    slots.sort((a, b) => a.value.localeCompare(b.value));
 
     return slots;
 }
-
 
 
 
