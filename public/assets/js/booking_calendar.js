@@ -390,6 +390,7 @@ console.log('slots',slots)
 
 
 function showAvailableSlots(date) {
+    alert(date)
     const slotsContainer = document.getElementById('availableSlots');
     const dateLabel = document.getElementById('selectedDate');
     let availability = document.getElementById('availability')?.value || 'own_specific_date';
