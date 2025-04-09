@@ -390,12 +390,11 @@ console.log('slots',slots)
 
 
 function showAvailableSlots(date) {
-    alert(date)
     const slotsContainer = document.getElementById('availableSlots');
     const dateLabel = document.getElementById('selectedDate');
     let availability = document.getElementById('availability')?.value || 'own_specific_date';
     let storeAvailabilityRaw = document.getElementById('store-availability')?.value;
-
+   alert(slotsContainer)
     slotsContainer.innerHTML = '<p class="text-muted">No available slots</p>';
     dateLabel.innerText = date.split('-').reverse().join('/');
 
