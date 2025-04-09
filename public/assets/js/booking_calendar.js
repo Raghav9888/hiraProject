@@ -442,7 +442,7 @@ function showAvailableSlots(date) {
 
                 let dayIndex = dayNames.indexOf(normalizedDay);
                 console.log(normalizedDay ,dayKey ,dayIndex === dayOfWeekIndex && storeAvailability[dayKey]?.enabled === "1")
-                if (dayIndex === dayOfWeekIndex && storeAvailability[dayKey]?.enabled === "1") {
+                if (storeAvailability[dayKey]?.enabled === "1") {
                     alert(dayIndex === dayOfWeekIndex && storeAvailability[dayKey]?.enabled === "1")
                     let fromTime = storeAvailability[dayKey]?.from;
                     let toTime = storeAvailability[dayKey]?.to;
