@@ -435,6 +435,9 @@ function showAvailableSlots(date) {
             }
         } else {
             Object.keys(storeAvailability).forEach(dayKey => {
+                if(dayKey === 'every_day') {
+                    return
+                }
                 let normalizedDay = dayKey.replace("every_", "").toLowerCase();
 
                 let dayIndex = dayNames.indexOf(normalizedDay);
