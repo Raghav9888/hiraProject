@@ -225,7 +225,7 @@ function generateTimeSlots(from = null, to = null, date = null, allDay = false) 
     const { DateTime } = luxon;
     console.log('to date', to)
     console.log('to date', date)
-
+alert(DateTime)
     let slots = [];
     let startTime, endTime;
 
