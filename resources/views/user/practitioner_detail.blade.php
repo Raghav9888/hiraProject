@@ -206,8 +206,8 @@
                                                 <select class="form-select" aria-label="Default select example"
                                                         id="currencySelect"
                                                         style="border-radius: 30px !important;padding: 10px 36px 10px 10px;text-align: start;">
-                                                    <option value="usd">USD</option>
                                                     <option value="cad">CAD</option>
+                                                    <option value="usd">USD</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -215,31 +215,41 @@
                                     @foreach($offerings as $offering)
                                         <div class="accordian-body-data">
                                             <div class="d-flex justify-content-between flex-wrap align-items-center">
-                                                <h6 class="mb-2">{{$offering->name}}</h6>
+                                                <h6 class="mb-2"
+                                                    style="font-size: 15px;font-weight: 800">{{$offering->name}}</h6>
                                                 <div class="d-flex align-items-center">
+                                                    @php
+                                                        $rawPrice = $offering->offering_event_type == 'event'
+                                                            ? $offering->event->client_price
+                                                            : ($offering->client_price ?? 0);
+
+                                                        // Clean the price: remove commas, convert to float
+                                                        $cadPrice = round(floatval(str_replace(',', '', $rawPrice)));
+
+                                                    @endphp
+
                                                     <h6 class="offer-prize me-2 m-0">
-                                                        ${{ number_format($offering->offering_event_type == 'event'
-                                                         ? $offering->event->client_price
-                                                            : ($offering?->client_price ?? 0), 2) }}
+                                                       CA$ {{ $cadPrice }}
                                                     </h6>
-                                                        <button type="button" class="home-blog-btn offering_process"
-                                                                data-bs-toggle="modal"
-                                                                data-bs-target="#exampleModal"
-                                                                onclick="openPopup(event)"
-                                                                data-user-id="{{$user->id}}"
-                                                                data-offering-id="{{$offering->id}}"
-                                                                data-offering-event-type="{{$offering->offering_event_type}}"
-                                                                data-event-start="{{$offering->offering_event_type =='event' ? $offering->event->date_and_time : ''}}"
-                                                                data-availability="{{$offering?->availability_type ?? ''}}"
-                                                                data-specific-day-start="{{$offering->from_date}}"
-                                                                data-specific-day-end="{{$offering->to_date}}"
-                                                                data-price="{{$offering->offering_event_type =='event' ? $offering->event->client_price :$offering->client_price ?? 0}}"
-                                                                data-currency-symbol="$"
-                                                                data-currency="usd"
-                                                                data-timezone="{{$userDetail->timezone}}"
-                                                                data-usd-price="{{$offering->offering_event_type =='event' ? $offering->event->client_price :$offering->client_price ?? 0}}"
-                                                                data-store-availability="{{$storeAvailable}}">BOOK NOW
-                                                        </button>
+
+                                                    <button type="button" class="home-blog-btn offering_process"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#exampleModal"
+                                                            onclick="openPopup(event)"
+                                                            data-user-id="{{$user->id}}"
+                                                            data-offering-id="{{$offering->id}}"
+                                                            data-offering-event-type="{{$offering->offering_event_type}}"
+                                                            data-event-start="{{$offering->offering_event_type =='event' ? $offering->event->date_and_time : ''}}"
+                                                            data-availability="{{$offering?->availability_type ?? ''}}"
+                                                            data-specific-day-start="{{$offering->from_date}}"
+                                                            data-specific-day-end="{{$offering->to_date}}"
+                                                            data-price="{{$cadPrice}}"
+                                                            data-currency-symbol="CA$"
+                                                            data-currency="cad"
+                                                            data-timezone="{{$userDetail->timezone}}"
+                                                            data-cad-price="{{$cadPrice}}"
+                                                            data-store-availability="{{$storeAvailable}}">BOOK NOW
+                                                    </button>
 
                                                     {{--                                                    <a href="{{ route('practitionerOfferingDetail',$offering->id)}}" class="home-blog-btn">BOOK NOW</a>--}}
                                                 </div>
@@ -526,10 +536,10 @@
         </div>
         <div class="endorsment-dv">
             <div class="container">
-                <div class="row">
-                    <h4>Endorsements</h4>
-                    <div class="row" id="endorsementRow">
-                        @if($endorsedUsers)
+                @if(count($endorsedUsers) > 0)
+                    <div class="row">
+                        <h4>Endorsements</h4>
+                        <div class="row" id="endorsementRow">
                             @foreach($endorsedUsers as $endorsedUser)
                                 @php
                                     $images = isset($endorsedUser->userDetail->images) ? json_decode($endorsedUser->userDetail->images, true) : null;
@@ -573,9 +583,10 @@
                                     </div>
                                 </div>
                             @endforeach
-                        @endif
+                        </div>
                     </div>
-                </div>
+                @endif
+
             </div>
         </div>
     </div>

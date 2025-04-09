@@ -397,7 +397,9 @@
                                                         'Every Wednesday',
                                                         'Every Thursday',
                                                         'Every Friday',
-                                                        'Weekends only - Every Sat & Sundays'
+                                                        'Every Saturday',
+                                                        'Every sunday',
+//                                                        'Weekends only - Every Sat & Sundays'
                                                     ];
 
                                                     foreach ($availabilities as $index => $availability) {

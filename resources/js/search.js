@@ -4,6 +4,8 @@ $(document).ready(function () {
         performSearch(true);
     });
 
+    scrollToResultsIfNeeded();
+
     $('#category').on('change', function () {
         performSearch(true)
     });
@@ -64,7 +66,7 @@ function performSearch(isPractitioner = false, page = 1) {
     let searchType = $('#practitionerType').val();
     let location = $('#location').val();
     let category = $('#category').val();
-    let $rowId = 'practitionerRowDiv';
+    let rowId = 'practitionerRowDiv';
     window.history.pushState(null, null, '?search=' + search + '&searchType=' + searchType + '&location=' + location
         + '&category=' + category + '&page=' + page + '&isPractitioner=' + isPractitioner);
     let url = window.location.href;
@@ -76,11 +78,7 @@ function performSearch(isPractitioner = false, page = 1) {
         },
         success: function (response) {
             if (response.success && response.html) {
-                $(`#${$rowId}`).html(response.html);
-
-                const elementTop = $(`#${$rowId}`).offset().top;
-                const halfWindow = window.innerHeight / 2;
-                $('html, body').animate({ scrollTop: elementTop - halfWindow }, 500);
+                $(`#${rowId}`).html(response.html);
             }
 
         },
@@ -91,5 +89,21 @@ function performSearch(isPractitioner = false, page = 1) {
         }
     });
 
+}
+
+function scrollToResultsIfNeeded() {
+    const urlParams = new URLSearchParams(window.location.search);
+
+    const search = urlParams.get('search')?.trim();
+    const practitionerType = urlParams.get('practitionerType')?.trim();
+    const location = urlParams.get('location')?.trim();
+
+    const shouldScroll = search || practitionerType || location;
+
+    if (shouldScroll && $('#practitionerRowDiv').length) {
+        const elementTop = $('#practitionerRowDiv').offset().top;
+        const halfWindow = window.innerHeight / 2;
+        $('html, body').animate({scrollTop: elementTop - halfWindow}, 500);
+    }
 }
 

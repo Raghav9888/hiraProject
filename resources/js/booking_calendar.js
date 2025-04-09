@@ -1,3 +1,4 @@
+console.log('bookeding_calendar.js loaded');
 let currentDate = new Date();
 let currentMonth = currentDate.getMonth();
 let currentYear = currentDate.getFullYear();
@@ -23,6 +24,7 @@ function openPopup(event) {
     let currencySymbol = event.target.getAttribute('data-currency-symbol');
     let timezone = event.target.getAttribute('data-timezone');
 
+    console.log(priceData , currency , currencySymbol)
 
     let inputElement = document.querySelector('[name="offering_id"]');
     let availabilityInput = document.querySelector('[name="availability"]');
@@ -211,46 +213,46 @@ function getAllowedDays() {
 
 
     }
-
+console.log('availability is here ' ,availability)
     return dayMapping[availability] || [];
 }
 
 
 function generateTimeSlots(from = null, to = null, date = null, allDay = false) {
+    const practitionerTimeZone = document.getElementById('practitioner_timezone')?.value || 'UTC';
     const { DateTime } = luxon;
-
-    const practitionerTZ = document.getElementById('practitioner_timezone')?.value || 'UTC';
-    const userTZ = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    console.log('to date', to)
+    console.log('to date', date)
 
     let slots = [];
-    let startTime;
-    let endTime;
+    let startTime, endTime;
 
     if (allDay) {
-        // All day: 12:00 PM to 12:00 AM next day in practitioner's timezone
-        startTime = DateTime.fromISO(`${date}T12:00`, { zone: practitionerTZ });
-        endTime = startTime.plus({ hours: 12 });
+        // Use Luxon DateTime for consistency
+        startTime = DateTime.fromISO(`${date}T12:00:00`, { zone: practitionerTimeZone });
+        endTime = DateTime.fromISO(`${date}T12:00:00`, { zone: practitionerTimeZone });
     } else {
-        // Custom slot
-        startTime = DateTime.fromISO(`${date}T${from}`, { zone: practitionerTZ });
-        endTime = DateTime.fromISO(`${date}T${to}`, { zone: practitionerTZ });
+        const baseDate = `${date || Date()}`;
+        startTime = DateTime.fromISO(`${baseDate}T${from}`, { zone: practitionerTimeZone });
+        endTime = DateTime.fromISO(`${baseDate}T${to}`, { zone: practitionerTimeZone });
+    }
 
-        if (endTime <= startTime) {
-            endTime = endTime.plus({ days: 1 }); // Handle overnight
-        }
+    let isNextDay = endTime <= startTime;
+    if (isNextDay) {
+        endTime = endTime.plus({ days: 1 });
     }
 
     while (startTime < endTime) {
-        const userTime = startTime.setZone(userTZ);
-        slots.push(userTime.toLocaleString(DateTime.TIME_SIMPLE));
-
-        // console.log(`Practitioner Time: ${startTime.toFormat('hh:mm a ZZZZ')} | User Time: ${userTime.toFormat('hh:mm a ZZZZ')}`);
-
+        const localTime = startTime.toLocal();
+        slots.push(localTime.toFormat("hh:mm a"));
         startTime = startTime.plus({ minutes: 60 });
     }
 
+    slots.sort((a, b) => convertTo24Hour(a) - convertTo24Hour(b));
     return slots;
 }
+
+
 
 
 // Convert Date object to "HH:MM AM/PM" format
@@ -353,19 +355,37 @@ function generateCalendar(month, year) {
     }
 
 }
-
 function filterBookedSlots(date, slots) {
     let bookedDates = JSON.parse(document.getElementById('already_booked_slots').value || '[]');
-    return slots.filter(slot => {
+
+    let grouped = [];
+    let currentGroup = [];
+console.log('slots',slots)
+    slots.forEach(slot => {
         let slotMinutes = convertTo24Hour(slot);
-        return !bookedDates.some(b => {
+        let isBooked = bookedDates.some(b => {
             if (b.date !== date) return false;
             let start = convertTo24Hour(b.start_time);
             let end = convertTo24Hour(b.end_time);
             return slotMinutes >= start && slotMinutes < end;
         });
+
+        if (!isBooked) {
+            currentGroup.push(slot);
+        } else if (currentGroup.length > 0) {
+            grouped.push([...currentGroup]);
+            currentGroup = [];
+        }
     });
+
+    if (currentGroup.length > 0) {
+        grouped.push([...currentGroup]);
+    }
+
+    return grouped; // Now it's an array of arrays (slot groups)
 }
+
+
 
 function showAvailableSlots(date) {
     const slotsContainer = document.getElementById('availableSlots');
@@ -409,19 +429,20 @@ function showAvailableSlots(date) {
             let toTime = storeAvailability.every_day?.to;
 
             if (fromTime && toTime) {
-                allSlots = generateTimeSlots(fromTime, toTime);
+                allSlots = generateTimeSlots(fromTime, toTime,date);
             }
         } else {
             Object.keys(storeAvailability).forEach(dayKey => {
                 let normalizedDay = dayKey.replace("every_", "").toLowerCase();
-                let dayIndex = dayNames.indexOf(normalizedDay);
 
+                let dayIndex = dayNames.indexOf(normalizedDay);
+                console.log(normalizedDay ,dayKey ,dayIndex === dayOfWeekIndex && storeAvailability[dayKey]?.enabled === "1")
                 if (dayIndex === dayOfWeekIndex && storeAvailability[dayKey]?.enabled === "1") {
                     let fromTime = storeAvailability[dayKey]?.from;
                     let toTime = storeAvailability[dayKey]?.to;
 
                     if (fromTime && toTime) {
-                        allSlots = allSlots.concat(generateTimeSlots(fromTime, toTime));
+                        allSlots = allSlots.concat(generateTimeSlots(fromTime, toTime ,date));
                     }
                 }
             });
@@ -438,42 +459,70 @@ function showAvailableSlots(date) {
     renderSlots(availableSlots);
 }
 
-function renderSlots(availableSlots) {
+function renderSlots(availableSlotGroups) {
     const slotsContainer = document.getElementById('availableSlots');
-    slotsContainer.innerHTML = availableSlots.length > 0
-        ? availableSlots.map(slot => {
-            if (slot.type === 'all-day') {
-                return `<div class="col-12"><button class="btn btn-outline-green w-100 offering-slot all-day" data-time="${slot.time}">${slot.time}</button></div>`;
-            }
-            return `<div class="col-4"><button class="btn btn-outline-green w-100 offering-slot" data-time="${slot}">${slot}</button></div>`;
-        }).join('')
-        : '<p class="text-muted">No available slots</p>';
+
+    if (!availableSlotGroups || availableSlotGroups.length === 0) {
+        slotsContainer.innerHTML = '<p class="text-muted">No available slots</p>';
+        return;
+    }
+
+    slotsContainer.innerHTML = '';
+
+    availableSlotGroups.forEach((group, index) => {
+        // Optional: Add a group label
+        if (availableSlotGroups.length > 1) {
+            const label = document.createElement('div');
+            label.innerHTML = `<div class="text-muted mb-1">Slot Group ${index + 1}</div>`;
+            slotsContainer.appendChild(label);
+        }
+
+        const row = document.createElement('div');
+        row.classList.add('row', 'mb-2');
+
+        group.forEach(slot => {
+            const col = document.createElement('div');
+            col.classList.add('col-4');
+            col.classList.add('my-1');
+            col.innerHTML = `<button class="btn btn-outline-green w-100 offering-slot" data-time="${slot}">${slot}</button>`;
+            row.appendChild(col);
+        });
+
+        slotsContainer.appendChild(row);
+    });
 
     $('.offering-slot').on('click', function () {
         $('.offering-slot').removeClass('active');
         $(this).addClass('active');
         const time = $(this).data('time');
         $('#booking_time').val(time);
-    })
+    });
 }
 
-document.getElementById('prevMonth').addEventListener('click', () => {
-    currentMonth--;
-    if (currentMonth < 0) {
-        currentMonth = 11;
-        currentYear--;
-    }
-    generateCalendar(currentMonth, currentYear);
-});
 
-document.getElementById('nextMonth').addEventListener('click', () => {
-    currentMonth++;
-    if (currentMonth > 11) {
-        currentMonth = 0;
-        currentYear++;
-    }
-    generateCalendar(currentMonth, currentYear);
-});
+const prevBtn = document.getElementById('prevMonth');
+if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+        currentMonth--;
+        if (currentMonth < 0) {
+            currentMonth = 11;
+            currentYear--;
+        }
+        generateCalendar(currentMonth, currentYear);
+    });
+}
+
+const nextBtn = document.getElementById('nextMonth');
+if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+        currentMonth++;
+        if (currentMonth > 11) {
+            currentMonth = 0;
+            currentYear++;
+        }
+        generateCalendar(currentMonth, currentYear);
+    });
+}
 
 
 $(document).on('click', '.proceed_to_checkout', function () {
@@ -486,7 +535,7 @@ $(document).on('click', '.proceed_to_checkout', function () {
     const currency = $('#currency').val();
     const currencySymbol = $('#currency_symbol').val();
 
-console.log(currencySymbol)
+    console.log(currencySymbol)
     let bookingDate = '';
     let bookingTime = '';
 
@@ -540,6 +589,3 @@ function paymentAjax(offeringId, bookingDate, bookingTime, offeringEventType, pr
         }
     });
 }
-
-
-

@@ -102,6 +102,7 @@ class PaymentController extends Controller
             $booking = session('booking');
 
             $billing = session('billing');
+
             if (!$booking || !$billing) {
                 return response()->json([
                     "success" => false,
@@ -118,7 +119,7 @@ class PaymentController extends Controller
                 'tax_amount' => $request->tax_amount,
                 'currency' => $booking['currency'],
                 'currency_symbol' => $booking['currency_symbol'],
-                'price' => Offering::find($booking['offering_id'])->client_price,
+                'price' => $booking['price'],
                 'status' => 'pending',
                 'first_name' => $billing['first_name'],
                 'last_name' => $billing['last_name'],
@@ -168,31 +169,33 @@ class PaymentController extends Controller
             $order = Booking::findOrFail($orderId);
             $vendorId = $order->offering->user_id;
             $vendorStripe = UserStripeSetting::where("user_id", $vendorId)->first();
-            if (!$vendorStripe && !$vendorStripe->stripe_user_id) {
-                return false;
-            }
-            // Stripe Checkout Session
-            $session = StripeSession::create([
+            $isVendorConnected = $vendorStripe && $vendorStripe->stripe_user_id;
+            $sessionParams = [
                 'payment_method_types' => ['card'],
                 'line_items' => [[
                     'price_data' => [
                         'currency' => $order->currency,
                         'product_data' => ['name' => 'Booking Payment'],
-                        'unit_amount' => $order->total_amount * 100, // Convert to cents
+                        'unit_amount' => $order->total_amount * 100, // in cents
                     ],
                     'quantity' => 1,
                 ]],
                 'mode' => 'payment',
-                'payment_intent_data' => [
-                    'application_fee_amount' => intval($order->total_amount * 0.22 * 100), // 22% to admin
+                'success_url' => route('confirm-payment', ['order_id' => $order->id]),
+                'cancel_url' => route('payment.cancel', ['order_id' => $order->id]),
+            ];
+
+            if ($isVendorConnected) {
+                $sessionParams['payment_intent_data'] = [
+                    'application_fee_amount' => intval($order->total_amount * 0.22 * 100), // 22% admin cut
                     'transfer_data' => [
                         'destination' => $vendorStripe->stripe_user_id, // 78% to vendor
                     ],
-                ],
-                'success_url' => route('confirm-payment', ['order_id' => $order->id]),
-                'cancel_url' => route('payment.cancel', ['order_id' => $order->id]),
-            ]);
+                ];
+            }
 
+
+            $session = StripeSession::create($sessionParams);
 
             // Save Payment Data
             Payment::create([
