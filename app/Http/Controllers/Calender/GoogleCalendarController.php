@@ -28,7 +28,7 @@ class GoogleCalendarController extends Controller
         }
 
         $client = new Google_Client();
-        $client->setAuthConfig(storage_path('app/google-calendar/google-calendar.json'));
+        $client->setAuthConfig(storage_path('app/google/calendar/credential.json'));
         $client->setAccessToken($googleAccount->access_token);
 
         if ($client->isAccessTokenExpired()) {
@@ -88,7 +88,7 @@ class GoogleCalendarController extends Controller
 
             // Initialize Google Client
             $client = new Google_Client();
-            $client->setAuthConfig(storage_path('app/google-calendar/google-calendar.json'));
+            $client->setAuthConfig(storage_path('app/google/calendar/credential.json'));
             $client->setAccessToken($accessToken);
 
             // Refresh token if expired

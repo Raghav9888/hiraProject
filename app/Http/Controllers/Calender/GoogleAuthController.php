@@ -15,7 +15,7 @@ class GoogleAuthController extends Controller
     public function redirectToGoogle()
     {
         $client = new Google_Client();
-        $client->setAuthConfig(storage_path('app/google-calendar/google-calendar.json'));
+        $client->setAuthConfig(storage_path('app/google/calendar/credential.json'));
         $client->setRedirectUri(route('google_callback'));
         $client->setAccessType('offline'); // Request refresh token
         $client->setApprovalPrompt('force'); // Force refresh token
@@ -28,10 +28,10 @@ class GoogleAuthController extends Controller
     {
 
         $client = new Google_Client();
-        $client->setAuthConfig(storage_path('app/google-calendar/google-calendar.json'));
+        $client->setAuthConfig(storage_path('app/google/calendar/credential.json'));
 
         $token = $client->fetchAccessTokenWithAuthCode($request->code);
-        
+
         if (isset($token['error'])) {
             return redirect()->route('dashboard')->with('error', 'Google authentication failed.');
         }
