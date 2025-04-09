@@ -225,7 +225,7 @@ function generateTimeSlots(from = null, to = null, date = null, allDay = false) 
     const { DateTime } = luxon;
     console.log('to date', to)
     console.log('to date', date)
-alert(DateTime)
+
     let slots = [];
     let startTime, endTime;
 
@@ -438,7 +438,6 @@ function showAvailableSlots(date) {
                 }
                 let normalizedDay = dayKey.replace("every_", "").toLowerCase();
 
-                let dayIndex = dayNames.indexOf(normalizedDay);
                 console.log(normalizedDay ,dayKey , storeAvailability[dayKey]?.enabled === "1")
                 if (storeAvailability[dayKey]?.enabled === "1") {
 
