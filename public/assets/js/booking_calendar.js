@@ -419,9 +419,6 @@ function showAvailableSlots(date) {
             return;
         }
 
-        let dayOfWeekIndex = new Date(date).getDay();
-        let dayNames = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
-
         let allSlots = [];
 
         if (storeAvailability.every_day?.enabled === "1") {
@@ -434,9 +431,7 @@ function showAvailableSlots(date) {
         } else {
             Object.keys(storeAvailability).forEach(dayKey => {
                 let normalizedDay = dayKey.replace("every_", "").toLowerCase();
-
-                let dayIndex = dayNames.indexOf(normalizedDay);
-                console.log(normalizedDay ,dayKey ,dayIndex === dayOfWeekIndex && storeAvailability[dayKey]?.enabled === "1")
+                
                 if (storeAvailability[dayKey]?.enabled === "1") {
                     let fromTime = storeAvailability[dayKey]?.from;
                     let toTime = storeAvailability[dayKey]?.to;
