@@ -103,8 +103,10 @@
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label mb-2">Country</label>
                         <select class="form-select" required name="billing_country" id="country">
-                            <option value="India">India</option>
-                            <option value="Canada">Canada</option>
+                            <option value="">Select Country</option>
+                            @foreach($locations as $country)
+                                <option value="{{$country->name}}">{{$country->name}}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>

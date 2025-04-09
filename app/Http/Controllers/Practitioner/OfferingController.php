@@ -36,7 +36,7 @@ class OfferingController extends Controller
         $practitionerTag = PractitionerTag::get();
         $IHelpWith = IHelpWith::get();
         $HowIHelp = HowIHelp::get();
-        $locations = Locations::get();
+        $locations = Locations::where('status', 1)->get();
         return view('practitioner.add_offering', compact('user', 'userDetails', 'categories', 'practitionerTag', 'IHelpWith', 'HowIHelp', 'locations'));
     }
 

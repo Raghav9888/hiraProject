@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Locations;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\UserDetail;
@@ -42,12 +43,12 @@ class BookingController extends Controller
         $offering = Offering::find($request->offering_id);
         $price = $offering->price;
         $currency = $offering->currency;
-
+        $locations = Locations::where('status', 1)->get();
 
         return response()->json([
             "success" => true,
             "data" => "Booking saved in session!",
-            'html' => view('user.billing-popup', compact('offering', 'bookingDate', 'bookingTime','price','currency'))->render()
+            'html' => view('user.billing-popup', compact('offering', 'bookingDate', 'bookingTime','price','currency','locations'))->render()
         ]);
         // return redirect()->route('checkout');
     }
