@@ -478,6 +478,9 @@ function renderSlots(availableSlotGroups) {
             const dt = luxon.DateTime.fromISO(slotISO, { zone: practitionerTimeZone });
             const userTime = dt.setZone(userTimeZone).toFormat('hh:mm a');
 
+            console.log('Original Slot:', slotISO);
+            console.log('Practitioner Time:', dt.toFormat('hh:mm a ZZZZ'));
+            console.log('User Local Time:', userTime);
             const col = document.createElement('div');
             col.classList.add('col-4', 'my-1');
             col.innerHTML = `
@@ -490,9 +493,7 @@ function renderSlots(availableSlotGroups) {
             row.appendChild(col);
         });
 
-        console.log('Original Slot:', slotISO);
-        console.log('Practitioner Time:', dt.toFormat('hh:mm a ZZZZ'));
-        console.log('User Local Time:', userTime);
+
 
         slotsContainer.appendChild(row);
     });
