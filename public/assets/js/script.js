@@ -257,7 +257,7 @@ $(document).ready(function()
 {
     const CURRENT_VERSION = '1.0.5';
     const LOCAL_KEY = 'app_version';
-
+console.log('version check')
     const savedVersion = localStorage.getItem(LOCAL_KEY);
 
     if (savedVersion !== CURRENT_VERSION) {
