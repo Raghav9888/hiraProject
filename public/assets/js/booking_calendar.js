@@ -388,141 +388,71 @@ function filterBookedSlots(date, slots) {
 
 
 
-// function showAvailableSlots(date) {
-//     const slotsContainer = document.getElementById('availableSlots');
-//     const dateLabel = document.getElementById('selectedDate');
-//     let availability = document.getElementById('availability')?.value || 'own_specific_date';
-//     let storeAvailabilityRaw = document.getElementById('store-availability')?.value;
-//
-//     slotsContainer.innerHTML = '<p class="text-muted">No available slots</p>';
-//     dateLabel.innerText = date.split('-').reverse().join('/');
-//
-//     let availableSlots = [];
-//
-//     // All-Day Slot Creation
-//     availableSlots.push({
-//         type: 'all-day',
-//         time: 'All Day',
-//         date: date
-//     });
-//
-//     if (availability === 'following_store_hours') {
-//         if (!storeAvailabilityRaw) {
-//             console.error("Store availability data is missing.");
-//             return;
-//         }
-//
-//         let storeAvailability;
-//         try {
-//             storeAvailability = JSON.parse(storeAvailabilityRaw.replace(/&quot;/g, '"'));
-//         } catch (error) {
-//             console.error("Error parsing store availability JSON:", error, storeAvailabilityRaw);
-//             return;
-//         }
-//
-//         let allSlots = [];
-//
-//         if (storeAvailability.every_day?.enabled === "1") {
-//             let fromTime = storeAvailability.every_day?.from;
-//             let toTime = storeAvailability.every_day?.to;
-//
-//             if (fromTime && toTime) {
-//                 allSlots = generateTimeSlots(fromTime, toTime,date);
-//             }
-//         } else {
-//             Object.keys(storeAvailability).forEach(dayKey => {
-//                 let normalizedDay = dayKey.replace("every_", "").toLowerCase();
-//
-//                 if (storeAvailability[dayKey]?.enabled === "1") {
-//                     let fromTime = storeAvailability[dayKey]?.from;
-//                     let toTime = storeAvailability[dayKey]?.to;
-//
-//                     if (fromTime && toTime) {
-//                         allSlots = allSlots.concat(generateTimeSlots(fromTime, toTime ,date));
-//                     }
-//                 }
-//             });
-//         }
-//
-//         availableSlots = [...new Set(allSlots)].sort((a, b) => convertTo24Hour(a) - convertTo24Hour(b));
-//     } else {
-//         availableSlots = generateTimeSlots(null, null, date, true);
-//     }
-//
-//     // ❗ Filter out booked slots
-//     availableSlots = filterBookedSlots(date, availableSlots);
-//
-//     renderSlots(availableSlots);
-// }
 function showAvailableSlots(date) {
     const slotsContainer = document.getElementById('availableSlots');
     const dateLabel = document.getElementById('selectedDate');
-    const timezone = document.getElementById('practitioner_timezone')?.value || 'UTC';
-    const availability = document.getElementById('availability')?.value || 'own_specific_date';
-    const storeAvailabilityRaw = document.getElementById('store-availability')?.value;
-    const { DateTime } = luxon;
+    let availability = document.getElementById('availability')?.value || 'own_specific_date';
+    let storeAvailabilityRaw = document.getElementById('store-availability')?.value;
 
-    slotsContainer.innerHTML = '';
-    dateLabel.textContent = date;
+    slotsContainer.innerHTML = '<p class="text-muted">No available slots</p>';
+    dateLabel.innerText = date.split('-').reverse().join('/');
 
-    let slots = [];
+    let availableSlots = [];
 
-    // Handle store-based hours
-    if (availability === 'following_store_hours' && storeAvailabilityRaw) {
-        try {
-            const storeAvailability = JSON.parse(storeAvailabilityRaw);
-            const dayIndex = new Date(date).getDay(); // 0 = Sunday, ..., 6 = Saturday
-            const days = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
-            const dayName = days[dayIndex];
-
-            const availabilityForDay = storeAvailability[`every_${dayName}`];
-
-            if (availabilityForDay && availabilityForDay.enabled === "1") {
-                const from = availabilityForDay.from;
-                const to = availabilityForDay.to;
-                slots = generateTimeSlots(from, to, date);
-            }
-        } catch (error) {
-            console.error("Invalid store availability JSON:", error);
-        }
-    }
-
-    // Handle all-day slots (for specific offering setups or full-day selections)
-    if (availability === 'own_specific_date') {
-        slots = generateTimeSlots(null, null, date, true);
-    }
-
-    // Filter out already booked slots
-    const groupedSlots = filterBookedSlots(date, slots);
-
-    if (groupedSlots.length === 0) {
-        slotsContainer.innerHTML = `<p class="text-gray-500">No available time slots for this date.</p>`;
-        return;
-    }
-
-    groupedSlots.forEach((group, index) => {
-        const groupDiv = document.createElement('div');
-        groupDiv.classList.add('slot-group', 'mb-3');
-
-        group.forEach(slot => {
-            const slotButton = document.createElement('button');
-            slotButton.className = 'slot-button px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-800 rounded-full mr-2 mb-2';
-            slotButton.textContent = slot;
-            slotButton.setAttribute('data-time', slot);
-
-            slotButton.addEventListener('click', () => {
-                document.querySelectorAll('.slot-button').forEach(btn => btn.classList.remove('bg-blue-600', 'text-white'));
-                slotButton.classList.add('bg-blue-600', 'text-white');
-
-                document.getElementById('booking_time').value = slot;
-                document.getElementById('booking_date').value = date;
-            });
-
-            groupDiv.appendChild(slotButton);
-        });
-
-        slotsContainer.appendChild(groupDiv);
+    // All-Day Slot Creation
+    availableSlots.push({
+        type: 'all-day',
+        time: 'All Day',
+        date: date
     });
+
+    if (availability === 'following_store_hours') {
+        if (!storeAvailabilityRaw) {
+            console.error("Store availability data is missing.");
+            return;
+        }
+
+        let storeAvailability;
+        try {
+            storeAvailability = JSON.parse(storeAvailabilityRaw.replace(/&quot;/g, '"'));
+        } catch (error) {
+            console.error("Error parsing store availability JSON:", error, storeAvailabilityRaw);
+            return;
+        }
+
+        let allSlots = [];
+
+        if (storeAvailability.every_day?.enabled === "1") {
+            let fromTime = storeAvailability.every_day?.from;
+            let toTime = storeAvailability.every_day?.to;
+
+            if (fromTime && toTime) {
+                allSlots = generateTimeSlots(fromTime, toTime,date);
+            }
+        } else {
+            Object.keys(storeAvailability).forEach(dayKey => {
+                let normalizedDay = dayKey.replace("every_", "").toLowerCase();
+
+                if (storeAvailability[dayKey]?.enabled === "1") {
+                    let fromTime = storeAvailability[dayKey]?.from;
+                    let toTime = storeAvailability[dayKey]?.to;
+
+                    if (fromTime && toTime) {
+                        allSlots = allSlots.concat(generateTimeSlots(fromTime, toTime ,date));
+                    }
+                }
+            });
+        }
+
+        availableSlots = [...new Set(allSlots)].sort((a, b) => convertTo24Hour(a) - convertTo24Hour(b));
+    } else {
+        availableSlots = generateTimeSlots(null, null, date, true);
+    }
+
+    // ❗ Filter out booked slots
+    availableSlots = filterBookedSlots(date, availableSlots);
+
+    renderSlots(availableSlots);
 }
 
 function renderSlots(availableSlotGroups) {
