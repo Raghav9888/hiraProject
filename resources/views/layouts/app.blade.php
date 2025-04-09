@@ -41,7 +41,7 @@
     <script src="{{ asset('assets/plugin/OwlCarousel2-2.3.4/dist/owl.carousel.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/luxon@3/build/global/luxon.min.js"></script>
 
-    {{--    @vite(['resources/sass/app.scss', 'resources/js/app.js'])--}}
+        @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
@@ -243,12 +243,14 @@
 
 
 
-<script src="{{ asset('assets/js/loader.js') }}"></script>
-<script src="{{ asset('assets/js/script.js') }}"></script>
-<script src="{{ asset('assets/js/calendar.js') }}"></script>
-<script src="{{ asset('assets/js/booking_calendar.js') }}"></script>
-<script src="{{ asset('assets/js/search.js') }}"></script>
-<script src="{{ asset('assets/js/currency_helper.js') }}"></script>
+
+{{--<script src="{{ asset('assets/js/loader.js') }}"></script>--}}
+{{--<script src="{{ asset('assets/js/script.js') }}"></script>--}}
+{{--<script src="{{ asset('assets/js/calendar.js') }}"></script>--}}
+{{--<script src="{{ asset('assets/js/booking_calendar.js') }}"></script>--}}
+{{--<script src="{{ asset('assets/js/search.js') }}"></script>--}}
+{{--<script src="{{ asset('assets/js/currency_helper.js') }}"></script>--}}
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/6.0.0/bootbox.min.js"
         integrity="sha512-oVbWSv2O4y1UzvExJMHaHcaib4wsBMS5tEP3/YkMP6GmkwRJAa79Jwsv+Y/w7w2Vb/98/Xhvck10LyJweB8Jsw=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
