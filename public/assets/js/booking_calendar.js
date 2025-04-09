@@ -64,7 +64,6 @@ function openPopup(event) {
         $.ajax({
             url: '/getEvent',
             type: 'POST',
-            cache: false,
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
@@ -107,7 +106,6 @@ function openPopup(event) {
         $.ajax({
             type: 'post',
             url: `/getBookedSlots/${userId}`,
-            cache: false,
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
@@ -195,6 +193,7 @@ function getAllowedDays() {
                 // "every_day" is enabled, so allow all days (0 = Sunday, 6 = Saturday)
                 allowedDays = [0, 1, 2, 3, 4, 5, 6];
             } else {
+                // Otherwise, check individually enabled days
                 allowedDays = Object.keys(storeAvailability)
                     .filter(day => storeAvailability[day]?.enabled === "1")
                     .map(day => {
@@ -203,19 +202,18 @@ function getAllowedDays() {
                             .indexOf(normalizedDay);
                     })
                     .filter(dayIndex => dayIndex !== -1);
-
             }
+
             console.log("Allowed Days from Store Availability:", allowedDays);
             return allowedDays;
         } catch (error) {
-            alert('error')
             console.error("Error parsing store availability JSON:", error, storeAvailabilityRaw);
             return [];
         }
 
 
     }
-console.log('availability is here ' ,availability)
+    console.log('availability is here ' ,availability)
     return dayMapping[availability] || [];
 }
 
@@ -362,7 +360,7 @@ function filterBookedSlots(date, slots) {
 
     let grouped = [];
     let currentGroup = [];
-console.log('slots',slots)
+    console.log('slots',slots)
     slots.forEach(slot => {
         let slotMinutes = convertTo24Hour(slot);
         let isBooked = bookedDates.some(b => {
@@ -395,7 +393,7 @@ function showAvailableSlots(date) {
     let availability = document.getElementById('availability')?.value || 'own_specific_date';
     let storeAvailabilityRaw = document.getElementById('store-availability')?.value;
 
-    // slotsContainer.innerHTML = '<p class="text-muted">No available slots</p>';
+    slotsContainer.innerHTML = '<p class="text-muted">No available slots</p>';
     dateLabel.innerText = date.split('-').reverse().join('/');
 
     let availableSlots = [];
@@ -420,6 +418,8 @@ function showAvailableSlots(date) {
             console.error("Error parsing store availability JSON:", error, storeAvailabilityRaw);
             return;
         }
+
+        let dayOfWeekIndex = new Date(date).getDay();
         let dayNames = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
 
         let allSlots = [];
@@ -433,14 +433,11 @@ function showAvailableSlots(date) {
             }
         } else {
             Object.keys(storeAvailability).forEach(dayKey => {
-                if(dayKey === 'every_day') {
-                    return
-                }
                 let normalizedDay = dayKey.replace("every_", "").toLowerCase();
 
-                console.log(normalizedDay ,dayKey , storeAvailability[dayKey]?.enabled === "1")
-                if (storeAvailability[dayKey]?.enabled === "1") {
-
+                let dayIndex = dayNames.indexOf(normalizedDay);
+                console.log(normalizedDay ,dayKey ,dayIndex === dayOfWeekIndex && storeAvailability[dayKey]?.enabled === "1")
+                if (dayIndex === dayOfWeekIndex && storeAvailability[dayKey]?.enabled === "1") {
                     let fromTime = storeAvailability[dayKey]?.from;
                     let toTime = storeAvailability[dayKey]?.to;
 
