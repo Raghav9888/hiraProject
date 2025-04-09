@@ -1,14 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Models\Locations;
+use App\Models\Country;
+use Google\Service\Dfareporting\Resource\Countries;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\UserDetail;
 use App\Models\Offering;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\ContactUsMail;
 use App\Mail\TemporaryPasswordMail;
 use App\Models\GoogleAccount;
 use Illuminate\Support\Facades\Auth;
@@ -43,12 +42,11 @@ class BookingController extends Controller
         $offering = Offering::find($request->offering_id);
         $price = $offering->price;
         $currency = $offering->currency;
-        $locations = Locations::where('status', 1)->get();
-
+        $countries = Country::all();
         return response()->json([
             "success" => true,
             "data" => "Booking saved in session!",
-            'html' => view('user.billing-popup', compact('offering', 'bookingDate', 'bookingTime','price','currency','locations'))->render()
+            'html' => view('user.billing-popup', compact('offering', 'bookingDate', 'bookingTime','price','currency','countries'))->render()
         ]);
         // return redirect()->route('checkout');
     }

@@ -104,7 +104,7 @@
                         <label for="exampleInputEmail1" class="form-label mb-2">Country</label>
                         <select class="form-select" required name="billing_country" id="country">
                             <option value="">Select Country</option>
-                            @foreach($locations as $country)
+                            @foreach($countries as $country)
                                 <option value="{{$country->name}}">{{$country->name}}</option>
                             @endforeach
                         </select>
