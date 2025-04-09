@@ -299,13 +299,29 @@ function formatTime(date) {
 }
 
 // Convert "HH:MM AM/PM" to 24-hour format for correct sorting
+// function convertTo24Hour(time) {
+//     let [hour, minute] = time.split(/:| /);
+//     let period = time.includes("AM") ? "AM" : "PM";
+//
+//     let date = new Date(`2025-01-01 ${hour}:${minute} ${period}`);
+//     return date.getHours() * 60 + date.getMinutes();
+// }
 function convertTo24Hour(time) {
+    if (typeof time !== 'string') return 0; // safety check
+
     let [hour, minute] = time.split(/:| /);
     let period = time.includes("AM") ? "AM" : "PM";
 
-    let date = new Date(`2025-01-01 ${hour}:${minute} ${period}`);
-    return date.getHours() * 60 + date.getMinutes();
+    // Extra safety: Ensure hour and minute are numbers
+    hour = parseInt(hour);
+    minute = parseInt(minute);
+
+    if (period === "PM" && hour < 12) hour += 12;
+    if (period === "AM" && hour === 12) hour = 0;
+
+    return hour * 60 + minute;
 }
+
 
 function generateCalendar(month, year) {
     const firstDay = new Date(year, month, 1);
