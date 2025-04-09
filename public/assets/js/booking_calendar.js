@@ -260,7 +260,7 @@ function formatTime(date) {
     return date.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit', hour12: true});
 }
 
-Convert "HH:MM AM/PM" to 24-hour format for correct sorting
+// Convert "HH:MM AM/PM" to 24-hour format for correct sorting
 function convertTo24Hour(time) {
     let [hour, minute] = time.split(/:| /);
     let period = time.includes("AM") ? "AM" : "PM";
