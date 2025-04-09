@@ -243,6 +243,9 @@ function generateTimeSlots(from = null, to = null, date = null, allDay = false) 
         slots.push(startTime.toISO()); // Return ISO string (with timezone)
         startTime = startTime.plus({ minutes: 60 });
     }
+    console.log('Practitioner Timezone:', practitionerTimeZone);
+    console.log('Start Time (Practitioner):', startTime.toString());
+    console.log('End Time (Practitioner):', endTime.toString());
 
     return slots;
 }
@@ -486,6 +489,10 @@ function renderSlots(availableSlotGroups) {
             `;
             row.appendChild(col);
         });
+
+        console.log('Original Slot:', slotISO);
+        console.log('Practitioner Time:', dt.toFormat('hh:mm a ZZZZ'));
+        console.log('User Local Time:', userTime);
 
         slotsContainer.appendChild(row);
     });
