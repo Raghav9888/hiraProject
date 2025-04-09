@@ -151,7 +151,7 @@ function formatDate(date) {
 function getAllowedDays() {
     let availability = document.getElementById('availability')?.value || 'own_specific_date';
     let storeAvailabilityRaw = document.getElementById('store-availability')?.value;
-
+alert(availability)
     let dayMapping = {
         "every_monday": [1], "every_tuesday": [2], "every_wednesday": [3],
         "every_thursday": [4], "every_friday": [5], "weekend_every_saturday_sunday": [0, 6],
