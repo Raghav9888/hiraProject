@@ -218,80 +218,40 @@ function getAllowedDays() {
 }
 
 
-// function generateTimeSlots(from = null, to = null, date = null, allDay = false) {
-//     const practitionerTimeZone = document.getElementById('practitioner_timezone')?.value || 'UTC';
-//     const { DateTime } = luxon;
-//     console.log('to date', to)
-//     console.log('to date', date)
-//
-//     let slots = [];
-//     let startTime, endTime;
-//
-//     if (allDay) {
-//         // Use Luxon DateTime for consistency
-//         startTime = DateTime.fromISO(`${date}T12:00:00`, { zone: practitionerTimeZone });
-//         endTime = DateTime.fromISO(`${date}T12:00:00`, { zone: practitionerTimeZone });
-//     } else {
-//         const baseDate = `${date || Date()}`;
-//         startTime = DateTime.fromISO(`${baseDate}T${from}`, { zone: practitionerTimeZone });
-//         endTime = DateTime.fromISO(`${baseDate}T${to}`, { zone: practitionerTimeZone });
-//     }
-//
-//     let isNextDay = endTime <= startTime;
-//     if (isNextDay) {
-//         endTime = endTime.plus({ days: 1 });
-//     }
-//
-//     while (startTime < endTime) {
-//         const localTime = startTime.toLocal();
-//         slots.push(localTime.toFormat("hh:mm a"));
-//         startTime = startTime.plus({ minutes: 60 });
-//     }
-//
-//     slots.sort((a, b) => convertTo24Hour(a) - convertTo24Hour(b));
-//     return slots;
-// }
-
 function generateTimeSlots(from = null, to = null, date = null, allDay = false) {
     const practitionerTimeZone = document.getElementById('practitioner_timezone')?.value || 'UTC';
-    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const { DateTime } = luxon;
+    console.log('to date', to)
+    console.log('to date', date)
 
     let slots = [];
     let startTime, endTime;
 
-    const baseDate = date || DateTime.now().toISODate();
-
     if (allDay) {
-        // All-day block (midnight to 11:59 PM)
-        startTime = DateTime.fromISO(`${baseDate}T00:00:00`, { zone: practitionerTimeZone });
-        endTime = DateTime.fromISO(`${baseDate}T23:59:59`, { zone: practitionerTimeZone });
+        // Use Luxon DateTime for consistency
+        startTime = DateTime.fromISO(`${date}T12:00:00`, { zone: practitionerTimeZone });
+        endTime = DateTime.fromISO(`${date}T12:00:00`, { zone: practitionerTimeZone });
     } else {
+        const baseDate = `${date || Date()}`;
         startTime = DateTime.fromISO(`${baseDate}T${from}`, { zone: practitionerTimeZone });
         endTime = DateTime.fromISO(`${baseDate}T${to}`, { zone: practitionerTimeZone });
+    }
 
-        if (endTime <= startTime) {
-            endTime = endTime.plus({ days: 1 }); // overnight case
-        }
+    let isNextDay = endTime <= startTime;
+    if (isNextDay) {
+        endTime = endTime.plus({ days: 1 });
     }
 
     while (startTime < endTime) {
-        const userTime = startTime.setZone(userTimeZone);
-
-        slots.push({
-            time: userTime.toFormat("hh:mm a"),   // e.g., "08:30 PM"
-            value: userTime.toFormat("HH:mm"),    // e.g., "20:30" (for sorting)
-            iso: userTime.toISO(),                // full timestamp if needed
-        });
-
-        startTime = startTime.plus({ minutes: 60 }); // slot duration
+        const localTime = startTime.toLocal();
+        slots.push(localTime.toFormat("hh:mm a"));
+        startTime = startTime.plus({ minutes: 60 });
     }
 
-    // Sort by 24-hour string value
-    slots.sort((a, b) => a.value.localeCompare(b.value));
-
+    slots.sort((a, b) => convertTo24Hour(a) - convertTo24Hour(b));
     return slots;
 }
+
 
 
 
@@ -300,28 +260,13 @@ function formatTime(date) {
     return date.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit', hour12: true});
 }
 
-// Convert "HH:MM AM/PM" to 24-hour format for correct sorting
-// function convertTo24Hour(time) {
-//     let [hour, minute] = time.split(/:| /);
-//     let period = time.includes("AM") ? "AM" : "PM";
-//
-//     let date = new Date(`2025-01-01 ${hour}:${minute} ${period}`);
-//     return date.getHours() * 60 + date.getMinutes();
-// }
+Convert "HH:MM AM/PM" to 24-hour format for correct sorting
 function convertTo24Hour(time) {
-    if (typeof time !== 'string') return 0; // safety check
-
     let [hour, minute] = time.split(/:| /);
     let period = time.includes("AM") ? "AM" : "PM";
 
-    // Extra safety: Ensure hour and minute are numbers
-    hour = parseInt(hour);
-    minute = parseInt(minute);
-
-    if (period === "PM" && hour < 12) hour += 12;
-    if (period === "AM" && hour === 12) hour = 0;
-
-    return hour * 60 + minute;
+    let date = new Date(`2025-01-01 ${hour}:${minute} ${period}`);
+    return date.getHours() * 60 + date.getMinutes();
 }
 
 
