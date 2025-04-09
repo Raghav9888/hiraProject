@@ -220,8 +220,8 @@
                                                 <div class="d-flex align-items-center">
                                                     @php
                                                         $rawPrice = $offering->offering_event_type == 'event'
-                                                            ? $offering->event->client_price
-                                                            : ($offering->client_price ?? 0);
+                                                            ? $offering->event?->client_price ?? 0
+                                                            : ($offering?->client_price ?? 0);
 
                                                         // Clean the price: remove commas, convert to float
                                                         $cadPrice = round(floatval(str_replace(',', '', $rawPrice)));
