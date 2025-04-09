@@ -107,10 +107,11 @@
         });
     });
 
-        document.addEventListener("DOMContentLoaded", function() {
-        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-        document.getElementById("user-timezone").textContent = "Time Zone: " + timezone;
-    });
-</script>
+
+        $(document).ready(function (){
+            const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            document.getElementById("user-timezone").textContent = "Time Zone: " + timezone;
+            console.log(timezone)
+        })
 
 </script>
