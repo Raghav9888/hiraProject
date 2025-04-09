@@ -43,7 +43,8 @@
                             <p class="mb-0 text-muted small">
                                 <span>Booking Time:</span> {{ Carbon::parse($booking['booking_time'])->format('h:i A') }}
                             </p>
-                            <p class="mb-0 text-muted small">Time Zone: Asia/Calcutta</p>
+                            <p id="user-timezone" class="mb-0 text-muted small">Time Zone: </p>
+
                         </div>
                     </div>
                 </td>
@@ -105,4 +106,11 @@
             }
         });
     });
+
+        document.addEventListener("DOMContentLoaded", function() {
+        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        document.getElementById("user-timezone").textContent = "Time Zone: " + timezone;
+    });
+</script>
+
 </script>
