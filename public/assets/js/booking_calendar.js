@@ -412,7 +412,7 @@ function showAvailableSlots(date) {
             console.error("Store availability data is missing.");
             return;
         }
-        alert(storeAvailabilityRaw)
+
         let storeAvailability;
         try {
             storeAvailability = JSON.parse(storeAvailabilityRaw.replace(/&quot;/g, '"'));
@@ -420,7 +420,7 @@ function showAvailableSlots(date) {
             console.error("Error parsing store availability JSON:", error, storeAvailabilityRaw);
             return;
         }
-
+        alert(storeAvailability)
         let dayOfWeekIndex = new Date(date).getDay();
         let dayNames = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
 
