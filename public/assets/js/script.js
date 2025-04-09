@@ -255,14 +255,14 @@ $(document).on('click','#sidebar_toogle', function () {
 
 $(document).ready(function()
 {
-    const CURRENT_VERSION = '1.0.4';
+    const CURRENT_VERSION = '1.0.5';
     const LOCAL_KEY = 'app_version';
 
     const savedVersion = localStorage.getItem(LOCAL_KEY);
 
     if (savedVersion !== CURRENT_VERSION) {
         localStorage.setItem(LOCAL_KEY, CURRENT_VERSION);
-        window.location.reload(true);
+        location.replace(window.location.href); // works better on mobile
     }
 })
 
