@@ -420,7 +420,7 @@ function showAvailableSlots(date) {
             console.error("Error parsing store availability JSON:", error, storeAvailabilityRaw);
             return;
         }
-        alert(storeAvailability)
+
         let dayOfWeekIndex = new Date(date).getDay();
         let dayNames = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
 
@@ -436,7 +436,7 @@ function showAvailableSlots(date) {
         } else {
             Object.keys(storeAvailability).forEach(dayKey => {
                 let normalizedDay = dayKey.replace("every_", "").toLowerCase();
-
+alert(normalizedDay)
                 let dayIndex = dayNames.indexOf(normalizedDay);
                 console.log(normalizedDay ,dayKey ,dayIndex === dayOfWeekIndex && storeAvailability[dayKey]?.enabled === "1")
                 if (dayIndex === dayOfWeekIndex && storeAvailability[dayKey]?.enabled === "1") {
