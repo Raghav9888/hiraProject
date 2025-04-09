@@ -239,7 +239,7 @@
                                                             data-user-id="{{$user->id}}"
                                                             data-offering-id="{{$offering->id}}"
                                                             data-offering-event-type="{{$offering->offering_event_type}}"
-                                                            data-event-start="{{$offering->offering_event_type =='event' ? $offering->event->date_and_time : ''}}"
+                                                            data-event-start="{{$offering->offering_event_type =='event' ? $offering->event?->date_and_time  ?? '': ''}}"
                                                             data-availability="{{$offering?->availability_type ?? ''}}"
                                                             data-specific-day-start="{{$offering->from_date}}"
                                                             data-specific-day-end="{{$offering->to_date}}"
