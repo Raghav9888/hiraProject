@@ -250,3 +250,18 @@ $(document).on('click','#sidebar_toogle', function () {
     let targetElement = $('#sidebar');
     targetElement.toggleClass('d-none d-flex', $(this).val() !== 'custom');
 })
+
+
+
+(function () {
+    const CURRENT_VERSION = '1.0.4';
+    const LOCAL_KEY = 'app_version';
+
+    const savedVersion = localStorage.getItem(LOCAL_KEY);
+
+    if (savedVersion !== CURRENT_VERSION) {
+        localStorage.setItem(LOCAL_KEY, CURRENT_VERSION);
+        window.location.reload(true);
+    }
+})();
+

@@ -64,6 +64,7 @@ function openPopup(event) {
         $.ajax({
             url: '/getEvent',
             type: 'POST',
+            cache: false,
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
@@ -106,6 +107,7 @@ function openPopup(event) {
         $.ajax({
             type: 'post',
             url: `/getBookedSlots/${userId}`,
+            cache: false,
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
