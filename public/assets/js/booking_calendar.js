@@ -221,16 +221,13 @@ function getAllowedDays() {
 function generateTimeSlots(from = null, to = null, date = null, allDay = false) {
     const practitionerTimeZone = document.getElementById('practitioner_timezone')?.value || 'UTC';
     const { DateTime } = luxon;
-    console.log('to date', to)
-    console.log('to date', date)
 
     let slots = [];
     let startTime, endTime;
 
     if (allDay) {
-        // Use Luxon DateTime for consistency
         startTime = DateTime.fromISO(`${date}T12:00:00`, { zone: practitionerTimeZone });
-        endTime = DateTime.fromISO(`${date}T12:00:00`, { zone: practitionerTimeZone });
+        endTime = startTime;
     } else {
         const baseDate = `${date || Date()}`;
         startTime = DateTime.fromISO(`${baseDate}T${from}`, { zone: practitionerTimeZone });
@@ -243,12 +240,10 @@ function generateTimeSlots(from = null, to = null, date = null, allDay = false) 
     }
 
     while (startTime < endTime) {
-        const localTime = startTime.toLocal();
-        slots.push(localTime.toFormat("hh:mm a"));
+        slots.push(startTime.toISO()); // Return ISO string (with timezone)
         startTime = startTime.plus({ minutes: 60 });
     }
 
-    slots.sort((a, b) => convertTo24Hour(a) - convertTo24Hour(b));
     return slots;
 }
 
@@ -457,6 +452,7 @@ function showAvailableSlots(date) {
 
 function renderSlots(availableSlotGroups) {
     const slotsContainer = document.getElementById('availableSlots');
+    const practitionerTimeZone = document.getElementById('practitioner_timezone')?.value || 'UTC';
 
     if (!availableSlotGroups || availableSlotGroups.length === 0) {
         slotsContainer.innerHTML = '<p class="text-muted">No available slots</p>';
@@ -466,7 +462,6 @@ function renderSlots(availableSlotGroups) {
     slotsContainer.innerHTML = '';
 
     availableSlotGroups.forEach((group, index) => {
-        // Optional: Add a group label
         if (availableSlotGroups.length > 1) {
             const label = document.createElement('div');
             label.innerHTML = `<div class="text-muted mb-1">Slot Group ${index + 1}</div>`;
@@ -476,11 +471,19 @@ function renderSlots(availableSlotGroups) {
         const row = document.createElement('div');
         row.classList.add('row', 'mb-2');
 
-        group.forEach(slot => {
+        group.forEach(slotISO => {
+            const dt = luxon.DateTime.fromISO(slotISO, { zone: practitionerTimeZone });
+            const userTime = dt.setZone(userTimeZone).toFormat('hh:mm a');
+
             const col = document.createElement('div');
-            col.classList.add('col-4');
-            col.classList.add('my-1');
-            col.innerHTML = `<button class="btn btn-outline-green w-100 offering-slot" data-time="${slot}">${slot}</button>`;
+            col.classList.add('col-4', 'my-1');
+            col.innerHTML = `
+                <button class="btn btn-outline-green w-100 offering-slot"
+                    data-time="${userTime}"
+                    title="Practitioner Time: ${dt.toFormat('hh:mm a ZZZZ')}">
+                    ${userTime}
+                </button>
+            `;
             row.appendChild(col);
         });
 
@@ -494,6 +497,7 @@ function renderSlots(availableSlotGroups) {
         $('#booking_time').val(time);
     });
 }
+
 
 
 const prevBtn = document.getElementById('prevMonth');
