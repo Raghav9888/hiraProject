@@ -188,14 +188,13 @@ function getAllowedDays() {
 
             let storeAvailability = JSON.parse(storeAvailabilityRaw);
             console.log("Parsed Store Availability:", storeAvailability);
-alert(storeAvailability)
+
             let allowedDays = [];
 
             if (storeAvailability.every_day?.enabled === "1") {
                 // "every_day" is enabled, so allow all days (0 = Sunday, 6 = Saturday)
                 allowedDays = [0, 1, 2, 3, 4, 5, 6];
             } else {
-                // Otherwise, check individually enabled days
                 allowedDays = Object.keys(storeAvailability)
                     .filter(day => storeAvailability[day]?.enabled === "1")
                     .map(day => {
@@ -204,11 +203,12 @@ alert(storeAvailability)
                             .indexOf(normalizedDay);
                     })
                     .filter(dayIndex => dayIndex !== -1);
-            }
 
+            }
             console.log("Allowed Days from Store Availability:", allowedDays);
             return allowedDays;
         } catch (error) {
+            alert('error')
             console.error("Error parsing store availability JSON:", error, storeAvailabilityRaw);
             return [];
         }
