@@ -456,6 +456,7 @@ function showAvailableSlots(date) {
 function renderSlots(availableSlotGroups) {
     const slotsContainer = document.getElementById('availableSlots');
     const practitionerTimeZone = document.getElementById('practitioner_timezone')?.value || 'UTC';
+    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
     if (!availableSlotGroups || availableSlotGroups.length === 0) {
         slotsContainer.innerHTML = '<p class="text-muted">No available slots</p>';
