@@ -257,7 +257,7 @@ class GoogleCalendarController extends Controller
 
         $client = new \Google_Client();
 
-        $credentialsPath = storage_path('app/google-calendar/google-calendar.json');
+        $credentialsPath = storage_path('app/google/calendar/credential.json');
         if (!file_exists($credentialsPath)) {
             throw new \Exception('Google credentials file is missing.');
         }
