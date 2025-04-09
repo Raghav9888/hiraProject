@@ -218,37 +218,75 @@ function getAllowedDays() {
 }
 
 
+// function generateTimeSlots(from = null, to = null, date = null, allDay = false) {
+//     const practitionerTimeZone = document.getElementById('practitioner_timezone')?.value || 'UTC';
+//     const { DateTime } = luxon;
+//     console.log('to date', to)
+//     console.log('to date', date)
+//
+//     let slots = [];
+//     let startTime, endTime;
+//
+//     if (allDay) {
+//         // Use Luxon DateTime for consistency
+//         startTime = DateTime.fromISO(`${date}T12:00:00`, { zone: practitionerTimeZone });
+//         endTime = DateTime.fromISO(`${date}T12:00:00`, { zone: practitionerTimeZone });
+//     } else {
+//         const baseDate = `${date || Date()}`;
+//         startTime = DateTime.fromISO(`${baseDate}T${from}`, { zone: practitionerTimeZone });
+//         endTime = DateTime.fromISO(`${baseDate}T${to}`, { zone: practitionerTimeZone });
+//     }
+//
+//     let isNextDay = endTime <= startTime;
+//     if (isNextDay) {
+//         endTime = endTime.plus({ days: 1 });
+//     }
+//
+//     while (startTime < endTime) {
+//         const localTime = startTime.toLocal();
+//         slots.push(localTime.toFormat("hh:mm a"));
+//         startTime = startTime.plus({ minutes: 60 });
+//     }
+//
+//     slots.sort((a, b) => convertTo24Hour(a) - convertTo24Hour(b));
+//     return slots;
+// }
+
 function generateTimeSlots(from = null, to = null, date = null, allDay = false) {
     const practitionerTimeZone = document.getElementById('practitioner_timezone')?.value || 'UTC';
+    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone; // Get user's local timezone
     const { DateTime } = luxon;
-    console.log('to date', to)
-    console.log('to date', date)
 
     let slots = [];
     let startTime, endTime;
 
     if (allDay) {
-        // Use Luxon DateTime for consistency
-        startTime = DateTime.fromISO(`${date}T12:00:00`, { zone: practitionerTimeZone });
-        endTime = DateTime.fromISO(`${date}T12:00:00`, { zone: practitionerTimeZone });
+        // 12:00 to 12:00 — all day slot
+        startTime = DateTime.fromISO(`${date}T00:00:00`, { zone: practitionerTimeZone });
+        endTime = DateTime.fromISO(`${date}T23:59:59`, { zone: practitionerTimeZone });
     } else {
-        const baseDate = `${date || Date()}`;
+        // Construct start and end time in practitioner's timezone
+        const baseDate = date || DateTime.now().toISODate(); // fallback if no date
         startTime = DateTime.fromISO(`${baseDate}T${from}`, { zone: practitionerTimeZone });
         endTime = DateTime.fromISO(`${baseDate}T${to}`, { zone: practitionerTimeZone });
+
+        // Handle overnight availability (e.g. 10 PM - 2 AM)
+        if (endTime <= startTime) {
+            endTime = endTime.plus({ days: 1 });
+        }
     }
 
-    let isNextDay = endTime <= startTime;
-    if (isNextDay) {
-        endTime = endTime.plus({ days: 1 });
-    }
-
+    // Loop through and convert each slot to user timezone
     while (startTime < endTime) {
-        const localTime = startTime.toLocal();
-        slots.push(localTime.toFormat("hh:mm a"));
+        const userTime = startTime.setZone(userTimeZone); // convert to user's timezone
+        slots.push({
+            time: userTime.toFormat("hh:mm a"),
+            value: userTime.toFormat("HH:mm"),
+            iso: userTime.toISO(),
+        });
         startTime = startTime.plus({ minutes: 60 });
     }
 
-    slots.sort((a, b) => convertTo24Hour(a) - convertTo24Hour(b));
     return slots;
 }
 
@@ -431,7 +469,7 @@ function showAvailableSlots(date) {
         } else {
             Object.keys(storeAvailability).forEach(dayKey => {
                 let normalizedDay = dayKey.replace("every_", "").toLowerCase();
-                
+
                 if (storeAvailability[dayKey]?.enabled === "1") {
                     let fromTime = storeAvailability[dayKey]?.from;
                     let toTime = storeAvailability[dayKey]?.to;
