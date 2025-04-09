@@ -394,7 +394,7 @@ function showAvailableSlots(date) {
     const dateLabel = document.getElementById('selectedDate');
     let availability = document.getElementById('availability')?.value || 'own_specific_date';
     let storeAvailabilityRaw = document.getElementById('store-availability')?.value;
-   alert(slotsContainer)
+
     // slotsContainer.innerHTML = '<p class="text-muted">No available slots</p>';
     dateLabel.innerText = date.split('-').reverse().join('/');
 
@@ -406,13 +406,13 @@ function showAvailableSlots(date) {
         time: 'All Day',
         date: date
     });
-    alert(availability === 'following_store_hours')
+
     if (availability === 'following_store_hours') {
         if (!storeAvailabilityRaw) {
             console.error("Store availability data is missing.");
             return;
         }
-
+        alert(storeAvailabilityRaw)
         let storeAvailability;
         try {
             storeAvailability = JSON.parse(storeAvailabilityRaw.replace(/&quot;/g, '"'));
