@@ -255,7 +255,7 @@
                                                 </div>
                                             </div>
                                             <ul class="practitioner-accordian-lists">
-                                                <li>{{ $offering->offering_event_type == 'event' ? $offering->event->event_duration:$offering->booking_duration}}</li>
+                                                <li>{{ $offering->offering_event_type == 'event' ? $offering->event?->event_duration ?? 0:$offering->booking_duration}}</li>
                                             </ul>
 
                                             <button id="view-more-btn" class="blog-view-more mb-2"
