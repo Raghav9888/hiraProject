@@ -239,13 +239,13 @@ class PaymentController extends Controller
         }
 
         // Attempt to create a Google Calendar event
-//        try {
+        try {
             $practitionerEmailTemplate = $offering->email_template;
             $intakeForms = $offering->intake_form;
             $this->createGoogleCalendarEvent($order);
-//        } catch (\Exception $e) {
-//            \Log::error('Google Calendar Event Creation Failed: ' . $e->getMessage());
-//        }
+        } catch (\Exception $e) {
+            \Log::error('Google Calendar Event Creation Failed: ' . $e->getMessage());
+        }
         // Send confirmation email
         Mail::to($order->billing_email)->send(new BookingConfirmationMail($order, $practitionerEmailTemplate, $intakeForms));
 
