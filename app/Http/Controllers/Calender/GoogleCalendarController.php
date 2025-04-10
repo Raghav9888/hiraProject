@@ -294,12 +294,13 @@ class GoogleCalendarController extends Controller
         $bookedDates = [];
 
         foreach ($events->getItems() as $event) {
+
             $extendedProps = $event->getExtendedProperties();
 
-            // Skip events created by HiraCollective
-            if ($extendedProps && isset($extendedProps->private['category']) && $extendedProps->private['category'] === 'hiracollective') {
-                continue;
-            }
+//            // Skip events created by HiraCollective
+//            if ($extendedProps && isset($extendedProps->private['category']) && $extendedProps->private['category'] === 'hiracollective') {
+//                continue;
+//            }
 
             // Skip events marked as "Available"
             if ($event->getTransparency() === 'transparent') {
