@@ -608,7 +608,7 @@ function paymentAjax(offeringId, bookingDate, bookingTime, offeringEventType, pr
         error: function (xhr) {
             $('.booking-loader').hide(); // Hide loader
             console.error('Booking failed:', xhr.responseText || xhr);
-            alert("Booking failed. Please try again.");
+            alert( xhr.responseText || xhr);
         }
     });
 
