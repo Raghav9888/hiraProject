@@ -566,10 +566,15 @@ function paymentAjax(offeringId, bookingDate, bookingTime, offeringEventType, pr
         alert("Please select slot!");
         return;
     }
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+alert(csrfToken)
 
     $.ajax({
         type: "POST",
         url: "/calender/Booking",
+        headers: {
+            'X-CSRF-TOKEN': `${csrfToken}`
+        },
         data: {
             offering_id: offeringId,
             booking_date: bookingDate,
