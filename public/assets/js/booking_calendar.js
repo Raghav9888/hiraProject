@@ -598,7 +598,7 @@ function paymentAjax(offeringId, bookingDate, bookingTime, offeringEventType, pr
             // $('.popup-content .container').css('padding', "30px")
         },
         error: function (error) {
-            alert(error);
+            alert(error.message);
         }
     });
 }
