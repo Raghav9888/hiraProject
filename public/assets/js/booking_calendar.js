@@ -537,8 +537,6 @@ if (nextBtn) {
 
 $(document).on('click', '.proceed_to_checkout', function () {
     console.log('click');
-    alert('click');
-
     const offeringId = $('#offering_id').val();
     const offeringEventType = $('#offering_event_type').val();
     const startEventDate = $('#offering_event_start_date_time').val();
@@ -567,7 +565,6 @@ function paymentAjax(offeringId, bookingDate, bookingTime, offeringEventType, pr
         return;
     }
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-alert(csrfToken)
 
     $.ajax({
         type: "POST",

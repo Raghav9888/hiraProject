@@ -112,11 +112,11 @@ class GoogleCalendarController extends Controller
                 'description' => $data['description'],
                 'start'       => [
                     'dateTime' => Carbon::parse($data['start'])->toIso8601String(),
-                    'timeZone' => 'America/Vancouver',
+                    'timeZone' =>  $data['timezone']?? 'America/Vancouver',
                 ],
                 'end'         => [
                     'dateTime' => Carbon::parse($data['end'])->toIso8601String(),
-                    'timeZone' => 'America/Vancouver',
+                    'timeZone' => $data['timezone'] ?? 'America/Vancouver',
                 ],
                 'extendedProperties' => [
                     'private' => [

@@ -242,17 +242,19 @@ class PaymentController extends Controller
         try {
             $practitionerEmailTemplate = $offering->email_template;
             $intakeForms = $offering->intake_form;
-            Mail::to($order->billing_email)->send(new BookingConfirmationMail($order, $practitionerEmailTemplate, $intakeForms));
             $this->createGoogleCalendarEvent($order);
         } catch (\Exception $e) {
             \Log::error('Google Calendar Event Creation Failed: ' . $e->getMessage());
         }
+        // Send confirmation email
+        Mail::to($order->billing_email)->send(new BookingConfirmationMail($order, $practitionerEmailTemplate, $intakeForms));
 
         return redirect()->route('thankyou')->with('success', 'Payment successful!');
     }
 
     private function createGoogleCalendarEvent($order)
     {
+
         $offering = Offering::findOrFail($order->offering_id);
         $user = User::with('userDetail')->findOrFail($offering->user_id);
 
@@ -284,7 +286,7 @@ class PaymentController extends Controller
         }
 
         // Ensure valid end time calculation
-        $endTime = isset($startTime) ? $startTime->copy()->addMinutes($duration)->format('H:i') : null;
+        $endTime = $startTime?->copy()->addMinutes($duration)->format('H:i');
 
         // Event Data
         $eventData = [
@@ -295,6 +297,7 @@ class PaymentController extends Controller
             'end'         => $bookingDate->toDateString() . ' ' . ($endTime ?? ''),
             'date'        => $order->booking_date,
             'user_id'     => $offering->user_id,
+            'timezone'    => $user->userDetail->timezone,
         ];
 
         // Google Calendar API Integration
@@ -325,8 +328,7 @@ class PaymentController extends Controller
     {
         $from = null;
         $to = null;
-
-        if (!empty($storeAvailabilities[$availabilityKey]) && $storeAvailabilities[$availabilityKey]['enabled'] == "1") {
+        if (!empty($storeAvailabilities[$availabilityKey]) && isset($storeAvailabilities[$availabilityKey]['enabled']) && $storeAvailabilities[$availabilityKey]['enabled'] == "1") {
             $from = $storeAvailabilities[$availabilityKey]['from'] ?? 'Not Set';
             $to = $storeAvailabilities[$availabilityKey]['to'] ?? 'Not Set';
         }
