@@ -573,9 +573,6 @@ function paymentAjax(offeringId, bookingDate, bookingTime, offeringEventType, pr
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
-        beforeSend: function () {
-          alert('start')
-        },
         data: {
             offering_id: offeringId,
             booking_date: bookingDate,
@@ -585,20 +582,34 @@ function paymentAjax(offeringId, bookingDate, bookingTime, offeringEventType, pr
             currency_symbol: currencySymbol,
             currency: currency,
         },
+        beforeSend: function () {
+            console.log('Booking started...');
+            // Optional: Show a loader here
+            $('.booking-loader').show();
+        },
         success: function (response) {
+            $('.booking-loader').hide(); // Hide loader
             if (!response.success) {
-                alert("Something went wrong!")
+                alert("Something went wrong!");
+                return;
             }
+
             $('.booking-container').hide();
             $('.event-container').hide();
-            $('.billing-container').show();
-            $('.billing-container').html(response.html);
-            // $('.popup-content').css('width', "60%")
-            // $('.popup-content').css('background-color', "transparent")
-            // $('.popup-content .container').css('padding', "30px")
+            $('.billing-container').show().html(response.html);
+
+            // Optional styling
+            // $('.popup-content').css({
+            //     width: "60%",
+            //     backgroundColor: "transparent"
+            // });
+            // $('.popup-content .container').css('padding', "30px");
         },
-        error: function (error) {
-            alert(error.msg);
+        error: function (xhr) {
+            $('.booking-loader').hide(); // Hide loader
+            console.error('Booking failed:', xhr.responseText || xhr);
+            alert("Booking failed. Please try again.");
         }
     });
+
 }
