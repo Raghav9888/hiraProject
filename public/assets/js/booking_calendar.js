@@ -556,8 +556,6 @@ $(document).on('click', '.proceed_to_checkout', function () {
     } else {
         [bookingDate, bookingTime] = startEventDate.split(" ");
     }
-alert(bookingDate)
-alert(bookingTime)
     paymentAjax(offeringId, bookingDate, bookingTime, offeringEventType, price, currency, currencySymbol);
 });
 
@@ -574,6 +572,9 @@ function paymentAjax(offeringId, bookingDate, bookingTime, offeringEventType, pr
         url: "/storeBooking",
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        beforeSend: function () {
+          alert('start')
         },
         data: {
             offering_id: offeringId,
@@ -597,7 +598,7 @@ function paymentAjax(offeringId, bookingDate, bookingTime, offeringEventType, pr
             // $('.popup-content .container').css('padding', "30px")
         },
         error: function (error) {
-            alert("Something went wrong!");
+            alert(error);
         }
     });
 }
