@@ -545,12 +545,7 @@ $(document).on('click', '.proceed_to_checkout', function () {
     const price = $('#offering_price').val();
     const currency = $('#currency').val();
     const currencySymbol = $('#currency_symbol').val();
-    alert(offeringId)
-    alert(offeringEventType)
-    alert(startEventDate)
-    alert(price)
-    alert(currency)
-    alert(currencySymbol)
+
     console.log(currencySymbol)
     let bookingDate = '';
     let bookingTime = '';
@@ -561,7 +556,8 @@ $(document).on('click', '.proceed_to_checkout', function () {
     } else {
         [bookingDate, bookingTime] = startEventDate.split(" ");
     }
-
+alert(bookingDate)
+alert(bookingTime)
     paymentAjax(offeringId, bookingDate, bookingTime, offeringEventType, price, currency, currencySymbol);
 });
 
