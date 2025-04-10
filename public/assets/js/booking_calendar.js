@@ -1,11 +1,15 @@
-console.log('bookeding_calendar.js loaded');
+console.log('booking');
+
 let currentDate = new Date();
 let currentMonth = currentDate.getMonth();
 let currentYear = currentDate.getFullYear();
 let activeDate = formatDate(currentDate);
-
-
 let availableSlotsData = {};
+
+function formatDate(date) {
+    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+}
+
 
 function openPopup(event) {
     event.preventDefault();
@@ -141,10 +145,98 @@ function openPopup(event) {
 }
 
 
-function formatDate(date) {
-    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
-}
+function generateCalendar(month, year) {
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
+    const calendarGrid = document.getElementById('calendarGrid');
+    const monthLabel = document.getElementById('monthLabel');
+    calendarGrid.innerHTML = '';
 
+    monthLabel.innerText = `${firstDay.toLocaleString('default', {month: 'long'})} ${year}`;
+    const daysInMonth = lastDay.getDate();
+    const startDay = firstDay.getDay();
+    const allowedDays = getAllowedDays();
+
+    // Retrieve already booked slots from hidden input
+    let bookedSlotsElement = document.getElementById('already_booked_slots');
+    let bookedDates = [];
+
+    if (bookedSlotsElement) {
+        let value = bookedSlotsElement.value.trim(); // Remove any extra spaces
+
+        if (value) { // Ensure the value is not empty
+            try {
+                bookedDates = JSON.parse(value);
+            } catch (error) {
+                console.error("Error parsing booked slots JSON:", error, value);
+            }
+        }
+    }
+
+    console.log("Parsed bookedDates:", bookedDates);
+
+
+    for (let i = 0; i < startDay; i++) {
+        const emptyCell = document.createElement('div');
+        emptyCell.classList.add('inactive');
+        calendarGrid.appendChild(emptyCell);
+    }
+
+    // Inside your `generateCalendar` function where you loop over the `bookedDates`
+    for (let day = 1; day <= daysInMonth; day++) {
+        const dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        const currentDayOfWeek = new Date(year, month, day).getDay();
+        const dayCell = document.createElement('div');
+        dayCell.classList.add('dates');
+
+        // Disable old days according to current date
+        if (new Date(dateString) < currentDate) {
+            dayCell.classList.add('inactive');
+            dayCell.setAttribute('title', 'This date is in the past');
+        }
+
+        if (dateString === formatDate(currentDate)) {
+            dayCell.classList.add('active');
+            activeDate = dateString;
+        }
+
+        // Check for all-day booked dates or by day of week
+        if (!(allowedDays.includes(dateString) || allowedDays.includes(currentDayOfWeek))) {
+            dayCell.classList.add('inactive');
+        }
+
+        // Check if the date is booked and it's an all-day event
+        let isBooked = bookedDates.some(booked => booked.date === dateString && !booked.start_time && !booked.end_time);
+
+        if (isBooked) {
+            dayCell.classList.add('inactive');
+            dayCell.classList.add('booked');
+            dayCell.setAttribute('title', 'This date is fully booked (All-day)');
+        }
+
+        dayCell.innerText = day;
+        dayCell.setAttribute('data-date', dateString);
+
+        dayCell.addEventListener('click', () => {
+            if (dayCell.classList.contains('inactive')) return;
+
+            if (activeDate) {
+                document.querySelector(`[data-date='${activeDate}']`)?.classList.remove('active');
+            }
+
+            activeDate = dateString;
+            dayCell.classList.add('active');
+            showAvailableSlots(activeDate);
+        });
+
+        calendarGrid.appendChild(dayCell);
+        $('.calendar-grid .dates').on('click', function () {
+            const date = $(this).data('date');
+            $('#booking_date').val(date);
+        });
+    }
+
+}
 
 function getAllowedDays() {
     let availability = document.getElementById('availability')?.value || 'own_specific_date';
@@ -218,189 +310,20 @@ function getAllowedDays() {
 }
 
 
-function generateTimeSlots(from = null, to = null, date = null, allDay = false) {
-    const practitionerTimeZone = document.getElementById('practitioner_timezone')?.value || 'UTC';
-    const {DateTime} = luxon;
-
-    let slots = [];
-    let startTime, endTime;
-
-    if (allDay) {
-        startTime = DateTime.fromISO(`${date}T12:00:00`, {zone: practitionerTimeZone});
-        endTime = startTime;
-    } else {
-        const baseDate = `${date || Date()}`;
-        startTime = DateTime.fromISO(`${baseDate}T${from}`, {zone: practitionerTimeZone});
-        endTime = DateTime.fromISO(`${baseDate}T${to}`, {zone: practitionerTimeZone});
-    }
-
-    let isNextDay = endTime <= startTime;
-    if (isNextDay) {
-        endTime = endTime.plus({days: 1});
-    }
-
-    while (startTime < endTime) {
-        slots.push(startTime.toISO()); // Return ISO string (with timezone)
-        startTime = startTime.plus({minutes: 60});
-    }
-    console.log('Practitioner Timezone:', practitionerTimeZone);
-    console.log('Start Time (Practitioner):', startTime.toString());
-    console.log('End Time (Practitioner):', endTime.toString());
-
-    return slots;
-}
-
-
-// Convert Date object to "HH:MM AM/PM" format
-function formatTime(date) {
-    return date.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit', hour12: true});
-}
-
-// Convert "HH:MM AM/PM" to 24-hour format for correct sorting
-function convertTo24Hour(time) {
-    let [hour, minute] = time.split(/:| /);
-    let period = time.includes("AM") ? "AM" : "PM";
-
-    let date = new Date(`2025-01-01 ${hour}:${minute} ${period}`);
-    return date.getHours() * 60 + date.getMinutes();
-}
-
-
-function generateCalendar(month, year) {
-    const firstDay = new Date(year, month, 1);
-    const lastDay = new Date(year, month + 1, 0);
-    const calendarGrid = document.getElementById('calendarGrid');
-    const monthLabel = document.getElementById('monthLabel');
-    calendarGrid.innerHTML = '';
-
-    monthLabel.innerText = `${firstDay.toLocaleString('default', {month: 'long'})} ${year}`;
-    const daysInMonth = lastDay.getDate();
-    const startDay = firstDay.getDay();
-    const allowedDays = getAllowedDays();
-
-    // Retrieve already booked slots from hidden input
-    let bookedSlotsElement = document.getElementById('already_booked_slots');
-    let bookedDates = [];
-
-    if (bookedSlotsElement) {
-        let value = bookedSlotsElement.value.trim(); // Remove any extra spaces
-
-        if (value) { // Ensure the value is not empty
-            try {
-                bookedDates = JSON.parse(value);
-            } catch (error) {
-                console.error("Error parsing booked slots JSON:", error, value);
-            }
-        }
-    }
-
-    console.log("Parsed bookedDates:", bookedDates);
-
-
-    for (let i = 0; i < startDay; i++) {
-        const emptyCell = document.createElement('div');
-        emptyCell.classList.add('inactive');
-        calendarGrid.appendChild(emptyCell);
-    }
-
-    // Inside your `generateCalendar` function where you loop over the `bookedDates`
-    for (let day = 1; day <= daysInMonth; day++) {
-        const dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-        const currentDayOfWeek = new Date(year, month, day).getDay();
-        const dayCell = document.createElement('div');
-        dayCell.classList.add('dates');
-
-        if (dateString === formatDate(currentDate)) {
-            dayCell.classList.add('active');
-            activeDate = dateString;
-        }
-
-        // Check for all-day booked dates or by day of week
-        if (!(allowedDays.includes(dateString) || allowedDays.includes(currentDayOfWeek))) {
-            dayCell.classList.add('inactive');
-        }
-
-        // Check if the date is booked and it's an all-day event
-        let isBooked = bookedDates.some(booked => booked.date === dateString && !booked.start_time && !booked.end_time);
-
-        if (isBooked) {
-            dayCell.classList.add('inactive');
-            dayCell.classList.add('booked');
-            dayCell.setAttribute('title', 'This date is fully booked (All-day)');
-        }
-
-        dayCell.innerText = day;
-        dayCell.setAttribute('data-date', dateString);
-
-        dayCell.addEventListener('click', () => {
-            if (dayCell.classList.contains('inactive')) return;
-
-            if (activeDate) {
-                document.querySelector(`[data-date='${activeDate}']`)?.classList.remove('active');
-            }
-
-            activeDate = dateString;
-            dayCell.classList.add('active');
-            showAvailableSlots(activeDate);
-        });
-
-        calendarGrid.appendChild(dayCell);
-        $('.calendar-grid .dates').on('click', function () {
-            const date = $(this).data('date');
-            $('#booking_date').val(date);
-        });
-    }
-
-}
-
-function filterBookedSlots(date, slots) {
-    let bookedDates = JSON.parse(document.getElementById('already_booked_slots').value || '[]');
-
-    let grouped = [];
-    let currentGroup = [];
-    console.log('slots', slots)
-    slots.forEach(slot => {
-        let slotMinutes = convertTo24Hour(slot);
-        let isBooked = bookedDates.some(b => {
-            if (b.date !== date) return false;
-            let start = convertTo24Hour(b.start_time);
-            let end = convertTo24Hour(b.end_time);
-            return slotMinutes >= start && slotMinutes < end;
-        });
-
-        if (!isBooked) {
-            currentGroup.push(slot);
-        } else if (currentGroup.length > 0) {
-            grouped.push([...currentGroup]);
-            currentGroup = [];
-        }
-    });
-
-    if (currentGroup.length > 0) {
-        grouped.push([...currentGroup]);
-    }
-
-    return grouped; // Now it's an array of arrays (slot groups)
-}
-
-
 function showAvailableSlots(date) {
     const slotsContainer = document.getElementById('availableSlots');
+    const availability = document.getElementById('availability')?.value || 'own_specific_date';
     const dateLabel = document.getElementById('selectedDate');
-    let availability = document.getElementById('availability')?.value || 'own_specific_date';
-    let storeAvailabilityRaw = document.getElementById('store-availability')?.value;
+    const storeAvailabilityRaw = document.getElementById('store-availability')?.value;
 
-    slotsContainer.innerHTML = '<p class="text-muted">No available slots</p>';
-    dateLabel.innerText = date.split('-').reverse().join('/');
+    // Format and show selected date
+    dateLabel.innerText = new Date(date).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+    });
 
     let availableSlots = [];
-
-    // All-Day Slot Creation
-    availableSlots.push({
-        type: 'all-day',
-        time: 'All Day',
-        date: date
-    });
 
     if (availability === 'following_store_hours') {
         if (!storeAvailabilityRaw) {
@@ -419,20 +342,20 @@ function showAvailableSlots(date) {
         let allSlots = [];
 
         if (storeAvailability.every_day?.enabled === "1") {
-            let fromTime = storeAvailability.every_day?.from;
-            let toTime = storeAvailability.every_day?.to;
-
+            const fromTime = storeAvailability.every_day?.from;
+            const toTime = storeAvailability.every_day?.to;
             if (fromTime && toTime) {
                 allSlots = generateTimeSlots(fromTime, toTime, date);
             }
         } else {
             Object.keys(storeAvailability).forEach(dayKey => {
-                let normalizedDay = dayKey.replace("every_", "").toLowerCase();
+                const normalizedDay = dayKey.replace("every_", "").toLowerCase();
+                const targetDate = new Date(date);
+                const dayName = targetDate.toLocaleDateString('en-US', {weekday: 'long'}).toLowerCase();
 
-                if (storeAvailability[dayKey]?.enabled === "1") {
-                    let fromTime = storeAvailability[dayKey]?.from;
-                    let toTime = storeAvailability[dayKey]?.to;
-
+                if (normalizedDay === dayName && storeAvailability[dayKey]?.enabled === "1") {
+                    const fromTime = storeAvailability[dayKey]?.from;
+                    const toTime = storeAvailability[dayKey]?.to;
                     if (fromTime && toTime) {
                         allSlots = allSlots.concat(generateTimeSlots(fromTime, toTime, date));
                     }
@@ -440,75 +363,157 @@ function showAvailableSlots(date) {
             });
         }
 
-        availableSlots = [...new Set(allSlots)].sort((a, b) => convertTo24Hour(a) - convertTo24Hour(b));
+        availableSlots = [...new Set(allSlots)];
     } else {
+        // All-day case
         availableSlots = generateTimeSlots(null, null, date, true);
     }
 
-    // ❗ Filter out booked slots
     availableSlots = filterBookedSlots(date, availableSlots);
 
-    renderSlots(availableSlots);
+    renderSlots(date, availableSlots);
 }
 
-function renderSlots(availableSlotGroups) {
+function generateTimeSlots(from = null, to = null, date = null, allDay = false) {
+    const practitionerTimeZone = document.getElementById('practitioner_timezone')?.value || 'UTC';
+    const {DateTime} = luxon;
+
+    let slots = [];
+    if (!date) return [];
+
+    let startTime, endTime;
+
+    if (allDay) {
+        startTime = DateTime.fromISO(`${date}T00:00:00`, {zone: practitionerTimeZone});
+        endTime = startTime.plus({hours: 24});
+    } else {
+        if (!from || !to) return [];
+
+        startTime = DateTime.fromISO(`${date}T${from}`, {zone: practitionerTimeZone});
+        endTime = DateTime.fromISO(`${date}T${to}`, {zone: practitionerTimeZone});
+
+        if (endTime <= startTime) {
+            endTime = endTime.plus({days: 1});
+        }
+    }
+
+    while (startTime < endTime) {
+        slots.push(startTime.toFormat('hh:mm a'));
+        // 🔁 Move to the next slot by 30-minute interval
+        startTime = startTime.plus({minutes: 30});
+    }
+
+    console.log("Generated Slots (Practitioner Timezone):", JSON.stringify(slots, null, 2));
+    return slots;
+}
+
+function filterBookedSlots(date, availableSlots) {
+    const bookedSlots = JSON.parse(document.getElementById('already_booked_slots').value || '[]');
+    const {DateTime} = luxon;
+    const bookedTimes = new Set();
+
+    bookedSlots.forEach(slot => {
+        if (slot.date === date) {
+            const zone = slot.timezone || 'UTC';
+            let start = DateTime.fromFormat(slot.start_time, 'hh:mm a', {zone});
+            let end = DateTime.fromFormat(slot.end_time, 'hh:mm a', {zone});
+
+            // Make sure end is after start
+            if (end <= start) {
+                end = end.plus({days: 1});
+            }
+
+            // Track all 30-min slots starting from start_time
+            while (start < end) {
+                bookedTimes.add(start.toFormat('hh:mm a'));
+                start = start.plus({minutes: 30});
+            }
+
+            // Add one more slot AFTER the last (to block overlap)
+            bookedTimes.add(start.toFormat('hh:mm a'));
+        }
+    });
+
+    const filteredSlots = availableSlots.filter(slot => !bookedTimes.has(slot));
+
+    console.log("⛔ Blocked Times on", date, ":", Array.from(bookedTimes));
+    console.log("✅ Final Available Slots:", filteredSlots);
+
+    return filteredSlots;
+}
+
+
+function renderSlots(date, availableSlotGroups) {
     const slotsContainer = document.getElementById('availableSlots');
+
     const practitionerTimeZone = document.getElementById('practitioner_timezone')?.value || 'UTC';
     const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+    slotsContainer.innerHTML = '';
 
     if (!availableSlotGroups || availableSlotGroups.length === 0) {
         slotsContainer.innerHTML = '<p class="text-muted">No available slots</p>';
         return;
     }
 
-    slotsContainer.innerHTML = '';
+    const row = document.createElement('div');
+    row.classList.add('row', 'mb-2');
 
-    availableSlotGroups.forEach((group, index) => {
-        if (availableSlotGroups.length > 1) {
-            const label = document.createElement('div');
-            label.innerHTML = `<div class="text-muted mb-1">Slot Group ${index + 1}</div>`;
-            slotsContainer.appendChild(label);
-        }
-
-        const row = document.createElement('div');
-        row.classList.add('row', 'mb-2');
-        let slotLogs = [];
-        group.forEach(slotISO => {
-            const dt = luxon.DateTime.fromISO(slotISO, {zone: practitionerTimeZone});
-            const userTime = dt.setZone(userTimeZone).toFormat('hh:mm a');
-            const practitionerTime = dt.toFormat('hh:mm a ZZZZ');
-
-            // Collect in array for grouped logging
-            slotLogs.push({
-                original: slotISO,
-                practitionerTime: practitionerTime,
-                userTime: userTime
-            });
-
-            const col = document.createElement('div');
-            col.classList.add('col-4', 'my-1');
-            col.innerHTML = `
-                <button class="btn btn-outline-green w-100 offering-slot"
-                    data-time="${userTime}"
-                    title="Practitioner Time: ${practitionerTime}">
-                    ${userTime}
-                </button>
-            `;
-            row.appendChild(col);
+    availableSlotGroups.forEach(timeStr => {
+        const dateTimeStr = `${date} ${timeStr}`;
+        const dt = luxon.DateTime.fromFormat(dateTimeStr, 'yyyy-MM-dd hh:mm a', {
+            zone: practitionerTimeZone
         });
 
-        console.log(slotLogs)
-        slotsContainer.appendChild(row);
+        if (!dt.isValid) {
+            console.warn("Invalid slot format:", dateTimeStr);
+            return;
+        }
+
+        const userDateTime = dt.setZone(userTimeZone);
+        const displayTime = userDateTime.toFormat('hh:mm a');
+        const tooltipTime = userDateTime.toFormat('hh:mm a ZZZZ');
+        const isoUserTime = userDateTime.toISO();
+
+        const col = document.createElement('div');
+        col.classList.add('col-4', 'my-1');
+        col.innerHTML = `
+            <button class="btn btn-outline-green w-100 offering-slot"
+                data-user-time="${userDateTime}"
+                data-time="${displayTime}"
+                title="Your Local Time: ${tooltipTime}"
+                data-iso-time="${isoUserTime}"
+                data-user-timezone="${userTimeZone}"
+                >
+                ${displayTime}
+            </button>
+        `;
+        row.appendChild(col);
     });
 
+    slotsContainer.appendChild(row);
+
+    // Native title tooltips work automatically
+
+    // Handle slot selection
     $('.offering-slot').on('click', function () {
         $('.offering-slot').removeClass('active');
         $(this).addClass('active');
-        const time = $(this).data('time');
-        $('#booking_time').val(time);
-    });
-}
 
+        const userTime = $(this).data('user-time');
+        const selectedTime = $(this).data('time');
+        const selectedIsoTime = $(this).data('iso-time');
+        const userTimezone = $(this).data('user-timezone');
+
+        // Set values and attributes on your hidden input
+        $('#booking_time').val(selectedTime)
+            .attr('data-user-time', userTime)
+            .attr('data-display-time', selectedTime)
+            .attr('data-iso-time', selectedIsoTime)
+            .attr('data-user-timezone', userTimezone);
+    });
+
+}
 
 const prevBtn = document.getElementById('prevMonth');
 if (prevBtn) {
@@ -543,6 +548,7 @@ $(document).on('click', '.proceed_to_checkout', function () {
     const price = $('#offering_price').val();
     const currency = $('#currency').val();
     const currencySymbol = $('#currency_symbol').val();
+    const bookingUserTimezone = $('#booking_time').attr('data-user-timezone');
 
     console.log(currencySymbol)
     let bookingDate = '';
@@ -554,11 +560,11 @@ $(document).on('click', '.proceed_to_checkout', function () {
     } else {
         [bookingDate, bookingTime] = startEventDate.split(" ");
     }
-    paymentAjax(offeringId, bookingDate, bookingTime, offeringEventType, price, currency, currencySymbol);
+    paymentAjax(offeringId, bookingDate, bookingTime, offeringEventType, price, currency, currencySymbol, bookingUserTimezone);
 });
 
 
-function paymentAjax(offeringId, bookingDate, bookingTime, offeringEventType, price, currency, currencySymbol) {
+function paymentAjax(offeringId, bookingDate, bookingTime, offeringEventType, price, currency, currencySymbol, bookingUserTimezone) {
 
     if (!offeringId || !bookingDate || !bookingTime) {
         alert("Please select slot!");
@@ -580,6 +586,7 @@ function paymentAjax(offeringId, bookingDate, bookingTime, offeringEventType, pr
             price: price,
             currency_symbol: currencySymbol,
             currency: currency,
+            booking_user_timezone: bookingUserTimezone,
         },
         beforeSend: function () {
             console.log('Booking started...');

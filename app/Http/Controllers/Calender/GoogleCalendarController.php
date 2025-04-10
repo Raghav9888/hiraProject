@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Calender;
 
 use App\Http\Controllers\Controller;
 use App\Models\GoogleAccount;
+use App\Models\User;
 use Carbon\Carbon;
 use Google\Exception;
 use Google_Client;
@@ -86,12 +87,10 @@ class GoogleCalendarController extends Controller
             $googleAccount = GoogleAccount::where('user_id', $data['user_id'])->firstOrFail();
             $accessToken = json_decode($googleAccount->access_token, true);
 
-            // Initialize Google Client
             $client = new Google_Client();
             $client->setAuthConfig(storage_path('app/google/calendar/credential.json'));
             $client->setAccessToken($accessToken);
 
-            // Refresh token if expired
             if ($client->isAccessTokenExpired()) {
                 if (!empty($googleAccount->refresh_token)) {
                     $client->fetchAccessTokenWithRefreshToken($googleAccount->refresh_token);
@@ -103,20 +102,24 @@ class GoogleCalendarController extends Controller
                 }
             }
 
-            // Initialize Google Calendar service
             $calendarService = new Google_Service_Calendar($client);
 
-            // Create Event
             $event = new Google_Service_Calendar_Event([
                 'summary'     => $data['title'],
                 'description' => $data['description'],
                 'start'       => [
                     'dateTime' => Carbon::parse($data['start'])->toIso8601String(),
-                    'timeZone' =>  $data['timezone']?? 'America/Vancouver',
+                    'timeZone' => $data['timezone'] ?? 'America/Vancouver',
                 ],
                 'end'         => [
                     'dateTime' => Carbon::parse($data['end'])->toIso8601String(),
                     'timeZone' => $data['timezone'] ?? 'America/Vancouver',
+                ],
+                'conferenceData' => [
+                    'createRequest' => [
+                        'conferenceSolutionKey' => ['type' => 'hangoutsMeet'],
+                        'requestId' => uniqid(),
+                    ],
                 ],
                 'extendedProperties' => [
                     'private' => [
@@ -125,16 +128,29 @@ class GoogleCalendarController extends Controller
                 ],
             ]);
 
-            // Insert event into Google Calendar
-            $calendarService->events->insert('primary', $event);
+            $createdEvent = $calendarService->events->insert(
+                'primary',
+                $event,
+                ['conferenceDataVersion' => 1]
+            );
 
-            return response('Event added to Google Calendar!', 200);
+            $meetLink = optional($createdEvent->getConferenceData())->getEntryPoints()[0]->getUri() ?? null;
+
+            return [
+                'success' => true,
+                'meet_link' => $meetLink,
+                'google_event_id' => $createdEvent->getId(),
+            ];
 
         } catch (\Exception $e) {
             \Log::error('Google Calendar API Error: ' . $e->getMessage());
-            throw new \Exception($e->getMessage());
+            return [
+                'success' => false,
+                'error' => $e->getMessage()
+            ];
         }
     }
+
 
 
     public function updateEvent(Request $request)
@@ -211,8 +227,11 @@ class GoogleCalendarController extends Controller
             ], 400);
         }
 
+        $user = User::find($userId);
+        $timezone = $user->userDetail->timezone ?? config('app.timezone');
+
         try {
-            $bookedSlots = $this->fetchGoogleCalendarEvents($userId);
+            $bookedSlots = $this->fetchGoogleCalendarEvents($userId, $timezone);
 
             return response()->json([
                 'status' => 'success',
@@ -228,31 +247,37 @@ class GoogleCalendarController extends Controller
         }
     }
 
-
     /**
      * Fetch Google Calendar events, excluding HiraCollective bookings.
      *
-     * @throws Exception
+     * @throws \Exception
      * @throws \Google\Service\Exception
      */
-    private function fetchGoogleCalendarEvents($userId)
+    private function fetchGoogleCalendarEvents($userId, $timezone)
     {
-
         $googleAccount = GoogleAccount::where('user_id', $userId)->first();
 
         if (!$googleAccount) {
             throw new \Exception('No Google account linked for this user.');
         }
 
-        $accessToken = $googleAccount->access_token;
+        $accessTokenRaw = $googleAccount->access_token;
 
-        // If access_token is a JSON object (e.g., contains access_token, expires_in, etc.)
-        if (is_string($accessToken) && str_starts_with(trim($accessToken), '{')) {
-            $accessToken = json_decode($accessToken, true);
+        // Handle both raw token and JSON
+        if (is_string($accessTokenRaw)) {
+            $trimmed = trim($accessTokenRaw);
 
-            if (json_last_error() !== JSON_ERROR_NONE) {
-                throw new \Exception('Invalid JSON token: ' . json_last_error_msg());
+            if (str_starts_with($trimmed, '{')) {
+                $decoded = json_decode($trimmed, true);
+                if (json_last_error() !== JSON_ERROR_NONE) {
+                    throw new \Exception('Invalid JSON token: ' . json_last_error_msg());
+                }
+                $accessToken = $decoded;
+            } else {
+                $accessToken = ['access_token' => $trimmed];
             }
+        } else {
+            throw new \Exception('Invalid token format.');
         }
 
         $client = new \Google_Client();
@@ -265,19 +290,21 @@ class GoogleCalendarController extends Controller
         $client->setAuthConfig($credentialsPath);
         $client->setAccessToken($accessToken);
 
+        // Refresh token if expired
         if ($client->isAccessTokenExpired()) {
             if (!empty($googleAccount->refresh_token)) {
                 $newAccessToken = $client->fetchAccessTokenWithRefreshToken($googleAccount->refresh_token);
 
                 if (isset($newAccessToken['error'])) {
-                    throw new Exception('Failed to refresh access token: ' . $newAccessToken['error_description']);
+                    throw new \Exception('Failed to refresh access token: ' . $newAccessToken['error_description']);
                 }
 
                 $googleAccount->access_token = json_encode($newAccessToken);
                 $googleAccount->save();
+
                 $client->setAccessToken($newAccessToken);
             } else {
-                throw new Exception('Google Token Expired. Please reauthorize.');
+                throw new \Exception('Google token expired. Please reauthorize.');
             }
         }
 
@@ -294,27 +321,43 @@ class GoogleCalendarController extends Controller
         $bookedDates = [];
 
         foreach ($events->getItems() as $event) {
+            // Skip cancelled events
+            if ($event->status === 'cancelled') {
+                continue;
+            }
 
-            $extendedProps = $event->getExtendedProperties();
-
-//            // Skip events created by HiraCollective
-//            if ($extendedProps && isset($extendedProps->private['category']) && $extendedProps->private['category'] === 'hiracollective') {
-//                continue;
-//            }
-
-            // Skip events marked as "Available"
+            // Skip transparent events (marked as available)
             if ($event->getTransparency() === 'transparent') {
                 continue;
             }
 
-            // Add busy events
+            // Skip events explicitly created by HiraCollective (optional)
+            // $extendedProps = $event->getExtendedProperties();
+            // if ($extendedProps && isset($extendedProps->private['category']) && $extendedProps->private['category'] === 'hiracollective') {
+            //     continue;
+            // }
+
+            // Handle datetime-based events
             if (!empty($event->start->dateTime) && !empty($event->end->dateTime)) {
+                $date = Carbon::parse($event->start->dateTime);
+                $startTime = Carbon::parse($event->start->dateTime);
+                $endTime = Carbon::parse($event->end->dateTime);
+                $dateConvertPractitionerTimezone = Carbon::parse($event->start->dateTime)->setTimezone($timezone);
+                $startTimePractitionerTimezone = Carbon::parse($event->start->dateTime)->setTimezone($timezone);
+                $endTimeConvertPractitionerTimezone = Carbon::parse($event->end->dateTime)->setTimezone($timezone);
+
                 $bookedDates[] = [
-                    'date' => Carbon::parse($event->start->dateTime)->format('Y-m-d'),
-                    'start_time' => Carbon::parse($event->start->dateTime)->format('h:i A'),
-                    'end_time' => Carbon::parse($event->end->dateTime)->format('h:i A')
+                    'date' => $date->format('Y-m-d'),
+                    'start_time' => $startTime->format('h:i A'),
+                    'end_time' => $endTime->format('h:i A'),
+                    'convertDate' => $dateConvertPractitionerTimezone->format('Y-m-d'),
+                    'convertStartTime' => $startTimePractitionerTimezone->format('h:i A'),
+                    'convertEndTime' => $endTimeConvertPractitionerTimezone->format('h:i A'),
+                    'timezone' => $timezone,
                 ];
-            } elseif (!empty($event->start->date)) {
+            }
+            // Handle all-day events
+            elseif (!empty($event->start->date)) {
                 $bookedDates[] = [
                     'date' => $event->start->date,
                     'start_time' => null,
@@ -323,10 +366,12 @@ class GoogleCalendarController extends Controller
             }
         }
 
+        // Remove duplicates
         $bookedDates = array_map("unserialize", array_unique(array_map("serialize", $bookedDates)));
-        return array_values($bookedDates);
 
+        return array_values($bookedDates);
     }
+
 
 
 }

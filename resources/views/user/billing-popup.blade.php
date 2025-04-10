@@ -28,7 +28,7 @@
                 <span
                     class="practition-des">{{@$offering->user->userDetail->company ?? "Alternative Health Practitioner"}}</span>
                 <span class="booking-date-container">
-                    {{date('M d, Y', strtotime($bookingDate))}} | {{date("H:i", strtotime($bookingTime))}}
+                    {{date('M d, Y', strtotime($bookingDate))}} | {{date("H:i", strtotime($bookingTime))}} | {{$bookingUserTimezone}}
                 </span>
             </div>
         </div>

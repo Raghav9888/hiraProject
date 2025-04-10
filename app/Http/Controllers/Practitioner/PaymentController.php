@@ -96,6 +96,8 @@ class PaymentController extends Controller
 
     public function storeCheckout(Request $request)
     {
+
+
         try {
             $user = auth()->user();
 
@@ -115,6 +117,7 @@ class PaymentController extends Controller
                 'offering_id' => $booking['offering_id'],
                 'booking_date' => $booking['booking_date'],
                 'time_slot' => $booking['booking_time'],
+                'user_timezone' => $booking['booking_user_timezone'],
                 'total_amount' => $request->total_amount,
                 'tax_amount' => $request->tax_amount,
                 'currency' => $booking['currency'],
@@ -220,7 +223,6 @@ class PaymentController extends Controller
         $order = Booking::findOrFail($request->order_id);
         $offeringId = $order->offering->id;
 
-
         $payment = Payment::where("order_id", $order->id)->firstOrFail();
         $payment->status = 'completed';
         $payment->save();
@@ -242,62 +244,71 @@ class PaymentController extends Controller
         try {
             $practitionerEmailTemplate = $offering->email_template;
             $intakeForms = $offering->intake_form;
-            $this->createGoogleCalendarEvent($order);
+            $response = $this->createGoogleCalendarEvent($order);
+
+            $meetLink = $response['meet_link'] ?? null;
+            Mail::to($order->billing_email)->send(new BookingConfirmationMail($order, $practitionerEmailTemplate, $intakeForms ,$meetLink));
         } catch (\Exception $e) {
             \Log::error('Google Calendar Event Creation Failed: ' . $e->getMessage());
         }
         // Send confirmation email
-        Mail::to($order->billing_email)->send(new BookingConfirmationMail($order, $practitionerEmailTemplate, $intakeForms));
 
         return redirect()->route('thankyou')->with('success', 'Payment successful!');
     }
 
     private function createGoogleCalendarEvent($order)
     {
-
         $offering = Offering::findOrFail($order->offering_id);
         $user = User::with('userDetail')->findOrFail($offering->user_id);
 
-        // Determine booking date and weekday
-        $bookingDate = Carbon::parse($order->booking_date);
-        $dayOfWeek = strtolower($bookingDate->format('l'));
+        // Timezones
+        $practitionerTimezone = $user->userDetail->timezone ?? 'UTC';
+        $userTimezone = $order->user_timezone ?? $practitionerTimezone;
 
+        // Booking date and time (from user input)
+        $bookingDate = $order->booking_date;     // e.g., '2025-04-16'
+        $bookingTime = $order->time_slot;        // e.g., '11:30 AM'
+
+        // Create a Carbon datetime object in the user's timezone
+        $userDateTime = Carbon::createFromFormat('Y-m-d h:i A', $bookingDate . ' ' . $bookingTime, $userTimezone);
+
+        // Convert to practitioner's timezone
+        $practitionerDateTime = $userDateTime->copy()->setTimezone($practitionerTimezone);
+        // Determine day of the week
+        $dayOfWeek = strtolower($practitionerDateTime->format('l'));
+
+        // Duration logic
         if ($offering->offering_event_type === 'event') {
-            $startTime = Carbon::parse($order->time_slot);
+            $startTime = $practitionerDateTime->copy();
             $duration = optional($offering->event)->event_duration ?? 60;
         } else {
-            // Get store availabilities from user details (ensure valid JSON)
             $storeAvailabilities = json_decode($user->userDetail->store_availabilities, true) ?? [];
 
             $availabilityKey = in_array($dayOfWeek, ['saturday', 'sunday'])
                 ? "weekends_only_-_every_sat_&_sundays"
                 : "every_{$dayOfWeek}";
 
-            // Check if availability key exists
             if (!isset($storeAvailabilities[$availabilityKey])) {
                 \Log::warning("Availability key {$availabilityKey} not found in store availabilities.");
-                $storeHours = [];
-            } else {
-                $storeHours = $this->getStoreAvailability($availabilityKey, $storeAvailabilities);
             }
 
-            $startTime = Carbon::parse($order->time_slot);
+            $startTime = $practitionerDateTime->copy(); // accurate start time with timezone
             $duration = $offering->duration ?? 60;
         }
 
-        // Ensure valid end time calculation
-        $endTime = $startTime?->copy()->addMinutes($duration)->format('H:i');
+        // Calculate end time
+        $endTime = $startTime->copy()->addMinutes($duration);
 
         // Event Data
         $eventData = [
-            'title'       => 'Booking: ' . (($order->first_name ?? '') . ' ' . ($order->last_name ?? '')),
+            'title'       => 'Booking: ' . trim(($order->first_name ?? '') . ' ' . ($order->last_name ?? '')),
             'category'    => 'Booking',
-            'description' => 'Customer: ' . (($order->first_name ?? '') . ' ' . ($order->last_name ?? '')),
-            'start'       => $bookingDate->toDateString() . ' ' . ($startTime->format('H:i') ?? ''),
-            'end'         => $bookingDate->toDateString() . ' ' . ($endTime ?? ''),
-            'date'        => $order->booking_date,
+            'description' => 'Customer: ' . trim(($order->first_name ?? '') . ' ' . ($order->last_name ?? '')),
+            'start'       => $startTime->toIso8601String(),
+            'end'         => $endTime->toIso8601String(),
+            'date'        => $startTime->toDateString(), // booking date in practitioner's timezone
             'user_id'     => $offering->user_id,
-            'timezone'    => $user->userDetail->timezone,
+            'timezone'    => $practitionerTimezone,
         ];
 
         // Google Calendar API Integration
@@ -305,20 +316,18 @@ class PaymentController extends Controller
             $googleCalendar = new GoogleCalendarController();
             $response = $googleCalendar->createGoogleEvent($eventData);
 
-            // Check response status
-            if (!isset($response) || (method_exists($response, 'getStatusCode') && $response->getStatusCode() != 200)) {
-                \Log::error('Google Calendar Event Creation Failed', [
-                    'response'  => $response ?? 'No response received',
-                    'eventData' => $eventData
-                ]);
-                throw new \Exception('Failed to create Google Calendar event.');
+            if (!$response['success']) {
+                throw new \Exception($response['error']);
             }
+
+            return $response; // Contains meet_link and event_id
+
         } catch (\Exception $e) {
             \Log::error('Error creating Google Calendar event', [
                 'error'     => $e->getMessage(),
                 'eventData' => $eventData
             ]);
-            throw new \Exception('Error creating Google Calendar event: ' . $e->getMessage());
+            return null;
         }
     }
 
