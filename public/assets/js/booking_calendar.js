@@ -569,7 +569,7 @@ function paymentAjax(offeringId, bookingDate, bookingTime, offeringEventType, pr
 
     $.ajax({
         type: "POST",
-        url: "/storeBooking",
+        url: "/calender/Booking",
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
@@ -598,7 +598,7 @@ function paymentAjax(offeringId, bookingDate, bookingTime, offeringEventType, pr
             // $('.popup-content .container').css('padding', "30px")
         },
         error: function (error) {
-            alert(error.message);
+            alert(error.msg);
         }
     });
 }

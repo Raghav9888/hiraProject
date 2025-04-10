@@ -17,7 +17,7 @@ use MailerLite\MailerLite;
 class BookingController extends Controller
 {
 
-    public function storeBooking(Request $request)
+    public function calendarBooking(Request $request)
     {
 
         $request->validate([
