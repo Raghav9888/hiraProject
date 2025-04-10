@@ -113,5 +113,11 @@
             document.getElementById("user-timezone").textContent = "Time Zone: " + timezone;
             console.log(timezone)
         })
+    // Place this once in your main JS file or inline script
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
 
 </script>

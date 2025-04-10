@@ -570,9 +570,6 @@ function paymentAjax(offeringId, bookingDate, bookingTime, offeringEventType, pr
     $.ajax({
         type: "POST",
         url: "/calender/Booking",
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
         data: {
             offering_id: offeringId,
             booking_date: bookingDate,
