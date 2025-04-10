@@ -497,7 +497,7 @@ function renderSlots(availableSlotGroups) {
             row.appendChild(col);
         });
 
-console.log(slotLogs)
+        console.log(slotLogs)
         slotsContainer.appendChild(row);
     });
 
@@ -537,6 +537,7 @@ if (nextBtn) {
 
 $(document).on('click', '.proceed_to_checkout', function () {
     console.log('click');
+    alert('click');
 
     const offeringId = $('#offering_id').val();
     const offeringEventType = $('#offering_event_type').val();
@@ -544,7 +545,12 @@ $(document).on('click', '.proceed_to_checkout', function () {
     const price = $('#offering_price').val();
     const currency = $('#currency').val();
     const currencySymbol = $('#currency_symbol').val();
-
+    alert(offeringId)
+    alert(offeringEventType)
+    alert(startEventDate)
+    alert(price)
+    alert(currency)
+    alert(currencySymbol)
     console.log(currencySymbol)
     let bookingDate = '';
     let bookingTime = '';
