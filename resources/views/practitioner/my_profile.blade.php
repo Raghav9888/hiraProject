@@ -249,6 +249,7 @@
                                             <option value="{{$term->id}}">{{$term->name}}</option>
 
 
+
                                         @endforeach
                                         </select>
                                     </div>
@@ -490,10 +491,14 @@
                                                 <h4>Authorization</h4>
                                                 <div class="form-group flex-column d-flex align-items-start">
                                                     @if($googleAccount && $googleAccount->access_token && $googleAccount->refresh_token)
-                                                        <a href="{{ route('disconnect_to_google') }}"
-                                                           class="export-btn">Disconnect</a>
+                                                        <form method="POST" action="{{ route('disconnect_to_google') }}">
+                                                            @csrf
+                                                            <button type="submit" class="export-btn">Disconnect</button>
+                                                        </form>
                                                     @else
-                                                        <a href="{{ route('redirect_to_google') }}" class="export-btn">Connect</a>
+                                                        <a href="{{ route('redirect_to_google') }}" class="export-btn">
+                                                            Connect to Google
+                                                        </a>
                                                     @endif
                                                 </div>
                                             </div>
