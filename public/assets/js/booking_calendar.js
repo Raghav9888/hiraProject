@@ -581,16 +581,12 @@ function paymentAjax(offeringId, bookingDate, bookingTime, offeringEventType, pr
         },
         beforeSend: function () {
             console.log('Booking started...');
-            // Optional: Show a loader here
-            $('.booking-loader').show();
         },
         success: function (response) {
-            $('.booking-loader').hide(); // Hide loader
             if (!response.success) {
                 alert("Something went wrong!");
                 return;
             }
-
             $('.booking-container').hide();
             $('.event-container').hide();
             $('.billing-container').show().html(response.html);
@@ -603,9 +599,7 @@ function paymentAjax(offeringId, bookingDate, bookingTime, offeringEventType, pr
             // $('.popup-content .container').css('padding', "30px");
         },
         error: function (xhr) {
-            $('.booking-loader').hide(); // Hide loader
             console.error('Booking failed:', xhr.responseText || xhr);
-            alert( xhr.responseText || xhr);
         }
     });
 
