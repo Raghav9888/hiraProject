@@ -83,7 +83,7 @@ class GoogleCalendarController extends Controller
 
     public function createGoogleEvent($data)
     {
-//        try {
+        try {
             $googleAccount = GoogleAccount::where('user_id', $data['user_id'])->firstOrFail();
             $accessToken = json_decode($googleAccount->access_token, true);
 
@@ -116,7 +116,7 @@ class GoogleCalendarController extends Controller
                     'timeZone' => $data['timezone'] ?? 'America/Vancouver',
                 ],
                 'attendees'   => [
-                    ['email' => $data['guest_email']], // 👈 this sends the invite to the user
+                    ['email' => $data['guest_email']], //  this sends the invite to the user
                 ],
                 'conferenceData' => [
                     'createRequest' => [
@@ -134,7 +134,7 @@ class GoogleCalendarController extends Controller
             $createdEvent = $calendarService->events->insert(
                 'primary',
                 $event,
-                ['conferenceDataVersion' => 1, 'sendUpdates' => 'all'] // 👈 ensures the email is sent
+                ['conferenceDataVersion' => 1, 'sendUpdates' => 'all'] //  ensures the email is sent
             );
 
             $meetLink = optional($createdEvent->getConferenceData())->getEntryPoints()[0]->getUri() ?? null;
@@ -145,13 +145,13 @@ class GoogleCalendarController extends Controller
                 'google_event_id' => $createdEvent->getId(),
             ];
 
-//        } catch (\Exception $e) {
-//            \Log::error('Google Calendar API Error: ' . $e->getMessage());
-//            return [
-//                'success' => false,
-//                'error' => $e->getMessage()
-//            ];
-//        }
+        } catch (\Exception $e) {
+            \Log::error('Google Calendar API Error: ' . $e->getMessage());
+            return [
+                'success' => false,
+                'error' => $e->getMessage()
+            ];
+        }
     }
 
 

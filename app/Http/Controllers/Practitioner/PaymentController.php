@@ -310,10 +310,10 @@ class PaymentController extends Controller
             'email'       => $order->billing_email,
             'guest_email' => $order->billing_email, // ✅ important for Google Calendar invite
         ];
-        
+
 
         // Google Calendar API Integration
-//        try {
+        try {
             $googleCalendar = new GoogleCalendarController();
             $response = $googleCalendar->createGoogleEvent($eventData);
 
@@ -323,13 +323,13 @@ class PaymentController extends Controller
 
             return $response; // Contains meet_link and event_id
 
-//        } catch (\Exception $e) {
-//            \Log::error('Error creating Google Calendar event', [
-//                'error'     => $e->getMessage(),
-//                'eventData' => $eventData
-//            ]);
-//            return null;
-//        }
+        } catch (\Exception $e) {
+            \Log::error('Error creating Google Calendar event', [
+                'error'     => $e->getMessage(),
+                'eventData' => $eventData
+            ]);
+            return null;
+        }
     }
 
 
