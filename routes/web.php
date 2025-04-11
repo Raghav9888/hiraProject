@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\CommunityController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\FeedbackController;
 use App\Http\Controllers\Admin\ImpersonationController;
@@ -90,6 +91,7 @@ Route::middleware(['auth', 'user-access:admin'])->name('admin.')->prefix('admin'
 
     Route::resource('category', CategoryController::class);
     Route::resource('feedback', FeedbackController::class);
+    Route::resource('community', CommunityController::class);
     Route::get('/feedback/get-offerings/{userId}', [FeedbackController::class, 'getOfferingsByUser'])->name('getOfferingsByUser');
 });
 

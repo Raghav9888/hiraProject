@@ -229,7 +229,8 @@
                                 <img src="{{url('/assets/images/trusted-practitioners.svg')}}" alt="">
                             </div>
                             <h6>Support at Every Step</h6>
-                            <p class="pt-3">We don’t disappear after you book. From helping you choose a practitioner to following up
+                            <p class="pt-3">We don’t disappear after you book. From helping you choose a practitioner to
+                                following up
                                 after your session, our real human support team is here for you.
                                 Care is not just a session - it’s a relationship.
                             </p>
@@ -284,7 +285,7 @@
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-6 mb-5">
                         <div class="vision-and-about-dv about-dv">
-                            <h2>ABOUT US</h2>
+                            <h2>OUR STORY</h2>
                             <p style="text-align: end;">The Hira Collective is a curated wellness platform designed to
                                 help you find care you can trust—rooted in integrity,
                                 community connection, and ethical practice. We know that searching for the right support
@@ -304,74 +305,43 @@
                         </div>
                     </div>
                 </div>
-                {{--                <div class="position-relative row align-items-center">--}}
-                {{--                    <div class="col-md-6">--}}
-                {{--                        <h1 class="home-title mb-4 mt-5">What our community says</h1>--}}
-                {{--                    </div>--}}
-                {{--                    <div class="col-md-6">--}}
-                {{--                        <div class="swiper-button-next"></div>--}}
-                {{--                        <div class="swiper-button-prev"></div>--}}
-                {{--                    </div>--}}
-                {{--                </div>--}}
-                {{--                <div class="swiper mySwiper mb-5">--}}
-                {{--                    <div class="swiper-wrapper">--}}
-                {{--                        <div class="swiper-slide">--}}
-                {{--                            <img src="{{url('assets/images/quotes.svg')}}" alt="quotes">--}}
-                {{--                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt--}}
-                {{--                                ut labore. Lorem ipsum dolor sit amet, consect adipicing elit, sed do eiusmod tempor--}}
-                {{--                                incididunt ut labore.</p>--}}
-                {{--                            <h4>Robert Fox</h4>--}}
-                {{--                            <p class="mb-0">Yoga Student</p>--}}
-                {{--                            <img class="shadow-quotes" src="{{ url('/assets/images/shadow-quotes.svg') }}" alt="quotes">--}}
-                {{--                        </div>--}}
-                {{--                        <div class="swiper-slide">--}}
-                {{--                            <img src="{{ url('assets/images/quotes.svg') }}" alt="quotes">--}}
-                {{--                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt--}}
-                {{--                                ut labore. Lorem ipsum dolor sit amet, consect adipicing elit, sed do eiusmod tempor--}}
-                {{--                                incididunt ut labore.</p>--}}
-                {{--                            <h4>Jenny Wilson</h4>--}}
-                {{--                            <p class="mb-0">Yoga Student</p>--}}
-                {{--                            <img class="shadow-quotes" src="{{ url('/assets/images/shadow-quotes.svg') }}" alt="quotes">--}}
-                {{--                        </div>--}}
-                {{--                        <div class="swiper-slide">--}}
-                {{--                            <img src="{{url('assets/images/quotes.svg')}}" alt="quotes">--}}
-                {{--                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt--}}
-                {{--                                ut labore. Lorem ipsum dolor sit amet, consect adipicing elit, sed do eiusmod tempor--}}
-                {{--                                incididunt ut labore.</p>--}}
-                {{--                            <h4>Guy Hawkins</h4>--}}
-                {{--                            <p class="mb-0">Yoga Student</p>--}}
-                {{--                            <img class="shadow-quotes" src="{{ url('/assets/images/shadow-quotes.svg') }}" alt="quotes">--}}
-                {{--                        </div>--}}
-                {{--                        <div class="swiper-slide">--}}
-                {{--                            <img src="{{url('assets/images/quotes.svg')}}" alt="quotes">--}}
-                {{--                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt--}}
-                {{--                                ut labore. Lorem ipsum dolor sit amet, consect adipicing elit, sed do eiusmod tempor--}}
-                {{--                                incididunt ut labore.</p>--}}
-                {{--                            <h4>Robert Fox</h4>--}}
-                {{--                            <p class="mb-0">Yoga Student</p>--}}
-                {{--                            <img class="shadow-quotes" src="{{ url('/assets/images/shadow-quotes.svg') }}" alt="quotes">--}}
-                {{--                        </div>--}}
-                {{--                        <div class="swiper-slide">--}}
-                {{--                            <img src="{{url('assets/images/quotes.svg')}}" alt="quotes">--}}
-                {{--                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt--}}
-                {{--                                ut labore. Lorem ipsum dolor sit amet, consect adipicing elit, sed do eiusmod tempor--}}
-                {{--                                incididunt ut labore.</p>--}}
-                {{--                            <h4>Jenny Wilson</h4>--}}
-                {{--                            <p class="mb-0">Yoga Student</p>--}}
-                {{--                            <img class="shadow-quotes" src="{{ url('/assets/images/shadow-quotes.svg') }}" alt="quotes">--}}
-                {{--                        </div>--}}
-                {{--                        <div class="swiper-slide">--}}
-                {{--                            <img src="{{url('assets/images/quotes.svg')}}" alt="quotes">--}}
-                {{--                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt--}}
-                {{--                                ut labore. Lorem ipsum dolor sit amet, consect adipicing elit, sed do eiusmod tempor--}}
-                {{--                                incididunt ut labore.</p>--}}
-                {{--                            <h4>Guy Hawkins</h4>--}}
-                {{--                            <p class="mb-0">Yoga Student</p>--}}
-                {{--                            <img class="shadow-quotes" src="{{ url('/assets/images/shadow-quotes.svg') }}" alt="quotes">--}}
-                {{--                        </div>--}}
-                {{--                    </div>--}}
-                {{--                    <div class="swiper-pagination"></div>--}}
-                {{--                </div>--}}
+                <div class="position-relative row align-items-center">
+                    <div class="col-md-6">
+                        <h1 class="home-title mb-4 mt-5">What our community says</h1>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                    </div>
+                </div>
+                <div class="swiper mySwiper mb-5">
+                    <div class="swiper-wrapper">
+                        @foreach($communities as $community)
+                            <div class="swiper-slide">
+                                @if($community->image)
+                                    @php
+                                        $mediaPath = config('app.media_path', 'uploads');
+                                        $localPath = config('app.local_path', 'assets');
+
+                                        $imageUrl = $community->image
+                                            ? asset("$mediaPath/admin/community/{$community->image}")
+                                            : asset("$localPath/images/no_image.png");
+                                    @endphp
+                                    <img src="{{ $imageUrl }}" alt="community Image" width="100">
+                                @else
+                                    <img src="{{url('assets/images/quotes.svg')}}" alt="quotes">
+                                    <img class="shadow-quotes" src="{{ url('/assets/images/shadow-quotes.svg') }}"
+                                         alt="quotes">
+                                @endif
+                                {!! $community->description !!}
+
+                                <h4>{{$community->title}}</h4>
+{{--                                <p class="mb-0">Yoga Student</p>--}}
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
                 <div class="row">
                     <div class="col-sm-12 col-md-6 col-lg-6">
                         <div class="find-apply-dv">
@@ -413,35 +383,35 @@
         <div class="container">
             <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
                 <h1 class="home-title">Holistic Wellness Resources</h1>
-{{--                <a href="{{route('blog')}}" class="home-blog-btn">View All</a>--}}
+                {{--                <a href="{{route('blog')}}" class="home-blog-btn">View All</a>--}}
             </div>
             <div class="row">
                 <div class="col-md-12 text-center">
                     <h3>Coming soon...</h3>
                 </div>
-{{--                @forEach($blogs as $blog)--}}
-{{--                    @php--}}
-{{--                        $mediaPath = config('app.media_path', 'uploads');--}}
-{{--                        $localPath = config('app.local_path', 'assets');--}}
+                {{--                @forEach($blogs as $blog)--}}
+                {{--                    @php--}}
+                {{--                        $mediaPath = config('app.media_path', 'uploads');--}}
+                {{--                        $localPath = config('app.local_path', 'assets');--}}
 
-{{--                        $imageUrl = $blog->image--}}
-{{--                            ? asset("$mediaPath/admin/blog/{$blog->image}")--}}
-{{--                            : asset("$localPath/images/no_image.png");--}}
-{{--                    @endphp--}}
-{{--                    <div class="col-sm-12 col-md-6 col-lg-4 mb-4">--}}
-{{--                        <div class="featured-dv">--}}
-{{--                            <img src="{{ $imageUrl }}" alt="person" class="img-fit">--}}
-{{--                            <img src="{{$imageUrl}}" alt="calm" height="160" width="160" class="rounded-4">--}}
-{{--                            <div class="home-blog-label">--}}
-{{--                                <h5>{{$blog->category->name}}</h5>--}}
-{{--                            </div>--}}
-{{--                            <h4>{{$blog->name}}</h4>--}}
-{{--                            <div class="text-end">--}}
-{{--                                <a href="{{route('blogDetail', $blog->slug)}}" class="place-order btn btn-green text-end ">Learn More <i class="fa-solid fa-arrow-right "></i></a>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                @endforeach--}}
+                {{--                        $imageUrl = $blog->image--}}
+                {{--                            ? asset("$mediaPath/admin/blog/{$blog->image}")--}}
+                {{--                            : asset("$localPath/images/no_image.png");--}}
+                {{--                    @endphp--}}
+                {{--                    <div class="col-sm-12 col-md-6 col-lg-4 mb-4">--}}
+                {{--                        <div class="featured-dv">--}}
+                {{--                            <img src="{{ $imageUrl }}" alt="person" class="img-fit">--}}
+                {{--                            <img src="{{$imageUrl}}" alt="calm" height="160" width="160" class="rounded-4">--}}
+                {{--                            <div class="home-blog-label">--}}
+                {{--                                <h5>{{$blog->category->name}}</h5>--}}
+                {{--                            </div>--}}
+                {{--                            <h4>{{$blog->name}}</h4>--}}
+                {{--                            <div class="text-end">--}}
+                {{--                                <a href="{{route('blogDetail', $blog->slug)}}" class="place-order btn btn-green text-end ">Learn More <i class="fa-solid fa-arrow-right "></i></a>--}}
+                {{--                            </div>--}}
+                {{--                        </div>--}}
+                {{--                    </div>--}}
+                {{--                @endforeach--}}
             </div>
         </div>
     </section>

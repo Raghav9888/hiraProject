@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Certifications;
+use App\Models\Community;
 use App\Models\Feedback;
 use App\Models\Locations;
 use App\Models\PractitionerTag;
@@ -63,12 +64,15 @@ class HomeController extends Controller
             }
         }
 
+        $communities = Community::where('status', 1)->get();
+
         return view('home', [
             'users' => $users,
             'categories' => $categories,
             'defaultLocations' => $locations,
             'blogs' => $blogs,
-            'offerings' => $offerings
+            'offerings' => $offerings,
+            'communities' => $communities
         ]);
     }
 

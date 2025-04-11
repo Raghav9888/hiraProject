@@ -120,7 +120,7 @@ if (document.getElementById('bio')) {
     document.getElementById('bio').addEventListener('input', function () {
         let words = this.value.match(/\b\w+\b/g) || [];
         let wordCount = words.length;
-        let maxWords = 500;
+        let maxWords = 1000;
 
         document.getElementById('word-count').textContent = wordCount + ' / ' + maxWords + ' words';
 
