@@ -479,12 +479,12 @@ function renderSlots(date, availableSlotGroups) {
             // No conversion
             userDateTime = dt;
             displayTime = dt.toFormat('hh:mm a');
-            tooltipTime = `Practitioner Time: ${dt.toFormat('hh:mm a ZZZZ')}`;
+            tooltipTime = `Practitioner Time: ${dt.toFormat('hh:mm a ZZZZ')} , your timezone is ${userTimeZone}`;
         } else {
             // Convert to user timezone
             userDateTime = dt.setZone(userTimeZone);
             displayTime = userDateTime.toFormat('hh:mm a');
-            tooltipTime = `Your Local Time: ${userDateTime.toFormat('hh:mm a ZZZZ')}`;
+            tooltipTime = `Your Local Time: ${userDateTime.toFormat('hh:mm a ZZZZ')} ,your timezone is ${userTimeZone}`;
         }
 
         const isoUserTime = userDateTime.toISO();
