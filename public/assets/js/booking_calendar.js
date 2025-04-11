@@ -449,6 +449,9 @@ function renderSlots(date, availableSlotGroups) {
     const practitionerTimeZone = document.getElementById('practitioner_timezone')?.value || 'UTC';
     const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
+    console.log('practitionerTimeZone', practitionerTimeZone);
+    console.log('userTimeZone', userTimeZone);
+
     slotsContainer.innerHTML = '';
 
     if (!availableSlotGroups || availableSlotGroups.length === 0) {
@@ -470,9 +473,20 @@ function renderSlots(date, availableSlotGroups) {
             return;
         }
 
-        const userDateTime = dt.setZone(userTimeZone);
-        const displayTime = userDateTime.toFormat('hh:mm a');
-        const tooltipTime = userDateTime.toFormat('hh:mm a ZZZZ');
+        let userDateTime, displayTime, tooltipTime;
+
+        if (userTimeZone === practitionerTimeZone) {
+            // No conversion
+            userDateTime = dt;
+            displayTime = dt.toFormat('hh:mm a');
+            tooltipTime = `Practitioner Time: ${dt.toFormat('hh:mm a ZZZZ')}`;
+        } else {
+            // Convert to user timezone
+            userDateTime = dt.setZone(userTimeZone);
+            displayTime = userDateTime.toFormat('hh:mm a');
+            tooltipTime = `Your Local Time: ${userDateTime.toFormat('hh:mm a ZZZZ')}`;
+        }
+
         const isoUserTime = userDateTime.toISO();
 
         const col = document.createElement('div');
@@ -481,10 +495,9 @@ function renderSlots(date, availableSlotGroups) {
             <button class="btn btn-outline-green w-100 offering-slot"
                 data-user-time="${userDateTime}"
                 data-time="${displayTime}"
-                title="Your Local Time: ${tooltipTime}"
+                title="${tooltipTime}"
                 data-iso-time="${isoUserTime}"
-                data-user-timezone="${userTimeZone}"
-                >
+                data-user-timezone="${userTimeZone}">
                 ${displayTime}
             </button>
         `;
@@ -492,8 +505,6 @@ function renderSlots(date, availableSlotGroups) {
     });
 
     slotsContainer.appendChild(row);
-
-    // Native title tooltips work automatically
 
     // Handle slot selection
     $('.offering-slot').on('click', function () {
@@ -505,15 +516,14 @@ function renderSlots(date, availableSlotGroups) {
         const selectedIsoTime = $(this).data('iso-time');
         const userTimezone = $(this).data('user-timezone');
 
-        // Set values and attributes on your hidden input
         $('#booking_time').val(selectedTime)
             .attr('data-user-time', userTime)
             .attr('data-display-time', selectedTime)
             .attr('data-iso-time', selectedIsoTime)
             .attr('data-user-timezone', userTimezone);
     });
-
 }
+
 
 const prevBtn = document.getElementById('prevMonth');
 if (prevBtn) {
