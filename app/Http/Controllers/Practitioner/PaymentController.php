@@ -245,13 +245,11 @@ class PaymentController extends Controller
             $practitionerEmailTemplate = $offering->email_template;
             $intakeForms = $offering->intake_form;
             $response = $this->createGoogleCalendarEvent($order);
-
-            $meetLink = $response['meet_link'] ?? null;
-            Mail::to($order->billing_email)->send(new BookingConfirmationMail($order, $practitionerEmailTemplate, $intakeForms ,$meetLink));
         } catch (\Exception $e) {
             \Log::error('Google Calendar Event Creation Failed: ' . $e->getMessage());
         }
         // Send confirmation email
+//        Mail::to($order->billing_email)->send(new BookingConfirmationMail($order, $practitionerEmailTemplate, $intakeForms));
 
         return redirect()->route('thankyou')->with('success', 'Payment successful!');
     }
@@ -306,13 +304,16 @@ class PaymentController extends Controller
             'description' => 'Customer: ' . trim(($order->first_name ?? '') . ' ' . ($order->last_name ?? '')),
             'start'       => $startTime->toIso8601String(),
             'end'         => $endTime->toIso8601String(),
-            'date'        => $startTime->toDateString(), // booking date in practitioner's timezone
+            'date'        => $startTime->toDateString(),
             'user_id'     => $offering->user_id,
             'timezone'    => $practitionerTimezone,
+            'email'       => $order->billing_email,
+            'guest_email' => $order->billing_email, // ✅ important for Google Calendar invite
         ];
+        
 
         // Google Calendar API Integration
-        try {
+//        try {
             $googleCalendar = new GoogleCalendarController();
             $response = $googleCalendar->createGoogleEvent($eventData);
 
@@ -322,13 +323,13 @@ class PaymentController extends Controller
 
             return $response; // Contains meet_link and event_id
 
-        } catch (\Exception $e) {
-            \Log::error('Error creating Google Calendar event', [
-                'error'     => $e->getMessage(),
-                'eventData' => $eventData
-            ]);
-            return null;
-        }
+//        } catch (\Exception $e) {
+//            \Log::error('Error creating Google Calendar event', [
+//                'error'     => $e->getMessage(),
+//                'eventData' => $eventData
+//            ]);
+//            return null;
+//        }
     }
 
 

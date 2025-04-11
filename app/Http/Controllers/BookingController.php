@@ -41,7 +41,8 @@ class BookingController extends Controller
 
         $bookingDate = $request->booking_date;
         $bookingTime = $request->booking_time;
-        $bookingUserTimezone = $request->bookingUserTimezone;
+        $bookingUserTimezone = $request->booking_user_timezone;
+
         $offering = Offering::find($request->offering_id);
         $price = $offering->price;
         $currency = $offering->currency;
