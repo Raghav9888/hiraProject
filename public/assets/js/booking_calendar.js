@@ -445,7 +445,6 @@ function filterBookedSlots(date, availableSlots) {
 
 function renderSlots(date, availableSlotGroups) {
     const slotsContainer = document.getElementById('availableSlots');
-
     const practitionerTimeZone = document.getElementById('practitioner_timezone')?.value || 'UTC';
     const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
@@ -476,15 +475,13 @@ function renderSlots(date, availableSlotGroups) {
         let userDateTime, displayTime, tooltipTime;
 
         if (userTimeZone === practitionerTimeZone) {
-            // No conversion
             userDateTime = dt;
             displayTime = dt.toFormat('hh:mm a');
-            tooltipTime = `Practitioner Time: ${dt.toFormat('hh:mm a ZZZZ')} , your timezone is ${userTimeZone}`;
+            tooltipTime = `Time: ${displayTime} (${practitionerTimeZone})`;
         } else {
-            // Convert to user timezone
             userDateTime = dt.setZone(userTimeZone);
             displayTime = userDateTime.toFormat('hh:mm a');
-            tooltipTime = `Your Local Time: ${userDateTime.toFormat('hh:mm a ZZZZ')} ,your timezone is ${userTimeZone}`;
+            tooltipTime = `Your Time: ${displayTime} (${userTimeZone}) | Practitioner: ${dt.toFormat('hh:mm a')} (${practitionerTimeZone})`;
         }
 
         const isoUserTime = userDateTime.toISO();
