@@ -190,7 +190,7 @@ function generateCalendar(month, year) {
         dayCell.classList.add('dates');
 
         // Disable old days according to current date
-        if (new Date(dateString) < currentDate) {
+        if (new Date(dateString).setHours(0, 0, 0, 0) < currentDate.setHours(0, 0, 0, 0)) {
             dayCell.classList.add('inactive');
             dayCell.setAttribute('title', 'This date is in the past');
         }
