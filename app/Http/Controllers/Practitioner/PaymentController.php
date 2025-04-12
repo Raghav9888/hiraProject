@@ -299,7 +299,7 @@ class PaymentController extends Controller
 
         // Event Data
         $eventData = [
-            'title'       => 'Booking: ' . trim(($order->first_name ?? '') . ' ' . ($order->last_name ?? '')),
+            'title'       => 'Booking From '.' '. env('APP_NAME') .':' . trim(($order->first_name ?? '') . ' ' . ($order->last_name ?? '')),
             'category'    => 'Booking',
             'description' => 'Customer: ' . trim(($order->first_name ?? '') . ' ' . ($order->last_name ?? '')),
             'start'       => $startTime->toIso8601String(),
