@@ -24,6 +24,26 @@
         <li>🎙️ <a href="https://spotify.com">The Ultimate Human Experience</a> - Listen to conversations on healing, awakening, and possibility on our podcast</li>
     </ul>
 
+    <h3>Here are your booking details:</h3>
+    <table style="border-collapse: collapse; width: 100%; max-width: 600px;">
+        <tr>
+            <td style="padding: 8px; border: 1px solid #ccc;"><strong>Practitioner Name:</strong></td>
+            <td style="padding: 8px; border: 1px solid #ccc;">{{ @$user->offering->user->name }}</td>
+        </tr>
+        <tr>
+            <td style="padding: 8px; border: 1px solid #ccc;"><strong>Offering Name:</strong></td>
+            <td style="padding: 8px; border: 1px solid #ccc;">{{ @$user->offering->name }}</td>
+        </tr>
+        <tr>
+            <td style="padding: 8px; border: 1px solid #ccc;"><strong>Offering Date/Time:</strong></td>
+            <td style="padding: 8px; border: 1px solid #ccc;">{{ @$user->booking_date }} - {{@$user->time_slot}}</td>
+        </tr>
+        <tr>
+            <td style="padding: 8px; border: 1px solid #ccc;"><strong>Offering Type:</strong></td>
+            <td style="padding: 8px; border: 1px solid #ccc;">{{ @$user->offering->offering_type }}</td>
+        </tr>
+    </table>
+
     <p>This moment matters. We’re so glad you’re here.</p>
 
     <p>With love,<br>

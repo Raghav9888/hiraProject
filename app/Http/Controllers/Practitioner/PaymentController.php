@@ -220,7 +220,7 @@ class PaymentController extends Controller
     public function confirmPayment(Request $request)
     {
 
-        $order = Booking::findOrFail($request->order_id);
+        $order = Booking::with('offering', 'offering.user')->findOrFail($request->order_id);
         $offeringId = $order->offering->id;
 
         $payment = Payment::where("order_id", $order->id)->firstOrFail();
