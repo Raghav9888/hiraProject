@@ -241,7 +241,7 @@ class PaymentController extends Controller
         }
 
         // Attempt to create a Google Calendar event
-//        try {
+        try {
             $practitionerEmailTemplate = $offering->email_template;
             $intakeForms = $offering->intake_form;
             $response = $this->createGoogleCalendarEvent($order);
@@ -250,10 +250,10 @@ class PaymentController extends Controller
 
             return redirect()->route('thankyou')->with('success', 'Payment successful!');
 
-//        } catch (\Exception $e) {
-//            \Log::error('Google Calendar Event Creation Failed: ' . $e->getMessage());
-//            return redirect()->route('thankyou')->with('error', 'Payment successful, but failed to create Google Calendar event.');
-//        }
+        } catch (\Exception $e) {
+            \Log::error('Google Calendar Event Creation Failed: ' . $e->getMessage());
+            return redirect()->route('thankyou')->with('error', 'Payment successful, but failed to create Google Calendar event.');
+        }
 
     }
 
@@ -321,7 +321,7 @@ class PaymentController extends Controller
 
 
         // Google Calendar API Integration
-//        try {
+        try {
             $googleCalendar = new GoogleCalendarController();
             $response = $googleCalendar->createGoogleEvent($eventData);
 
@@ -331,13 +331,13 @@ class PaymentController extends Controller
 
             return $response; // Contains meet_link and event_id
 
-//        } catch (\Exception $e) {
-//            \Log::error('Error creating Google Calendar event', [
-//                'error' => $e->getMessage(),
-//                'eventData' => $eventData
-//            ]);
-//            return null;
-//        }
+        } catch (\Exception $e) {
+            \Log::error('Error creating Google Calendar event', [
+                'error' => $e->getMessage(),
+                'eventData' => $eventData
+            ]);
+            return null;
+        }
     }
 
 
