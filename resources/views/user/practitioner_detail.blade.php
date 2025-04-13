@@ -237,6 +237,8 @@
                                                             data-bs-target="#exampleModal"
                                                             onclick="openPopup(event)"
                                                             data-user-id="{{$user->id}}"
+                                                            data-duration="{{$offering->offering_event_type =='event' ? ($offering->event?->event_duration ?? '15 minutes') : ($offering?->booking_duration ?? '15 minutes')}}"
+                                                            data-buffer-time="{{$offering->offering_event_type =='event'  ? '15 minutes' : ($offering?->buffer_time ?? '15 minutes')}}"
                                                             data-offering-id="{{$offering->id}}"
                                                             data-offering-event-type="{{$offering->offering_event_type}}"
                                                             data-event-start="{{$offering->offering_event_type =='event' ? $offering->event?->date_and_time  ?? '': ''}}"
@@ -608,6 +610,9 @@
     <input type="hidden" name="already_booked_slots" id="already_booked_slots">
     <input type="hidden" name="currency" id="currency">
     <input type="hidden" name="currency_symbol" id="currency_symbol">
+
+    <input type="hidden" name="duration_time" id="duration_time">
+    <input type="hidden" name="buffer_time" id="buffer_time">
 
 
 

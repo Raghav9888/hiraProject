@@ -241,7 +241,7 @@ class PaymentController extends Controller
         }
 
         // Attempt to create a Google Calendar event
-//        try {
+        try {
             $practitionerEmailTemplate = $offering->email_template;
             $intakeForms = $offering->intake_form;
             $response = $this->createGoogleCalendarEvent($order);
@@ -250,9 +250,10 @@ class PaymentController extends Controller
 
             return redirect()->route('thankyou')->with('success', 'Payment successful!');
 
-//        } catch (\Exception $e) {
-//            \Log::error('Google Calendar Event Creation Failed: ' . $e->getMessage());
 //        }
+        } catch (\Exception $e) {
+            \Log::error('Google Calendar Event Creation Failed: ' . $e->getMessage());
+        }
 
     }
 
@@ -277,31 +278,37 @@ class PaymentController extends Controller
         // Determine day of the week
         $dayOfWeek = strtolower($practitionerDateTime->format('l'));
 
-        // Duration logic
+        // Initialize variables
+        $startTime = $practitionerDateTime->copy();
+        $duration = 60; // default
+        $buffer = 0;    // default
+
+        // Get duration & buffer
         if ($offering->offering_event_type === 'event') {
-            $startTime = $practitionerDateTime->copy();
             $duration = optional($offering->event)->event_duration ?? 60;
         } else {
-            $storeAvailabilities = json_decode($user->userDetail->store_availabilities, true) ?? [];
+            // Duration from offering (in minutes)
+            $duration = $offering->booking_duration ?? 60;
 
-            $availabilityKey = in_array($dayOfWeek, ['saturday', 'sunday'])
-                ? "weekends_only_-_every_sat_&_sundays"
-                : "every_{$dayOfWeek}";
-
-            if (!isset($storeAvailabilities[$availabilityKey])) {
-                \Log::warning("Availability key {$availabilityKey} not found in store availabilities.");
+            // Parse buffer_time (can be numeric or string like "30 minutes")
+            if (!empty($offering->buffer_time)) {
+                if (is_numeric($offering->buffer_time)) {
+                    $buffer = (int)$offering->buffer_time;
+                } else {
+                    // Try to extract number from string
+                    preg_match('/(\d+)/', $offering->buffer_time, $matches);
+                    $buffer = isset($matches[1]) ? (int)$matches[1] : 0;
+                }
             }
-
-            $startTime = $practitionerDateTime->copy(); // accurate start time with timezone
-            $duration = $offering->duration ?? 60;
         }
 
         // Calculate end time
-        $endTime = $startTime->copy()->addMinutes($duration);
+        $totalDuration = $duration + $buffer;
+        $endTime = $startTime->copy()->addMinutes($totalDuration);
 
         // Event Data
         $eventData = [
-            'title'       => 'Booking From '.' '. env('APP_NAME') .':' . trim(($order->first_name ?? '') . ' ' . ($order->last_name ?? '')),
+            'title'       => 'Booking From ' . env('APP_NAME') . ': ' . trim(($order->first_name ?? '') . ' ' . ($order->last_name ?? '')),
             'category'    => 'Booking',
             'description' => 'Customer: ' . trim(($order->first_name ?? '') . ' ' . ($order->last_name ?? '')),
             'start'       => $startTime->toIso8601String(),
@@ -310,9 +317,8 @@ class PaymentController extends Controller
             'user_id'     => $offering->user_id,
             'timezone'    => $practitionerTimezone,
             'email'       => $order->billing_email,
-            'guest_email' => $order->billing_email, // ✅ important for Google Calendar invite
+            'guest_email' => $order->billing_email,
         ];
-
 
         // Google Calendar API Integration
         try {

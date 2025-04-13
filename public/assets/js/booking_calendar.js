@@ -27,6 +27,8 @@ function openPopup(event) {
     let currency = event.target.getAttribute('data-currency');
     let currencySymbol = event.target.getAttribute('data-currency-symbol');
     let timezone = event.target.getAttribute('data-timezone');
+    let duration = event.target.getAttribute('data-duration');
+    let bufferTime = event.target.getAttribute('data-buffer-time');
 
     console.log(priceData, currency, currencySymbol)
 
@@ -43,6 +45,8 @@ function openPopup(event) {
     let currencyInput = document.getElementById('currency');
     let currencySymbolInput = document.getElementById('currency_symbol');
     let timezoneInput = document.getElementById('practitioner_timezone');
+    let durationTimeInput = document.getElementById('duration_time');
+    let bufferTimeInput = document.getElementById('buffer_time');
 
     if (inputElement) {
         inputElement.value = offeringId;
@@ -60,6 +64,8 @@ function openPopup(event) {
         currencyInput.value = currency;
         currencySymbolInput.value = currencySymbol;
         timezoneInput.value = timezone;
+        durationTimeInput.value = duration;
+        bufferTimeInput.value = bufferTime;
     } else {
         console.error("Element with name 'offering_id' not found");
     }
@@ -374,9 +380,28 @@ function showAvailableSlots(date) {
     renderSlots(date, availableSlots);
 }
 
+function parseDuration(str) {
+    const hoursMatch = str.match(/(\d+)\s*hour/);
+    const minutesMatch = str.match(/(\d+)\s*minute/);
+
+    const hours = hoursMatch ? parseInt(hoursMatch[1]) : 0;
+    const minutes = minutesMatch ? parseInt(minutesMatch[1]) : 0;
+
+    return {hours, minutes};
+}
+
 function generateTimeSlots(from = null, to = null, date = null, allDay = false) {
     const practitionerTimeZone = document.getElementById('practitioner_timezone')?.value || 'UTC';
-    const {DateTime} = luxon;
+    const {DateTime, Duration} = luxon;
+
+    let durationTime = document.getElementById('duration_time')?.value;
+    let bufferTime = document.getElementById('buffer_time')?.value;
+
+    const durationParts = parseDuration(durationTime || '15 minutes');
+    const bufferParts = parseDuration(bufferTime || '15 minutes');
+
+    const duration = Duration.fromObject(durationParts);
+    const buffer = Duration.fromObject(bufferParts);
 
     let slots = [];
     if (!date) return [];
@@ -397,10 +422,9 @@ function generateTimeSlots(from = null, to = null, date = null, allDay = false) 
         }
     }
 
-    while (startTime < endTime) {
+    while (startTime.plus(duration).plus(buffer) <= endTime) {
         slots.push(startTime.toFormat('hh:mm a'));
-        // 🔁 Move to the next slot by 30-minute interval
-        startTime = startTime.plus({minutes: 30});
+        startTime = startTime.plus(duration).plus(buffer);
     }
 
     console.log("Generated Slots (Practitioner Timezone):", JSON.stringify(slots, null, 2));
@@ -448,8 +472,16 @@ function renderSlots(date, availableSlotGroups) {
     const practitionerTimeZone = document.getElementById('practitioner_timezone')?.value || 'UTC';
     const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
+    let durationTime = document.getElementById('duration_time')?.value;
+    let bufferTime = document.getElementById('buffer_time')?.value;
+
+    const durationParts = parseDuration(durationTime || '15 minutes');
+    const bufferParts = parseDuration(bufferTime || '15 minutes');
+
     console.log('practitionerTimeZone', practitionerTimeZone);
     console.log('userTimeZone', userTimeZone);
+    console.log('durationTime', durationTime);
+    console.log('bufferTime', bufferTime);
 
     slotsContainer.innerHTML = '';
 
@@ -473,7 +505,7 @@ function renderSlots(date, availableSlotGroups) {
         }
 
         let userDateTime, displayTime, tooltipTime;
-
+        const nextSlot = dt.plus(luxon.Duration.fromObject(durationParts).plus(luxon.Duration.fromObject(bufferParts)));
         if (userTimeZone === practitionerTimeZone) {
             userDateTime = dt;
             displayTime = dt.toFormat('hh:mm a');
@@ -481,7 +513,7 @@ function renderSlots(date, availableSlotGroups) {
         } else {
             userDateTime = dt.setZone(userTimeZone);
             displayTime = userDateTime.toFormat('hh:mm a');
-            tooltipTime = `Your Time: ${displayTime} (${userTimeZone}) | Practitioner: ${dt.toFormat('hh:mm a')} (${practitionerTimeZone})`;
+            tooltipTime = `Your Time: ${displayTime} (${userTimeZone}) | Practitioner: ${dt.toFormat('hh:mm a')} (${practitionerTimeZone}) | Duration: ${durationTime} | Buffer: ${bufferTime}`.trim();
         }
 
         const isoUserTime = userDateTime.toISO();
