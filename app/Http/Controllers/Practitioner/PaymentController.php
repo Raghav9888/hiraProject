@@ -250,7 +250,6 @@ class PaymentController extends Controller
 
             return redirect()->route('thankyou')->with('success', 'Payment successful!');
 
-//        }
         } catch (\Exception $e) {
             \Log::error('Google Calendar Event Creation Failed: ' . $e->getMessage());
         }
