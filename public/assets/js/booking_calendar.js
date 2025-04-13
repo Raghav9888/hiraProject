@@ -491,7 +491,7 @@ function filterBookedSlots(date, availableSlots) {
         return !blockedIntervals.some(b => b.overlaps(slotInterval));
     });
 
-    console.log("⛔ Blocked Intervals on", date, blockedIntervals.map(i => i.toString()));
+    console.log("⛔ Blocked Intervals on", date, Array.from(blockedIntervals));
     console.log("✅ Filtered Slots:", filteredSlots);
     return filteredSlots;
 }
