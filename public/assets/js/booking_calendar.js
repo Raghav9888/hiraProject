@@ -471,30 +471,48 @@ function filterBookedSlots(date, availableSlots) {
             let start = DateTime.fromFormat(slot.start_time, 'hh:mm a', { zone });
             let end = DateTime.fromFormat(slot.end_time, 'hh:mm a', { zone });
 
+            // Adjust end time if it's before the start time (e.g., overnight bookings)
             if (end <= start) {
                 end = end.plus({ days: 1 });
             }
 
-            const interval = Interval.fromDateTimes(start, end.plus(buffer));  // Add buffer here
+            // Add buffer time only once after the booking
+            const interval = Interval.fromDateTimes(start, end.plus(buffer));
             blockedIntervals.push(interval);
         }
     });
 
     const practitionerTimeZone = document.getElementById('practitioner_timezone')?.value || 'UTC';
 
+    // Filter available slots based on booked slots and buffer
     const filteredSlots = availableSlots.filter(timeStr => {
         const time = DateTime.fromFormat(`${date} ${timeStr}`, 'yyyy-MM-dd hh:mm a', {
             zone: practitionerTimeZone
         });
 
+        // Create a 1-minute interval for the available slot
         const slotInterval = Interval.fromDateTimes(time, time.plus({ minutes: 1 }));
-        return !blockedIntervals.some(b => b.overlaps(slotInterval));  // If there's no overlap, keep the slot
+
+        // Check if any booked interval overlaps with the available slot
+        return !blockedIntervals.some(b => b.overlaps(slotInterval));
     });
 
-    console.log("⛔ Blocked Intervals on", date, Array.from(blockedIntervals));
+    console.log("⛔ Blocked Intervals on", date, blockedIntervals.flatMap(interval => {
+        const times = [];
+        let current = interval.start;
+
+        while (current < interval.end) {
+            times.push(current.toFormat('hh:mm a')); // Convert to desired format
+            current = current.plus({ minutes: 15 }); // Add 15-minute increment
+        }
+
+        return times; // Flatten the array of time slots
+    }));
+
     console.log("✅ Filtered Slots:", filteredSlots);
     return filteredSlots;
 }
+
 
 function renderSlots(date, availableSlotGroups) {
     const slotsContainer = document.getElementById('availableSlots');
