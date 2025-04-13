@@ -270,8 +270,13 @@ class PaymentController extends Controller
         $bookingDate = $order->booking_date;     // e.g., '2025-04-16'
         $bookingTime = $order->time_slot;        // e.g., '11:30 AM'
 
+        if($offering->offering_event_type === 'event')
+        {
+            $userDateTime = Carbon::createFromFormat('Y-m-d H:i:s', "$bookingDate $bookingTime", $userTimezone);
+        }else{
+            $userDateTime = Carbon::createFromFormat('Y-m-d h:i A', $bookingDate . ' ' . $bookingTime, $userTimezone);
+        }
         // Create a Carbon datetime object in the user's timezone
-        $userDateTime = Carbon::createFromFormat('Y-m-d H:i:s', "$bookingDate $bookingTime", $userTimezone);
 
         // Convert to practitioner's timezone
         $practitionerDateTime = $userDateTime->copy()->setTimezone($practitionerTimezone);
