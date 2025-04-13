@@ -241,7 +241,7 @@ class PaymentController extends Controller
         }
 
         // Attempt to create a Google Calendar event
-        try {
+//        try {
             $practitionerEmailTemplate = $offering->email_template;
             $intakeForms = $offering->intake_form;
             $response = $this->createGoogleCalendarEvent($order);
@@ -249,10 +249,10 @@ class PaymentController extends Controller
             Mail::to($order->billing_email)->send(new BookingConfirmationMail($order, $practitionerEmailTemplate, $intakeForms));
 
             return redirect()->route('thankyou')->with('success', 'Payment successful!');
-
-        } catch (\Exception $e) {
-            \Log::error('Google Calendar Event Creation Failed: ' . $e->getMessage());
-        }
+//
+//        } catch (\Exception $e) {
+//            \Log::error('Google Calendar Event Creation Failed: ' . $e->getMessage());
+//        }
 
     }
 
@@ -267,52 +267,35 @@ class PaymentController extends Controller
 
         // Booking date and time (from user input)
         $bookingDate = $order->booking_date;     // e.g., '2025-04-16'
-        $bookingTime = $order->time_slot;        // e.g., '11:30 AM'
+        $bookingTime = $order->time_slot;        // e.g., '2:00 PM'
 
         // Create a Carbon datetime object in the user's timezone
         $userDateTime = Carbon::createFromFormat('Y-m-d h:i A', $bookingDate . ' ' . $bookingTime, $userTimezone);
 
         // Convert to practitioner's timezone
         $practitionerDateTime = $userDateTime->copy()->setTimezone($practitionerTimezone);
-        // Determine day of the week
-        $dayOfWeek = strtolower($practitionerDateTime->format('l'));
 
-        // Initialize variables
-        $startTime = $practitionerDateTime->copy();
+        // Initialize duration (default to 60 minutes)
         $duration = 60; // default
-        $buffer = 0;    // default
 
-        // Get duration & buffer
+        // Get the offering duration
         if ($offering->offering_event_type === 'event') {
-            $duration = optional($offering->event)->event_duration ?? 60;
+            $duration = optional($offering->event)->event_duration ?? 60; // duration for events
         } else {
-            // Duration from offering (in minutes)
-            $duration = $offering->booking_duration ?? 60;
-
-            // Parse buffer_time (can be numeric or string like "30 minutes")
-            if (!empty($offering->buffer_time)) {
-                if (is_numeric($offering->buffer_time)) {
-                    $buffer = (int)$offering->buffer_time;
-                } else {
-                    // Try to extract number from string
-                    preg_match('/(\d+)/', $offering->buffer_time, $matches);
-                    $buffer = isset($matches[1]) ? (int)$matches[1] : 0;
-                }
-            }
+            $duration = $offering->booking_duration ?? 60; // duration for other offerings
         }
 
-        // Calculate end time
-        $totalDuration = $duration + $buffer;
-        $endTime = $startTime->copy()->addMinutes($totalDuration);
+        // Calculate end time (start time + duration)
+        $endTime = $practitionerDateTime->copy()->addMinutes($duration);
 
         // Event Data
         $eventData = [
             'title'       => 'Booking From ' . env('APP_NAME') . ': ' . trim(($order->first_name ?? '') . ' ' . ($order->last_name ?? '')),
             'category'    => 'Booking',
             'description' => 'Customer: ' . trim(($order->first_name ?? '') . ' ' . ($order->last_name ?? '')),
-            'start'       => $startTime->toIso8601String(),
-            'end'         => $endTime->toIso8601String(),
-            'date'        => $startTime->toDateString(),
+            'start'       => $practitionerDateTime->toIso8601String(),   // Start time
+            'end'         => $endTime->toIso8601String(),                // End time (start + duration)
+            'date'        => $practitionerDateTime->toDateString(),      // Date (start date)
             'user_id'     => $offering->user_id,
             'timezone'    => $practitionerTimezone,
             'email'       => $order->billing_email,
@@ -329,7 +312,6 @@ class PaymentController extends Controller
             }
 
             return $response; // Contains meet_link and event_id
-
         } catch (\Exception $e) {
             \Log::error('Error creating Google Calendar event', [
                 'error'     => $e->getMessage(),
@@ -338,6 +320,7 @@ class PaymentController extends Controller
             return null;
         }
     }
+
 
 
 

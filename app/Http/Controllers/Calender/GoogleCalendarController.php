@@ -112,11 +112,11 @@ class GoogleCalendarController extends Controller
                     'timeZone' => $data['timezone'] ?? 'America/Vancouver',
                 ],
                 'end'         => [
-                    'dateTime' => Carbon::parse($data['end'])->toIso8601String(),
+                    'dateTime' => Carbon::parse($data['start'])->addMinutes($data['duration'])->toIso8601String(),
                     'timeZone' => $data['timezone'] ?? 'America/Vancouver',
                 ],
                 'attendees'   => [
-                    ['email' => $data['guest_email']], //  this sends the invite to the user
+                    ['email' => $data['guest_email']],
                 ],
                 'conferenceData' => [
                     'createRequest' => [
@@ -134,7 +134,7 @@ class GoogleCalendarController extends Controller
             $createdEvent = $calendarService->events->insert(
                 'primary',
                 $event,
-                ['conferenceDataVersion' => 1, 'sendUpdates' => 'all'] //  ensures the email is sent
+                ['conferenceDataVersion' => 1, 'sendUpdates' => 'all']
             );
 
             $meetLink = optional($createdEvent->getConferenceData())->getEntryPoints()[0]->getUri() ?? null;
@@ -153,6 +153,7 @@ class GoogleCalendarController extends Controller
             ];
         }
     }
+
 
 
 

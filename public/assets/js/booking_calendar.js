@@ -383,7 +383,7 @@ function showAvailableSlots(date) {
 function parseDuration(str) {
     if (!str) {
         console.error("Duration string is undefined or empty");
-        return { hours: 0, minutes: 0 };
+        return {hours: 0, minutes: 0};
     }
 
     const hoursMatch = str.match(/(\d+)\s*hour/);
@@ -392,24 +392,20 @@ function parseDuration(str) {
     const hours = hoursMatch ? parseInt(hoursMatch[1]) : 0;
     const minutes = minutesMatch ? parseInt(minutesMatch[1]) : 0;
 
-    return { hours, minutes };
+    return {hours, minutes};
 }
 
 
 function generateTimeSlots(from = null, to = null, date = null, allDay = false) {
     const practitionerTimeZone = document.getElementById('practitioner_timezone')?.value || 'UTC';
-    const { DateTime, Duration, Interval } = luxon;  // Ensure Duration is destructured correctly from luxon
+    const { DateTime, Duration, Interval } = luxon;
 
-    let durationTime = document.getElementById('duration_time')?.value || '15 minutes';  // Default value
-    let bufferTime = document.getElementById('buffer_time')?.value || '0 minutes';        // Default value
+    let durationTime = document.getElementById('duration_time')?.value || '15 minutes';
+    let bufferTime = document.getElementById('buffer_time')?.value || '0 minutes';
 
-    const durationParts = parseDuration(durationTime);
-    const bufferParts = parseDuration(bufferTime);
+    const duration = Duration.fromObject(parseDuration(durationTime));
+    const buffer = Duration.fromObject(parseDuration(bufferTime));
 
-    const duration = Duration.fromObject(durationParts);  // Correct usage of Duration
-    const buffer = Duration.fromObject(bufferParts);
-
-    let slots = [];
     if (!date) return [];
 
     let startTime, endTime;
@@ -428,7 +424,7 @@ function generateTimeSlots(from = null, to = null, date = null, allDay = false) 
         }
     }
 
-    // Fetch booked slots for the date
+    // ✅ Blocked Intervals = Booking + Only First Buffer
     const bookedSlots = JSON.parse(document.getElementById('already_booked_slots').value || '[]');
     const blockedIntervals = [];
 
@@ -436,14 +432,15 @@ function generateTimeSlots(from = null, to = null, date = null, allDay = false) 
         if (slot.date === date) {
             const zone = slot.timezone || 'UTC';
             const bookingStart = DateTime.fromFormat(slot.start_time, 'hh:mm a', { zone });
-            const blockedStart = bookingStart;
-            const blockedEnd = bookingStart.plus(duration).plus(buffer);
-            blockedIntervals.push(Interval.fromDateTimes(blockedStart, blockedEnd));
+            const bookingEnd = bookingStart.plus(duration);
+            const blockedEnd = bookingEnd.plus(buffer); // only add buffer ONCE per booking
+            blockedIntervals.push(Interval.fromDateTimes(bookingStart, blockedEnd));
         }
     });
 
-    // Generate slots while skipping blocked intervals
+    let slots = [];
     let current = startTime;
+
     while (current.plus(duration) <= endTime) {
         const slotInterval = Interval.fromDateTimes(current, current.plus(duration));
         const overlaps = blockedIntervals.some(b => b.overlaps(slotInterval));
@@ -452,20 +449,21 @@ function generateTimeSlots(from = null, to = null, date = null, allDay = false) 
             slots.push(current.toFormat('hh:mm a'));
         }
 
-        current = current.plus(duration);
+        current = current.plus(duration); // 👉 Only increment with duration always
     }
 
-    console.log("Generated Slots with Buffer (Practitioner TZ):", slots);
+    console.log("🎯 Final Generated Slots:", slots);
     return slots;
 }
 
 function filterBookedSlots(date, availableSlots) {
-    const { DateTime, Duration, Interval } = luxon;  // Ensure Duration is destructured correctly from luxon
+    const { DateTime, Duration, Interval } = luxon;
     const bookedSlots = JSON.parse(document.getElementById('already_booked_slots').value || '[]');
-    const bookedTimes = new Set();
-    const bufferTime = document.getElementById('buffer_time')?.value || '0 minutes';  // Default value
+    const bufferTime = document.getElementById('buffer_time')?.value || '0 minutes';
     const bufferParts = parseDuration(bufferTime);
-    const buffer = Duration.fromObject(bufferParts);  // Correct usage of Duration
+    const buffer = Duration.fromObject(bufferParts);
+
+    const blockedIntervals = [];
 
     bookedSlots.forEach(slot => {
         if (slot.date === date) {
@@ -473,27 +471,28 @@ function filterBookedSlots(date, availableSlots) {
             let start = DateTime.fromFormat(slot.start_time, 'hh:mm a', { zone });
             let end = DateTime.fromFormat(slot.end_time, 'hh:mm a', { zone });
 
-            // Make sure end is after start
             if (end <= start) {
                 end = end.plus({ days: 1 });
             }
 
-            // Track booked slots plus buffer time
-            while (start < end) {
-                bookedTimes.add(start.toFormat('hh:mm a'));
-                start = start.plus({ minutes: 30 }); // assuming 30-min slots
-            }
-
-            // Add buffer time slot after the last booking
-            bookedTimes.add(end.plus(buffer).toFormat('hh:mm a'));
+            const interval = Interval.fromDateTimes(start, end.plus(buffer));
+            blockedIntervals.push(interval);
         }
     });
 
-    const filteredSlots = availableSlots.filter(slot => !bookedTimes.has(slot));
+    const practitionerTimeZone = document.getElementById('practitioner_timezone')?.value || 'UTC';
 
-    console.log("⛔ Blocked Times on", date, ":", Array.from(bookedTimes));
-    console.log("✅ Final Available Slots:", filteredSlots);
+    const filteredSlots = availableSlots.filter(timeStr => {
+        const time = DateTime.fromFormat(`${date} ${timeStr}`, 'yyyy-MM-dd hh:mm a', {
+            zone: practitionerTimeZone
+        });
 
+        const slotInterval = Interval.fromDateTimes(time, time.plus({ minutes: 1 }));
+        return !blockedIntervals.some(b => b.overlaps(slotInterval));
+    });
+
+    console.log("⛔ Blocked Intervals on", date, blockedIntervals.map(i => i.toString()));
+    console.log("✅ Filtered Slots:", filteredSlots);
     return filteredSlots;
 }
 
@@ -505,16 +504,10 @@ function renderSlots(date, availableSlotGroups) {
     const practitionerTimeZone = document.getElementById('practitioner_timezone')?.value || 'UTC';
     const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-    let durationTime = document.getElementById('duration_time')?.value;
-    let bufferTime = document.getElementById('buffer_time')?.value;
-
-    const durationParts = parseDuration(durationTime || '15 minutes');
-    const bufferParts = parseDuration(bufferTime || '15 minutes');
-
-    console.log('practitionerTimeZone', practitionerTimeZone);
-    console.log('userTimeZone', userTimeZone);
-    console.log('durationTime', durationTime);
-    console.log('bufferTime', bufferTime);
+    const durationTime = document.getElementById('duration_time')?.value || '15 minutes';
+    const bufferTime = document.getElementById('buffer_time')?.value || '0 minutes';
+    const durationParts = parseDuration(durationTime);
+    const bufferParts = parseDuration(bufferTime);
 
     slotsContainer.innerHTML = '';
 
@@ -537,18 +530,9 @@ function renderSlots(date, availableSlotGroups) {
             return;
         }
 
-        let userDateTime, displayTime, tooltipTime;
-        const nextSlot = dt.plus(luxon.Duration.fromObject(durationParts).plus(luxon.Duration.fromObject(bufferParts)));
-        if (userTimeZone === practitionerTimeZone) {
-            userDateTime = dt;
-            displayTime = dt.toFormat('hh:mm a');
-            tooltipTime = `Time: ${displayTime} (${practitionerTimeZone})`;
-        } else {
-            userDateTime = dt.setZone(userTimeZone);
-            displayTime = userDateTime.toFormat('hh:mm a');
-            // tooltipTime = `Your Time: ${displayTime} (${userTimeZone}) | Practitioner: ${dt.toFormat('hh:mm a')} (${practitionerTimeZone}) | Duration: ${durationTime} | Buffer: ${bufferTime}`.trim();
-            tooltipTime = `Your Time: ${displayTime} (${userTimeZone}) | Practitioner: ${dt.toFormat('hh:mm a')} (${practitionerTimeZone}) | Duration: ${durationTime}`.trim();
-        }
+        let userDateTime = dt.setZone(userTimeZone);
+        let displayTime = userDateTime.toFormat('hh:mm a');
+        let tooltipTime = `Your Time: ${displayTime} (${userTimeZone}) | Practitioner: ${dt.toFormat('hh:mm a')} (${practitionerTimeZone}) | Duration: ${durationTime}`;
 
         const isoUserTime = userDateTime.toISO();
 
@@ -569,7 +553,6 @@ function renderSlots(date, availableSlotGroups) {
 
     slotsContainer.appendChild(row);
 
-    // Handle slot selection
     $('.offering-slot').on('click', function () {
         $('.offering-slot').removeClass('active');
         $(this).addClass('active');
@@ -586,6 +569,8 @@ function renderSlots(date, availableSlotGroups) {
             .attr('data-user-timezone', userTimezone);
     });
 }
+
+
 
 
 const prevBtn = document.getElementById('prevMonth');
