@@ -457,61 +457,67 @@ function generateTimeSlots(from = null, to = null, date = null, allDay = false) 
 }
 
 function filterBookedSlots(date, availableSlots) {
-    const { DateTime, Duration, Interval } = luxon;
+    const { DateTime, Duration } = luxon;
+
     const bookedSlots = JSON.parse(document.getElementById('already_booked_slots').value || '[]');
     const bufferTime = document.getElementById('buffer_time')?.value || '0 minutes';
     const bufferParts = parseDuration(bufferTime);
     const buffer = Duration.fromObject(bufferParts);
 
+    const practitionerTimeZone = document.getElementById('practitioner_timezone')?.value || 'UTC';
+
     const blockedIntervals = [];
 
+    // Prepare all blocked intervals
     bookedSlots.forEach(slot => {
         if (slot.date === date) {
             const zone = slot.timezone || 'UTC';
-            let start = DateTime.fromFormat(slot.start_time, 'hh:mm a', { zone });
-            let end = DateTime.fromFormat(slot.end_time, 'hh:mm a', { zone });
+            let start = DateTime.fromFormat(`${date} ${slot.start_time}`, 'yyyy-MM-dd hh:mm a', { zone });
+            let end = DateTime.fromFormat(`${date} ${slot.end_time}`, 'yyyy-MM-dd hh:mm a', { zone });
 
-            // Adjust end time if it's before the start time (e.g., overnight bookings)
+            // Fix overnight bookings
             if (end <= start) {
                 end = end.plus({ days: 1 });
             }
 
-            // Add buffer time only once after the booking
-            const interval = Interval.fromDateTimes(start, end.plus(buffer));
-            blockedIntervals.push(interval);
+            // Push booking interval
+            blockedIntervals.push({
+                start: start.setZone(practitionerTimeZone),
+                end: end.setZone(practitionerTimeZone)
+            });
+
+            // Push buffer interval
+            const bufferEnd = end.plus(buffer);
+            blockedIntervals.push({
+                start: end.setZone(practitionerTimeZone),
+                end: bufferEnd.setZone(practitionerTimeZone)
+            });
         }
     });
 
-    const practitionerTimeZone = document.getElementById('practitioner_timezone')?.value || 'UTC';
+    console.log("⛔ Blocked Intervals on", date, blockedIntervals.map(b => ({
+        start: b.start.toFormat('hh:mm a'),
+        end: b.end.toFormat('hh:mm a')
+    })));
 
-    // Filter available slots based on booked slots and buffer
+    // Filter available slots that do not overlap with blocked intervals
     const filteredSlots = availableSlots.filter(timeStr => {
-        const time = DateTime.fromFormat(`${date} ${timeStr}`, 'yyyy-MM-dd hh:mm a', {
+        const slotStart = DateTime.fromFormat(`${date} ${timeStr}`, 'yyyy-MM-dd hh:mm a', {
             zone: practitionerTimeZone
         });
+        const slotEnd = slotStart.plus({ minutes: 15 });
 
-        // Create a 1-minute interval for the available slot
-        const slotInterval = Interval.fromDateTimes(time, time.plus({ minutes: 1 }));
-
-        // Check if any booked interval overlaps with the available slot
-        return !blockedIntervals.some(b => b.overlaps(slotInterval));
+        return !blockedIntervals.some(b => {
+            return slotStart < b.end && slotEnd > b.start;
+        });
     });
-
-    console.log("⛔ Blocked Intervals on", date, blockedIntervals.flatMap(interval => {
-        const times = [];
-        let current = interval.start;
-
-        while (current < interval.end) {
-            times.push(current.toFormat('hh:mm a')); // Convert to desired format
-            current = current.plus({ minutes: 15 }); // Add 15-minute increment
-        }
-
-        return times; // Flatten the array of time slots
-    }));
 
     console.log("✅ Filtered Slots:", filteredSlots);
     return filteredSlots;
 }
+
+
+
 
 
 function renderSlots(date, availableSlotGroups) {
