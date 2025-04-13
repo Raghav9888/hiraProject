@@ -475,7 +475,7 @@ function filterBookedSlots(date, availableSlots) {
                 end = end.plus({ days: 1 });
             }
 
-            const interval = Interval.fromDateTimes(start, end.plus(buffer));
+            const interval = Interval.fromDateTimes(start, end.plus(buffer));  // Add buffer here
             blockedIntervals.push(interval);
         }
     });
@@ -488,16 +488,13 @@ function filterBookedSlots(date, availableSlots) {
         });
 
         const slotInterval = Interval.fromDateTimes(time, time.plus({ minutes: 1 }));
-        return !blockedIntervals.some(b => b.overlaps(slotInterval));
+        return !blockedIntervals.some(b => b.overlaps(slotInterval));  // If there's no overlap, keep the slot
     });
 
     console.log("⛔ Blocked Intervals on", date, Array.from(blockedIntervals));
     console.log("✅ Filtered Slots:", filteredSlots);
     return filteredSlots;
 }
-
-
-
 
 function renderSlots(date, availableSlotGroups) {
     const slotsContainer = document.getElementById('availableSlots');
