@@ -627,9 +627,9 @@ $(document).on('click', '.proceed_to_checkout', function () {
     const price = $('#offering_price').val();
     const currency = $('#currency').val();
     const currencySymbol = $('#currency_symbol').val();
-    const bookingUserTimezone = $('#booking_time').attr('data-user-timezone');
+    const bookingUserTimezone = $('#booking_time').attr('data-user-timezone') ||  Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-    console.log(currencySymbol)
+    console.log(currencySymbol ,bookingUserTimezone)
     let bookingDate = '';
     let bookingTime = '';
 
