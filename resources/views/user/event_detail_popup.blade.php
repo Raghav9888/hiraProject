@@ -10,7 +10,7 @@
         <p class="mb-2"><i class="fa-solid fa-clock text-muted me-2"></i><strong>Event Duration:</strong> {{@$offering?->event?->event_duration ?? 0}}</p>
         <p class="mb-2"><i class="fa-solid fa-dollar-sign text-muted me-2"></i><strong>Client Price:</strong> {{($currency ?? 'CA$') .' '. ($price ?? '0.00') }} </p>
         <p class="mb-2"><i class="fa-solid fa-calendar text-muted me-2"></i><strong>Date & Time:</strong> {{@$offering->event->date_and_time? date('d M, Y', strtotime($offering->event->date_and_time)): ''}}</p>
-        <p class="mb-0"><i class="fa-solid fa-users text-muted me-2"></i><strong>Total Slots:</strong> {{@$offering->event->sports > 0 ? $offering->event->sports: 0}}</p>
+        <p class="mb-0"><i class="fa-solid fa-users text-muted me-2"></i><strong>Available Slots:</strong> {{@$offering->event->sports > 0 ? $offering->event->sports: 0}}</p>
     </div>
 
     <div class="d-flex justify-content-between align-items-center mt-4">
