@@ -173,13 +173,15 @@ class PaymentController extends Controller
             $vendorId = $order->offering->user_id;
             $vendorStripe = UserStripeSetting::where("user_id", $vendorId)->first();
             $isVendorConnected = $vendorStripe && $vendorStripe->stripe_user_id;
+            $amountInCents = intval($order->total_amount * 100);
+            $platformFee = intval($amountInCents * 0.2486); // 24.86% total platform cut
             $sessionParams = [
                 'payment_method_types' => ['card'],
                 'line_items' => [[
                     'price_data' => [
                         'currency' => $order->currency,
                         'product_data' => ['name' => 'Booking Payment'],
-                        'unit_amount' => $order->total_amount * 100, // in cents
+                        'unit_amount' => $amountInCents, // in cents
                     ],
                     'quantity' => 1,
                 ]],
@@ -190,7 +192,7 @@ class PaymentController extends Controller
 
             if ($isVendorConnected) {
                 $sessionParams['payment_intent_data'] = [
-                    'application_fee_amount' => intval($order->total_amount * 0.22 * 100), // 22% admin cut
+                    'application_fee_amount' => $platformFee, // 22% admin cut
                     'transfer_data' => [
                         'destination' => $vendorStripe->stripe_user_id, // 78% to vendor
                     ],
