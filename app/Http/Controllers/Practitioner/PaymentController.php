@@ -187,7 +187,7 @@ class PaymentController extends Controller
                 ]],
                 'mode' => 'payment',
                 'success_url' => route('confirm-payment', ['order_id' => $order->id]),
-                'cancel_url' => route('payment.cancel', ['order_id' => $order->id]),
+                'cancel_url' => route('home', ['order_id' => $order->id]),
             ];
 
             if ($isVendorConnected) {
