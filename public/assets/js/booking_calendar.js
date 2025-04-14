@@ -365,7 +365,7 @@ function showAvailableSlots(date) {
                     const normalizedDay = dayKey.replace("every_", "").toLowerCase();
                     const dayIndex = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"]
                         .indexOf(normalizedDay);
-
+alert(clickedDayIndex + ' ' +  dayIndex)
                     // ✅ Only generate slots if the clicked date matches this weekday
                     if (clickedDayIndex === dayIndex && fromTime && toTime) {
                         alert(clickedDayIndex === dayIndex)
