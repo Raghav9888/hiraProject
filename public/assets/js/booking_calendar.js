@@ -383,17 +383,26 @@ function showAvailableSlots(date) {
 function parseDuration(str) {
     if (!str) {
         console.error("Duration string is undefined or empty");
-        return {hours: 0, minutes: 0};
+        return { hours: 0, minutes: 0 };
     }
 
-    const hoursMatch = str.match(/(\d+)\s*hour/);
-    const minutesMatch = str.match(/(\d+)\s*minute/);
+    // Handle formats like '1 hour', '1:15 hour', '1:30 hour'
+    const hourColonMatch = str.match(/(\d+):(\d+)\s*hour/);
+    if (hourColonMatch) {
+        const hours = parseInt(hourColonMatch[1], 10);
+        const minutes = parseInt(hourColonMatch[2], 10);
+        return { hours, minutes };
+    }
 
-    const hours = hoursMatch ? parseInt(hoursMatch[1]) : 0;
-    const minutes = minutesMatch ? parseInt(minutesMatch[1]) : 0;
+    const hourMatch = str.match(/(\d+)\s*hour/);
+    const minuteMatch = str.match(/(\d+)\s*minute/);
 
-    return {hours, minutes};
+    const hours = hourMatch ? parseInt(hourMatch[1], 10) : 0;
+    const minutes = minuteMatch ? parseInt(minuteMatch[1], 10) : 0;
+
+    return { hours, minutes };
 }
+
 
 
 function generateTimeSlots(from = null, to = null, date = null, allDay = false) {
