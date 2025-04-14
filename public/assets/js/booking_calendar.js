@@ -371,7 +371,7 @@ function showAvailableSlots(date) {
         // All-day case
         availableSlots = generateTimeSlots(null, null, date, true);
     }
-    alert(availableSlots + 'svd ' + date)
+
     availableSlots = filterBookedSlots(date, availableSlots);
 
     renderSlots(date, availableSlots);
@@ -396,7 +396,7 @@ function parseDuration(durationStr) {
 function generateTimeSlots(from = null, to = null, date = null, allDay = false) {
     const practitionerTimeZone = document.getElementById('practitioner_timezone')?.value || 'UTC';
     const { DateTime, Duration, Interval } = luxon;
-
+    alert(practitionerTimeZone + ' ' + from +' ' + date)
     let durationTime = document.getElementById('duration_time')?.value || '15 minutes';
     let bufferTime = document.getElementById('buffer_time')?.value || '0 minutes';
 
