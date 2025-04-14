@@ -359,6 +359,7 @@ function showAvailableSlots(date) {
                 if (normalizedDay === dayName && storeAvailability[dayKey]?.enabled === "1") {
                     const fromTime = storeAvailability[dayKey]?.from;
                     const toTime = storeAvailability[dayKey]?.to;
+                    alert(fromTime + ' ' + toTime)
                     if (fromTime && toTime) {
                         allSlots = allSlots.concat(generateTimeSlots(fromTime, toTime, date));
                     }
