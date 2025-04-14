@@ -35,7 +35,8 @@ class HomeController extends Controller
         $foundingPlans = [
             'Founding Members T1',
             'Founding Membership - 10 years',
-            'Founding Members T2'
+            'Founding Members T2',
+            'Diamond Pre-Launch Membership'
         ];
         $users = User::where('role', 1)
             ->where('status', 1)
