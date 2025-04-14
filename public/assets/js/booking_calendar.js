@@ -392,7 +392,7 @@ function showAvailableSlots(date) {
                     const dayIndex = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"]
                         .indexOf(normalizedDay);
 
-                   alert("Clicked:" + clickedDayIndex +  "Store:" + dayIndex);
+                   console.log("Clicked index:" + clickedDayIndex +  "Store index:" + dayIndex);
 
                     if (clickedDayIndex === dayIndex && fromTime && toTime) {
                         allSlots = allSlots.concat(generateTimeSlots(fromTime, toTime, date));
