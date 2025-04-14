@@ -550,6 +550,7 @@ function renderSlots(date, availableSlotGroups) {
     row.classList.add('row', 'mb-2');
 
     availableSlotGroups.forEach(timeStr => {
+        // Combine date + time into ISO and parse in practitioner's timezone
         const dateTimeStr = `${date} ${timeStr}`;
         const dt = luxon.DateTime.fromFormat(dateTimeStr, 'yyyy-MM-dd hh:mm a', {
             zone: practitionerTimeZone
@@ -560,20 +561,25 @@ function renderSlots(date, availableSlotGroups) {
             return;
         }
 
-        let userDateTime = dt.setZone(userTimeZone);
-        let displayTime = userDateTime.toFormat('hh:mm a');
-        let tooltipTime = `Your Time: ${displayTime} (${userTimeZone}) | Practitioner: ${dt.toFormat('hh:mm a')} (${practitionerTimeZone}) | Duration: ${durationTime}`;
+        // Convert to user's timezone
+        const userDateTime = dt.setZone(userTimeZone);
 
-        const isoUserTime = userDateTime.toISO();
+        // Display time in user's local time
+        const displayTime = userDateTime.toFormat('hh:mm a');
+        const tooltipTime = `
+            Your Time: ${displayTime} (${userTimeZone})\n
+            Practitioner: ${dt.toFormat('hh:mm a')} (${practitionerTimeZone})\n
+            Duration: ${durationTime}
+        `.trim();
 
         const col = document.createElement('div');
         col.classList.add('col-4', 'my-1');
         col.innerHTML = `
             <button class="btn btn-outline-green w-100 offering-slot"
-                data-user-time="${userDateTime}"
+                data-user-time="${userDateTime.toFormat('yyyy-MM-dd HH:mm')}"
                 data-time="${displayTime}"
                 title="${tooltipTime}"
-                data-iso-time="${isoUserTime}"
+                data-iso-time="${userDateTime.toISO()}"
                 data-user-timezone="${userTimeZone}">
                 ${displayTime}
             </button>
@@ -583,6 +589,7 @@ function renderSlots(date, availableSlotGroups) {
 
     slotsContainer.appendChild(row);
 
+    // Slot selection logic
     $('.offering-slot').on('click', function () {
         $('.offering-slot').removeClass('active');
         $(this).addClass('active');
@@ -599,6 +606,7 @@ function renderSlots(date, availableSlotGroups) {
             .attr('data-user-timezone', userTimezone);
     });
 }
+
 
 
 
