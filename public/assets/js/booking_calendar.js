@@ -371,7 +371,7 @@ function showAvailableSlots(date) {
         // All-day case
         availableSlots = generateTimeSlots(null, null, date, true);
     }
-    alert(availableSlots + ' ' + date)
+    alert(availableSlots + 'svd ' + date)
     availableSlots = filterBookedSlots(date, availableSlots);
 
     renderSlots(date, availableSlots);
