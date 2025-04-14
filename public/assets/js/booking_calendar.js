@@ -316,15 +316,11 @@ function getAllowedDays() {
 function getClickedDayIndex(date) {
     let isoDate;
 
-    // Check if the input is a string with dashes
     if (typeof date === "string" && date.includes("-")) {
         const parts = date.split("-");
-
         if (parts[0].length === 4) {
-            // Already in YYYY-MM-DD
             isoDate = date;
         } else if (parts[2].length === 4) {
-            // Convert from DD-MM-YYYY to YYYY-MM-DD
             const [day, month, year] = parts;
             isoDate = `${year}-${month}-${day}`;
         } else {
@@ -338,9 +334,10 @@ function getClickedDayIndex(date) {
         return null;
     }
 
-    const clickedDate = new Date(isoDate);
-    return clickedDate.getDay(); // 0 = Sunday, 1 = Monday, ...
+    const clickedDate = new Date(`${isoDate}T00:00:00Z`);
+    return clickedDate.getUTCDay(); // always 0 (Sun) to 6 (Sat) consistently
 }
+
 
 
 function showAvailableSlots(date) {
