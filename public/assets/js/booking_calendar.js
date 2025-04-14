@@ -368,7 +368,7 @@ function showAvailableSlots(date) {
 
                     // ✅ Only generate slots if the clicked date matches this weekday
                     if (clickedDayIndex === dayIndex && fromTime && toTime) {
-                        console.log(clickedDayIndex === dayIndex)
+                        alert(clickedDayIndex === dayIndex)
                         allSlots = allSlots.concat(generateTimeSlots(fromTime, toTime, date));
                     }
                 }
