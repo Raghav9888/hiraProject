@@ -354,8 +354,10 @@ function showAvailableSlots(date) {
                 allSlots = generateTimeSlots(fromTime, toTime, date);
             }
         } else {
-            const clickedDate = new Date(date);
-            const clickedDayIndex = clickedDate.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+            const [day, month, year] = date.split("-");
+            const isoDate = `${year}-${month}-${day}`;
+            const clickedDate = new Date(isoDate);
+            const clickedDayIndex = clickedDate.getDay(); // 0 = Sunday, ..., 6 = Saturday
 
             Object.keys(storeAvailability).forEach(dayKey => {
                 if (storeAvailability[dayKey]?.enabled === "1") {
@@ -365,14 +367,15 @@ function showAvailableSlots(date) {
                     const normalizedDay = dayKey.replace("every_", "").toLowerCase();
                     const dayIndex = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"]
                         .indexOf(normalizedDay);
-alert(clickedDayIndex + ' ' +  dayIndex)
-                    // ✅ Only generate slots if the clicked date matches this weekday
+
+                    alert(clickedDayIndex + ' ' + dayIndex); // Now this will be correct on mobile too
+
                     if (clickedDayIndex === dayIndex && fromTime && toTime) {
-                        alert(clickedDayIndex === dayIndex)
-                        allSlots = allSlots.concat(generateTimeSlots(fromTime, toTime, date));
+                        allSlots = allSlots.concat(generateTimeSlots(fromTime, toTime, isoDate));
                     }
                 }
             });
+
         }
 
         availableSlots = [...new Set(allSlots)];
