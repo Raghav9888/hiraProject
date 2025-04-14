@@ -314,18 +314,20 @@ function getAllowedDays() {
 }
 
 function showAvailableSlots(date) {
+
     const slotsContainer = document.getElementById('availableSlots');
     const availability = document.getElementById('availability')?.value || 'own_specific_date';
     const dateLabel = document.getElementById('selectedDate');
     const storeAvailabilityRaw = document.getElementById('store-availability')?.value;
 
-    // Format and show selected date
+    // // Format and show selected date
     dateLabel.innerText = new Date(date).toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'long',
         day: 'numeric',
     });
 
+    //
     let availableSlots = [];
 
     if (availability === 'following_store_hours') {
@@ -345,18 +347,28 @@ function showAvailableSlots(date) {
         let allSlots = [];
 
         if (storeAvailability.every_day?.enabled === "1") {
-            const fromTime = storeAvailability.every_day?.from;
-            const toTime = storeAvailability.every_day?.to;
-            if (fromTime && toTime) {
+            let fromTime = storeAvailability.every_day?.from;
+            let toTime = storeAvailability.every_day?.to;
+
+            if (fromTime && toTime ) {
                 allSlots = generateTimeSlots(fromTime, toTime, date);
             }
         } else {
+            const clickedDate = new Date(date);
+            const clickedDayIndex = clickedDate.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+
             Object.keys(storeAvailability).forEach(dayKey => {
                 if (storeAvailability[dayKey]?.enabled === "1") {
                     const fromTime = storeAvailability[dayKey]?.from;
                     const toTime = storeAvailability[dayKey]?.to;
 
-                    if (fromTime && toTime) {
+                    const normalizedDay = dayKey.replace("every_", "").toLowerCase();
+                    const dayIndex = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"]
+                        .indexOf(normalizedDay);
+
+                    // ✅ Only generate slots if the clicked date matches this weekday
+                    if (clickedDayIndex === dayIndex && fromTime && toTime) {
+                        console.log(clickedDayIndex === dayIndex)
                         allSlots = allSlots.concat(generateTimeSlots(fromTime, toTime, date));
                     }
                 }
