@@ -313,6 +313,36 @@ function getAllowedDays() {
     return dayMapping[availability] || [];
 }
 
+function getClickedDayIndex(date) {
+    let isoDate;
+
+    // Check if the input is a string with dashes
+    if (typeof date === "string" && date.includes("-")) {
+        const parts = date.split("-");
+
+        if (parts[0].length === 4) {
+            // Already in YYYY-MM-DD
+            isoDate = date;
+        } else if (parts[2].length === 4) {
+            // Convert from DD-MM-YYYY to YYYY-MM-DD
+            const [day, month, year] = parts;
+            isoDate = `${year}-${month}-${day}`;
+        } else {
+            console.error("Invalid date format:", date);
+            return null;
+        }
+    } else if (date instanceof Date) {
+        isoDate = date.toISOString().split("T")[0];
+    } else {
+        console.error("Unrecognized date format:", date);
+        return null;
+    }
+
+    const clickedDate = new Date(isoDate);
+    return clickedDate.getDay(); // 0 = Sunday, 1 = Monday, ...
+}
+
+
 function showAvailableSlots(date) {
 
     const slotsContainer = document.getElementById('availableSlots');
@@ -354,10 +384,7 @@ function showAvailableSlots(date) {
                 allSlots = generateTimeSlots(fromTime, toTime, date);
             }
         } else {
-            const [day, month, year] = date.split("-");
-            const isoDate = `${year}-${month}-${day}`;
-            const clickedDate = new Date(isoDate);
-            const clickedDayIndex = clickedDate.getDay(); // 0 = Sunday, ..., 6 = Saturday
+            const clickedDayIndex = getClickedDayIndex(date);
 
             Object.keys(storeAvailability).forEach(dayKey => {
                 if (storeAvailability[dayKey]?.enabled === "1") {
@@ -368,13 +395,14 @@ function showAvailableSlots(date) {
                     const dayIndex = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"]
                         .indexOf(normalizedDay);
 
-                    alert(clickedDayIndex + ' ' + dayIndex); // Now this will be correct on mobile too
+                   alert("Clicked:" + clickedDayIndex +  "Store:" + dayIndex);
 
                     if (clickedDayIndex === dayIndex && fromTime && toTime) {
-                        allSlots = allSlots.concat(generateTimeSlots(fromTime, toTime, isoDate));
+                        allSlots = allSlots.concat(generateTimeSlots(fromTime, toTime, date));
                     }
                 }
             });
+
 
         }
 
