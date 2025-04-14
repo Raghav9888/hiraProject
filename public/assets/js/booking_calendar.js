@@ -10,7 +10,6 @@ function formatDate(date) {
     return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
 }
 
-
 function openPopup(event) {
     event.preventDefault();
     window.loadingScreen.addPageLoading();
@@ -149,7 +148,6 @@ function openPopup(event) {
 
     window.loadingScreen.removeLoading();
 }
-
 
 function generateCalendar(month, year) {
     const firstDay = new Date(year, month, 1);
@@ -315,7 +313,6 @@ function getAllowedDays() {
     return dayMapping[availability] || [];
 }
 
-
 function showAvailableSlots(date) {
     const slotsContainer = document.getElementById('availableSlots');
     const availability = document.getElementById('availability')?.value || 'own_specific_date';
@@ -380,30 +377,21 @@ function showAvailableSlots(date) {
     renderSlots(date, availableSlots);
 }
 
-function parseDuration(str) {
-    if (!str) {
-        console.error("Duration string is undefined or empty");
-        return { hours: 0, minutes: 0 };
+function parseDuration(durationStr) {
+    // Example: '15 minutes' -> { minutes: 15 }
+    const regex = /(\d+)\s*(minutes|hour|hours|minute)/i;
+    const match = durationStr.match(regex);
+    if (match) {
+        const value = parseInt(match[1], 10);
+        const unit = match[2].toLowerCase();
+        if (unit === 'minutes' || unit === 'minute') {
+            return { minutes: value };
+        } else if (unit === 'hour' || unit === 'hours') {
+            return { hours: value };
+        }
     }
-
-    // Handle formats like '1 hour', '1:15 hour', '1:30 hour'
-    const hourColonMatch = str.match(/(\d+):(\d+)\s*hour/);
-    if (hourColonMatch) {
-        const hours = parseInt(hourColonMatch[1], 10);
-        const minutes = parseInt(hourColonMatch[2], 10);
-        return { hours, minutes };
-    }
-
-    const hourMatch = str.match(/(\d+)\s*hour/);
-    const minuteMatch = str.match(/(\d+)\s*minute/);
-
-    const hours = hourMatch ? parseInt(hourMatch[1], 10) : 0;
-    const minutes = minuteMatch ? parseInt(minuteMatch[1], 10) : 0;
-
-    return { hours, minutes };
+    return { minutes: 0 };  
 }
-
-
 
 function generateTimeSlots(from = null, to = null, date = null, allDay = false) {
     const practitionerTimeZone = document.getElementById('practitioner_timezone')?.value || 'UTC';
@@ -525,21 +513,18 @@ function filterBookedSlots(date, availableSlots) {
     return filteredSlots;
 }
 
-
-
-
-
 function renderSlots(date, availableSlotGroups) {
     const slotsContainer = document.getElementById('availableSlots');
-    const practitionerTimeZone = document.getElementById('practitioner_timezone')?.value || 'UTC';
-    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const practitionerTimeZone = document.getElementById('practitioner_timezone')?.value || 'UTC';  // Default to UTC if missing
+    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;  // Get user’s local timezone
 
     const durationTime = document.getElementById('duration_time')?.value || '15 minutes';
     const bufferTime = document.getElementById('buffer_time')?.value || '0 minutes';
-    const durationParts = parseDuration(durationTime);
-    const bufferParts = parseDuration(bufferTime);
 
-    slotsContainer.innerHTML = '';
+    const durationParts = parseDuration(durationTime);  // Parse duration time if needed
+    const bufferParts = parseDuration(bufferTime);  // Parse buffer time if needed
+
+    slotsContainer.innerHTML = ''; // Clear existing slots
 
     if (!availableSlotGroups || availableSlotGroups.length === 0) {
         slotsContainer.innerHTML = '<p class="text-muted">No available slots</p>';
@@ -549,29 +534,35 @@ function renderSlots(date, availableSlotGroups) {
     const row = document.createElement('div');
     row.classList.add('row', 'mb-2');
 
+    // Iterate through available slots
     availableSlotGroups.forEach(timeStr => {
-        // Combine date + time into ISO and parse in practitioner's timezone
+        // Combine date + time and parse it in the practitioner's timezone
         const dateTimeStr = `${date} ${timeStr}`;
+
         const dt = luxon.DateTime.fromFormat(dateTimeStr, 'yyyy-MM-dd hh:mm a', {
-            zone: practitionerTimeZone
+            zone: practitionerTimeZone  // Parse in the practitioner's timezone
         });
 
+        // Check if the DateTime object is valid
         if (!dt.isValid) {
-            console.warn("Invalid slot format:", dateTimeStr);
+            console.warn("Invalid slot format:", dateTimeStr, dt.invalidReason);
             return;
         }
 
-        // Convert to user's timezone
+        // Convert this date to the user's timezone
         const userDateTime = dt.setZone(userTimeZone);
 
-        // Display time in user's local time
+        // Display time in user's local time zone
         const displayTime = userDateTime.toFormat('hh:mm a');
+
+        // Tooltip: Show both user time and practitioner time
         const tooltipTime = `
             Your Time: ${displayTime} (${userTimeZone})\n
             Practitioner: ${dt.toFormat('hh:mm a')} (${practitionerTimeZone})\n
             Duration: ${durationTime}
         `.trim();
 
+        // Create slot button
         const col = document.createElement('div');
         col.classList.add('col-4', 'my-1');
         col.innerHTML = `
@@ -589,7 +580,7 @@ function renderSlots(date, availableSlotGroups) {
 
     slotsContainer.appendChild(row);
 
-    // Slot selection logic
+    // Slot selection handler
     $('.offering-slot').on('click', function () {
         $('.offering-slot').removeClass('active');
         $(this).addClass('active');
@@ -605,7 +596,15 @@ function renderSlots(date, availableSlotGroups) {
             .attr('data-iso-time', selectedIsoTime)
             .attr('data-user-timezone', userTimezone);
     });
+
+    console.log('Slots rendered for date:', date);
+    console.log('User Timezone:', userTimeZone);
+    console.log('Practitioner Timezone:', practitionerTimeZone);
 }
+
+
+
+
 
 
 
