@@ -373,7 +373,7 @@ function showAvailableSlots(date) {
     }
 
     availableSlots = filterBookedSlots(date, availableSlots);
-alert(availableSlots)
+alert(availableSlots + ' ' + date)
     renderSlots(date, availableSlots);
 }
 
