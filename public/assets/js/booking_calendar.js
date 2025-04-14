@@ -355,11 +355,11 @@ function showAvailableSlots(date) {
                 const normalizedDay = dayKey.replace("every_", "").toLowerCase();
                 const targetDate = new Date(date);
                 const dayName = targetDate.toLocaleDateString('en-US', {weekday: 'long'}).toLowerCase();
-
-                if (normalizedDay === dayName && storeAvailability[dayKey]?.enabled === "1") {
+            
+                if (storeAvailability[dayKey]?.enabled === "1") {
                     const fromTime = storeAvailability[dayKey]?.from;
                     const toTime = storeAvailability[dayKey]?.to;
-                    alert(fromTime + ' ' + toTime)
+
                     if (fromTime && toTime) {
                         allSlots = allSlots.concat(generateTimeSlots(fromTime, toTime, date));
                     }
