@@ -352,10 +352,6 @@ function showAvailableSlots(date) {
             }
         } else {
             Object.keys(storeAvailability).forEach(dayKey => {
-                const normalizedDay = dayKey.replace("every_", "").toLowerCase();
-                const targetDate = new Date(date);
-                const dayName = targetDate.toLocaleDateString('en-US', {weekday: 'long'}).toLowerCase();
-            
                 if (storeAvailability[dayKey]?.enabled === "1") {
                     const fromTime = storeAvailability[dayKey]?.from;
                     const toTime = storeAvailability[dayKey]?.to;
