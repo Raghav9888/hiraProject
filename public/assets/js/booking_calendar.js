@@ -390,7 +390,7 @@ function parseDuration(durationStr) {
             return { hours: value };
         }
     }
-    return { minutes: 0 };  
+    return { minutes: 0 };
 }
 
 function generateTimeSlots(from = null, to = null, date = null, allDay = false) {
