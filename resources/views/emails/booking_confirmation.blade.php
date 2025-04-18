@@ -29,7 +29,7 @@
 </ul>
 
 <h3>Here are your booking details:</h3>
-@if($isPractitioner)
+@if(@$isPractitioner)
     <table style="border-collapse: collapse; width: 100%; max-width: 600px;">
 
         <tr>
@@ -55,7 +55,6 @@
             </tr>
         @endif
     </table>
-
 @else
     <table style="border-collapse: collapse; width: 100%; max-width: 600px;">
         <tr>
