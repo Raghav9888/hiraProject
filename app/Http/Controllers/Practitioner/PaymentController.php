@@ -345,7 +345,7 @@ class PaymentController extends Controller
         if (!$response['success']) {
             throw new \Exception($response['error']);
         }
-        $response['practitioner_date_time'] = $startTime->toIso8601String();
+        $response['practitioner_date_time'] = $practitionerDateTime->toIso8601String();
         return $response;
 
     }
