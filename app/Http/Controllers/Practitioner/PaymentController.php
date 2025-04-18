@@ -331,12 +331,13 @@ class PaymentController extends Controller
             'timezone' => $practitionerTimezone,
             'email' => $order->billing_email,
             'guest_email' => $order->billing_email,
+            'offering_type' => $offering->offering_type,
         ];
 
         // Google Calendar API Integration
         $googleCalendar = new GoogleCalendarController();
 
-        $response = $googleCalendar->createGoogleEvent($eventData, $offering);
+        $response = $googleCalendar->createGoogleEvent($eventData);
 
         if (!$response['success']) {
             throw new \Exception($response['error']);

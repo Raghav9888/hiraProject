@@ -77,7 +77,7 @@ class GoogleCalendarController extends Controller
         }
     }
 
-    public function createGoogleEvent($data, $offering = null): array
+    public function createGoogleEvent($data): array
     {
 
         $googleAccount = GoogleAccount::where('user_id', $data['user_id'])->firstOrFail();
@@ -116,7 +116,7 @@ class GoogleCalendarController extends Controller
                 ]
             ],
         ];
-        dd($createEvent);
+
         if ($data['offering_type'] === 'virtual') {
             $createEvent['attendees'] = [
                 ['email' => $data['guest_email']],
@@ -129,7 +129,7 @@ class GoogleCalendarController extends Controller
             ];
         }
 
-        dd($createEvent);
+        dd($createEvent ,$data);
 
         $event = new Google_Service_Calendar_Event($createEvent);
 
