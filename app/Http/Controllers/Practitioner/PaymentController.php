@@ -246,11 +246,14 @@ class PaymentController extends Controller
         $practitionerEmailTemplate = $offering->email_template;
         $intakeForms = $offering->intake_form;
         $response = $this->createGoogleCalendarEvent($order);
-        dd($response);
+        $response['order'] = $order;
+        $response['isPractitioner'] = false;
         // Send confirmation email to the user
-        Mail::to($order->billing_email)->send(new BookingConfirmationMail($order, $practitionerEmailTemplate, $intakeForms));
+        Mail::to($order->billing_email)->send(new BookingConfirmationMail($order, $practitionerEmailTemplate, $intakeForms,$response));
+
+        $response['isPractitioner'] = true;
         // Send confirmation email to the practitioner
-        Mail::to($offering->user->email)->send(new BookingConfirmationMail($order, $practitionerEmailTemplate, $intakeForms));
+        Mail::to($offering->user->email)->send(new BookingConfirmationMail($order, $practitionerEmailTemplate, $intakeForms ,$response));
 
         return redirect()->route('thankyou')->with('success', 'Payment successful!');
 
