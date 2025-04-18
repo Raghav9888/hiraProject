@@ -82,7 +82,7 @@ class GoogleCalendarController extends Controller
 
         $googleAccount = GoogleAccount::where('user_id', $data['user_id'])->firstOrFail();
         $accessToken = json_decode($googleAccount->access_token, true);
-        dd($accessToken ,$googleAccount);
+
         $client = new Google_Client();
         $client->setAuthConfig(storage_path('app/google/calendar/credential.json'));
         $client->setAccessToken($accessToken);
@@ -96,7 +96,7 @@ class GoogleCalendarController extends Controller
                 throw new \Exception('Google Token Expired. Please reauthorize.');
             }
         }
-
+        dd($accessToken ,$googleAccount);
         $calendarService = new Google_Service_Calendar($client);
 
         $createEvent = [
