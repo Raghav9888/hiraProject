@@ -129,10 +129,10 @@ class GoogleCalendarController extends Controller
             ];
         }
 
-        dd($createEvent ,$data);
+
 
         $event = new Google_Service_Calendar_Event($createEvent);
-
+        dd($event);
         $params = ($data['offering_type'] === 'virtual')
             ? ['conferenceDataVersion' => 1, 'sendUpdates' => 'all']
             : [];
