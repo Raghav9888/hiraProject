@@ -36,7 +36,7 @@
     <table style="border-collapse: collapse; width: 100%; max-width: 600px;">
         <tr>
             <td style="padding: 8px; border: 1px solid #ccc;"><strong>User Name:</strong></td>
-            <td style="padding: 8px; border: 1px solid #ccc;">{{ @$order->first_name  . ' ' . @$order->last_name }}</td>
+            <td style="padding: 8px; border: 1px solid #ccc;">{{ @$response['order']->first_name  . ' ' . @$response['order']->last_name }}</td>
         </tr>
         <tr>
             <td style="padding: 8px; border: 1px solid #ccc;"><strong>Offering Name:</strong></td>
