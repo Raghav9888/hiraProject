@@ -274,7 +274,7 @@ class PaymentController extends Controller
         // Booking date and time (from user input)
         $bookingDate = $order->booking_date;     // e.g., '2025-04-16'
         $bookingTime = $order->time_slot;        // e.g., '11:30 AM'
-dd($bookingDate, $bookingTime);
+
         // Convert user input to Carbon datetime object
         if ($offering->offering_event_type === 'event') {
             $userDateTime = Carbon::createFromFormat('Y-m-d H:i:s', "$bookingDate $bookingTime", $userTimezone);
@@ -330,9 +330,9 @@ dd($bookingDate, $bookingTime);
         ];
 
         // Google Calendar API Integration
-//        try {
+        try {
             $googleCalendar = new GoogleCalendarController();
-            $response = $googleCalendar->createGoogleEvent($eventData); // expects 'start' and 'end' with 'dateTime' and 'timeZone'
+            $response = $googleCalendar->createGoogleEvent($eventData ,$offering); // expects 'start' and 'end' with 'dateTime' and 'timeZone'
 
             if (!$response['success']) {
                 throw new \Exception($response['error']);
@@ -340,13 +340,13 @@ dd($bookingDate, $bookingTime);
 
             return $response;
 
-//        } catch (\Exception $e) {
-//            \Log::error('Error creating Google Calendar event', [
-//                'error' => $e->getMessage(),
-//                'eventData' => $eventData
-//            ]);
-//            return null;
-//        }
+        } catch (\Exception $e) {
+            \Log::error('Error creating Google Calendar event', [
+                'error' => $e->getMessage(),
+                'eventData' => $eventData
+            ]);
+            return null;
+        }
     }
 
 

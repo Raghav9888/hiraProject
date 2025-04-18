@@ -77,9 +77,9 @@ class GoogleCalendarController extends Controller
         }
     }
 
-    public function createGoogleEvent($data): array
+    public function createGoogleEvent($data , $offering = null): array
     {
-//        try {
+        try {
             $googleAccount = GoogleAccount::where('user_id', $data['user_id'])->firstOrFail();
             $accessToken = json_decode($googleAccount->access_token, true);
 
@@ -99,7 +99,6 @@ class GoogleCalendarController extends Controller
             }
 
             $calendarService = new Google_Service_Calendar($client);
-
 
             $createEvent = [
                 'summary' => $data['title'],
@@ -128,30 +127,46 @@ class GoogleCalendarController extends Controller
                 ],
             ];
 
-            dd($createEvent);
+            if($offering->offering_type == 'virtual')
+            {
+                $createEvent['attendees'] = [
+                ['email' => $data['guest_email']],
+            ];
+                $createEvent['conferenceData'] =[
+                'createRequest' => [
+                    'conferenceSolutionKey' => ['type' => 'hangoutsMeet'],
+                    'requestId' => uniqid(),
+                ],
+            ];
+                $createEvent['extendedProperties'] = [
+                'private' => [
+                    'category' => $data['category'],
+                ]
+            ];
+            }
+
             $event = new Google_Service_Calendar_Event($createEvent);
+            $createdEvent = null;
 
-            $createdEvent = $calendarService->events->insert(
-                'primary',
-                $event,
-                ['conferenceDataVersion' => 1, 'sendUpdates' => 'all'] //  ensures the email is sent
-            );
+            if($offering->offering_type == 'virtual'){
+                $createdEvent = $calendarService->events->insert('primary', $event, ['conferenceDataVersion' => 1, 'sendUpdates' => 'all']);
+                $meetLink = optional($createdEvent->getConferenceData())->getEntryPoints()[0]->getUri() ?? null;
+            }
 
-            $meetLink = optional($createdEvent->getConferenceData())->getEntryPoints()[0]->getUri() ?? null;
 
             return [
                 'success' => true,
-                'meet_link' => $meetLink,
-                'google_event_id' => $createdEvent->getId(),
+                'meet_link' => $meetLink ?? null,
+                'google_event_id' => $createdEvent ?$createdEvent?->getId() : null,
             ];
 
-//        } catch (\Exception $e) {
-//            \Log::error('Google Calendar API Error: ' . $e->getMessage());
-//            return [
-//                'success' => false,
-//                'error' => $e->getMessage()
-//            ];
-//        }
+        } catch (\Exception $e) {
+            \Log::error('Google Calendar API Error: ' . $e->getMessage());
+            return [
+                'success' => false,
+                'error' => $e->getMessage()
+            ];
+        }
     }
 
 
