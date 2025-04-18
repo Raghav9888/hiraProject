@@ -13,6 +13,7 @@ use App\Models\Payment;
 use App\Models\Booking;
 use App\Models\Offering;
 use Carbon\Carbon;
+use Google\Service\Exception;
 use Google_Service_Calendar_Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -263,9 +264,13 @@ class PaymentController extends Controller
         }
     }
 
+    /**
+     * @throws Exception
+     * @throws \Google\Exception
+     */
     private function createGoogleCalendarEvent($order): ?array
     {
-        try {
+
             $offering = Offering::findOrFail($order->offering_id);
             $user = User::with('userDetail')->findOrFail($offering->user_id);
 
@@ -347,10 +352,6 @@ class PaymentController extends Controller
 
             return $response;
 
-        } catch (\Exception $e) {
-            \Log::error('Google Calendar Event Creation Failed: ' . $e->getMessage());
-            throw $e;
-        }
     }
 
 
