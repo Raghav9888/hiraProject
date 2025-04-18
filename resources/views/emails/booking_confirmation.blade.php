@@ -30,9 +30,9 @@
 
 <h3>Here are your booking details:</h3>
 <?php
-dd($response['isPractitioner']);
+
 ?>
-@if(@$response->isPractitioner)
+@if(@$response['isPractitioner'])
     <table style="border-collapse: collapse; width: 100%; max-width: 600px;">
         <tr>
             <td style="padding: 8px; border: 1px solid #ccc;"><strong>User Name:</strong></td>
@@ -44,7 +44,7 @@ dd($response['isPractitioner']);
         </tr>
         <tr>
             <td style="padding: 8px; border: 1px solid #ccc;"><strong>Offering Date/Time:</strong></td>
-            <td style="padding: 8px; border: 1px solid #ccc;">{{ $response->practitioner_date_time  }}</td>
+            <td style="padding: 8px; border: 1px solid #ccc;">{{ $response['practitioner_date_time']  }}</td>
         </tr>
         <tr>
             <td style="padding: 8px; border: 1px solid #ccc;"><strong>Offering Type:</strong></td>
@@ -59,7 +59,7 @@ dd($response['isPractitioner']);
         @endif
         <tr>
             <td style="padding: 8px; border: 1px solid #ccc;"><strong>Meeting link:</strong></td>
-            <td style="padding: 8px; border: 1px solid #ccc;">{{ @$response->meet_link }}</td>
+            <td style="padding: 8px; border: 1px solid #ccc;">{{ @$response['meet_link'] }}</td>
         </tr>
     </table>
 @else
@@ -89,7 +89,7 @@ dd($response['isPractitioner']);
         @endif
         <tr>
             <td style="padding: 8px; border: 1px solid #ccc;"><strong>Meeting link:</strong></td>
-            <td style="padding: 8px; border: 1px solid #ccc;">{{ @$response->meet_link }}</td>
+            <td style="padding: 8px; border: 1px solid #ccc;">{{ @$response['meet_link'] }}</td>
         </tr>
     </table>
 @endif
