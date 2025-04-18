@@ -249,7 +249,7 @@ class PaymentController extends Controller
             $response = $this->createGoogleCalendarEvent($order);
             // Send confirmation email
             Mail::to($order->billing_email)->send(new BookingConfirmationMail($order, $practitionerEmailTemplate, $intakeForms));
-
+            Mail::to($offering->user->email)->send(new BookingConfirmationMail($order, $practitionerEmailTemplate, $intakeForms));
             return redirect()->route('thankyou')->with('success', 'Payment successful!');
 
         } catch (\Exception $e) {
@@ -326,23 +326,23 @@ class PaymentController extends Controller
 
 
         // Google Calendar API Integration
-//        try {
+        try {
             $googleCalendar = new GoogleCalendarController();
             $response = $googleCalendar->createGoogleEvent($eventData);
 
-//            if (!$response['success']) {
-//                throw new \Exception($response['error']);
-//            }
+            if (!$response['success']) {
+                throw new \Exception($response['error']);
+            }
 
             return $response; // Contains meet_link and event_id
 
-//        } catch (\Exception $e) {
-//            \Log::error('Error creating Google Calendar event', [
-//                'error' => $e->getMessage(),
-//                'eventData' => $eventData
-//            ]);
-//            return null;
-//        }
+        } catch (\Exception $e) {
+            \Log::error('Error creating Google Calendar event', [
+                'error' => $e->getMessage(),
+                'eventData' => $eventData
+            ]);
+            return null;
+        }
     }
 
 
