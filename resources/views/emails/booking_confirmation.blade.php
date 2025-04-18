@@ -29,45 +29,38 @@
 </ul>
 
 <h3>Here are your booking details:</h3>
-@if($isPractitioner)
-    <table style="border-collapse: collapse; width: 100%; max-width: 600px;">
+
+<table style="border-collapse: collapse; width: 100%; max-width: 600px;">
+    @if($isPractitioner)
         <tr>
             <td style="padding: 8px; border: 1px solid #ccc;"><strong>User Name:</strong></td>
             <td style="padding: 8px; border: 1px solid #ccc;">{{ @$order->first_name  . ' ' . @$order->last_name }}</td>
         </tr>
-        <tr>
-            <td style="padding: 8px; border: 1px solid #ccc;"><strong>Offering Name:</strong></td>
-            <td style="padding: 8px; border: 1px solid #ccc;">{{ @$user->offering->name }}</td>
-        </tr>
-        <tr>
-            <td style="padding: 8px; border: 1px solid #ccc;"><strong>Offering Date/Time:</strong></td>
-            <td style="padding: 8px; border: 1px solid #ccc;">{{ @$user->booking_date }} - {{@$user->time_slot}}</td>
-        </tr>
-        <tr>
-            <td style="padding: 8px; border: 1px solid #ccc;"><strong>Offering Type:</strong></td>
-            <td style="padding: 8px; border: 1px solid #ccc;">{{ @$user->offering->offering_type }}</td>
-        </tr>
-    </table>
-@else
-    <table style="border-collapse: collapse; width: 100%; max-width: 600px;">
+    @else
         <tr>
             <td style="padding: 8px; border: 1px solid #ccc;"><strong>Practitioner Name:</strong></td>
             <td style="padding: 8px; border: 1px solid #ccc;">{{ @$user->offering->user->name }}</td>
         </tr>
+    @endif
+    <tr>
+        <td style="padding: 8px; border: 1px solid #ccc;"><strong>Offering Name:</strong></td>
+        <td style="padding: 8px; border: 1px solid #ccc;">{{ @$user->offering->name }}</td>
+    </tr>
+    <tr>
+        <td style="padding: 8px; border: 1px solid #ccc;"><strong>Offering Date/Time:</strong></td>
+        <td style="padding: 8px; border: 1px solid #ccc;">{{ @$user->booking_date }} - {{@$user->time_slot}}</td>
+    </tr>
+    <tr>
+        <td style="padding: 8px; border: 1px solid #ccc;"><strong>Offering Type:</strong></td>
+        <td style="padding: 8px; border: 1px solid #ccc;">{{ @$user->offering->offering_type }}</td>
+    </tr>
+    @if(@$user->offering->offering_type == 'in-person')
         <tr>
-            <td style="padding: 8px; border: 1px solid #ccc;"><strong>Offering Name:</strong></td>
-            <td style="padding: 8px; border: 1px solid #ccc;">{{ @$user->offering->name }}</td>
+            <td style="padding: 8px; border: 1px solid #ccc;"><strong>Location:</strong></td>
+            <td style="padding: 8px; border: 1px solid #ccc;">{{ @$user->offering->location }}</td>
         </tr>
-        <tr>
-            <td style="padding: 8px; border: 1px solid #ccc;"><strong>Offering Date/Time:</strong></td>
-            <td style="padding: 8px; border: 1px solid #ccc;">{{ @$user->booking_date }} - {{@$user->time_slot}}</td>
-        </tr>
-        <tr>
-            <td style="padding: 8px; border: 1px solid #ccc;"><strong>Offering Type:</strong></td>
-            <td style="padding: 8px; border: 1px solid #ccc;">{{ @$user->offering->offering_type }}</td>
-        </tr>
-    </table>
-@endif
+    @endif
+</table>
 
 
 <p>This moment matters. We’re so glad you’re here.</p>
