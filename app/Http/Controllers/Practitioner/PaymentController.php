@@ -259,9 +259,6 @@ class PaymentController extends Controller
 
     }
 
-    /**
-     * @throws \Exception
-     */
     private function createGoogleCalendarEvent($order): ?array
     {
         $offering = Offering::findOrFail($order->offering_id);
@@ -271,8 +268,8 @@ class PaymentController extends Controller
         $practitionerTimezone = $user->userDetail->timezone ?? 'UTC';
         $userTimezone = $order->user_timezone ?? $practitionerTimezone;
 
-        // Booking date and time (from user input)
-        $bookingDate = $order->booking_date;     // e.g., '2025-04-16'
+        // Booking date and time from user input
+        $bookingDate = $order->booking_date;     // e.g., '2025-04-26'
         $bookingTime = $order->time_slot;        // e.g., '11:30 AM'
 
         // Convert user input to Carbon datetime object
@@ -285,8 +282,15 @@ class PaymentController extends Controller
         // Convert to practitioner's timezone
         $practitionerDateTime = $userDateTime->copy()->setTimezone($practitionerTimezone);
 
-        // Determine day of the week in practitioner's timezone
-        $dayOfWeek = strtolower($practitionerDateTime->format('l'));
+        // Logging timezone conversion
+        dd("Booking Debug Log", [
+            'user_timezone' => $userTimezone,
+            'practitioner_timezone' => $practitionerTimezone,
+            'booking_date' => $bookingDate,
+            'booking_time' => $bookingTime,
+            'user_datetime' => $userDateTime->toDateTimeString(),
+            'practitioner_datetime' => $practitionerDateTime->toDateTimeString(),
+        ]);
 
         // Duration logic
         if ($offering->offering_event_type === 'event') {
@@ -295,6 +299,7 @@ class PaymentController extends Controller
         } else {
             $storeAvailabilities = json_decode($user->userDetail->store_availabilities, true) ?? [];
 
+            $dayOfWeek = strtolower($practitionerDateTime->format('l'));
             $availabilityKey = in_array($dayOfWeek, ['saturday', 'sunday'])
                 ? "weekends_only_-_every_sat_&_sundays"
                 : "every_{$dayOfWeek}";
@@ -310,7 +315,7 @@ class PaymentController extends Controller
         // Calculate end time
         $endTime = $startTime->copy()->addMinutes($duration);
 
-        // Proper event data with timeZone fields
+        // Prepare Google event data
         $eventData = [
             'title' => 'Booking From ' . env('APP_NAME') . ': ' . trim(($order->first_name ?? '') . ' ' . ($order->last_name ?? '')),
             'category' => 'Booking',
@@ -329,25 +334,18 @@ class PaymentController extends Controller
             'guest_email' => $order->billing_email,
         ];
 
-        // Google Calendar API Integration
-        try {
-            $googleCalendar = new GoogleCalendarController();
-            $response = $googleCalendar->createGoogleEvent($eventData ,$offering); // expects 'start' and 'end' with 'dateTime' and 'timeZone'
+        // Create Google Calendar event
+        $googleCalendar = new GoogleCalendarController();
+        $response = $googleCalendar->createGoogleEvent($eventData, $offering);
 
-            if (!$response['success']) {
-                throw new \Exception($response['error']);
-            }
-
-            return $response;
-
-        } catch (\Exception $e) {
-            \Log::error('Error creating Google Calendar event', [
-                'error' => $e->getMessage(),
-                'eventData' => $eventData
-            ]);
-            return null;
+        if (!$response['success']) {
+            throw new \Exception($response['error']);
         }
+
+        return $response;
     }
+
+
 
 
 
