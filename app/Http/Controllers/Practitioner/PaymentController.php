@@ -294,11 +294,6 @@ class PaymentController extends Controller
             $practitionerTimezone
         );
 
-        // Log final datetime objects
-        dd("Booking Debug Log", [
-            'user_datetime' => Carbon::createFromFormat('Y-m-d h:i A', "$bookingDate $bookingTime", $userTimezone)->toDateTimeString(),
-            'practitioner_datetime' => $practitionerDateTime->toDateTimeString(),
-        ]);
 
         // Determine day of the week in practitioner's timezone
         $dayOfWeek = strtolower($practitionerDateTime->format('l'));
@@ -343,7 +338,7 @@ class PaymentController extends Controller
             'email' => $order->billing_email,
             'guest_email' => $order->billing_email,
         ];
-
+dd($eventData);
         // Google Calendar API Integration
         $googleCalendar = new GoogleCalendarController();
         $response = $googleCalendar->createGoogleEvent($eventData, $offering);
