@@ -259,6 +259,9 @@ class PaymentController extends Controller
 
     }
 
+    /**
+     * @throws \Exception
+     */
     private function createGoogleCalendarEvent($order): ?array
     {
         $offering = Offering::findOrFail($order->offering_id);
@@ -268,38 +271,45 @@ class PaymentController extends Controller
         $practitionerTimezone = $user->userDetail->timezone ?? 'UTC';
         $userTimezone = $order->user_timezone ?? $practitionerTimezone;
 
-        // Booking date and time from user input
-        $bookingDate = $order->booking_date;     // e.g., '2025-04-26'
-        $bookingTime = $order->time_slot;        // e.g., '11:30 AM'
+        // Booking date and time (from user input)
+        $bookingDate = $order->booking_date;     // e.g., '2025-05-26'
+        $bookingTime = $order->time_slot;        // e.g., '05:40 AM'
 
-        // Convert user input to Carbon datetime object
-        if ($offering->offering_event_type === 'event') {
-            $userDateTime = Carbon::createFromFormat('Y-m-d H:i:s', "$bookingDate $bookingTime", $userTimezone);
-        } else {
-            $userDateTime = Carbon::createFromFormat('Y-m-d h:i A', "$bookingDate $bookingTime", $userTimezone);
-        }
-
-        // Convert to practitioner's timezone
-        $practitionerDateTime = $userDateTime->copy()->setTimezone($practitionerTimezone);
-
-        // Logging timezone conversion
-        dd("Booking Debug Log", [
+        // DEBUG: Preserve booking log
+        \Log::debug("Booking Debug Log", [
             'user_timezone' => $userTimezone,
             'practitioner_timezone' => $practitionerTimezone,
             'booking_date' => $bookingDate,
             'booking_time' => $bookingTime,
-            'user_datetime' => $userDateTime->toDateTimeString(),
+        ]);
+
+        // Convert time from user timezone to practitioner timezone
+        $userTime = Carbon::createFromFormat('h:i A', $bookingTime, $userTimezone);
+        $convertedTime = $userTime->copy()->setTimezone($practitionerTimezone);
+
+        // Merge converted time with original selected date in practitioner's timezone
+        $practitionerDateTime = Carbon::createFromFormat(
+            'Y-m-d H:i:s',
+            $bookingDate . ' ' . $convertedTime->format('H:i:s'),
+            $practitionerTimezone
+        );
+
+        // Log final datetime objects
+        dd("Booking Debug Log", [
+            'user_datetime' => Carbon::createFromFormat('Y-m-d h:i A', "$bookingDate $bookingTime", $userTimezone)->toDateTimeString(),
             'practitioner_datetime' => $practitionerDateTime->toDateTimeString(),
         ]);
+
+        // Determine day of the week in practitioner's timezone
+        $dayOfWeek = strtolower($practitionerDateTime->format('l'));
 
         // Duration logic
         if ($offering->offering_event_type === 'event') {
             $startTime = $practitionerDateTime->copy();
-            $duration = (int)filter_var(optional($offering->event)->event_duration ?? '60 minutes', FILTER_SANITIZE_NUMBER_INT);
+            $duration = (int) filter_var(optional($offering->event)->event_duration ?? '60 minutes', FILTER_SANITIZE_NUMBER_INT);
         } else {
             $storeAvailabilities = json_decode($user->userDetail->store_availabilities, true) ?? [];
 
-            $dayOfWeek = strtolower($practitionerDateTime->format('l'));
             $availabilityKey = in_array($dayOfWeek, ['saturday', 'sunday'])
                 ? "weekends_only_-_every_sat_&_sundays"
                 : "every_{$dayOfWeek}";
@@ -309,13 +319,13 @@ class PaymentController extends Controller
             }
 
             $startTime = $practitionerDateTime->copy();
-            $duration = (int)filter_var($offering->booking_duration ?? '60 minutes', FILTER_SANITIZE_NUMBER_INT);
+            $duration = (int) filter_var($offering->booking_duration ?? '60 minutes', FILTER_SANITIZE_NUMBER_INT);
         }
 
         // Calculate end time
         $endTime = $startTime->copy()->addMinutes($duration);
 
-        // Prepare Google event data
+        // Proper event data with timeZone fields
         $eventData = [
             'title' => 'Booking From ' . env('APP_NAME') . ': ' . trim(($order->first_name ?? '') . ' ' . ($order->last_name ?? '')),
             'category' => 'Booking',
@@ -334,7 +344,7 @@ class PaymentController extends Controller
             'guest_email' => $order->billing_email,
         ];
 
-        // Create Google Calendar event
+        // Google Calendar API Integration
         $googleCalendar = new GoogleCalendarController();
         $response = $googleCalendar->createGoogleEvent($eventData, $offering);
 
@@ -344,6 +354,7 @@ class PaymentController extends Controller
 
         return $response;
     }
+
 
 
 
