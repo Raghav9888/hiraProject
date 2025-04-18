@@ -122,7 +122,7 @@ class GoogleCalendarController extends Controller
             ],
         ];
 
-        if ($data['offering_type'] === 'virtual') {
+        if ( isset($data['offering_type']) && $data['offering_type'] === 'virtual') {
             $createEvent['attendees'] = [
                 ['email' => $data['guest_email']],
             ];
