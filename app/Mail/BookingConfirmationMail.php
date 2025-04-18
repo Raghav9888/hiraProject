@@ -15,19 +15,20 @@ class BookingConfirmationMail extends Mailable
     public $practitionerEmailTemplate;
     public $intakeForms;
     public $order;
-    public $isPractitioner= false;
+    public $isPractitioner;
 
     /**
      * Create a new message instance.
      */
-    public function __construct($user, $practitionerEmailTemplate, $intakeForms ,$order, $isPractitioner =false)
+    public function __construct($user, $practitionerEmailTemplate, $intakeForms, $order, $isPractitioner = false)
     {
         $this->user = $user;
         $this->practitionerEmailTemplate = $practitionerEmailTemplate;
         $this->intakeForms = $intakeForms;
         $this->order = $order;
         $this->isPractitioner = $isPractitioner;
-     }
+    }
+
 
     /**
      * Build the message.

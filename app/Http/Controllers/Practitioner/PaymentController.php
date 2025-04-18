@@ -221,7 +221,6 @@ class PaymentController extends Controller
 
     public function confirmPayment(Request $request)
     {
-
         $order = Booking::with('offering', 'offering.user')->findOrFail($request->order_id);
         $offeringId = $order->offering->id;
 
@@ -247,17 +246,21 @@ class PaymentController extends Controller
             $practitionerEmailTemplate = $offering->email_template;
             $intakeForms = $offering->intake_form;
             $response = $this->createGoogleCalendarEvent($order);
-            // Send confirmation email
-            Mail::to($order->billing_email)->send(new BookingConfirmationMail($order, $practitionerEmailTemplate, $intakeForms,$order ,false));
-            Mail::to($offering->user->email)->send(new BookingConfirmationMail($order, $practitionerEmailTemplate, $intakeForms,$order,true));
-            return redirect()->route('thankyou')->with('success', 'Payment successful!');
 
+            // Corrected email sending logic
+            // Send confirmation email to the user
+            Mail::to($order->user->email)->send(new BookingConfirmationMail($order->user, $practitionerEmailTemplate, $intakeForms, $order, false));
+
+            // Send confirmation email to the practitioner
+            Mail::to($offering->user->email)->send(new BookingConfirmationMail($offering->user, $practitionerEmailTemplate, $intakeForms, $order, true));
+
+            return redirect()->route('thankyou')->with('success', 'Payment successful!');
         } catch (\Exception $e) {
             \Log::error('Google Calendar Event Creation Failed: ' . $e->getMessage());
             return redirect()->route('thankyou')->with('error', 'Payment successful, but failed to create Google Calendar event.');
         }
-
     }
+
 
     /**
      * @throws \Exception
