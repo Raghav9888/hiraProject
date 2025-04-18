@@ -338,7 +338,7 @@ class PaymentController extends Controller
             'email' => $order->billing_email,
             'guest_email' => $order->billing_email,
         ];
-dd($eventData);
+
         // Google Calendar API Integration
         $googleCalendar = new GoogleCalendarController();
         $response = $googleCalendar->createGoogleEvent($eventData, $offering);
