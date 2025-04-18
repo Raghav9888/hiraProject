@@ -262,7 +262,7 @@ class PaymentController extends Controller
     /**
      * @throws \Exception
      */
-    private function createGoogleCalendarEvent($order)
+    private function createGoogleCalendarEvent($order): ?array
     {
         $offering = Offering::findOrFail($order->offering_id);
         $user = User::with('userDetail')->findOrFail($offering->user_id);
