@@ -29,6 +29,9 @@
 </ul>
 
 <h3>Here are your booking details:</h3>
+<?php
+dd($response);
+?>
 @if(@$response->isPractitioner)
     <table style="border-collapse: collapse; width: 100%; max-width: 600px;">
         <tr>
