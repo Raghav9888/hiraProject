@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\GoogleAccount;
 use App\Models\User;
 use Carbon\Carbon;
+use Google\Service\Exception;
 use Google_Client;
 use Google_Service_Calendar;
 use Google_Service_Calendar_Event;
@@ -77,6 +78,10 @@ class GoogleCalendarController extends Controller
         }
     }
 
+    /**
+     * @throws Exception
+     * @throws \Google\Exception
+     */
     public function createGoogleEvent($data): array
     {
 
@@ -132,12 +137,8 @@ class GoogleCalendarController extends Controller
 
 
         $event = new Google_Service_Calendar_Event($createEvent);
-        dd($event);
-        $params = ($data['offering_type'] === 'virtual')
-            ? ['conferenceDataVersion' => 1, 'sendUpdates' => 'all']
-            : [];
 
-        $createdEvent = $calendarService->events->insert('primary', $event, $params);
+        $createdEvent = $calendarService->events->insert('primary', $event, ['conferenceDataVersion' => 1, 'sendUpdates' => 'all']);
 
         $meetLink = optional($createdEvent->getConferenceData())->getEntryPoints()[0]->getUri() ?? null;
 
