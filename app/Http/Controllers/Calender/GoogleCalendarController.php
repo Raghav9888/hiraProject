@@ -98,7 +98,7 @@ class GoogleCalendarController extends Controller
         }
 
         $calendarService = new Google_Service_Calendar($client);
-        dd($calendarService);
+
         $createEvent = [
             'summary' => $data['title'],
             'description' => $data['description'],
@@ -116,7 +116,7 @@ class GoogleCalendarController extends Controller
                 ]
             ],
         ];
-
+        dd($createEvent);
         if ($data['offering_type'] === 'virtual') {
             $createEvent['attendees'] = [
                 ['email' => $data['guest_email']],
