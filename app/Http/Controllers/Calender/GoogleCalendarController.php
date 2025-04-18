@@ -139,9 +139,10 @@ class GoogleCalendarController extends Controller
         $event = new Google_Service_Calendar_Event($createEvent);
 
         $createdEvent = $calendarService->events->insert('primary', $event, ['conferenceDataVersion' => 1, 'sendUpdates' => 'all']);
-
-        $meetLink = optional($createdEvent->getConferenceData())->getEntryPoints()[0]->getUri();
-
+        $meetLink = '';
+        if ( isset($data['offering_type']) && $data['offering_type'] === 'virtual') {
+            $meetLink = optional($createdEvent->getConferenceData())->getEntryPoints()[0]->getUri();
+        }
         return [
             'success' => true,
             'meet_link' => $meetLink,
