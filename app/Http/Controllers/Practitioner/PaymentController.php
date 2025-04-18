@@ -330,7 +330,7 @@ class PaymentController extends Controller
         ];
 
         // Google Calendar API Integration
-        try {
+//        try {
             $googleCalendar = new GoogleCalendarController();
             $response = $googleCalendar->createGoogleEvent($eventData); // expects 'start' and 'end' with 'dateTime' and 'timeZone'
 
@@ -340,13 +340,13 @@ class PaymentController extends Controller
 
             return $response;
 
-        } catch (\Exception $e) {
-            \Log::error('Error creating Google Calendar event', [
-                'error' => $e->getMessage(),
-                'eventData' => $eventData
-            ]);
-            return null;
-        }
+//        } catch (\Exception $e) {
+//            \Log::error('Error creating Google Calendar event', [
+//                'error' => $e->getMessage(),
+//                'eventData' => $eventData
+//            ]);
+//            return null;
+//        }
     }
 
 

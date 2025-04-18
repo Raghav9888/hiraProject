@@ -79,7 +79,7 @@ class GoogleCalendarController extends Controller
 
     public function createGoogleEvent($data): array
     {
-        try {
+//        try {
             $googleAccount = GoogleAccount::where('user_id', $data['user_id'])->firstOrFail();
             $accessToken = json_decode($googleAccount->access_token, true);
 
@@ -145,13 +145,13 @@ class GoogleCalendarController extends Controller
                 'google_event_id' => $createdEvent->getId(),
             ];
 
-        } catch (\Exception $e) {
-            \Log::error('Google Calendar API Error: ' . $e->getMessage());
-            return [
-                'success' => false,
-                'error' => $e->getMessage()
-            ];
-        }
+//        } catch (\Exception $e) {
+//            \Log::error('Google Calendar API Error: ' . $e->getMessage());
+//            return [
+//                'success' => false,
+//                'error' => $e->getMessage()
+//            ];
+//        }
     }
 
 
