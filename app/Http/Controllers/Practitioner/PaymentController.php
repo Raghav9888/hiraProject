@@ -317,7 +317,7 @@ class PaymentController extends Controller
             'description' => 'Customer: ' . trim(($order->first_name ?? '') . ' ' . ($order->last_name ?? '')),
             'start' => $startTime->toIso8601String(),
             'end' => $endTime->toIso8601String(),
-            'date' => $startTime->toDateString(),
+            'date' => $bookingDate->toDateString(),
             'user_id' => $offering->user_id,
             'timezone' => $practitionerTimezone,
             'email' => $order->billing_email,
