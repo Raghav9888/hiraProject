@@ -243,7 +243,7 @@ class PaymentController extends Controller
         }
 
         // Attempt to create a Google Calendar event
-//        try {
+        try {
             $practitionerEmailTemplate = $offering->email_template;
             $intakeForms = $offering->intake_form;
             $response = $this->createGoogleCalendarEvent($order);
@@ -252,10 +252,10 @@ class PaymentController extends Controller
             Mail::to($offering->user->email)->send(new BookingConfirmationMail($order, $practitionerEmailTemplate, $intakeForms,$order,true));
             return redirect()->route('thankyou')->with('success', 'Payment successful!');
 
-//        } catch (\Exception $e) {
-//            \Log::error('Google Calendar Event Creation Failed: ' . $e->getMessage());
-//            return redirect()->route('thankyou')->with('error', 'Payment successful, but failed to create Google Calendar event.');
-//        }
+        } catch (\Exception $e) {
+            \Log::error('Google Calendar Event Creation Failed: ' . $e->getMessage());
+            return redirect()->route('thankyou')->with('error', 'Payment successful, but failed to create Google Calendar event.');
+        }
 
     }
 
@@ -309,7 +309,7 @@ class PaymentController extends Controller
 
         // Calculate end time
         $endTime = $startTime->copy()->addMinutes($duration);
-dd($startTime, $endTime,$bookingDate, $practitionerDateTime, $userDateTime);
+
         // Event Data
         $eventData = [
             'title' => 'Booking From ' . ' ' . env('APP_NAME') . ':' . trim(($order->first_name ?? '') . ' ' . ($order->last_name ?? '')),
@@ -317,7 +317,7 @@ dd($startTime, $endTime,$bookingDate, $practitionerDateTime, $userDateTime);
             'description' => 'Customer: ' . trim(($order->first_name ?? '') . ' ' . ($order->last_name ?? '')),
             'start' => $startTime->toIso8601String(),
             'end' => $endTime->toIso8601String(),
-            'date' => $bookingDate,
+            'date' => $startTime->toDateString(),
             'user_id' => $offering->user_id,
             'timezone' => $practitionerTimezone,
             'email' => $order->billing_email,
