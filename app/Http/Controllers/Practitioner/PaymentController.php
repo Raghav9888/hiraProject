@@ -222,7 +222,7 @@ class PaymentController extends Controller
 
     public function confirmPayment(Request $request)
     {
-        try {
+//        try {
             // Fetch the order with related offerings and user
             $order = Booking::with('offering', 'offering.user')->findOrFail($request->order_id);
             $offeringId = $order->offering->id;
@@ -258,10 +258,10 @@ class PaymentController extends Controller
 
             return redirect()->route('thankyou')->with('success', 'Payment successful!');
 
-        } catch (\Exception $e) {
-            \Log::error('Payment Confirmation Error: ' . $e->getMessage());
-            return redirect()->route('thankyou')->with('error', 'Payment successful, but failed to create Google Calendar event.');
-        }
+//        } catch (\Exception $e) {
+//            \Log::error('Payment Confirmation Error: ' . $e->getMessage());
+//            return redirect()->route('thankyou')->with('error', 'Payment successful, but failed to create Google Calendar event.');
+//        }
     }
 
     /**
