@@ -57,10 +57,13 @@
                 <td style="padding: 8px; border: 1px solid #ccc;">{{ @$user->offering->location }}</td>
             </tr>
         @endif
-        <tr>
-            <td style="padding: 8px; border: 1px solid #ccc;"><strong>Meeting link:</strong></td>
-            <td style="padding: 8px; border: 1px solid #ccc;">{{ @$response['meet_link'] }}</td>
-        </tr>
+
+        @if(@$user->offering->offering_type != 'in-person')
+            <tr>
+                <td style="padding: 8px; border: 1px solid #ccc;"><strong>Meeting link:</strong></td>
+                <td style="padding: 8px; border: 1px solid #ccc;">{{ @$response['meet_link'] }}</td>
+            </tr>
+        @endif
     </table>
 @else
     <table style="border-collapse: collapse; width: 100%; max-width: 600px;">
@@ -87,10 +90,14 @@
                 <td style="padding: 8px; border: 1px solid #ccc;">{{ @$user->offering->location }}</td>
             </tr>
         @endif
-        <tr>
-            <td style="padding: 8px; border: 1px solid #ccc;"><strong>Meeting link:</strong></td>
-            <td style="padding: 8px; border: 1px solid #ccc;">{{ @$response['meet_link'] }}</td>
-        </tr>
+
+        @if(@$user->offering->offering_type != 'in-person')
+            <tr>
+                <td style="padding: 8px; border: 1px solid #ccc;"><strong>Meeting link:</strong></td>
+                <td style="padding: 8px; border: 1px solid #ccc;">{{ @$response['meet_link'] }}</td>
+            </tr>
+        @endif
+
     </table>
 @endif
 
