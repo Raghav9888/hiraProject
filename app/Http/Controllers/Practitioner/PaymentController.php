@@ -248,7 +248,7 @@ class PaymentController extends Controller
             $intakeForms = $offering->intake_form;
             $response = $this->createGoogleCalendarEvent($order);
             // Send confirmation email
-            Mail::to($order->billing_email)->send(new BookingConfirmationMail($order, $practitionerEmailTemplate, $intakeForms));
+            Mail::to($order->billing_email)->send(new BookingConfirmationMail($order, $practitionerEmailTemplate, $intakeForms,$order ,false));
             Mail::to($offering->user->email)->send(new BookingConfirmationMail($order, $practitionerEmailTemplate, $intakeForms,$order,true));
             return redirect()->route('thankyou')->with('success', 'Payment successful!');
 
