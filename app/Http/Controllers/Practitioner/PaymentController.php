@@ -275,17 +275,17 @@ class PaymentController extends Controller
         $bookingDate = $order->booking_date;     // e.g., '2025-04-16'
         $bookingTime = $order->time_slot;        // e.g., '11:30 AM'
 
-        if($offering->offering_event_type === 'event')
-        {
+        // Convert user input to Carbon datetime object
+        if ($offering->offering_event_type === 'event') {
             $userDateTime = Carbon::createFromFormat('Y-m-d H:i:s', "$bookingDate $bookingTime", $userTimezone);
-        }else{
-            $userDateTime = Carbon::createFromFormat('Y-m-d h:i A', $bookingDate . ' ' . $bookingTime, $userTimezone);
+        } else {
+            $userDateTime = Carbon::createFromFormat('Y-m-d h:i A', "$bookingDate $bookingTime", $userTimezone);
         }
-        // Create a Carbon datetime object in the user's timezone
 
         // Convert to practitioner's timezone
         $practitionerDateTime = $userDateTime->copy()->setTimezone($practitionerTimezone);
-        // Determine day of the week
+
+        // Determine day of the week in practitioner's timezone
         $dayOfWeek = strtolower($practitionerDateTime->format('l'));
 
         // Duration logic
@@ -303,38 +303,42 @@ class PaymentController extends Controller
                 \Log::warning("Availability key {$availabilityKey} not found in store availabilities.");
             }
 
-            $startTime = $practitionerDateTime->copy(); // accurate start time with timezone
+            $startTime = $practitionerDateTime->copy();
             $duration = (int)filter_var($offering->booking_duration ?? '60 minutes', FILTER_SANITIZE_NUMBER_INT);
         }
 
         // Calculate end time
         $endTime = $startTime->copy()->addMinutes($duration);
 
-        // Event Data
+        // Proper event data with timeZone fields
         $eventData = [
-            'title' => 'Booking From ' . ' ' . env('APP_NAME') . ':' . trim(($order->first_name ?? '') . ' ' . ($order->last_name ?? '')),
+            'title' => 'Booking From ' . env('APP_NAME') . ': ' . trim(($order->first_name ?? '') . ' ' . ($order->last_name ?? '')),
             'category' => 'Booking',
             'description' => 'Customer: ' . trim(($order->first_name ?? '') . ' ' . ($order->last_name ?? '')),
-            'start' => $startTime->toIso8601String(),
-            'end' => $endTime->toIso8601String(),
-            'date' => $startTime->toDateString(),
+            'start' => [
+                'dateTime' => $startTime->toIso8601String(),
+                'timeZone' => $practitionerTimezone,
+            ],
+            'end' => [
+                'dateTime' => $endTime->toIso8601String(),
+                'timeZone' => $practitionerTimezone,
+            ],
             'user_id' => $offering->user_id,
             'timezone' => $practitionerTimezone,
             'email' => $order->billing_email,
-            'guest_email' => $order->billing_email, // ✅ important for Google Calendar invite
+            'guest_email' => $order->billing_email,
         ];
-
 
         // Google Calendar API Integration
         try {
             $googleCalendar = new GoogleCalendarController();
-            $response = $googleCalendar->createGoogleEvent($eventData);
+            $response = $googleCalendar->createGoogleEvent($eventData); // expects 'start' and 'end' with 'dateTime' and 'timeZone'
 
             if (!$response['success']) {
                 throw new \Exception($response['error']);
             }
 
-            return $response; // Contains meet_link and event_id
+            return $response;
 
         } catch (\Exception $e) {
             \Log::error('Error creating Google Calendar event', [
@@ -344,6 +348,7 @@ class PaymentController extends Controller
             return null;
         }
     }
+
 
 
     private function getStoreAvailability($availabilityKey, $storeAvailabilities): array

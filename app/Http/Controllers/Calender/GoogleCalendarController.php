@@ -6,16 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Models\GoogleAccount;
 use App\Models\User;
 use Carbon\Carbon;
-use Google\Exception;
 use Google_Client;
 use Google_Service_Calendar;
 use Google_Service_Calendar_Event;
 use Google_Service_Calendar_EventDateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Google\Client;
-use Google\Service\Calendar;
-use Symfony\Component\HttpFoundation\Response;
 
 class GoogleCalendarController extends Controller
 {
@@ -81,7 +77,7 @@ class GoogleCalendarController extends Controller
         }
     }
 
-    public function createGoogleEvent($data)
+    public function createGoogleEvent($data): array
     {
         try {
             $googleAccount = GoogleAccount::where('user_id', $data['user_id'])->firstOrFail();
@@ -104,19 +100,20 @@ class GoogleCalendarController extends Controller
 
             $calendarService = new Google_Service_Calendar($client);
 
-            $event = new Google_Service_Calendar_Event([
-                'summary'     => $data['title'],
+
+            $createEvent = [
+                'summary' => $data['title'],
                 'description' => $data['description'],
-                'start'       => [
-                    'dateTime' => Carbon::parse($data['start'])->toIso8601String(),
-                    'timeZone' => $data['timezone'] ?? 'America/Vancouver',
+                'start' => [
+                    'dateTime' => $data['start']['dateTime'],
+                    'timeZone' => $data['start']['timeZone'],
                 ],
-                'end'         => [
-                    'dateTime' => Carbon::parse($data['end'])->toIso8601String(),
-                    'timeZone' => $data['timezone'] ?? 'America/Vancouver',
+                'end' => [
+                    'dateTime' => $data['end']['dateTime'],
+                    'timeZone' => $data['end']['timeZone'],
                 ],
-                'attendees'   => [
-                    ['email' => $data['guest_email']], //  this sends the invite to the user
+                'attendees' => [
+                    ['email' => $data['guest_email']],
                 ],
                 'conferenceData' => [
                     'createRequest' => [
@@ -129,7 +126,10 @@ class GoogleCalendarController extends Controller
                         'category' => $data['category'],
                     ]
                 ],
-            ]);
+            ];
+
+            dd($createEvent);
+            $event = new Google_Service_Calendar_Event($createEvent);
 
             $createdEvent = $calendarService->events->insert(
                 'primary',
@@ -153,8 +153,6 @@ class GoogleCalendarController extends Controller
             ];
         }
     }
-
-
 
 
     public function updateEvent(Request $request)
@@ -202,7 +200,6 @@ class GoogleCalendarController extends Controller
             ], 500);
         }
     }
-
 
 
     public function deleteEvent(Request $request)
@@ -359,8 +356,7 @@ class GoogleCalendarController extends Controller
                     'convertEndTime' => $endTimeConvertPractitionerTimezone->format('h:i A'),
                     'timezone' => $timezone,
                 ];
-            }
-            // Handle all-day events
+            } // Handle all-day events
             elseif (!empty($event->start->date)) {
                 $bookedDates[] = [
                     'date' => $event->start->date,

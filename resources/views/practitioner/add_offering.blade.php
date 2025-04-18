@@ -53,13 +53,7 @@
                             </div>
                             <div class="mb-3 d-none" id="location">
                                 <label for="exampleInputEmail1" class="fw-bold">Location</label>
-                                <select name="location" class="form-control">
-                                    @foreach($locations as $location)
-                                        <option value="{{$location->id}}">
-                                            {{$location->name}}
-                                        </option>
-                                    @endforeach
-                                </select>
+                                <input type="text" class="form-control" name="location" id="location">
                             </div>
 
                             <div class="mb-3">
