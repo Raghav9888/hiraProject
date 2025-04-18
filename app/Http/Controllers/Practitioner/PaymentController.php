@@ -274,7 +274,7 @@ class PaymentController extends Controller
         // Booking date and time (from user input)
         $bookingDate = $order->booking_date;     // e.g., '2025-04-16'
         $bookingTime = $order->time_slot;        // e.g., '11:30 AM'
-
+dd($bookingDate, $bookingTime);
         // Convert user input to Carbon datetime object
         if ($offering->offering_event_type === 'event') {
             $userDateTime = Carbon::createFromFormat('Y-m-d H:i:s', "$bookingDate $bookingTime", $userTimezone);
