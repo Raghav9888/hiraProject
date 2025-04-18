@@ -259,6 +259,9 @@ class PaymentController extends Controller
 
     }
 
+    /**
+     * @throws \Exception
+     */
     private function createGoogleCalendarEvent($order)
     {
         $offering = Offering::findOrFail($order->offering_id);
@@ -323,23 +326,23 @@ class PaymentController extends Controller
 
 
         // Google Calendar API Integration
-        try {
+//        try {
             $googleCalendar = new GoogleCalendarController();
             $response = $googleCalendar->createGoogleEvent($eventData);
 
-            if (!$response['success']) {
-                throw new \Exception($response['error']);
-            }
+//            if (!$response['success']) {
+//                throw new \Exception($response['error']);
+//            }
 
             return $response; // Contains meet_link and event_id
 
-        } catch (\Exception $e) {
-            \Log::error('Error creating Google Calendar event', [
-                'error' => $e->getMessage(),
-                'eventData' => $eventData
-            ]);
-            return null;
-        }
+//        } catch (\Exception $e) {
+//            \Log::error('Error creating Google Calendar event', [
+//                'error' => $e->getMessage(),
+//                'eventData' => $eventData
+//            ]);
+//            return null;
+//        }
     }
 
 
