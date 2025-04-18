@@ -128,6 +128,8 @@ class GoogleCalendarController extends Controller
             ];
         }
 
+        dd($createEvent);
+
         $event = new Google_Service_Calendar_Event($createEvent);
 
         $params = ($data['offering_type'] === 'virtual')

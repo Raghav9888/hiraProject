@@ -275,8 +275,8 @@ class PaymentController extends Controller
         $bookingDate = $order->booking_date;     // e.g., '2025-05-26'
         $bookingTime = $order->time_slot;        // e.g., '05:40 AM'
 
-        // DEBUG: Preserve booking log
-        \Log::debug("Booking Debug Log", [
+
+        dd("Booking Debug Log", [
             'user_timezone' => $userTimezone,
             'practitioner_timezone' => $practitionerTimezone,
             'booking_date' => $bookingDate,
