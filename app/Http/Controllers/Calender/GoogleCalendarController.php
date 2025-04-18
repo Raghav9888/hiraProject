@@ -143,6 +143,7 @@ class GoogleCalendarController extends Controller
         if ( isset($data['offering_type']) && $data['offering_type'] === 'virtual') {
             $meetLink = optional($createdEvent->getConferenceData())->getEntryPoints()[0]->getUri();
         }
+        dd($meetLink);
         return [
             'success' => true,
             'meet_link' => $meetLink,

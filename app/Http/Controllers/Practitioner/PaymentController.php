@@ -6,23 +6,20 @@ use App\Http\Controllers\Calender\GoogleCalendarController;
 use App\Http\Controllers\Controller;
 use App\Mail\BookingConfirmationMail;
 use App\Models\Blog;
+use App\Models\Booking;
 use App\Models\Event;
+use App\Models\Offering;
+use App\Models\Payment;
 use App\Models\User;
 use App\Models\UserStripeSetting;
-use App\Models\Payment;
-use App\Models\Booking;
-use App\Models\Offering;
 use Carbon\Carbon;
 use Google\Service\Exception;
-use Google_Service_Calendar_Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
-use Stripe\Stripe;
 use Stripe\Checkout\Session as StripeSession;
-use Stripe\Charge;
-use Stripe\PaymentIntent;
+use Stripe\Stripe;
 
 class PaymentController extends Controller
 {
@@ -223,39 +220,39 @@ class PaymentController extends Controller
     public function confirmPayment(Request $request)
     {
 //        try {
-            // Fetch the order with related offerings and user
-            $order = Booking::with('offering', 'offering.user')->findOrFail($request->order_id);
-            $offeringId = $order->offering->id;
+        // Fetch the order with related offerings and user
+        $order = Booking::with('offering', 'offering.user')->findOrFail($request->order_id);
+        $offeringId = $order->offering->id;
 
-            // Update the payment status
-            $payment = Payment::where("order_id", $order->id)->firstOrFail();
-            $payment->status = 'completed';
-            $payment->save();
+        // Update the payment status
+        $payment = Payment::where("order_id", $order->id)->firstOrFail();
+        $payment->status = 'completed';
+        $payment->save();
 
-            // Update order status
-            $order->update(['status' => 'paid']);
+        // Update order status
+        $order->update(['status' => 'paid']);
 
-            // Fetch offering and its related event
-            $offering = Offering::where('id', $offeringId)->with('event')->first();
+        // Fetch offering and its related event
+        $offering = Offering::where('id', $offeringId)->with('event')->first();
 
-            if ($offering->offering_event_type === 'event') {
-                $event = Event::where('offering_id', $offeringId)->firstOrFail();
-                $totalSlots = $offering->event->sports > 0 ? $offering->event->sports - 1 : 0;
-                $event->sports = "$totalSlots";
-                $event->save();
-            }
+        if ($offering->offering_event_type === 'event') {
+            $event = Event::where('offering_id', $offeringId)->firstOrFail();
+            $totalSlots = $offering->event->sports > 0 ? $offering->event->sports - 1 : 0;
+            $event->sports = "$totalSlots";
+            $event->save();
+        }
 
-            // Attempt to create a Google Calendar event
-            $practitionerEmailTemplate = $offering->email_template;
-            $intakeForms = $offering->intake_form;
-            $response = $this->createGoogleCalendarEvent($order);
-
-            // Send confirmation email to the user
+        // Attempt to create a Google Calendar event
+        $practitionerEmailTemplate = $offering->email_template;
+        $intakeForms = $offering->intake_form;
+        $response = $this->createGoogleCalendarEvent($order);
+dd($response);
+        // Send confirmation email to the user
         Mail::to($order->billing_email)->send(new BookingConfirmationMail($order, $practitionerEmailTemplate, $intakeForms));
-            // Send confirmation email to the practitioner
+        // Send confirmation email to the practitioner
         Mail::to($offering->user->email)->send(new BookingConfirmationMail($order, $practitionerEmailTemplate, $intakeForms));
 
-            return redirect()->route('thankyou')->with('success', 'Payment successful!');
+        return redirect()->route('thankyou')->with('success', 'Payment successful!');
 
 //        } catch (\Exception $e) {
 //            \Log::error('Payment Confirmation Error: ' . $e->getMessage());
@@ -270,93 +267,88 @@ class PaymentController extends Controller
     private function createGoogleCalendarEvent($order): ?array
     {
 
-            $offering = Offering::findOrFail($order->offering_id);
-            $user = User::with('userDetail')->findOrFail($offering->user_id);
+        $offering = Offering::findOrFail($order->offering_id);
+        $user = User::with('userDetail')->findOrFail($offering->user_id);
 
-            // Timezone management
-            $practitionerTimezone = $user->userDetail->timezone ?? 'UTC';
-            $userTimezone = $order->user_timezone ?? $practitionerTimezone;
+        // Timezone management
+        $practitionerTimezone = $user->userDetail->timezone ?? 'UTC';
+        $userTimezone = $order->user_timezone ?? $practitionerTimezone;
 
-            // Booking date and time (from user input)
-            $bookingDate = $order->booking_date ?? null;
-            $bookingTime = $order->time_slot ?? null;
+        // Booking date and time (from user input)
+        $bookingDate = $order->booking_date ?? null;
+        $bookingTime = $order->time_slot ?? null;
 
-            if (!$bookingDate || !$bookingTime) {
-                throw new \Exception("Missing booking date or time.");
+        if (!$bookingDate || !$bookingTime) {
+            throw new \Exception("Missing booking date or time.");
+        }
+
+        // Convert time from user timezone to practitioner's timezone
+        $userTime = Carbon::createFromFormat('h:i A', $bookingTime, $userTimezone);
+        $convertedTime = $userTime->copy()->setTimezone($practitionerTimezone);
+
+        // Merge converted time with original selected date in practitioner's timezone
+        $practitionerDateTime = Carbon::createFromFormat(
+            'Y-m-d H:i:s',
+            $bookingDate . ' ' . $convertedTime->format('H:i:s'),
+            $practitionerTimezone
+        );
+
+        // Determine day of the week in practitioner's timezone
+        $dayOfWeek = strtolower($practitionerDateTime->format('l'));
+
+        // Duration logic
+        if ($offering->offering_event_type === 'event') {
+            $startTime = $practitionerDateTime->copy();
+            $duration = (int)filter_var(optional($offering->event)->event_duration ?? '60 minutes', FILTER_SANITIZE_NUMBER_INT);
+        } else {
+            $storeAvailabilities = json_decode($user->userDetail->store_availabilities, true) ?? [];
+
+            $availabilityKey = in_array($dayOfWeek, ['saturday', 'sunday'])
+                ? "weekends_only_-_every_sat_&_sundays"
+                : "every_{$dayOfWeek}";
+
+            if (!isset($storeAvailabilities[$availabilityKey])) {
+                \Log::warning("Availability key {$availabilityKey} not found in store availabilities.");
             }
 
-            // Convert time from user timezone to practitioner's timezone
-            $userTime = Carbon::createFromFormat('h:i A', $bookingTime, $userTimezone);
-            $convertedTime = $userTime->copy()->setTimezone($practitionerTimezone);
+            $startTime = $practitionerDateTime->copy();
+            $duration = (int)filter_var($offering->booking_duration ?? '60 minutes', FILTER_SANITIZE_NUMBER_INT);
+        }
 
-            // Merge converted time with original selected date in practitioner's timezone
-            $practitionerDateTime = Carbon::createFromFormat(
-                'Y-m-d H:i:s',
-                $bookingDate . ' ' . $convertedTime->format('H:i:s'),
-                $practitionerTimezone
-            );
+        // Calculate end time
+        $endTime = $startTime->copy()->addMinutes($duration);
 
-            // Determine day of the week in practitioner's timezone
-            $dayOfWeek = strtolower($practitionerDateTime->format('l'));
+        // Proper event data with timeZone fields
+        $eventData = [
+            'title' => 'Booking From ' . env('APP_NAME') . ': ' . trim(($order->first_name ?? '') . ' ' . ($order->last_name ?? '')),
+            'category' => 'Booking',
+            'description' => 'Customer: ' . trim(($order->first_name ?? '') . ' ' . ($order->last_name ?? '')),
+            'start' => [
+                'dateTime' => $startTime->toIso8601String(),
+                'timeZone' => $practitionerTimezone,
+            ],
+            'end' => [
+                'dateTime' => $endTime->toIso8601String(),
+                'timeZone' => $practitionerTimezone,
+            ],
+            'user_id' => $offering->user_id,
+            'timezone' => $practitionerTimezone,
+            'email' => $order->billing_email,
+            'guest_email' => $order->billing_email,
+            'offering_type' => $offering->offering_type,
+        ];
 
-            // Duration logic
-            if ($offering->offering_event_type === 'event') {
-                $startTime = $practitionerDateTime->copy();
-                $duration = (int) filter_var(optional($offering->event)->event_duration ?? '60 minutes', FILTER_SANITIZE_NUMBER_INT);
-            } else {
-                $storeAvailabilities = json_decode($user->userDetail->store_availabilities, true) ?? [];
+        // Google Calendar API Integration
+        $googleCalendar = new GoogleCalendarController();
+        $response = $googleCalendar->createGoogleEvent($eventData);
 
-                $availabilityKey = in_array($dayOfWeek, ['saturday', 'sunday'])
-                    ? "weekends_only_-_every_sat_&_sundays"
-                    : "every_{$dayOfWeek}";
-
-                if (!isset($storeAvailabilities[$availabilityKey])) {
-                    \Log::warning("Availability key {$availabilityKey} not found in store availabilities.");
-                }
-
-                $startTime = $practitionerDateTime->copy();
-                $duration = (int) filter_var($offering->booking_duration ?? '60 minutes', FILTER_SANITIZE_NUMBER_INT);
-            }
-
-            // Calculate end time
-            $endTime = $startTime->copy()->addMinutes($duration);
-
-            // Proper event data with timeZone fields
-            $eventData = [
-                'title' => 'Booking From ' . env('APP_NAME') . ': ' . trim(($order->first_name ?? '') . ' ' . ($order->last_name ?? '')),
-                'category' => 'Booking',
-                'description' => 'Customer: ' . trim(($order->first_name ?? '') . ' ' . ($order->last_name ?? '')),
-                'start' => [
-                    'dateTime' => $startTime->toIso8601String(),
-                    'timeZone' => $practitionerTimezone,
-                ],
-                'end' => [
-                    'dateTime' => $endTime->toIso8601String(),
-                    'timeZone' => $practitionerTimezone,
-                ],
-                'user_id' => $offering->user_id,
-                'timezone' => $practitionerTimezone,
-                'email' => $order->billing_email,
-                'guest_email' => $order->billing_email,
-                'offering_type' => $offering->offering_type,
-            ];
-
-            // Google Calendar API Integration
-            $googleCalendar = new GoogleCalendarController();
-            $response = $googleCalendar->createGoogleEvent($eventData);
-
-            if (!$response['success']) {
-                throw new \Exception($response['error']);
-            }
-
-            return $response;
+        if (!$response['success']) {
+            throw new \Exception($response['error']);
+        }
+        $response['practitioner_date_time'] = $practitionerDateTime;
+        return $response;
 
     }
-
-
-
-
-
 
 
     private function getStoreAvailability($availabilityKey, $storeAvailabilities): array
