@@ -335,7 +335,7 @@ class PaymentController extends Controller
 
         // Google Calendar API Integration
         $googleCalendar = new GoogleCalendarController();
-        dd($eventData ,$practitionerDateTime);
+
         $response = $googleCalendar->createGoogleEvent($eventData, $offering);
 
         if (!$response['success']) {
