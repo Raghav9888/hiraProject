@@ -96,9 +96,9 @@ class GoogleCalendarController extends Controller
                 throw new \Exception('Google Token Expired. Please reauthorize.');
             }
         }
-        dd($accessToken ,$googleAccount);
-        $calendarService = new Google_Service_Calendar($client);
 
+        $calendarService = new Google_Service_Calendar($client);
+        dd($calendarService);
         $createEvent = [
             'summary' => $data['title'],
             'description' => $data['description'],
