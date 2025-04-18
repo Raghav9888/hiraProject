@@ -34,7 +34,6 @@ class BookingConfirmationMail extends Mailable
      */
     public function build()
     {
-       dd($this->response) ;
         return $this->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'))
             ->subject("{$this->user->first_name} {$this->user->last_name}, Your Booking on The Hira Collective is Confirmed 🌸")
             ->view('emails.booking_confirmation')
