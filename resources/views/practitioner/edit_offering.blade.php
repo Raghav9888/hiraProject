@@ -85,16 +85,8 @@
                             <div class="mb-3 {{  $offering->offering_type  == 'in-person' ? '': 'd-none'}}"
                                  id="location">
                                 <label for="exampleInputEmail1" class="fw-bold d-block">Location</label>
-
-                                <select name="location" class="form-control">
-                                    @foreach($defaultLocations as $id => $location)
-                                        <option value="{{ $id }}"
-                                            {{ (string) $offering->location === (string) $id ? 'selected' : '' }}>
-                                            {{ $location }}
-                                        </option>
-                                    @endforeach
-                                </select>
-
+                                <input type="text" class="form-control" name="location" id="location"
+                                       aria-describedby="emailHelp" placeholder="" value="{{ $offering->location}}">
 
                             </div>
 
