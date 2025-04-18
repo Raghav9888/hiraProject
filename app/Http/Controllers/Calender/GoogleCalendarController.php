@@ -79,6 +79,7 @@ class GoogleCalendarController extends Controller
 
     public function createGoogleEvent($data, $offering = null): array
     {
+        dd($offering);
         $googleAccount = GoogleAccount::where('user_id', $data['user_id'])->firstOrFail();
         $accessToken = json_decode($googleAccount->access_token, true);
 
