@@ -309,7 +309,7 @@ class PaymentController extends Controller
 
         // Calculate end time
         $endTime = $startTime->copy()->addMinutes($duration);
-
+dd($bookingDate);
         // Event Data
         $eventData = [
             'title' => 'Booking From ' . ' ' . env('APP_NAME') . ':' . trim(($order->first_name ?? '') . ' ' . ($order->last_name ?? '')),
