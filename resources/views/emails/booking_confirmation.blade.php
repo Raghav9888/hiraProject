@@ -29,9 +29,8 @@
 </ul>
 
 <h3>Here are your booking details:</h3>
-@if(@$isPractitioner)
+@if($isPractitioner)
     <table style="border-collapse: collapse; width: 100%; max-width: 600px;">
-
         <tr>
             <td style="padding: 8px; border: 1px solid #ccc;"><strong>User Name:</strong></td>
             <td style="padding: 8px; border: 1px solid #ccc;">{{ @$order->first_name  . ' ' . @$order->last_name }}</td>
@@ -48,12 +47,6 @@
             <td style="padding: 8px; border: 1px solid #ccc;"><strong>Offering Type:</strong></td>
             <td style="padding: 8px; border: 1px solid #ccc;">{{ @$user->offering->offering_type }}</td>
         </tr>
-        @if(@$user->offering->offering_type == 'in-person')
-            <tr>
-                <td style="padding: 8px; border: 1px solid #ccc;"><strong>Location:</strong></td>
-                <td style="padding: 8px; border: 1px solid #ccc;">{{ @$user->offering->location }}</td>
-            </tr>
-        @endif
     </table>
 @else
     <table style="border-collapse: collapse; width: 100%; max-width: 600px;">
@@ -73,12 +66,6 @@
             <td style="padding: 8px; border: 1px solid #ccc;"><strong>Offering Type:</strong></td>
             <td style="padding: 8px; border: 1px solid #ccc;">{{ @$user->offering->offering_type }}</td>
         </tr>
-        @if(@$user->offering->offering_type == 'in-person')
-            <tr>
-                <td style="padding: 8px; border: 1px solid #ccc;"><strong>Location:</strong></td>
-                <td style="padding: 8px; border: 1px solid #ccc;">{{ @$user->offering->location }}</td>
-            </tr>
-        @endif
     </table>
 @endif
 
