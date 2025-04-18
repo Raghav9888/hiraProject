@@ -29,7 +29,7 @@
 </ul>
 
 <h3>Here are your booking details:</h3>
-@if($isPractitioner)
+@if(@$response->isPractitioner)
     <table style="border-collapse: collapse; width: 100%; max-width: 600px;">
         <tr>
             <td style="padding: 8px; border: 1px solid #ccc;"><strong>User Name:</strong></td>
