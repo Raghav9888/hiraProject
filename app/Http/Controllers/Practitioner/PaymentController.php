@@ -276,12 +276,6 @@ class PaymentController extends Controller
         $bookingTime = $order->time_slot;        // e.g., '05:40 AM'
 
 
-        dd("Booking Debug Log", [
-            'user_timezone' => $userTimezone,
-            'practitioner_timezone' => $practitionerTimezone,
-            'booking_date' => $bookingDate,
-            'booking_time' => $bookingTime,
-        ]);
 
         // Convert time from user timezone to practitioner timezone
         $userTime = Carbon::createFromFormat('h:i A', $bookingTime, $userTimezone);
@@ -341,6 +335,7 @@ class PaymentController extends Controller
 
         // Google Calendar API Integration
         $googleCalendar = new GoogleCalendarController();
+        dd($eventData);
         $response = $googleCalendar->createGoogleEvent($eventData, $offering);
 
         if (!$response['success']) {
