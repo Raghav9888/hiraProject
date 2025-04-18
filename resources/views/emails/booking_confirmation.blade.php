@@ -29,38 +29,59 @@
 </ul>
 
 <h3>Here are your booking details:</h3>
+@if($isPractitioner)
+    <table style="border-collapse: collapse; width: 100%; max-width: 600px;">
 
-<table style="border-collapse: collapse; width: 100%; max-width: 600px;">
-    @if($isPractitioner)
         <tr>
             <td style="padding: 8px; border: 1px solid #ccc;"><strong>User Name:</strong></td>
             <td style="padding: 8px; border: 1px solid #ccc;">{{ @$order->first_name  . ' ' . @$order->last_name }}</td>
         </tr>
-    @else
+        <tr>
+            <td style="padding: 8px; border: 1px solid #ccc;"><strong>Offering Name:</strong></td>
+            <td style="padding: 8px; border: 1px solid #ccc;">{{ @$user->offering->name }}</td>
+        </tr>
+        <tr>
+            <td style="padding: 8px; border: 1px solid #ccc;"><strong>Offering Date/Time:</strong></td>
+            <td style="padding: 8px; border: 1px solid #ccc;">{{ @$user->booking_date }} - {{@$user->time_slot}}</td>
+        </tr>
+        <tr>
+            <td style="padding: 8px; border: 1px solid #ccc;"><strong>Offering Type:</strong></td>
+            <td style="padding: 8px; border: 1px solid #ccc;">{{ @$user->offering->offering_type }}</td>
+        </tr>
+        @if(@$user->offering->offering_type == 'in-person')
+            <tr>
+                <td style="padding: 8px; border: 1px solid #ccc;"><strong>Location:</strong></td>
+                <td style="padding: 8px; border: 1px solid #ccc;">{{ @$user->offering->location }}</td>
+            </tr>
+        @endif
+    </table>
+
+@else
+    <table style="border-collapse: collapse; width: 100%; max-width: 600px;">
         <tr>
             <td style="padding: 8px; border: 1px solid #ccc;"><strong>Practitioner Name:</strong></td>
             <td style="padding: 8px; border: 1px solid #ccc;">{{ @$user->offering->user->name }}</td>
         </tr>
-    @endif
-    <tr>
-        <td style="padding: 8px; border: 1px solid #ccc;"><strong>Offering Name:</strong></td>
-        <td style="padding: 8px; border: 1px solid #ccc;">{{ @$user->offering->name }}</td>
-    </tr>
-    <tr>
-        <td style="padding: 8px; border: 1px solid #ccc;"><strong>Offering Date/Time:</strong></td>
-        <td style="padding: 8px; border: 1px solid #ccc;">{{ @$user->booking_date }} - {{@$user->time_slot}}</td>
-    </tr>
-    <tr>
-        <td style="padding: 8px; border: 1px solid #ccc;"><strong>Offering Type:</strong></td>
-        <td style="padding: 8px; border: 1px solid #ccc;">{{ @$user->offering->offering_type }}</td>
-    </tr>
-    @if(@$user->offering->offering_type == 'in-person')
         <tr>
-            <td style="padding: 8px; border: 1px solid #ccc;"><strong>Location:</strong></td>
-            <td style="padding: 8px; border: 1px solid #ccc;">{{ @$user->offering->location }}</td>
+            <td style="padding: 8px; border: 1px solid #ccc;"><strong>Offering Name:</strong></td>
+            <td style="padding: 8px; border: 1px solid #ccc;">{{ @$user->offering->name }}</td>
         </tr>
-    @endif
-</table>
+        <tr>
+            <td style="padding: 8px; border: 1px solid #ccc;"><strong>Offering Date/Time:</strong></td>
+            <td style="padding: 8px; border: 1px solid #ccc;">{{ @$user->booking_date }} - {{@$user->time_slot}}</td>
+        </tr>
+        <tr>
+            <td style="padding: 8px; border: 1px solid #ccc;"><strong>Offering Type:</strong></td>
+            <td style="padding: 8px; border: 1px solid #ccc;">{{ @$user->offering->offering_type }}</td>
+        </tr>
+        @if(@$user->offering->offering_type == 'in-person')
+            <tr>
+                <td style="padding: 8px; border: 1px solid #ccc;"><strong>Location:</strong></td>
+                <td style="padding: 8px; border: 1px solid #ccc;">{{ @$user->offering->location }}</td>
+            </tr>
+        @endif
+    </table>
+@endif
 
 
 <p>This moment matters. We’re so glad you’re here.</p>
@@ -78,14 +99,18 @@
 @endif
 
 <h3>Need to reschedule or cancel?</h3>
-<p>We understand that life happens — and we’ve designed our policy to hold both your time and our practitioners’ time
+<p>We understand that life happens — and we’ve designed our policy to hold both your time and our practitioners’
+    time
     with care.</p>
 <ul>
     <li>You can reschedule your booking up to 24 hours in advance, up to two times.</li>
-    <li>If you cancel your booking, a cancellation fee will apply (processed through Stripe), regardless of timing.</li>
+    <li>If you cancel your booking, a cancellation fee will apply (processed through Stripe), regardless of
+        timing.
+    </li>
 </ul>
 
-<p>This policy exists to honor the time, energy, and preparation our practitioners devote to your care — and to uphold
+<p>This policy exists to honor the time, energy, and preparation our practitioners devote to your care — and to
+    uphold
     the costs we incur to operate the platform, sustain fair pay, and maintain ethical standards.</p>
 
 <p><strong>For Additional Support:</strong></p>
