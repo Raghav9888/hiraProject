@@ -232,6 +232,7 @@ function generateCalendar(month, year) {
             dayCell.classList.add('active');
             showAvailableSlots(activeDate);
         });
+        showAvailableSlots(currentDate)
 
         calendarGrid.appendChild(dayCell);
         $('.calendar-grid .dates').on('click', function () {
