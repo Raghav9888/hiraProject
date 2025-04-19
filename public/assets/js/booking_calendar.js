@@ -416,20 +416,23 @@ function showAvailableSlots(date) {
 }
 
 function parseDuration(durationStr) {
-    // Example: '15 minutes' -> { minutes: 15 }
-    const regex = /(\d+)\s*(minutes|hour|hours|minute)/i;
+    // Example: '15 minutes' -> { minutes: 15 }, '1:50 hour' -> { minutes: 110 }
+    const regex = /(\d+)(?::(\d+))?\s*(minutes|hour|hours|minute)/i;
     const match = durationStr.match(regex);
     if (match) {
-        const value = parseInt(match[1], 10);
-        const unit = match[2].toLowerCase();
+        const hours = parseInt(match[1], 10); // The hour or main part (before colon)
+        const minutes = match[2] ? parseInt(match[2], 10) : 0; // Minutes (after colon), defaulting to 0 if absent
+        const unit = match[3].toLowerCase();
+
         if (unit === 'minutes' || unit === 'minute') {
-            return { minutes: value };
+            return { minutes: hours + minutes };
         } else if (unit === 'hour' || unit === 'hours') {
-            return { hours: value };
+            return { minutes: (hours * 60) + minutes };  // Convert both hours and minutes to minutes
         }
     }
     return { minutes: 0 };
 }
+
 
 function generateTimeSlots(from = null, to = null, date = null, allDay = false) {
     const practitionerTimeZone = document.getElementById('practitioner_timezone')?.value || 'UTC';
