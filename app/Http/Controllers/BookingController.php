@@ -63,7 +63,7 @@ class BookingController extends Controller
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
                 'billing_address' => $request->billing_address,
-                'billing_address2' => $request->billing_address2,
+                'billing_address2' => $request?->billing_address2 ?? '',
                 'billing_country' => $request->billing_country,
                 'billing_city' => $request->billing_city,
                 'billing_state' => $request->billing_state,

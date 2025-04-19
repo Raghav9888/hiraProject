@@ -101,6 +101,7 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::get('/help', [PractitionerController::class, 'help'])->name('help');
 
     Route::get('/dashboard', [PractitionerController::class, 'dashboard'])->name('dashboard');
+    Route::get('/endorsement-practitioner', [PractitionerController::class, 'endorsementPractitioner'])->name('endorsementPractitioner');
     Route::get('/community', [PractitionerController::class, 'community'])->name('community');
     Route::get('/my-membership', [PractitionerController::class, 'membership'])->name('my_membership');
     Route::post('/membership-buy', [PractitionerController::class, 'membershipBuy'])->name('membership.buy');

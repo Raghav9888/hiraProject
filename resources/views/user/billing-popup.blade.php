@@ -73,10 +73,10 @@
                         <input type="text" class="form-control" required name="billing_address" id="exampleInputEmail1"
                                aria-describedby="emailHelp" placeholder="Enter address line 1">
                     </div>
-                    <div class="mb-3">
-                        <input type="text" class="form-control" required name="billing_address2" id="exampleInputEmail1"
-                               aria-describedby="emailHelp" placeholder="Enter address line 2">
-                    </div>
+{{--                    <div class="mb-3">--}}
+{{--                        <input type="text" class="form-control" required name="billing_address2" id="exampleInputEmail1"--}}
+{{--                               aria-describedby="emailHelp" placeholder="Enter address line 2">--}}
+{{--                    </div>--}}
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">

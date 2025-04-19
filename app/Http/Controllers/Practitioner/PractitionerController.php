@@ -763,4 +763,33 @@ class PractitionerController extends Controller
         return redirect()->back()->with('success', 'Profile updated successfully');
     }
 
+
+    public function endorsementPractitioner(Request $request)
+    {
+    $search = $request->input('search');
+     $endorsedUsers = User::where('role', 1)
+            ->where('status', 1)
+            ->where(function ($query) use ($search) {
+                $query->where('first_name', 'LIKE', "%{$search}%")
+                    ->orWhere('last_name', 'LIKE', "%{$search}%")
+                    ->orWhere('email', 'LIKE', "%{$search}%");
+            })
+            ->with('userDetail')
+            ->get();
+        $defaultLocations = Locations::where('status', 1)->get();
+        $locations = [];
+        foreach ($defaultLocations as $location) {
+            $locations[$location->id] = $location->name;
+        }
+        json_encode($locations);
+        return response()->json([
+            'success' => true,
+            'practitioners' => $endorsedUsers,
+            'html' => view('practitioner.endorsement_practitioner_xml', [
+                'endorsedUsers' => $endorsedUsers,
+                'defaultLocations' => $locations,
+            ])->render()
+        ]);
+    }
+
 }

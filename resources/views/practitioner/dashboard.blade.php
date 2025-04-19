@@ -34,7 +34,7 @@
                                                 <div class="col-md-8">
 
                                                     <h5>{{$offering?->name}}</h5>
-{{--                                                    <h6>{{$offering?->short_description}}</h6>--}}
+                                                    {{--                                                    <h6>{{$offering?->short_description}}</h6>--}}
                                                     <div class="d-flex">
                                                         <img src="{{url('./assets/images/Clock.svg')}}" alt="">
                                                         <p class="ms-2">{{$date}}</p>
@@ -198,60 +198,62 @@
             let locationArr = @json($defaultLocations);
 
             $.ajax({
-                url: '/search/practitioner',
+                url: '/endorsement-practitioner',
                 type: 'get',
-                data: {search},
+                data: {'search': search},
                 success: function (response) {
                     let endorsementHtml = '';
 
                     if (!response.practitioners || response.practitioners.length === 0) {
                         endorsementHtml = '<p class="text-center">No practitioners found.</p>';
                     } else {
-                        for (let i = 0; i < response.practitioners.length; i += 3) {
-                            endorsementHtml += '<div class="row mt-2">';
-
-                            for (let j = i; j < i + 3 && j < response.practitioners.length; j++) {
-                                let practitioner = response.practitioners[j];
-
-                                let locationNames = '';
-
-                                if (practitioner.location && practitioner.location.length > 0) {
-                                    locationNames = JSON.parse(practitioner.location).map(function (locationId) {
-                                        return locationArr[locationId] || 'location';
-                                    }).slice(0, 2).join(', ');
-                                } else {
-                                    locationNames = 'no found';
-                                }
-
-                                let images = practitioner.user_detail?.images ? JSON.parse(practitioner.user_detail.images) : null;
-
-                                let imageUrl = images?.profile_image
-                                    ? `${imagePath}/practitioners/${practitioner.user_detail.id}/profile/${images.profile_image}`
-                                    : `${localPath}/images/no_image.png`;
-
-                                endorsementHtml += `
-                                    <div class="col-sm-12 col-md-6 col-lg-4">
-                                        <div class="browser-other-dv">
-                                            <div class="d-flex justify-content-center">
-                                                <img src="${imageUrl}" alt="person" class="img-fit img-fluid">
-                                            </div>
-                                            <h5>${practitioner.name}</h5>
-
-                                            <h6>${practitioner.bio && practitioner.bio.length > 0 ? practitioner.bio : ''}</h6>
-                                            <div class="d-flex justify-content-between">
-                                                <button class="endrose" id="endrose" data-user-id="${practitioner.id}">Endorse</button>
-                                                <div class="miles"><i class="fa-solid fa-location-dot me-2"></i>${locationNames}</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                `;
-                            }
-
-                            endorsementHtml += '</div>'; // Close row
-                        }
+                        endorsementHtml = response.html;
+                        // for (let i = 0; i < response.practitioners.length; i += 3) {
+                        //     endorsementHtml += '<div class="row mt-2">';
+                        //
+                        //         for (let j = i; j < i + 3 && j < response.practitioners.length; j++) {
+                        //             let practitioner = response.practitioners[j];
+                        //
+                        //             let locationNames = '';
+                        //
+                        //             if (practitioner.location && practitioner.location.length > 0) {
+                        //                 locationNames = JSON.parse(practitioner.location).map(function (locationId) {
+                        //                     return locationArr[locationId] || 'location';
+                        //                 }).slice(0, 2).join(', ');
+                        //             } else {
+                        //                 locationNames = 'no found';
+                        //             }
+                        //
+                        //             let images = practitioner.user_detail?.images ? JSON.parse(practitioner.user_detail.images) : null;
+                        //
+                        //             let imageUrl = images?.profile_image
+                        //                 ? `${imagePath}/practitioners/${practitioner.user_detail.id}/profile/${images.profile_image}`
+                        //                 : `${localPath}/images/no_image.png`;
+                        //
+                        //             endorsementHtml += `
+                        //                 <div class="col-sm-12 col-md-6 col-lg-4">
+                        //                     <div class="browser-other-dv">
+                        //                         <div class="d-flex justify-content-center">
+                        //                             <img src="${imageUrl}" alt="person" class="img-fit img-fluid">
+                        //                         </div>
+                        //                         <h5>${practitioner.name}</h5>
+                        //
+                        //                         <h6>${practitioner.bio && practitioner.bio.length > 0 ? practitioner.bio : ''}</h6>
+                        //                         <div class="d-flex justify-content-between">
+                        //                             <button class="endrose" id="endrose" data-user-id="${practitioner.id}">Endorse</button>
+                        //                             <div class="miles"><i class="fa-solid fa-location-dot me-2"></i>${locationNames}</div>
+                        //                         </div>
+                        //                     </div>
+                        //                 </div>
+                        //             `;
+                        //         }
+                        //
+                        //         endorsementHtml += '</div>'; // Close row
+                        //     }
+                        // }
+                        //
+                        // // Inject the generated HTML into the endorsement row container
                     }
-
-                    // Inject the generated HTML into the endorsement row container
                     $('#endorsementRow').html(endorsementHtml);
                 }
             });
@@ -284,6 +286,5 @@
         });
 
     </script>
-
 
 @endsection

@@ -342,6 +342,7 @@ class HomeController extends Controller
     public function searchPractitioner(Request $request, ?string $categoryType = null)
     {
         $search = $request->get('search');
+        $searchPractitioner = $request->get('searchPractitioner');
         $category = $categoryType ?? $request->get('category');
         $offeringType = $request->get('searchType');
         $locationName = $request->get('location');
@@ -454,8 +455,6 @@ class HomeController extends Controller
                 $events[$offeringData->event->date_and_time] = $offeringData;
             }
         }
-
-
         $blogs = Blog::latest()->get();
         // 9. Build final params
         $params = [
@@ -470,6 +469,34 @@ class HomeController extends Controller
             'categories' => Category::where('status', 1)->get(),
             'page' => $page
         ];
+
+//        if (!empty($searchPractitioner)) {
+//            $users = User::where('role', 1)
+//                ->where('status', 1)
+//                ->where(function ($q) use ($searchPractitioner) {
+//                    $q->where('name', 'like', '%' . $searchPractitioner . '%')
+//                        ->orWhere('first_name', 'like', '%' . $searchPractitioner . '%')
+//                        ->orWhere('last_name', 'like', '%' . $searchPractitioner . '%');
+//                })
+//                ->get();
+//
+//            return response()->json([
+//                'success' => true,
+//                'pendingResult' => ceil($users->count() / 8) > $page,
+//                'html' => view('user.practitioner_list_xml_request', [
+//                    'practitioners' => $users,
+//                    'search' => $search,
+//                    'category' => $category,
+//                    'defaultLocations' => $defaultLocations,
+//                    'offerings' => $offeringsData,
+//                    'offeringEvents' => $events,
+//                    'categories' => Category::where('status', 1)->get(),
+//                    'page' => $page
+//                ])->render()
+//            ]);
+//        }
+
+
 
         if ($request->isXmlHttpRequest() && $request->get('isPractitioner')) {
             return response()->json([
@@ -552,7 +579,7 @@ class HomeController extends Controller
                 'offering' => $offering,
                 'currency' => $currency,
                 'price' => $price
-                ])->render()
+            ])->render()
         ]);
 
     }
@@ -610,7 +637,6 @@ class HomeController extends Controller
         ]);
 
     }
-
 
 
 }
