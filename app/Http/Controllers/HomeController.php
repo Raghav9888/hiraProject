@@ -152,17 +152,16 @@ class HomeController extends Controller
             'message' => $request->message,
         ];
 
-        // Get the email from .env, fallback to a default email if missing
+        // Determine which email to send to
         $email = $input['support_type'] === 'technical_support'
             ? 'technicalsupport@thehiracollective.com'
-            :  'community@thehiracollective.com';
+            : 'community@thehiracollective.com';
 
-        // Check if the email is valid before sending
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             return back()->with('error', 'Support email is not configured correctly.');
         }
 
-        // Send email
+        // Send using default from (configured in .env: MAIL_FROM_ADDRESS)
         Mail::to($email)->send(new ContactUsMail($contactData));
 
         return back()->with('success', 'Your message has been sent successfully!');
