@@ -2,31 +2,30 @@
 @section('content')
     <section class="contact-us-wrrpr">
         <div class="container">
-            <div class="row align-items-center">
+            <div class="row">
                 <div class="col-sm-12 col-md-6 col-lg-6">
-{{--                    <div class="position-relative">--}}
-                        <img src="{{ url('./assets/images/header_logo.png') }}" alt="hira-collective" class="img-fluid">
-{{--                        <div class="contact-us-right-dv position-absolute top-0" style="backdrop-filter: blur(10px)">--}}
-{{--                            <h2 class="fw-bold mb-3 text-white" style="font-size: 45px">What kind of support do you--}}
-{{--                                need?</h2>--}}
+                    <div class="position-relative">
+                        <div class="contact-us-right-dv position-absolute top-0" style="backdrop-filter: blur(10px)">
+                            <h2 class="fw-bold mb-3 text-white" style="font-size: 45px">What kind of support do you
+                                need?</h2>
 
-{{--                            <h5 class="text-white">Booking Support</h5>--}}
-{{--                            <ul class="list-unstyled ps-3 text-white">--}}
-{{--                                <li>&#8226; Finding a practitioner</li>--}}
-{{--                                <li>&#8226; Help with booking or rescheduling</li>--}}
-{{--                                <li>&#8226; Questions about cancellations or fees</li>--}}
-{{--                                <li>&#8226; Clarification on services or offerings</li>--}}
-{{--                            </ul>--}}
+                            <h5 class="text-white">Booking Support</h5>
+                            <ul class="list-unstyled ps-3 text-white">
+                                <li>&#8226; Finding a practitioner</li>
+                                <li>&#8226; Help with booking or rescheduling</li>
+                                <li>&#8226; Questions about cancellations or fees</li>
+                                <li>&#8226; Clarification on services or offerings</li>
+                            </ul>
 
-{{--                            <h5 class="text-white">Technical Support</h5>--}}
-{{--                            <ul class="list-unstyled ps-3 text-white">--}}
-{{--                                <li>&#8226; Trouble logging in</li>--}}
-{{--                                <li>&#8226; Payment or checkout errors</li>--}}
-{{--                                <li>&#8226; Site bugs or glitches</li>--}}
-{{--                                <li>&#8226; Problems processing refunds or updates</li>--}}
-{{--                            </ul>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
+                            <h5 class="text-white">Technical Support</h5>
+                            <ul class="list-unstyled ps-3 text-white">
+                                <li>&#8226; Trouble logging in</li>
+                                <li>&#8226; Payment or checkout errors</li>
+                                <li>&#8226; Site bugs or glitches</li>
+                                <li>&#8226; Problems processing refunds or updates</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-6">
                     <div class="contact-us-right-dv">
