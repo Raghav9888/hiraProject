@@ -154,10 +154,9 @@ class HomeController extends Controller
 
         // Get the email from .env, fallback to a default email if missing
         $email = $input['support_type'] === 'technical_support'
-            ? env('TECHNICAL_SUPPORT_EMAIL', 'default_support@example.com')
-            : env('BOOKING_SUPPORT_EMAIL', 'default_booking@example.com');
+            ? 'technicalsupport@thehiracollective.com'
+            :  'community@thehiracollective.com';
 
-        dd($email);
         // Check if the email is valid before sending
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             return back()->with('error', 'Support email is not configured correctly.');
