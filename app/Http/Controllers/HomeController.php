@@ -143,7 +143,7 @@ class HomeController extends Controller
     public function sendContactMail(Request $request)
     {
         $input = $request->all();
-
+dd($input);
         $contactData = [
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
@@ -169,6 +169,7 @@ class HomeController extends Controller
             ? env('TECHNICAL_SUPPORT_EMAIL', 'default_support@example.com')
             : env('BOOKING_SUPPORT_EMAIL', 'default_booking@example.com');
 
+        dd($email);
         // Check if the email is valid before sending
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             return back()->with('error', 'Support email is not configured correctly.');
