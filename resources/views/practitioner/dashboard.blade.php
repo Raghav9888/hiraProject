@@ -193,80 +193,95 @@
         function searchPractitioner() {
             const search = $("#endorsements").val();
 
-            let imagePath = `{{env('media_path')}}`;
-            let localPath = `{{env('local_path')}}`;
+            let imagePath = `{{ env('media_path') }}`;
+            let localPath = `{{ env('local_path') }}`;
             let locationArr = @json($defaultLocations);
+
+            $("#endorsementRow").html('<p class="text-center">Searching...</p>');
 
             $.ajax({
                 url: '/endorsement-practitioner',
                 type: 'get',
-                data: {'search': search},
+                data: { 'search': search },
                 success: function (response) {
                     let endorsementHtml = '';
 
                     if (!response.practitioners || response.practitioners.length === 0) {
                         endorsementHtml = '<p class="text-center">No practitioners found.</p>';
                     } else {
-                        endorsementHtml = response.html;
-                        // for (let i = 0; i < response.practitioners.length; i += 3) {
-                        //     endorsementHtml += '<div class="row mt-2">';
-                        //
-                        //         for (let j = i; j < i + 3 && j < response.practitioners.length; j++) {
-                        //             let practitioner = response.practitioners[j];
-                        //
-                        //             let locationNames = '';
-                        //
-                        //             if (practitioner.location && practitioner.location.length > 0) {
-                        //                 locationNames = JSON.parse(practitioner.location).map(function (locationId) {
-                        //                     return locationArr[locationId] || 'location';
-                        //                 }).slice(0, 2).join(', ');
-                        //             } else {
-                        //                 locationNames = 'no found';
-                        //             }
-                        //
-                        //             let images = practitioner.user_detail?.images ? JSON.parse(practitioner.user_detail.images) : null;
-                        //
-                        //             let imageUrl = images?.profile_image
-                        //                 ? `${imagePath}/practitioners/${practitioner.user_detail.id}/profile/${images.profile_image}`
-                        //                 : `${localPath}/images/no_image.png`;
-                        //
-                        //             endorsementHtml += `
-                        //                 <div class="col-sm-12 col-md-6 col-lg-4">
-                        //                     <div class="browser-other-dv">
-                        //                         <div class="d-flex justify-content-center">
-                        //                             <img src="${imageUrl}" alt="person" class="img-fit img-fluid">
-                        //                         </div>
-                        //                         <h5>${practitioner.name}</h5>
-                        //
-                        //                         <h6>${practitioner.bio && practitioner.bio.length > 0 ? practitioner.bio : ''}</h6>
-                        //                         <div class="d-flex justify-content-between">
-                        //                             <button class="endrose" id="endrose" data-user-id="${practitioner.id}">Endorse</button>
-                        //                             <div class="miles"><i class="fa-solid fa-location-dot me-2"></i>${locationNames}</div>
-                        //                         </div>
-                        //                     </div>
-                        //                 </div>
-                        //             `;
-                        //         }
-                        //
-                        //         endorsementHtml += '</div>'; // Close row
-                        //     }
-                        // }
-                        //
-                        // // Inject the generated HTML into the endorsement row container
+                        for (let i = 0; i < response.practitioners.length; i += 3) {
+                            endorsementHtml += '<div class="row mt-2">';
+
+                            for (let j = i; j < i + 3 && j < response.practitioners.length; j++) {
+                                let practitioner = response.practitioners[j];
+
+                                let locationData = [];
+
+                                try {
+                                    locationData = Array.isArray(practitioner.location)
+                                        ? practitioner.location
+                                        : JSON.parse(practitioner.location || "[]");
+                                } catch (e) {
+                                    locationData = [];
+                                }
+
+                                let locationNames = locationData.map(locId => locationArr[locId] || 'location')
+                                    .slice(0, 2)
+                                    .join(', ');
+
+                                let images = null;
+                                try {
+                                    images = practitioner.user_detail?.images
+                                        ? JSON.parse(practitioner.user_detail.images)
+                                        : null;
+                                } catch (e) {
+                                    images = null;
+                                }
+
+                                let imageUrl = images?.profile_image
+                                    ? `${imagePath}/practitioners/${practitioner.user_detail?.id}/profile/${images.profile_image}`
+                                    : `${localPath}/images/no_image.png`;
+
+                                // Trim bio to 50 words
+                                let bio = practitioner.bio || '';
+                                let bioWords = bio.split(" ");
+                                let shortBio = bioWords.slice(0, 20).join(" ");
+                                if (bioWords.length > 20) shortBio += "...";
+
+                                endorsementHtml += `
+                                <div class="col-sm-12 col-md-6 col-lg-4">
+                                    <div class="browser-other-dv">
+                                        <div class="d-flex justify-content-center">
+                                            <img src="${imageUrl}" alt="person" class="img-fit img-fluid"
+                                                onerror="this.onerror=null;this.src='${localPath}/images/no_image.png';">
+                                        </div>
+                                        <h5>${practitioner.name}</h5>
+                                        <h6>${shortBio}</h6>
+                                        <div class="d-flex justify-content-between">
+                                            <button class="endrose-btn" data-user-id="${practitioner.id}">Endorse</button>
+                                            <div class="miles">
+                                                <i class="fa-solid fa-location-dot me-2"></i>${locationNames}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                            }
+
+                            endorsementHtml += '</div>'; // Close row
+                        }
                     }
+
                     $('#endorsementRow').html(endorsementHtml);
                 }
             });
         }
 
-
-        $(document).on('click', '#endrose', function (e) {
+        $(document).on('click', '.endrose-btn', function (e) {
             e.preventDefault();
 
-            // Get the user ID from the button's data attribute
             let userId = $(this).data('user-id');
 
-            // Make the AJAX request
             $.ajax({
                 url: `/setEndorsement/${userId}`,
                 type: 'POST',
@@ -274,17 +289,16 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function (response) {
-                    console.log(response)
                     alert('Endorsement added successfully!');
                 },
-                error: function (xhr, status, error) {
-                    // On failure, log the error and alert the user
+                error: function (xhr) {
                     console.error('Error:', xhr.responseText);
                     alert('Failed to add endorsement!');
                 }
             });
         });
-
     </script>
+
+
 
 @endsection
