@@ -143,7 +143,7 @@ class HomeController extends Controller
     public function sendContactMail(Request $request)
     {
         $input = $request->all();
-dd($input);
+
         $contactData = [
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
@@ -151,18 +151,6 @@ dd($input);
             'subject' => $request->subject,
             'message' => $request->message,
         ];
-
-        $recaptchaResponse = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
-            'secret' => env('RECAPTCHA_SECRET_KEY'),
-            'response' => $request->input('recaptcha_token'),
-            'remoteip' => $request->ip(),
-        ]);
-
-        $recaptchaData = $recaptchaResponse->json();
-
-        if (!($recaptchaData['success'] ?? false) || ($recaptchaData['score'] ?? 0) < 0.5) {
-            return back()->withErrors(['captcha' => 'reCAPTCHA verification failed.'])->withInput();
-        }
 
         // Get the email from .env, fallback to a default email if missing
         $email = $input['support_type'] === 'technical_support'
