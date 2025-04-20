@@ -180,7 +180,7 @@
             updateFields(); // Initialize correctly on page load
         });
     </script>
-    {{-- <script src="https://www.google.com/recaptcha/enterprise.js?render=6LcHEAwrAAAAAPAOqh949AjS1TkQ5ixAjL1GUUhe"></script>
+     <script src="https://www.google.com/recaptcha/enterprise.js?render=6LcHEAwrAAAAAPAOqh949AjS1TkQ5ixAjL1GUUhe"></script>
 
     <script>
         function onClick(e) {
@@ -189,5 +189,5 @@
                 const token = await grecaptcha.enterprise.execute('6LcHEAwrAAAAAPAOqh949AjS1TkQ5ixAjL1GUUhe', {action: 'LOGIN'});
             });
         }
-    </script> --}}
+    </script>
 @endsection
