@@ -10,7 +10,51 @@
         <!-- partial -->
         <div class="main-panel">
           <div class="content-wrapper">
-            <div class="row">
+            
+            <div class="row g-4">
+              <!-- Sample Card -->
+              <div class="col-md-3 col-sm-6">
+                <div class="dashboard-card text-center">
+                  <img src="https://img.icons8.com/fluency/48/conference-call.png" alt="Banner">
+                  <div class="dashboard-title">Total Practionters</div>
+                  <div class="dashboard-value">{{$totalPractionters}}</div>
+                </div>
+              </div>
+        
+              <!-- Repeat for all other cards -->
+              <div class="col-md-3 col-sm-6">
+                <div class="dashboard-card text-center">
+                  <img src="https://img.icons8.com/?size=100&id=119660&format=png&color=000000" alt="Category">
+                  <div class="dashboard-title">Total Bookings</div>
+                  <div class="dashboard-value">{{$totalBookings}}</div>
+                </div>
+              </div>
+        
+              <div class="col-md-3 col-sm-6">
+                <div class="dashboard-card text-center">
+                  <img src="https://img.icons8.com/?size=100&id=bRSK58zBO6UO&format=png&color=000000" alt="Service Provider">
+                  <div class="dashboard-title">Total Earnings</div>
+                  <div class="dashboard-value">{{$totalPayment}}</div>
+                </div>
+              </div>
+        
+              <div class="col-md-3 col-sm-6">
+                <div class="dashboard-card text-center">
+                  <img src="https://img.icons8.com/?size=100&id=JhPEC7MuLxCC&format=png&color=000000" alt="New User">
+                  <div class="dashboard-title">Total Offerings</div>
+                  <div class="dashboard-value">{{$totalOfferings}}</div>
+                </div>
+              </div>
+
+              <div class="col-md-3 col-sm-6">
+                <div class="dashboard-card text-center">
+                  <img src="https://img.icons8.com/?size=100&id=26066&format=png&color=000000" alt="New User">
+                  <div class="dashboard-title">Total Events</div>
+                  <div class="dashboard-value">{{$totalEvents}}</div>
+                </div>
+              </div>
+          </div>
+            {{-- <div class="row">
               <div class="col-sm-12">
                 <div class="home-tab">
                   <div class="d-sm-flex align-items-center justify-content-between border-bottom">
@@ -728,7 +772,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> --}}
           </div>
           <!-- content-wrapper ends -->
           <!-- partial:partials/_footer.html -->
