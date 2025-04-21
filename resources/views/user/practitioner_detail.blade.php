@@ -213,135 +213,252 @@
                                         </div>
                                     </div>
                                     @foreach($offerings as $offering)
-                                        <div class="accordian-body-data">
-                                            <div class="d-flex justify-content-between flex-wrap align-items-center">
-                                                <h6 class="mb-2"
-                                                    style="font-size: 15px;font-weight: 800">{{$offering->name}}</h6>
-                                                <div class="d-flex align-items-center">
-                                                    @php
-                                                        $rawPrice = $offering->offering_event_type == 'event'
-                                                            ? $offering->event?->client_price ?? 0
-                                                            : ($offering?->client_price ?? 0);
-
-                                                        // Clean the price: remove commas, convert to float
-                                                        $cadPrice = round(floatval(str_replace(',', '', $rawPrice)));
-
-                                                    @endphp
-
-                                                    <h6 class="offer-prize me-2 m-0">
-                                                       CA$ {{ $cadPrice }}
-                                                    </h6>
-
-                                                    <button type="button" class="home-blog-btn offering_process"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#exampleModal"
-                                                            onclick="openPopup(event)"
-                                                            data-user-id="{{$user->id}}"
-                                                            data-duration="{{$offering->offering_event_type =='event' ? ($offering->event?->event_duration ?? '15 minutes') : ($offering?->booking_duration ?? '15 minutes')}}"
-                                                            data-buffer-time="{{$offering->offering_event_type =='event'  ? '15 minutes' : ($offering?->buffer_time ?? '15 minutes')}}"
-                                                            data-offering-id="{{$offering->id}}"
-                                                            data-offering-event-type="{{$offering->offering_event_type}}"
-                                                            data-event-start="{{$offering->offering_event_type =='event' ? $offering->event?->date_and_time  ?? '': ''}}"
-                                                            data-availability="{{$offering?->availability_type ?? ''}}"
-                                                            data-specific-day-start="{{$offering->from_date}}"
-                                                            data-specific-day-end="{{$offering->to_date}}"
-                                                            data-price="{{$cadPrice}}"
-                                                            data-currency-symbol="CA$"
-                                                            data-currency="cad"
-                                                            data-timezone="{{$userDetail->timezone}}"
-                                                            data-cad-price="{{$cadPrice}}"
-                                                            data-store-availability="{{$storeAvailable}}">BOOK NOW
-                                                    </button>
-
-                                                    {{--                                                    <a href="{{ route('practitionerOfferingDetail',$offering->id)}}" class="home-blog-btn">BOOK NOW</a>--}}
-                                                </div>
-                                            </div>
-                                            <ul class="practitioner-accordian-lists">
-                                                <li>{{ $offering->offering_event_type == 'event' ? $offering->event?->event_duration ?? 0:$offering->booking_duration}}</li>
-                                            </ul>
-
-                                            <button id="view-more-btn" class="blog-view-more mb-2"
-                                                    style="color:#9F8B72;">More Info<i
-                                                    class="fas fa-chevron-down ms-2"></i></button>
-
-                                            <div id="lorem-text" class="lorem-text">
-                                                <div class="toggle-data-dv">
-                                                    <div class="toggle-dv-desc">
+                                        @if($offering?->offering_event_type == 'offering')
+                                            <div class="accordian-body-data">
+                                                <div
+                                                    class="d-flex justify-content-between flex-wrap align-items-center">
+                                                    <h6 class="mb-2"
+                                                        style="font-size: 15px;font-weight: 800">{{$offering->name}}</h6>
+                                                    <div class="d-flex align-items-center">
                                                         @php
-                                                            $imageUrl = (isset($offering->featured_image) and $offering->featured_image) ? asset($mediaPath . '/practitioners/' . $userDetail->id . '/offering/'  . $offering->featured_image) :
-                                                        asset($localPath . '/images/no_image.png');
+                                                            $rawPrice = $offering->offering_event_type == 'event'
+                                                                ? $offering->event?->client_price ?? 0
+                                                                : ($offering?->client_price ?? 0);
+
+                                                            // Clean the price: remove commas, convert to float
+                                                            $cadPrice = round(floatval(str_replace(',', '', $rawPrice)));
+
                                                         @endphp
 
-                                                        <img src="{{$imageUrl}}" alt="">
-                                                        <p class="m-0 mb-1">{{$offering->short_description}}</p>
+                                                        <h6 class="offer-prize me-2 m-0">
+                                                            CA$ {{ $cadPrice }}
+                                                        </h6>
+
+                                                        <button type="button" class="home-blog-btn offering_process"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#exampleModal"
+                                                                onclick="openPopup(event)"
+                                                                data-user-id="{{$user->id}}"
+                                                                data-duration="{{$offering->offering_event_type =='event' ? ($offering->event?->event_duration ?? '15 minutes') : ($offering?->booking_duration ?? '15 minutes')}}"
+                                                                data-buffer-time="{{$offering->offering_event_type =='event'  ? '15 minutes' : ($offering?->buffer_time ?? '15 minutes')}}"
+                                                                data-offering-id="{{$offering->id}}"
+                                                                data-offering-event-type="{{$offering->offering_event_type}}"
+                                                                data-event-start="{{$offering->offering_event_type =='event' ? $offering->event?->date_and_time  ?? '': ''}}"
+                                                                data-availability="{{$offering?->availability_type ?? ''}}"
+                                                                data-specific-day-start="{{$offering->from_date}}"
+                                                                data-specific-day-end="{{$offering->to_date}}"
+                                                                data-price="{{$cadPrice}}"
+                                                                data-currency-symbol="CA$"
+                                                                data-currency="cad"
+                                                                data-timezone="{{$userDetail->timezone}}"
+                                                                data-cad-price="{{$cadPrice}}"
+                                                                data-store-availability="{{$storeAvailable}}">BOOK NOW
+                                                        </button>
+
+                                                        {{--                                                    <a href="{{ route('practitionerOfferingDetail',$offering->id)}}" class="home-blog-btn">BOOK NOW</a>--}}
                                                     </div>
-                                                    <div class="toggle-dv-review">
+                                                </div>
+                                                <ul class="practitioner-accordian-lists">
+                                                    <li>{{ $offering->offering_event_type == 'event' ? $offering->event?->event_duration ?? 0:$offering->booking_duration}}</li>
+                                                </ul>
+
+                                                <button id="view-more-btn" class="blog-view-more mb-2"
+                                                        style="color:#9F8B72;">More Info<i
+                                                        class="fas fa-chevron-down ms-2"></i></button>
+
+                                                <div id="lorem-text" class="lorem-text">
+                                                    <div class="toggle-data-dv">
+                                                        <div class="toggle-dv-desc">
+                                                            @php
+                                                                $imageUrl = (isset($offering->featured_image) and $offering->featured_image) ? asset($mediaPath . '/practitioners/' . $userDetail->id . '/offering/'  . $offering->featured_image) :
+                                                            asset($localPath . '/images/no_image.png');
+                                                            @endphp
+
+                                                            <img src="{{$imageUrl}}" alt="">
+                                                            <p class="m-0 mb-1">{{$offering->short_description}}</p>
+                                                        </div>
+                                                        <div class="toggle-dv-review">
 
 
-                                                        <ul class="nav nav-tabs" id="myTab" role="tablist">
-                                                            <li class="nav-item" role="presentation">
-                                                                <button class="nav-link active mx-2"
-                                                                        id="description-tab" data-bs-toggle="tab"
-                                                                        data-bs-target="#description-tab-pane"
-                                                                        type="button" role="tab"
-                                                                        aria-controls="description-tab-pane"
-                                                                        aria-selected="true">Description
-                                                                </button>
-                                                            </li>
-                                                            <li class="nav-item" role="presentation">
-                                                                <button class="nav-link mx-2" id="reviews-tab"
-                                                                        data-bs-toggle="tab"
-                                                                        data-bs-target="#reviews-tab-pane" type="button"
-                                                                        role="tab" aria-controls="reviews-tab-pane"
-                                                                        aria-selected="false">Reviews
-                                                                </button>
-                                                            </li>
+                                                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                                                <li class="nav-item" role="presentation">
+                                                                    <button class="nav-link active mx-2"
+                                                                            id="description-tab" data-bs-toggle="tab"
+                                                                            data-bs-target="#description-tab-pane"
+                                                                            type="button" role="tab"
+                                                                            aria-controls="description-tab-pane"
+                                                                            aria-selected="true">Description
+                                                                    </button>
+                                                                </li>
+                                                                <li class="nav-item" role="presentation">
+                                                                    <button class="nav-link mx-2" id="reviews-tab"
+                                                                            data-bs-toggle="tab"
+                                                                            data-bs-target="#reviews-tab-pane"
+                                                                            type="button"
+                                                                            role="tab" aria-controls="reviews-tab-pane"
+                                                                            aria-selected="false">Reviews
+                                                                    </button>
+                                                                </li>
 
-                                                        </ul>
-                                                        <div class="tab-content" id="myTabContent">
-                                                            <div class="tab-pane fade show active"
-                                                                 id="description-tab-pane" role="tabpanel"
-                                                                 aria-labelledby="description-tab" tabindex="0">
-                                                                {{$offering->long_description}}
-                                                            </div>
-                                                            <div class="tab-pane fade" id="reviews-tab-pane"
-                                                                 role="tabpanel" aria-labelledby="reviews-tab"
-                                                                 tabindex="0">
-                                                                <div class="review-dv-data">
-                                                                    @foreach ($offeringFeedback as $feedback)
-                                                                        <div class="person-review-dv">
-                                                                            <div
-                                                                                class="d-flex justify-content-between flex-wrap align-items-center mt-3">
-                                                                                <div class="reviewer mb-3">
-                                                                                    <div class="reviewer-img-text">
-                                                                                        {{ strtoupper(substr($feedback->name, 0, 2)) }} {{-- Show initials --}}
-                                                                                    </div>
-                                                                                    <div class="reviewer-info">
-                                                                                        <div
-                                                                                            class="name">{{ $feedback->name }}</div>
-                                                                                        <div class="stars">
-                                                                                            @for ($i = 1; $i <= 5; $i++)
-                                                                                                <i class="fa-regular fa-gem {{ $i <= $feedback->rating ? 'text-warning' : '' }}"></i>
-                                                                                            @endfor
+                                                            </ul>
+                                                            <div class="tab-content" id="myTabContent">
+                                                                <div class="tab-pane fade show active"
+                                                                     id="description-tab-pane" role="tabpanel"
+                                                                     aria-labelledby="description-tab" tabindex="0">
+                                                                    {{$offering->long_description}}
+                                                                </div>
+                                                                <div class="tab-pane fade" id="reviews-tab-pane"
+                                                                     role="tabpanel" aria-labelledby="reviews-tab"
+                                                                     tabindex="0">
+                                                                    <div class="review-dv-data">
+                                                                        @foreach ($offeringFeedback as $feedback)
+                                                                            <div class="person-review-dv">
+                                                                                <div
+                                                                                    class="d-flex justify-content-between flex-wrap align-items-center mt-3">
+                                                                                    <div class="reviewer mb-3">
+                                                                                        <div class="reviewer-img-text">
+                                                                                            {{ strtoupper(substr($feedback->name, 0, 2)) }} {{-- Show initials --}}
+                                                                                        </div>
+                                                                                        <div class="reviewer-info">
+                                                                                            <div
+                                                                                                class="name">{{ $feedback->name }}</div>
+                                                                                            <div class="stars">
+                                                                                                @for ($i = 1; $i <= 5; $i++)
+                                                                                                    <i class="fa-regular fa-gem {{ $i <= $feedback->rating ? 'text-warning' : '' }}"></i>
+                                                                                                @endfor
+                                                                                            </div>
                                                                                         </div>
                                                                                     </div>
+                                                                                    <h3>{{ number_format($feedback->rating, 1) }}
+                                                                                        /5.0</h3>
+
                                                                                 </div>
-                                                                                <h3>{{ number_format($feedback->rating, 1) }}
-                                                                                    /5.0</h3>
+                                                                                <div class="review-text mb-3">
+                                                                                    {!! $feedback->comment !!}
 
+                                                                                </div>
                                                                             </div>
-                                                                            <div class="review-text mb-3">
-                                                                                {!! $feedback->comment !!}
-
-                                                                            </div>
-                                                                        </div>
-                                                                    @endforeach
+                                                                        @endforeach
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        @if($offering?->event?->sports > 0 && $offering?->offering_event_type == 'event')
+                                                            <div class="toggle-dv-review mt-3">
+                                                                <div class="d-flex mb-2" style="gap: 20px;">
+                                                                    <button>Events</button>
+                                                                </div>
+
+                                                                <p>
+                                                            <span
+                                                                class="mr-2 mb-1 d-block">Event Duration: {{@$offering?->event?->event_duration ?? 0}}</span>
+                                                                    <span
+                                                                        class="mr-2 mb-1 d-block"> Client Price: ${{ @$offering?->event?->client_price ?? 0}}</span>
+                                                                    <span
+                                                                        class="mr-2 mb-1 d-block">Date Time: {{@$offering->event->date_and_time? date('d M, Y', strtotime($offering->event->date_and_time)): ''}}</span>
+                                                                    <span
+                                                                        class="mr-2 mb-1 d-block">Total slots: {{@$offering?->event->sports > 0 ? $offering->event->sports: 0}}</span>
+
+                                                                </p>
+                                                            </div>
+
+                                                        @endif
                                                     </div>
-                                                    @if($offering?->event?->sports > 0 && $offering?->offering_event_type == 'event')
-                                                        <div class="toggle-dv-review mt-3">
+                                                </div>
+
+                                                <button id="view-less-btn" class="blog-view-more"
+                                                        style="color:#9F8B72; display: none;">
+                                                    Less Info<i class="fa-solid fa-chevron-up ms-2"></i></button>
+
+                                            </div>
+                                        @endif
+                                    @endforeach
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingOne">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#Events" aria-expanded="true" aria-controls="collapseOne">
+                                    Events
+                                </button>
+                            </h2>
+                            <div id="Events" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                                 data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <div class="d-flex align-items-center mb-3" style="gap: 20px;">
+                                        <p class="m-0">Select Currency</p>
+                                        <div class="dropdown Currency-select">
+                                            <div class="dropdown">
+                                                <select class="form-select" aria-label="Default select example"
+                                                        id="currencySelect"
+                                                        style="border-radius: 30px !important;padding: 10px 36px 10px 10px;text-align: start;">
+                                                    <option value="cad">CAD</option>
+                                                    <option value="usd">USD</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @foreach($offerings as $offering)
+                                        @if($offering?->event?->sports > 0 && $offering?->offering_event_type == 'event')
+                                            <div class="accordian-body-data">
+                                                <div
+                                                    class="d-flex justify-content-between flex-wrap align-items-center">
+                                                    <h6 class="mb-2"
+                                                        style="font-size: 15px;font-weight: 800">{{$offering->name}}</h6>
+                                                    <div class="d-flex align-items-center">
+                                                        @php
+                                                            $rawPrice = $offering->offering_event_type == 'event'
+                                                                ? $offering->event?->client_price ?? 0
+                                                                : ($offering?->client_price ?? 0);
+
+                                                            // Clean the price: remove commas, convert to float
+                                                            $cadPrice = round(floatval(str_replace(',', '', $rawPrice)));
+
+                                                        @endphp
+
+                                                        <h6 class="offer-prize me-2 m-0">
+                                                            CA$ {{ $cadPrice }}
+                                                        </h6>
+
+                                                        <button type="button" class="home-blog-btn offering_process"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#exampleModal"
+                                                                onclick="openPopup(event)"
+                                                                data-user-id="{{$user->id}}"
+                                                                data-duration="{{$offering->offering_event_type =='event' ? ($offering->event?->event_duration ?? '15 minutes') : ($offering?->booking_duration ?? '15 minutes')}}"
+                                                                data-buffer-time="{{$offering->offering_event_type =='event'  ? '15 minutes' : ($offering?->buffer_time ?? '15 minutes')}}"
+                                                                data-offering-id="{{$offering->id}}"
+                                                                data-offering-event-type="{{$offering->offering_event_type}}"
+                                                                data-event-start="{{$offering->offering_event_type =='event' ? $offering->event?->date_and_time  ?? '': ''}}"
+                                                                data-availability="{{$offering?->availability_type ?? ''}}"
+                                                                data-specific-day-start="{{$offering->from_date}}"
+                                                                data-specific-day-end="{{$offering->to_date}}"
+                                                                data-price="{{$cadPrice}}"
+                                                                data-currency-symbol="CA$"
+                                                                data-currency="cad"
+                                                                data-timezone="{{$userDetail->timezone}}"
+                                                                data-cad-price="{{$cadPrice}}"
+                                                                data-store-availability="{{$storeAvailable}}">BOOK NOW
+                                                        </button>
+
+                                                        {{--                                                    <a href="{{ route('practitionerOfferingDetail',$offering->id)}}" class="home-blog-btn">BOOK NOW</a>--}}
+                                                    </div>
+                                                </div>
+                                                <ul class="practitioner-accordian-lists">
+                                                    <li>{{ $offering->offering_event_type == 'event' ? $offering->event?->event_duration ?? 0:$offering->booking_duration}}</li>
+                                                </ul>
+
+                                                <button id="view-more-btn" class="blog-view-more mb-2"
+                                                        style="color:#9F8B72;">More Info<i
+                                                        class="fas fa-chevron-down ms-2"></i></button>
+
+                                                <div id="lorem-text" class="lorem-text">
+                                                    <div class="toggle-data-dv">
+                                                        <div class="toggle-dv-review my-3">
                                                             <div class="d-flex mb-2" style="gap: 20px;">
                                                                 <button>Events</button>
                                                             </div>
@@ -358,22 +475,86 @@
 
                                                             </p>
                                                         </div>
+                                                        <div class="toggle-dv-review">
 
-                                                    @endif
+
+                                                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                                                <li class="nav-item" role="presentation">
+                                                                    <button class="nav-link active mx-2"
+                                                                            id="description-tab" data-bs-toggle="tab"
+                                                                            data-bs-target="#description-tab-pane"
+                                                                            type="button" role="tab"
+                                                                            aria-controls="description-tab-pane"
+                                                                            aria-selected="true">Description
+                                                                    </button>
+                                                                </li>
+                                                                <li class="nav-item" role="presentation">
+                                                                    <button class="nav-link mx-2" id="reviews-tab"
+                                                                            data-bs-toggle="tab"
+                                                                            data-bs-target="#reviews-tab-pane"
+                                                                            type="button"
+                                                                            role="tab" aria-controls="reviews-tab-pane"
+                                                                            aria-selected="false">Reviews
+                                                                    </button>
+                                                                </li>
+
+                                                            </ul>
+                                                            <div class="tab-content" id="myTabContent">
+                                                                <div class="tab-pane fade show active"
+                                                                     id="description-tab-pane" role="tabpanel"
+                                                                     aria-labelledby="description-tab" tabindex="0">
+                                                                    {{$offering->long_description}}
+                                                                </div>
+                                                                <div class="tab-pane fade" id="reviews-tab-pane"
+                                                                     role="tabpanel" aria-labelledby="reviews-tab"
+                                                                     tabindex="0">
+                                                                    <div class="review-dv-data">
+                                                                        @foreach ($offeringFeedback as $feedback)
+                                                                            <div class="person-review-dv">
+                                                                                <div
+                                                                                    class="d-flex justify-content-between flex-wrap align-items-center mt-3">
+                                                                                    <div class="reviewer mb-3">
+                                                                                        <div class="reviewer-img-text">
+                                                                                            {{ strtoupper(substr($feedback->name, 0, 2)) }} {{-- Show initials --}}
+                                                                                        </div>
+                                                                                        <div class="reviewer-info">
+                                                                                            <div
+                                                                                                class="name">{{ $feedback->name }}</div>
+                                                                                            <div class="stars">
+                                                                                                @for ($i = 1; $i <= 5; $i++)
+                                                                                                    <i class="fa-regular fa-gem {{ $i <= $feedback->rating ? 'text-warning' : '' }}"></i>
+                                                                                                @endfor
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <h3>{{ number_format($feedback->rating, 1) }}
+                                                                                        /5.0</h3>
+
+                                                                                </div>
+                                                                                <div class="review-text mb-3">
+                                                                                    {!! $feedback->comment !!}
+
+                                                                                </div>
+                                                                            </div>
+                                                                        @endforeach
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
+
+                                                <button id="view-less-btn" class="blog-view-more"
+                                                        style="color:#9F8B72; display: none;">
+                                                    Less Info<i class="fa-solid fa-chevron-up ms-2"></i></button>
+
                                             </div>
-
-                                            <button id="view-less-btn" class="blog-view-more"
-                                                    style="color:#9F8B72; display: none;">
-                                                Less Info<i class="fa-solid fa-chevron-up ms-2"></i></button>
-
-                                        </div>
+                                        @endif
                                     @endforeach
-
-
                                 </div>
                             </div>
                         </div>
+
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="headingTwo">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
