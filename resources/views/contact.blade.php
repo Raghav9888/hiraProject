@@ -61,7 +61,7 @@
                                 </select>
                             </div>
                             <div class="mb-3" id="support_category_section">
-                                <label class="form-label">Support Category</label>
+                                <label class="form-label">How do you want to connect?</label>
 
                                 <select name="support_booking_category" class="form-select d-none"
                                         id="subject_booking_input_category" style="border-radius: 24px !important; padding: 10px 10px !important;">
@@ -78,7 +78,7 @@
                                 </select>
                             </div>
                             <div class="mb-3 d-none" id="booking_link_section">
-                                <a href="https://calendar.app.google/ff54ToKRwgE1v8gw9" target="_blank">Booking Link</a>
+                                <a href="https://calendar.app.google/ff54ToKRwgE1v8gw9" target="_blank">Lets Schedule a meeting</a>
                             </div>
                             <div class="mb-3 d-none" id="whatsapp_link_section">
                                 <a href="https://wa.me/9876044814" target="_blank">Whatsapp Number</a>

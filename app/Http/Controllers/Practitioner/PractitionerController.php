@@ -754,9 +754,9 @@ class PractitionerController extends Controller
         } else {
             $membership->updated_by = $userId;
         }
-        $membership->blogs_workshops_events = $input['blogs_workshops_events'] ? json_encode($input['blogs_workshops_events']) : null;
-        $membership->referral_program = $input['referral_program'];
-        $membership->collaboration_interests = $input['collaboration_interests'];
+        $membership->blogs_workshops_events = isset($input['blogs_workshops_events']) && $input['blogs_workshops_events'] ? json_encode($input['blogs_workshops_events']) : null;
+        $membership->referral_program = $input['referral_program'] ?? null;
+        $membership->collaboration_interests = $input['collaboration_interests'] ?? null;
 
         $membership->save();
 

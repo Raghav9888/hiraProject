@@ -426,7 +426,13 @@
                                                         <div class="col-lg-6 mb-4">
                                                             <div class="d-lg-flex justify-content-between">
                                                                 <label for="service-hours" class="fw-bold">Email
-                                                                    template</label>
+                                                                    template
+                                                                    <span data-bs-toggle="tooltip"
+                                                                          data-bs-placement="top"
+                                                                          data-bs-title="Google meets link will be auto generated and can share a new link when in meet with them - and make this box to fill out much longer and not optional">
+                                                                    <i class="fa-solid fa-circle-info"></i>
+                                                                </span>
+                                                                </label>
 
                                                                 <p>Maximum length of 500 words</p>
                                                             </div>
@@ -706,7 +712,12 @@
                                                         <div class="col-lg-6 mb-4">
                                                             <div class="d-flex justify-content-between">
                                                                 <label for="service-hours" class="fw-bold">Email
-                                                                    template</label>
+                                                                    template
+                                                                    <span data-bs-toggle="tooltip"
+                                                                          data-bs-placement="top"
+                                                                          data-bs-title="Google meets link will be auto generated and can share a new link when in meet with them - and make this box to fill out much longer and not optional">
+                                                                    <i class="fa-solid fa-circle-info"></i>
+                                                                </span></label>
 
                                                                 <p>Maximum length of 500 words</p>
                                                             </div>
