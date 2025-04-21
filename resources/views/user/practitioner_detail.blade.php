@@ -704,6 +704,8 @@
                             <h5 class="py-2" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapseOne"><i class="fa-solid fa-circle me-3"></i>Offering</h5>
                             <h5 class="py-2" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#Events"><i class="fa-solid fa-circle me-3"></i>Event</h5>
+                            <h5 class="py-2" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapseTwo"><i class="fa-solid fa-circle me-3"></i>
                                 I Help With</h5>
                             <h5 class="py-2" type="button" data-bs-toggle="collapse"
