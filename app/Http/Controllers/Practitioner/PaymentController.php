@@ -247,11 +247,15 @@ class PaymentController extends Controller
         $intakeForms = $offering->intake_form;
         $response = $this->createGoogleCalendarEvent($order);
         $response['order'] = $order;
+        $response['bookingCancelUrl'] = (isset($offering->cancellation_time_slot) && $offering->cancellation_time_slot) ? route('bookingCancel', ['bookingId' => $order->id, 'eventId' => $response['google_event_id']]) : null;
+
         $response['isPractitioner'] = false;
+
         // Send confirmation email to the user
         Mail::to($order->billing_email)->send(new BookingConfirmationMail($order, $practitionerEmailTemplate, $intakeForms,$response));
 
         $response['isPractitioner'] = true;
+
         // Send confirmation email to the practitioner
         Mail::to($offering->user->email)->send(new BookingConfirmationMail($order, $practitionerEmailTemplate, $intakeForms ,$response));
 

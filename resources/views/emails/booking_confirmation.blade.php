@@ -91,10 +91,22 @@
             </tr>
         @endif
 
-        @if(@$user->offering->offering_type != 'in-person')
+        @if(@$user->offering->offering_type != 'in-person' && isset($response['meet_link']) && $response['meet_link'])
             <tr>
                 <td style="padding: 8px; border: 1px solid #ccc;"><strong>Meeting link:</strong></td>
                 <td style="padding: 8px; border: 1px solid #ccc;">{{ @$response['meet_link'] }}</td>
+            </tr>
+        @endif
+
+
+        @if(isset($response['bookingCancelUrl']) && @$response['bookingCancelUrl'] && !$response['isPractitioner'])
+            <tr>
+                <td style="padding: 8px; border: 1px solid #ccc;"><strong>Booking Cancellation link:</strong></td>
+                <td style="padding: 8px; border: 1px solid #ccc;">
+                    <a href="{{ @$response['bookingCancelUrl'] }}">
+                       Cancel your booking
+                    </a>
+                </td>
             </tr>
         @endif
 

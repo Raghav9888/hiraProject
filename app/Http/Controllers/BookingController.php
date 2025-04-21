@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Calender\GoogleCalendarController;
+use App\Models\Booking;
 use App\Models\Country;
+use Carbon\Carbon;
 use Google\Service\Dfareporting\Resource\Countries;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -198,6 +201,59 @@ class BookingController extends Controller
 
 
         return view('checkout', compact('booking', 'product'));
+    }
+
+
+    public function cancelEvent(Request $request, $bookingId, $eventId)
+    {
+        $booking = Booking::findOrFail($bookingId);
+        $offering = Offering::where('id', $booking->offering_id)->with('event')->first();
+        $user = User::with('userDetail')->findOrFail($offering->user_id);
+
+        $practitionerTimezone = $user->userDetail->timezone ?? 'UTC';
+        $userTimezone = $booking->user_timezone ?? $practitionerTimezone;
+
+        $bookingDate = $booking->booking_date ?? null;
+        $bookingTime = $booking->time_slot ?? null;
+
+        if (!$bookingDate || !$bookingTime) {
+            return response()->json(['error' => 'Invalid booking date or time.'], 400);
+        }
+
+        $userTime = Carbon::createFromFormat('h:i A', $bookingTime, $userTimezone);
+        $convertedTime = $userTime->copy()->setTimezone($practitionerTimezone);
+
+        $practitionerDateTime = Carbon::createFromFormat(
+            'Y-m-d H:i:s',
+            $bookingDate . ' ' . $convertedTime->format('H:i:s'),
+            $practitionerTimezone
+        );
+
+        $eventStart = $practitionerDateTime->copy();
+        $now = Carbon::now();
+
+        $cancellationWindow = match($offering->cancellation_time_slot) {
+            '24 hour' => 24,
+            '48 hour' => 48,
+            '72 hour' => 72,
+            '1 week' => 24 * 7,
+            '2 week' => 24 * 14,
+            default => 24,
+        };
+
+        $hoursUntilEvent = $now->diffInHours($eventStart, false);
+        if ($hoursUntilEvent > $cancellationWindow) {
+            $booking->status = 'cancelled';
+            $booking->save();
+
+            $googleCalendar = new GoogleCalendarController();
+            $request->merge(['event_id' => $eventId]);
+            $googleCalendar->deleteEvent($request);
+
+            return response()->json(['message' => 'Booking cancelled successfully.']);
+        } else {
+            return response()->json(['error' => 'You can no longer cancel this booking.'], 403);
+        }
     }
 
 
