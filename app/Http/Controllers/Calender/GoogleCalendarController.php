@@ -123,9 +123,7 @@ class GoogleCalendarController extends Controller
         ];
 
         if ( isset($data['offering_type']) && $data['offering_type'] === 'virtual') {
-            $createEvent['attendees'] = [
-                ['email' => $data['guest_email']],
-            ];
+
             $createEvent['conferenceData'] = [
                 'createRequest' => [
                     'conferenceSolutionKey' => ['type' => 'hangoutsMeet'],
@@ -134,7 +132,9 @@ class GoogleCalendarController extends Controller
             ];
         }
 
-
+        $createEvent['attendees'] = [
+            ['email' => $data['guest_email']],
+        ];
 
         $event = new Google_Service_Calendar_Event($createEvent);
 
