@@ -31,6 +31,7 @@ Route::post('/reset-password', [ForgotPasswordController::class, 'sendResetLink'
 Route::post('/stripe/webhook', [StripeWebhookController::class, 'handleWebhook']);
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::post('/waitList', [HomeController::class, 'waitList'])->name('waitList');
 //Route::get('/', [HomeController::class, 'comingIndex'])->name('home');
 Route::post('/subscribe', [HomeController::class, 'subscribe'])->name('subscribe');
 Route::get('/pending/user', [HomeController::class, 'pendingUser'])->name('pendingUserRequest');
@@ -103,6 +104,7 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
 
     Route::get('/dashboard', [PractitionerController::class, 'dashboard'])->name('dashboard');
     Route::get('/endorsement-practitioner', [PractitionerController::class, 'endorsementPractitioner'])->name('endorsementPractitioner');
+    Route::post('/remove-endorsement/{id}', [PractitionerController::class, 'removeEndorsement'])->name('removeEndorsement');
     Route::get('/community', [PractitionerController::class, 'community'])->name('community');
     Route::get('/my-membership', [PractitionerController::class, 'membership'])->name('my_membership');
     Route::post('/membership-buy', [PractitionerController::class, 'membershipBuy'])->name('membership.buy');
