@@ -36,7 +36,7 @@ class DashboardController extends Controller
         ];
         $totalPractionters = User::where("role", 1)->where("status", 1)->count();
         $totalBookings = Booking::count();
-        $totalPayment = Payment::sum("amount");
+        $totalPayment = Payment::where('status', 'completed')->sum("amount");
         $totalOfferings = Offering::count();
         $totalEvents = Event::count();
         return view('admin.dashboard', compact('user','chartData', 'totalPractionters', 'totalBookings', 'totalPayment', 'totalOfferings', 'totalEvents'));
