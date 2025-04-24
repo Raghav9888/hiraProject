@@ -8,6 +8,7 @@ use App\Models\Community;
 use App\Models\Feedback;
 use App\Models\Locations;
 use App\Models\PractitionerTag;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\UserDetail;
@@ -624,6 +625,5 @@ class HomeController extends Controller
         ]);
 
     }
-
 
 }
