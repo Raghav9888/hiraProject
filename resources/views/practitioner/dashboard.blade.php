@@ -124,35 +124,38 @@
                                         $imageUrl = $image  ? asset(env('media_path') . '/practitioners/' . $endorsedUser->userDetail->id . '/profile/' . $image) : asset(env('local_path').'/images/no_image.png');
                                     @endphp
 
-                                    <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
+                                    <div class="col-sm-12 col-md-6 col-lg-3 mb-4 endorsement-card"
+                                         data-id="{{ $endorsedUser->id }}">
                                         <div class="featured-dv">
-                                            <a href="{{route('practitioner_detail', $endorsedUser->id)}}">
+                                            <div class="position-relative">
+                                                <button type="button"
+                                                        class="text-danger position-absolute top-0 end-0 btn delete-endorsed-user"
+                                                        data-id="{{ $endorsedUser->id }}" title="Remove Endorsement">
+                                                    <i class="fa-solid fa-xmark text-danger"></i>
+                                                </button>
                                                 <img src="{{ $imageUrl }}" alt="person" class="img-fluid">
-                                                {{--                                <label for="">0.4 Km Away</label>--}}
+                                            </div>
+
+                                            <a href="{{route('practitioner_detail', $endorsedUser->id)}}">
                                                 <div class="d-flex justify-content-between align-items-center mb-2">
                                                     <h4>{{  $endorsedUser->name }}</h4>
                                                     <i class="fa-regular fa-heart"></i>
                                                 </div>
                                                 <h5>
-
                                                     @php
                                                         $endorsedUserLocations = isset($endorsedUser->location) && $endorsedUser->location ? json_decode($endorsedUser->location, true) : [];
                                                     @endphp
 
                                                     @if(!empty($endorsedUserLocations))
-                                                        @foreach($endorsedUserLocations as $endorsedUserLocation)
-                                                            @foreach($defaultLocations as $key => $defaultLocation)
-                                                                @if(in_array($key, $endorsedUserLocations))
-                                                                    <i class="fa-solid fa-location-dot"></i> {{ $defaultLocation }}
-                                                                    ,
-                                                                @endif
-                                                            @endforeach
+                                                        @foreach($defaultLocations as $key => $defaultLocation)
+                                                            @if(in_array($key, $endorsedUserLocations))
+                                                                <i class="fa-solid fa-location-dot"></i> {{ $defaultLocation }}
+                                                                ,
+                                                            @endif
                                                         @endforeach
                                                     @endif
-
-
                                                 </h5>
-                                                <p style="display: inline; text-align: center">{{$endorsedUser->userDetail->company}}</p>
+                                                <p style="text-align: center">{{ $endorsedUser->userDetail->company }}</p>
                                                 <div class="d-flex justify-content-between align-items-center">
                                                     <div>
                                                         <i class="fa-regular fa-gem"></i>
@@ -164,12 +167,12 @@
                                                     <h6>5.0 Ratings</h6>
                                                 </div>
                                             </a>
-
                                         </div>
                                     </div>
                                 @endforeach
                             @endif
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -202,7 +205,7 @@
             $.ajax({
                 url: '/endorsement-practitioner',
                 type: 'get',
-                data: { 'search': search },
+                data: {'search': search},
                 success: function (response) {
                     let endorsementHtml = '';
 
@@ -297,8 +300,35 @@
                 }
             });
         });
+
+
+        $(document).on('click', '.delete-endorsed-user', function () {
+            const userId = $(this).data('id');
+            const card = $(this).closest('.endorsement-card');
+
+            if (!confirm('Are you sure you want to remove this endorsement?')) return;
+
+            $.ajax({
+                url: `/remove-endorsement/${userId}`,
+                method: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function (response) {
+                    if (response.success) {
+                        card.remove();
+                        alert(response.success);
+                    } else {
+                        alert(response.error || 'Unable to remove endorsement.');
+                    }
+                },
+                error: function () {
+                    alert('An error occurred. Please try again.');
+                }
+            });
+        });
+
+
     </script>
-
-
 
 @endsection

@@ -789,5 +789,35 @@ class PractitionerController extends Controller
             ])->render()
         ]);
     }
+    public function removeEndorsement(Request $request, $id)
+    {
+        $user = Auth::user();
+        $user_id = $user->id;
+
+        $userDetail = UserDetail::where('user_id', $user_id)->first();
+
+        if (!$userDetail) {
+            return response()->json(['error' => 'User detail not found'], 404);
+        }
+
+        $endorsements = json_decode($userDetail->endorsements, true);
+        if (!is_array($endorsements)) {
+            $endorsements = [];
+        }
+
+        // Remove the ID from endorsements array
+        $endorsements = array_filter($endorsements, function ($value) use ($id) {
+            return $value != $id;
+        });
+
+        // Re-index array to avoid JSON issues
+        $userDetail->endorsements = json_encode(array_values($endorsements));
+
+        if ($userDetail->save()) {
+            return response()->json(['success' => 'Endorsement removed successfully']);
+        } else {
+            return response()->json(['error' => 'Failed to remove endorsement'], 500);
+        }
+    }
 
 }
