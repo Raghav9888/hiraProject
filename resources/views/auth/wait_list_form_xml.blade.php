@@ -50,7 +50,8 @@
             <div class="form-check">
                 <input type="checkbox" name="heard_from[]" value="referral" class="form-check-input amentities-checkbox" id="referral_check">
                 Referral – Who referred you?
-                <input type="text" name="referral_name" id="referral_name" class="form-control mt-1 d-none">
+                <input type="text" name="referral_name" id="referral_name" class="form-control mt-1 d-none" style="height: 46px;
+    padding: 17px 21px;">
             </div>
             <div class="form-check"><input type="checkbox" name="heard_from[]" value="event" class="form-check-input amentities-checkbox"> Attended an Event</div>
             <div class="form-check"><input type="checkbox" name="heard_from[]" value="google" class="form-check-input amentities-checkbox"> Google/Search</div>

@@ -3192,3 +3192,8 @@ span.practition-des {
     50% { transform: rotateY(180deg); }
     100% { transform: rotateY(360deg); }
 }
+
+#other_source ,#referral_name{
+    height: 46px !important;
+    padding: 17px 21px !important;
+}
