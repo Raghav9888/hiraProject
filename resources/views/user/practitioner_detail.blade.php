@@ -186,6 +186,19 @@
                 <!-- <div class="swiper-pagination"></div> -->
             </div>
 
+            <div class="d-flex align-items-center mb-3" style="gap: 20px;">
+                <p class="m-0">Select Currency</p>
+                <div class="dropdown Currency-select">
+                    <div class="dropdown">
+                        <select class="form-select" aria-label="Default select example"
+                                id="currencySelect"
+                                style="border-radius: 30px !important;padding: 10px 36px 10px 10px;text-align: start;">
+                            <option value="cad">CAD</option>
+                            <option value="usd">USD</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-sm-12 col-md-9 col-lg-9">
                     <div class="accordion" id="accordionExample">
@@ -199,19 +212,6 @@
                             <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
                                  data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
-                                    <div class="d-flex align-items-center mb-3" style="gap: 20px;">
-                                        <p class="m-0">Select Currency</p>
-                                        <div class="dropdown Currency-select">
-                                            <div class="dropdown">
-                                                <select class="form-select" aria-label="Default select example"
-                                                        id="currencySelect"
-                                                        style="border-radius: 30px !important;padding: 10px 36px 10px 10px;text-align: start;">
-                                                    <option value="cad">CAD</option>
-                                                    <option value="usd">USD</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
                                     @foreach($offerings as $offering)
                                         @if($offering?->offering_event_type == 'offering')
                                             <div class="accordian-body-data">
@@ -389,19 +389,6 @@
                             <div id="Events" class="accordion-collapse collapse show" aria-labelledby="headingOne"
                                  data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
-                                    <div class="d-flex align-items-center mb-3" style="gap: 20px;">
-                                        <p class="m-0">Select Currency</p>
-                                        <div class="dropdown Currency-select">
-                                            <div class="dropdown">
-                                                <select class="form-select" aria-label="Default select example"
-                                                        id="currencySelect"
-                                                        style="border-radius: 30px !important;padding: 10px 36px 10px 10px;text-align: start;">
-                                                    <option value="cad">CAD</option>
-                                                    <option value="usd">USD</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
                                     @foreach($offerings as $offering)
                                         @if($offering?->event?->sports > 0 && $offering?->offering_event_type == 'event')
                                             <div class="accordian-body-data">
