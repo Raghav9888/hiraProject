@@ -93,7 +93,7 @@ class PractitionerController extends Controller
             'user',
             'users',
             'userDetails',
-            'Categories',
+            'categories',
             'practitionerTag',
             'IHelpWith',
             'HowIHelp',
@@ -309,7 +309,6 @@ class PractitionerController extends Controller
 
     public function save_term(Request $request)
     {
-
         $user = Auth::user();
         $type = $request->type;
         $name = $request->name;
@@ -318,60 +317,59 @@ class PractitionerController extends Controller
             return response()->json(['success' => false, 'message' => 'Name is required']);
         }
 
-        $slug = Str::slug($name);
+        $names = array_filter(array_map('trim', explode(',', $name)));
+        $createdTerms = [];
+        $duplicateTerms = [];
 
-        if ($type == 'IHelpWith') {
-            $term = IHelpWith::create([
-                'name' => $name,
+        foreach ($names as $termName) {
+            $slug = Str::slug($termName);
+
+            $model = match ($type) {
+                'IHelpWith' => new IHelpWith,
+                'HowIHelp' => new HowIHelp,
+                'certifications' => new Certifications,
+                'tags' => new PractitionerTag,
+                'modalityPractice' => new MembershipModality,
+                default => null
+            };
+
+            if (!$model) {
+                return response()->json(['success' => false, 'message' => 'Invalid type']);
+            }
+
+            // Check for duplicate slug
+            if ($model->where('slug', $slug)->exists()) {
+                $duplicateTerms[] = $termName;
+                continue;
+            }
+
+            $term = $model->create([
+                'name' => $termName,
                 'slug' => $slug,
                 'created_by' => $user->id,
                 'updated_by' => $user->id,
             ]);
-            return response()->json(['success' => true, 'message' => 'IHelpWith term saved successfully', 'term' => $term]);
+
+            $createdTerms[] = $term;
         }
 
-        if ($type == 'HowIHelp') {
-            $term = HowIHelp::create([
-                'name' => $name,
-                'slug' => $slug,
-                'created_by' => $user->id,
-                'updated_by' => $user->id,
+        if (empty($createdTerms)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'All terms already exist: ' . implode(', ', $duplicateTerms),
+                'duplicates' => $duplicateTerms,
             ]);
-            return response()->json(['success' => true, 'message' => 'HowIHelp term saved successfully', 'term' => $term]);
         }
 
-        if ($type == 'certifications') {
-            $term = Certifications::create([
-                'name' => $name,
-                'slug' => $slug,
-                'created_by' => $user->id,
-                'updated_by' => $user->id,
-            ]);
-            return response()->json(['success' => true, 'message' => 'Certification  term saved successfully', 'term' => $term]);
-        }
-
-        if ($type == 'tags') {
-            $term = PractitionerTag::create([
-                'name' => $name,
-                'slug' => $slug,
-                'created_by' => $user->id,
-                'updated_by' => $user->id,
-            ]);
-            return response()->json(['success' => true, 'message' => 'Tags term saved successfully', 'term' => $term]);
-        }
-
-        if ($type == 'modalityPractice') {
-            $term = MembershipModality::create([
-                'name' => $name,
-                'slug' => $slug,
-                'created_by' => $user->id,
-                'updated_by' => $user->id,
-            ]);
-            return response()->json(['success' => true, 'message' => 'Modality Practice term saved successfully', 'term' => $term]);
-        }
-
-        return response()->json(['success' => false, 'message' => 'Invalid request']);
+        return response()->json([
+            'success' => true,
+            'message' => count($createdTerms) . ' term(s) saved successfully',
+            'terms' => $createdTerms,
+            'duplicates' => $duplicateTerms,
+        ]);
     }
+
+
 
     public function deleteImage(Request $request)
     {

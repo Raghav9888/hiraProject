@@ -89,10 +89,11 @@ $('.addterm').on('click', function (e) {
 
 $(document).on('click', '.save_term', function (e) {
     e.preventDefault();
-    var termType = $(this).data('type'); // Get the data-type attribute value
+    var termType = $(this).data('type');
     var name = $('.' + termType + '_term').val();
+
     $.ajax({
-        url: '/term/save', // Change this to your server-side script
+        url: '/term/save',
         type: 'POST',
         data: {
             type: termType,
@@ -101,41 +102,38 @@ $(document).on('click', '.save_term', function (e) {
         },
         dataType: 'json',
         success: function (response) {
+            var selectElement = $("#" + termType);
+
             if (response.success) {
-                var selectElement = $("#" + termType);
+                let selectedValues = selectElement.val() || [];
 
-                // Append the new option
-                var newOption = `<option value="${response.term.id}" selected>${response.term.name}</option>`;
-                selectElement.append(newOption);
+                response.terms.forEach(function (term) {
+                    if (selectElement.find(`option[value="${term.id}"]`).length === 0) {
+                        var newOption = `<option value="${term.id}" selected>${term.name}</option>`;
+                        selectElement.append(newOption);
+                    }
+                    selectedValues.push(term.id);
+                });
 
-                // Get previously selected values and add the new one
-                var selectedValues = selectElement.val() || [];
-                selectedValues.push(response.term.id);
+                selectElement.val([...new Set(selectedValues)]).trigger('change');
+                alert(response.message);
 
-                // Reapply selected values
-                selectElement.val(selectedValues).trigger('change');
-                alert('Term added successfully');
+                if (response.duplicates && response.duplicates.length > 0) {
+                    alert('These terms already exist: ' + response.duplicates.join(', '));
+                }
             } else {
-                alert('Error: ' + response.message);
+                alert(response.message);
             }
+
             $('#' + termType + '-container').html('');
         },
-        /*  success: function (response) {
-             if (response.success) {
-                 $('#' + termType + '-container').html('');
-                 var newOption = `<option value="${response.term.id}" selected>${response.term.name}</option>`;
-                 $("#" + termType).append(newOption).trigger('change');
-                 alert('term add sucessfully');
-
-             } else {
-                 alert('Error: ' + response.message);
-             }
-         }, */
         error: function (xhr, status, error) {
             console.error('AJAX Error:', error);
+            alert('An unexpected error occurred.');
         }
     });
 });
+
 // if (document.getElementById('bio')) {
 //     document.getElementById('bio').addEventListener('input', function () {
 //         let words = this.value.match(/\b\w+\b/g) || [];

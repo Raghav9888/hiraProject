@@ -287,7 +287,7 @@
                                             <select id="specialities" class="form-control form-select"
                                                     multiple="multiple" data-type="multiselect" data-maxshow="3"
                                                     name="specialities[]">
-                                                @foreach($Categories as $term)
+                                                @foreach($categories as $term)
                                                     <option
                                                         value="{{$term->id}}" {{ (isset($userDetails->specialities) && in_array($term->id, json_decode($userDetails->specialities))) ? 'selected' : '' }}>{{$term->name}}</option>
                                                 @endforeach
