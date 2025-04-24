@@ -50,7 +50,7 @@ class PractitionerController extends Controller
             $userDetails->user_id = $user->id;
             $userDetails->save();
         }
-        $Categories = Category::get();
+        $categories = Category::where('status', 1)->get();
         $practitionerTag = PractitionerTag::get();
         $IHelpWith = IHelpWith::get();
         $HowIHelp = HowIHelp::get();

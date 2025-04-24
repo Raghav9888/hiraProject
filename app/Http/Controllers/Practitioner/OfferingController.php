@@ -21,7 +21,7 @@ class OfferingController extends Controller
         $user = Auth::user();
         $userDetails = $user->userDetail;
         $offerings = Offering::where('user_id', $user->id)->orderBy('created_at', 'desc')->get();
-        $categories = Category::get();
+        $categories = Category::where('status', 1)->get();
         $practitionerTag = PractitionerTag::get();
         $IHelpWith = IHelpWith::get();
         $HowIHelp = HowIHelp::get();
@@ -32,7 +32,7 @@ class OfferingController extends Controller
     {
         $user = Auth::user();
         $userDetails = $user->userDetail;
-        $categories = Category::get();
+        $categories = Category::where('status', 1)->get();
         $practitionerTag = PractitionerTag::get();
         $IHelpWith = IHelpWith::get();
         $HowIHelp = HowIHelp::get();
@@ -236,7 +236,7 @@ class OfferingController extends Controller
         $userDetails = $user->userDetail;
         $offering = Offering::findOrFail($id);
 
-        $categories = Category::get();
+        $categories = Category::where('status', 1)->get();
         $practitionerTag = PractitionerTag::get();
         $IHelpWith = IHelpWith::get();
         $HowIHelp = HowIHelp::get();

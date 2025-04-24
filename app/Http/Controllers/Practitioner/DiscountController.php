@@ -27,7 +27,7 @@ class DiscountController extends Controller
     {
         $user = Auth::user();
         $userDetails = $user->userDetail;
-        $categories = Category::get();
+        $categories = Category::where('status', 1)->get();
         $PractitionerTag = PractitionerTag::get();
         $IHelpWith = IHelpWith::get();
         $HowIHelp = HowIHelp::get();
@@ -61,7 +61,7 @@ class DiscountController extends Controller
         $discount = Discount::findOrFail($id);
         $user = Auth::user();
         $userDetails = $user->userDetail;
-        $categories = Category::get();
+        $categories = Category::where('status', 1)->get();
         $PractitionerTag = PractitionerTag::get();
         $IHelpWith = IHelpWith::get();
         $HowIHelp = HowIHelp::get();
