@@ -434,13 +434,11 @@
                                                                 </span>
                                                                 </label>
 
-                                                                <p>Maximum length of 500 words</p>
                                                             </div>
                                                             <textarea class="form-control"
                                                                       name="email_template_offering"
                                                                       id="email_template"
                                                                       placeholder="">{{$offering?->email_template}}</textarea>
-                                                            <p id="word-count">0 / 500 words</p>
                                                         </div>
                                                         <div class="col-lg-6 mb-4">
                                                             <label for="service-hours" class="fw-bold">Intake form
@@ -718,13 +716,11 @@
                                                                           data-bs-title="Google meets link will be auto generated and can share a new link when in meet with them - and make this box to fill out much longer and not optional">
                                                                     <i class="fa-solid fa-circle-info"></i>
                                                                 </span></label>
-
-                                                                <p>Maximum length of 500 words</p>
                                                             </div>
                                                             <textarea class="form-control" name="email_template_event"
                                                                       id="email_template"
                                                                       placeholder="">{{$offering->event?->email_template}}</textarea>
-                                                            <p id="word-count">0 / 500 words</p>
+
                                                         </div>
                                                         <div class="col-lg-6 mb-4">
                                                             <label for="service-hours" class="fw-bold">Intake form

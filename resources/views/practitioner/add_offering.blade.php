@@ -284,12 +284,9 @@
                                                                 </span>
                                                             </label>
 
-                                                            <p>Maximum length of 500 words</p>
+
                                                         </div>
-                                                        <textarea class="form-control" name="email_template_offering"
-                                                                  id="email_template"
-                                                                  placeholder=""></textarea>
-                                                        <p id="word-count">0 / 500 words</p>
+                                                        <textarea class="form-control" name="email_template_offering" id="email_template" placeholder=""></textarea>
                                                     </div>
                                                     <div class="col-lg-6 mb-4">
                                                         <label for="intake_form_offering" class="fw-bold">Intake form
@@ -450,13 +447,10 @@
                                                                     <i class="fa-solid fa-circle-info"></i>
                                                                 </span>
                                                             </label>
-
-                                                            <p>Maximum length of 500 words</p>
                                                         </div>
                                                         <textarea class="form-control" name="email_template_event"
                                                                   id="email_template"
                                                                   placeholder=""></textarea>
-                                                        <p id="word-count">0 / 500 words</p>
                                                     </div>
                                                     <div class="col-lg-6 mb-4">
                                                         <label for="intake_form_event" class="fw-bold">Intake form

@@ -21,26 +21,46 @@ $(document).ready(function () {
     });
 });
 
-$(document).on('change', '[data-type="change"]', function (e) {
-    let targetOneValue = $(this).data('target-one');
-    let matchOneValue = $(this).data('match-one');
+$(document).on('change', '[data-type="change"]', function () {
+    let targetOne = $(this).data('target-one');
+    let matchOne = $(this).data('match-one');
 
-    let targetTwoValue = $(this).data('target-two');
-    let matchTwoValue = $(this).data('match-two');
+    let targetTwo = $(this).data('target-two');
+    let matchTwo = $(this).data('match-two');
 
-    let addOneClassValue = $(this).data('add-one-class') ?? 'd-flex';
-    let addTowClassValue = $(this).data('add-one-class') ?? 'd-flex';
+    let classOne = $(this).data('add-one-class') ?? 'd-flex';
+    let classTwo = $(this).data('add-two-class') ?? 'd-flex';
 
-    if ((targetOneValue && targetOneValue.length > 0) && (matchOneValue && matchOneValue.length > 0)) {
-        $(this).val() == matchOneValue ? $(`#${targetOneValue}`).removeClass('d-none').addClass(addOneClassValue) : $(`#${targetOneValue}`).addClass('d-none').removeClass('d-flex')
+    const isCheckbox = $(this).attr('type') === 'checkbox';
+    const value = $(this).val();
+
+    // Handle target one
+    if (targetOne && matchOne) {
+        if (isCheckbox) {
+            if ($(this).is(':checked') && value === matchOne) {
+                $(`#${targetOne}`).removeClass('d-none').addClass(classOne);
+            } else if (value === matchOne) {
+                $(`#${targetOne}`).addClass('d-none').removeClass(classOne);
+            }
+        } else {
+            if (value === matchOne) {
+                $(`#${targetOne}`).removeClass('d-none').addClass(classOne);
+            } else {
+                $(`#${targetOne}`).addClass('d-none').removeClass(classOne);
+            }
+        }
     }
 
-    if ((targetTwoValue && targetTwoValue.length > 0) && (matchTwoValue && matchTwoValue.length > 0)) {
-        $(this).val() == matchTwoValue ? $(`#${targetTwoValue}`).removeClass('d-none').addClass(addTowClassValue) : $(`#${targetTwoValue}`).addClass('d-none').removeClass('d-flex')
+    // Handle target two
+    if (targetTwo && matchTwo) {
+        if (value === matchTwo) {
+            $(`#${targetTwo}`).removeClass('d-none').addClass(classTwo);
+        } else {
+            $(`#${targetTwo}`).addClass('d-none').removeClass(classTwo);
+        }
     }
-
-
 });
+
 
 $('.addterm').on('click', function (e) {
     e.preventDefault();
@@ -116,21 +136,21 @@ $(document).on('click', '.save_term', function (e) {
         }
     });
 });
-if (document.getElementById('bio')) {
-    document.getElementById('bio').addEventListener('input', function () {
-        let words = this.value.match(/\b\w+\b/g) || [];
-        let wordCount = words.length;
-        let maxWords = 1000;
-
-        document.getElementById('word-count').textContent = wordCount + ' / ' + maxWords + ' words';
-
-        if (wordCount > maxWords) {
-            alert('You can only enter up to 500 words.');
-            this.value = words.slice(0, maxWords).join(' '); // Trim excess words
-            document.getElementById('word-count').textContent = maxWords + ' / ' + maxWords + ' words';
-        }
-    });
-}
+// if (document.getElementById('bio')) {
+//     document.getElementById('bio').addEventListener('input', function () {
+//         let words = this.value.match(/\b\w+\b/g) || [];
+//         let wordCount = words.length;
+//         let maxWords = 1000;
+//
+//         document.getElementById('word-count').textContent = wordCount + ' / ' + maxWords + ' words';
+//
+//         if (wordCount > maxWords) {
+//             alert('You can only enter up to 500 words.');
+//             this.value = words.slice(0, maxWords).join(' '); // Trim excess words
+//             document.getElementById('word-count').textContent = maxWords + ' / ' + maxWords + ' words';
+//         }
+//     });
+// }
 
 document.addEventListener("DOMContentLoaded", function () {
     const checkboxes = document.querySelectorAll(".amentities-checkbox");
@@ -266,4 +286,102 @@ console.log('version check')
     }
 })
 
+$(document).on('change', '#fileUpload', function () {
+    const previewContainer = $('#filePreview');
+    previewContainer.html(''); // clear previous previews
+
+    const files = this.files;
+    if (files.length > 2) {
+        alert('You can only upload up to 2 files.');
+        $(this).val('');
+        return;
+    }
+
+    Array.from(files).forEach(file => {
+        const fileType = file.type;
+
+        if (fileType.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const img = $('<img>', {
+                    src: e.target.result,
+                    class: 'img-thumbnail',
+                    style: 'max-width: 150px; max-height: 150px;'
+                });
+                previewContainer.append(img);
+            };
+            reader.readAsDataURL(file);
+
+        } else if (fileType.startsWith('video/')) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const video = $('<video>', {
+                    src: e.target.result,
+                    controls: true,
+                    class: 'rounded',
+                    style: 'max-width: 200px; max-height: 150px;'
+                });
+                previewContainer.append(video);
+            };
+            reader.readAsDataURL(file);
+
+        } else {
+            const text = $('<p>').text(`Selected file: ${file.name}`);
+            previewContainer.append(text);
+        }
+    });
+});
+
+
+$('#waitlist-form').submit(function(e) {
+    e.preventDefault();
+
+    // Collect form data
+    var formData = new FormData(this);
+
+    // Get the email and other form data
+    var email = formData.get('email');
+    var password = '1234567890'; // Static password for now
+    var passwordConfirmation = password; // Static password confirmation for now
+    var firstName = formData.get('first_name');
+    var lastName = formData.get('last_name');
+
+    // Step 1: Register the user via AJAX
+    $.ajax({
+        url: '/register', // Registration URL
+        method: 'POST',
+        data: {
+            email: email,
+            password: password,
+            password_confirmation: passwordConfirmation, // Ensure password confirmation is sent
+            first_name: firstName,
+            last_name: lastName,
+            _token: $('meta[name="csrf-token"]').attr('content') // CSRF token for security
+        },
+        success: function(response) {
+            // Step 2: If registration is successful, send the waitlist data
+            formData.append('user_id', response.id); // Include user ID in waitlist form data
+
+            $.ajax({
+                url: '/waitList', // Waitlist URL
+                method: 'POST',
+                data: formData,
+                processData: false, // Don't process data as query string
+                contentType: false, // Don't set content type
+                success: function(waitlistResponse) {
+                    alert('Registration and waitlist added successfully!');
+                    window.location.href = '/pending/user'; // Redirect to pending user page
+                },
+                error: function(error) {
+                    alert('Error occurred while submitting the waitlist!');
+                    console.log(error);
+                }
+            });
+        },
+        error: function(error) {
+            alert('Error occurred during registration!');
+            console.log(error);
+        }
+    });
+});
 
