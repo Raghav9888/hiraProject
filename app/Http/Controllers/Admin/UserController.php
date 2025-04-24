@@ -21,7 +21,7 @@ class UserController extends Controller
     {
         $user = Auth::user();
         $users = match ($userType) {
-            'new' => User::where('status', 2)->latest()->paginate(10),
+            'new' => User::where('status', 2)->with('waitlist')->latest()->paginate(10),
             'delete' => User::where('status', 3)->latest()->paginate(10),
             default => User::where('status', 1)->where('role', 1)->latest()->paginate(10),
         };

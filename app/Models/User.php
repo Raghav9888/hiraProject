@@ -88,4 +88,9 @@ class User extends Authenticatable
         return $this->hasMany(Feedback::class, 'practitioner_id', 'id');
     }
 
+    public function waitlist()
+    {
+        return $this->hasOne(Waitlist::class, 'user_id', 'id');
+    }
+
 }

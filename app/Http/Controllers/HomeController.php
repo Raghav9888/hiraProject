@@ -689,6 +689,7 @@ class HomeController extends Controller
 
         // Save to Waitlist
         Waitlist::create([
+            'user_id' => $user->id,
             'first_name' => $validated['first_name'],
             'last_name' => $validated['last_name'],
             'business_name' => $validated['business_name'],
