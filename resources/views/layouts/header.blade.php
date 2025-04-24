@@ -59,10 +59,11 @@
                                 <button class="login-btn mt-2" type="submit">Logout</button>
                             </form>
                         @else
-                            <a href="{{ route('register') }}"
-                               class="btn join-btn my-2 d-flex align-items-center justify-content-center" type="submit">Join
+                            <a href="javascript:void(0)" data-bs-target="#exampleModal" data-bs-toggle="modal"
+                               class="btn join-btn my-2 d-flex align-items-center justify-content-center">Join
                                 as a
                                 Practitioner</a>
+
                             <a href="{{ route('login') }}"
                                class="btn login-btn my-2  d-flex align-items-center justify-content-center"
                                type="submit">Login</a>

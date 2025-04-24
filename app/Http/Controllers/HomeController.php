@@ -2,26 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ContactUsMail;
+use App\Models\Blog;
+use App\Models\Booking;
 use App\Models\Category;
 use App\Models\Certifications;
 use App\Models\Community;
 use App\Models\Feedback;
+use App\Models\GoogleAccount;
+use App\Models\HowIHelp;
+use App\Models\IHelpWith;
 use App\Models\Locations;
+use App\Models\Offering;
 use App\Models\PractitionerTag;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\UserDetail;
-use App\Models\Offering;
-use App\Models\Booking;
-use App\Models\IHelpWith;
-use App\Models\HowIHelp;
+use App\Models\Waitlist;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\ContactUsMail;
-use App\Models\Blog;
 use MailerLite\MailerLite;
-use Illuminate\Support\Facades\Http;
 
 class HomeController extends Controller
 {
@@ -220,7 +221,7 @@ class HomeController extends Controller
         $userLocations = json_decode($user->location, true);
         $locations = Locations::get();
         $users = User::where('role', 1)->where('status', 1)->with('userDetail')->get();
-        $categories = Category::get();
+        $categories = Category::where('status', 1)->get();
         $storeAvailable = $userDetail?->store_availabilities ? $userDetail->store_availabilities : [];
 
         $ratingCounts = $profileFeedback->get()->groupBy('rating')->map->count();
@@ -434,13 +435,21 @@ class HomeController extends Controller
         // 8. Offerings (for showing event matches)
         $offeringsData = Offering::where('offering_type', $offeringType)
             ->with('event')
+            ->with('user')
             ->get();
 
         $events = [];
         $now = now();
         foreach ($offeringsData as $offeringData) {
-            if ($offeringData->event && $offeringData->event->date_and_time > $now) {
+            if ($offeringData->event &&  $offeringData->user->role == 1 && $offeringData->event->date_and_time > $now) {
                 $events[$offeringData->event->date_and_time] = $offeringData;
+            }
+        }
+
+        $filterOfferingsData = [];
+        foreach ($offeringsData as $offeringData) {
+            if ($offeringData->user->role == 1) {
+                $filterOfferingsData[$offeringData->id] = $offeringData;
             }
         }
         $blogs = Blog::latest()->get();
@@ -452,7 +461,7 @@ class HomeController extends Controller
             'category' => $category,
 //            'location' => $location,
             'defaultLocations' => $defaultLocations,
-            'offerings' => $offeringsData,
+            'offerings' => $filterOfferingsData,
             'offeringEvents' => $events,
             'categories' => Category::where('status', 1)->get(),
             'page' => $page
@@ -483,7 +492,6 @@ class HomeController extends Controller
 //                ])->render()
 //            ]);
 //        }
-
 
 
         if ($request->isXmlHttpRequest() && $request->get('isPractitioner')) {
@@ -624,6 +632,96 @@ class HomeController extends Controller
             ],
         ]);
 
+    }
+
+
+    public function waitList(Request $request)
+    {
+        $validated = $request->validate([
+            'first_name' => 'nullable|string|max:255',
+            'last_name' => 'nullable|string|max:255',
+            'email' => 'nullable|email|max:255',
+            'business_name' => 'nullable|string|max:255',
+            'phone' => 'nullable|string|max:20',
+            'website' => 'nullable|url|max:255',
+            'current_practice' => 'nullable|string',
+            'heard_from' => 'nullable|array',
+            'referral_name' => 'nullable|string|max:255',
+            'other_source' => 'nullable|string|max:255',
+            'called_to_join' => 'nullable|string',
+            'practice_values' => 'nullable|string',
+            'excitement_about_hira' => 'nullable|string',
+            'call_availability' => 'nullable|string|in:yes,no',
+            'newsletter' => 'nullable|string|in:yes,no',
+            'uploads.*' => 'nullable|file|mimes:jpg,jpeg,png,mp4,mov,avi,doc,docx,pdf|max:20480',
+        ]);
+
+        $uploadedFiles = [];
+        if ($request->hasFile('uploads')) {
+            foreach ($request->file('uploads') as $file) {
+                $path = $file->store('waitlist_uploads', 'public');
+                $uploadedFiles[] = $path;
+            }
+        }
+
+        // Create a new user if needed (optional)
+        $user = User::create([
+            'name' => trim(($validated['first_name'] ?? '') . ' ' . ($validated['last_name'] ?? '')),
+            'first_name' => $validated['first_name'] ?? '',
+            'last_name' => $validated['last_name'] ?? '',
+            'email' => $validated['email'] ?? '',
+            'role' => 1,
+            'status' => 2,
+            'password' => Hash::make($validated['password']),
+        ]);
+
+        // User Detail - optional if you're populating it later
+        UserDetail::create([
+            'user_id' => $user->id,
+        ]);
+
+        // Create a Google Account entry
+        GoogleAccount::create([
+            'user_id' => $user->id,
+        ]);
+
+
+
+        // Save to Waitlist
+        Waitlist::create([
+            'first_name' => $validated['first_name'],
+            'last_name' => $validated['last_name'],
+            'business_name' => $validated['business_name'],
+            'phone' => $validated['phone'],
+            'website' => $validated['website'],
+            'current_practice' => $validated['current_practice'],
+            'heard_from' => $validated['heard_from'] ? json_encode($validated['heard_from']) : null,
+            'referral_name' => $validated['referral_name'],
+            'other_source' => $validated['other_source'],
+            'called_to_join' => $validated['called_to_join'],
+            'practice_values' => $validated['practice_values'],
+            'excitement_about_hira' => $validated['excitement_about_hira'],
+            'call_availability' => $validated['call_availability'],
+            'newsletter' => $validated['newsletter'],
+            'uploads' => json_encode($uploadedFiles),
+        ]);
+
+        $mailerLite = new MailerLite(['api_key' => env("MAILERLITE_KEY")]);
+
+        $data = [
+            'email' => $validated['email'],
+            "fields" => [
+                "name" => $validated['first_name'],
+                "last_name" => $validated['last_name']
+            ],
+            'groups' => [
+                env('MAILERLITE_PRACTITIONER_GROUP')
+            ]
+        ];
+
+        $mailerLite->subscribers->create($data);
+
+        return redirect()->back()->with('success', 'Application submitted successfully!');
     }
 
 }

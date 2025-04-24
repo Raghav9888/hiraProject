@@ -264,18 +264,16 @@ $(document).on('change', '#availability_type', function () {
 });
 
 
-$(document).on('click','#sidebar_toogle', function () {
+$(document).on('click', '#sidebar_toogle', function () {
     let targetElement = $('#sidebar');
     targetElement.toggleClass('d-none d-flex', $(this).val() !== 'custom');
 })
 
 
-
-$(document).ready(function()
-{
+$(document).ready(function () {
     const CURRENT_VERSION = '1.0';
     const LOCAL_KEY = 'app_version';
-console.log('version check')
+    console.log('version check')
     const savedVersion = localStorage.getItem(LOCAL_KEY);
 
     if (savedVersion !== CURRENT_VERSION) {
@@ -331,55 +329,50 @@ $(document).on('change', '#fileUpload', function () {
 });
 
 
-$('#waitlist-form').submit(function(e) {
+$('#waitlist-form').submit(function (e) {
     e.preventDefault();
 
-    // Collect form data
     var formData = new FormData(this);
+    var password = $('#password').val();
+    var passwordConfirmation = $('#password_confirmation').val();
 
-    // Get the email and other form data
-    var email = formData.get('email');
-    var password = '1234567890'; // Static password for now
-    var passwordConfirmation = password; // Static password confirmation for now
-    var firstName = formData.get('first_name');
-    var lastName = formData.get('last_name');
+    // Validate password
+    if (password.length < 8) {
+        alert('Password must be at least 8 characters.');
+        return;
+    }
+    if (password !== passwordConfirmation) {
+        alert('Passwords do not match.');
+        return;
+    }
 
-    // Step 1: Register the user via AJAX
+    formData.set('password', password);
+    formData.set('password_confirmation', passwordConfirmation);
+
     $.ajax({
-        url: '/register', // Registration URL
+        url: '/waitList',
         method: 'POST',
-        data: {
-            email: email,
-            password: password,
-            password_confirmation: passwordConfirmation, // Ensure password confirmation is sent
-            first_name: firstName,
-            last_name: lastName,
-            _token: $('meta[name="csrf-token"]').attr('content') // CSRF token for security
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+            alert('Registration and waitlist added successfully!');
+            window.location.href = '/pending/user';
         },
-        success: function(response) {
-            // Step 2: If registration is successful, send the waitlist data
-            formData.append('user_id', response.id); // Include user ID in waitlist form data
-
-            $.ajax({
-                url: '/waitList', // Waitlist URL
-                method: 'POST',
-                data: formData,
-                processData: false, // Don't process data as query string
-                contentType: false, // Don't set content type
-                success: function(waitlistResponse) {
-                    alert('Registration and waitlist added successfully!');
-                    window.location.href = '/pending/user'; // Redirect to pending user page
-                },
-                error: function(error) {
-                    alert('Error occurred while submitting the waitlist!');
-                    console.log(error);
-                }
-            });
-        },
-        error: function(error) {
-            alert('Error occurred during registration!');
-            console.log(error);
+        error: function (xhr) {
+            if (xhr.responseJSON && xhr.responseJSON.errors) {
+                let messages = Object.values(xhr.responseJSON.errors)
+                    .map(errorArr => errorArr.join(', '))
+                    .join('\n');
+                alert(messages);
+            } else {
+                alert('An error occurred while submitting the waitlist.');
+            }
+            console.error(xhr);
         }
     });
 });
+
+
+
 
