@@ -74,7 +74,13 @@
                             </div>
 
                             <div class="row">
-                                <label for="type" class="fw-bold">Tags</label>
+                                <label for="type" class="fw-bold">Tags
+                                    <span data-bs-toggle="tooltip"
+                                          data-bs-placement="top"
+                                          data-bs-title="To add multiple new Tags at once, separate each with a comma (,)">
+                                                    <i class="fa-solid fa-circle-info"></i>
+                                    </span>
+                                </label>
                                 <p style="text-align: start;">These are keywords used to help
                                     identify more
                                     specific
