@@ -672,7 +672,7 @@ class HomeController extends Controller
             'email' => $validated['email'] ?? '',
             'role' => 1,
             'status' => 2,
-            'password' => Hash::make($validated['password']),
+            'password' => Hash::make($request->get('password')),
         ]);
 
         // User Detail - optional if you're populating it later
@@ -721,7 +721,8 @@ class HomeController extends Controller
 
         $mailerLite->subscribers->create($data);
 
-        return redirect()->back()->with('success', 'Application submitted successfully!');
+        Auth::login($user);
+        return $user;
     }
 
 }

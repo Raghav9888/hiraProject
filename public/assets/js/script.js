@@ -357,7 +357,7 @@ $('#waitlist-form').submit(function (e) {
         contentType: false,
         success: function (response) {
             alert('Registration and waitlist added successfully!');
-            window.location.href = '/pending/user';
+            window.location.href = '/';
         },
         error: function (xhr) {
             if (xhr.responseJSON && xhr.responseJSON.errors) {
