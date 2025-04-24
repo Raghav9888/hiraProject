@@ -656,13 +656,7 @@ class HomeController extends Controller
             'uploads.*' => 'nullable|file|mimes:jpg,jpeg,png,mp4,mov,avi,doc,docx,pdf|max:20480',
         ]);
 
-        $uploadedFiles = [];
-        if ($request->hasFile('uploads')) {
-            foreach ($request->file('uploads') as $file) {
-                $path = $file->store('waitlist_uploads', 'public');
-                $uploadedFiles[] = $path;
-            }
-        }
+
 
         // Create a new user if needed (optional)
         $user = User::create([
@@ -685,6 +679,20 @@ class HomeController extends Controller
             'user_id' => $user->id,
         ]);
 
+
+        $uploadedFiles = [];
+
+        if ($request->hasFile('uploads')) {
+            foreach ($request->file('uploads') as $file) {
+                $extension = $file->getClientOriginalExtension();
+                $fileName = time() . '_' . uniqid() . '.' . $extension;
+
+                $destinationPath = public_path('uploads/practitioners/' . $user->id . '/waitlist/');
+                $file->move($destinationPath, $fileName);
+
+                $uploadedFiles[] = $fileName;
+            }
+        }
 
 
         // Save to Waitlist

@@ -83,6 +83,7 @@ Route::middleware(['auth', 'user-access:admin'])->name('admin.')->prefix('admin'
     Route::post('/login/as', [UserController::class, 'loginAs'])->name('login.as');
     Route::resource('blogs', BlogController::class);
     Route::resource('plans', PlanController::class);
+    Route::get('/user/waitlist/{id}', [UserController::class,'waitlist'])->name('user.waitlist');
 
     Route::get('/locations', [LocationController::class, 'locations'])->name('location.index');
     Route::get('/create/location', [LocationController::class, 'createLocation'])->name('location.create');
