@@ -332,15 +332,15 @@ $(document).on('change', '#fileUpload', function () {
 $('#waitlist-form').submit(function (e) {
     e.preventDefault();
 
-    var formData = new FormData(this);
-    var password = $('#password').val();
-    var passwordConfirmation = $('#password_confirmation').val();
+    const formData = new FormData(this);
+    const password = $('#password').val();
+    const passwordConfirmation = $('#password_confirmation').val();
 
-    // Validate password
     if (password.length < 8) {
         alert('Password must be at least 8 characters.');
         return;
     }
+
     if (password !== passwordConfirmation) {
         alert('Passwords do not match.');
         return;
@@ -355,15 +355,20 @@ $('#waitlist-form').submit(function (e) {
         data: formData,
         processData: false,
         contentType: false,
-        success: function (response) {
+        success: function () {
             alert('Registration and waitlist added successfully!');
             window.location.href = '/';
         },
         error: function (xhr) {
             if (xhr.responseJSON && xhr.responseJSON.errors) {
-                let messages = Object.values(xhr.responseJSON.errors)
-                    .map(errorArr => errorArr.join(', '))
-                    .join('\n');
+                const errors = xhr.responseJSON.errors;
+
+                if (errors.email && errors.email.includes('The email has already been taken.')) {
+                    alert('The email you entered is already registered. Please use a different one.');
+                    return;
+                }
+
+                const messages = Object.values(errors).flat().join('\n');
                 alert(messages);
             } else {
                 alert('An error occurred while submitting the waitlist.');
@@ -372,6 +377,7 @@ $('#waitlist-form').submit(function (e) {
         }
     });
 });
+
 
 
 

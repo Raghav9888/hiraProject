@@ -640,7 +640,8 @@ class HomeController extends Controller
         $validated = $request->validate([
             'first_name' => 'nullable|string|max:255',
             'last_name' => 'nullable|string|max:255',
-            'email' => 'nullable|email|max:255',
+            'email' => 'required|email|max:255|unique:users,email', // unique check
+            'password' => 'required|string|min:8|confirmed', // password + confirmation check
             'business_name' => 'nullable|string|max:255',
             'phone' => 'nullable|string|max:20',
             'website' => 'nullable|url|max:255',
@@ -656,40 +657,25 @@ class HomeController extends Controller
             'uploads.*' => 'nullable|file|mimes:jpg,jpeg,png,mp4,mov,avi,doc,docx,pdf|max:20480',
         ]);
 
-
-
-        // Create a new user if needed (optional)
         $user = User::create([
             'name' => trim(($validated['first_name'] ?? '') . ' ' . ($validated['last_name'] ?? '')),
             'first_name' => $validated['first_name'] ?? '',
             'last_name' => $validated['last_name'] ?? '',
-            'email' => $validated['email'] ?? '',
+            'email' => $validated['email'],
             'role' => 1,
             'status' => 2,
-            'password' => Hash::make($request->get('password')),
+            'password' => Hash::make($validated['password']),
         ]);
 
-        // User Detail - optional if you're populating it later
-        UserDetail::create([
-            'user_id' => $user->id,
-        ]);
-
-        // Create a Google Account entry
-        GoogleAccount::create([
-            'user_id' => $user->id,
-        ]);
-
+        UserDetail::create(['user_id' => $user->id]);
+        GoogleAccount::create(['user_id' => $user->id]);
 
         $uploadedFiles = [];
 
         if ($request->hasFile('uploads')) {
             foreach ($request->file('uploads') as $file) {
-                $extension = $file->getClientOriginalExtension();
-                $fileName = time() . '_' . uniqid() . '.' . $extension;
-
-                $destinationPath = public_path('uploads/practitioners/' . $user->id . '/waitlist/');
-                $file->move($destinationPath, $fileName);
-
+                $fileName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('uploads/practitioners/' . $user->id . '/waitlist/'), $fileName);
                 $uploadedFiles[] = $fileName;
             }
         }
@@ -717,7 +703,7 @@ class HomeController extends Controller
 
         $mailerLite = new MailerLite(['api_key' => env("MAILERLITE_KEY")]);
 
-        $data = [
+        $mailerLite->subscribers->create([
             'email' => $validated['email'],
             "fields" => [
                 "name" => $validated['first_name'],
@@ -726,12 +712,12 @@ class HomeController extends Controller
             'groups' => [
                 env('MAILERLITE_PRACTITIONER_GROUP')
             ]
-        ];
-
-        $mailerLite->subscribers->create($data);
+        ]);
 
         Auth::login($user);
+
         return $user;
     }
+
 
 }
