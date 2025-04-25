@@ -367,10 +367,9 @@
                                 Expand your reach, connect with aligned clients, and grow your practice within a
                                 supportive community.
                             </p>
-                            <button onclick="window.location.href='{{route('register')}}'" class="mt-4">Apply as a
-                                Practitioner
-                            </button>
-
+                            <button data-bs-target="#registerModal" data-bs-toggle="modal" class="mt-4">Apply as a
+                                Practitioner</button>
+                            
                             <img src="{{url('assets/images/footer-butterfly.svg')}}" alt="">
                         </div>
                     </div>
