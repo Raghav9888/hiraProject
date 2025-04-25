@@ -182,6 +182,7 @@
                                                             @if(in_array($defaultLocationId, $userLocations))
                                                                 <i class="fa-solid fa-location-dot"></i>
                                                                 {{ $defaultLocation }} ,
+                                                                @break
                                                             @endif
                                                         @endforeach
                                                     @endif
