@@ -43,20 +43,20 @@
         </div>
 
         {{-- Referral --}}
-        <div class="mb-3 amenties-checkbox-container">
+        <div class="mb-3">
             <label>How did you hear about us?</label><br>
-            <div class="form-check"><input type="checkbox" name="heard_from[]" value="instagram" class="form-check-input amentities-checkbox"> Instagram</div>
-            <div class="form-check"><input type="checkbox" name="heard_from[]" value="facebook" class="form-check-input amentities-checkbox"> Facebook</div>
+            <div class="form-check"><input type="checkbox" name="heard_from[]" value="instagram" class="form-check-input input_checkbox"> Instagram</div>
+            <div class="form-check"><input type="checkbox" name="heard_from[]" value="facebook" class="form-check-input input_checkbox"> Facebook</div>
             <div class="form-check">
-                <input type="checkbox" name="heard_from[]" value="referral" class="form-check-input amentities-checkbox" id="referral_check">
+                <input type="checkbox" name="heard_from[]" value="referral" class="form-check-input input_checkbox" id="referral_check">
                 Referral – Who referred you?
                 <input type="text" name="referral_name" id="referral_name" class="form-control mt-1 d-none" style="height: 46px;
     padding: 17px 21px;">
             </div>
-            <div class="form-check"><input type="checkbox" name="heard_from[]" value="event" class="form-check-input amentities-checkbox"> Attended an Event</div>
-            <div class="form-check"><input type="checkbox" name="heard_from[]" value="google" class="form-check-input amentities-checkbox"> Google/Search</div>
+            <div class="form-check"><input type="checkbox" name="heard_from[]" value="event" class="form-check-input input_checkbox"> Attended an Event</div>
+            <div class="form-check"><input type="checkbox" name="heard_from[]" value="google" class="form-check-input input_checkbox"> Google/Search</div>
             <div class="form-check">
-                <input type="checkbox" name="heard_from[]" value="other" class="form-check-input amentities-checkbox" id="other_check">
+                <input type="checkbox" name="heard_from[]" value="other" class="form-check-input input_checkbox" id="other_check">
                 Other:
                 <input type="text" name="other_source" id="other_source" class="form-control mt-1 d-none">
             </div>
@@ -86,14 +86,14 @@
         {{-- Optional Questions --}}
         <div class="mb-3 amenties-checkbox-container">
             <label>Are you open to a brief call if space becomes available?</label><br>
-            <div class="form-check"><input type="radio" name="call_availability" value="yes" class="form-check-input amentities-checkbox"> Yes</div>
-            <div class="form-check"><input type="radio" name="call_availability" value="no" class="form-check-input amentities-checkbox"> Not right now</div>
+            <div class="form-check"><input type="radio" name="call_availability" value="yes" class="form-check-input input_checkbox"> Yes</div>
+            <div class="form-check"><input type="radio" name="call_availability" value="no" class="form-check-input input_checkbox"> Not right now</div>
         </div>
 
         <div class="mb-3 amenties-checkbox-container">
             <label>Would you like to receive our newsletter?</label><br>
-            <div class="form-check"><input type="radio" name="newsletter" value="yes" class="form-check-input amentities-checkbox"> Yes please</div>
-            <div class="form-check"><input type="radio" name="newsletter" value="no" class="form-check-input amentities-checkbox"> Not right now</div>
+            <div class="form-check"><input type="radio" name="newsletter" value="yes" class="form-check-input input_checkbox"> Yes please</div>
+            <div class="form-check"><input type="radio" name="newsletter" value="no" class="form-check-input input_checkbox"> Not right now</div>
         </div>
 
         {{-- Password --}}

@@ -59,7 +59,7 @@
                                 <button class="login-btn mt-2" type="submit">Logout</button>
                             </form>
                         @else
-                            <a href="javascript:void(0)" data-bs-target="#exampleModal" data-bs-toggle="modal"
+                            <a href="javascript:void(0)" data-bs-target="#registerModal" data-bs-toggle="modal"
                                class="btn join-btn my-2 d-flex align-items-center justify-content-center">Join
                                 as a
                                 Practitioner</a>

@@ -46,7 +46,11 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
         gtag('js', new Date());
         gtag('config', 'G-XXXXXXXXXX');
     </script>
@@ -58,14 +62,17 @@
         @yield('content')
     </main>
 </div>
+@include('layouts.footer')
 <div class="modal fade" id="userPopup" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-md modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body">
                 <div class="container my-3">
-                    <div class="alert alert-green fade show d-flex justify-content-between align-items-center f-5" role="alert">
+                    <div class="alert alert-green fade show d-flex justify-content-between align-items-center f-5"
+                         role="alert">
                         <h2 class="h6 mb-0">Welcome To Hira Collective News Letter</h2>
-                        <span type="button" class="btn-white close-modal" id="closeModalBtn" aria-label="Close" data-bs-dismiss="modal">
+                        <span type="button" class="btn-white close-modal" id="closeModalBtn" aria-label="Close"
+                              data-bs-dismiss="modal">
                             <i class="fa-solid fa-xmark"></i>
                         </span>
                     </div>
@@ -83,9 +90,34 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="place-order btn btn-secondary" id="cancelPopupBtn" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="place-order btn btn-secondary" id="cancelPopupBtn" data-bs-dismiss="modal">
+                    Cancel
+                </button>
                 <button type="submit" form="popupForm" class="place-order btn btn-green">Submit</button>
-{{--                <button type="button" class="btn btn-outline-danger" onclick="clearAllCookies()">Clear All Cookies</button>--}}
+                {{--                <button type="button" class="btn btn-outline-danger" onclick="clearAllCookies()">Clear All Cookies</button>--}}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade xl" id="registerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="container my-3">
+                    <div class="alert alert-green fade show d-flex justify-content-between align-items-center f-5"
+                         role="alert">
+                        <h2 class="h5 mb-0">Join the Waitlist – Apply to Be a Practitioner</h2>
+                        <span type="button" class="btn-white close-modal" aria-label="Close"
+                              data-bs-dismiss="modal">
+                                    <i class="fa-solid fa-xmark"></i>
+                            </span>
+
+                    </div>
+
+                    <div id="waitList">
+                        @include('auth.wait_list_form_xml')
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -142,7 +174,7 @@
                             'Content-Type': 'application/json',
                             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                         },
-                        body: JSON.stringify({ name, email })
+                        body: JSON.stringify({name, email})
                     });
 
                     const result = await response.json();
@@ -173,152 +205,54 @@
     });
 </script>
 
+<script>
+    const togglePassword = document.getElementById("togglePassword");
+    const passwordField = document.getElementById("exampleInputPassword1");
 
-@include('layouts.footer')
-<div class="modal fade xl" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-body">
-                <div class="container my-3">
-                    <div class="alert alert-green fade show d-flex justify-content-between align-items-center f-5"
-                         role="alert">
-                        <h2 class="h5 mb-0">Join the Waitlist – Apply to Be a Practitioner</h2>
-                        <span type="button" class="btn-white close-modal" aria-label="Close"
-                              data-bs-dismiss="modal">
-                                    <i class="fa-solid fa-xmark"></i>
-                            </span>
+    togglePassword.addEventListener("click", function () {
+        const type = passwordField.type === "password" ? "text" : "password";
+        passwordField.type = type;
 
-                    </div>
-
-                    <div id="waitList">
-                        @include('auth.wait_list_form_xml')
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
-
-                <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
-                        @csrf
-
-    <div class="row mb-3">
-        <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-
-                                @error('email')
-    <span class="invalid-feedback" role="alert">
-        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-    </div>
-</div>
-
-<div class="row mb-3">
-    <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-
-                                @error('password')
-    <span class="invalid-feedback" role="alert">
-        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-    </div>
-</div>
-
-<div class="row mb-3">
-    <div class="col-md-6 offset-md-4">
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-
-                                    <label class="form-check-label" for="remember">
-                                        {{ __('Remember Me') }}
-    </label>
-</div>
-</div>
-</div>
-
-<div class="row mb-0">
-<div class="col-md-8 offset-md-4">
-<button type="submit" class="btn btn-primary">
-{{ __('Login') }}
-    </button>
-
-@if (Route::has('password.request'))
-        <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-        </a>
+        this.innerHTML = type === "password" ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+    });
 
 
+</script>
 
-
-@endif
-    </div>
-</div>
-</form>
-</div>
-</div>
-</div>
-</div>
-</div> -->
-    <script>
-        const togglePassword = document.getElementById("togglePassword");
-        const passwordField = document.getElementById("exampleInputPassword1");
-
-        togglePassword.addEventListener("click", function () {
-            const type = passwordField.type === "password" ? "text" : "password";
-            passwordField.type = type;
-
-            this.innerHTML = type === "password" ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
-        });
-
-
-    </script>
-
-    <script>
-        // Password visibility toggle
-        document.querySelectorAll('.toggle-password').forEach(toggle => {
-            toggle.addEventListener('click', function () {
-                const target = document.getElementById(this.dataset.target);
-                const icon = this.querySelector('i');
-                if (target.type === 'password') {
-                    target.type = 'text';
-                    icon.classList.replace('fa-eye', 'fa-eye-slash');
-                } else {
-                    target.type = 'password';
-                    icon.classList.replace('fa-eye-slash', 'fa-eye');
-                }
-            });
-        });
-
-        // Show input for referral
-        document.getElementById('referral_check').addEventListener('change', function () {
-            document.getElementById('referral_name').classList.toggle('d-none', !this.checked);
-        });
-
-        // Show input for other source
-        document.getElementById('other_check').addEventListener('change', function () {
-            document.getElementById('other_source').classList.toggle('d-none', !this.checked);
-        });
-
-        // Limit file uploads to 2 files
-        document.getElementById('fileUpload').addEventListener('change', function () {
-            if (this.files.length > 2) {
-                alert('You can upload a maximum of 2 files.');
-                this.value = '';
+<script>
+    // Password visibility toggle
+    document.querySelectorAll('.toggle-password').forEach(toggle => {
+        toggle.addEventListener('click', function () {
+            const target = document.getElementById(this.dataset.target);
+            const icon = this.querySelector('i');
+            if (target.type === 'password') {
+                target.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                target.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
             }
         });
-    </script>
+    });
+
+    // Show input for referral
+    document.getElementById('referral_check').addEventListener('change', function () {
+        document.getElementById('referral_name').classList.toggle('d-none', !this.checked);
+    });
+
+    // Show input for other source
+    document.getElementById('other_check').addEventListener('change', function () {
+        document.getElementById('other_source').classList.toggle('d-none', !this.checked);
+    });
+
+    // Limit file uploads to 2 files
+    document.getElementById('fileUpload').addEventListener('change', function () {
+        if (this.files.length > 2) {
+            alert('You can upload a maximum of 2 files.');
+            this.value = '';
+        }
+    });
+</script>
 
 @stack('custom_scripts')
 <script type="module">
@@ -386,7 +320,6 @@
 </script>
 
 
-
 <script src="{{ asset('assets/js/loader.js') }}?v={{ time() }}"></script>
 <script src="{{ asset('assets/js/script.js') }}?v={{ time() }}"></script>
 <script src="{{ asset('assets/js/calendar.js') }}?v={{ time() }}"></script>
@@ -405,6 +338,7 @@
     document.addEventListener("DOMContentLoaded", function () {
         window.loadingScreen.removeLoading();
     });
+
     function onClick(e) {
         e.preventDefault();
         grecaptcha.enterprise.ready(async () => {

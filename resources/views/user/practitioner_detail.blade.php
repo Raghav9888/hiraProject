@@ -553,11 +553,15 @@
                                  data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
                                     <div class="help-you-dv">
-                                        <ul>
+                                        <div class="row">
                                             @foreach($IHelpWith as $term)
-                                                <li>{{$term}}</li>
+                                                <li class="col-md-6 d-flex align-items-start text-green">
+                                                    <i class="fa-solid fa-caret-right mt-1 me-2"></i>
+                                                    <span>{{ $term }}</span>
+                                                </li>
                                             @endforeach
-                                        </ul>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -575,11 +579,15 @@
                                  data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
                                     <div class="help-you-dv">
-                                        <ul>
+                                        <div class="row">
                                             @foreach($HowIHelp as $term)
-                                                <li>{{$term}}</li>
+                                                <li class="col-md-6 d-flex align-items-start text-green">
+                                                    <i class="fa-solid fa-caret-right mt-1 me-2"></i>
+                                                    <span>{{ $term }}</span>
+                                                </li>
                                             @endforeach
-                                        </ul>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -806,7 +814,6 @@
             </div>
         </div>
     </div>
-
 
     <script>
         function copyLink(event) {
