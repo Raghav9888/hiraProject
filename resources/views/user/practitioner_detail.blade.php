@@ -380,7 +380,7 @@
                         </div>
 
                         <div class="accordion-item">
-                            <h2 class="accordion-header" id="headingOne">
+                            <h2 class="accordion-header" id="events">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                         data-bs-target="#Events" aria-expanded="true" aria-controls="collapseOne">
                                     Events

@@ -103,10 +103,11 @@
                                     : asset("$localPath/images/no_image.png");
 
                             @endphp
-                            <div class="card swiper-slide" style="max-height: 200px;min-height: 200px; cursor:pointer;"
-                                 onclick="window.location.href='{{route('practitioner_detail', $offering->user->id)}}'">
+                            <div class="card swiper-slide" style="max-height: 200px; min-height: 200px; cursor:pointer;"
+                                 onclick="window.location.href='{{ route('practitioner_detail', $offering->user->id) }}?#events'">
 
-                                <div class="card-body">
+
+                            <div class="card-body">
 
                                     <div class="row">
                                         <div class="col-md-5">
