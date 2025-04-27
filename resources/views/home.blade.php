@@ -165,7 +165,7 @@
 
                                     @endphp
 
-                                    <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
+                                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 mb-4">
                                         <div class="featured-dv">
                                             <a href="{{ route('practitioner_detail', $user->id) }}">
                                                 <img src="{{ $imageUrl }}" class="img-fit" alt="person">
