@@ -103,7 +103,7 @@
                                     : asset("$localPath/images/no_image.png");
 
                             @endphp
-                            <div class="card swiper-slide" style="max-height: 250px;min-height: 250px; cursor:pointer;"
+                            <div class="card swiper-slide" style="max-height: 200px;min-height: 200px; cursor:pointer;"
                                  onclick="window.location.href='{{route('practitioner_detail', $offering->user->id)}}'">
 
                                 <div class="card-body">
@@ -115,11 +115,12 @@
                                         </div>
                                         <div class="col-md-7">
                                             <h5>{{$offering?->name}}</h5>
-                                            <h6>{{ implode(' ', array_slice(explode(' ', strip_tags($offering->short_description)), 0, 20)) . '...' }}</h6>
+                                            <h6>{{ implode(' ', array_slice(explode(' ', strip_tags($offering->short_description)), 0, 10)) . '...' }}</h6>
                                             <div class="d-flex justify-content-end align-items-center">
                                                 <img src="{{url('./assets/images/Clock.svg')}}" alt="" class="me-2"
                                                      style="width: 20px">
-                                                <span>{{$date}}</span>
+                                                <span>{{ \Carbon\Carbon::parse($date)->format('F j, Y') }}</span>
+
                                             </div>
 
                                         </div>
@@ -369,7 +370,7 @@
                             </p>
                             <button data-bs-target="#registerModal" data-bs-toggle="modal" class="mt-4">Apply as a
                                 Practitioner</button>
-                            
+
                             <img src="{{url('assets/images/footer-butterfly.svg')}}" alt="">
                         </div>
                     </div>

@@ -158,7 +158,7 @@
         const modalEl = document.getElementById('userPopup');
         const modal = new bootstrap.Modal(modalEl);
 
-        if (!getCookie('newsLetters')) {
+        if (!getCookie('newsLetter')) {
             modal.show();
         }
 
