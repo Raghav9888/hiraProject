@@ -57,8 +57,10 @@ class HomeController extends Controller
             $locations[$location->id] = $location->name;
         }
         json_encode($locations);
-        $offeringsData = Offering::all();
-
+        $offeringsData = Offering::where('offering_type', ['virtual', 'in_person'])
+            ->with('event')
+            ->with('user')
+            ->get();
         $offerings = [];
         $now = now();
         foreach ($offeringsData as $offeringData) {
@@ -331,16 +333,16 @@ class HomeController extends Controller
     public function searchPractitioner(Request $request, ?string $categoryType = null)
     {
         $search = $request->get('search');
-        $searchPractitioner = $request->get('searchPractitioner');
         $category = $categoryType ?? $request->get('category');
-        $offeringType = $request->get('searchType');
+        $offeringType = $request->get('searchType', 'virtual');
         $locationName = $request->get('location');
         $page = $request->get('page', 1);
 
         $userIds = collect();
 
-        // 1. Search by name
+        // 1. Search by name or userDetails (tags, help fields, etc.)
         if (!empty($search)) {
+            // Search by name (first_name, last_name, full name)
             $userByName = User::where('role', 1)
                 ->where('status', 1)
                 ->where(function ($q) use ($search) {
@@ -351,10 +353,8 @@ class HomeController extends Controller
                 ->pluck('id');
 
             $userIds = $userIds->merge($userByName);
-        }
 
-        // 2. Search in userDetails (tags, help fields, etc.)
-        if (!empty($search)) {
+            // Search by related details (tags, howIHelp, certifications, etc.)
             $tagId = PractitionerTag::where('name', 'like', $search . '%')->value('id');
             $howIHelpId = HowIHelp::where('name', 'like', $search . '%')->value('id');
             $iHelpWithId = IHelpWith::where('name', 'like', $search . '%')->value('id');
@@ -362,6 +362,7 @@ class HomeController extends Controller
             $locationId = Locations::where('name', 'like', $search . '%')->value('id');
             $categoryIdFromSearch = Category::where('name', 'like', '%' . $search . '%')->value('id');
 
+            // If any related field found, merge user IDs
             if ($tagId || $howIHelpId || $iHelpWithId || $certificationId || $locationId || $categoryIdFromSearch) {
                 $userByDetails = UserDetail::where(function ($q) use ($tagId, $howIHelpId, $iHelpWithId, $certificationId, $locationId, $categoryIdFromSearch) {
                     if ($tagId) $q->orWhereJsonContains('tags', (string)$tagId);
@@ -376,35 +377,34 @@ class HomeController extends Controller
             }
         }
 
+        // Remove duplicates and re-index
         $userIds = $userIds->unique()->values();
 
-        // 3. Build the base query
+        // 2. Build the base query
         $query = User::where('role', 1)
             ->where('status', 1)
             ->with('userDetail')
             ->with('feedback');
 
-
+        // If any users found by name or user details, apply filter
         if ($userIds->isNotEmpty()) {
             $query->whereIn('id', $userIds);
         }
 
-        // 4. Category filter (dropdown or route param)
+        // 3. Category filter
         if (!empty($category)) {
             $formattedCategory = ucwords(str_replace('_', ' ', $category));
-
             $categoryId = Category::where('name', $formattedCategory)->value('id');
 
-            if (!empty($categoryId)) {
+            if ($categoryId) {
                 $query->whereHas('userDetail', function ($q) use ($categoryId) {
                     $q->whereJsonContains('specialities', (string)$categoryId);
                 });
             }
         }
 
-//         5. Practitioner type filter (from dropdown)
+        // 4. Offering Type Filter
         if (!empty($offeringType)) {
-
             $types = match ($offeringType) {
                 'both' => ['in_person', 'virtual'],
                 default => [$offeringType]
@@ -416,23 +416,17 @@ class HomeController extends Controller
             });
         }
 
-//         6. Location filter (from dropdown)
+        // 5. Location Filter
         if (!empty($locationName)) {
             $locationId = Locations::where('name', $locationName)->value('id');
-
             if ($locationId) {
                 $query->whereHas('userDetail', function ($q) use ($locationId) {
                     $q->whereJsonContains('location', (string)$locationId);
                 });
             }
-
         }
 
-
-        // 7. Default Locations
-        $defaultLocations = Locations::where('status', 1)->pluck('name', 'id');
-
-        // 8. Offerings (for showing event matches)
+        // 6. Get Offerings and Events Data
         $offeringsData = Offering::where('offering_type', $offeringType)
             ->with('event')
             ->with('user')
@@ -441,25 +435,25 @@ class HomeController extends Controller
         $events = [];
         $now = now();
         foreach ($offeringsData as $offeringData) {
-            if ($offeringData->event &&  $offeringData->user->role == 1 && $offeringData->event->date_and_time > $now) {
+            if (isset($offeringData->event) && $offeringData->event && $offeringData->event->date_and_time > $now) {
                 $events[$offeringData->event->date_and_time] = $offeringData;
             }
         }
 
-        $filterOfferingsData = [];
-        foreach ($offeringsData as $offeringData) {
-            if ($offeringData->user->role == 1) {
-                $filterOfferingsData[$offeringData->id] = $offeringData;
-            }
-        }
-        $blogs = Blog::latest()->get();
-        // 9. Build final params
+        // Filter only practitioners' offerings
+        $filterOfferingsData = $offeringsData->filter(function ($offeringData) {
+            return $offeringData->user->role == 1;
+        });
+
+        // 7. Default Locations
+        $defaultLocations = Locations::where('status', 1)->pluck('name', 'id');
+
+        // 8. Build the response parameters
         $params = [
             'pendingResult' => ceil($query->count() / 8) > $page,
             'practitioners' => $query->take($page * 8)->get(),
             'search' => $search,
             'category' => $category,
-//            'location' => $location,
             'defaultLocations' => $defaultLocations,
             'offerings' => $filterOfferingsData,
             'offeringEvents' => $events,
@@ -467,33 +461,7 @@ class HomeController extends Controller
             'page' => $page
         ];
 
-//        if (!empty($searchPractitioner)) {
-//            $users = User::where('role', 1)
-//                ->where('status', 1)
-//                ->where(function ($q) use ($searchPractitioner) {
-//                    $q->where('name', 'like', '%' . $searchPractitioner . '%')
-//                        ->orWhere('first_name', 'like', '%' . $searchPractitioner . '%')
-//                        ->orWhere('last_name', 'like', '%' . $searchPractitioner . '%');
-//                })
-//                ->get();
-//
-//            return response()->json([
-//                'success' => true,
-//                'pendingResult' => ceil($users->count() / 8) > $page,
-//                'html' => view('user.practitioner_list_xml_request', [
-//                    'practitioners' => $users,
-//                    'search' => $search,
-//                    'category' => $category,
-//                    'defaultLocations' => $defaultLocations,
-//                    'offerings' => $offeringsData,
-//                    'offeringEvents' => $events,
-//                    'categories' => Category::where('status', 1)->get(),
-//                    'page' => $page
-//                ])->render()
-//            ]);
-//        }
-
-
+        // 9. Return JSON for Ajax Request
         if ($request->isXmlHttpRequest() && $request->get('isPractitioner')) {
             return response()->json([
                 'success' => true,
@@ -502,6 +470,7 @@ class HomeController extends Controller
             ]);
         }
 
+        // 10. Return the search page with results
         return view('user.search_page', $params);
     }
 
