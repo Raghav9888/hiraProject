@@ -381,9 +381,9 @@ $('#waitlist-form').submit(function (e) {
             $('.modal-footer').addClass('d-none');
 
             // (Optional) If you want to close modal after some time or redirect, you can uncomment below:
-            // setTimeout(function () {
-            //     window.location.href = '/';
-            // }, 4000);
+            setTimeout(function () {
+                window.location.href = '/';
+            }, 10000);
         },
 
 
