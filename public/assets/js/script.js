@@ -349,6 +349,8 @@ $('#waitlist-form').submit(function (e) {
     formData.set('password', password);
     formData.set('password_confirmation', passwordConfirmation);
 
+    var form = $(this); // save form reference
+
     $.ajax({
         url: '/waitList',
         method: 'POST',
@@ -357,8 +359,34 @@ $('#waitlist-form').submit(function (e) {
         contentType: false,
         success: function () {
             alert('Registration and waitlist added successfully!');
-            window.location.href = '/';
+
+            // Change modal size
+            $('#registerModal .modal-dialog')
+                .removeClass('modal-xl')
+                .addClass('modal-lg');
+
+            // Hide the waitlist form
+            $('#waitList').addClass('d-none');
+
+            // Update the alert header
+            $('.alert-green h2').html('Thank you for sharing your practice and heart with us.');
+
+            // Show the success message
+            $('#msg').removeClass('d-none').html(`
+        You’ve been added to our waitlist, and we’ll be in touch as soon as space opens or a practitioner spot becomes available.<br><br>
+        In the meantime, you’ll receive updates and moments of care from The Hira Collective.<br><br>
+        With love and gratitude,<br>
+        <strong>The Hira Collective Team</strong>
+    `);
+            $('.modal-footer').addClass('d-none');
+
+            // (Optional) If you want to close modal after some time or redirect, you can uncomment below:
+            // setTimeout(function () {
+            //     window.location.href = '/';
+            // }, 4000);
         },
+
+
         error: function (xhr) {
             if (xhr.responseJSON && xhr.responseJSON.errors) {
                 const errors = xhr.responseJSON.errors;
@@ -376,6 +404,7 @@ $('#waitlist-form').submit(function (e) {
             console.error(xhr);
         }
     });
+
 });
 
 

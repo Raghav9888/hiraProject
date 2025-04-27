@@ -46,7 +46,7 @@
                         </div>
                     </form>
                     <div class="links mt-4">
-                        <a href="javascript:void(0)" data-bs-target="#exampleModal" data-bs-toggle="modal"
+                        <a href="javascript:void(0)" data-bs-target="#registerModal" data-bs-toggle="modal"
                            class="login-link">Register Now</a>
                         <a href="{{ route('password.request') }}" class="login-link">Forgot Password</a>
                     </div>

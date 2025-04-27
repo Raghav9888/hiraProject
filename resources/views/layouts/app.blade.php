@@ -116,10 +116,11 @@
                             </span>
 
                     </div>
-
-                    <div id="waitList">
+                    <div id="waitList" class="d-block">
                         @include('auth.wait_list_form_xml')
                     </div>
+                    <div id="msg" class="d-none"></div>
+
                 </div>
             </div>
         </div>
@@ -159,7 +160,7 @@
         const modal = new bootstrap.Modal(modalEl);
 
         if (!getCookie('newsLetter')) {
-            setTimeout(function() {
+            setTimeout(function () {
                 modal.show();
             }, 30000);
         }
