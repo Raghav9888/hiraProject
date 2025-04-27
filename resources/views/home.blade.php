@@ -188,7 +188,7 @@
                                                         @endforeach
                                                     @endif
                                                 </h5>
-                                                <p>{{$user->userDetail->company ?? 'Alternative and Holistic Health Practitioner'}}</p>
+                                                <p>{{ implode(' ', array_slice(explode(' ', strip_tags($user->userDetail->company ?? 'Alternative and Holistic Health Practitioner')), 0, 10)) . '...' }}</p>
 
                                                 <div class="d-flex justify-content-between align-items-center">
                                                     <div>
@@ -206,9 +206,9 @@
                         @endforeach
 
                         <!-- Load More Button (Only if there are practitioners) -->
-                        <div class="d-flex justify-content-center mt-2">
-                            <button class="category-load-more loadPractitioner" data-count="1">Load More</button>
-                        </div>
+                        {{--                        <div class="d-flex justify-content-center mt-2">--}}
+                        {{--                            <button class="category-load-more loadPractitioner" data-count="1">Load More</button>--}}
+                        {{--                        </div>--}}
                     @else
                         <p class="text-center">No practitioners found.</p>
                     @endif
@@ -263,10 +263,12 @@
                             </p>
                         </div>
                     </div>
+                </div>
+                <div class="row">
                     <div class="col-sm-12 col-md-6 col-lg-6 mb-5">
                         <div class="vision-about-img-dv">
                             <img src="{{url('/assets/images/our_vision.jpg')}}" alt="our-vision" class="rounded-4"
-                                 style="max-height: 340px">
+                                 style="max-height: 370px">
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-6 mb-5">
@@ -285,7 +287,7 @@
                             </button>
                         </div>
                     </div>
-                    <div class="col-sm-12 col-md-6 col-lg-6 mb-5">
+                    <div class="col-sm-12 col-md-6 col-lg-6 mb-5 order-4 order-md-3">
                         <div class="vision-and-about-dv about-dv">
                             <h2>OUR STORY</h2>
                             <p style="text-align: end;">The Hira Collective is a curated wellness platform designed to
@@ -300,10 +302,10 @@
                             </button>
                         </div>
                     </div>
-                    <div class="col-sm-12 col-md-6 col-lg-6 mb-5">
+                    <div class="col-sm-12 col-md-6 col-lg-6 mb-5 order-3 order-md-4">
                         <div class="vision-about-img-dv">
                             <img src="{{url('/assets/images/about_us.jpg')}}" alt="about-us" class="rounded-4"
-                                 style="max-height: 340px">
+                                 style="max-height: 370px">
                         </div>
                     </div>
                 </div>
@@ -338,7 +340,7 @@
                                 {!! $community->description !!}
 
                                 <h4>{{$community->title}}</h4>
-{{--                                <p class="mb-0">Yoga Student</p>--}}
+                                {{--                                <p class="mb-0">Yoga Student</p>--}}
                             </div>
                         @endforeach
                     </div>
@@ -369,7 +371,8 @@
                                 supportive community.
                             </p>
                             <button data-bs-target="#registerModal" data-bs-toggle="modal" class="mt-4">Apply as a
-                                Practitioner</button>
+                                Practitioner
+                            </button>
 
                             <img src="{{url('assets/images/footer-butterfly.svg')}}" alt="">
                         </div>
