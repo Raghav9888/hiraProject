@@ -215,48 +215,53 @@
                                     @foreach($offerings as $offering)
                                         @if($offering?->offering_event_type == 'offering')
                                             <div class="accordian-body-data">
-                                                <div
-                                                    class="d-flex justify-content-between flex-wrap align-items-center">
-                                                    <h6 class="mb-2"
-                                                        style="font-size: 15px;font-weight: 800">{{$offering->name}}</h6>
-                                                    <div class="d-flex align-items-center">
-                                                        @php
-                                                            $rawPrice = $offering->offering_event_type == 'event'
-                                                                ? $offering->event?->client_price ?? 0
-                                                                : ($offering?->client_price ?? 0);
-
-                                                            // Clean the price: remove commas, convert to float
-                                                            $cadPrice = round(floatval(str_replace(',', '', $rawPrice)));
-
-                                                        @endphp
-
-                                                        <h6 class="offer-prize me-2 m-0">
-                                                            CA$ {{ $cadPrice }}
-                                                        </h6>
-
-                                                        <button type="button" class="home-blog-btn offering_process"
-                                                                data-bs-toggle="modal"
-                                                                data-bs-target="#exampleModal"
-                                                                onclick="openPopup(event)"
-                                                                data-user-id="{{$user->id}}"
-                                                                data-duration="{{$offering->offering_event_type =='event' ? ($offering->event?->event_duration ?? '15 minutes') : ($offering?->booking_duration ?? '15 minutes')}}"
-                                                                data-buffer-time="{{$offering->offering_event_type =='event'  ? '15 minutes' : ($offering?->buffer_time ?? '15 minutes')}}"
-                                                                data-offering-id="{{$offering->id}}"
-                                                                data-offering-event-type="{{$offering->offering_event_type}}"
-                                                                data-event-start="{{$offering->offering_event_type =='event' ? $offering->event?->date_and_time  ?? '': ''}}"
-                                                                data-availability="{{$offering?->availability_type ?? ''}}"
-                                                                data-specific-day-start="{{$offering->from_date}}"
-                                                                data-specific-day-end="{{$offering->to_date}}"
-                                                                data-price="{{$cadPrice}}"
-                                                                data-currency-symbol="CA$"
-                                                                data-currency="cad"
-                                                                data-timezone="{{$userDetail->timezone}}"
-                                                                data-cad-price="{{$cadPrice}}"
-                                                                data-store-availability="{{$storeAvailable}}">BOOK NOW
-                                                        </button>
-
-                                                        {{--                                                    <a href="{{ route('practitionerOfferingDetail',$offering->id)}}" class="home-blog-btn">BOOK NOW</a>--}}
+                                                <div class="row justify-content-between flex-wrap align-items-center">
+                                                    <div class="col-md-8">
+                                                        <h6 class="mb-2"
+                                                            style="font-size: 15px;font-weight: 800">{{$offering->name}}</h6>
                                                     </div>
+                                                    <div class="col-md-4">
+                                                        <div class="d-flex align-items-center">
+                                                            @php
+                                                                $rawPrice = $offering->offering_event_type == 'event'
+                                                                    ? $offering->event?->client_price ?? 0
+                                                                    : ($offering?->client_price ?? 0);
+
+                                                                // Clean the price: remove commas, convert to float
+                                                                $cadPrice = round(floatval(str_replace(',', '', $rawPrice)));
+
+                                                            @endphp
+
+                                                            <h6 class="offer-prize me-2 m-0">
+                                                                CA$ {{ $cadPrice }}
+                                                            </h6>
+
+                                                            <button type="button" class="home-blog-btn offering_process"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#exampleModal"
+                                                                    onclick="openPopup(event)"
+                                                                    data-user-id="{{$user->id}}"
+                                                                    data-duration="{{$offering->offering_event_type =='event' ? ($offering->event?->event_duration ?? '15 minutes') : ($offering?->booking_duration ?? '15 minutes')}}"
+                                                                    data-buffer-time="{{$offering->offering_event_type =='event'  ? '15 minutes' : ($offering?->buffer_time ?? '15 minutes')}}"
+                                                                    data-offering-id="{{$offering->id}}"
+                                                                    data-offering-event-type="{{$offering->offering_event_type}}"
+                                                                    data-event-start="{{$offering->offering_event_type =='event' ? $offering->event?->date_and_time  ?? '': ''}}"
+                                                                    data-availability="{{$offering?->availability_type ?? ''}}"
+                                                                    data-specific-day-start="{{$offering->from_date}}"
+                                                                    data-specific-day-end="{{$offering->to_date}}"
+                                                                    data-price="{{$cadPrice}}"
+                                                                    data-currency-symbol="CA$"
+                                                                    data-currency="cad"
+                                                                    data-timezone="{{$userDetail->timezone}}"
+                                                                    data-cad-price="{{$cadPrice}}"
+                                                                    data-store-availability="{{$storeAvailable}}">BOOK NOW
+                                                            </button>
+
+                                                            {{--                                                    <a href="{{ route('practitionerOfferingDetail',$offering->id)}}" class="home-blog-btn">BOOK NOW</a>--}}
+                                                        </div>
+                                                        
+                                                    </div>
+
                                                 </div>
                                                 <ul class="practitioner-accordian-lists">
                                                     <li>{{ $offering->offering_event_type == 'event' ? $offering->event?->event_duration ?? 0:$offering->booking_duration}}</li>
@@ -392,47 +397,50 @@
                                     @foreach($offerings as $offering)
                                         @if($offering?->event?->sports > 0 && $offering?->offering_event_type == 'event')
                                             <div class="accordian-body-data">
-                                                <div
-                                                    class="d-flex justify-content-between flex-wrap align-items-center">
-                                                    <h6 class="mb-2"
-                                                        style="font-size: 15px;font-weight: 800">{{$offering->name}}</h6>
-                                                    <div class="d-flex align-items-center">
-                                                        @php
-                                                            $rawPrice = $offering->offering_event_type == 'event'
-                                                                ? $offering->event?->client_price ?? 0
-                                                                : ($offering?->client_price ?? 0);
+                                                <div class="row justify-content-between flex-wrap align-items-center">
+                                                    <div class="col-md-8">
+                                                        <h6 class="mb-2" style="font-size: 15px;font-weight: 800">{{$offering->name}}</h6>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="d-flex align-items-center">
+                                                            @php
+                                                                $rawPrice = $offering->offering_event_type == 'event'
+                                                                    ? $offering->event?->client_price ?? 0
+                                                                    : ($offering?->client_price ?? 0);
 
-                                                            // Clean the price: remove commas, convert to float
-                                                            $cadPrice = round(floatval(str_replace(',', '', $rawPrice)));
+                                                                // Clean the price: remove commas, convert to float
+                                                                $cadPrice = round(floatval(str_replace(',', '', $rawPrice)));
 
-                                                        @endphp
+                                                            @endphp
 
-                                                        <h6 class="offer-prize me-2 m-0">
-                                                            CA$ {{ $cadPrice }}
-                                                        </h6>
+                                                            <h6 class="offer-prize me-2 m-0">
+                                                                CA$ {{ $cadPrice }}
+                                                            </h6>
 
-                                                        <button type="button" class="home-blog-btn offering_process"
-                                                                data-bs-toggle="modal"
-                                                                data-bs-target="#exampleModal"
-                                                                onclick="openPopup(event)"
-                                                                data-user-id="{{$user->id}}"
-                                                                data-duration="{{$offering->offering_event_type =='event' ? ($offering->event?->event_duration ?? '15 minutes') : ($offering?->booking_duration ?? '15 minutes')}}"
-                                                                data-buffer-time="{{$offering->offering_event_type =='event'  ? '15 minutes' : ($offering?->buffer_time ?? '15 minutes')}}"
-                                                                data-offering-id="{{$offering->id}}"
-                                                                data-offering-event-type="{{$offering->offering_event_type}}"
-                                                                data-event-start="{{$offering->offering_event_type =='event' ? $offering->event?->date_and_time  ?? '': ''}}"
-                                                                data-availability="{{$offering?->availability_type ?? ''}}"
-                                                                data-specific-day-start="{{$offering->from_date}}"
-                                                                data-specific-day-end="{{$offering->to_date}}"
-                                                                data-price="{{$cadPrice}}"
-                                                                data-currency-symbol="CA$"
-                                                                data-currency="cad"
-                                                                data-timezone="{{$userDetail->timezone}}"
-                                                                data-cad-price="{{$cadPrice}}"
-                                                                data-store-availability="{{$storeAvailable}}">BOOK NOW
-                                                        </button>
+                                                            <button type="button" class="home-blog-btn offering_process"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#exampleModal"
+                                                                    onclick="openPopup(event)"
+                                                                    data-user-id="{{$user->id}}"
+                                                                    data-duration="{{$offering->offering_event_type =='event' ? ($offering->event?->event_duration ?? '15 minutes') : ($offering?->booking_duration ?? '15 minutes')}}"
+                                                                    data-buffer-time="{{$offering->offering_event_type =='event'  ? '15 minutes' : ($offering?->buffer_time ?? '15 minutes')}}"
+                                                                    data-offering-id="{{$offering->id}}"
+                                                                    data-offering-event-type="{{$offering->offering_event_type}}"
+                                                                    data-event-start="{{$offering->offering_event_type =='event' ? $offering->event?->date_and_time  ?? '': ''}}"
+                                                                    data-availability="{{$offering?->availability_type ?? ''}}"
+                                                                    data-specific-day-start="{{$offering->from_date}}"
+                                                                    data-specific-day-end="{{$offering->to_date}}"
+                                                                    data-price="{{$cadPrice}}"
+                                                                    data-currency-symbol="CA$"
+                                                                    data-currency="cad"
+                                                                    data-timezone="{{$userDetail->timezone}}"
+                                                                    data-cad-price="{{$cadPrice}}"
+                                                                    data-store-availability="{{$storeAvailable}}">BOOK NOW
+                                                            </button>
 
-                                                        {{--                                                    <a href="{{ route('practitionerOfferingDetail',$offering->id)}}" class="home-blog-btn">BOOK NOW</a>--}}
+                                                            {{--                                                    <a href="{{ route('practitionerOfferingDetail',$offering->id)}}" class="home-blog-btn">BOOK NOW</a>--}}
+                                                        </div>
+
                                                     </div>
                                                 </div>
                                                 <ul class="practitioner-accordian-lists">
