@@ -78,7 +78,7 @@
                                                 <img src="{{url('./assets/images/Clock.svg')}}" alt=""
                                                      class="me-2"
                                                      style="width: 20px">
-                                                <span>{{$offering->from_date}}</span>
+                                                <span>{{ \Carbon\Carbon::parse($offering->from_date)->format('F j, Y') }}</span>
                                             </div>
 
                                         </div>
@@ -141,7 +141,7 @@
                                                 <img src="{{url('./assets/images/Clock.svg')}}" alt=""
                                                      class="me-2"
                                                      style="width: 20px">
-                                                <span>{{$date}}</span>
+                                                <span>{{ \Carbon\Carbon::parse($date)->format('F j, Y') }}</span>
                                             </div>
 
                                         </div>
