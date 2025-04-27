@@ -159,7 +159,9 @@
         const modal = new bootstrap.Modal(modalEl);
 
         if (!getCookie('newsLetter')) {
-            modal.show();
+            setTimeout(function() {
+                modal.show();
+            }, 30000);
         }
 
         const form = document.getElementById('popupForm');

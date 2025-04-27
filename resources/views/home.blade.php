@@ -63,7 +63,7 @@
     <!-- explore categories section start -->
     <section>
         <div class="container">
-            <h2 class="home-title pb-2">Explore </h2>
+            <h2 pb-2">Explore </h2>
 
             <div class="row mt-3">
                 @foreach($categories as $category)
@@ -143,7 +143,7 @@
         <div class="container">
             <div class="row my-4">
                 <div class="col-md-8">
-                    <h1 class="home-title">Featured Practitioners </h1>
+                    <h1>Featured Practitioners </h1>
                 </div>
             </div>
 
@@ -223,7 +223,7 @@
     <section>
         <div class="container">
             <div class="why-us-wrrpr">
-                <h1 class="home-title mb-4">Why Choose Hira?</h1>
+                <h1 class="mb-4">Why Choose Hira?</h1>
                 <div class="row">
                     <div class="col-sm-12 col-md-6 col-lg-4 mb-5">
                         <div class="choose-us-dv">
@@ -311,7 +311,7 @@
                 </div>
                 <div class="position-relative row align-items-center">
                     <div class="col-md-6">
-                        <h1 class="home-title mb-4 mt-5">What our community says</h1>
+                        <h1 class="mb-4 mt-5">What our community says</h1>
                     </div>
                     <div class="col-md-6">
                         <div class="swiper-button-next"></div>
@@ -386,7 +386,7 @@
     <section class="home-blog-wrrpr">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
-                <h1 class="home-title">Holistic Wellness Resources</h1>
+                <h1>Holistic Wellness Resources</h1>
                 {{--                <a href="{{route('blog')}}" class="home-blog-btn">View All</a>--}}
             </div>
             <div class="row">
@@ -425,7 +425,7 @@
     <section class="faq-section">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center flex-wrap mb-5">
-                <h1 class="home-title">Frequently Asked Questions</h1>
+                <h1>Frequently Asked Questions</h1>
                 {{--                <button class="home-blog-btn">More FAQs</button>--}}
             </div>
             <div class="accordion w-100 max-w-2xl" id="accordionExample">
