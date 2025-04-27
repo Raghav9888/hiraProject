@@ -70,7 +70,7 @@
                 <div class="container my-3">
                     <div class="alert alert-green fade show d-flex justify-content-between align-items-center f-5"
                          role="alert">
-                        <h2 class="h6 mb-0">Welcome To Hira Collective News Letter</h2>
+                        <h2 class="h6 mb-0">Healing is personal. So is what we share.</h2>
                         <span type="button" class="btn-white close-modal" id="closeModalBtn" aria-label="Close"
                               data-bs-dismiss="modal">
                             <i class="fa-solid fa-xmark"></i>
@@ -78,6 +78,9 @@
                     </div>
                     <form id="popupForm">
                         @csrf
+                        <p class="fs-6">Join our email list for trusted guidance, rituals,
+                            and vetted practitioners — curated with care, not algorithms.
+                            Rooted in wisdom. Designed for your wellness. </p>
                         <div class="mb-3">
                             <label for="popupName" class="form-label">Name</label>
                             <input type="text" class="form-control" id="popupName" name="name" required>
@@ -90,10 +93,10 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="place-order btn btn-secondary" id="cancelPopupBtn" data-bs-dismiss="modal">
-                    Cancel
-                </button>
-                <button type="submit" form="popupForm" class="place-order btn btn-green">Submit</button>
+                {{--                <button type="button" class="place-order btn btn-secondary" id="cancelPopupBtn" data-bs-dismiss="modal">--}}
+                {{--                    Cancel--}}
+                {{--                </button>--}}
+                <button type="submit" form="popupForm" class="place-order btn btn-green">Join the Collective</button>
                 {{--                <button type="button" class="btn btn-outline-danger" onclick="clearAllCookies()">Clear All Cookies</button>--}}
             </div>
         </div>
@@ -155,7 +158,7 @@
         const modalEl = document.getElementById('userPopup');
         const modal = new bootstrap.Modal(modalEl);
 
-        if (!getCookie('newsLetter')) {
+        if (!getCookie('newsLetters')) {
             modal.show();
         }
 
