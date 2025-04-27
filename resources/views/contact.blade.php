@@ -6,7 +6,7 @@
                 <div class="col-sm-12 col-md-6 col-lg-6">
                     <div class="position-relative">
                         <div class="contact-us-right-dv position-absolute top-0" style="backdrop-filter: blur(10px)">
-                            <h2 class="fw-bold mb-3 text-white" style="font-size: 45px">What kind of support do you
+                            <h2 class="fw-bold my-3 text-white" style="font-size: 45px">What kind of support do you
                                 need?</h2>
 
                             <h5 class="text-white">Booking Support</h5>
