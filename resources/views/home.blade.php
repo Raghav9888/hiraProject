@@ -63,7 +63,7 @@
     <!-- explore categories section start -->
     <section>
         <div class="container">
-            <h2 pb-2">Explore </h2>
+            <h2 class="pb-2">Explore </h2>
 
             <div class="row mt-3">
                 @foreach($categories as $category)
@@ -71,8 +71,7 @@
                         $name = $snakeCaseText = str_replace(' ', '_', strtolower($category->name));;
                     @endphp
                     <div class="col-sm-12 col-md-4 col-lg-3 mb-4">
-                        <a href="{{ route('searchPractitioner', ['categoryType' => $snakeCaseText]) }}">
-
+                        <a href="{{ route('searchPractitioner') . '?category=' . $snakeCaseText }}">
                             <div class="explore-img-dv {{ $name}}">
                                 <p>{{$category->name}}</p>
                             </div>
@@ -107,7 +106,7 @@
                                  onclick="window.location.href='{{ route('practitioner_detail', $offering->user->id) }}?#events'">
 
 
-                            <div class="card-body">
+                                <div class="card-body">
 
                                     <div class="row">
                                         <div class="col-md-5">
