@@ -254,12 +254,13 @@
                                                                     data-currency="cad"
                                                                     data-timezone="{{$userDetail->timezone}}"
                                                                     data-cad-price="{{$cadPrice}}"
-                                                                    data-store-availability="{{$storeAvailable}}">BOOK NOW
+                                                                    data-store-availability="{{$storeAvailable}}">BOOK
+                                                                NOW
                                                             </button>
 
                                                             {{--                                                    <a href="{{ route('practitionerOfferingDetail',$offering->id)}}" class="home-blog-btn">BOOK NOW</a>--}}
                                                         </div>
-                                                        
+
                                                     </div>
 
                                                 </div>
@@ -399,7 +400,8 @@
                                             <div class="accordian-body-data">
                                                 <div class="row justify-content-between flex-wrap align-items-center">
                                                     <div class="col-md-8">
-                                                        <h6 class="mb-2" style="font-size: 15px;font-weight: 800">{{$offering->name}}</h6>
+                                                        <h6 class="mb-2"
+                                                            style="font-size: 15px;font-weight: 800">{{$offering->name}}</h6>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="d-flex align-items-center">
@@ -435,7 +437,8 @@
                                                                     data-currency="cad"
                                                                     data-timezone="{{$userDetail->timezone}}"
                                                                     data-cad-price="{{$cadPrice}}"
-                                                                    data-store-availability="{{$storeAvailable}}">BOOK NOW
+                                                                    data-store-availability="{{$storeAvailable}}">BOOK
+                                                                NOW
                                                             </button>
 
                                                             {{--                                                    <a href="{{ route('practitionerOfferingDetail',$offering->id)}}" class="home-blog-btn">BOOK NOW</a>--}}
@@ -561,14 +564,13 @@
                                  data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
                                     <div class="help-you-dv">
-                                        <div class="row">
+                                        <ul class="px-3" style="list-style: disc;">
                                             @foreach($IHelpWith as $term)
-                                                <li class="col-md-6 d-flex align-items-start text-green">
-                                                    <i class="fa-solid fa-caret-right mt-1 me-2"></i>
+                                                <li class="text-green">
                                                     <span>{{ $term }}</span>
                                                 </li>
                                             @endforeach
-                                        </div>
+                                        </ul>
 
                                     </div>
                                 </div>
@@ -587,14 +589,13 @@
                                  data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
                                     <div class="help-you-dv">
-                                        <div class="row">
+                                        <ul class="px-3" style="list-style: disc;">
                                             @foreach($HowIHelp as $term)
-                                                <li class="col-md-6 d-flex align-items-start text-green">
-                                                    <i class="fa-solid fa-caret-right mt-1 me-2"></i>
+                                                <li class="text-green">
                                                     <span>{{ $term }}</span>
                                                 </li>
                                             @endforeach
-                                        </div>
+                                        </ul>
 
                                     </div>
                                 </div>
@@ -613,14 +614,14 @@
                                  data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
                                     <div class="help-you-dv certificate-dv">
-                                        <div class="row">
+                                        <ul class="px-3" style="list-style: disc;">
                                             @foreach($Certifications as $Certification)
-                                                <li class="col-md-6 d-flex align-items-start text-green">
+                                                <li class="text-green">
                                                     <i class="fa-solid fa-caret-right mt-1 me-2"></i>
                                                     <span>{{ $Certification }}</span>
                                                 </li>
                                             @endforeach
-                                        </div>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
