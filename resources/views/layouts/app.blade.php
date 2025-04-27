@@ -78,14 +78,14 @@
                     </div>
                     <form id="popupForm">
                         @csrf
-                        <p class="fs-6">Join our email list for trusted guidance, rituals,
+                        <p class="fs-6 px-2">Join our email list for trusted guidance, rituals,
                             and vetted practitioners — curated with care, not algorithms.
                             Rooted in wisdom. Designed for your wellness. </p>
-                        <div class="mb-3">
+                        <div class="mb-3 px-2">
                             <label for="popupName" class="form-label">Name</label>
                             <input type="text" class="form-control" id="popupName" name="name" required>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-3 px-2">
                             <label for="popupEmail" class="form-label">Email</label>
                             <input type="email" class="form-control" id="popupEmail" name="email" required>
                         </div>
