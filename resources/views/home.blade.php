@@ -70,12 +70,12 @@
                     @php
                         $name = $snakeCaseText = str_replace(' ', '_', strtolower($category->name));;
                     @endphp
+
                     <div class="col-sm-12 col-md-4 col-lg-3 mb-4">
                         <a href="{{ route('searchPractitioner') . '?category=' . $snakeCaseText }}">
                             <div class="explore-img-dv {{ $name}}">
                                 <p>{{$category->name}}</p>
                             </div>
-
                         </a>
                     </div>
                 @endforeach
@@ -109,11 +109,11 @@
                                 <div class="card-body">
 
                                     <div class="row">
-                                        <div class="col-md-5">
+                                        <div class="col-5">
                                             <img src="{{$imageUrl}}" alt="calm"
                                                  style="max-height: 150px; max-width: 200px">
                                         </div>
-                                        <div class="col-md-7">
+                                        <div class="col-7">
                                             <h5>{{$offering?->name}}</h5>
                                             <h6>{{ implode(' ', array_slice(explode(' ', strip_tags($offering->short_description)), 0, 10)) . '...' }}</h6>
                                             <div class="d-flex justify-content-end align-items-center">
