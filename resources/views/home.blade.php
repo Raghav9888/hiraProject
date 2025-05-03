@@ -132,8 +132,9 @@
 
                 </div>
             </div>
-            <div class="swiper-button-prev-event"><i class="fa-solid fa-arrow-left-long"></i></div>
-            <div class="swiper-button-next-event"><i class="fa-solid fa-arrow-right-long"></i></div>
+            <div class="swiper-button-prev-event" style="position: absolute;top: 120px;"><i class="fa-solid fa-arrow-left-long"></i></div>
+            <div class="swiper-button-next-event" style="right: 0;position: absolute;top: 120px;"
+            ><i class="fa-solid fa-arrow-right-long"></i></div>
         </div>
     </div>
     <!-- featured section start -->
