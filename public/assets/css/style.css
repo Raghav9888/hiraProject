@@ -2952,6 +2952,9 @@ textarea, input[type="time"] {
         font-size: 12px;
         margin-bottom: 3px !important;
     }
+    .h4{
+        font-size: 18px;
+    }
     .blog-detail-left-dv h4, .practitioner-detail-wrrpr .accordion-body h4{
         font-size: 18px;
     }
@@ -3221,8 +3224,9 @@ span.practition-des {
 .explore-img-dv p {
     font-family: "Montserrat", sans-serif;
     font-size: 21px;
-    font-weight: 600;
+    font-weight: 400;
     color: #424E3E;
     margin: 0;
     line-height: 1.2;
 }
+
