@@ -160,6 +160,7 @@
 
             <div class="container">
                 <div class="row" id="practitionersList">
+
                     @if($users->isNotEmpty())
                         @foreach($users->chunk(4) as $chunk)
                             <div class="row">
@@ -178,7 +179,13 @@
 
                                     <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 mb-4">
                                         <div class="featured-dv">
-                                            <a href="{{ route('practitioner_detail', $user->id) }}">
+                                            {{-- Book Now Overlay --}}
+                                            <div class="book-now-overlay">
+                                                <a href="{{route('practitioner_detail', $user->id)}}">
+                                                    <button class="book-now-btn">Book Now</button>
+                                                </a>
+                                            </div>
+
                                                 <img src="{{ $imageUrl }}" class="img-fit" alt="person">
 
                                                 <div class="d-flex justify-content-between align-items-center mb-2">
@@ -187,10 +194,8 @@
                                                 </div>
 
                                                 <h5>
-
                                                     @if(!empty($userLocations))
                                                         @foreach($defaultLocations as $defaultLocationId => $defaultLocation)
-
                                                             @if(in_array($defaultLocationId, $userLocations))
                                                                 <i class="fa-solid fa-location-dot"></i>
                                                                 {{ $defaultLocation }} ,
@@ -209,9 +214,9 @@
                                                     </div>
                                                     <h6>5.0 Ratings</h6>
                                                 </div>
-                                            </a>
                                         </div>
                                     </div>
+
                                 @endforeach
                             </div>
                         @endforeach
