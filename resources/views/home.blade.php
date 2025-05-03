@@ -199,7 +199,7 @@
                                                         @endforeach
                                                     @endif
                                                 </h5>
-                                                <p>{{ implode(' ', array_slice(explode(' ', strip_tags($user->userDetail->company ?? 'Alternative and Holistic Health Practitioner')), 0, 10)) . '...' }}</p>
+                                                <p>{{ implode(' ', array_slice(explode(' ', strip_tags($user->userDetail->company ?? 'Alternative and Holistic Health Practitioner')), 0, 5)) . '...' }}</p>
 
                                                 <div class="d-flex justify-content-between align-items-center">
                                                     <div>
