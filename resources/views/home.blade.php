@@ -63,7 +63,7 @@
     <!-- explore categories section start -->
     <section>
         <div class="container">
-            <h2 class="pb-2">Explore </h2>
+            <h4 class="pb-2 fw-bold text-green">Explore</h4>
 
             <div class="row mt-3">
                 @foreach($categories as $category)
@@ -87,8 +87,8 @@
     </section>
     <!-- explore categories section end -->
     <div class="container">
-        <div class="upcoming-event-container position-relative">
-            <h4>Upcoming Events</h4>
+        <div class="position-relative">
+            <h4 class="pb-2 fw-bold text-green">Upcoming Events</h4>
             <div class="upcoming-event-inner upcoming-events-slider">
                 <div class="swiper-wrapper">
                     @if(count($offerings) > 0)
@@ -143,7 +143,7 @@
         <div class="container">
             <div class="row my-4">
                 <div class="col-md-8">
-                    <h1>Featured Practitioners </h1>
+                    <h4 class="pb-2 fw-bold text-green">Featured Practitioners </h4>
                 </div>
             </div>
 
@@ -223,7 +223,7 @@
     <section>
         <div class="container">
             <div class="why-us-wrrpr">
-                <h1 class="mb-4">Why Choose Hira?</h1>
+                <h4 class="pb-2 fw-bold text-green">Why Choose Hira?</h4>
                 <div class="row">
                     <div class="col-sm-12 col-md-6 col-lg-4 mb-5">
                         <div class="choose-us-dv">
@@ -273,7 +273,7 @@
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-6 mb-5">
                         <div class="vision-and-about-dv">
-                            <h2>OUR VISION</h2>
+                            <h4 class="pb-2 fw-bold text-green">OUR VISION</h4>
                             <p>To radically reimagine what wellness can be - rooted in integrity, guided by care, and
                                 accessible to all.
                                 The Hira Collective exists to transform how we seek and receive healing. We believe
@@ -289,7 +289,7 @@
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-6 mb-5 order-4 order-md-3">
                         <div class="vision-and-about-dv about-dv">
-                            <h2>OUR STORY</h2>
+                            <h4 class="pb-2 fw-bold text-green">OUR STORY</h4>
                             <p style="text-align: end;">The Hira Collective is a curated wellness platform designed to
                                 help you find care you can trust—rooted in integrity,
                                 community connection, and ethical practice. We know that searching for the right support
@@ -311,7 +311,7 @@
                 </div>
                 <div class="position-relative row align-items-center">
                     <div class="col-md-6">
-                        <h1 class="mb-4 mt-5">What our community says</h1>
+                        <h4 class="pb-2 fw-bold text-green">What our community says</h4>
                     </div>
                     <div class="col-md-6">
                         <div class="swiper-button-next"></div>
@@ -386,7 +386,7 @@
     <section class="home-blog-wrrpr">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
-                <h1>Holistic Wellness Resources</h1>
+                <h4 class="pb-2 fw-bold text-green">Holistic Wellness Resources</h4>
                 {{--                <a href="{{route('blog')}}" class="home-blog-btn">View All</a>--}}
             </div>
             <div class="row">
@@ -425,7 +425,7 @@
     <section class="faq-section">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center flex-wrap mb-5">
-                <h1>Frequently Asked Questions</h1>
+                <h4 class="pb-2 fw-bold text-green">Frequently Asked Questions</h4>
                 {{--                <button class="home-blog-btn">More FAQs</button>--}}
             </div>
             <div class="accordion w-100 max-w-2xl" id="accordionExample">
