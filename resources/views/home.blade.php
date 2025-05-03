@@ -68,21 +68,19 @@
             <div class="row mt-3">
                 @foreach($categories as $category)
                     @php
-                        $name = $snakeCaseText = str_replace(' ', '_', strtolower($category->name));;
+                        $snakeCaseText = str_replace(' ', '_', strtolower($category->name));
                     @endphp
 
-                    <div class="col-sm-12 col-md-4 col-lg-3 mb-4">
-                        <a href="{{ route('searchPractitioner') . '?category=' . $snakeCaseText }}">
-                            <div class="explore-img-dv {{ $name}}">
-                                <p>{{$category->name}}</p>
+                    <div class="col-sm-12 col-md-6 col-xl-3 mb-4 d-flex">
+                        <a href="{{ route('searchPractitioner') . '?category=' . $snakeCaseText }}" class="w-100 text-decoration-none">
+                            <div class="explore-img-dv w-100 {{ $snakeCaseText }}">
+                                <p>{{ $category->name }}</p>
                             </div>
                         </a>
                     </div>
                 @endforeach
-                {{--                <div class="d-flex justify-content-center mt-2">--}}
-                {{--                    <button class="category-load-more">Load More</button>--}}
-                {{--                </div>--}}
             </div>
+
         </div>
     </section>
     <!-- explore categories section end -->

@@ -3197,3 +3197,32 @@ span.practition-des {
     height: 46px !important;
     padding: 17px 21px !important;
 }
+
+.explore-img-dv {
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover; /* ensures background image fits */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 135px;
+    background-color: #ebecea;
+    border-radius: 24px;
+    padding: 15px;
+    transition: transform 0.2s ease-in-out;
+}
+
+.explore-img-dv:hover {
+    transform: scale(1.03);
+    cursor: pointer;
+}
+
+.explore-img-dv p {
+    font-family: "Montserrat", sans-serif;
+    font-size: 21px;
+    font-weight: 600;
+    color: #424E3E;
+    margin: 0;
+    line-height: 1.2;
+}
