@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use MailerLite\MailerLite;
+use Illuminate\Support\Str;
 
 class HomeController extends Controller
 {
@@ -686,6 +687,37 @@ class HomeController extends Controller
         Auth::login($user);
 
         return $user;
+    }
+
+    public function updateslug()
+    {
+        // Users
+        User::chunk(100, function ($users) {
+            foreach ($users as $user) {
+                $baseSlug = Str::slug($user->first_name . '' . $user->last_name);
+                $slug = $baseSlug;
+                $count = 1;
+
+                // Ensure user slug is unique
+                while (\App\Models\User::where('slug', $slug)->exists()) {
+                    $slug = $baseSlug . '-' . $count++;
+                }
+
+                $user->slug = $slug;
+                $user->save();
+
+                if ($user->userDetail) {
+                    $detailSlug = $slug; // start from the same slug                    
+        
+                    $user->userDetail->slug = $detailSlug;
+                    $user->userDetail->save();
+                }
+            }
+        });
+
+        
+
+        return response()->json(['message' => 'Slugs updated successfully']);
     }
 
 

@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use MailerLite\MailerLite;
+use Illuminate\Support\Str;
 
 class RegisterController extends Controller
 {
@@ -66,11 +67,20 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $baseSlug = Str::slug($data['first_name'] . '' . $data['last_name']);
+        $slug = $baseSlug;
+        $count = 1;
+
+        // Ensure user slug is unique
+        while (\App\Models\User::where('slug', $slug)->exists()) {
+            $slug = $baseSlug . '-' . $count++;
+        }
         $user = User::create([
             'name' => $data['first_name'] . ' ' . $data['last_name'],
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
             'email' => $data['email'],
+            'slug' => $slug,
 //            role 0 = pending, role 1 = practitioner, role 2 = Admin
             'role' => 1,
             //  default status  0 = Inactive, status 1 = Active, status 2 = pending,
@@ -80,6 +90,7 @@ class RegisterController extends Controller
 
         UserDetail::create([
             'user_id' => $user->id,
+            'slug' => $slug,
             'bio' => $data['bio'] ?? null,
             'location' => $data['location'] ?? null,
             'tags' => isset($data['tags']) ? json_encode($data['tags']) : json_encode([]),
@@ -116,5 +127,7 @@ class RegisterController extends Controller
         $mailerLite->subscribers->create($data);
         return $user;
     }
+
+   
 
 }

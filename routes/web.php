@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Calender\CalenderController;
 use App\Http\Controllers\Calender\GoogleAuthController;
 use App\Http\Controllers\Calender\GoogleCalendarController;
@@ -29,6 +30,8 @@ Auth::routes();
 
 Route::post('/reset-password', [ForgotPasswordController::class, 'sendResetLink'])->name('send.resetLink');
 Route::post('/stripe/webhook', [StripeWebhookController::class, 'handleWebhook']);
+
+Route::get('/update-slugs', [HomeController::class, 'updateslug'])->name('update.slugs');
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::post('/waitList', [HomeController::class, 'waitList'])->name('waitList');
