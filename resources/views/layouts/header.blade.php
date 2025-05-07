@@ -44,7 +44,11 @@
                                     @elseif((Auth::user()->role === 2 && Auth::user()->status === 1))
                                         <a href="{{ route('admin.dashboard') }}" class="btn join-btn" type="submit"
                                            style="display: flex;align-items: center; justify-content: center">My dashboard</a>
+                                    @elseif((Auth::user()->role === 3 && Auth::user()->status === 1))
+                                        <a href="{{ route('userDashboard') }}" class="btn join-btn" type="submit"
+                                           style="display: flex;align-items: center; justify-content: center">My Dashboard</a>
                                     @else
+
                                         <a href="{{ route('pendingUserRequest') }}" class="btn join-btn" type="submit"
                                            style="display: flex;align-items: center; justify-content: center">My Request</a>
                                     @endif

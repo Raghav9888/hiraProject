@@ -4,8 +4,8 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 
 class UserAccess
 {
@@ -27,6 +27,11 @@ class UserAccess
 
         // Practitioners should not access admin pages
         if ($user->role == 1 && $user->status == 1 && $userType !== 'admin') {
+            return $next($request);
+        }
+
+        // Users should not access admin pages and should not access practitioner pages
+        if ($user->role == 3 && $user->status == 1 && $userType !== 'admin' && $userType !== 'practitioner') {
             return $next($request);
         }
 

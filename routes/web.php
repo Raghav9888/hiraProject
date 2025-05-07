@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\Calender\CalenderController;
 use App\Http\Controllers\Calender\GoogleAuthController;
 use App\Http\Controllers\Calender\GoogleCalendarController;
@@ -17,8 +18,8 @@ use App\Http\Controllers\Practitioner\DiscountController;
 use App\Http\Controllers\Practitioner\OfferingController;
 use App\Http\Controllers\Practitioner\PaymentController;
 use App\Http\Controllers\Practitioner\PractitionerController;
-use App\Http\Controllers\BookingController;
 use App\Http\Controllers\StripeWebhookController;
+use App\Http\Controllers\user\UserProfileController;
 use App\Http\Controllers\WordpressUserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -69,6 +70,15 @@ Route::post('/pre-checkout-register', [BookingController::class, 'preCheckoutReg
 Route::post('/pre-checkout', [BookingController::class, 'preCheckout'])->name('preCheckout');
 Route::get('/checkout', [BookingController::class, 'checkout'])->name('checkout');
 
+Route::middleware(['auth', 'user-access:user'])->group(function () {
+    Route::get('/my-dashboard', [UserProfileController::class, 'dashboard'])->name('userDashboard');
+    Route::get('/my-bookings', [UserProfileController::class, 'bookings'])->name('userBookings');
+    Route::get('/booking/{id}', [UserProfileController::class, 'viewBooking'])->name('viewBooking');
+    Route::get('/profile', [UserProfileController::class, 'userProfile'])->name('userProfile');
+    Route::get('/reschedule-booking/{bookingId}', [BookingController::class, 'showRescheduleForm'])->name('rescheduleForm');
+    Route::post('/reschedule-booking/{bookingId}', [BookingController::class, 'rescheduleBooking'])->name('reschedule');
+
+});
 
 Route::middleware(['auth', 'user-access:admin'])->name('admin.')->prefix('admin')->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -80,6 +90,7 @@ Route::middleware(['auth', 'user-access:admin'])->name('admin.')->prefix('admin'
     Route::post('/login/as', [UserController::class, 'loginAs'])->name('login.as');
     Route::resource('blogs', BlogController::class);
     Route::resource('plans', PlanController::class);
+    Route::get('/user/waitlist/{id}', [UserController::class, 'waitlist'])->name('user.waitlist');
 
     Route::get('/locations', [LocationController::class, 'locations'])->name('location.index');
     Route::get('/create/location', [LocationController::class, 'createLocation'])->name('location.create');
@@ -93,7 +104,8 @@ Route::middleware(['auth', 'user-access:admin'])->name('admin.')->prefix('admin'
     Route::get('/feedback/get-offerings/{userId}', [FeedbackController::class, 'getOfferingsByUser'])->name('getOfferingsByUser');
 });
 
-Route::middleware(['auth', 'user-access:user'])->group(function () {
+
+Route::middleware(['auth', 'user-access:practitioner'])->group(function () {
 
     Route::get('/my-profile', [PractitionerController::class, 'index'])->name('my_profile');
     Route::get('/help', [PractitionerController::class, 'help'])->name('help');

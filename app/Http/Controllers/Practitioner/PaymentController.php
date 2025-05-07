@@ -7,7 +7,11 @@ use App\Http\Controllers\Controller;
 use App\Mail\BookingConfirmationMail;
 use App\Models\Blog;
 use App\Models\Event;
+use App\Models\GoogleAccount;
+use App\Models\Offering;
+use App\Models\Payment;
 use App\Models\User;
+use App\Models\UserDetail;
 use App\Models\UserStripeSetting;
 use App\Models\Payment;
 use App\Models\Booking;
@@ -16,6 +20,7 @@ use Carbon\Carbon;
 use Google_Service_Calendar_Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use Stripe\Stripe;
@@ -211,6 +216,10 @@ class PaymentController extends Controller
         }
     }
 
+    /**
+     * @throws \Google\Exception
+     * @throws Exception
+     */
     public function confirmPayment(Request $request)
     {
 
@@ -222,8 +231,6 @@ class PaymentController extends Controller
         $payment->status = 'completed';
         $payment->save();
 
-        // Update order status
-        $order->update(['status' => 'paid']);
 
         $offering = Offering::where('id', $offeringId)->with('event')->first();
 
@@ -236,14 +243,52 @@ class PaymentController extends Controller
         }
 
         // Attempt to create a Google Calendar event
-        try {
-            $practitionerEmailTemplate = $offering->email_template;
-            $intakeForms = $offering->intake_form;
-            Mail::to($order->billing_email)->send(new BookingConfirmationMail($order, $practitionerEmailTemplate, $intakeForms));
-            $this->createGoogleCalendarEvent($order);
-        } catch (\Exception $e) {
-            \Log::error('Google Calendar Event Creation Failed: ' . $e->getMessage());
+        $practitionerEmailTemplate = $offering->email_template;
+        $intakeForms = $offering->intake_form;
+
+        $user = User::where('email', $order->billing_email)->first();
+        if (!$user) {
+            //       Booking user register and login here
+            $user = User::create([
+                'name' => $order->first_name . ' ' . $order->last_name,
+                'first_name' => $order->first_name,
+                'last_name' => $order->last_name,
+                'email' => $order->billing_email,
+//            role 0 = pending, role 1 = practitioner, role 2 = Admin , role 3 = User
+                'role' => 3,
+                //  default status  0 = Inactive, status 1 = Active, status 2 = pending,
+                'status' => 1,
+                'password' => Hash::make('12345678'),
+            ]);
+
+            UserDetail::create([
+                'user_id' => $user->id,
+            ]);
+
+            GoogleAccount::create([
+                    'user_id' => $user->id,
+                ]
+            );
         }
+
+
+
+        $response = $this->createGoogleCalendarEvent($order);
+        $response['order'] = $order;
+        $response['bookingCancelUrl'] = (isset($offering->cancellation_time_slot) && $offering->cancellation_time_slot) ? route('bookingCancel', ['bookingId' => $order->id, 'eventId' => $response['google_event_id']]) : null;
+
+        $response['isPractitioner'] = false;
+
+        // Update order status
+        $order->update(['status' => 'paid', 'user_id' => $user->id, 'event_id' => $response['google_event_id']]);
+        Auth::login($user);
+        // Send confirmation email to the user
+        Mail::to($order->billing_email)->send(new BookingConfirmationMail($order, $practitionerEmailTemplate, $intakeForms, $response));
+
+        $response['isPractitioner'] = true;
+
+        // Send confirmation email to the practitioner
+        Mail::to($offering->user->email)->send(new BookingConfirmationMail($order, $practitionerEmailTemplate, $intakeForms, $response));
 
         return redirect()->route('thankyou')->with('success', 'Payment successful!');
     }

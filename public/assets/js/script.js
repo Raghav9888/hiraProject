@@ -250,3 +250,170 @@ $(document).on('click','#sidebar_toogle', function () {
     let targetElement = $('#sidebar');
     targetElement.toggleClass('d-none d-flex', $(this).val() !== 'custom');
 })
+
+
+$(document).ready(function () {
+    const CURRENT_VERSION = '1.0';
+    const LOCAL_KEY = 'app_version';
+    console.log('version check')
+    const savedVersion = localStorage.getItem(LOCAL_KEY);
+
+    if (savedVersion !== CURRENT_VERSION) {
+        localStorage.setItem(LOCAL_KEY, CURRENT_VERSION);
+        location.replace(window.location.href); // works better on mobile
+    }
+})
+
+$(document).on('change', '#fileUpload', function () {
+    const previewContainer = $('#filePreview');
+    previewContainer.html(''); // clear previous previews
+
+    const files = this.files;
+    if (files.length > 2) {
+        alert('You can only upload up to 2 files.');
+        $(this).val('');
+        return;
+    }
+
+    Array.from(files).forEach(file => {
+        const fileType = file.type;
+
+        if (fileType.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const img = $('<img>', {
+                    src: e.target.result,
+                    class: 'img-thumbnail',
+                    style: 'max-width: 150px; max-height: 150px;'
+                });
+                previewContainer.append(img);
+            };
+            reader.readAsDataURL(file);
+
+        } else if (fileType.startsWith('video/')) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const video = $('<video>', {
+                    src: e.target.result,
+                    controls: true,
+                    class: 'rounded',
+                    style: 'max-width: 200px; max-height: 150px;'
+                });
+                previewContainer.append(video);
+            };
+            reader.readAsDataURL(file);
+
+        } else {
+            const text = $('<p>').text(`Selected file: ${file.name}`);
+            previewContainer.append(text);
+        }
+    });
+});
+
+
+$('#waitlist-form').submit(function (e) {
+    e.preventDefault();
+
+    const formData = new FormData(this);
+    const password = $('#password').val();
+    const passwordConfirmation = $('#password_confirmation').val();
+
+    if (password.length < 8) {
+        alert('Password must be at least 8 characters.');
+        return;
+    }
+
+    if (password !== passwordConfirmation) {
+        alert('Passwords do not match.');
+        return;
+    }
+
+    formData.set('password', password);
+    formData.set('password_confirmation', passwordConfirmation);
+
+    var form = $(this); // save form reference
+
+    $.ajax({
+        url: '/waitList',
+        method: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function () {
+            alert('Registration and waitlist added successfully!');
+
+            // Change modal size
+            $('#registerModal .modal-dialog')
+                .removeClass('modal-xl')
+                .addClass('modal-lg');
+
+            // Hide the waitlist form
+            $('#waitList').addClass('d-none');
+
+            // Update the alert header
+            $('.alert-green h2').html('Thank you for sharing your practice and heart with us.');
+
+            // Show the success message
+            $('#msg').removeClass('d-none').html(`
+        You’ve been added to our waitlist, and we’ll be in touch as soon as space opens or a practitioner spot becomes available.<br><br>
+        In the meantime, you’ll receive updates and moments of care from The Hira Collective.<br><br>
+        With love and gratitude,<br>
+        <strong>The Hira Collective Team</strong>
+    `);
+            $('.modal-footer').addClass('d-none');
+
+            // (Optional) If you want to close modal after some time or redirect, you can uncomment below:
+            setTimeout(function () {
+                window.location.href = '/';
+            }, 10000);
+        },
+
+
+        error: function (xhr) {
+            if (xhr.responseJSON && xhr.responseJSON.errors) {
+                const errors = xhr.responseJSON.errors;
+
+                if (errors.email && errors.email.includes('The email has already been taken.')) {
+                    alert('The email you entered is already registered. Please use a different one.');
+                    return;
+                }
+
+                const messages = Object.values(errors).flat().join('\n');
+                alert(messages);
+            } else {
+                alert('An error occurred while submitting the waitlist.');
+            }
+            console.error(xhr);
+        }
+    });
+
+});
+
+
+$(document).ready(function() {
+    $("#subscribe").submit(function(e) {
+        e.preventDefault(); // Prevent default form submission
+
+        let formData = $(this).serialize(); // Serialize form data
+
+        $.ajax({
+            url: "/subscribe", // Replace with your actual endpoint
+            type: "POST",
+            data: formData,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(response) {
+                if(response.success){
+                    alert("Subscribed successfully!"); // Success message
+                    $("#coming-form")[0].reset(); // Reset form fields
+                }
+            },
+            error: function(xhr, status, error) {
+                alert("Something went wrong. Please try again."); // Error message
+            }
+        });
+    });
+});
+
+
