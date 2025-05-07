@@ -185,9 +185,9 @@ class HomeController extends Controller
         return view('user.blog_detail', compact('blog'));
     }
 
-    public function practitionerDetail($id)
+    public function practitionerDetail($slug)
     {
-        $user = User::findOrFail($id);
+        $user = User::where('slug', $slug)->firstOrFail();
         $userDetail = $user->userDetail;
         //  $userDetails = UserDetail::where('user_id', $id)->first();
         $endorsements = $userDetail && $userDetail->endorsements ? json_decode($userDetail->endorsements, true) : [];
@@ -707,15 +707,15 @@ class HomeController extends Controller
                 $user->save();
 
                 if ($user->userDetail) {
-                    $detailSlug = $slug; // start from the same slug                    
-        
+                    $detailSlug = $slug; // start from the same slug
+
                     $user->userDetail->slug = $detailSlug;
                     $user->userDetail->save();
                 }
             }
         });
 
-        
+
 
         return response()->json(['message' => 'Slugs updated successfully']);
     }
