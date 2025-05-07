@@ -103,6 +103,21 @@
             </div>
         </li>
 
+        <li class="nav-item {{request()->routeIs('admin.community.*')? 'active': ''}}">
+            <a class="nav-link" data-bs-toggle="collapse" href="#community-elements" aria-expanded="false"
+               aria-controls="blog-elements">
+                <i class="menu-icon mdi mdi-account-group"></i>
+                <span class="menu-title">Community Management</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse {{request()->routeIs('admin.community.*')? 'show': ''}}" id="community-elements">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"><a class="nav-link location{{request()->routeIs('admin.community.create')? 'active': ''}}" href="{{route('admin.community.create')}}">Add Community Message</a></li>
+                    <li class="nav-item"><a class="nav-link {{request()->routeIs('admin.community.index')? 'active': ''}}" href="{{route('admin.community.index')}}">All Community Messages</a></li>
+                </ul>
+            </div>
+        </li>
+
         {{--            <li class="nav-item">--}}
         {{--              <a class="nav-link" data-bs-toggle="collapse" href="#charts" aria-expanded="false" aria-controls="charts">--}}
         {{--                <i class="menu-icon mdi mdi-chart-line"></i>--}}

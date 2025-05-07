@@ -31,6 +31,7 @@ class UserDetail extends Model
         'terms_condition',
         'cancellation_policy',
         'amenities',
+        'slug',
         'store_availabilities'
     ];
 

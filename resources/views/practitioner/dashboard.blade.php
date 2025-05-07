@@ -34,7 +34,7 @@
                                                 <div class="col-md-8">
 
                                                     <h5>{{$offering?->name}}</h5>
-                                                    <h6>{{$offering?->short_description}}</h6>
+                                                    {{--                                                    <h6>{{$offering?->short_description}}</h6>--}}
                                                     <div class="d-flex">
                                                         <img src="{{url('./assets/images/Clock.svg')}}" alt="">
                                                         <p class="ms-2">{{$date}}</p>
@@ -124,35 +124,38 @@
                                         $imageUrl = $image  ? asset(env('media_path') . '/practitioners/' . $endorsedUser->userDetail->id . '/profile/' . $image) : asset(env('local_path').'/images/no_image.png');
                                     @endphp
 
-                                    <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
+                                    <div class="col-sm-12 col-md-6 col-lg-3 mb-4 endorsement-card"
+                                         data-id="{{ $endorsedUser->id }}">
                                         <div class="featured-dv">
-                                            <a href="{{route('practitioner_detail', $endorsedUser->id)}}">
+                                            <div class="position-relative">
+                                                <button type="button"
+                                                        class="text-danger position-absolute top-0 end-0 btn delete-endorsed-user"
+                                                        data-id="{{ $endorsedUser->id }}" title="Remove Endorsement">
+                                                    <i class="fa-solid fa-xmark text-danger"></i>
+                                                </button>
                                                 <img src="{{ $imageUrl }}" alt="person" class="img-fluid">
-                                                {{--                                <label for="">0.4 Km Away</label>--}}
+                                            </div>
+
+                                            <a href="{{route('practitioner_detail', $endorsedUser->id)}}">
                                                 <div class="d-flex justify-content-between align-items-center mb-2">
                                                     <h4>{{  $endorsedUser->name }}</h4>
                                                     <i class="fa-regular fa-heart"></i>
                                                 </div>
                                                 <h5>
-
                                                     @php
                                                         $endorsedUserLocations = isset($endorsedUser->location) && $endorsedUser->location ? json_decode($endorsedUser->location, true) : [];
                                                     @endphp
 
                                                     @if(!empty($endorsedUserLocations))
-                                                        @foreach($endorsedUserLocations as $endorsedUserLocation)
-                                                            @foreach($defaultLocations as $key => $defaultLocation)
-                                                                @if(in_array($key, $endorsedUserLocations))
-                                                                    <i class="fa-solid fa-location-dot"></i> {{ $defaultLocation }}
-                                                                    ,
-                                                                @endif
-                                                            @endforeach
+                                                        @foreach($defaultLocations as $key => $defaultLocation)
+                                                            @if(in_array($key, $endorsedUserLocations))
+                                                                <i class="fa-solid fa-location-dot"></i> {{ $defaultLocation }}
+                                                                ,
+                                                            @endif
                                                         @endforeach
                                                     @endif
-
-
                                                 </h5>
-                                                <p style="display: inline; text-align: center">{{$endorsedUser->userDetail->company}}</p>
+                                                <p style="text-align: center">{{ $endorsedUser->userDetail->company }}</p>
                                                 <div class="d-flex justify-content-between align-items-center">
                                                     <div>
                                                         <i class="fa-regular fa-gem"></i>
@@ -164,12 +167,12 @@
                                                     <h6>5.0 Ratings</h6>
                                                 </div>
                                             </a>
-
                                         </div>
                                     </div>
                                 @endforeach
                             @endif
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -193,14 +196,16 @@
         function searchPractitioner() {
             const search = $("#endorsements").val();
 
-            let imagePath = `{{env('media_path')}}`;
-            let localPath = `{{env('local_path')}}`;
+            let imagePath = `{{ env('media_path') }}`;
+            let localPath = `{{ env('local_path') }}`;
             let locationArr = @json($defaultLocations);
 
+            $("#endorsementRow").html('<p class="text-center">Searching...</p>');
+
             $.ajax({
-                url: '/search/practitioner',
+                url: '/endorsement-practitioner',
                 type: 'get',
-                data: {search},
+                data: {'search': search},
                 success: function (response) {
                     let endorsementHtml = '';
 
@@ -213,58 +218,73 @@
                             for (let j = i; j < i + 3 && j < response.practitioners.length; j++) {
                                 let practitioner = response.practitioners[j];
 
-                                let locationNames = '';
+                                let locationData = [];
 
-                                if (practitioner.location && practitioner.location.length > 0) {
-                                    locationNames = JSON.parse(practitioner.location).map(function (locationId) {
-                                        return locationArr[locationId] || 'location';
-                                    }).slice(0, 2).join(', ');
-                                } else {
-                                    locationNames = 'no found';
+                                try {
+                                    locationData = Array.isArray(practitioner.location)
+                                        ? practitioner.location
+                                        : JSON.parse(practitioner.location || "[]");
+                                } catch (e) {
+                                    locationData = [];
                                 }
 
-                                let images = practitioner.user_detail?.images ? JSON.parse(practitioner.user_detail.images) : null;
+                                let locationNames = locationData.map(locId => locationArr[locId] || 'location')
+                                    .slice(0, 2)
+                                    .join(', ');
+
+                                let images = null;
+                                try {
+                                    images = practitioner.user_detail?.images
+                                        ? JSON.parse(practitioner.user_detail.images)
+                                        : null;
+                                } catch (e) {
+                                    images = null;
+                                }
 
                                 let imageUrl = images?.profile_image
-                                    ? `${imagePath}/practitioners/${practitioner.user_detail.id}/profile/${images.profile_image}`
+                                    ? `${imagePath}/practitioners/${practitioner.user_detail?.id}/profile/${images.profile_image}`
                                     : `${localPath}/images/no_image.png`;
 
-                                endorsementHtml += `
-                                    <div class="col-sm-12 col-md-6 col-lg-4">
-                                        <div class="browser-other-dv">
-                                            <div class="d-flex justify-content-center">
-                                                <img src="${imageUrl}" alt="person" class="img-fit img-fluid">
-                                            </div>
-                                            <h5>${practitioner.name}</h5>
+                                // Trim bio to 50 words
+                                let bio = practitioner.bio || '';
+                                let bioWords = bio.split(" ");
+                                let shortBio = bioWords.slice(0, 20).join(" ");
+                                if (bioWords.length > 20) shortBio += "...";
 
-                                            <h6>${practitioner.bio && practitioner.bio.length > 0 ? practitioner.bio : ''}</h6>
-                                            <div class="d-flex justify-content-between">
-                                                <button class="endrose" id="endrose" data-user-id="${practitioner.id}">Endorse</button>
-                                                <div class="miles"><i class="fa-solid fa-location-dot me-2"></i>${locationNames}</div>
+                                endorsementHtml += `
+                                <div class="col-sm-12 col-md-6 col-lg-4">
+                                    <div class="browser-other-dv">
+                                        <div class="d-flex justify-content-center">
+                                            <img src="${imageUrl}" alt="person" class="img-fit img-fluid"
+                                                onerror="this.onerror=null;this.src='${localPath}/images/no_image.png';">
+                                        </div>
+                                        <h5>${practitioner.name}</h5>
+                                        <h6>${shortBio}</h6>
+                                        <div class="d-flex justify-content-between">
+                                            <button class="endrose-btn" data-user-id="${practitioner.id}">Endorse</button>
+                                            <div class="miles">
+                                                <i class="fa-solid fa-location-dot me-2"></i>${locationNames}
                                             </div>
                                         </div>
                                     </div>
-                                `;
+                                </div>
+                            `;
                             }
 
                             endorsementHtml += '</div>'; // Close row
                         }
                     }
 
-                    // Inject the generated HTML into the endorsement row container
                     $('#endorsementRow').html(endorsementHtml);
                 }
             });
         }
 
-
-        $(document).on('click', '#endrose', function (e) {
+        $(document).on('click', '.endrose-btn', function (e) {
             e.preventDefault();
 
-            // Get the user ID from the button's data attribute
             let userId = $(this).data('user-id');
 
-            // Make the AJAX request
             $.ajax({
                 url: `/setEndorsement/${userId}`,
                 type: 'POST',
@@ -272,18 +292,43 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function (response) {
-                    console.log(response)
                     alert('Endorsement added successfully!');
                 },
-                error: function (xhr, status, error) {
-                    // On failure, log the error and alert the user
+                error: function (xhr) {
                     console.error('Error:', xhr.responseText);
                     alert('Failed to add endorsement!');
                 }
             });
         });
 
-    </script>
 
+        $(document).on('click', '.delete-endorsed-user', function () {
+            const userId = $(this).data('id');
+            const card = $(this).closest('.endorsement-card');
+
+            if (!confirm('Are you sure you want to remove this endorsement?')) return;
+
+            $.ajax({
+                url: `/remove-endorsement/${userId}`,
+                method: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function (response) {
+                    if (response.success) {
+                        card.remove();
+                        alert(response.success);
+                    } else {
+                        alert(response.error || 'Unable to remove endorsement.');
+                    }
+                },
+                error: function () {
+                    alert('An error occurred. Please try again.');
+                }
+            });
+        });
+
+
+    </script>
 
 @endsection

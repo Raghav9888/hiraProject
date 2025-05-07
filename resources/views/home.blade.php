@@ -17,16 +17,17 @@
                 @endphp
 
                 <form action="{{ route('searchPractitioner', $routeParams) }}" method="GET" id="searchform">
-                    @csrf
-                    <div class="search-dv-body">
-                        <div class="search-container align-items-center">
-                            <input type="text" class="search-input" id="search" name="search"
-                                   placeholder="Search by modality, ailment, symptom or practitioner">
-                            <button type="submit" class="search-button">
-                                <i class="fas fa-search"></i>
-                            </button>
+                    <div class="row">
+                        <div class="col-12 col-md-6 col-lg-3 my-2">
+                            <div class="search-container align-items-center">
+                                <input type="text" class="search-input" id="search" name="search"
+                                       placeholder="Search by modality, ailment, symptom or practitioner">
+                                <button type="submit" class="search-button">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
                         </div>
-                        <div class="dropdown">
+                        <div class="col-12 col-md-6 col-lg-3 my-2">
                             <select class="form-select" id="practitionerType" name="practitionerType"
                                     style="border-radius: 30px !important;padding:11px 37px 12px 20px;text-align: start;color: #838383;">
                                 <option value="">Select type</option>
@@ -35,120 +36,131 @@
                                 <option value="both">Both in personal and virtual</option>
                             </select>
                         </div>
-                        <div class="search-container location-input align-items-center">
+                        <!-- Location -->
+                        <div class="col-12 col-md-6 col-lg-3 my-2">
                             <select class="form-select" id="location" name="location"
-                                    style="border-radius: 30px !important;padding:11px 37px 12px 20px;text-align: start;color: #838383;">
+                                    style="border-radius: 30px; padding: 11px 20px; color: #838383;">
                                 <option value="">Select location</option>
                                 @foreach($defaultLocations as $defaultLocationId => $defaultLocation)
-                                    <option value="{{ $defaultLocationId }}">{{ $defaultLocation }}</option>
+                                    <option value="{{ $defaultLocation }}">{{ $defaultLocation }}</option>
                                 @endforeach
                             </select>
                         </div>
-                        <button type="submit" class="home-search-btn" id="searchFilter">Search</button>
+
+                        <!-- Search Button -->
+                        <div class="col-12 col-md-6 col-lg-2 my-2 text-center">
+                            <button type="submit" class="btn btn-success home-search-btn" id="searchFilter">Search
+                            </button>
+                        </div>
                     </div>
                 </form>
-
-
-                {{--                <div class="searched-category">--}}
-                {{--                    <p style="font-weight: 400;">Most Searched Categories</p>--}}
-                {{--                    @foreach($categories as $category)--}}
-                {{--                        <button>{{ $category->name }}</button>--}}
-                {{--                    @endforeach--}}
-                {{--                </div>--}}
-
             </div>
         </div>
-        <img class="arrows-down" src="{{url('/assets/images/arrows-down.svg')}}" alt="">
+        <img class="arrows-down img-fluid d-block mx-auto mt-4" src="{{ url('/assets/images/arrows-down.svg') }}"
+             alt="">
     </section>
+
     <!-- home banner section end -->
     <!-- explore categories section start -->
     <section>
         <div class="container">
-            <h2 class="home-title pb-2">Explore </h2>
+            <h4 class="pb-2 fw-bold text-green text-center text-md-start">EXPLORE</h4>
 
             <div class="row mt-3">
                 @foreach($categories as $category)
                     @php
-                        $name = $snakeCaseText = str_replace(' ', '_', strtolower($category->name));;
+                        $snakeCaseText = str_replace(' ', '_', strtolower($category->name));
                     @endphp
-                    <div class="col-sm-12 col-md-4 col-lg-3 mb-4">
-                        <a href="{{ route('searchPractitioner', ['categoryType' => $snakeCaseText]) }}">
 
-                            <div class="explore-img-dv {{ $name}}">
-                                <p>{{$category->name}}</p>
+                    <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-4 d-flex">
+                        <a href="{{ route('searchPractitioner') . '?category=' . $snakeCaseText }}"
+                           class="w-100 text-decoration-none">
+                            <div class="explore-img-dv w-100 {{ $snakeCaseText }}">
+                                <p>{{ $category->name }}</p>
                             </div>
-
                         </a>
                     </div>
                 @endforeach
-                {{--                <div class="d-flex justify-content-center mt-2">--}}
-                {{--                    <button class="category-load-more">Load More</button>--}}
-                {{--                </div>--}}
             </div>
         </div>
     </section>
-    <!-- explore categories section end -->
-    <div class="container">
-        <div class="upcoming-event-container position-relative">
-            <h4>Upcoming Events</h4>
-            <div class="upcoming-event-inner upcoming-events-slider">
-                <div class="swiper-wrapper">
-                    @if(count($offerings) > 0)
-                        @foreach($offerings as $date => $offering)
-                            @php
-                                $mediaPath = config('app.media_path', 'uploads');
-                                $localPath = config('app.local_path', 'assets');
+    <section>
+        <!-- explore categories section end -->
+        <div class="container">
+            <div class="position-relative">
+                <h4 class="pb-2 fw-bold text-green">UPCOMING EVENTS</h4>
+                <div class="upcoming-event-inner upcoming-events-slider">
+                    <div class="swiper-wrapper">
+                        @if(count($offerings) > 0)
+                            @foreach($offerings as $date => $offering)
+                                @php
+                                    $mediaPath = config('app.media_path', 'uploads');
+                                    $localPath = config('app.local_path', 'assets');
 
-                                $imageUrl = $offering->featured_image
-                                    ? asset("$mediaPath/practitioners/{$offering->user->id}/offering/{$offering->featured_image}")
-                                    : asset("$localPath/images/no_image.png");
+                                    $imageUrl = $offering->featured_image
+                                        ? asset("$mediaPath/practitioners/{$offering->user->id}/offering/{$offering->featured_image}")
+                                        : asset("$localPath/images/no_image.png");
 
-                            @endphp
-                            <div class="card swiper-slide" style="max-height: 250px;min-height: 250px; cursor:pointer;"
-                                 onclick="window.location.href='{{route('practitioner_detail', $offering->user->id)}}'">
+                                @endphp
+                                <div class="card swiper-slide"
+                                     style="max-height: 200px; min-height: 200px; cursor:pointer;"
+                                     onclick="window.location.href='{{ route('practitioner_detail', $offering->user->id) }}?#events'">
 
-                                <div class="card-body">
 
-                                    <div class="row">
-                                        <div class="col-md-5">
-                                            <img src="{{$imageUrl}}" alt="calm"
-                                                 style="max-height: 150px; max-width: 200px">
-                                        </div>
-                                        <div class="col-md-7">
-                                            <h5>{{$offering?->name}}</h5>
-                                            <h6>{{ implode(' ', array_slice(explode(' ', strip_tags($offering->short_description)), 0, 20)) . '...' }}</h6>
-                                            <div class="d-flex justify-content-end align-items-center">
-                                                <img src="{{url('./assets/images/Clock.svg')}}" alt="" class="me-2"
-                                                     style="width: 20px">
-                                                <span>{{$date}}</span>
+                                    <div class="card-body">
+
+                                        <div class="row">
+                                            <div class="col-5">
+                                                <img src="{{$imageUrl}}" alt="calm"
+                                                     style="max-height: 150px; max-width: 200px">
                                             </div>
+                                            <div class="col-7">
+                                                <h5>{{$offering?->name}}</h5>
+                                                @php
+                                                    $shortText = implode(' ', array_slice(explode(' ', strip_tags($offering->short_description)), 0, 5)) . '...';
+                                                @endphp
 
+                                                    <!-- Large text -->
+                                                <p class="text-green fw-bold my-4">{{ $shortText }}</p>
+
+
+                                                <div class="d-flex justify-content-end align-items-center pt-4">
+                                                    <img src="{{url('./assets/images/Clock.svg')}}" alt="" class="me-2"
+                                                         style="width: 20px">
+                                                    <span>{{ \Carbon\Carbon::parse($date)->format('F j, Y') }}</span>
+
+                                                </div>
+
+                                            </div>
                                         </div>
+
                                     </div>
 
                                 </div>
+                            @endforeach
+                        @endif
 
-                            </div>
-                        @endforeach
-                    @endif
-
+                    </div>
                 </div>
+                <div class="swiper-button-prev-event" style="position: absolute;top: 120px;"><i
+                        class="fa-solid fa-arrow-left-long"></i></div>
+                <div class="swiper-button-next-event" style="right: 0;position: absolute;top: 120px;"
+                ><i class="fa-solid fa-arrow-right-long"></i></div>
             </div>
-            <div class="swiper-button-prev-event"><i class="fa-solid fa-arrow-left-long"></i></div>
-            <div class="swiper-button-next-event"><i class="fa-solid fa-arrow-right-long"></i></div>
         </div>
-    </div>
+    </section>
     <!-- featured section start -->
     <section class="featured-section">
         <div class="container">
             <div class="row my-4">
                 <div class="col-md-8">
-                    <h1 class="home-title">Featured Practitioners </h1>
+                    <h4 class="pb-2 fw-bold text-green">FEATURED PRACTITIONERS</h4>
                 </div>
             </div>
 
             <div class="container">
                 <div class="row" id="practitionersList">
+
                     @if($users->isNotEmpty())
                         @foreach($users->chunk(4) as $chunk)
                             <div class="row">
@@ -165,9 +177,15 @@
 
                                     @endphp
 
-                                    <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
+                                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 mb-4">
                                         <div class="featured-dv">
-                                            <a href="{{ route('practitioner_detail', $user->id) }}">
+                                            {{-- Book Now Overlay --}}
+                                            <div class="book-now-overlay">
+                                                <a href="{{route('practitioner_detail', $user->id)}}">
+                                                    <button class="book-now-btn">Book Now</button>
+                                                </a>
+                                            </div>
+
                                                 <img src="{{ $imageUrl }}" class="img-fit" alt="person">
 
                                                 <div class="d-flex justify-content-between align-items-center mb-2">
@@ -176,18 +194,17 @@
                                                 </div>
 
                                                 <h5>
-
                                                     @if(!empty($userLocations))
                                                         @foreach($defaultLocations as $defaultLocationId => $defaultLocation)
-
                                                             @if(in_array($defaultLocationId, $userLocations))
                                                                 <i class="fa-solid fa-location-dot"></i>
                                                                 {{ $defaultLocation }} ,
+                                                                @break
                                                             @endif
                                                         @endforeach
                                                     @endif
                                                 </h5>
-                                                <p>{{$user->userDetail->company ?? 'Alternative and Holistic Health Practitioner'}}</p>
+                                                <p>{{ implode(' ', array_slice(explode(' ', strip_tags($user->userDetail->company ?? 'Alternative and Holistic Health Practitioner')), 0, 5)) . '...' }}</p>
 
                                                 <div class="d-flex justify-content-between align-items-center">
                                                     <div>
@@ -197,17 +214,17 @@
                                                     </div>
                                                     <h6>5.0 Ratings</h6>
                                                 </div>
-                                            </a>
                                         </div>
                                     </div>
+
                                 @endforeach
                             </div>
                         @endforeach
 
                         <!-- Load More Button (Only if there are practitioners) -->
-                        <div class="d-flex justify-content-center mt-2">
-                            <button class="category-load-more loadPractitioner" data-count="1">Load More</button>
-                        </div>
+                        {{--                        <div class="d-flex justify-content-center mt-2">--}}
+                        {{--                            <button class="category-load-more loadPractitioner" data-count="1">Load More</button>--}}
+                        {{--                        </div>--}}
                     @else
                         <p class="text-center">No practitioners found.</p>
                     @endif
@@ -222,7 +239,7 @@
     <section>
         <div class="container">
             <div class="why-us-wrrpr">
-                <h1 class="home-title mb-4">Why Choose Hira?</h1>
+                <h4 class="pb-2 fw-bold text-green">WHY CHOOSE HIRA?</h4>
                 <div class="row">
                     <div class="col-sm-12 col-md-6 col-lg-4 mb-5">
                         <div class="choose-us-dv">
@@ -230,7 +247,8 @@
                                 <img src="{{url('/assets/images/trusted-practitioners.svg')}}" alt="">
                             </div>
                             <h6>Support at Every Step</h6>
-                            <p class="pt-3">We don’t disappear after you book. From helping you choose a practitioner to following up
+                            <p class="pt-3">We don’t disappear after you book. From helping you choose a practitioner to
+                                following up
                                 after your session, our real human support team is here for you.
                                 Care is not just a session - it’s a relationship.
                             </p>
@@ -261,15 +279,17 @@
                             </p>
                         </div>
                     </div>
+                </div>
+                <div class="row">
                     <div class="col-sm-12 col-md-6 col-lg-6 mb-5">
                         <div class="vision-about-img-dv">
                             <img src="{{url('/assets/images/our_vision.jpg')}}" alt="our-vision" class="rounded-4"
-                                 style="max-height: 340px">
+                                 style="max-height: 370px">
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-6 col-lg-6 mb-5">
                         <div class="vision-and-about-dv">
-                            <h2>OUR VISION</h2>
+                            <h4 class="pb-2 fw-bold text-green">OUR VISION</h4>
                             <p>To radically reimagine what wellness can be - rooted in integrity, guided by care, and
                                 accessible to all.
                                 The Hira Collective exists to transform how we seek and receive healing. We believe
@@ -283,9 +303,9 @@
                             </button>
                         </div>
                     </div>
-                    <div class="col-sm-12 col-md-6 col-lg-6 mb-5">
+                    <div class="col-sm-12 col-md-6 col-lg-6 mb-5 order-4 order-md-3">
                         <div class="vision-and-about-dv about-dv">
-                            <h2>ABOUT US</h2>
+                            <h4 class="pb-2 fw-bold text-green">OUR STORY</h4>
                             <p style="text-align: end;">The Hira Collective is a curated wellness platform designed to
                                 help you find care you can trust—rooted in integrity,
                                 community connection, and ethical practice. We know that searching for the right support
@@ -298,81 +318,50 @@
                             </button>
                         </div>
                     </div>
-                    <div class="col-sm-12 col-md-6 col-lg-6 mb-5">
+                    <div class="col-sm-12 col-md-6 col-lg-6 mb-5 order-3 order-md-4">
                         <div class="vision-about-img-dv">
                             <img src="{{url('/assets/images/about_us.jpg')}}" alt="about-us" class="rounded-4"
-                                 style="max-height: 340px">
+                                 style="max-height: 370px">
                         </div>
                     </div>
                 </div>
-                {{--                <div class="position-relative row align-items-center">--}}
-                {{--                    <div class="col-md-6">--}}
-                {{--                        <h1 class="home-title mb-4 mt-5">What our community says</h1>--}}
-                {{--                    </div>--}}
-                {{--                    <div class="col-md-6">--}}
-                {{--                        <div class="swiper-button-next"></div>--}}
-                {{--                        <div class="swiper-button-prev"></div>--}}
-                {{--                    </div>--}}
-                {{--                </div>--}}
-                {{--                <div class="swiper mySwiper mb-5">--}}
-                {{--                    <div class="swiper-wrapper">--}}
-                {{--                        <div class="swiper-slide">--}}
-                {{--                            <img src="{{url('assets/images/quotes.svg')}}" alt="quotes">--}}
-                {{--                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt--}}
-                {{--                                ut labore. Lorem ipsum dolor sit amet, consect adipicing elit, sed do eiusmod tempor--}}
-                {{--                                incididunt ut labore.</p>--}}
-                {{--                            <h4>Robert Fox</h4>--}}
-                {{--                            <p class="mb-0">Yoga Student</p>--}}
-                {{--                            <img class="shadow-quotes" src="{{ url('/assets/images/shadow-quotes.svg') }}" alt="quotes">--}}
-                {{--                        </div>--}}
-                {{--                        <div class="swiper-slide">--}}
-                {{--                            <img src="{{ url('assets/images/quotes.svg') }}" alt="quotes">--}}
-                {{--                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt--}}
-                {{--                                ut labore. Lorem ipsum dolor sit amet, consect adipicing elit, sed do eiusmod tempor--}}
-                {{--                                incididunt ut labore.</p>--}}
-                {{--                            <h4>Jenny Wilson</h4>--}}
-                {{--                            <p class="mb-0">Yoga Student</p>--}}
-                {{--                            <img class="shadow-quotes" src="{{ url('/assets/images/shadow-quotes.svg') }}" alt="quotes">--}}
-                {{--                        </div>--}}
-                {{--                        <div class="swiper-slide">--}}
-                {{--                            <img src="{{url('assets/images/quotes.svg')}}" alt="quotes">--}}
-                {{--                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt--}}
-                {{--                                ut labore. Lorem ipsum dolor sit amet, consect adipicing elit, sed do eiusmod tempor--}}
-                {{--                                incididunt ut labore.</p>--}}
-                {{--                            <h4>Guy Hawkins</h4>--}}
-                {{--                            <p class="mb-0">Yoga Student</p>--}}
-                {{--                            <img class="shadow-quotes" src="{{ url('/assets/images/shadow-quotes.svg') }}" alt="quotes">--}}
-                {{--                        </div>--}}
-                {{--                        <div class="swiper-slide">--}}
-                {{--                            <img src="{{url('assets/images/quotes.svg')}}" alt="quotes">--}}
-                {{--                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt--}}
-                {{--                                ut labore. Lorem ipsum dolor sit amet, consect adipicing elit, sed do eiusmod tempor--}}
-                {{--                                incididunt ut labore.</p>--}}
-                {{--                            <h4>Robert Fox</h4>--}}
-                {{--                            <p class="mb-0">Yoga Student</p>--}}
-                {{--                            <img class="shadow-quotes" src="{{ url('/assets/images/shadow-quotes.svg') }}" alt="quotes">--}}
-                {{--                        </div>--}}
-                {{--                        <div class="swiper-slide">--}}
-                {{--                            <img src="{{url('assets/images/quotes.svg')}}" alt="quotes">--}}
-                {{--                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt--}}
-                {{--                                ut labore. Lorem ipsum dolor sit amet, consect adipicing elit, sed do eiusmod tempor--}}
-                {{--                                incididunt ut labore.</p>--}}
-                {{--                            <h4>Jenny Wilson</h4>--}}
-                {{--                            <p class="mb-0">Yoga Student</p>--}}
-                {{--                            <img class="shadow-quotes" src="{{ url('/assets/images/shadow-quotes.svg') }}" alt="quotes">--}}
-                {{--                        </div>--}}
-                {{--                        <div class="swiper-slide">--}}
-                {{--                            <img src="{{url('assets/images/quotes.svg')}}" alt="quotes">--}}
-                {{--                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt--}}
-                {{--                                ut labore. Lorem ipsum dolor sit amet, consect adipicing elit, sed do eiusmod tempor--}}
-                {{--                                incididunt ut labore.</p>--}}
-                {{--                            <h4>Guy Hawkins</h4>--}}
-                {{--                            <p class="mb-0">Yoga Student</p>--}}
-                {{--                            <img class="shadow-quotes" src="{{ url('/assets/images/shadow-quotes.svg') }}" alt="quotes">--}}
-                {{--                        </div>--}}
-                {{--                    </div>--}}
-                {{--                    <div class="swiper-pagination"></div>--}}
-                {{--                </div>--}}
+                <div class="position-relative row align-items-center">
+                    <div class="col-md-6">
+                        <h4 class="pb-2 fw-bold text-green">WHAT OUR COMMUNITY SAYS</h4>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                    </div>
+                </div>
+                <div class="swiper mySwiper mb-5">
+                    <div class="swiper-wrapper">
+                        @foreach($communities as $community)
+                            <div class="swiper-slide">
+                                @if($community->image)
+                                    @php
+                                        $mediaPath = config('app.media_path', 'uploads');
+                                        $localPath = config('app.local_path', 'assets');
+
+                                        $imageUrl = $community->image
+                                            ? asset("$mediaPath/admin/community/{$community->image}")
+                                            : asset("$localPath/images/no_image.png");
+                                    @endphp
+                                    <img src="{{ $imageUrl }}" alt="community Image" width="100">
+                                @else
+                                    <img src="{{url('assets/images/quotes.svg')}}" alt="quotes">
+                                    <img class="shadow-quotes" src="{{ url('/assets/images/shadow-quotes.svg') }}"
+                                         alt="quotes">
+                                @endif
+                                {!! $community->description !!}
+
+                                <h4>{{$community->title}}</h4>
+                                {{--                                <p class="mb-0">Yoga Student</p>--}}
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
                 <div class="row">
                     <div class="col-sm-12 col-md-6 col-lg-6">
                         <div class="find-apply-dv">
@@ -397,7 +386,7 @@
                                 Expand your reach, connect with aligned clients, and grow your practice within a
                                 supportive community.
                             </p>
-                            <button onclick="window.location.href='{{route('register')}}'" class="mt-4">Apply as a
+                            <button data-bs-target="#registerModal" data-bs-toggle="modal" class="mt-4">Apply as a
                                 Practitioner
                             </button>
 
@@ -413,36 +402,36 @@
     <section class="home-blog-wrrpr">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
-                <h1 class="home-title">Holistic Wellness Resources</h1>
-{{--                <a href="{{route('blog')}}" class="home-blog-btn">View All</a>--}}
+                <h4 class="pb-2 fw-bold text-green">HOLISTIC WELLNESS RESOURCES</h4>
+                {{--                <a href="{{route('blog')}}" class="home-blog-btn">View All</a>--}}
             </div>
             <div class="row">
                 <div class="col-md-12 text-center">
                     <h3>Coming soon...</h3>
                 </div>
-{{--                @forEach($blogs as $blog)--}}
-{{--                    @php--}}
-{{--                        $mediaPath = config('app.media_path', 'uploads');--}}
-{{--                        $localPath = config('app.local_path', 'assets');--}}
+                {{--                @forEach($blogs as $blog)--}}
+                {{--                    @php--}}
+                {{--                        $mediaPath = config('app.media_path', 'uploads');--}}
+                {{--                        $localPath = config('app.local_path', 'assets');--}}
 
-{{--                        $imageUrl = $blog->image--}}
-{{--                            ? asset("$mediaPath/admin/blog/{$blog->image}")--}}
-{{--                            : asset("$localPath/images/no_image.png");--}}
-{{--                    @endphp--}}
-{{--                    <div class="col-sm-12 col-md-6 col-lg-4 mb-4">--}}
-{{--                        <div class="featured-dv">--}}
-{{--                            <img src="{{ $imageUrl }}" alt="person" class="img-fit">--}}
-{{--                            <img src="{{$imageUrl}}" alt="calm" height="160" width="160" class="rounded-4">--}}
-{{--                            <div class="home-blog-label">--}}
-{{--                                <h5>{{$blog->category->name}}</h5>--}}
-{{--                            </div>--}}
-{{--                            <h4>{{$blog->name}}</h4>--}}
-{{--                            <div class="text-end">--}}
-{{--                                <a href="{{route('blogDetail', $blog->slug)}}" class="place-order btn btn-green text-end ">Learn More <i class="fa-solid fa-arrow-right "></i></a>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                @endforeach--}}
+                {{--                        $imageUrl = $blog->image--}}
+                {{--                            ? asset("$mediaPath/admin/blog/{$blog->image}")--}}
+                {{--                            : asset("$localPath/images/no_image.png");--}}
+                {{--                    @endphp--}}
+                {{--                    <div class="col-sm-12 col-md-6 col-lg-4 mb-4">--}}
+                {{--                        <div class="featured-dv">--}}
+                {{--                            <img src="{{ $imageUrl }}" alt="person" class="img-fit">--}}
+                {{--                            <img src="{{$imageUrl}}" alt="calm" height="160" width="160" class="rounded-4">--}}
+                {{--                            <div class="home-blog-label">--}}
+                {{--                                <h5>{{$blog->category->name}}</h5>--}}
+                {{--                            </div>--}}
+                {{--                            <h4>{{$blog->name}}</h4>--}}
+                {{--                            <div class="text-end">--}}
+                {{--                                <a href="{{route('blogDetail', $blog->slug)}}" class="place-order btn btn-green text-end ">Learn More <i class="fa-solid fa-arrow-right "></i></a>--}}
+                {{--                            </div>--}}
+                {{--                        </div>--}}
+                {{--                    </div>--}}
+                {{--                @endforeach--}}
             </div>
         </div>
     </section>
@@ -452,7 +441,7 @@
     <section class="faq-section">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center flex-wrap mb-5">
-                <h1 class="home-title">Frequently Asked Questions</h1>
+                <h4 class="pb-2 fw-bold text-green">FREQUENTLY ASKED QUESTIONS </h4>
                 {{--                <button class="home-blog-btn">More FAQs</button>--}}
             </div>
             <div class="accordion w-100 max-w-2xl" id="accordionExample">

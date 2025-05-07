@@ -50,7 +50,7 @@ class PractitionerController extends Controller
             $userDetails->user_id = $user->id;
             $userDetails->save();
         }
-        $Categories = Category::get();
+        $categories = Category::where('status', 1)->get();
         $practitionerTag = PractitionerTag::get();
         $IHelpWith = IHelpWith::get();
         $HowIHelp = HowIHelp::get();
@@ -93,7 +93,7 @@ class PractitionerController extends Controller
             'user',
             'users',
             'userDetails',
-            'Categories',
+            'categories',
             'practitionerTag',
             'IHelpWith',
             'HowIHelp',
@@ -309,7 +309,6 @@ class PractitionerController extends Controller
 
     public function save_term(Request $request)
     {
-
         $user = Auth::user();
         $type = $request->type;
         $name = $request->name;
@@ -318,60 +317,59 @@ class PractitionerController extends Controller
             return response()->json(['success' => false, 'message' => 'Name is required']);
         }
 
-        $slug = Str::slug($name);
+        $names = array_filter(array_map('trim', explode(',', $name)));
+        $createdTerms = [];
+        $duplicateTerms = [];
 
-        if ($type == 'IHelpWith') {
-            $term = IHelpWith::create([
-                'name' => $name,
+        foreach ($names as $termName) {
+            $slug = Str::slug($termName);
+
+            $model = match ($type) {
+                'IHelpWith' => new IHelpWith,
+                'HowIHelp' => new HowIHelp,
+                'certifications' => new Certifications,
+                'tags' => new PractitionerTag,
+                'modalityPractice' => new MembershipModality,
+                default => null
+            };
+
+            if (!$model) {
+                return response()->json(['success' => false, 'message' => 'Invalid type']);
+            }
+
+            // Check for duplicate slug
+            if ($model->where('slug', $slug)->exists()) {
+                $duplicateTerms[] = $termName;
+                continue;
+            }
+
+            $term = $model->create([
+                'name' => $termName,
                 'slug' => $slug,
                 'created_by' => $user->id,
                 'updated_by' => $user->id,
             ]);
-            return response()->json(['success' => true, 'message' => 'IHelpWith term saved successfully', 'term' => $term]);
+
+            $createdTerms[] = $term;
         }
 
-        if ($type == 'HowIHelp') {
-            $term = HowIHelp::create([
-                'name' => $name,
-                'slug' => $slug,
-                'created_by' => $user->id,
-                'updated_by' => $user->id,
+        if (empty($createdTerms)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'All terms already exist: ' . implode(', ', $duplicateTerms),
+                'duplicates' => $duplicateTerms,
             ]);
-            return response()->json(['success' => true, 'message' => 'HowIHelp term saved successfully', 'term' => $term]);
         }
 
-        if ($type == 'certifications') {
-            $term = Certifications::create([
-                'name' => $name,
-                'slug' => $slug,
-                'created_by' => $user->id,
-                'updated_by' => $user->id,
-            ]);
-            return response()->json(['success' => true, 'message' => 'Certification  term saved successfully', 'term' => $term]);
-        }
-
-        if ($type == 'tags') {
-            $term = PractitionerTag::create([
-                'name' => $name,
-                'slug' => $slug,
-                'created_by' => $user->id,
-                'updated_by' => $user->id,
-            ]);
-            return response()->json(['success' => true, 'message' => 'Tags term saved successfully', 'term' => $term]);
-        }
-
-        if ($type == 'modalityPractice') {
-            $term = MembershipModality::create([
-                'name' => $name,
-                'slug' => $slug,
-                'created_by' => $user->id,
-                'updated_by' => $user->id,
-            ]);
-            return response()->json(['success' => true, 'message' => 'Modality Practice term saved successfully', 'term' => $term]);
-        }
-
-        return response()->json(['success' => false, 'message' => 'Invalid request']);
+        return response()->json([
+            'success' => true,
+            'message' => count($createdTerms) . ' term(s) saved successfully',
+            'terms' => $createdTerms,
+            'duplicates' => $duplicateTerms,
+        ]);
     }
+
+
 
     public function deleteImage(Request $request)
     {
@@ -754,13 +752,72 @@ class PractitionerController extends Controller
         } else {
             $membership->updated_by = $userId;
         }
-        $membership->blogs_workshops_events = $input['blogs_workshops_events'] ? json_encode($input['blogs_workshops_events']) : null;
-        $membership->referral_program = $input['referral_program'];
-        $membership->collaboration_interests = $input['collaboration_interests'];
+        $membership->blogs_workshops_events = isset($input['blogs_workshops_events']) && $input['blogs_workshops_events'] ? json_encode($input['blogs_workshops_events']) : null;
+        $membership->referral_program = $input['referral_program'] ?? null;
+        $membership->collaboration_interests = $input['collaboration_interests'] ?? null;
 
         $membership->save();
 
         return redirect()->back()->with('success', 'Profile updated successfully');
+    }
+
+
+    public function endorsementPractitioner(Request $request)
+    {
+    $search = $request->input('search');
+     $endorsedUsers = User::where('role', 1)
+            ->where('status', 1)
+            ->where(function ($query) use ($search) {
+                $query->where('first_name', 'LIKE', "%{$search}%")
+                    ->orWhere('last_name', 'LIKE', "%{$search}%")
+                    ->orWhere('email', 'LIKE', "%{$search}%");
+            })
+            ->with('userDetail')
+            ->get();
+        $defaultLocations = Locations::where('status', 1)->get();
+        $locations = [];
+        foreach ($defaultLocations as $location) {
+            $locations[$location->id] = $location->name;
+        }
+        json_encode($locations);
+        return response()->json([
+            'success' => true,
+            'practitioners' => $endorsedUsers,
+            'html' => view('practitioner.endorsement_practitioner_xml', [
+                'endorsedUsers' => $endorsedUsers,
+                'defaultLocations' => $locations,
+            ])->render()
+        ]);
+    }
+    public function removeEndorsement(Request $request, $id)
+    {
+        $user = Auth::user();
+        $user_id = $user->id;
+
+        $userDetail = UserDetail::where('user_id', $user_id)->first();
+
+        if (!$userDetail) {
+            return response()->json(['error' => 'User detail not found'], 404);
+        }
+
+        $endorsements = json_decode($userDetail->endorsements, true);
+        if (!is_array($endorsements)) {
+            $endorsements = [];
+        }
+
+        // Remove the ID from endorsements array
+        $endorsements = array_filter($endorsements, function ($value) use ($id) {
+            return $value != $id;
+        });
+
+        // Re-index array to avoid JSON issues
+        $userDetail->endorsements = json_encode(array_values($endorsements));
+
+        if ($userDetail->save()) {
+            return response()->json(['success' => 'Endorsement removed successfully']);
+        } else {
+            return response()->json(['error' => 'Failed to remove endorsement'], 500);
+        }
     }
 
 }

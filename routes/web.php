@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\CommunityController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\FeedbackController;
 use App\Http\Controllers\Admin\ImpersonationController;
@@ -30,7 +31,10 @@ Auth::routes();
 Route::post('/reset-password', [ForgotPasswordController::class, 'sendResetLink'])->name('send.resetLink');
 Route::post('/stripe/webhook', [StripeWebhookController::class, 'handleWebhook']);
 
+Route::get('/update-slugs', [HomeController::class, 'updateslug'])->name('update.slugs');
+
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::post('/waitList', [HomeController::class, 'waitList'])->name('waitList');
 //Route::get('/', [HomeController::class, 'comingIndex'])->name('home');
 Route::post('/subscribe', [HomeController::class, 'subscribe'])->name('subscribe');
 Route::get('/pending/user', [HomeController::class, 'pendingUser'])->name('pendingUserRequest');
@@ -49,6 +53,7 @@ Route::get('/our-vision', [HomeController::class, 'ourVision'])->name('our_visio
 Route::get('/core-values', [HomeController::class, 'coreValues'])->name('core_values');
 Route::post('/getBookedSlots/{userId}', [GoogleCalendarController::class, 'getBookedSlots'])->name('getBookedSlots');
 Route::post('/news-letter', [HomeController::class, 'newsLetter'])->name('newsLetter');
+Route::get('/cancel-booking/{bookingId}/{eventId}', [BookingController::class, 'cancelEvent'])->name('bookingCancel');
 
 Route::get('/practitioner/detail/{id}', [HomeController::class, 'practitionerDetail'])->name('practitioner_detail');
 Route::get('/practitioner/offering/detail/{id}', [HomeController::class, 'practitionerOfferingDetail'])->name('practitionerOfferingDetail');
@@ -65,7 +70,7 @@ Route::get('/payment-success', [PaymentController::class, 'success'])->name('tha
 Route::get('/payment-failed', [PaymentController::class, 'failed'])->name('payment.cancel');
 Route::get('/calendar/time-slots/{date}/{id}', [HomeController::class, 'getTimeSlots'])->name('get_time_slots');
 
-Route::post('/storeBooking', [BookingController::class, 'storeBooking'])->name('storeBooking');
+Route::post('/calender/Booking', [BookingController::class, 'calendarBooking'])->name('calendarBooking');
 Route::post('/pre-checkout-register', [BookingController::class, 'preCheckoutRegister'])->name('preCheckout.register');
 Route::post('/pre-checkout', [BookingController::class, 'preCheckout'])->name('preCheckout');
 Route::get('/checkout', [BookingController::class, 'checkout'])->name('checkout');
@@ -101,6 +106,7 @@ Route::middleware(['auth', 'user-access:admin'])->name('admin.')->prefix('admin'
 
     Route::resource('category', CategoryController::class);
     Route::resource('feedback', FeedbackController::class);
+    Route::resource('community', CommunityController::class);
     Route::get('/feedback/get-offerings/{userId}', [FeedbackController::class, 'getOfferingsByUser'])->name('getOfferingsByUser');
 });
 
@@ -111,6 +117,8 @@ Route::middleware(['auth', 'user-access:practitioner'])->group(function () {
     Route::get('/help', [PractitionerController::class, 'help'])->name('help');
 
     Route::get('/dashboard', [PractitionerController::class, 'dashboard'])->name('dashboard');
+    Route::get('/endorsement-practitioner', [PractitionerController::class, 'endorsementPractitioner'])->name('endorsementPractitioner');
+    Route::post('/remove-endorsement/{id}', [PractitionerController::class, 'removeEndorsement'])->name('removeEndorsement');
     Route::get('/community', [PractitionerController::class, 'community'])->name('community');
     Route::get('/my-membership', [PractitionerController::class, 'membership'])->name('my_membership');
     Route::post('/membership-buy', [PractitionerController::class, 'membershipBuy'])->name('membership.buy');
@@ -159,7 +167,7 @@ Route::middleware(['auth', 'user-access:practitioner'])->group(function () {
 
 
     Route::get('/google/login', [GoogleAuthController::class, 'redirectToGoogle'])->name('redirect_to_google');
-    Route::get('/google/disconnect', [GoogleAuthController::class, 'disconnectToGoogle'])->name('disconnect_to_google');
+    Route::POST('/google/disconnect', [GoogleAuthController::class, 'disconnectToGoogle'])->name('disconnect_to_google');
     Route::get('/google/callback', [GoogleAuthController::class, 'handleGoogleCallback'])->name('google_callback');
     Route::post('/calendar/create-event', [GoogleCalendarController::class, 'createEvent'])->name('calendar_create');
     Route::post('/calendar/update-event', [GoogleCalendarController::class, 'updateEvent'])->name('calendar_update');

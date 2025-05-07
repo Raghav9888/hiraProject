@@ -32,7 +32,8 @@ class User extends Authenticatable
         'company',
         'bio',
         'location',
-        'status'
+        'status',
+        'slug'
     ];
 
     /**
@@ -86,6 +87,11 @@ class User extends Authenticatable
     public function feedback()
     {
         return $this->hasMany(Feedback::class, 'practitioner_id', 'id');
+    }
+
+    public function waitlist()
+    {
+        return $this->hasOne(Waitlist::class, 'user_id', 'id');
     }
 
 }

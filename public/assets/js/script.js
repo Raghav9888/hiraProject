@@ -21,26 +21,46 @@ $(document).ready(function () {
     });
 });
 
-$(document).on('change', '[data-type="change"]', function (e) {
-    let targetOneValue = $(this).data('target-one');
-    let matchOneValue = $(this).data('match-one');
+$(document).on('change', '[data-type="change"]', function () {
+    let targetOne = $(this).data('target-one');
+    let matchOne = $(this).data('match-one');
 
-    let targetTwoValue = $(this).data('target-two');
-    let matchTwoValue = $(this).data('match-two');
+    let targetTwo = $(this).data('target-two');
+    let matchTwo = $(this).data('match-two');
 
-    let addOneClassValue = $(this).data('add-one-class') ?? 'd-flex';
-    let addTowClassValue = $(this).data('add-one-class') ?? 'd-flex';
+    let classOne = $(this).data('add-one-class') ?? 'd-flex';
+    let classTwo = $(this).data('add-two-class') ?? 'd-flex';
 
-    if ((targetOneValue && targetOneValue.length > 0) && (matchOneValue && matchOneValue.length > 0)) {
-        $(this).val() == matchOneValue ? $(`#${targetOneValue}`).removeClass('d-none').addClass(addOneClassValue) : $(`#${targetOneValue}`).addClass('d-none').removeClass('d-flex')
+    const isCheckbox = $(this).attr('type') === 'checkbox';
+    const value = $(this).val();
+
+    // Handle target one
+    if (targetOne && matchOne) {
+        if (isCheckbox) {
+            if ($(this).is(':checked') && value === matchOne) {
+                $(`#${targetOne}`).removeClass('d-none').addClass(classOne);
+            } else if (value === matchOne) {
+                $(`#${targetOne}`).addClass('d-none').removeClass(classOne);
+            }
+        } else {
+            if (value === matchOne) {
+                $(`#${targetOne}`).removeClass('d-none').addClass(classOne);
+            } else {
+                $(`#${targetOne}`).addClass('d-none').removeClass(classOne);
+            }
+        }
     }
 
-    if ((targetTwoValue && targetTwoValue.length > 0) && (matchTwoValue && matchTwoValue.length > 0)) {
-        $(this).val() == matchTwoValue ? $(`#${targetTwoValue}`).removeClass('d-none').addClass(addTowClassValue) : $(`#${targetTwoValue}`).addClass('d-none').removeClass('d-flex')
+    // Handle target two
+    if (targetTwo && matchTwo) {
+        if (value === matchTwo) {
+            $(`#${targetTwo}`).removeClass('d-none').addClass(classTwo);
+        } else {
+            $(`#${targetTwo}`).addClass('d-none').removeClass(classTwo);
+        }
     }
-
-
 });
+
 
 $('.addterm').on('click', function (e) {
     e.preventDefault();
@@ -69,10 +89,11 @@ $('.addterm').on('click', function (e) {
 
 $(document).on('click', '.save_term', function (e) {
     e.preventDefault();
-    var termType = $(this).data('type'); // Get the data-type attribute value
+    var termType = $(this).data('type');
     var name = $('.' + termType + '_term').val();
+
     $.ajax({
-        url: '/term/save', // Change this to your server-side script
+        url: '/term/save',
         type: 'POST',
         data: {
             type: termType,
@@ -81,56 +102,53 @@ $(document).on('click', '.save_term', function (e) {
         },
         dataType: 'json',
         success: function (response) {
+            var selectElement = $("#" + termType);
+
             if (response.success) {
-                var selectElement = $("#" + termType);
+                let selectedValues = selectElement.val() || [];
 
-                // Append the new option
-                var newOption = `<option value="${response.term.id}" selected>${response.term.name}</option>`;
-                selectElement.append(newOption);
+                response.terms.forEach(function (term) {
+                    if (selectElement.find(`option[value="${term.id}"]`).length === 0) {
+                        var newOption = `<option value="${term.id}" selected>${term.name}</option>`;
+                        selectElement.append(newOption);
+                    }
+                    selectedValues.push(term.id);
+                });
 
-                // Get previously selected values and add the new one
-                var selectedValues = selectElement.val() || [];
-                selectedValues.push(response.term.id);
+                selectElement.val([...new Set(selectedValues)]).trigger('change');
+                alert(response.message);
 
-                // Reapply selected values
-                selectElement.val(selectedValues).trigger('change');
-                alert('Term added successfully');
+                if (response.duplicates && response.duplicates.length > 0) {
+                    alert('These terms already exist: ' + response.duplicates.join(', '));
+                }
             } else {
-                alert('Error: ' + response.message);
+                alert(response.message);
             }
+
             $('#' + termType + '-container').html('');
         },
-        /*  success: function (response) {
-             if (response.success) {
-                 $('#' + termType + '-container').html('');
-                 var newOption = `<option value="${response.term.id}" selected>${response.term.name}</option>`;
-                 $("#" + termType).append(newOption).trigger('change');
-                 alert('term add sucessfully');
-
-             } else {
-                 alert('Error: ' + response.message);
-             }
-         }, */
         error: function (xhr, status, error) {
             console.error('AJAX Error:', error);
+            alert('An unexpected error occurred.');
         }
     });
 });
-if (document.getElementById('bio')) {
-    document.getElementById('bio').addEventListener('input', function () {
-        let words = this.value.match(/\b\w+\b/g) || [];
-        let wordCount = words.length;
-        let maxWords = 500;
 
-        document.getElementById('word-count').textContent = wordCount + ' / ' + maxWords + ' words';
-
-        if (wordCount > maxWords) {
-            alert('You can only enter up to 500 words.');
-            this.value = words.slice(0, maxWords).join(' '); // Trim excess words
-            document.getElementById('word-count').textContent = maxWords + ' / ' + maxWords + ' words';
-        }
-    });
-}
+// if (document.getElementById('bio')) {
+//     document.getElementById('bio').addEventListener('input', function () {
+//         let words = this.value.match(/\b\w+\b/g) || [];
+//         let wordCount = words.length;
+//         let maxWords = 1000;
+//
+//         document.getElementById('word-count').textContent = wordCount + ' / ' + maxWords + ' words';
+//
+//         if (wordCount > maxWords) {
+//             alert('You can only enter up to 500 words.');
+//             this.value = words.slice(0, maxWords).join(' '); // Trim excess words
+//             document.getElementById('word-count').textContent = maxWords + ' / ' + maxWords + ' words';
+//         }
+//     });
+// }
 
 document.addEventListener("DOMContentLoaded", function () {
     const checkboxes = document.querySelectorAll(".amentities-checkbox");
@@ -246,7 +264,7 @@ $(document).on('change', '#availability_type', function () {
 });
 
 
-$(document).on('click','#sidebar_toogle', function () {
+$(document).on('click', '#sidebar_toogle', function () {
     let targetElement = $('#sidebar');
     targetElement.toggleClass('d-none d-flex', $(this).val() !== 'custom');
 })

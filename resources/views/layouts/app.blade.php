@@ -15,9 +15,7 @@
 
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-            crossorigin="anonymous"></script>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
@@ -40,6 +38,7 @@
     <script type="text/javascript" src="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.min.js"></script>
     <script src="{{ asset('assets/plugin/OwlCarousel2-2.3.4/dist/owl.carousel.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/luxon@3/build/global/luxon.min.js"></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     {{--    @vite(['resources/sass/app.scss', 'resources/js/app.js'])--}}
 
@@ -47,7 +46,11 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
         gtag('js', new Date());
         gtag('config', 'G-XXXXXXXXXX');
     </script>
@@ -59,24 +62,30 @@
         @yield('content')
     </main>
 </div>
+@include('layouts.footer')
 <div class="modal fade" id="userPopup" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-md modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body">
                 <div class="container my-3">
-                    <div class="alert alert-green fade show d-flex justify-content-between align-items-center f-5" role="alert">
-                        <h2 class="h6 mb-0">Welcome To Hira Collective News Letter</h2>
-                        <span type="button" class="btn-white close-modal" id="closeModalBtn" aria-label="Close" data-bs-dismiss="modal">
+                    <div class="alert alert-green fade show d-flex justify-content-between align-items-center f-5"
+                         role="alert">
+                        <h2 class="h6 mb-0">Healing is personal. So is what we share.</h2>
+                        <span type="button" class="btn-white close-modal" id="closeModalBtn" aria-label="Close"
+                              data-bs-dismiss="modal">
                             <i class="fa-solid fa-xmark"></i>
                         </span>
                     </div>
                     <form id="popupForm">
                         @csrf
-                        <div class="mb-3">
+                        <p class="fs-6 px-2">Join our email list for trusted guidance, rituals,
+                            and vetted practitioners — curated with care, not algorithms.
+                            Rooted in wisdom. Designed for your wellness. </p>
+                        <div class="mb-3 px-2">
                             <label for="popupName" class="form-label">Name</label>
                             <input type="text" class="form-control" id="popupName" name="name" required>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-3 px-2">
                             <label for="popupEmail" class="form-label">Email</label>
                             <input type="email" class="form-control" id="popupEmail" name="email" required>
                         </div>
@@ -84,9 +93,35 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="place-order btn btn-secondary" id="cancelPopupBtn" data-bs-dismiss="modal">Cancel</button>
-                <button type="submit" form="popupForm" class="place-order btn btn-green">Submit</button>
-{{--                <button type="button" class="btn btn-outline-danger" onclick="clearAllCookies()">Clear All Cookies</button>--}}
+                {{--                <button type="button" class="place-order btn btn-secondary" id="cancelPopupBtn" data-bs-dismiss="modal">--}}
+                {{--                    Cancel--}}
+                {{--                </button>--}}
+                <button type="submit" form="popupForm" class="place-order btn btn-green">Join the Collective</button>
+                {{--                <button type="button" class="btn btn-outline-danger" onclick="clearAllCookies()">Clear All Cookies</button>--}}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade xl" id="registerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="container my-3">
+                    <div class="alert alert-green fade show d-flex justify-content-between align-items-center f-5"
+                         role="alert">
+                        <h2 class="h5 mb-0">Join the Waitlist – Apply to Be a Practitioner</h2>
+                        <span type="button" class="btn-white close-modal" aria-label="Close"
+                              data-bs-dismiss="modal">
+                                    <i class="fa-solid fa-xmark"></i>
+                            </span>
+
+                    </div>
+                    <div id="waitList" class="d-block">
+                        @include('auth.wait_list_form_xml')
+                    </div>
+                    <div id="msg" class="d-none"></div>
+
+                </div>
             </div>
         </div>
     </div>
@@ -125,7 +160,9 @@
         const modal = new bootstrap.Modal(modalEl);
 
         if (!getCookie('newsLetter')) {
-            modal.show();
+            setTimeout(function () {
+                modal.show();
+            }, 30000);
         }
 
         const form = document.getElementById('popupForm');
@@ -143,7 +180,7 @@
                             'Content-Type': 'application/json',
                             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                         },
-                        body: JSON.stringify({ name, email })
+                        body: JSON.stringify({name, email})
                     });
 
                     const result = await response.json();
@@ -174,8 +211,55 @@
     });
 </script>
 
+<script>
+    const togglePassword = document.getElementById("togglePassword");
+    const passwordField = document.getElementById("exampleInputPassword1");
 
-@include('layouts.footer')
+    togglePassword.addEventListener("click", function () {
+        const type = passwordField.type === "password" ? "text" : "password";
+        passwordField.type = type;
+
+        this.innerHTML = type === "password" ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+    });
+
+
+</script>
+
+<script>
+    // Password visibility toggle
+    document.querySelectorAll('.toggle-password').forEach(toggle => {
+        toggle.addEventListener('click', function () {
+            const target = document.getElementById(this.dataset.target);
+            const icon = this.querySelector('i');
+            if (target.type === 'password') {
+                target.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                target.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        });
+    });
+
+    // Show input for referral
+    document.getElementById('referral_check').addEventListener('change', function () {
+        document.getElementById('referral_name').classList.toggle('d-none', !this.checked);
+    });
+
+    // Show input for other source
+    document.getElementById('other_check').addEventListener('change', function () {
+        document.getElementById('other_source').classList.toggle('d-none', !this.checked);
+    });
+
+    // Limit file uploads to 2 files
+    document.getElementById('fileUpload').addEventListener('change', function () {
+        if (this.files.length > 2) {
+            alert('You can upload a maximum of 2 files.');
+            this.value = '';
+        }
+    });
+</script>
+
 @stack('custom_scripts')
 <script type="module">
 
@@ -242,20 +326,37 @@
 </script>
 
 
+<script src="{{ asset('assets/js/loader.js') }}?v={{ time() }}"></script>
+<script src="{{ asset('assets/js/script.js') }}?v={{ time() }}"></script>
+<script src="{{ asset('assets/js/calendar.js') }}?v={{ time() }}"></script>
+<script src="{{ asset('assets/js/booking_calendar.js') }}?v={{ time() }}"></script>
+<script src="{{ asset('assets/js/search.js') }}?v={{ time() }}"></script>
+<script src="{{ asset('assets/js/currency_helper.js') }}?v={{ time() }}"></script>
 
-<script src="{{ asset('assets/js/loader.js') }}"></script>
-<script src="{{ asset('assets/js/script.js') }}"></script>
-<script src="{{ asset('assets/js/calendar.js') }}"></script>
-<script src="{{ asset('assets/js/booking_calendar.js') }}"></script>
-<script src="{{ asset('assets/js/search.js') }}"></script>
-<script src="{{ asset('assets/js/currency_helper.js') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/6.0.0/bootbox.min.js"
         integrity="sha512-oVbWSv2O4y1UzvExJMHaHcaib4wsBMS5tEP3/YkMP6GmkwRJAa79Jwsv+Y/w7w2Vb/98/Xhvck10LyJweB8Jsw=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://www.google.com/recaptcha/enterprise.js?render=6LcHEAwrAAAAAPAOqh949AjS1TkQ5ixAjL1GUUhe"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         window.loadingScreen.removeLoading();
     });
+
+    function onClick(e) {
+        e.preventDefault();
+        grecaptcha.enterprise.ready(async () => {
+            const token = await grecaptcha.enterprise.execute('6LcHEAwrAAAAAPAOqh949AjS1TkQ5ixAjL1GUUhe', {action: 'LOGIN'});
+        });
+    }
+
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
 </script>
+
 </body>
 </html>

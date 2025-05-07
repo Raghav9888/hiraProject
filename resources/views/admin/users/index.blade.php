@@ -74,6 +74,14 @@
                                                             </a>
                                                             <ul class="dropdown-menu">
                                                                 @if($user->status == 2)
+
+                                                                    @if($user->waitlist)
+                                                                        <li>
+                                                                            <a class="dropdown-item"
+                                                                               href="{{route('admin.user.waitlist', ['id' => $user->id])}} "
+                                                                            >Wait list detail</a>
+                                                                        </li>
+                                                                    @endif
                                                                     <li>
                                                                         <a class="dropdown-item"
                                                                            href="{{route('admin.user.approve', ['id' => $user->id])}} "

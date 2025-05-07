@@ -5,6 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Models\User;
 use App\Services\GoogleAnalyticsService;
 use App\Http\Controllers\Controller;
+use App\Models\Booking;
+use App\Models\Event;
+use App\Models\Offering;
+use App\Models\Payment;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
@@ -30,8 +34,12 @@ class DashboardController extends Controller
             'thisWeek' => [100, 120, 90, 130, 110, 160, 140],
             'lastWeek' => [80, 100, 70, 110, 90, 140, 120]
         ];
-
-        return view('admin.dashboard', compact('user','chartData'));
+        $totalPractionters = User::where("role", 1)->where("status", 1)->count();
+        $totalBookings = Booking::count();
+        $totalPayment = Payment::where('status', 'completed')->sum("amount");
+        $totalOfferings = Offering::count();
+        $totalEvents = Event::count();
+        return view('admin.dashboard', compact('user','chartData', 'totalPractionters', 'totalBookings', 'totalPayment', 'totalOfferings', 'totalEvents'));
     }
 
 

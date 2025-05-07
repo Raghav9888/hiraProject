@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Plan;
 use App\Models\User;
+use App\Models\Waitlist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,12 +22,12 @@ class UserController extends Controller
     {
         $user = Auth::user();
         $users = match ($userType) {
-            'new' => User::where('status', 2)->latest()->paginate(10),
+            'new' => User::where('status', 2)->with('waitlist')->latest()->paginate(10),
             'delete' => User::where('status', 3)->latest()->paginate(10),
             default => User::where('status', 1)->where('role', 1)->latest()->paginate(10),
         };
 
-        $type =  match ($userType) {
+        $type = match ($userType) {
             'new' => '2',
             'delete' => '3',
             default => '1',
@@ -55,7 +56,7 @@ class UserController extends Controller
             default => 'all',
         };
 
-        return view('admin.users.edit', compact('user', 'userData', 'userType', 'type','id', 'plans'));
+        return view('admin.users.edit', compact('user', 'userData', 'userType', 'type', 'id', 'plans'));
     }
 
     /**
@@ -70,7 +71,7 @@ class UserController extends Controller
         if ($user) {
             $user->update($inputs);
         }
-        $user->plans = $request->plans? json_encode($request->plans): null;
+        $user->plans = $request->plans ? json_encode($request->plans) : null;
         $user->save();
         $userType = match ($type) {
             '2' => 'new',
@@ -136,5 +137,17 @@ class UserController extends Controller
         }
     }
 
+    public function waitlist(Request $request, $id)
+    {
+
+        $waitlist = Waitlist::where('user_id', $id)->first();
+
+        return view('admin.users.waitlist', [
+            'waitlist' => $waitlist,
+            'user' => Auth::user(),
+            'id' => $id
+        ]);
+
+    }
 
 }

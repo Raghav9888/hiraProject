@@ -2,31 +2,30 @@
 @section('content')
     <section class="contact-us-wrrpr">
         <div class="container">
-            <div class="row align-items-center">
+            <div class="row">
                 <div class="col-sm-12 col-md-6 col-lg-6">
-{{--                    <div class="position-relative">--}}
-                        <img src="{{ url('./assets/images/header_logo.png') }}" alt="hira-collective" class="img-fluid">
-{{--                        <div class="contact-us-right-dv position-absolute top-0" style="backdrop-filter: blur(10px)">--}}
-{{--                            <h2 class="fw-bold mb-3 text-white" style="font-size: 45px">What kind of support do you--}}
-{{--                                need?</h2>--}}
+                    <div class="position-relative">
+                        <div class="contact-us-right-dv position-absolute top-0" style="backdrop-filter: blur(10px)">
+                            <h2 class="fw-bold my-3 text-white" style="font-size: 45px">What kind of support do you
+                                need?</h2>
 
-{{--                            <h5 class="text-white">Booking Support</h5>--}}
-{{--                            <ul class="list-unstyled ps-3 text-white">--}}
-{{--                                <li>&#8226; Finding a practitioner</li>--}}
-{{--                                <li>&#8226; Help with booking or rescheduling</li>--}}
-{{--                                <li>&#8226; Questions about cancellations or fees</li>--}}
-{{--                                <li>&#8226; Clarification on services or offerings</li>--}}
-{{--                            </ul>--}}
+                            <h5 class="text-white">Booking Support</h5>
+                            <ul class="list-unstyled ps-3 text-white">
+                                <li>&#8226; Finding a practitioner</li>
+                                <li>&#8226; Help with booking or rescheduling</li>
+                                <li>&#8226; Questions about cancellations or fees</li>
+                                <li>&#8226; Clarification on services or offerings</li>
+                            </ul>
 
-{{--                            <h5 class="text-white">Technical Support</h5>--}}
-{{--                            <ul class="list-unstyled ps-3 text-white">--}}
-{{--                                <li>&#8226; Trouble logging in</li>--}}
-{{--                                <li>&#8226; Payment or checkout errors</li>--}}
-{{--                                <li>&#8226; Site bugs or glitches</li>--}}
-{{--                                <li>&#8226; Problems processing refunds or updates</li>--}}
-{{--                            </ul>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
+                            <h5 class="text-white">Technical Support</h5>
+                            <ul class="list-unstyled ps-3 text-white">
+                                <li>&#8226; Trouble logging in</li>
+                                <li>&#8226; Payment or checkout errors</li>
+                                <li>&#8226; Site bugs or glitches</li>
+                                <li>&#8226; Problems processing refunds or updates</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-6">
                     <div class="contact-us-right-dv">
@@ -62,7 +61,7 @@
                                 </select>
                             </div>
                             <div class="mb-3" id="support_category_section">
-                                <label class="form-label">Support Category</label>
+                                <label class="form-label">How do you want to connect?</label>
 
                                 <select name="support_booking_category" class="form-select d-none"
                                         id="subject_booking_input_category" style="border-radius: 24px !important; padding: 10px 10px !important;">
@@ -79,7 +78,7 @@
                                 </select>
                             </div>
                             <div class="mb-3 d-none" id="booking_link_section">
-                                <a href="https://calendar.app.google/ff54ToKRwgE1v8gw9" target="_blank">Booking Link</a>
+                                <a href="https://calendar.app.google/ff54ToKRwgE1v8gw9" target="_blank">Lets Schedule a meeting</a>
                             </div>
                             <div class="mb-3 d-none" id="whatsapp_link_section">
                                 <a href="https://wa.me/9876044814" target="_blank">Whatsapp Number</a>
@@ -98,6 +97,8 @@
                                 <input type="checkbox" class="form-check-input" name="send_yourself_copy">
                                 <label class="form-check-label">Send yourself a copy</label>
                             </div>
+
+                            <input type="hidden" name="recaptcha_token" id="recaptcha_token">
                             <button type="submit" class="d-none" id="submit_section"> Send message</button>
                         </form>
 {{--                        <img class="star-2" src="{{ url('./assets/images/Star 2.svg') }}" alt="">--}}
@@ -179,5 +180,14 @@
             updateFields(); // Initialize correctly on page load
         });
     </script>
+     <script src="https://www.google.com/recaptcha/enterprise.js?render=6LcHEAwrAAAAAPAOqh949AjS1TkQ5ixAjL1GUUhe"></script>
 
+    <script>
+        function onClick(e) {
+            e.preventDefault();
+            grecaptcha.enterprise.ready(async () => {
+                const token = await grecaptcha.enterprise.execute('6LcHEAwrAAAAAPAOqh949AjS1TkQ5ixAjL1GUUhe', {action: 'LOGIN'});
+            });
+        }
+    </script>
 @endsection

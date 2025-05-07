@@ -85,16 +85,8 @@
                             <div class="mb-3 {{  $offering->offering_type  == 'in-person' ? '': 'd-none'}}"
                                  id="location">
                                 <label for="exampleInputEmail1" class="fw-bold d-block">Location</label>
-
-                                <select name="location" class="form-control">
-                                    @foreach($defaultLocations as $id => $location)
-                                        <option value="{{ $id }}"
-                                            {{ (string) $offering->location === (string) $id ? 'selected' : '' }}>
-                                            {{ $location }}
-                                        </option>
-                                    @endforeach
-                                </select>
-
+                                <input type="text" class="form-control" name="location" id="location"
+                                       aria-describedby="emailHelp" placeholder="" value="{{ $offering->location}}">
 
                             </div>
 
@@ -116,7 +108,13 @@
                             </div>
 
                             <div class="row">
-                                <label for="type" class="fw-bold">Tags</label>
+                                <label for="type" class="fw-bold">Tags
+                                    <span data-bs-toggle="tooltip"
+                                          data-bs-placement="top"
+                                          data-bs-title="To add multiple new Tags at once, separate each with a comma (,)">
+                                                    <i class="fa-solid fa-circle-info"></i>
+                                    </span>
+                                </label>
                                 <p style="text-align: start;">These are keywords used to help
                                     identify more
                                     specific
@@ -434,15 +432,19 @@
                                                         <div class="col-lg-6 mb-4">
                                                             <div class="d-lg-flex justify-content-between">
                                                                 <label for="service-hours" class="fw-bold">Email
-                                                                    template</label>
+                                                                    template
+                                                                    <span data-bs-toggle="tooltip"
+                                                                          data-bs-placement="top"
+                                                                          data-bs-title="Google meets link will be auto generated and can share a new link when in meet with them - and make this box to fill out much longer and not optional">
+                                                                    <i class="fa-solid fa-circle-info"></i>
+                                                                </span>
+                                                                </label>
 
-                                                                <p>Maximum length of 500 words</p>
                                                             </div>
                                                             <textarea class="form-control"
                                                                       name="email_template_offering"
                                                                       id="email_template"
                                                                       placeholder="">{{$offering?->email_template}}</textarea>
-                                                            <p id="word-count">0 / 500 words</p>
                                                         </div>
                                                         <div class="col-lg-6 mb-4">
                                                             <label for="service-hours" class="fw-bold">Intake form
@@ -714,14 +716,17 @@
                                                         <div class="col-lg-6 mb-4">
                                                             <div class="d-flex justify-content-between">
                                                                 <label for="service-hours" class="fw-bold">Email
-                                                                    template</label>
-
-                                                                <p>Maximum length of 500 words</p>
+                                                                    template
+                                                                    <span data-bs-toggle="tooltip"
+                                                                          data-bs-placement="top"
+                                                                          data-bs-title="Google meets link will be auto generated and can share a new link when in meet with them - and make this box to fill out much longer and not optional">
+                                                                    <i class="fa-solid fa-circle-info"></i>
+                                                                </span></label>
                                                             </div>
                                                             <textarea class="form-control" name="email_template_event"
                                                                       id="email_template"
                                                                       placeholder="">{{$offering->event?->email_template}}</textarea>
-                                                            <p id="word-count">0 / 500 words</p>
+
                                                         </div>
                                                         <div class="col-lg-6 mb-4">
                                                             <label for="service-hours" class="fw-bold">Intake form

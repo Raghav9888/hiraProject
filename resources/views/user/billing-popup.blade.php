@@ -28,7 +28,7 @@
                 <span
                     class="practition-des">{{@$offering->user->userDetail->company ?? "Alternative Health Practitioner"}}</span>
                 <span class="booking-date-container">
-                    {{date('M d, Y', strtotime($bookingDate))}} | {{date("H:i", strtotime($bookingTime))}}
+                    {{date('M d, Y', strtotime($bookingDate))}} | {{date("H:i", strtotime($bookingTime))}} | {{$bookingUserTimezone}}
                 </span>
             </div>
         </div>
@@ -73,10 +73,10 @@
                         <input type="text" class="form-control" required name="billing_address" id="exampleInputEmail1"
                                aria-describedby="emailHelp" placeholder="Enter address line 1">
                     </div>
-                    <div class="mb-3">
-                        <input type="text" class="form-control" required name="billing_address2" id="exampleInputEmail1"
-                               aria-describedby="emailHelp" placeholder="Enter address line 2">
-                    </div>
+{{--                    <div class="mb-3">--}}
+{{--                        <input type="text" class="form-control" required name="billing_address2" id="exampleInputEmail1"--}}
+{{--                               aria-describedby="emailHelp" placeholder="Enter address line 2">--}}
+{{--                    </div>--}}
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
@@ -103,8 +103,10 @@
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label mb-2">Country</label>
                         <select class="form-select" required name="billing_country" id="country">
-                            <option value="India">India</option>
-                            <option value="Canada">Canada</option>
+                            <option value="">Select Country</option>
+                            @foreach($countries as $country)
+                                <option value="{{$country->name}}">{{$country->name}}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>

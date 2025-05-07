@@ -133,7 +133,13 @@
                                             </select>
                                         </div>
                                         <div class="row">
-                                            <label for="type" class="fw-bold">Tags</label>
+                                            <label for="type" class="fw-bold">Tags
+                                                <span data-bs-toggle="tooltip"
+                                                      data-bs-placement="top"
+                                                      data-bs-title="To add multiple new tags at once, separate each with a comma (,)">
+                                                    <i class="fa-solid fa-circle-info"></i>
+                                                </span>
+                                            </label>
                                             <p style="text-align: start;">These are keywords used to help
                                                 identify more
                                                 specific
@@ -214,7 +220,13 @@
                                             </div>
                                         </div>
                                         <div class="mb-4 pt-2">
-                                            <label for="IHelpWith" class="fw-bold">I help with</label>
+                                            <label for="IHelpWith" class="fw-bold">I help with
+                                                <span data-bs-toggle="tooltip"
+                                                      data-bs-placement="top"
+                                                      data-bs-title="To add multiple new I help with at once, separate each with a comma (,)">
+                                                    <i class="fa-solid fa-circle-info"></i>
+                                                </span>
+                                            </label>
                                             <div class="row align-items-center">
                                                 <div class="col-md-6 select2-div">
                                                     <select id="IHelpWith" name="IHelpWith[]"
@@ -249,13 +261,21 @@
                                             <option value="{{$term->id}}">{{$term->name}}</option>
 
 
+
                                         @endforeach
                                         </select>
                                     </div>
                                     <hr>
                                     <button class="update-btn mb-2">Add New Term</button> -->
                                         <div class="mb-4 select2-div">
-                                            <label for="type" class="fw-bold">How I help</label>
+                                            <label for="type" class="fw-bold">How I help
+                                                <span data-bs-toggle="tooltip"
+                                                      data-bs-placement="top"
+                                                      data-bs-title="To add multiple new How I help at once, separate each with a comma (,)">
+                                                    <i class="fa-solid fa-circle-info"></i>
+                                                </span>
+
+                                            </label>
 
                                             <div class="row align-items-center">
                                                 <div class="col-md-6">
@@ -286,7 +306,7 @@
                                             <select id="specialities" class="form-control form-select"
                                                     multiple="multiple" data-type="multiselect" data-maxshow="3"
                                                     name="specialities[]">
-                                                @foreach($Categories as $term)
+                                                @foreach($categories as $term)
                                                     <option
                                                         value="{{$term->id}}" {{ (isset($userDetails->specialities) && in_array($term->id, json_decode($userDetails->specialities))) ? 'selected' : '' }}>{{$term->name}}</option>
                                                 @endforeach
@@ -397,7 +417,9 @@
                                                         'Every Wednesday',
                                                         'Every Thursday',
                                                         'Every Friday',
-                                                        'Weekends only - Every Sat & Sundays'
+                                                        'Every Saturday',
+                                                        'Every sunday',
+//                                                        'Weekends only - Every Sat & Sundays'
                                                     ];
 
                                                     foreach ($availabilities as $index => $availability) {
@@ -488,10 +510,15 @@
                                                 <h4>Authorization</h4>
                                                 <div class="form-group flex-column d-flex align-items-start">
                                                     @if($googleAccount && $googleAccount->access_token && $googleAccount->refresh_token)
-                                                        <a href="{{ route('disconnect_to_google') }}"
-                                                           class="export-btn">Disconnect</a>
+                                                        <form method="POST"
+                                                              action="{{ route('disconnect_to_google') }}">
+                                                            @csrf
+                                                            <button type="submit" class="export-btn">Disconnect</button>
+                                                        </form>
                                                     @else
-                                                        <a href="{{ route('redirect_to_google') }}" class="export-btn">Connect</a>
+                                                        <a href="{{ route('redirect_to_google') }}" class="export-btn">
+                                                            Connect to Google
+                                                        </a>
                                                     @endif
                                                 </div>
                                             </div>

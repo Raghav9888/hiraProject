@@ -24,13 +24,14 @@
                 <h5>
                     @if(!empty($userLocations))
                         @foreach($defaultLocations as $defaultLocationId => $defaultLocation)
-
                             @if(in_array($defaultLocationId, $userLocations))
                                 <i class="fa-solid fa-location-dot"></i>
-                                {{ $defaultLocation }} ,
+                                {{ $defaultLocation }}
+                                @break
                             @endif
                         @endforeach
                     @endif
+
                 </h5>
                 {{--                                <p>Alternative and Holistic Health Practitioner</p>--}}
                 <div class="d-flex justify-content-between align-items-center">

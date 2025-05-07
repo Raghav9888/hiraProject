@@ -2,23 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
-use App\Models\Certifications;
-use App\Models\Feedback;
-use App\Models\Locations;
-use App\Models\PractitionerTag;
-use Illuminate\Http\Request;
-use App\Models\User;
-use App\Models\UserDetail;
-use App\Models\Offering;
-use App\Models\Booking;
-use App\Models\IHelpWith;
-use App\Models\HowIHelp;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
 use App\Mail\ContactUsMail;
 use App\Models\Blog;
+use App\Models\Booking;
+use App\Models\Category;
+use App\Models\Certifications;
+use App\Models\Community;
+use App\Models\Feedback;
+use App\Models\GoogleAccount;
+use App\Models\HowIHelp;
+use App\Models\IHelpWith;
+use App\Models\Locations;
+use App\Models\Offering;
+use App\Models\PractitionerTag;
+use App\Models\User;
+use App\Models\UserDetail;
+use App\Models\Waitlist;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use MailerLite\MailerLite;
+use Illuminate\Support\Str;
 
 class HomeController extends Controller
 {
@@ -33,7 +38,8 @@ class HomeController extends Controller
         $foundingPlans = [
             'Founding Members T1',
             'Founding Membership - 10 years',
-            'Founding Members T2'
+            'Founding Members T2',
+            'Diamond Pre-Launch Membership'
         ];
         $users = User::where('role', 1)
             ->where('status', 1)
@@ -52,8 +58,10 @@ class HomeController extends Controller
             $locations[$location->id] = $location->name;
         }
         json_encode($locations);
-        $offeringsData = Offering::all();
-
+        $offeringsData = Offering::where('offering_type', ['virtual', 'in_person'])
+            ->with('event')
+            ->with('user')
+            ->get();
         $offerings = [];
         $now = now();
         foreach ($offeringsData as $offeringData) {
@@ -62,12 +70,15 @@ class HomeController extends Controller
             }
         }
 
+        $communities = Community::where('status', 1)->get();
+
         return view('home', [
             'users' => $users,
             'categories' => $categories,
             'defaultLocations' => $locations,
             'blogs' => $blogs,
-            'offerings' => $offerings
+            'offerings' => $offerings,
+            'communities' => $communities
         ]);
     }
 
@@ -142,17 +153,16 @@ class HomeController extends Controller
             'message' => $request->message,
         ];
 
-        // Get the email from .env, fallback to a default email if missing
+        // Determine which email to send to
         $email = $input['support_type'] === 'technical_support'
-            ? env('TECHNICAL_SUPPORT_EMAIL', 'default_support@example.com')
-            : env('BOOKING_SUPPORT_EMAIL', 'default_booking@example.com');
+            ? 'technicalsupport@thehiracollective.com'
+            : 'community@thehiracollective.com';
 
-        // Check if the email is valid before sending
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             return back()->with('error', 'Support email is not configured correctly.');
         }
 
-        // Send email
+        // Send using default from (configured in .env: MAIL_FROM_ADDRESS)
         Mail::to($email)->send(new ContactUsMail($contactData));
 
         return back()->with('success', 'Your message has been sent successfully!');
@@ -210,7 +220,7 @@ class HomeController extends Controller
         $userLocations = json_decode($user->location, true);
         $locations = Locations::get();
         $users = User::where('role', 1)->where('status', 1)->with('userDetail')->get();
-        $categories = Category::get();
+        $categories = Category::where('status', 1)->get();
         $storeAvailable = $userDetail?->store_availabilities ? $userDetail->store_availabilities : [];
 
         $ratingCounts = $profileFeedback->get()->groupBy('rating')->map->count();
@@ -321,14 +331,15 @@ class HomeController extends Controller
     {
         $search = $request->get('search');
         $category = $categoryType ?? $request->get('category');
-        $offeringType = $request->get('searchType');
+        $offeringType = $request->get('searchType', 'virtual');
         $locationName = $request->get('location');
         $page = $request->get('page', 1);
 
         $userIds = collect();
 
-        // 1. Search by name
+        // 1. Search by name or userDetails (tags, help fields, etc.)
         if (!empty($search)) {
+            // Search by name (first_name, last_name, full name)
             $userByName = User::where('role', 1)
                 ->where('status', 1)
                 ->where(function ($q) use ($search) {
@@ -339,10 +350,8 @@ class HomeController extends Controller
                 ->pluck('id');
 
             $userIds = $userIds->merge($userByName);
-        }
 
-        // 2. Search in userDetails (tags, help fields, etc.)
-        if (!empty($search)) {
+            // Search by related details (tags, howIHelp, certifications, etc.)
             $tagId = PractitionerTag::where('name', 'like', $search . '%')->value('id');
             $howIHelpId = HowIHelp::where('name', 'like', $search . '%')->value('id');
             $iHelpWithId = IHelpWith::where('name', 'like', $search . '%')->value('id');
@@ -350,6 +359,7 @@ class HomeController extends Controller
             $locationId = Locations::where('name', 'like', $search . '%')->value('id');
             $categoryIdFromSearch = Category::where('name', 'like', '%' . $search . '%')->value('id');
 
+            // If any related field found, merge user IDs
             if ($tagId || $howIHelpId || $iHelpWithId || $certificationId || $locationId || $categoryIdFromSearch) {
                 $userByDetails = UserDetail::where(function ($q) use ($tagId, $howIHelpId, $iHelpWithId, $certificationId, $locationId, $categoryIdFromSearch) {
                     if ($tagId) $q->orWhereJsonContains('tags', (string)$tagId);
@@ -364,35 +374,34 @@ class HomeController extends Controller
             }
         }
 
+        // Remove duplicates and re-index
         $userIds = $userIds->unique()->values();
 
-        // 3. Build the base query
+        // 2. Build the base query
         $query = User::where('role', 1)
             ->where('status', 1)
             ->with('userDetail')
             ->with('feedback');
 
-
+        // If any users found by name or user details, apply filter
         if ($userIds->isNotEmpty()) {
             $query->whereIn('id', $userIds);
         }
 
-        // 4. Category filter (dropdown or route param)
+        // 3. Category filter
         if (!empty($category)) {
             $formattedCategory = ucwords(str_replace('_', ' ', $category));
-
             $categoryId = Category::where('name', $formattedCategory)->value('id');
 
-            if (!empty($categoryId)) {
+            if ($categoryId) {
                 $query->whereHas('userDetail', function ($q) use ($categoryId) {
                     $q->whereJsonContains('specialities', (string)$categoryId);
                 });
             }
         }
 
-//         5. Practitioner type filter (from dropdown)
+        // 4. Offering Type Filter
         if (!empty($offeringType)) {
-
             $types = match ($offeringType) {
                 'both' => ['in_person', 'virtual'],
                 default => [$offeringType]
@@ -404,51 +413,52 @@ class HomeController extends Controller
             });
         }
 
-//         6. Location filter (from dropdown)
+        // 5. Location Filter
         if (!empty($locationName)) {
             $locationId = Locations::where('name', $locationName)->value('id');
-
             if ($locationId) {
                 $query->whereHas('userDetail', function ($q) use ($locationId) {
                     $q->whereJsonContains('location', (string)$locationId);
                 });
             }
-
         }
 
-
-        // 7. Default Locations
-        $defaultLocations = Locations::where('status', 1)->pluck('name', 'id');
-
-        // 8. Offerings (for showing event matches)
+        // 6. Get Offerings and Events Data
         $offeringsData = Offering::where('offering_type', $offeringType)
             ->with('event')
+            ->with('user')
             ->get();
 
         $events = [];
         $now = now();
         foreach ($offeringsData as $offeringData) {
-            if ($offeringData->event && $offeringData->event->date_and_time > $now) {
+            if (isset($offeringData->event) && $offeringData->event && $offeringData->event->date_and_time > $now) {
                 $events[$offeringData->event->date_and_time] = $offeringData;
             }
         }
 
+        // Filter only practitioners' offerings
+        $filterOfferingsData = $offeringsData->filter(function ($offeringData) {
+            return $offeringData->user->role == 1;
+        });
 
-        $blogs = Blog::latest()->get();
-        // 9. Build final params
+        // 7. Default Locations
+        $defaultLocations = Locations::where('status', 1)->pluck('name', 'id');
+
+        // 8. Build the response parameters
         $params = [
             'pendingResult' => ceil($query->count() / 8) > $page,
             'practitioners' => $query->take($page * 8)->get(),
             'search' => $search,
             'category' => $category,
-//            'location' => $location,
             'defaultLocations' => $defaultLocations,
-            'offerings' => $offeringsData,
+            'offerings' => $filterOfferingsData,
             'offeringEvents' => $events,
             'categories' => Category::where('status', 1)->get(),
             'page' => $page
         ];
 
+        // 9. Return JSON for Ajax Request
         if ($request->isXmlHttpRequest() && $request->get('isPractitioner')) {
             return response()->json([
                 'success' => true,
@@ -457,6 +467,7 @@ class HomeController extends Controller
             ]);
         }
 
+        // 10. Return the search page with results
         return view('user.search_page', $params);
     }
 
@@ -530,7 +541,7 @@ class HomeController extends Controller
                 'offering' => $offering,
                 'currency' => $currency,
                 'price' => $price
-                ])->render()
+            ])->render()
         ]);
 
     }
@@ -577,7 +588,7 @@ class HomeController extends Controller
             ]
         ];
         $m = $mailerLite->subscribers->create($data);
-        dd($m);
+
         return response()->json([
             'success' => true,
             'message' => 'Subscribed successfully',
@@ -589,6 +600,121 @@ class HomeController extends Controller
 
     }
 
+
+    public function waitList(Request $request)
+    {
+        $validated = $request->validate([
+            'first_name' => 'nullable|string|max:255',
+            'last_name' => 'nullable|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email', // unique check
+            'password' => 'required|string|min:8|confirmed', // password + confirmation check
+            'business_name' => 'nullable|string|max:255',
+            'phone' => 'nullable|string|max:20',
+            'website' => 'nullable|url|max:255',
+            'current_practice' => 'nullable|string',
+            'heard_from' => 'nullable|array',
+            'referral_name' => 'nullable|string|max:255',
+            'other_source' => 'nullable|string|max:255',
+            'called_to_join' => 'nullable|string',
+            'practice_values' => 'nullable|string',
+            'excitement_about_hira' => 'nullable|string',
+            'call_availability' => 'nullable|string|in:yes,no',
+            'newsletter' => 'nullable|string|in:yes,no',
+            'uploads.*' => 'nullable|file|mimes:jpg,jpeg,png,mp4,mov,avi,doc,docx,pdf|max:20480',
+        ]);
+
+        $user = User::create([
+            'name' => trim(($validated['first_name'] ?? '') . ' ' . ($validated['last_name'] ?? '')),
+            'first_name' => $validated['first_name'] ?? '',
+            'last_name' => $validated['last_name'] ?? '',
+            'email' => $validated['email'],
+            'role' => 1,
+            'status' => 2,
+            'password' => Hash::make($validated['password']),
+        ]);
+
+        UserDetail::create(['user_id' => $user->id]);
+        GoogleAccount::create(['user_id' => $user->id]);
+
+        $uploadedFiles = [];
+
+        if ($request->hasFile('uploads')) {
+            foreach ($request->file('uploads') as $file) {
+                $fileName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('uploads/practitioners/' . $user->id . '/waitlist/'), $fileName);
+                $uploadedFiles[] = $fileName;
+            }
+        }
+
+
+        // Save to Waitlist
+        Waitlist::create([
+            'user_id' => $user->id,
+            'first_name' => $validated['first_name'] ?? null,
+            'last_name' => $validated['last_name'] ?? null,
+            'business_name' => $validated['business_name'] ?? null,
+            'phone' => $validated['phone'] ?? null,
+            'website' => $validated['website'] ?? null,
+            'current_practice' => $validated['current_practice'] ?? null,
+            'heard_from' => isset($validated['heard_from']) && $validated['heard_from'] ? json_encode($validated['heard_from']) : null,
+            'referral_name' => $validated['referral_name'] ?? null,
+            'other_source' => $validated['other_source'] ?? null,
+            'called_to_join' => $validated['called_to_join'] ?? null,
+            'practice_values' => $validated['practice_values'] ?? null,
+            'excitement_about_hira' => $validated['excitement_about_hira'] ?? null,
+            'call_availability' => $validated['call_availability'],
+            'newsletter' => $validated['newsletter'] ?? null,
+            'uploads' => $uploadedFiles ? json_encode($uploadedFiles): null,
+        ]);
+
+        $mailerLite = new MailerLite(['api_key' => env("MAILERLITE_KEY")]);
+
+        $mailerLite->subscribers->create([
+            'email' => $validated['email'],
+            "fields" => [
+                "name" => $validated['first_name'],
+                "last_name" => $validated['last_name']
+            ],
+            'groups' => [
+                env('MAILERLITE_PRACTITIONER_GROUP')
+            ]
+        ]);
+
+        Auth::login($user);
+
+        return $user;
+    }
+
+    public function updateslug()
+    {
+        // Users
+        User::chunk(100, function ($users) {
+            foreach ($users as $user) {
+                $baseSlug = Str::slug($user->first_name . '' . $user->last_name);
+                $slug = $baseSlug;
+                $count = 1;
+
+                // Ensure user slug is unique
+                while (\App\Models\User::where('slug', $slug)->exists()) {
+                    $slug = $baseSlug . '-' . $count++;
+                }
+
+                $user->slug = $slug;
+                $user->save();
+
+                if ($user->userDetail) {
+                    $detailSlug = $slug; // start from the same slug                    
+        
+                    $user->userDetail->slug = $detailSlug;
+                    $user->userDetail->save();
+                }
+            }
+        });
+
+        
+
+        return response()->json(['message' => 'Slugs updated successfully']);
+    }
 
 
 }

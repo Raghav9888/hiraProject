@@ -13,7 +13,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link parentLinks {{ request()->routeIs('partitionerLists') ? 'active' : '' }}" href="{{ route('partitionerLists') }}">DIRECTORY</a>
+                            <a class="nav-link parentLinks {{ request()->routeIs('partitionerLists') ? 'active' : '' }}" href="{{ route('partitionerLists') }}">FIND PRACTITIONERS</a>
 
                         </li>
                         <li class="nav-item">
@@ -39,7 +39,7 @@
                             <nav class="et-menu-nav">
                                 <ul id="menu-practitioner-menu me-5" class="et-menu nav">
                                     @if((Auth::user()->role === 1 && Auth::user()->status === 1))
-                                        <a href="{{ route('dashboard') }}" class="btn join-btn" type="submit"
+                                        <a href="{{ route('my_membership') }}" class="btn join-btn" type="submit"
                                            style="display: flex;align-items: center;justify-content: center">My Practitioner dashboard</a>
                                     @elseif((Auth::user()->role === 2 && Auth::user()->status === 1))
                                         <a href="{{ route('admin.dashboard') }}" class="btn join-btn" type="submit"
@@ -63,10 +63,11 @@
                                 <button class="login-btn mt-2" type="submit">Logout</button>
                             </form>
                         @else
-                            <a href="{{ route('register') }}"
-                               class="btn join-btn my-2 d-flex align-items-center justify-content-center" type="submit">Join
+                            <a href="javascript:void(0)" data-bs-target="#registerModal" data-bs-toggle="modal"
+                               class="btn join-btn my-2 d-flex align-items-center justify-content-center">Join
                                 as a
                                 Practitioner</a>
+
                             <a href="{{ route('login') }}"
                                class="btn login-btn my-2  d-flex align-items-center justify-content-center"
                                type="submit">Login</a>

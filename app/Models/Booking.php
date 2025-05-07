@@ -20,6 +20,7 @@ class Booking extends Model
         'status',
         'booking_date',
         'time_slot',
+        'user_timezone',
         'price',
         'is_confirmed',
         'first_name',
