@@ -127,7 +127,7 @@
                                                 <div class="d-flex justify-content-end align-items-center pt-4">
                                                     <img src="{{url('./assets/images/Clock.svg')}}" alt="" class="me-2"
                                                          style="width: 20px">
-                                                    <span>{{ \Carbon\Carbon::parse($date)->format('F j, Y') }}</span>
+                                                    <span>{{ \Carbon\Carbon::parse($date)->format('F j, Y g:i A') }}</span>
 
                                                 </div>
 
@@ -159,72 +159,9 @@
             </div>
 
             <div class="container">
-                <div class="row" id="practitionersList">
-
-                    @if($users->isNotEmpty())
-                        @foreach($users->chunk(4) as $chunk)
-                            <div class="row">
-                                @foreach($chunk as $user)
-
-                                    @php
-                                        $images = isset($user->userDetail->images) ? json_decode($user->userDetail->images, true) : null;
-                                        $image = isset($images['profile_image']) && $images['profile_image'] ? $images['profile_image'] : null;
-                                        $imageUrl = $image
-                                            ? asset(env('media_path') . '/practitioners/' . $user->userDetail->id . '/profile/' . $image)
-                                            : asset(env('local_path') . '/images/no_image.png');
-
-                                      $userLocations = isset($user->location) && $user->location ? json_decode($user->location, true) : [];
-
-                                    @endphp
-
-                                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 mb-4">
-                                        <div class="featured-dv">
-                                            {{-- Book Now Overlay --}}
-                                            <div class="book-now-overlay">
-                                                <a href="{{route('practitioner_detail', $user->slug)}}">
-                                                    <button class="book-now-btn">Book Now</button>
-                                                </a>
-                                            </div>
-
-                                                <img src="{{ $imageUrl }}" class="img-fit" alt="person">
-
-                                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                                    <h4>{{ $user->name }}</h4>
-                                                    <i class="fa-regular fa-heart"></i>
-                                                </div>
-
-                                                <h5>
-                                                    @if(!empty($userLocations))
-                                                        @foreach($defaultLocations as $defaultLocationId => $defaultLocation)
-                                                            @if(in_array($defaultLocationId, $userLocations))
-                                                                <i class="fa-solid fa-location-dot"></i>
-                                                                {{ $defaultLocation }} ,
-                                                                @break
-                                                            @endif
-                                                        @endforeach
-                                                    @endif
-                                                </h5>
-                                                <p>{{ implode(' ', array_slice(explode(' ', strip_tags($user->userDetail->company ?? 'Alternative and Holistic Health Practitioner')), 0, 5)) . '...' }}</p>
-
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <div>
-                                                        @for ($i = 0; $i < 5; $i++)
-                                                            <i class="fa-regular fa-gem"></i>
-                                                        @endfor
-                                                    </div>
-                                                    <h6>5.0 Ratings</h6>
-                                                </div>
-                                        </div>
-                                    </div>
-
-                                @endforeach
-                            </div>
-                        @endforeach
-
-                        <!-- Load More Button (Only if there are practitioners) -->
-                        {{--                        <div class="d-flex justify-content-center mt-2">--}}
-                        {{--                            <button class="category-load-more loadPractitioner" data-count="1">Load More</button>--}}
-                        {{--                        </div>--}}
+                <div class="row" id="practitionerRowDiv">
+                    @if($practitioners->isNotEmpty())
+                        @include('user.practitioner_list_xml_request')
                     @else
                         <p class="text-center">No practitioners found.</p>
                     @endif
