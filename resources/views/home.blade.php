@@ -66,13 +66,15 @@
         <div class="container">
             <h4 class="pb-2 fw-bold text-green text-center text-md-start">EXPLORE</h4>
 
-            <div class="row mt-3">
-                @foreach($categories as $category)
+            <div class="row mt-3" id="exploreCategories">
+                @foreach($categories as $index => $category)
                     @php
                         $snakeCaseText = str_replace(' ', '_', strtolower($category->name));
                     @endphp
 
-                    <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-4 d-flex">
+                    <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-4 d-flex explore-item
+                    {{ $index > 3 ? 'd-none d-sm-flex' : 'd-flex' }}"
+                         data-index="{{ $index }}">
                         <a href="{{ route('searchPractitioner') . '?category=' . $snakeCaseText }}"
                            class="w-100 text-decoration-none">
                             <div class="explore-img-dv w-100 {{ $snakeCaseText }}">
@@ -82,8 +84,14 @@
                     </div>
                 @endforeach
             </div>
+
+            <!-- Show More button only on mobile -->
+            <div class="d-flex justify-content-center d-sm-none mt-4">
+                <button id="loadCategoryBtn" class="home-blog-btn">Show More</button>
+            </div>
         </div>
     </section>
+
     <section>
         <!-- explore categories section end -->
         <div class="container">
@@ -1207,5 +1215,29 @@
             showMoreFAQs(); // Show initial 10 FAQs
         });
     </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const items = document.querySelectorAll(".explore-item");
+            const btn = document.getElementById("loadCategoryBtn");
+
+            let visibleCount = 4; // First 4 visible on mobile
+
+            btn.addEventListener("click", function () {
+                visibleCount += 4; // Show 4 more each time
+
+                items.forEach((item, index) => {
+                    if (index < visibleCount) {
+                        item.classList.remove("d-none");
+                    }
+                });
+
+                if (visibleCount >= items.length) {
+                    btn.style.display = "none"; // Hide button when all are shown
+                }
+            });
+        });
+    </script>
+
+
 
 @endpush
