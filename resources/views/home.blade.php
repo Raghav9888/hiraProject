@@ -110,11 +110,11 @@
                                     <div class="card-body">
 
                                         <div class="row">
-                                            <div class="col-5">
+                                            <div class="col-md-5 d-none d-md-block">
                                                 <img src="{{$imageUrl}}" alt="calm"
                                                      style="max-height: 150px; max-width: 200px">
                                             </div>
-                                            <div class="col-7">
+                                            <div class="col-md-7 ">
                                                 <h5>{{$offering?->name}}</h5>
                                                 @php
                                                     $shortText = implode(' ', array_slice(explode(' ', strip_tags($offering->short_description)), 0, 5)) . '...';
@@ -124,7 +124,7 @@
                                                 <p class="text-green fw-bold my-4">{{ $shortText }}</p>
 
 
-                                                <div class="d-flex justify-content-end align-items-center pt-4">
+                                                <div class="d-flex justify-content-end align-items-center pt-42">
                                                     <img src="{{url('./assets/images/Clock.svg')}}" alt="" class="me-2"
                                                          style="width: 20px">
                                                     <span>{{ \Carbon\Carbon::parse($date)->format('F j, Y g:i A') }}</span>
