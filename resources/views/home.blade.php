@@ -225,51 +225,57 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-sm-12 col-md-6 col-lg-6 mb-5">
+                <div class="row align-items-center mb-5">
+                    <!-- Section 1 -->
+                    <div class="col-12 order-1 order-md-1">
+                        <h4 class="pb-2 fw-bold text-green text-md-start text-center">OUR VISION</h4>
+                    </div>
+                    <div class="col-12 col-md-6 order-2 order-md-1 my-2">
                         <div class="vision-about-img-dv">
-                            <img src="{{url('/assets/images/our_vision.jpg')}}" alt="our-vision" class="rounded-4"
-                                 style="max-height: 370px">
+                            <img src="{{url('/assets/images/our_vision.jpg')}}" alt="our-vision" class="rounded-4 w-100"
+                                 style="max-height: 370px; object-fit: cover;">
                         </div>
                     </div>
-                    <div class="col-sm-12 col-md-6 col-lg-6 mb-5">
-                        <div class="vision-and-about-dv">
-                            <h4 class="pb-2 fw-bold text-green">OUR VISION</h4>
-                            <p>To radically reimagine what wellness can be - rooted in integrity, guided by care, and
-                                accessible to all.
-                                The Hira Collective exists to transform how we seek and receive healing. We believe
-                                wellness is not a luxury, trend,
-                                or transaction - it’s a birthright. That’s why we’ve built a platform centered around
-                                trust, transparency, and community care.
-                            </p>
-                            <button onclick="window.location.href='{{ route('our_vision') }}'"
-                                    class="btn btn-secondary mt-5">
+                    <div class="col-12 col-md-6 order-3 order-md-2 my-2">
+                        <p class="text-md-start text-center">
+                            To radically reimagine what wellness can be - rooted in integrity, guided by care, and accessible to all.
+                            The Hira Collective exists to transform how we seek and receive healing. We believe wellness is not a luxury,
+                            trend, or transaction - it’s a birthright. That’s why we’ve built a platform centered around trust, transparency,
+                            and community care.
+                        </p>
+                        <div class="text-md-start text-center">
+                            <button onclick="window.location.href='{{ route('our_vision') }}'" class="btn btn-secondary mt-4">
                                 Read More
                             </button>
                         </div>
                     </div>
-                    <div class="col-sm-12 col-md-6 col-lg-6 mb-5 order-4 order-md-3">
-                        <div class="vision-and-about-dv about-dv">
-                            <h4 class="pb-2 fw-bold text-green">OUR STORY</h4>
-                            <p style="text-align: end;">The Hira Collective is a curated wellness platform designed to
-                                help you find care you can trust—rooted in integrity,
-                                community connection, and ethical practice. We know that searching for the right support
-                                can feel overwhelming.
-                                Too often, wellness spaces feel transactional, performative, or disconnected from your
-                                lived experience.
-                            </p>
-                            <button class="btn btn-secondary mt-5"
-                                    onclick="window.location.href='{{ route('our_story') }}'">Read More
+                </div>
+
+                <div class="row align-items-center mb-5">
+                    <!-- Section 2 -->
+                    <div class="col-12 order-1 order-md-1">
+                        <h4 class="pb-2 fw-bold text-green text-md-end text-center">OUR STORY</h4>
+                    </div>
+                    <div class="col-12 col-md-6 order-2 order-md-2 my-2">
+                        <div class="vision-about-img-dv">
+                            <img src="{{url('/assets/images/about_us.jpg')}}" alt="about-us" class="rounded-4 w-100"
+                                 style="max-height: 370px; object-fit: cover;">
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 order-3 order-md-1 my-2 ">
+                        <p class="text-md-end text-center">
+                            The Hira Collective is a curated wellness platform designed to help you find care you can trust—rooted in integrity,
+                            community connection, and ethical practice. We know that searching for the right support can feel overwhelming.
+                            Too often, wellness spaces feel transactional, performative, or disconnected from your lived experience.
+                        </p>
+                        <div class="text-md-end text-center">
+                            <button class="btn btn-secondary mt-4" onclick="window.location.href='{{ route('our_story') }}'">
+                                Read More
                             </button>
                         </div>
                     </div>
-                    <div class="col-sm-12 col-md-6 col-lg-6 mb-5 order-3 order-md-4">
-                        <div class="vision-about-img-dv">
-                            <img src="{{url('/assets/images/about_us.jpg')}}" alt="about-us" class="rounded-4"
-                                 style="max-height: 370px">
-                        </div>
-                    </div>
                 </div>
+
                 <div class="position-relative row align-items-center">
                     <div class="col-md-6">
                         <h4 class="pb-2 fw-bold text-green">WHAT OUR COMMUNITY SAYS</h4>
@@ -1237,7 +1243,5 @@
             });
         });
     </script>
-
-
 
 @endpush
