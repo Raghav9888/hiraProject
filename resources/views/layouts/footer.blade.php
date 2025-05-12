@@ -19,6 +19,7 @@
                         </ul>
                     </div>
                     <form class="pt-4" id="subscribe">
+                        @csrf
                         <div class="form-group row align-items-center">
                             <div class="col-md-9">
                                 <input type="email" name="email" class="form-control rounded-4" placeholder="Enter your email" id="email" required>
