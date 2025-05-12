@@ -244,7 +244,7 @@
                             and community care.
                         </p>
                         <div class="text-md-start text-center">
-                            <button onclick="window.location.href='{{ route('our_vision') }}'" class="btn btn-secondary mt-4">
+                            <button onclick="window.location.href='{{ route('our_vision') }}'" class="btn btn-green rounded-pill mt-4">
                                 Read More
                             </button>
                         </div>
@@ -269,7 +269,7 @@
                             Too often, wellness spaces feel transactional, performative, or disconnected from your lived experience.
                         </p>
                         <div class="text-md-end text-center">
-                            <button class="btn btn-secondary mt-4" onclick="window.location.href='{{ route('our_story') }}'">
+                            <button class="btn btn-green rounded-pill mt-4" onclick="window.location.href='{{ route('our_story') }}'">
                                 Read More
                             </button>
                         </div>
