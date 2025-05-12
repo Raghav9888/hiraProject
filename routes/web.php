@@ -5,7 +5,6 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CommunityController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\FeedbackController;
-use App\Http\Controllers\Admin\ImpersonationController;
 use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\UserController;
@@ -55,7 +54,7 @@ Route::post('/getBookedSlots/{userId}', [GoogleCalendarController::class, 'getBo
 Route::post('/news-letter', [HomeController::class, 'newsLetter'])->name('newsLetter');
 Route::get('/cancel-booking/{bookingId}/{eventId}', [BookingController::class, 'cancelEvent'])->name('bookingCancel');
 
-Route::get('/practitioner/detail/{id}', [HomeController::class, 'practitionerDetail'])->name('practitioner_detail');
+Route::get('/practitioner/detail/{slug}', [HomeController::class, 'practitionerDetail'])->name('practitioner_detail');
 Route::get('/practitioner/offering/detail/{id}', [HomeController::class, 'practitionerOfferingDetail'])->name('practitionerOfferingDetail');
 Route::get('/privacy-policy', [HomeController::class, 'privacyPolicy'])->name('privacy_policy');
 Route::get('/terms-conditions', [HomeController::class, 'termsConditions'])->name('terms_conditions');

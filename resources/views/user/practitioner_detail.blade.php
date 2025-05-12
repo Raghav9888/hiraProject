@@ -46,6 +46,8 @@
 
 
 </style>
+@section('title', $user->name . ' - ' . config('app.name'))
+
 @section('content')
     @php
         $mediaPath = config('app.media_path', 'uploads');

@@ -22,8 +22,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use MailerLite\MailerLite;
 use Illuminate\Support\Str;
+use MailerLite\MailerLite;
+use Symfony\Component\HttpFoundation\Response;
 
 class HomeController extends Controller
 {
@@ -33,7 +34,7 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
         $foundingPlans = [
             'Founding Members T1',
@@ -49,7 +50,7 @@ class HomeController extends Controller
                 });
             })
             ->with('userDetail')
-            ->get()->take(8);
+            ->get();
         $categories = Category::where('status', 1)->get();
         $defaultLocations = Locations::where('status', 1)->get();
         $blogs = Blog::latest()->get()->take(3);
@@ -69,17 +70,26 @@ class HomeController extends Controller
                 $offerings[$offeringData->event->date_and_time] = $offeringData;
             }
         }
-
+        $page = $request->get('page', 1);
         $communities = Community::where('status', 1)->get();
-
-        return view('home', [
-            'users' => $users,
+        $params = [
+            'practitioners' => $users->take($page * 8),
             'categories' => $categories,
             'defaultLocations' => $locations,
             'blogs' => $blogs,
             'offerings' => $offerings,
-            'communities' => $communities
-        ]);
+            'communities' => $communities,
+            'pendingResult' => ceil($users->count() / 8) > $page,
+            'page' => $page,
+        ];
+        if ($request->isXmlHttpRequest() && $request->get('isPractitioner')) {
+            return response()->json([
+                'success' => true,
+                'pendingResult' => ceil($users->count() / 8) > $page,
+                'html' => view('user.practitioner_list_xml_request', $params)->render()
+            ]);
+        }
+        return view('home', $params);
     }
 
     public function comingIndex()
@@ -181,9 +191,9 @@ class HomeController extends Controller
         return view('user.blog_detail', compact('blog'));
     }
 
-    public function practitionerDetail($id)
+    public function practitionerDetail($slug)
     {
-        $user = User::findOrFail($id);
+        $user = User::where('slug', $slug)->firstOrFail();
         $userDetail = $user->userDetail;
         //  $userDetails = UserDetail::where('user_id', $id)->first();
         $endorsements = $userDetail && $userDetail->endorsements ? json_decode($userDetail->endorsements, true) : [];
@@ -664,7 +674,7 @@ class HomeController extends Controller
             'excitement_about_hira' => $validated['excitement_about_hira'] ?? null,
             'call_availability' => $validated['call_availability'],
             'newsletter' => $validated['newsletter'] ?? null,
-            'uploads' => $uploadedFiles ? json_encode($uploadedFiles): null,
+            'uploads' => $uploadedFiles ? json_encode($uploadedFiles) : null,
         ]);
 
         $mailerLite = new MailerLite(['api_key' => env("MAILERLITE_KEY")]);
@@ -703,15 +713,14 @@ class HomeController extends Controller
                 $user->save();
 
                 if ($user->userDetail) {
-                    $detailSlug = $slug; // start from the same slug                    
-        
+                    $detailSlug = $slug; // start from the same slug
+
                     $user->userDetail->slug = $detailSlug;
                     $user->userDetail->save();
                 }
             }
         });
 
-        
 
         return response()->json(['message' => 'Slugs updated successfully']);
     }

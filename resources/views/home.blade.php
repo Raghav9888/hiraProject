@@ -66,13 +66,15 @@
         <div class="container">
             <h4 class="pb-2 fw-bold text-green text-center text-md-start">EXPLORE</h4>
 
-            <div class="row mt-3">
-                @foreach($categories as $category)
+            <div class="row mt-3" id="exploreCategories">
+                @foreach($categories as $index => $category)
                     @php
                         $snakeCaseText = str_replace(' ', '_', strtolower($category->name));
                     @endphp
 
-                    <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-4 d-flex">
+                    <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-4 d-flex explore-item
+                    {{ $index > 3 ? 'd-none d-sm-flex' : 'd-flex' }}"
+                         data-index="{{ $index }}">
                         <a href="{{ route('searchPractitioner') . '?category=' . $snakeCaseText }}"
                            class="w-100 text-decoration-none">
                             <div class="explore-img-dv w-100 {{ $snakeCaseText }}">
@@ -82,8 +84,14 @@
                     </div>
                 @endforeach
             </div>
+
+            <!-- Show More button only on mobile -->
+            <div class="d-flex justify-content-center d-sm-none mt-4">
+                <button id="loadCategoryBtn" class="home-blog-btn">Show More</button>
+            </div>
         </div>
     </section>
+
     <section>
         <!-- explore categories section end -->
         <div class="container">
@@ -110,11 +118,11 @@
                                     <div class="card-body">
 
                                         <div class="row">
-                                            <div class="col-5">
+                                            <div class="col-md-5 d-none d-md-block">
                                                 <img src="{{$imageUrl}}" alt="calm"
                                                      style="max-height: 150px; max-width: 200px">
                                             </div>
-                                            <div class="col-7">
+                                            <div class="col-md-7 ">
                                                 <h5>{{$offering?->name}}</h5>
                                                 @php
                                                     $shortText = implode(' ', array_slice(explode(' ', strip_tags($offering->short_description)), 0, 5)) . '...';
@@ -124,10 +132,10 @@
                                                 <p class="text-green fw-bold my-4">{{ $shortText }}</p>
 
 
-                                                <div class="d-flex justify-content-end align-items-center pt-4">
+                                                <div class="d-flex justify-content-end align-items-center pt-42">
                                                     <img src="{{url('./assets/images/Clock.svg')}}" alt="" class="me-2"
                                                          style="width: 20px">
-                                                    <span>{{ \Carbon\Carbon::parse($date)->format('F j, Y') }}</span>
+                                                    <span>{{ \Carbon\Carbon::parse($date)->format('F j, Y g:i A') }}</span>
 
                                                 </div>
 
@@ -159,72 +167,9 @@
             </div>
 
             <div class="container">
-                <div class="row" id="practitionersList">
-
-                    @if($users->isNotEmpty())
-                        @foreach($users->chunk(4) as $chunk)
-                            <div class="row">
-                                @foreach($chunk as $user)
-
-                                    @php
-                                        $images = isset($user->userDetail->images) ? json_decode($user->userDetail->images, true) : null;
-                                        $image = isset($images['profile_image']) && $images['profile_image'] ? $images['profile_image'] : null;
-                                        $imageUrl = $image
-                                            ? asset(env('media_path') . '/practitioners/' . $user->userDetail->id . '/profile/' . $image)
-                                            : asset(env('local_path') . '/images/no_image.png');
-
-                                      $userLocations = isset($user->location) && $user->location ? json_decode($user->location, true) : [];
-
-                                    @endphp
-
-                                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 mb-4">
-                                        <div class="featured-dv">
-                                            {{-- Book Now Overlay --}}
-                                            <div class="book-now-overlay">
-                                                <a href="{{route('practitioner_detail', $user->id)}}">
-                                                    <button class="book-now-btn">Book Now</button>
-                                                </a>
-                                            </div>
-
-                                                <img src="{{ $imageUrl }}" class="img-fit" alt="person">
-
-                                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                                    <h4>{{ $user->name }}</h4>
-                                                    <i class="fa-regular fa-heart"></i>
-                                                </div>
-
-                                                <h5>
-                                                    @if(!empty($userLocations))
-                                                        @foreach($defaultLocations as $defaultLocationId => $defaultLocation)
-                                                            @if(in_array($defaultLocationId, $userLocations))
-                                                                <i class="fa-solid fa-location-dot"></i>
-                                                                {{ $defaultLocation }} ,
-                                                                @break
-                                                            @endif
-                                                        @endforeach
-                                                    @endif
-                                                </h5>
-                                                <p>{{ implode(' ', array_slice(explode(' ', strip_tags($user->userDetail->company ?? 'Alternative and Holistic Health Practitioner')), 0, 5)) . '...' }}</p>
-
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <div>
-                                                        @for ($i = 0; $i < 5; $i++)
-                                                            <i class="fa-regular fa-gem"></i>
-                                                        @endfor
-                                                    </div>
-                                                    <h6>5.0 Ratings</h6>
-                                                </div>
-                                        </div>
-                                    </div>
-
-                                @endforeach
-                            </div>
-                        @endforeach
-
-                        <!-- Load More Button (Only if there are practitioners) -->
-                        {{--                        <div class="d-flex justify-content-center mt-2">--}}
-                        {{--                            <button class="category-load-more loadPractitioner" data-count="1">Load More</button>--}}
-                        {{--                        </div>--}}
+                <div class="row" id="practitionerRowDiv">
+                    @if($practitioners->isNotEmpty())
+                        @include('user.practitioner_list_xml_request')
                     @else
                         <p class="text-center">No practitioners found.</p>
                     @endif
@@ -1270,5 +1215,29 @@
             showMoreFAQs(); // Show initial 10 FAQs
         });
     </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const items = document.querySelectorAll(".explore-item");
+            const btn = document.getElementById("loadCategoryBtn");
+
+            let visibleCount = 4; // First 4 visible on mobile
+
+            btn.addEventListener("click", function () {
+                visibleCount += 4; // Show 4 more each time
+
+                items.forEach((item, index) => {
+                    if (index < visibleCount) {
+                        item.classList.remove("d-none");
+                    }
+                });
+
+                if (visibleCount >= items.length) {
+                    btn.style.display = "none"; // Hide button when all are shown
+                }
+            });
+        });
+    </script>
+
+
 
 @endpush

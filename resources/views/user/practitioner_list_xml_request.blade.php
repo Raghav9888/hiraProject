@@ -12,39 +12,43 @@
 
     @endphp
 
-    <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
+    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 mb-4">
         <div class="featured-dv">
-            <a href="{{route('practitioner_detail', $user->id)}}">
-                <img src="{{ $imageUrl }}" alt="person" class="img-fit">
-                {{--                                <label for="">0.4 Km Away</label>--}}
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                    <h4>{{  $user->name }}</h4>
-                    <i class="fa-regular fa-heart"></i>
+            {{-- Book Now Overlay --}}
+            <div class="book-now-overlay">
+                <a href="{{route('practitioner_detail', $user->slug)}}">
+                    <button class="book-now-btn">Book Now</button>
+                </a>
+            </div>
+
+            <img src="{{ $imageUrl }}" class="img-fit" alt="person">
+
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h4>{{ $user->name }}</h4>
+                <i class="fa-regular fa-heart"></i>
+            </div>
+
+            <h5>
+                @if(!empty($userLocations))
+                    @foreach($defaultLocations as $defaultLocationId => $defaultLocation)
+                        @if(in_array($defaultLocationId, $userLocations))
+                            <i class="fa-solid fa-location-dot"></i>
+                            {{ $defaultLocation }} ,
+                            @break
+                        @endif
+                    @endforeach
+                @endif
+            </h5>
+            <p>{{ implode(' ', array_slice(explode(' ', strip_tags($user->userDetail->company ?? 'Alternative and Holistic Health Practitioner')), 0, 5)) . '...' }}</p>
+
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    @for ($i = 0; $i < 5; $i++)
+                        <i class="fa-regular fa-gem"></i>
+                    @endfor
                 </div>
-                <h5>
-                    @if(!empty($userLocations))
-                        @foreach($defaultLocations as $defaultLocationId => $defaultLocation)
-                            @if(in_array($defaultLocationId, $userLocations))
-                                <i class="fa-solid fa-location-dot"></i>
-                                {{ $defaultLocation }}
-                                @break
-                            @endif
-                        @endforeach
-                    @endif
-
-                </h5>
-                {{--                                <p>Alternative and Holistic Health Practitioner</p>--}}
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        @for($i= 1; $i<= $averageProfileRating; $i++)
-                            <i class="fa-regular fa-gem"></i>
-                        @endfor
-                    </div>
-                    <h6 style="color: #9F8B72; margin: 0;">{{ ($averageProfileRating != 0.0 ? $averageProfileRating:'No') .' '. 'Ratings' }} </h6>
-
-                </div>
-            </a>
-
+                <h6>5.0 Ratings</h6>
+            </div>
         </div>
     </div>
 @endforeach
