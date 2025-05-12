@@ -99,7 +99,7 @@ class UserProfileController extends Controller
             ->where(['user_id' => $user->id])
             ->orderBy('created_at', 'desc')
             ->get();
-        
+
         return view('user.comming_soon', [
             'user' => $user,
             'successBookings' => $successBookings,

@@ -41,7 +41,7 @@
             <p class="text-muted mt-3">
                 We're working hard to build something amazing for your dashboard experience. Stay tuned!
             </p>
-            <a href="{{ route('home') }}" class="btn btn-primary mt-4 px-4 rounded-pill">Back to Home</a>
+            <a href="{{ route('home') }}" class="btn btn-green mt-4 px-4 rounded-pill">Back to Home</a>
         </div>
     </div>
 @endsection
