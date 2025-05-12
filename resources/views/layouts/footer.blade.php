@@ -22,8 +22,8 @@
                         @csrf
                         <div class="search-container location-input">
                             <input type="email" name="email" class="search-input" placeholder="Enter your email" id="email" required>
-                            <button class="search-button">
-                                <i class="fas fa-search"></i>
+                            <button class="search-button text-green">
+                                <i class="fas fa-envelope"></i>
                             </button>
                             <button class="blog-search-btn">Subscribe</button>
                         </div>
