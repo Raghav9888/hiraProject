@@ -21,13 +21,14 @@
                     <form class="pt-4" id="subscribe">
                         <div class="form-group row align-items-center">
                             <div class="col-md-9">
-                                <input type="email" class="form-control rounded-4" placeholder="Enter your email" id="email">
+                                <input type="email" name="email" class="form-control rounded-4" placeholder="Enter your email" id="email" required>
                             </div>
                             <div class="col-md-3">
-                                <button class="btn btn-light rounded-4">Subscribe</button>
+                                <button type="submit" class="btn btn-light rounded-4">Subscribe</button>
                             </div>
                         </div>
                     </form>
+                    <div id="subscribe-message" class="mt-2"></div>
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
                     <div class="footer-lists">
