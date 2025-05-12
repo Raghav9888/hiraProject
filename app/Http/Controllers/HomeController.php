@@ -101,13 +101,12 @@ class HomeController extends Controller
     {
         try {
             $email = $request->email;
-            $fName = $request->first_name;
             $groupId = env("MAILERLITE_GROUP_ID");
             $mailerLite = new MailerLite(['api_key' => env("MAILERLITE_KEY")]);
             $data = [
                 'email' => $email,
                 "fields" => [
-                    "name" => $fName,
+                    "name" => $email,
                 ],
                 "groups" => [$groupId],
             ];
