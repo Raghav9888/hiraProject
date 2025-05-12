@@ -410,12 +410,12 @@ $('#waitlist-form').submit(function (e) {
 
 $(document).ready(function() {
     $("#subscribe").submit(function(e) {
-        e.preventDefault();
+        e.preventDefault(); // Prevent default form submission
 
         let formData = $(this).serialize();
 
         $.ajax({
-            url: "/subscribe",
+            url: $(this).attr('action'),
             type: "POST",
             data: formData,
             headers: {
@@ -432,16 +432,17 @@ $(document).ready(function() {
                     $("#subscribe-message").html(`<div class="text-danger">Something went wrong.</div>`);
                 }
             },
-            complete: function () {
-                window.loadingScreen.removeLoading();
-            }
             error: function(xhr) {
                 const errorMsg = xhr.responseJSON?.data || "Something went wrong. Please try again.";
                 $("#subscribe-message").html(`<div class="text-danger">${errorMsg}</div>`);
+            },
+            complete: function () {
+                window.loadingScreen.removeLoading();
             }
         });
     });
 });
+
 
 
 
