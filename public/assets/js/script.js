@@ -412,26 +412,38 @@ $(document).ready(function() {
     $("#subscribe").submit(function(e) {
         e.preventDefault(); // Prevent default form submission
 
-        let formData = $(this).serialize(); // Serialize form data
+        let formData = $(this).serialize();
 
         $.ajax({
-            url: "/subscribe", // Replace with your actual endpoint
+            url: $(this).attr('action'),
             type: "POST",
             data: formData,
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
+            beforeSend: function () {
+                window.loadingScreen.addPageLoading();
+            },
             success: function(response) {
-                if(response.success){
-                    alert("Subscribed successfully!"); // Success message
-                    $("#coming-form")[0].reset(); // Reset form fields
+                if (response.success) {
+                    $("#subscribe-message").html(`<div class="text-success">${response.data}</div>`);
+                    $("#subscribe")[0].reset();
+                } else {
+                    $("#subscribe-message").html(`<div class="text-danger">Something went wrong.</div>`);
                 }
             },
-            error: function(xhr, status, error) {
-                alert("Something went wrong. Please try again."); // Error message
+            error: function(xhr) {
+                const errorMsg = xhr.responseJSON?.data || "Something went wrong. Please try again.";
+                $("#subscribe-message").html(`<div class="text-danger">${errorMsg}</div>`);
+            },
+            complete: function () {
+                window.loadingScreen.removeLoading();
             }
         });
     });
 });
+
+
+
 
 

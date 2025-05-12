@@ -105,6 +105,9 @@ class HomeController extends Controller
             $mailerLite = new MailerLite(['api_key' => env("MAILERLITE_KEY")]);
             $data = [
                 'email' => $email,
+                "fields" => [
+                    "name" => $email,
+                ],
                 "groups" => [$groupId],
             ];
             $mailerLite->subscribers->create($data);
