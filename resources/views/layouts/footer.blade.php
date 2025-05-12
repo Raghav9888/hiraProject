@@ -18,7 +18,7 @@
                                         class="fa-brands fa-instagram"></i></a></li>
                         </ul>
                     </div>
-                    <form class="pt-4" id="subscribe">
+                    <form class="pt-4" id="subscribe" action="{{route('subscribe')}}">
                         @csrf
                         <div class="form-group row align-items-center">
                             <div class="col-md-9">
