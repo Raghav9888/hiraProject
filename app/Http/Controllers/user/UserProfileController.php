@@ -34,14 +34,19 @@ class UserProfileController extends Controller
             ->orderBy('created_at', 'desc')
             ->take(5)
             ->get();
-
-
-        return view('user.dashboard', [
+        return view('user.comming_soon', [
             'user' => $user,
             'successBookings' => $successBookings,
             'pendingBookings' => $pendingBookings,
             'recentBookings' => $recentBookings,
         ]);
+
+//        return view('user.dashboard', [
+//            'user' => $user,
+//            'successBookings' => $successBookings,
+//            'pendingBookings' => $pendingBookings,
+//            'recentBookings' => $recentBookings,
+//        ]);
     }
 
 
@@ -53,11 +58,17 @@ class UserProfileController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 
-
-        return view('user.bookings', [
+        return view('user.comming_soon', [
             'user' => $user,
-            'bookings' => $bookings,
+            'successBookings' => $successBookings,
+            'pendingBookings' => $pendingBookings,
+            'recentBookings' => $recentBookings,
         ]);
+
+//        return view('user.bookings', [
+//            'user' => $user,
+//            'bookings' => $bookings,
+//        ]);
 
     }
 
@@ -68,10 +79,16 @@ class UserProfileController extends Controller
             ->where(['user_id' => $user->id, 'id' => $id])
             ->firstOrFail();
 
-        return view('user.view_booking', [
+        return view('user.comming_soon', [
             'user' => $user,
-            'booking' => $booking,
+            'successBookings' => $successBookings,
+            'pendingBookings' => $pendingBookings,
+            'recentBookings' => $recentBookings,
         ]);
+//        return view('user.view_booking', [
+//            'user' => $user,
+//            'booking' => $booking,
+//        ]);
 
     }
 
@@ -82,10 +99,17 @@ class UserProfileController extends Controller
             ->where(['user_id' => $user->id])
             ->orderBy('created_at', 'desc')
             ->get();
-        return view('user.profile', [
+        
+        return view('user.comming_soon', [
             'user' => $user,
-            'bookings' => $bookings,
+            'successBookings' => $successBookings,
+            'pendingBookings' => $pendingBookings,
+            'recentBookings' => $recentBookings,
         ]);
+//        return view('user.profile', [
+//            'user' => $user,
+//            'bookings' => $bookings,
+//        ]);
     }
 
     public function userFavourites()
