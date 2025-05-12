@@ -408,6 +408,31 @@ $('#waitlist-form').submit(function (e) {
 });
 
 
+$(document).ready(function() {
+    $("#subscribe").submit(function(e) {
+        e.preventDefault(); // Prevent default form submission
+
+        let formData = $(this).serialize(); // Serialize form data
+
+        $.ajax({
+            url: "/subscribe", // Replace with your actual endpoint
+            type: "POST",
+            data: formData,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(response) {
+                if(response.success){
+                    alert("Subscribed successfully!"); // Success message
+                    $("#coming-form")[0].reset(); // Reset form fields
+                }
+            },
+            error: function(xhr, status, error) {
+                alert("Something went wrong. Please try again."); // Error message
+            }
+        });
+    });
+});
 
 
 
