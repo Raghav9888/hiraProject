@@ -18,15 +18,14 @@
                                         class="fa-brands fa-instagram"></i></a></li>
                         </ul>
                     </div>
-                    <form class="pt-4" id="subscribe" action="{{route('subscribe')}}">
+                    <form class="pt-4 footer-subscribe" id="subscribe"  action="{{route('subscribe')}}">
                         @csrf
-                        <div class="form-group row align-items-center">
-                            <div class="col-md-9">
-                                <input type="email" name="email" class="form-control rounded-4" placeholder="Enter your email" id="email" required>
-                            </div>
-                            <div class="col-md-3">
-                                <button type="submit" class="btn btn-light rounded-4">Subscribe</button>
-                            </div>
+                        <div class="search-container location-input">
+                            <input type="email" name="email" class="search-input" placeholder="Enter your email" id="email" required>
+                            <button class="search-button">
+                                <i class="fas fa-search"></i>
+                            </button>
+                            <button class="blog-search-btn">Subscribe</button>
                         </div>
                     </form>
                     <div id="subscribe-message" class="mt-2"></div>

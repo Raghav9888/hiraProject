@@ -1362,6 +1362,7 @@ p.container-p span {
 }
 
 .blog-banner .search-container .blog-search-btn,
+.footer-subscribe .search-container .blog-search-btn,
 .blog-detail-left-dv .search-container .blog-search-btn,
 .practitioner-search-dv .search-container .blog-search-btn {
     font-family: "Montserrat-Regular";
