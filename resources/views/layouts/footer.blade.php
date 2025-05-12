@@ -22,16 +22,11 @@
                     <form class="pt-4" id="subscribe">
                         <div class="form-group row align-items-center">
                             <div class="col-md-9">
-                                <input type="text" class="form-control rounded-4" placeholder="Enter your name" id="name">
-                            </div>
-                        </div>
-                        <div class="form-group row align-items-center">
-                            <div class="col-md-9">
                                 <input type="email" class="form-control rounded-4" placeholder="Enter your email" id="email">
                             </div>
-                        </div>
-                        <div class="col-md-3">
-                            <button class="btn btn-light rounded-4">Subscribe</button>
+                            <div class="col-md-3">
+                                <button class="btn btn-light rounded-4">Subscribe</button>
+                            </div>
                         </div>
                     </form>
                 </div>
