@@ -223,7 +223,7 @@
                                                             style="font-size: 15px;font-weight: 800">{{$offering->name}}</h6>
                                                     </div>
                                                     <div class="col-md-4">
-                                                        <div class="d-flex align-items-center">
+                                                        <div class="d-flex align-items-center justify-content-between">
                                                             @php
                                                                 $rawPrice = $offering->offering_event_type == 'event'
                                                                     ? $offering->event?->client_price ?? 0
@@ -262,7 +262,6 @@
 
                                                             {{--                                                    <a href="{{ route('practitionerOfferingDetail',$offering->id)}}" class="home-blog-btn">BOOK NOW</a>--}}
                                                         </div>
-
                                                     </div>
 
                                                 </div>
@@ -406,7 +405,7 @@
                                                             style="font-size: 15px;font-weight: 800">{{$offering->name}}</h6>
                                                     </div>
                                                     <div class="col-md-4">
-                                                        <div class="d-flex align-items-center">
+                                                        <div class="d-flex align-items-center justify-content-between">
                                                             @php
                                                                 $rawPrice = $offering->offering_event_type == 'event'
                                                                     ? $offering->event?->client_price ?? 0
@@ -619,7 +618,6 @@
                                         <ul class="px-3" style="list-style: disc;">
                                             @foreach($Certifications as $Certification)
                                                 <li class="text-green">
-                                                    <i class="fa-solid fa-caret-right mt-1 me-2"></i>
                                                     <span>{{ $Certification }}</span>
                                                 </li>
                                             @endforeach
