@@ -2145,10 +2145,6 @@ p.container-p span {
 }
 
 .practitioner-profile-btns {
-    padding: 0;
-    /*margin-bottom: 50px;*/
-    display: flex;
-    flex-wrap: wrap;
     gap: 20px;
 }
 
@@ -2157,7 +2153,7 @@ p.container-p span {
 /*}*/
 .practitioner-profile-btns li {
     border-radius: 0.9rem !important;
-    padding: 10px 30px;
+    padding: 15px;
     background-color: #424E3E;
     text-transform: uppercase;
     list-style-type: none;
@@ -2710,7 +2706,6 @@ textarea, input[type="time"] {
     width: 50px;
 }
 
-.add-offering-dv,
 .appointment-wrrpr {
     padding: 0 50px;
 }
@@ -3052,7 +3047,7 @@ textarea, input[type="time"] {
     color: #424E3E;
 }
 
-.booking-calender-container, .earning-wrrpr {
+.booking-calender-container {
     padding: 0 50px;
 }
 

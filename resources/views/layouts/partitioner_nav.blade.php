@@ -11,32 +11,33 @@
     </div>
 </div>
 
-<div class="col-sm-12 col-lg-5"></div>
+<div class="col-sm-12 col-lg-9">
+    <ul class="practitioner-profile-btns navbar">
+        <li class="{{ Request::is('my-profile') ? 'active' : '' }}">
+            <a href="{{ route('my_profile') }}">
+                My Profile
+            </a>
+        </li>
+        <li class="offering {{ Request::is('offering') ? 'active' : '' }} {{ Request::is('discount') ? 'active' : '' }}">
+            <a href="{{ route('offering') }}">
+                Offerings
+            </a>
+        </li>
+        <li class="{{ Request::is('appointment') ? 'active' : '' }}">
+            <a href="{{ route('appointment') }}">
+                Appointments
+            </a>
+        </li>
+        <li class="{{ Request::is('calendar') ? 'active' : '' }}">
+            <a href="{{ route('calendar') }}">
+                Calendar
+            </a>
+        </li>
+        <li class="offering {{ Request::is('accounting') ? 'active' : '' }}">
+            <a href="{{ route('accounting') }}">
+                Accounting
+            </a>
+        </li>
+    </ul>
+</div>
 
-<ul class="practitioner-profile-btns">
-    <li class="{{ Request::is('my-profile') ? 'active' : '' }}">
-        <a href="{{ route('my_profile') }}">
-            My Profile
-        </a>
-    </li>
-    <li class="offering {{ Request::is('offering') ? 'active' : '' }} {{ Request::is('discount') ? 'active' : '' }}">
-        <a href="{{ route('offering') }}">
-            Offerings
-        </a>
-    </li>
-    <li class="{{ Request::is('appointment') ? 'active' : '' }}">
-        <a href="{{ route('appointment') }}">
-            Appointments
-        </a>
-    </li>
-    <li class="{{ Request::is('calendar') ? 'active' : '' }}">
-        <a href="{{ route('calendar') }}">
-            Calendar
-        </a>
-    </li>
-    <li class="offering {{ Request::is('accounting') ? 'active' : '' }}">
-        <a href="{{ route('accounting') }}">
-            Accounting
-        </a>
-    </li>
-</ul>
