@@ -614,10 +614,10 @@
                                  aria-labelledby="headingFour"
                                  data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
-                                    <div class="help-you-dv certificate-dv">
+                                    <div class="help-you-dv">
                                         <ul class="px-3" style="list-style: disc;">
                                             @foreach($Certifications as $Certification)
-                                                <li class="text-green">
+                                                <li class="text-green px-2">
                                                     <span>{{ $Certification }}</span>
                                                 </li>
                                             @endforeach
