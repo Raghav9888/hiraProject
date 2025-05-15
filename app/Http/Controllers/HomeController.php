@@ -194,7 +194,7 @@ class HomeController extends Controller
         return view('user.blog_detail', compact('blog'));
     }
 
-    public function practitionerDetail($slug)
+    public function practitionerDetail(Request $request,$slug)
     {
         $user = User::where('slug', $slug)->firstOrFail();
         $userDetail = $user->userDetail;
@@ -203,7 +203,14 @@ class HomeController extends Controller
         $endorsedUsers = User::whereIn('id', $endorsements)->get();
         $selectedTerms = explode(',', $userDetail->IHelpWith ?? '');
         $IHelpWith = IHelpWith::whereIn('id', $selectedTerms)->pluck('name')->toArray();
+        $defaultLocations = Locations::where('status', 1)->get();
 
+        $locations = [];
+        foreach ($defaultLocations as $location) {
+            $locations[$location->id] = $location->name;
+        }
+
+        json_encode($locations);
 
         $selectedHowIHelp = explode(',', $userDetail->HowIHelp ?? '');
         $HowIHelp = HowIHelp::whereIn('id', $selectedHowIHelp)->pluck('name')->toArray();
@@ -231,7 +238,7 @@ class HomeController extends Controller
         $mediaImages = isset($images['media_images']) && is_array($images['media_images']) ? $images['media_images'] : [];
 
         $userLocations = json_decode($user->location, true);
-        $locations = Locations::get();
+        $dbLocations = Locations::get();
         $users = User::where('role', 1)->where('status', 1)->with('userDetail')->get();
         $categories = Category::where('status', 1)->get();
         $storeAvailable = $userDetail?->store_availabilities ? $userDetail->store_availabilities : [];
@@ -256,7 +263,7 @@ class HomeController extends Controller
         foreach ($ratings as $star => $count) {
             $ratingPercentages[$star] = $totalReviews > 0 ? ($count / $totalReviews) * 100 : 0;
         }
-
+        $page = $request->get('page', 1);
         return view('user.practitioner_detail', [
             'user' => $user,
             'userDetail' => $userDetail,
@@ -268,7 +275,7 @@ class HomeController extends Controller
             'image' => $image,
             'mediaImages' => $mediaImages,
             'userLocations' => $userLocations,
-            'locations' => $locations,
+            'locations' => $dbLocations,
             'users' => $users,
             'categories' => $categories,
             'storeAvailable' => $storeAvailable,
@@ -277,6 +284,10 @@ class HomeController extends Controller
             'offeringFeedback' => $offeringFeedback,
             'ratings' => $ratings,
             'ratingPercentages' => $ratingPercentages,
+            'defaultLocations' => $locations,
+            'page' => $page,
+            'pendingResult' => ceil($endorsedUsers->count() / 8) > $page,
+
         ]);
     }
 

@@ -7,7 +7,6 @@
            $image = isset($images['profile_image']) && $images['profile_image'] ? $images['profile_image'] : null;
            $imageUrl = $image  ? asset($mediaPath . '/practitioners/' . $user->userDetail->id . '/profile/' . $image) : asset($localPath.'/images/no_image.png');
            $userLocations = isset($user->location) && $user->location ? json_decode($user->location, true) : [];
-
         $averageProfileRating = $user->get()->isNotEmpty() ? number_format($user->feedback->pluck('rating')->avg(), 1) : '0.0';
 
     @endphp
@@ -31,6 +30,7 @@
             <h5>
                 @if(!empty($userLocations))
                     @foreach($defaultLocations as $defaultLocationId => $defaultLocation)
+
                         @if(in_array($defaultLocationId, $userLocations))
                             <i class="fa-solid fa-location-dot"></i>
                             {{ $defaultLocation }} ,
