@@ -57,7 +57,7 @@
                             @endphp
                             <div class="card swiper-slide"
                                  style="max-height: 250px;min-height: 250px; cursor:pointer;"
-                                 onclick="window.location.href='{{ route('practitioner_detail', $offering->user->slug) }}?#offering'">
+                                 onclick="window.location.href='{{ route('practitioner_detail', $offering->user->slug) }}?#offerings'">
 
                                 <div class="card-body">
 

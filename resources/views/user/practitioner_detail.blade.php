@@ -205,7 +205,7 @@
                 <div class="col-sm-12 col-md-9 col-lg-9">
                     <div class="accordion" id="accordionExample">
                         <div class="accordion-item">
-                            <h2 class="accordion-header" id="headingOne">
+                            <h2 class="accordion-header" id="offerings">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                         data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                     Offerings
