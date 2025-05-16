@@ -57,7 +57,7 @@
                             @endphp
                             <div class="card swiper-slide"
                                  style="max-height: 250px;min-height: 250px; cursor:pointer;"
-                                 onclick="window.location.href='{{route('practitioner_detail', $offering->user->slug)}}'">
+                                 onclick="window.location.href='{{ route('practitioner_detail', $offering->user->slug) }}?#offering'">
 
                                 <div class="card-body">
 
@@ -125,7 +125,7 @@
 
                             <div class="card swiper-slide"
                                  style="max-height: 250px;min-height: 250px; cursor:pointer;"
-                                 onclick="window.location.href='{{route('practitioner_detail', $offering->user->slug)}}'">
+                                 onclick="window.location.href='{{ route('practitioner_detail', $offering->user->slug) }}?#events'">
 
                                 <div class="card-body">
 
