@@ -116,7 +116,7 @@
                                                 <div class="mb-3">
                                                     <label class="form-label">Website/Social Media Links</label>
                                                     <input type="url" class="form-control"
-                                                           name="website_social_media_link">
+                                                           name="website_social_media_link" value="{{ $membership?->website_social_media_link ?? '' }}">
                                                 </div>
 
                                                 <button class="update-btn">Save</button>
@@ -205,33 +205,37 @@
                                                 <label for="businessName" class="form-label">Business Name (if
                                                     applicable)</label>
                                                 <input type="text" class="form-control" id="businessName"
-                                                       placeholder="Enter business name" name="business_name">
+                                                       placeholder="Enter business name" name="business_name"
+                                                value="{{$membership->business_name ?? ''}}">
                                             </div>
 
                                             <div class="mb-4 select2-div">
                                                 <label for="type" class="fw-bold">Modality/Practice</label>
 
                                                 <div class="row align-items-center">
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-7">
+                                                        @php
+                                                            $selectedModalities = json_decode($membership->membership_modalities ?? '[]', true);
+                                                        @endphp
+
                                                         <select id="modalityPractice" name="modality_practice[]"
                                                                 class="form-select" data-type="multiselect"
                                                                 multiple>
-                                                            @php
-                                                                $selectedTerms = explode(',', $membership->modality_practice ?? '');
-                                                            @endphp
-                                                            @foreach($membershipModality as $term)
-                                                                <option
-                                                                    value="{{$term->id}}" {{ in_array($term->id, $selectedTerms) ? 'selected' : '' }}>{{$term->name}}</option>
+                                                            @foreach($modalities as $id => $name)
+                                                                <option value="{{ $id }}" {{ in_array((string) $id, $selectedModalities) ? 'selected' : '' }}>
+                                                                    {{ $name }}
+                                                                </option>
                                                             @endforeach
                                                         </select>
                                                     </div>
-                                                    <div class="col-md-6 mt-2">
-                                                        <button class="update-btn mb-2 addterm"
-                                                                data-type="modalityPractice">Add New
-                                                            Term
+
+                                                    <div class="col-md-5 mt-2">
+                                                        <button class="update-btn mb-2 addterm" data-type="modalityPractice">
+                                                            Add New Term
                                                         </button>
                                                     </div>
                                                 </div>
+
                                             </div>
                                             <div id="modalityPractice-container">
 

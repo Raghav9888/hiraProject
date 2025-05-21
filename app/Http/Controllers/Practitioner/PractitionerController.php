@@ -449,12 +449,14 @@ class PractitionerController extends Controller
 
         $images = isset($membership->certificates_images) && $membership->certificates_images ? json_decode($membership->certificates_images, true) : [];
 
-        $membershipModality = MembershipModality::all();
+        $modalities = MembershipModality::pluck('name', 'id')->toArray();
+
         $userPlan = null;
         if ($user->subscribed('default')) {
             $planId = $user->subscription('default')->plan_id;
             $userPlan = Plan::find($planId);
         }
+
         $plans = Plan::latest()->get();
         $addedMemberships = [
             'Founding Members T1' => [
@@ -565,7 +567,7 @@ class PractitionerController extends Controller
             'membership' => $membership,
             'defaultLocations' => $locations,
             'mediaImages' => $images,
-            'membershipModality' => $membershipModality,
+            'modalities' => $modalities,
             'plans' => $plans,
             'userPlan' => $userPlan
         ]);
@@ -694,9 +696,19 @@ class PractitionerController extends Controller
 
         // Ensure the business_name is not null
         $membership->business_name = $input['business_name'] ?? '';
+// Step 1: Get existing modalities from DB, decode to array
+        $existingModalities = $membership->membership_modalities
+            ? json_decode($membership->membership_modalities, true)
+            : [];
 
-        // Convert array to JSON before storing
-        $membership->membership_modalities = isset($input['modality_practice']) ? json_encode($input['modality_practice']) : json_encode([]);
+// Step 2: Get new modalities from input (or empty array)
+        $newModalities = $input['modality_practice'] ?? [];
+
+// Step 3: Merge and remove duplicates
+        $mergedModalities = array_unique(array_merge($existingModalities, $newModalities));
+
+// Step 4: Save as JSON
+        $membership->membership_modalities = json_encode($mergedModalities);
 
         // Handle boolean values correctly
         $membership->confirm_necessary_certifications_credentials = isset($input['confirm_necessary_certifications_credentials']) ? 1 : 0;
