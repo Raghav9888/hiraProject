@@ -129,8 +129,19 @@ class HomeController extends Controller
 
         foreach ($practitioners as $practitioner) {
             if (empty($practitioner->slug)) {
-                Http::get(url('/update-slugs'));
-                break;
+                $baseSlug = Str::slug($practitioner->name ?? 'user', ''); // Remove dashes
+                $slug = $baseSlug;
+                $counter = 2;
+
+                // Ensure uniqueness
+                while (User::where('slug', $slug)->exists()) {
+                    $slug = $baseSlug . $counter;
+                    $counter++;
+                }
+
+                // Save the unique slug
+                $practitioner->slug = $slug;
+                $practitioner->save();
             }
         }
 

@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Stripe\Checkout\Session as StripeSession;
 use Stripe\Stripe;
 
@@ -309,7 +310,6 @@ class PaymentController extends Controller
      */
     private function createGoogleCalendarEvent($order): ?array
     {
-
         $offering = Offering::findOrFail($order->offering_id);
         $user = User::with('userDetail')->findOrFail($offering->user_id);
 
@@ -325,16 +325,25 @@ class PaymentController extends Controller
             throw new \Exception("Missing booking date or time.");
         }
 
-        // Convert time from user timezone to practitioner's timezone
-        $userTime = Carbon::createFromFormat('h:i A', $bookingTime, $userTimezone);
-        $convertedTime = $userTime->copy()->setTimezone($practitionerTimezone);
+        $bookingTime = trim($bookingTime); // Clean up spaces
 
-        // Merge converted time with original selected date in practitioner's timezone
-        $practitionerDateTime = Carbon::createFromFormat(
-            'Y-m-d H:i:s',
-            $bookingDate . ' ' . $convertedTime->format('H:i:s'),
-            $practitionerTimezone
-        );
+        // Detect format and parse user's datetime
+        if (Str::contains($bookingTime, 'AM') || Str::contains($bookingTime, 'PM')) {
+            // 12-hour format
+            $userDateTime = Carbon::createFromFormat('Y-m-d h:i A', "$bookingDate $bookingTime", $userTimezone);
+        } else {
+            // 24-hour format
+            if (Str::contains($bookingTime, ':') && substr_count($bookingTime, ':') === 2) {
+                // e.g., 18:30:00
+                $userDateTime = Carbon::createFromFormat('Y-m-d H:i:s', "$bookingDate $bookingTime", $userTimezone);
+            } else {
+                // e.g., 18:30
+                $userDateTime = Carbon::createFromFormat('Y-m-d H:i', "$bookingDate $bookingTime", $userTimezone);
+            }
+        }
+
+        // Convert to practitioner's timezone
+        $practitionerDateTime = $userDateTime->copy()->setTimezone($practitionerTimezone);
 
         // Determine day of the week in practitioner's timezone
         $dayOfWeek = strtolower($practitionerDateTime->format('l'));
@@ -361,7 +370,7 @@ class PaymentController extends Controller
         // Calculate end time
         $endTime = $startTime->copy()->addMinutes($duration);
 
-        // Proper event data with timeZone fields
+        // Prepare event data
         $eventData = [
             'title' => 'Booking From ' . env('APP_NAME') . ': ' . trim(($order->first_name ?? '') . ' ' . ($order->last_name ?? '')),
             'category' => 'Booking',
@@ -388,11 +397,12 @@ class PaymentController extends Controller
         if (!$response['success']) {
             throw new \Exception($response['error']);
         }
+
         $response['practitioner_date_time'] = $practitionerDateTime->format('l, F j, Y \a\t h:i A');
 
         return $response;
-
     }
+
 
 
     private function getStoreAvailability($availabilityKey, $storeAvailabilities): array

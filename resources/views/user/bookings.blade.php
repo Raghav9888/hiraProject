@@ -17,6 +17,7 @@
                 <tr>
                     <th class="text-center">Practitioner</th>
                     <th class="text-center">Offering</th>
+                    <th class="text-center">Offering Type</th>
                     <th class="text-center">Date</th>
                     <th class="text-center">Time Slot</th>
                     <th class="text-center">Status</th>
@@ -53,6 +54,7 @@
                     <tr>
                         <td class="text-center">{{ $booking->offering->user->first_name ?? '' }} {{ $booking->offering->user->last_name ?? '' }}</td>
                         <td class="text-center">{{ $booking->offering->name ?? '-' }}</td>
+                        <td class="text-center">{{ $booking->offering->offering_event_type }}</td>
                         <td class="text-center">{{ \Carbon\Carbon::parse($booking->booking_date)->format('F j, Y') }}</td>
                         <td class="text-center">{{ $booking->time_slot ?? 'All Day' }}</td>
                         <td class="text-center">
