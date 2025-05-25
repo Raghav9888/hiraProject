@@ -80,6 +80,7 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::get('/my-bookings', [UserProfileController::class, 'bookings'])->name('userBookings');
     Route::get('/booking/{id}', [UserProfileController::class, 'viewBooking'])->name('viewBooking');
     Route::get('/profile', [UserProfileController::class, 'userProfile'])->name('userProfile');
+    Route::put('/updateUserProfile', [UserProfileController::class, 'updateUserProfile'])->name('updateUserProfile');
     Route::get('/bookings/{booking}/reschedule', [RescheduleBookingController::class, 'showRescheduleForm'])->name('bookings.rescheduleForm');
     Route::post('/booking/{bookingId}/handleReschedule', [RescheduleBookingController::class, 'handleReschedule'])->name('bookings.handleReschedule');
 

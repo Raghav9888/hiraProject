@@ -4,8 +4,9 @@ namespace App\Http\Controllers\user;
 
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
-use App\Models\Offering;
-use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
+use Symfony\Component\HttpFoundation\Request;
 
 class UserProfileController extends Controller
 {
@@ -67,37 +68,10 @@ class UserProfileController extends Controller
         $booking = Booking::with('offering.user')
             ->where(['user_id' => $user->id, 'id' => $id])
             ->firstOrFail();
-
-
-        // Combine booking date and time slot to get full datetime of event
-        $bookingDateTime = Carbon::parse($booking->booking_date . ' ' . $booking->time_slot);
-        $offering = Offering::where('id', $booking->offering_id)->first();
-
-        $beforeCanceledValue = 0;
-        $beforeCanceled = 0;
-        if ($offering->offering_event_type === 'offering' && $offering->is_cancelled) {
-            $beforeCanceled = $offering->cancellation_time_slot;
-        } elseif ($offering->offering_event_type === 'event' && $offering->event?->is_cancelled) {
-            $beforeCanceled = $offering->event->cancellation_time_slot;
-        }
-
-        if ($beforeCanceled) {
-            preg_match('/\d+/', $beforeCanceled, $matches);
-            $beforeCanceledValue = isset($matches[0]) ? (int) $matches[0] : null;
-        }
-
-        // Calculate cutoff datetime example (48 hours before the event)
-        $cutoff = $bookingDateTime->copy()->subHours($beforeCanceledValue);
-
-        // Current time
-        $now = Carbon::now();
-        $isReschedule =  $now->greaterThanOrEqualTo($cutoff);
-        dd($isReschedule);
         return view('user.view_booking', [
             'user' => $user,
             'booking' => $booking,
         ]);
-
     }
 
     public function userProfile()
@@ -112,6 +86,25 @@ class UserProfileController extends Controller
             'user' => $user,
             'bookings' => $bookings,
         ]);
+    }
+
+    public function updateUserProfile(Request $request)
+    {
+        $user = Auth::user();
+//        $userDetail = $user->userDetail;
+        $validatedData = $request->validate([
+            'first_name'  => 'required|string|max:255',
+            'middle_name' => 'nullable|string|max:255',
+            'last_name'   => 'required|string|max:255',
+//            'email'       => ['required', 'email', Rule::unique('user_details')->ignore($userDetail->id)],
+            'bio'       => 'nullable|string|max:500',
+
+//            'phone'       => 'nullable|string|max:20',
+        ]);
+
+        $user->update($validatedData);
+
+        return redirect()->route('userProfile')->with('success', 'Profile updated successfully!');
     }
 
     public function userFavourites()
