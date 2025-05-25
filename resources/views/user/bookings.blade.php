@@ -27,8 +27,6 @@
                 <tbody>
                 @forelse($bookings as $booking)
                     @php
-
-
                         $bookingDateTime = Carbon::parse($booking->booking_date . ' ' . $booking->time_slot);
                         $offering = Offering::find($booking->offering_id);
 
@@ -48,8 +46,10 @@
 
                         $cutoff = $bookingDateTime->copy()->subMinutes($beforeCanceledValue);
                         $now = Carbon::now();
-        $canRescheduleOrCancel =  $now->greaterThanOrEqualTo($cutoff);
+
+                        $canRescheduleOrCancel = $beforeCanceled && $now->greaterThanOrEqualTo($cutoff);
                     @endphp
+
 
                     <tr>
                         <td class="text-center">{{ $booking->offering->user->first_name ?? '' }} {{ $booking->offering->user->last_name ?? '' }}</td>
