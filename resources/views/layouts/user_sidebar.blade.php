@@ -40,13 +40,17 @@
             <i class="bi bi-calendar-check me-2"></i> My Bookings
         </a>
 
-        <a href="#" class="d-block py-2 px-3 rounded mb-3 text-decoration-none">
-            <i class="bi bi-person me-2"></i> Favorites
-        </a>
+{{--        <a href="#" class="d-block py-2 px-3 rounded mb-3 text-decoration-none">--}}
+{{--            <i class="bi bi-person me-2"></i> Favorites--}}
+{{--        </a>--}}
 
         <a href="{{route('userProfile')}}" class="d-block py-2 px-3 rounded mb-3 text-decoration-none {{ request()->routeIs('userProfile') ? 'active' : '' }}">
             <i class="bi bi-person me-2"></i> Profile
         </a>
+
+{{--        <a href="{{route('userWallet')}}" class="d-block py-2 px-3 rounded mb-3 text-decoration-none {{ request()->routeIs('userProfile') ? 'active' : '' }}">--}}
+{{--            <i class="bi bi-wallet2 me-2"></i> Wallet--}}
+{{--        </a>--}}
 
         <!-- Logout as a styled link -->
         <form action="{{ route('logout') }}" method="POST" class="d-block">

@@ -742,9 +742,9 @@ function paymentAjax(offeringId, bookingDate, bookingTime, offeringEventType, pr
             // });
             // $('.popup-content .container').css('padding', "30px");
         },
-        error: function (xhr) {
-            console.error('Booking failed:', xhr.responseText || xhr);
-        }
+        // error: function (xhr) {
+        //     console.error('Booking failed:', xhr.responseText || xhr);
+        // }
     });
 
 }

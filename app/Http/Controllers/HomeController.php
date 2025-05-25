@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use MailerLite\MailerLite;
-use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Http;
 
 class HomeController extends Controller
 {
@@ -126,6 +126,14 @@ class HomeController extends Controller
     public function partitionerLists()
     {
         $practitioners = User::where('role', 1)->where('status', 1)->with('userDetail')->get();
+
+        foreach ($practitioners as $practitioner) {
+            if (empty($practitioner->slug)) {
+                Http::get(url('/update-slugs'));
+                break;
+            }
+        }
+
         $categories = Category::where('status', 1)->get();
         $defaultLocations = Locations::where('status', 1)->get();
         $locations = [];
@@ -194,7 +202,7 @@ class HomeController extends Controller
         return view('user.blog_detail', compact('blog'));
     }
 
-    public function practitionerDetail(Request $request,$slug)
+    public function practitionerDetail(Request $request, $slug)
     {
         $user = User::where('slug', $slug)->firstOrFail();
         $userDetail = $user->userDetail;

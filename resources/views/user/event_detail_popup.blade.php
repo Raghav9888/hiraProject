@@ -1,3 +1,4 @@
+
 <div class="container my-3">
     <div class="alert alert-green alert-dismissible fade show d-flex justify-content-between align-items-center f-5" role="alert">
         <h2 class="h5 mb-0">Event Details</h2>

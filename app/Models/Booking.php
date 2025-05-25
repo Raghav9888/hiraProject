@@ -42,7 +42,10 @@ class Booking extends Model
         'shipping_postcode',
         'shipping_phone',
         'shipping_email',
-        'tax_amount'
+        'tax_amount',
+        'reschedule_status',
+        'refunded_to_wallet',
+        'rescheduled_at'
     ];
 
     /**

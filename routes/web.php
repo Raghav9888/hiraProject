@@ -19,6 +19,7 @@ use App\Http\Controllers\Practitioner\OfferingController;
 use App\Http\Controllers\Practitioner\PaymentController;
 use App\Http\Controllers\Practitioner\PractitionerController;
 use App\Http\Controllers\StripeWebhookController;
+use App\Http\Controllers\user\RescheduleBookingController;
 use App\Http\Controllers\user\UserProfileController;
 use App\Http\Controllers\WordpressUserController;
 use Illuminate\Support\Facades\Auth;
@@ -79,8 +80,8 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::get('/my-bookings', [UserProfileController::class, 'bookings'])->name('userBookings');
     Route::get('/booking/{id}', [UserProfileController::class, 'viewBooking'])->name('viewBooking');
     Route::get('/profile', [UserProfileController::class, 'userProfile'])->name('userProfile');
-    Route::get('/reschedule-booking/{bookingId}', [BookingController::class, 'showRescheduleForm'])->name('rescheduleForm');
-    Route::post('/reschedule-booking/{bookingId}', [BookingController::class, 'rescheduleBooking'])->name('reschedule');
+    Route::get('/bookings/{booking}/reschedule', [RescheduleBookingController::class, 'showRescheduleForm'])->name('bookings.rescheduleForm');
+    Route::post('/booking/{bookingId}/handleReschedule', [RescheduleBookingController::class, 'handleReschedule'])->name('bookings.handleReschedule');
 
 });
 

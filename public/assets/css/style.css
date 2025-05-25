@@ -940,7 +940,7 @@ section {
     border: none;
 }
 
-.creat-account, .proceed_to_checkout {
+.creat-account, .proceed_to_checkout,.proceed_to_reschedule {
     border-radius: 33px;
     padding-top: 10px;
     padding-right: 40px;
@@ -1223,7 +1223,7 @@ p.container-p span {
     padding-left: 23px;
 }
 
-.proceed_to_checkout :hover{
+.proceed_to_checkout :hover , .proceed_to_reschedule:hover{
     border: #9F8B72;
 }
 .place-order{
@@ -2969,7 +2969,7 @@ textarea, input[type="time"] {
         max-width: 630px;
         margin: 24px 0 7px;
     }
-    button.proceed_to_checkout {
+    button.proceed_to_checkout , button.proceed_to_reschedule {
         font-size: 11px;
     }
 

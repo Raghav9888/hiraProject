@@ -5,6 +5,7 @@ namespace App\Http\Controllers\user;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\Offering;
+use Carbon\Carbon;
 
 class UserProfileController extends Controller
 {
@@ -27,7 +28,7 @@ class UserProfileController extends Controller
     {
         $user = auth()->user();
 
-        $successBookings = Booking::where(['user_id' => $user->id ,'status' => 'paid'])->get();
+        $successBookings = Booking::where('user_id', $user->id)->whereIn('status', ['paid', 'confirmed'])->get();
         $pendingBookings = Booking::where(['user_id' => $user->id,'status' => 'pending'])->get();
         $recentBookings = Booking::with('offering.user')
             ->where(['user_id' => $user->id])
@@ -67,6 +68,31 @@ class UserProfileController extends Controller
             ->where(['user_id' => $user->id, 'id' => $id])
             ->firstOrFail();
 
+
+        // Combine booking date and time slot to get full datetime of event
+        $bookingDateTime = Carbon::parse($booking->booking_date . ' ' . $booking->time_slot);
+        $offering = Offering::where('id', $booking->offering_id)->first();
+
+        $beforeCanceledValue = 0;
+        $beforeCanceled = 0;
+        if ($offering->offering_event_type === 'offering' && $offering->is_cancelled) {
+            $beforeCanceled = $offering->cancellation_time_slot;
+        } elseif ($offering->offering_event_type === 'event' && $offering->event?->is_cancelled) {
+            $beforeCanceled = $offering->event->cancellation_time_slot;
+        }
+
+        if ($beforeCanceled) {
+            preg_match('/\d+/', $beforeCanceled, $matches);
+            $beforeCanceledValue = isset($matches[0]) ? (int) $matches[0] : null;
+        }
+
+        // Calculate cutoff datetime example (48 hours before the event)
+        $cutoff = $bookingDateTime->copy()->subHours($beforeCanceledValue);
+
+        // Current time
+        $now = Carbon::now();
+        $isReschedule =  $now->greaterThanOrEqualTo($cutoff);
+        dd($isReschedule);
         return view('user.view_booking', [
             'user' => $user,
             'booking' => $booking,
@@ -93,4 +119,11 @@ class UserProfileController extends Controller
 
 
     }
+
+    public function userWallet()
+    {
+
+    }
+
+
 }

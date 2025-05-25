@@ -56,6 +56,6 @@
             <div class="text-green fw-bold"><span id="symbol">$</span>
             <span id="offeringPrice">0</span></div>
         </div>
-        <button class="btn btn-green rounded-pill proceed_to_checkout">PROCEED TO CHECK OUT</button>
+        <button class="btn btn-green rounded-pill {{isset($isReschedule) && $isReschedule ? 'proceed_to_reschedule' : 'proceed_to_checkout' }}">PROCEED TO CHECK OUT</button>
     </div>
 </div>

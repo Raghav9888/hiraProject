@@ -606,3 +606,4 @@ function generateTimeSlots(from = null, to = null, date = null, allDay = false) 
         });
 
     }
+}

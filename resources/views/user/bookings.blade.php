@@ -1,6 +1,13 @@
+@php use App\Models\Offering;use Carbon\Carbon; @endphp
 @extends('layouts.user_internal_base')
 
 @section('userContent')
+    @if(session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
     <div class="card p-4">
         <h5 class="mb-4">📅 Bookings</h5>
 
@@ -18,13 +25,39 @@
                 </thead>
                 <tbody>
                 @forelse($bookings as $booking)
+                    @php
+
+
+                        $bookingDateTime = Carbon::parse($booking->booking_date . ' ' . $booking->time_slot);
+                        $offering = Offering::find($booking->offering_id);
+
+                        $beforeCanceledValue = 0;
+                        $beforeCanceled = null;
+
+                        if ($offering->offering_event_type === 'offering' && $offering->is_cancelled) {
+                            $beforeCanceled = $offering->cancellation_time_slot;
+                        } elseif ($offering->offering_event_type === 'event' && optional($offering->event)->is_cancelled) {
+                            $beforeCanceled = $offering->event->cancellation_time_slot;
+                        }
+
+                        if ($beforeCanceled) {
+                            preg_match('/\d+/', $beforeCanceled, $matches);
+                            $beforeCanceledValue = isset($matches[0]) ? (int) $matches[0] : 0;
+                        }
+
+                        $cutoff = $bookingDateTime->copy()->subMinutes($beforeCanceledValue);
+                        $now = Carbon::now();
+        $canRescheduleOrCancel =  $now->greaterThanOrEqualTo($cutoff);
+                    @endphp
+
                     <tr>
                         <td class="text-center">{{ $booking->offering->user->first_name ?? '' }} {{ $booking->offering->user->last_name ?? '' }}</td>
                         <td class="text-center">{{ $booking->offering->name ?? '-' }}</td>
                         <td class="text-center">{{ \Carbon\Carbon::parse($booking->booking_date)->format('F j, Y') }}</td>
                         <td class="text-center">{{ $booking->time_slot ?? 'All Day' }}</td>
                         <td class="text-center">
-                                <span class="badge bg-{{ $booking->status === 'completed' ? 'success' : ($booking->status === 'pending' ? 'warning' : 'secondary') }}">
+                                <span
+                                    class="badge bg-{{ $booking->status === 'completed' ? 'success' : ($booking->status === 'pending' ? 'warning' : 'secondary') }}">
                                     {{ ucfirst($booking->status) }}
                                 </span>
                         </td>
@@ -34,8 +67,14 @@
                                     <i class="fa-solid fa-ellipsis-vertical"></i>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="{{ route('viewBooking', $booking->id) }}">View</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('viewBooking', $booking->id) }}">Re-schedule</a></li>
+                                    <li><a class="dropdown-item"
+                                           href="{{ route('viewBooking', $booking->id) }}">View</a></li>
+                                    @if($canRescheduleOrCancel)
+                                        <li><a class="dropdown-item"
+                                               href="{{ route('bookings.rescheduleForm', $booking->id) }}">Re-schedule</a>
+                                        </li>
+                                    @endif
+
                                     @if($booking?->event_id)
                                         <li>
                                             <a class="dropdown-item"
