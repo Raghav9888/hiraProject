@@ -95,21 +95,21 @@
                     </p>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="p-4 bg-white border-start border-4 border-secondary rounded-3 h-100">
-                    <h6 class="fw-semibold mb-2">
-                        <i class="fas fa-shipping-fast me-1"></i>Shipping Info
-                    </h6>
-                    <p class="mb-0">
-                        {{ $booking->shipping_name }}<br>
-                        {{ $booking->shipping_address }}<br>
-                        {{ $booking->shipping_city }}, {{ $booking->shipping_postcode }}<br>
-                        {{ $booking->shipping_country }}<br>
-                        <strong>Phone:</strong> {{ $booking->shipping_phone }}<br>
-                        <strong>Email:</strong> {{ $booking->shipping_email }}
-                    </p>
-                </div>
-            </div>
+{{--            <div class="col-md-6">--}}
+{{--                <div class="p-4 bg-white border-start border-4 border-secondary rounded-3 h-100">--}}
+{{--                    <h6 class="fw-semibold mb-2">--}}
+{{--                        <i class="fas fa-shipping-fast me-1"></i>Shipping Info--}}
+{{--                    </h6>--}}
+{{--                    <p class="mb-0">--}}
+{{--                        {{ $booking->shipping_name }}<br>--}}
+{{--                        {{ $booking->shipping_address }}<br>--}}
+{{--                        {{ $booking->shipping_city }}, {{ $booking->shipping_postcode }}<br>--}}
+{{--                        {{ $booking->shipping_country }}<br>--}}
+{{--                        <strong>Phone:</strong> {{ $booking->shipping_phone }}<br>--}}
+{{--                        <strong>Email:</strong> {{ $booking->shipping_email }}--}}
+{{--                    </p>--}}
+{{--                </div>--}}
+{{--            </div>--}}
         </div>
     </div>
 @endsection

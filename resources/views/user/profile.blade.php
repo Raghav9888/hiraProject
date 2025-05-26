@@ -58,17 +58,23 @@
 
                             <!-- Address Line 1 & 2 -->
                             <div class="row mb-3">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label for="address_line_1" class="form-label fw-semibold">Address Line 1</label>
                                     <input type="text" name="address_line_1" id="address_line_1" class="form-control @error('address_line_1') is-invalid @enderror"
                                            value="{{ old('address_line_1', $user->userDetail->address_line_1 ?? '') }}">
                                     @error('address_line_1') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label for="address_line_2" class="form-label fw-semibold">Address Line 2</label>
                                     <input type="text" name="address_line_2" id="address_line_2" class="form-control @error('address_line_2') is-invalid @enderror"
                                            value="{{ old('address_line_2', $user->userDetail->address_line_2 ?? '') }}">
                                     @error('address_line_2') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="postcode" class="form-label fw-semibold">Postcode</label>
+                                    <input type="text" name="postcode" id="postcode" class="form-control @error('postcode') is-invalid @enderror"
+                                           value="{{ old('postcode', $user->userDetail->postcode ?? '') }}">
+                                    @error('postcode') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                 </div>
                             </div>
 

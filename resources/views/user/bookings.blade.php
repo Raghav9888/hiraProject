@@ -30,34 +30,19 @@
                     @php
 
                         $bookingDateTime = Carbon::parse($booking->booking_date . ' ' . $booking->time_slot);
-                        $offering = Offering::find($booking->offering_id);
 
-                        $beforeCanceledValue = null;
-                        $beforeCanceled = isset($booking->reschedule) && $booking->reschedule ? $booking->reschedule_time : null;
+                        // If a reschedule setting exists, use it. Else, default to 72 hours (4320 minutes)
+                        $beforeCanceledValue = isset($booking->reschedule) && $booking->reschedule
+                            ? (int) $booking->reschedule_time
+                            : 4320;
 
-
-                        if ($beforeCanceled) {
-                            // Extract minutes from string like "72 hours" or "4320 minutes"
-                            if (preg_match('/(\d+)\s*hour/', $beforeCanceled, $matches)) {
-                                $beforeCanceledValue = (int)$matches[1] * 60; // convert hours to minutes
-                            } elseif (preg_match('/(\d+)\s*minute/', $beforeCanceled, $matches)) {
-                                $beforeCanceledValue = (int)$matches[1];
-                            } else {
-                                $beforeCanceledValue = 0;
-                            }
-                        }
-
-                        // Calculate cutoff time (booking datetime minus cancellation time in minutes)
                         $cutoff = $bookingDateTime->copy()->subMinutes($beforeCanceledValue);
-
                         $now = Carbon::now();
 
                         // User can reschedule only if current time is before cutoff
                         $canRescheduleOrCancel = $now->lessThan($cutoff) && ($booking->cancellation != 1 && $booking->status !== 'completed'
                         && $booking->status !== 'canceled' && $booking->status !== 'confirmed');
                     @endphp
-
-
 
                     <tr>
                         <td class="text-center">{{ $booking->offering->user->first_name ?? '' }} {{ $booking->offering->user->last_name ?? '' }}</td>
@@ -78,8 +63,11 @@
                                     <i class="fa-solid fa-ellipsis-vertical"></i>
                                 </a>
                                 <ul class="dropdown-menu">
+
                                     <li><a class="dropdown-item"
                                            href="{{ route('viewBooking', $booking->id) }}">View</a></li>
+                                    <li><a class="dropdown-item"
+                                           href="{{ route('practitioner_detail', $booking->offering->user->slug) }}">Practioner Information</a></li>
                                     @if($canRescheduleOrCancel)
                                         <li><a class="dropdown-item"
                                                href="{{ route('bookings.rescheduleForm', $booking->id) }}">Re-schedule</a>
