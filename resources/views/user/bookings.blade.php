@@ -53,7 +53,8 @@
                         $now = Carbon::now();
 
                         // User can reschedule only if current time is before cutoff
-                        $canRescheduleOrCancel = $now->lessThan($cutoff);
+                        $canRescheduleOrCancel = $now->lessThan($cutoff) && ($booking->cancellation != 1 && $booking->status !== 'completed'
+                        && $booking->status !== 'canceled' && $booking->status !== 'confirmed');
                     @endphp
 
 
@@ -85,7 +86,7 @@
                                         </li>
                                     @endif
 
-                                    @if($booking?->event_id)
+                                    @if($booking?->event_id && $canRescheduleOrCancel)
                                         <li>
                                             <a class="dropdown-item"
                                                href="{{ route('bookingCancel', ['bookingId' => $booking->id, 'eventId' => $booking->event_id]) }}"

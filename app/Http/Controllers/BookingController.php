@@ -258,6 +258,7 @@ class BookingController extends Controller
 
         if ($hoursUntilEvent > $cancellationWindow) {
             $booking->status = 'cancelled';
+            $booking->cancellation = true;
             $booking->save();
 
             // Google Calendar delete
