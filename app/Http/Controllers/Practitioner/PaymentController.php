@@ -237,10 +237,9 @@ class PaymentController extends Controller
         $payment->status = 'completed';
         $payment->save();
 
-
         // Fetch offering and its related event
         $offering = Offering::where('id', $offeringId)->with('event')->first();
-
+        $rescheduleMinutes = $this->parseTimeToMinutes($offering->cancellation_time_slot);
         if ($offering->offering_event_type === 'event') {
             $event = Event::where('offering_id', $offeringId)->firstOrFail();
             $totalSlots = $offering->event->sports > 0 ? $offering->event->sports - 1 : 0;
@@ -297,7 +296,8 @@ class PaymentController extends Controller
         $response['isPractitioner'] = false;
 
         // Update order status
-        $order->update(['status' => 'paid', 'user_id' => $user->id, 'event_id' => $response['google_event_id']]);
+        $order->update(['reschedule' => $offering->is_cancelled,'reschedule_time' => $rescheduleMinutes, 'status' => 'paid', 'user_id' => $user->id, 'event_id' => $response['google_event_id']
+        ]);
         Auth::login($user);
         // Send confirmation email to the user
         Mail::to($order->billing_email)->send(new BookingConfirmationMail($order, $practitionerEmailTemplate, $intakeForms, $response));
@@ -466,6 +466,16 @@ class PaymentController extends Controller
             'currency' => $request->currency,
             'status' => $request->status
         ]); */
+    }
+    function parseTimeToMinutes($timeString)
+    {
+        if (preg_match('/(\d+)\s*hour/', $timeString, $matches)) {
+            return (int)$matches[1] * 60; // convert hours to minutes
+        }
+        if (preg_match('/(\d+)\s*minute/', $timeString, $matches)) {
+            return (int)$matches[1];
+        }
+        return null; // or default value
     }
 
 }

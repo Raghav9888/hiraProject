@@ -45,7 +45,9 @@ class Booking extends Model
         'tax_amount',
         'reschedule_status',
         'refunded_to_wallet',
-        'rescheduled_at'
+        'rescheduled_at',
+        'reschedule',
+        'reschedule_time',
     ];
 
     /**

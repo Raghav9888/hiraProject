@@ -28,10 +28,11 @@
                 <tbody>
                 @forelse($bookings as $booking)
                     @php
+
                         $bookingDateTime = Carbon::parse($booking->booking_date . ' ' . $booking->time_slot);
                         $offering = Offering::find($booking->offering_id);
 
-                        $beforeCanceledValue = 0;
+                        $beforeCanceledValue = null;
                         $beforeCanceled = null;
 
                         if ($offering->offering_event_type === 'offering' && $offering->is_cancelled) {
@@ -41,15 +42,25 @@
                         }
 
                         if ($beforeCanceled) {
-                            preg_match('/\d+/', $beforeCanceled, $matches);
-                            $beforeCanceledValue = isset($matches[0]) ? (int) $matches[0] : 0;
+                            // Extract minutes from string like "72 hours" or "4320 minutes"
+                            if (preg_match('/(\d+)\s*hour/', $beforeCanceled, $matches)) {
+                                $beforeCanceledValue = (int)$matches[1] * 60; // convert hours to minutes
+                            } elseif (preg_match('/(\d+)\s*minute/', $beforeCanceled, $matches)) {
+                                $beforeCanceledValue = (int)$matches[1];
+                            } else {
+                                $beforeCanceledValue = 0;
+                            }
                         }
 
+                        // Calculate cutoff time (booking datetime minus cancellation time in minutes)
                         $cutoff = $bookingDateTime->copy()->subMinutes($beforeCanceledValue);
+
                         $now = Carbon::now();
 
-                        $canRescheduleOrCancel = $beforeCanceled && $now->greaterThanOrEqualTo($cutoff);
+                        // User can reschedule only if current time is before cutoff
+                        $canRescheduleOrCancel = $now->lessThan($cutoff);
                     @endphp
+
 
 
                     <tr>

@@ -69,7 +69,7 @@
                         <label for="exampleInputEmail1" class="form-label mb-2">Phone Number</label>
                         <input type="text" class="form-control" required name="billing_phone" id="exampleInputEmail1"
                                aria-describedby="emailHelp" placeholder="Enter Phone Number"
-                        value="{{$user?->userDetail->phone ?? ''}}">
+                        value="{{$user->userDetail->phone ?? ''}}">
                     </div>
                 </div>
                 <div class="col-md-12">
@@ -77,7 +77,7 @@
                         <label for="exampleInputEmail1" class="form-label mb-2">Street Address</label>
                         <input type="text" class="form-control" required name="billing_address" id="exampleInputEmail1"
                                aria-describedby="emailHelp" placeholder="Enter address line 1"
-                               value="{{$user?->userDetail->address_line_1 ?? ''}}">
+                               value="{{$user->userDetail->address_line_1 ?? ''}}">
                     </div>
 {{--                    <div class="mb-3">--}}
 {{--                        <input type="text" class="form-control" required name="billing_address2" id="exampleInputEmail1"--}}
@@ -89,7 +89,7 @@
                         <label for="exampleInputEmail1" class="form-label mb-2">City</label>
                         <input type="text" class="form-control" required name="billing_city" id="exampleInputEmail1"
                                aria-describedby="emailHelp" placeholder="Enter city"
-                               value="{{$user?->userDetail->city ?? ''}}">
+                               value="{{$user->userDetail->city ?? ''}}">
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -97,15 +97,16 @@
                         <label for="exampleInputEmail1" class="form-label mb-2">State</label>
                         <input type="text" class="form-control" required name="billing_state" id="exampleInputEmail1"
                                aria-describedby="emailHelp" placeholder="Enter state"
-                               value="{{$user?->userDetail->state ?? ''}}">
+                               value="{{$user->userDetail->state ?? ''}}">
                     </div>
                 </div>
+
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label mb-2">Postcode</label>
                         <input type="text" class="form-control" required name="billing_postcode" id="exampleInputEmail1"
                                aria-describedby="emailHelp" placeholder="Enter postcode"
-                               value="{{$user?->userDetail->postcode ?? ''}}">
+                               value="{{$user->userDetail->postcode ?? ''}}">
                     </div>
                 </div>
                 <div class="col-md-6">
