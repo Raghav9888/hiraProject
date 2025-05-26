@@ -33,13 +33,8 @@
                         $offering = Offering::find($booking->offering_id);
 
                         $beforeCanceledValue = null;
-                        $beforeCanceled = null;
+                        $beforeCanceled = isset($booking->reschedule) && $booking->reschedule ? $booking->reschedule_time : null;
 
-                        if ($offering->offering_event_type === 'offering' && $offering->is_cancelled) {
-                            $beforeCanceled = $offering->cancellation_time_slot;
-                        } elseif ($offering->offering_event_type === 'event' && optional($offering->event)->is_cancelled) {
-                            $beforeCanceled = $offering->event->cancellation_time_slot;
-                        }
 
                         if ($beforeCanceled) {
                             // Extract minutes from string like "72 hours" or "4320 minutes"

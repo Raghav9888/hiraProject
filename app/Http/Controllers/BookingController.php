@@ -16,6 +16,7 @@ use App\Mail\TemporaryPasswordMail;
 use App\Models\GoogleAccount;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use MailerLite\MailerLite;
 
 class BookingController extends Controller
@@ -207,32 +208,44 @@ class BookingController extends Controller
     public function cancelEvent(Request $request, $bookingId, $eventId)
     {
         $booking = Booking::findOrFail($bookingId);
-        $offering = Offering::where('id', $booking->offering_id)->with('event')->first();
+        $offering = Offering::with('event')->findOrFail($booking->offering_id);
         $user = User::with('userDetail')->findOrFail($offering->user_id);
 
+        // Timezones
         $practitionerTimezone = $user->userDetail->timezone ?? 'UTC';
         $userTimezone = $booking->user_timezone ?? $practitionerTimezone;
 
-        $bookingDate = $booking->booking_date ?? null;
-        $bookingTime = $booking->time_slot ?? null;
+        $bookingDate = $booking->booking_date;
+        $bookingTime = trim($booking->time_slot ?? '');
 
         if (!$bookingDate || !$bookingTime) {
-            return response()->json(['error' => 'Invalid booking date or time.'], 400);
+            return redirect()->route('booking.index')->with('error', 'Invalid booking date or time.');
         }
 
-        $userTime = Carbon::createFromFormat('h:i A', $bookingTime, $userTimezone);
-        $convertedTime = $userTime->copy()->setTimezone($practitionerTimezone);
+        // Detect time format and parse
+        try {
+            if (Str::contains($bookingTime, 'AM') || Str::contains($bookingTime, 'PM')) {
+                // 12-hour format
+                $userDateTime = Carbon::createFromFormat('Y-m-d h:i A', "$bookingDate $bookingTime", $userTimezone);
+            } else {
+                if (Str::contains($bookingTime, ':') && substr_count($bookingTime, ':') === 2) {
+                    // 24-hour with seconds (e.g., 14:30:00)
+                    $userDateTime = Carbon::createFromFormat('Y-m-d H:i:s', "$bookingDate $bookingTime", $userTimezone);
+                } else {
+                    // 24-hour (e.g., 14:30)
+                    $userDateTime = Carbon::createFromFormat('Y-m-d H:i', "$bookingDate $bookingTime", $userTimezone);
+                }
+            }
+        } catch (\Exception $e) {
+            return redirect()->route('userBookings')->with('error', 'Invalid time format: ' . $bookingTime);
+        }
 
-        $practitionerDateTime = Carbon::createFromFormat(
-            'Y-m-d H:i:s',
-            $bookingDate . ' ' . $convertedTime->format('H:i:s'),
-            $practitionerTimezone
-        );
+        // Convert to practitioner's timezone
+        $practitionerDateTime = $userDateTime->copy()->setTimezone($practitionerTimezone);
+        $now = Carbon::now($practitionerTimezone);
 
-        $eventStart = $practitionerDateTime->copy();
-        $now = Carbon::now();
-
-        $cancellationWindow = match($offering->cancellation_time_slot) {
+        // Determine cancellation window in hours
+        $cancellationWindow = match ($offering->cancellation_time_slot) {
             '24 hour' => 24,
             '48 hour' => 48,
             '72 hour' => 72,
@@ -241,20 +254,24 @@ class BookingController extends Controller
             default => 24,
         };
 
-        $hoursUntilEvent = $now->diffInHours($eventStart, false);
+        $hoursUntilEvent = $now->diffInHours($practitionerDateTime, false);
+
         if ($hoursUntilEvent > $cancellationWindow) {
             $booking->status = 'cancelled';
             $booking->save();
 
+            // Google Calendar delete
             $googleCalendar = new GoogleCalendarController();
             $request->merge(['event_id' => $eventId]);
-            $googleCalendar->deleteEvent($request);
+            $googleCalendar->deleteEvent($request, $user->id);
 
-            return response()->json(['message' => 'Booking cancelled successfully.']);
+            return redirect()->route('userBookings')->with('success', 'Booking cancelled successfully.');
         } else {
-            return response()->json(['error' => 'You can no longer cancel this booking.'], 403);
+            return redirect()->route('userBookings')->with('error', 'You can no longer cancel this booking.');
         }
     }
+
+
 
     public function showRescheduleForm(Request $request, $bookingId)
     {

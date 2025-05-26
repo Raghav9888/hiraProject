@@ -16,34 +16,32 @@ use Illuminate\Support\Facades\Auth;
 
 class GoogleCalendarController extends Controller
 {
-    private function getClient()
+    private function getClient($userId = null)
     {
-        $user = Auth::user();
+        $user = $userId ? User::find($userId) : Auth::user();
         $googleAccount = GoogleAccount::where('user_id', $user->id)->first();
 
         if (!$googleAccount || !$googleAccount->refresh_token) {
             abort(403, "Google Calendar is not connected. Please reconnect your account.");
         }
 
-        $client = new Google_Client();
+        $client = new \Google_Client();
         $client->setAuthConfig(storage_path('app/google/calendar/credential.json'));
-        $client->setAccessToken($googleAccount->access_token);
+        $client->setAccessToken(json_decode($googleAccount->access_token, true));
 
         if ($client->isAccessTokenExpired()) {
-            $client->fetchAccessTokenWithRefreshToken($googleAccount->refresh_token);
-            $newToken = $client->getAccessToken();
-
-            $googleAccount->update([
-                'access_token' => $newToken['access_token'],
-                'expires_at' => isset($newToken['expires_in']) && $newToken['expires_in']
-                    ? now()->addSeconds($newToken['expires_in'])
-                    : null,
-            ]);
-
+            if (!empty($googleAccount->refresh_token)) {
+                $client->fetchAccessTokenWithRefreshToken($googleAccount->refresh_token);
+                $googleAccount->access_token = json_encode($client->getAccessToken());
+                $googleAccount->save();
+            } else {
+                throw new \Exception('Google Token Expired. Please reauthorize.');
+            }
         }
 
         return $client;
     }
+
 
     public function createEvent(Request $request)
     {
@@ -200,13 +198,13 @@ class GoogleCalendarController extends Controller
     }
 
 
-    public function deleteEvent(Request $request)
+    public function deleteEvent(Request $request,$userId = null)
     {
         if (!$request->event_id) {
             return back()->with('error', 'Event ID is required');
         }
 
-        $client = $this->getClient();
+        $client = $this->getClient($userId);
         $service = new Google_Service_Calendar($client);
 
         try {
