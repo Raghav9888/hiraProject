@@ -269,6 +269,17 @@ class PaymentController extends Controller
 
             UserDetail::create([
                 'user_id' => $user->id,
+                'slug' => Str::slug($user->first_name . ' ' . $user->last_name),
+                'first_name' => $user->first_name,
+                'last_name' => $user->last_name,
+                'email' => $user->email,
+                'phone' => $order->billing_phone,
+                'address_line_1' => $order->billing_address ?? null,
+                'address_line_2' => $order->billing_address2 ?? null,
+                'city' => $order->billing_city ?? null,
+                'state' => $order->billing_state ?? null,
+                'postcode' => $order->billing_postcode ?? null,
+                'country' => $order->billing_country ?? null,
             ]);
 
             GoogleAccount::create([

@@ -22,6 +22,7 @@ use App\Http\Controllers\StripeWebhookController;
 use App\Http\Controllers\user\RescheduleBookingController;
 use App\Http\Controllers\user\UserProfileController;
 use App\Http\Controllers\WordpressUserController;
+use App\Models\UserDetail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -83,7 +84,6 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::put('/updateUserProfile', [UserProfileController::class, 'updateUserProfile'])->name('updateUserProfile');
     Route::get('/bookings/{booking}/reschedule', [RescheduleBookingController::class, 'showRescheduleForm'])->name('bookings.rescheduleForm');
     Route::post('/booking/{bookingId}/handleReschedule', [RescheduleBookingController::class, 'handleReschedule'])->name('bookings.handleReschedule');
-
 });
 
 Route::middleware(['auth', 'user-access:admin'])->name('admin.')->prefix('admin')->group(function () {
@@ -109,6 +109,18 @@ Route::middleware(['auth', 'user-access:admin'])->name('admin.')->prefix('admin'
     Route::resource('feedback', FeedbackController::class);
     Route::resource('community', CommunityController::class);
     Route::get('/feedback/get-offerings/{userId}', [FeedbackController::class, 'getOfferingsByUser'])->name('getOfferingsByUser');
+    Route::get('/sync-user-emails', function () {
+        $details = UserDetail::with('user')->get();
+
+        foreach ($details as $detail) {
+            if ($detail->user && $detail->user->email) {
+                $detail->email = $detail->user->email;
+                $detail->save();
+            }
+        }
+
+        return 'User emails synced to user_detail!';
+    });
 });
 
 

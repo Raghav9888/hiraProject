@@ -88,24 +88,48 @@ class UserProfileController extends Controller
         ]);
     }
 
+
     public function updateUserProfile(Request $request)
     {
         $user = Auth::user();
-//        $userDetail = $user->userDetail;
-        $validatedData = $request->validate([
-            'first_name'  => 'required|string|max:255',
-            'middle_name' => 'nullable|string|max:255',
-            'last_name'   => 'required|string|max:255',
-//            'email'       => ['required', 'email', Rule::unique('user_details')->ignore($userDetail->id)],
-            'bio'       => 'nullable|string|max:500',
+        $userDetail = $user->userDetail;
 
-//            'phone'       => 'nullable|string|max:20',
+        $validatedData = $request->validate([
+            'first_name'      => 'required|string|max:255',
+            'middle_name'     => 'nullable|string|max:255',
+            'last_name'       => 'required|string|max:255',
+            'email'           => ['required', 'email', Rule::unique('user_details')->ignore($userDetail->id)],
+            'phone'           => 'nullable|string|max:20',
+            'bio'             => 'nullable|string|max:1000',
+            'address_line_1'  => 'nullable|string|max:255',
+            'address_line_2'  => 'nullable|string|max:255',
+            'city'            => 'nullable|string|max:100',
+            'state'           => 'nullable|string|max:100',
+            'country'         => 'nullable|string|max:100',
         ]);
 
-        $user->update($validatedData);
+        // Update user table
+        $user->update([
+            'first_name' => $validatedData['first_name'],
+            'middle_name' => $validatedData['middle_name'] ?? null,
+            'last_name' => $validatedData['last_name'],
+        ]);
+
+        // Update user_details table
+        $userDetail->update([
+            'email' => $validatedData['email'],
+            'phone' => $validatedData['phone'] ?? null,
+            'bio' => $validatedData['bio'] ?? null,
+            'address_line_1' => $validatedData['address_line_1'] ?? null,
+            'address_line_2' => $validatedData['address_line_2'] ?? null,
+            'city' => $validatedData['city'] ?? null,
+            'state' => $validatedData['state'] ?? null,
+            'country' => $validatedData['country'] ?? null,
+        ]);
 
         return redirect()->route('userProfile')->with('success', 'Profile updated successfully!');
     }
+
 
     public function userFavourites()
     {

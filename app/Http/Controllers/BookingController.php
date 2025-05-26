@@ -23,7 +23,7 @@ class BookingController extends Controller
 
     public function calendarBooking(Request $request)
     {
-
+        $user = Auth::user() ?? null;
         $request->validate([
             'offering_id' => 'required|exists:offerings,id',
             'booking_date' => 'required|date',
@@ -53,7 +53,7 @@ class BookingController extends Controller
         return response()->json([
             "success" => true,
             "data" => "Booking saved in session!",
-            'html' => view('user.billing-popup', compact('offering', 'bookingDate', 'bookingTime','bookingUserTimezone', 'price', 'currency', 'countries'))->render()
+            'html' => view('user.billing-popup', compact('user','offering', 'bookingDate', 'bookingTime','bookingUserTimezone', 'price', 'currency', 'countries'))->render()
         ]);
         // return redirect()->route('checkout');
     }

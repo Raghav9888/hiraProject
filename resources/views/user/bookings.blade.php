@@ -20,6 +20,7 @@
                     <th class="text-center">Offering Type</th>
                     <th class="text-center">Date</th>
                     <th class="text-center">Time Slot</th>
+                    <th class="text-center">Price</th>
                     <th class="text-center">Status</th>
                     <th class="text-center">Actions</th>
                 </tr>
@@ -57,6 +58,7 @@
                         <td class="text-center">{{ $booking->offering->offering_event_type }}</td>
                         <td class="text-center">{{ \Carbon\Carbon::parse($booking->booking_date)->format('F j, Y') }}</td>
                         <td class="text-center">{{ $booking->time_slot ?? 'All Day' }}</td>
+                        <td class="text-center">{{ $booking->currency_symbol .' ' .$booking->price }}</td>
                         <td class="text-center">
                                 <span
                                     class="badge bg-{{ $booking->status === 'completed' ? 'success' : ($booking->status === 'pending' ? 'warning' : 'secondary') }}">

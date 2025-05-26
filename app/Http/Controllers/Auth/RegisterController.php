@@ -107,6 +107,8 @@ class RegisterController extends Controller
             'is_google_analytics' => $data['is_google_analytics'] ?? false,
             'privacy_policy' => $data['privacy_policy'] ?? null,
             'terms_condition' => $data['terms_condition'] ?? null,
+            'email' => $data['email'],
+            'phone' => $data['phone'] ?? null,
         ]);
 
         GoogleAccount::create([
@@ -128,6 +130,6 @@ class RegisterController extends Controller
         return $user;
     }
 
-   
+
 
 }

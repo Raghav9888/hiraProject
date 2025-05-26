@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\GoogleAccount;
+use App\Models\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
 
 class LoginController extends Controller
@@ -46,26 +49,37 @@ class LoginController extends Controller
 
     public function login(Request $request): RedirectResponse
     {
-        $input = $request->all();
-
-        $this->validate($request, [
+        $request->validate([
             'email' => 'required|email',
             'password' => 'required',
         ]);
 
-        if (Auth::attempt(array('email' => $input['email'], 'password' => $input['password']))) {
-            $user = Auth::user();
-            if (Auth::user()->role == 2) {
-                return redirect()->route('admin.dashboard');
-            } elseIf(Auth::user()->role == 1 && Auth::user()->status == 1) {
-                return redirect()->route('dashboard');
-            } else {
-                return redirect()->route('home');
-            }
-        } else {
-            return redirect()->route('login')
-                ->with('error', 'Email-Address And Password Are Wrong.');
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return redirect()->route('login')->with('error', 'This email is not registered.');
         }
 
+        if (!Hash::check($request->password, $user->password)) {
+            return redirect()->route('login')->with('error', 'Incorrect password.');
+        }
+
+        Auth::login($user);
+
+        // Redirect based on role and status
+        if ($user->role == 2) {
+            return redirect()->route('admin.dashboard');
+        } elseif ($user->role == 1 && $user->status == 1) {
+            return redirect()->route('dashboard');
+        } else {
+            return redirect()->route('home');
+        }
+    }
+
+    protected function sendFailedLoginResponse(Request $request)
+    {
+        throw ValidationException::withMessages([
+            'email' => [trans('auth.failed')],
+        ]);
     }
 }

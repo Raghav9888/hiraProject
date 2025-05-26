@@ -32,7 +32,15 @@ class UserDetail extends Model
         'cancellation_policy',
         'amenities',
         'slug',
-        'store_availabilities'
+        'store_availabilities',
+        'email',
+        'phone',
+        'address_line_1',
+        'address_line_2',
+        'city',
+        'state',
+        'postcode',
+        'country'
     ];
 
     public function user()
@@ -45,7 +53,7 @@ class UserDetail extends Model
         return $this->hasMany(PractitionerTag::class, 'id', 'tags');
     }
 
-    public function  IHelpWith()
+    public function IHelpWith()
     {
         return $this->hasMany(IHelpWith::class, 'id', 'IHelpWith');
     }

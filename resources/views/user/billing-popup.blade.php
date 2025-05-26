@@ -8,6 +8,7 @@
             : asset($localPath . '/images/no_image.png');
 
 @endphp
+
 <div class="container my-3">
     <div
         class="alert alert-green fade show d-flex justify-content-between align-items-center f-5"
@@ -43,35 +44,40 @@
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label mb-2">First Name</label>
                         <input type="text" class="form-control" required name="first_name" id="exampleInputEmail1"
-                               aria-describedby="emailHelp" placeholder="Enter First Name">
+                               aria-describedby="emailHelp" placeholder="Enter First Name"
+                        value="{{$user->first_name ?? ''}}">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label mb-2">Last Name</label>
                         <input type="text" class="form-control" required name="last_name" id="exampleInputEmail1"
-                               aria-describedby="emailHelp" placeholder="Enter Last Name">
+                               aria-describedby="emailHelp" placeholder="Enter Last Name"
+                               value="{{$user->last_name ?? ''}}">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" required class="form-label mb-2">Email Address</label>
-                        <input type="email" class="form-control" name="billing_email" id="exampleInputEmail1"
-                               aria-describedby="emailHelp" placeholder="Enter a valid email address">
+                        <label for="exampleInputEmail1"  class="form-label mb-2">Email Address</label>
+                        <input type="email" class="form-control" name="billing_email" required id="exampleInputEmail1"
+                               aria-describedby="emailHelp" placeholder="Enter a valid email address"
+                               value="{{$user?->email ?? ''}}">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label mb-2">Phone Number</label>
                         <input type="text" class="form-control" required name="billing_phone" id="exampleInputEmail1"
-                               aria-describedby="emailHelp" placeholder="Enter Phone Number">
+                               aria-describedby="emailHelp" placeholder="Enter Phone Number"
+                        value="{{$user?->userDetail->phone ?? ''}}">
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label mb-2">Street Address</label>
                         <input type="text" class="form-control" required name="billing_address" id="exampleInputEmail1"
-                               aria-describedby="emailHelp" placeholder="Enter address line 1">
+                               aria-describedby="emailHelp" placeholder="Enter address line 1"
+                               value="{{$user?->userDetail->address_line_1 ?? ''}}">
                     </div>
 {{--                    <div class="mb-3">--}}
 {{--                        <input type="text" class="form-control" required name="billing_address2" id="exampleInputEmail1"--}}
@@ -82,21 +88,24 @@
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label mb-2">City</label>
                         <input type="text" class="form-control" required name="billing_city" id="exampleInputEmail1"
-                               aria-describedby="emailHelp" placeholder="Enter city">
+                               aria-describedby="emailHelp" placeholder="Enter city"
+                               value="{{$user?->userDetail->city ?? ''}}">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label mb-2">State</label>
                         <input type="text" class="form-control" required name="billing_state" id="exampleInputEmail1"
-                               aria-describedby="emailHelp" placeholder="Enter state">
+                               aria-describedby="emailHelp" placeholder="Enter state"
+                               value="{{$user?->userDetail->state ?? ''}}">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label mb-2">Postcode</label>
                         <input type="text" class="form-control" required name="billing_postcode" id="exampleInputEmail1"
-                               aria-describedby="emailHelp" placeholder="Enter postcode">
+                               aria-describedby="emailHelp" placeholder="Enter postcode"
+                               value="{{$user?->userDetail->postcode ?? ''}}">
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -105,7 +114,7 @@
                         <select class="form-select" required name="billing_country" id="country">
                             <option value="">Select Country</option>
                             @foreach($countries as $country)
-                                <option value="{{$country->name}}">{{$country->name}}</option>
+                                <option value="{{$country->name}}" {{isset($user->userDetail->country) && $user->userDetail->country == $country->name ? 'selected': ''}}>{{$country->name}}</option>
                             @endforeach
                         </select>
                     </div>
