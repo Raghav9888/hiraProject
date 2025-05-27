@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\user;
 
+use App\Http\Controllers\Calender\GoogleCalendarController;
 use App\Models\{Booking, Offering, User, Wallet, Reschedule};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Str;
 
 
 class RescheduleBookingController extends Controller
