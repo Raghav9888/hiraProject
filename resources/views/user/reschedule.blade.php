@@ -48,7 +48,7 @@
                     <div class="alert alert-info d-flex align-items-center mb-4" role="alert" style="border-radius: 0.75rem;">
                         <i class="fa-solid fa-info-circle info-icon me-3"></i>
                         <div>
-                            Rescheduling is allowed only if done <strong>at least 48 hours</strong> before the booked date & time.
+                            Rescheduling is allowed only if done <strong>at least {{$booking->reschedule ? $booking->reschedule_hour : '24 hours'}} </strong> before the booked date & time.
                         </div>
                     </div>
 

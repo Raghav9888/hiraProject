@@ -80,6 +80,7 @@ class RescheduleBookingController extends Controller
 
     public function handleReschedule(Request $request, $bookingId)
     {
+
         $request->validate([
             'new_date' => 'required|date|after_or_equal:today',
             'new_slot' => 'required',
@@ -194,7 +195,7 @@ class RescheduleBookingController extends Controller
             DB::commit();
 
             return response()->json([
-                'message' => 'Booking successfully rescheduled.',
+                'success' => 'Booking successfully rescheduled.',
                 'redirect_url' => route('userBookings'),
             ]);
         } catch (\Exception $e) {
