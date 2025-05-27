@@ -3,19 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Calender\GoogleCalendarController;
+use App\Mail\TemporaryPasswordMail;
 use App\Models\Booking;
 use App\Models\Country;
-use Carbon\Carbon;
-use Google\Service\Dfareporting\Resource\Countries;
-use Illuminate\Http\Request;
+use App\Models\GoogleAccount;
+use App\Models\Offering;
 use App\Models\User;
 use App\Models\UserDetail;
-use App\Models\Offering;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\TemporaryPasswordMail;
-use App\Models\GoogleAccount;
+use App\Models\Wallet;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use MailerLite\MailerLite;
 
@@ -54,7 +55,7 @@ class BookingController extends Controller
         return response()->json([
             "success" => true,
             "data" => "Booking saved in session!",
-            'html' => view('user.billing-popup', compact('user','offering', 'bookingDate', 'bookingTime','bookingUserTimezone', 'price', 'currency', 'countries'))->render()
+            'html' => view('user.billing-popup', compact('user', 'offering', 'bookingDate', 'bookingTime', 'bookingUserTimezone', 'price', 'currency', 'countries'))->render()
         ]);
         // return redirect()->route('checkout');
     }
@@ -90,8 +91,8 @@ class BookingController extends Controller
             ], 404);
         }
 
-        $product = Offering::where('id',$booking['offering_id'])->with('event')->first();
-        if($request->subscribe == true){
+        $product = Offering::where('id', $booking['offering_id'])->with('event')->first();
+        if ($request->subscribe == true) {
             $mailerLite = new MailerLite(['api_key' => env("MAILERLITE_KEY")]);
             $data = [
                 'email' => $request->billing_email,
@@ -204,7 +205,6 @@ class BookingController extends Controller
         return view('checkout', compact('booking', 'product'));
     }
 
-
     public function cancelEvent(Request $request, $bookingId, $eventId)
     {
         $booking = Booking::findOrFail($bookingId);
@@ -222,19 +222,14 @@ class BookingController extends Controller
             return redirect()->route('booking.index')->with('error', 'Invalid booking date or time.');
         }
 
-        // Detect time format and parse
+        // Parse booking datetime in user timezone
         try {
             if (Str::contains($bookingTime, 'AM') || Str::contains($bookingTime, 'PM')) {
-                // 12-hour format
                 $userDateTime = Carbon::createFromFormat('Y-m-d h:i A', "$bookingDate $bookingTime", $userTimezone);
+            } elseif (Str::contains($bookingTime, ':') && substr_count($bookingTime, ':') === 2) {
+                $userDateTime = Carbon::createFromFormat('Y-m-d H:i:s', "$bookingDate $bookingTime", $userTimezone);
             } else {
-                if (Str::contains($bookingTime, ':') && substr_count($bookingTime, ':') === 2) {
-                    // 24-hour with seconds (e.g., 14:30:00)
-                    $userDateTime = Carbon::createFromFormat('Y-m-d H:i:s', "$bookingDate $bookingTime", $userTimezone);
-                } else {
-                    // 24-hour (e.g., 14:30)
-                    $userDateTime = Carbon::createFromFormat('Y-m-d H:i', "$bookingDate $bookingTime", $userTimezone);
-                }
+                $userDateTime = Carbon::createFromFormat('Y-m-d H:i', "$bookingDate $bookingTime", $userTimezone);
             }
         } catch (\Exception $e) {
             return redirect()->route('userBookings')->with('error', 'Invalid time format: ' . $bookingTime);
@@ -245,30 +240,49 @@ class BookingController extends Controller
         $now = Carbon::now($practitionerTimezone);
 
         // Determine cancellation window in hours
-        $cancellationWindow = match ($offering->cancellation_time_slot) {
-            '24 hour' => 24,
-            '48 hour' => 48,
-            '72 hour' => 72,
-            '1 week' => 24 * 7,
-            '2 week' => 24 * 14,
-            default => 24,
-        };
+        $cancellationWindow = 24; // default
+        if ($booking->reschedule && $booking->reschedule_hour) {
+            if (preg_match('/(\d+)/', $booking->reschedule_hour, $matches)) {
+                $value = (int) $matches[1];
+                if (Str::contains($booking->reschedule_hour, 'week')) {
+                    $cancellationWindow = $value * 24 * 7;
+                } elseif (Str::contains($booking->reschedule_hour, 'hour')) {
+                    $cancellationWindow = $value;
+                } else {
+                    $cancellationWindow = $value; // fallback
+                }
+            }
+        }
 
+        // Calculate hours until event
         $hoursUntilEvent = $now->diffInHours($practitionerDateTime, false);
 
         if ($hoursUntilEvent > $cancellationWindow) {
+            DB::beginTransaction();
+
             $booking->status = 'cancelled';
             $booking->cancellation = true;
             $booking->save();
 
-            // Google Calendar delete
+            // Deduct admin + Stripe fee
+            $adminFee = $booking->total_amount * 0.20;
+            $stripeFee = 2.90; // fixed for example
+            $refundToWallet = max(0, $booking->total_amount - $adminFee - $stripeFee);
+
+            $wallet = Wallet::firstOrCreate(['user_id' => $booking->user_id]);
+            $wallet->balance += $refundToWallet;
+            $wallet->save();
+
+            // Remove from Google Calendar
             $googleCalendar = new GoogleCalendarController();
             $request->merge(['event_id' => $eventId]);
             $googleCalendar->deleteEvent($request, $user->id);
 
-            return redirect()->route('userBookings')->with('success', 'Booking cancelled successfully.');
+            DB::commit();
+
+            return redirect()->route('userBookings')->with('success', 'Booking cancelled and refund added to wallet.');
         } else {
-            return redirect()->route('userBookings')->with('error', 'You can no longer cancel this booking.');
+            return redirect()->route('userBookings')->with('error', 'You can only cancel more than ' . $cancellationWindow . ' hours before the event.');
         }
     }
 

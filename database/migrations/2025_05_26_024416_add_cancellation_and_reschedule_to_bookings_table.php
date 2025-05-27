@@ -10,7 +10,7 @@ return new class extends Migration {
     {
         Schema::table('bookings', function (Blueprint $table) {
             $table->boolean('reschedule')->default(false);
-            $table->integer('reschedule_time')->nullable()->default(0);
+            $table->string('reschedule_hour')->nullable()->default(null);
         });
 
 
@@ -19,7 +19,7 @@ return new class extends Migration {
     public function down()
     {
         Schema::table('bookings', function (Blueprint $table) {
-            $table->dropColumn(['reschedule', 'reschedule_time']);
+            $table->dropColumn(['reschedule', 'reschedule_hour']);
         });
     }
 };

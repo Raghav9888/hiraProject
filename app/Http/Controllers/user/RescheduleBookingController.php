@@ -85,20 +85,53 @@ class RescheduleBookingController extends Controller
 
         $booking = Booking::findOrFail($bookingId);
         $offering = Offering::findOrFail($booking->offering_id);
-        $user = $booking->user;
+        $user = User::with('userDetail')->findOrFail($offering->user_id);
 
-        $timezone = $booking->user_timezone ?? config('app.timezone', 'UTC');
-        $eventTime = Carbon::parse($booking->booking_date . ' ' . $booking->time_slot, $timezone);
-        $now = Carbon::now($timezone);
-        $hoursLeft = $now->diffInHours($eventTime, false);
+        $practitionerTimezone = $user->userDetail->timezone ?? 'UTC';
+        $userTimezone = $booking->user_timezone ?? $practitionerTimezone;
 
-        if ($hoursLeft <= 48) {
-            return response()->json(['message' => 'You can only reschedule more than 48 hours before the event.'], 400);
+        $bookingDate = $booking->booking_date;
+        $bookingTime = trim($booking->time_slot ?? '');
+
+        try {
+            if (Str::contains($bookingTime, 'AM') || Str::contains($bookingTime, 'PM')) {
+                $userDateTime = Carbon::createFromFormat('Y-m-d h:i A', "$bookingDate $bookingTime", $userTimezone);
+            } elseif (Str::contains($bookingTime, ':') && substr_count($bookingTime, ':') === 2) {
+                $userDateTime = Carbon::createFromFormat('Y-m-d H:i:s', "$bookingDate $bookingTime", $userTimezone);
+            } else {
+                $userDateTime = Carbon::createFromFormat('Y-m-d H:i', "$bookingDate $bookingTime", $userTimezone);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Invalid time format: ' . $bookingTime], 400);
+        }
+
+        $practitionerDateTime = $userDateTime->copy()->setTimezone($practitionerTimezone);
+        $now = Carbon::now($practitionerTimezone);
+
+        // Parse cancellation window like cancelEvent
+        $cancellationWindow = 24;
+        if ($booking->reschedule && $booking->reschedule_hour) {
+            if (preg_match('/(\d+)/', $booking->reschedule_hour, $matches)) {
+                $value = (int) $matches[1];
+                if (Str::contains($booking->reschedule_hour, 'week')) {
+                    $cancellationWindow = $value * 24 * 7;
+                } elseif (Str::contains($booking->reschedule_hour, 'hour')) {
+                    $cancellationWindow = $value;
+                } else {
+                    $cancellationWindow = $value;
+                }
+            }
+        }
+
+        $hoursUntilEvent = $now->diffInHours($practitionerDateTime, false);
+        if ($hoursUntilEvent <= $cancellationWindow) {
+            return response()->json(['message' => "You can only reschedule more than {$cancellationWindow} hours before the event."], 400);
         }
 
         DB::beginTransaction();
 
         try {
+            // Refund
             $adminFee = $booking->total_amount * 0.20;
             $stripeFee = 2.90;
             $refundToWallet = max(0, $booking->total_amount - $adminFee - $stripeFee);
@@ -107,11 +140,18 @@ class RescheduleBookingController extends Controller
             $wallet->balance += $refundToWallet;
             $wallet->save();
 
+            // Remove from Google Calendar
+            if ($booking->google_event_id) {
+                $googleCalendar = new GoogleCalendarController();
+                $request->merge(['event_id' => $booking->google_event_id]);
+                $googleCalendar->deleteEvent($request, $user->id);
+            }
+
+            // Reschedule Logic
             $newPrice = $request->new_price;
             $walletBalance = $wallet->balance;
 
             if ($walletBalance >= $newPrice) {
-                // Deduct full price from wallet
                 $wallet->balance -= $newPrice;
                 $wallet->save();
 
@@ -125,24 +165,9 @@ class RescheduleBookingController extends Controller
                     'pending_amount' => 0,
                     'paid_from_wallet' => $newPrice,
                 ]);
-
-                Reschedule::create([
-                    'booking_id' => $booking->id,
-                    'refunded_amount' => $refundToWallet,
-                    'rescheduled_at' => now(),
-                ]);
-
-                DB::commit();
-
-                return response()->json([
-                    'message' => 'Booking successfully rescheduled and paid from wallet.',
-                    'redirect_url' => route('userBookings'),
-                ]);
             } else {
-                // Not enough in wallet – use full wallet, calculate pending
                 $pendingAmount = $newPrice - $walletBalance;
 
-                // Deduct wallet balance to 0
                 $wallet->balance = 0;
                 $wallet->save();
 
@@ -156,21 +181,20 @@ class RescheduleBookingController extends Controller
                     'pending_amount' => $pendingAmount,
                     'paid_from_wallet' => $walletBalance,
                 ]);
-
-                Reschedule::create([
-                    'booking_id' => $booking->id,
-                    'refunded_amount' => $refundToWallet,
-                    'rescheduled_at' => now(),
-                ]);
-
-                DB::commit();
-
-                return response()->json([
-                    'message' => 'Partial wallet amount used. Please complete payment.',
-                    'redirect_url' => route('stripe.pay', ['booking' => $booking->id, 'amount' => $pendingAmount]),
-                ]);
             }
 
+            Reschedule::create([
+                'booking_id' => $booking->id,
+                'refunded_amount' => $refundToWallet,
+                'rescheduled_at' => now(),
+            ]);
+
+            DB::commit();
+
+            return response()->json([
+                'message' => 'Booking successfully rescheduled.',
+                'redirect_url' => route('userBookings'),
+            ]);
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json([

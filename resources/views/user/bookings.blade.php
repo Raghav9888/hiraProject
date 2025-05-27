@@ -1,4 +1,4 @@
-@php use App\Models\Offering;use Carbon\Carbon; @endphp
+@php use Carbon\Carbon;use Illuminate\Support\Str; @endphp
 @extends('layouts.user_internal_base')
 
 @section('userContent')
@@ -29,20 +29,36 @@
                 @forelse($bookings as $booking)
                     @php
 
-                        $bookingDateTime = Carbon::parse($booking->booking_date . ' ' . $booking->time_slot);
 
-                        // If a reschedule setting exists, use it. Else, default to 72 hours (4320 minutes)
-                        $beforeCanceledValue = isset($booking->reschedule) && $booking->reschedule
-                            ? (int) $booking->reschedule_time
-                            : 4320;
+                        $timezone = $booking->user_timezone ?? config('app.timezone', 'UTC');
+                        $bookingDateTime = Carbon::parse($booking->booking_date . ' ' . $booking->time_slot, $timezone);
 
-                        $cutoff = $bookingDateTime->copy()->subMinutes($beforeCanceledValue);
-                        $now = Carbon::now();
+                        // Default: 24 hours before booking
+                        $cancellationWindow = 24;
 
-                        // User can reschedule only if current time is before cutoff
-                        $canRescheduleOrCancel = $now->lessThan($cutoff) && ($booking->cancellation != 1 && $booking->status !== 'completed'
-                        && $booking->status !== 'canceled' && $booking->status !== 'confirmed');
+                        if (!empty($booking->reschedule_hour)) {
+                            if (preg_match('/(\d+)/', $booking->reschedule_hour, $matches)) {
+                                $value = (int) $matches[1];
+                                if (Str::contains($booking->reschedule_hour, 'week')) {
+                                    $cancellationWindow = $value * 24 * 7;
+                                } elseif (Str::contains($booking->reschedule_hour, 'hour')) {
+                                    $cancellationWindow = $value;
+                                } else {
+                                    $cancellationWindow = $value; // fallback
+                                }
+                            }
+                        }
+
+                        // Calculate cutoff time
+                        $cutoff = $bookingDateTime->copy()->subHours($cancellationWindow);
+                        $now = Carbon::now($timezone);
+
+                        // Determine if reschedule/cancel is allowed
+                        $canRescheduleOrCancel = $now->lessThan($cutoff) &&
+                            $booking->cancellation != 1 &&
+                            !in_array($booking->status, ['completed', 'cancelled', 'confirmed']);
                     @endphp
+
 
                     <tr>
                         <td class="text-center">{{ $booking->offering->user->first_name ?? '' }} {{ $booking->offering->user->last_name ?? '' }}</td>
@@ -67,8 +83,9 @@
                                     <li><a class="dropdown-item"
                                            href="{{ route('viewBooking', $booking->id) }}">View</a></li>
                                     <li><a class="dropdown-item"
-                                           href="{{ route('practitioner_detail', $booking->offering->user->slug) }}">Practioner Information</a></li>
-                                    @if($canRescheduleOrCancel)
+                                           href="{{ route('practitioner_detail', $booking->offering->user->slug) }}">Practioner
+                                            Information</a></li>
+                                    @if($canRescheduleOrCancel && $booking->offering->offering_event_type != 'event')
                                         <li><a class="dropdown-item"
                                                href="{{ route('bookings.rescheduleForm', $booking->id) }}">Re-schedule</a>
                                         </li>
