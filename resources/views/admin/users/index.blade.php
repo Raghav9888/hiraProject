@@ -168,9 +168,13 @@
                         toastr.error("Someting went wrong!");
                     }
                     toastr.success(response.data);
-                    setTimeout(() => {
-                        window.location.href = "{{route('dashboard')}}"
-                    }, 1000);
+
+                    if (response.redirect) {
+                        window.location.href = response.redirect;
+                    } else {
+                        window.location.reload();
+                    }
+
                 },
                 error: function (error) {
                     toastr.error("Someting went wrong!");

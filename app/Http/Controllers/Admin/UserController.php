@@ -22,6 +22,7 @@ class UserController extends Controller
     {
         $user = Auth::user();
         $users = match ($userType) {
+            'client' => User::where('status', 1)->where('role', 3)->latest()->paginate(10),
             'new' => User::where('status', 2)->with('waitlist')->latest()->paginate(10),
             'delete' => User::where('status', 3)->latest()->paginate(10),
             default => User::where('status', 1)->where('role', 1)->latest()->paginate(10),
@@ -123,16 +124,24 @@ class UserController extends Controller
     {
         try {
             $id = $request->id;
+            $user = User::where('id', $id)->first();
+            $redirectRoute = match($user->role) {
+                 2 => 'admin.dashboard',
+                 1 => 'dashboard',
+                 3 => 'userDashboard',
+                 default => 'home',
+             };
             Auth::loginUsingId($id);
             return response()->json([
                 "success" => true,
+                'redirect' => route($redirectRoute),
                 "data" => "Logged in successfully!"
             ]);
             //code...
         } catch (\Throwable $th) {
             return response()->json([
                 "success" => false,
-                "data" => $th->getMessage()
+                "message" => $th->getMessage()
             ], 500);
         }
     }

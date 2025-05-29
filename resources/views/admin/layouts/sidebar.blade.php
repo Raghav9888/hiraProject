@@ -18,15 +18,19 @@
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item">
                         <a class="nav-link {{ request()->route('userType') == 'all' ? 'active' : '' }}"
-                           href="{{ route('admin.user.index', ['userType' => 'all']) }}">Users</a>
+                           href="{{ route('admin.user.index', ['userType' => 'all']) }}">Practitioner</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->route('userType') == 'client' ? 'active' : '' }}"
+                           href="{{ route('admin.user.index', ['userType' => 'client']) }}">Users</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ request()->route('userType') == 'new' ? 'active' : '' }}"
-                           href="{{ route('admin.user.index', ['userType' => 'new']) }}">New Users</a>
+                           href="{{ route('admin.user.index', ['userType' => 'new']) }}">New Practitioner</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ request()->route('userType') == 'delete' ? 'active' : '' }}"
-                           href="{{ route('admin.user.index', ['userType' => 'delete']) }}">Delete Users</a>
+                           href="{{ route('admin.user.index', ['userType' => 'delete']) }}">Delete Practitioner</a>
                     </li>
                 </ul>
             </div>
