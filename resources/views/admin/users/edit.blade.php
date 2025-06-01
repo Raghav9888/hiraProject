@@ -36,6 +36,8 @@
                                             <option value="1" {{ $userData->role == 1 ? 'selected' : '' }}>
                                                 Practitioner
                                             </option>
+                                            
+                                            <option value="3" {{ $userData->role == 3 ? 'selected' : '' }}>User </option>
                                         </select>
                                     </div>
                                     <div class="form-group plan-select">
