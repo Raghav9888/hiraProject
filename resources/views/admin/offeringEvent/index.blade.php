@@ -58,7 +58,7 @@
                                                             <a href="{{route('admin.offering.edit',$offering->id)}}" class="text-decoration-none"
                                                                style="cursor: pointer; border: none; background: none;color: #000;">Edit</a>
                                                             <form method="post"
-                                                                  action="{{route('delete_offering', $offering->id)}}">@csrf
+                                                                  action="{{route('delete_offering', ['id' => $offering->id,'isAdmin' => true])}}">@csrf
                                                                 <button type="submit"
                                                                         style="cursor: pointer; border: none; background: none;color: #000;">
                                                                     Delete

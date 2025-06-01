@@ -269,10 +269,16 @@ class OfferingController extends Controller
     }
 
     // Delete an offering
-    public function delete($id)
+    public function delete(Request $request,$id)
     {
+        $input = $request->all();
         $offering = Offering::findOrFail($id);
         $offering->delete();
+
+        if(isset($input['isAdmin']) && $input['isAdmin'])
+        {
+            return redirect()->route('admin.offering.index')->with('success', 'Offering deleted successfully!');
+        }
 
         return redirect()->route('offering')->with('success', 'Offering updated successfully!');
     }
