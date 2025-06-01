@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CommunityController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\OfferingEventController;
 use App\Http\Controllers\Admin\FeedbackController;
 use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Admin\PlanController;
@@ -95,6 +96,7 @@ Route::middleware(['auth', 'user-access:admin'])->name('admin.')->prefix('admin'
     Route::get('/approve/user/', [UserController::class, 'approve'])->name('user.approve');
     Route::post('/login/as', [UserController::class, 'loginAs'])->name('login.as');
     Route::resource('blogs', BlogController::class);
+    Route::resource('offering', OfferingEventController::class);
     Route::resource('plans', PlanController::class);
     Route::get('/user/waitlist/{id}', [UserController::class, 'waitlist'])->name('user.waitlist');
 

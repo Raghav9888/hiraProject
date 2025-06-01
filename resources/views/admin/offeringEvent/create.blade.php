@@ -1,155 +1,129 @@
-@extends('layouts.app')
+@extends('admin.layouts.app')
+
 @section('content')
-    <section class="practitioner-profile">
-        <div class="container">
-            @include('layouts.partitioner_sidebar')
-            <div class="row ms-md-5">
-                <div class="col-12">
-                    @include('layouts.partitioner_nav')
-                </div>
-                <div class="col-12">
-                    <div class="row">
-                        <h3 class="no-request-text mb-4">Add Offering</h3>
-                        <div class="add-offering-dv">
-                            <form method="POST" action="{{ route('store_offering') }}" enctype="multipart/form-data">
-                                @csrf
-                                <div class="mb-3 justify-content-center d-flex flex-column align-items-center">
-                                    <label class="pt-4 featured-image-tag fw-bold">Featured Image</label>
-                                    <input type="file" id="fileInput" name="featured_image" class="hidden  rounded-4"
-                                           accept="image/*"
-                                           onchange="previewImage(event)" style="display: none;">
-                                    <label for="fileInput" class="image-preview rounded-4" id="imagePreview">
-                                        <span>+</span>
-                                    </label>
-                                    <p style="text-align: start;" class="text">Set featured image</p>
-                                </div>
+    @include('admin.layouts.nav')
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+        <!-- partial:partials/_sidebar.html -->
+        @include('admin.layouts.sidebar')
+        <!-- partial -->
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="row">
+                    <div class="col-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Add New Event</h4>
+                                <form class="forms-sample" method="POST" action="{{ route('store_offering',['isAdmin' => true]) }}" enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="mb-3 justify-content-center d-flex flex-column align-items-center">
+                                        <label class="pt-4 featured-image-tag fw-bold">Featured Image</label>
+                                        <input type="file" id="fileInput" name="featured_image"
+                                               class="hidden  rounded-4"
+                                               accept="image/*"
+                                               onchange="previewImage(event)" style="display: none;">
+                                        <label for="fileInput" class="image-preview rounded-4" id="imagePreview">
+                                            <span>+</span>
+                                        </label>
+                                        <p style="text-align: start;" class="text">Set featured image</p>
+                                    </div>
+                                    <div class="row my-2">
+                                        <div class="col-md-6 my-2">
+                                            <label for="exampleInputEmail1" class="form-label fw-bold">Name</label>
+                                            <input type="text" class="form-control" name="name"
+                                                   id="exampleInputEmail1"
+                                                   aria-describedby="emailHelp" placeholder="Enter event name">
+                                        </div>
+                                        <div class="col-md-6 my-2">
+                                            <label for="floatingTextarea" class="form-label fw-bold">Short
+                                                Description</label>
+                                            <input class="form-control" name="short_description"
+                                                   placeholder="Please add a short description here"
+                                                   id="floatingTextarea">
+                                        </div>
+                                        <div class="col-md-6 my-2">
+                                            <label for="floatingTextarea" class="form-label fw-bold">Description</label>
+                                            <textarea name="long_description" class="form-control"
+                                                      placeholder="Please add a full description here"
+                                                      id="floatingTextarea"></textarea>
+                                        </div>
+                                        <div class="col-md-6 my-2">
+                                            <label for="type" class="form-label fw-bold">Type of offering</label>
+                                            <select id="type" name="offering_type" class="form-select"
+                                                    data-type="change"
+                                                    data-target-one="location"
+                                                    data-add-one-class="d-block"
+                                                    data-match-one="in-person">
+                                                <option value="">Select Offering Type</option>
+                                                <option value="virtual">Virtual Offering</option>
+                                                <option value="in-person">In person Offering</option>
+                                            </select>
 
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label fw-bold">Offering Name</label>
-                                    <input type="text" class="form-control" name="name" id="exampleInputEmail1"
-                                           aria-describedby="emailHelp" placeholder="">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="floatingTextarea" class="fw-bold">Short Description</label>
-                                    <textarea class="form-control" name="short_description"
-                                              placeholder="Please add a short description here"
-                                              id="floatingTextarea"></textarea>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="floatingTextarea" class="fw-bold">Description</label>
-                                    <textarea class="form-control" name="long_description"
-                                              placeholder="Please add a full description here"
-                                              id="floatingTextarea"></textarea>
-                                </div>
-                                <div class="mb-4">
-                                    <label for="type" class="fw-bold">Type of offering</label>
-                                    <select id="type" name="offering_type" class="form-select"
-                                            data-type="change"
-                                            data-target-one="location"
-                                            data-add-one-class="d-block"
-                                            data-match-one="in-person">
-                                        <option value="">Select Offering Type</option>
-                                        <option value="virtual">Virtual Offering</option>
-                                        <option value="in-person">In person Offering</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3 d-none" id="location">
-                                    <label for="exampleInputEmail1" class="fw-bold">Location</label>
-                                    <input type="text" class="form-control" name="location" id="location">
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="exampleInputPassword1" class="fw-bold">Categories</label>
-                                        <span>-Specifies the type of
-                                            service/offering you're providing (e.g. massage is the category and a
-                                            specific treatment
-                                            would be Ayuvedic massage and hot stone massage)
-                                            Practitioner Offerings
-                                        </span>
-                                    <select name="categories[]" multiple="multiple" class="form-control"
-                                            data-type="multiselect"
-                                            id="categories" data-maxshow="3">
-                                        @foreach($categories as $term)
-                                            <option value="{{$term->id}}">{{$term->name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-                                <div class="row">
-                                    <label for="type" class="fw-bold">Tags
-                                        <span data-bs-toggle="tooltip"
-                                              data-bs-placement="top"
-                                              data-bs-title="To add multiple new Tags at once, separate each with a comma (,)">
-                                                    <i class="fa-solid fa-circle-info"></i>
-                                    </span>
-                                    </label>
-                                    <p style="text-align: start;">These are keywords used to help
-                                        identify more
-                                        specific
-                                        versions of something. For example, a good tag for a massage
-                                        could be
-                                        "Deep
-                                        Tissue".</p>
-                                    <div class="col-md-6">
-                                        <div class="form-group select2-div">
-                                            <select name="tags[]" id="tags" multiple="multiple"
-                                                    class="form-select" data-type="multiselect">
-                                                @foreach($practitionerTag as $term)
+                                            <div class="my-2 d-none" id="location">
+                                                <label for="exampleInputEmail1" class="fw-bold">Location</label>
+                                                <input type="text" class="form-control" name="location" id="location">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 my-2">
+                                            <label for="exampleInputPassword1"
+                                                   class="form-label fw-bold">Categories</label>
+                                            <select name="categories[]" multiple="multiple" class="form-select"
+                                                    data-type="multiselect"
+                                                    id="categories" data-maxshow="3">
+                                                @foreach($categories as $term)
                                                     <option value="{{$term->id}}">{{$term->name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
-                                    </div>
-                                    <div class="col-md-6 mt-2">
-                                        <button class="update-btn mb-2 addterm" data-type="tags">Add
-                                            New Term
-                                        </button>
-                                    </div>
-                                </div>
-                                <div id="tags-container" class="col-6">
-
-                                </div>
-                                <hr>
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <label for="type" class="fw-bold">Select the event type</label>
-                                            <select name="offering_event_type" class="form-select mb-4">
-                                                <option value="offering">Offering</option>
-                                                <option value="event">Event</option>
-                                            </select>
+                                        <div class="col-md-6 my-2">
+                                            <div class="row align-items-center">
+                                                <label for="type" class="form-label fw-bold">Tags
+                                                    <span data-bs-toggle="tooltip"
+                                                          data-bs-placement="top"
+                                                          data-bs-title="To add multiple new Tags at once, separate each with a comma (,)">
+                                                    <i class="fa-solid fa-circle-info"></i>
+                                                </span>
+                                                </label>
+                                                <div class="col-md-6">
+                                                    <div class="select2-div">
+                                                        <select name="tags[]" id="tags" multiple="multiple"
+                                                                class="form-select" data-type="multiselect">
+                                                            @foreach($practitionerTag as $term)
+                                                                <option value="{{$term->id}}">{{$term->name}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <button class="btn btn-primary btn-sm addterm" data-type="tags">Add
+                                                        New Term
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div id="tags-container" class="col-md-6">
+                                            </div>
                                         </div>
-                                        <hr>
-
+                                    </div>
+                                    <hr>
+                                    <div class="col-md-12">
+                                        <label for="type" class="fw-bold">Select the event type</label>
+                                        <select name="offering_event_type" class="form-select mb-4">
+                                            <option value="offering">Offering</option>
+                                            <option value="event">Event</option>
+                                        </select>
+                                    </div>
+                                    <div class="row my-2">
                                         <div class="col-md-12">
                                             <ul class="nav nav-tabs" id="myTab" role="tablist">
                                                 <li class="nav-item" role="presentation">
-                                                    <button class="nav-link active" id="offering-tab"
-                                                            data-bs-toggle="tab" data-bs-target="#offering"
-                                                            type="button"
-                                                            role="tab"
-                                                            aria-controls="offering-tab-pane" aria-selected="true">
-                                                        Offering
-                                                    </button>
+                                                    <button class="nav-link active" id="offering-tab" data-bs-toggle="tab" data-bs-target="#offering-content" type="button" role="tab" aria-controls="offering-tab" aria-selected="true">Offering</button>
                                                 </li>
                                                 <li class="nav-item" role="presentation">
-                                                    <button class="nav-link" id="events-tab" data-bs-toggle="tab"
-                                                            data-bs-target="#events" type="button" role="tab"
-                                                            aria-controls="events-tab-pane" aria-selected="false">Events
-                                                    </button>
+                                                    <button class="nav-link" id="events-tab" data-bs-toggle="tab" data-bs-target="#event-content" type="button" role="tab" aria-controls="events-tab" aria-selected="false">Event</button>
                                                 </li>
-                                                {{--                                    <li class="nav-item" role="presentation">--}}
-                                                {{--                                        <button class="nav-link" id="package-offering-tab" data-bs-toggle="tab"--}}
-                                                {{--                                                data-bs-target="#package_offering" type="button" role="tab"--}}
-                                                {{--                                                aria-controls="package-offering-tab-pane" aria-selected="false">Package--}}
-                                                {{--                                            offering--}}
-                                                {{--                                        </button>--}}
-                                                {{--                                    </li>--}}
-
                                             </ul>
                                             <div class="tab-content" id="myTabContent">
-                                                <div class="tab-pane fade show active" id="offering" role="tabpanel"
-                                                     aria-labelledby="offering-tab" tabindex="0">
+                                                <div class="tab-pane fade show active" id="offering-content" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
                                                     <div class="my-4">
                                                         <label for="booking-duration" class="fw-bold">Duration of
                                                             offering</label>
@@ -319,7 +293,7 @@
                                                     </div>
                                                     <div class="mb-4">
                                                         <div class="form-check offering-check">
-                                                            <input type="checkbox" class="form-check-input"
+                                                            <input type="checkbox" class="form-check-input ms-0"
                                                                    id="can-be-cancelled"
                                                                    data-type="hide" data-id="cancellation_time"
                                                                    name="is_cancelled_offering">
@@ -343,17 +317,14 @@
                                                         </div>
                                                     </div>
                                                     <div class="form-check offering-check">
-                                                        <input type="checkbox" class="form-check-input"
+                                                        <input type="checkbox" class="form-check-input ms-0"
                                                                id="can-be-cancelled"
                                                                name="is_confirmation_offering">
                                                         <label class="form-check-label mb-3 fw-bold"
                                                                for="can-be-cancelled">Requires Confirmation</label>
                                                     </div>
                                                 </div>
-                                                <div class="tab-pane fade" id="events" role="tabpanel"
-                                                     aria-labelledby="events-tab"
-                                                     tabindex="0">
-
+                                                <div class="tab-pane fade" id="event-content" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
                                                     <div class="my-4">
                                                         <label for="specify" class="fw-bold">Specify</label>
                                                         <select id="specify" name="specify_event" class="form-select"
@@ -487,7 +458,7 @@
                                                     </div>
                                                     <div class="mb-4">
                                                         <div class="form-check offering-check">
-                                                            <input type="checkbox" class="form-check-input"
+                                                            <input type="checkbox" class="form-check-input ms-0"
                                                                    id="can-be-cancelled"
                                                                    data-type="hide" data-id="cancellation_time_event"
                                                                    name="is_cancelled_event">
@@ -516,117 +487,80 @@
                                                         </div>
                                                     </div>
                                                     <div class="form-check offering-check">
-                                                        <input type="checkbox" class="form-check-input"
+                                                        <input type="checkbox" class="form-check-input ms-0"
                                                                id="can-be-cancelled"
                                                                name="is_confirmation_event">
                                                         <label class="form-check-label mb-3 fw-bold"
                                                                for="can-be-cancelled">Requires Confirmation</label>
                                                     </div>
                                                 </div>
-                                                {{--                                    <div class="tab-pane fade" id="package_offering" role="tabpanel"--}}
-                                                {{--                                         aria-labelledby="package-offering-tab" tabindex="0">--}}
-                                                {{--                                        <div class="my-4">--}}
-                                                {{--                                            <label for="duration-session-package-offering" class="fw-bold">Duration of each session</label>--}}
-                                                {{--                                            <select id="duration-session-package-offering" name="duration_session_package_offering" class="form-select">--}}
-                                                {{--                                                <option value="15 minutes">15 minutes</option>--}}
-                                                {{--                                                <option value="20 minutes">20 minutes</option>--}}
-                                                {{--                                                <option value="30 minutes">30 minutes</option>--}}
-                                                {{--                                                <option value="45 minutes">45 minutes</option>--}}
-                                                {{--                                                <option value="50 minutes">50 minutes</option>--}}
-                                                {{--                                                <option value="1 hour">1 hour</option>--}}
-                                                {{--                                                <option value="1:15 hour">1:15 hour</option>--}}
-                                                {{--                                                <option value="1:30 hour">1:30 hour</option>--}}
-                                                {{--                                                <option value="1:45 hour">1:45 hour</option>--}}
-                                                {{--                                                <option value="1:50 hour">1:50 hour</option>--}}
-                                                {{--                                                <option value="2 hour">2 hours</option>--}}
-                                                {{--                                                <option value="3 hour">3 hour</option>--}}
-                                                {{--                                                <option value="4 hour">4 hour</option>--}}
-                                                {{--                                                <option value="1 Month">1 Month</option>--}}
-                                                {{--                                                <option value="2 Month">2 Months</option>--}}
-                                                {{--                                                <option value="3 Month">3 Months</option>--}}
-                                                {{--                                                <option value="4 Month">4 Months</option>--}}
-                                                {{--                                            </select>--}}
-                                                {{--                                        </div>--}}
-
-                                                {{--                                        <div class="my-4">--}}
-                                                {{--                                            <label for="number-session-package-offering" class="fw-bold">Number of session</label>--}}
-                                                {{--                                            <input type="number" class="form-control mt-2" name="number_session_package_offering" placeholder="Enter the number of sessions">--}}
-                                                {{--                                        </div>--}}
-
-                                                {{--                                        <div class="my-4">--}}
-                                                {{--                                            <label for="time-period-package-offering" class="fw-bold">Number of session</label>--}}
-                                                {{--                                            <input type="number" class="form-control mt-2" name="time_period_package_offering" placeholder="Enter the number of sessions">--}}
-                                                {{--                                        </div>--}}
-
-                                                {{--                                    </div>--}}
-
                                             </div>
                                         </div>
                                     </div>
-
-                                </div>
-                                <div class="d-flex" style="gap: 20px;">
-                                    <button class="update-btn">Save</button>
-                                </div>
-                            </form>
+                                    <div class="d-flex justify-content-center" style="gap: 20px;">
+                                        <button class="btn btn-primary">Save</button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const offeringSelect = document.querySelector('select[name="offering_event_type"]');
             const offeringTab = document.getElementById("offering-tab");
             const eventTab = document.getElementById("events-tab");
-            const offeringContent = document.getElementById("offering");
-            const eventContent = document.getElementById("events");
+            const offeringContent = document.getElementById("offering-content");
+            const eventContent = document.getElementById("event-content");
 
             function toggleTabs() {
-                if (offeringSelect.value === "offering") {
-                    eventTab.classList.add("disabled");
+                const value = offeringSelect.value;
+
+                if (value === "offering") {
+                    // Enable Offering, disable Events
                     offeringTab.classList.remove("disabled");
+                    eventTab.classList.add("disabled");
 
                     // Activate Offering tab
                     offeringTab.classList.add("active");
                     eventTab.classList.remove("active");
 
-                    // Show Offering content and hide Events content
+                    // Show Offering content only
                     offeringContent.classList.add("show", "active");
                     eventContent.classList.remove("show", "active");
 
-                } else if (offeringSelect.value === "event") {
-                    offeringTab.classList.add("disabled");
+                } else if (value === "event") {
+                    // Enable Events, disable Offering
                     eventTab.classList.remove("disabled");
+                    offeringTab.classList.add("disabled");
 
                     // Activate Events tab
                     eventTab.classList.add("active");
                     offeringTab.classList.remove("active");
 
-                    // Show Events content and hide Offering content
-                    eventContent.classList.add("show", "active");
+                    // Show Event content only
                     offeringContent.classList.remove("show", "active");
-
+                    eventContent.classList.add("show", "active");
                 } else {
-                    offeringTab.classList.remove("disabled");
-                    eventTab.classList.remove("disabled");
+                    // If nothing selected, reset both
+                    offeringTab.classList.remove("disabled", "active");
+                    eventTab.classList.remove("disabled", "active");
 
-                    // Default state (no tab selected)
                     offeringContent.classList.remove("show", "active");
                     eventContent.classList.remove("show", "active");
                 }
             }
 
-            // Initial state on page load
+            // Initial state
             toggleTabs();
 
-            // Listen for changes in the select field
+            // Listen for changes
             offeringSelect.addEventListener("change", toggleTabs);
         });
-
-
     </script>
 
-@endsection
 
+@endsection

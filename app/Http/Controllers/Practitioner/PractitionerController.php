@@ -299,8 +299,8 @@ class PractitionerController extends Controller
         $type = $request->type;
 
         if (in_array($type, ['IHelpWith', 'HowIHelp', 'certifications', 'tags', 'modalityPractice'])) {
-            $inputField = '<input type="text" class="' . $type . '_term" id="' . $type . '_term" name="' . $type . '_term" placeholder="Enter term">
-            <button data-type="' . $type . '" class="update-btn mb-2 save_term">Add Term</button>';
+            $inputField = '<input type="text" class="' . $type . '_term form-control my-2 me-3" id="' . $type . '_term" name="' . $type . '_term" placeholder="Enter term">
+            <button data-type="' . $type . '" class="update-btn my-2 save_term btn btn-sm btn-primary">Add Term</button>';
 
             return response()->json(['success' => true, 'inputField' => $inputField]);
         }

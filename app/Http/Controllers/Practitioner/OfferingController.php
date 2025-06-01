@@ -106,6 +106,10 @@ class OfferingController extends Controller
 
         $event = Event::create($data);
 
+        if(isset($input['isAdmin']) && $input['isAdmin'])
+        {
+            return redirect()->route('admin.offering.index')->with('success', 'Offering created successfully!');
+        }
         return redirect()->route('offering')->with('success', 'Offering created successfully!');
     }
 
@@ -225,6 +229,11 @@ class OfferingController extends Controller
             $event->update($eventData);
         }
 
+
+        if(isset($input['isAdmin']) && $input['isAdmin'])
+        {
+            return redirect()->route('admin.offering.index')->with('success', 'Offering created successfully!');
+        }
 
         return redirect()->route('offering')->with('success', 'Offering updated successfully!');
     }

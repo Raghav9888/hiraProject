@@ -35,6 +35,20 @@
                 </ul>
             </div>
         </li>
+        <li class="nav-item {{request()->routeIs('admin.offering.*')? 'active': ''}} ">
+            <a class="nav-link" data-bs-toggle="collapse" href="#offering" aria-expanded="false"
+               aria-controls="plan">
+                <i class="menu-icon mdi mdi-card-text-outline"></i>
+                <span class="menu-title">Event Management</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse {{request()->routeIs('admin.offering.*')? 'show': ''}}" id="offering">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"><a class="nav-link plans {{request()->routeIs('admin.offering.create')? 'active': ''}}" href="{{route('admin.offering.create')}}">Add Event</a></li>
+                    <li class="nav-item"><a class="nav-link {{request()->routeIs('admin.offering.index')? 'active': ''}}" href="{{route('admin.offering.index')}}">All Events</a></li>
+                </ul>
+            </div>
+        </li>
         <li class="nav-item {{request()->routeIs('admin.plans.*')? 'active': ''}} ">
             <a class="nav-link" data-bs-toggle="collapse" href="#plan" aria-expanded="false"
                aria-controls="plan">

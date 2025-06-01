@@ -53,6 +53,7 @@
 <script src="{{asset('admin/assets/js/hoverable-collapse.js')}}"></script>
 <script src="{{asset('admin/assets/js/todolist.js')}}"></script>
 <script src="{{asset('admin/assets/js/file-upload.js')}}"></script>
+<script src="{{asset('admin/assets/js/script.js')}}"></script>
 <!-- endinject -->
 <script src="https://cdn.ckeditor.com/ckeditor5/23.0.0/classic/ckeditor.js"></script>
 <!-- jQuery (required for Toastr) -->
@@ -119,6 +120,20 @@
         });
     </script>
 @endif
+
+<script>
+    function previewImage(event) {
+        const reader = new FileReader();
+        reader.onload = function () {
+            const output = document.getElementById('imagePreview');
+            output.style.backgroundImage = `url(${reader.result})`;
+            output.style.backgroundSize = 'cover';
+            output.style.backgroundPosition = 'center';
+            output.innerHTML = '';
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+</script>
 
 @stack('custom_scripts')
 </body>
