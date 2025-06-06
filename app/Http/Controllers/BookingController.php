@@ -8,10 +8,12 @@ use App\Models\Booking;
 use App\Models\Country;
 use App\Models\GoogleAccount;
 use App\Models\Offering;
+use App\Models\Show;
 use App\Models\User;
 use App\Models\UserDetail;
 use App\Models\Wallet;
 use Carbon\Carbon;
+use Google\Type\Date;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -90,8 +92,16 @@ class BookingController extends Controller
                 "data" => "No booking details found.",
             ], 404);
         }
+        $isShow = isset($booking['isShow']) ? $booking['isShow'] : false;
 
-        $product = Offering::where('id', $booking['offering_id'])->with('event')->first();
+        if($isShow)
+        {
+            $product = Show::findOrFail($booking['show_id']);
+
+        }else{
+            $product = Offering::findOrFail($booking['offering_id'])->with('event')->first();
+        }
+
         if ($request->subscribe == true) {
             $mailerLite = new MailerLite(['api_key' => env("MAILERLITE_KEY")]);
             $data = [
@@ -182,7 +192,14 @@ class BookingController extends Controller
             ];
             $mailerLite->subscribers->create($data);
         }
-        $product = Offering::findOrFail($booking['offering_id']);
+        if(isset($booking['isShow']))
+        {
+            $product = Show::findOrFail($booking['show_id']);
+
+        }else{
+            $product = Offering::findOrFail($booking['offering_id']);
+        }
+
         return response()->json([
             "success" => true,
             "data" => "Billing details saved in session!",
@@ -215,8 +232,11 @@ class BookingController extends Controller
         $practitionerTimezone = $user->userDetail->timezone ?? 'UTC';
         $userTimezone = $booking->user_timezone ?? $practitionerTimezone;
 
-        $bookingDate = $booking->booking_date;
-        $bookingTime = trim($booking->time_slot ?? '');
+        $bookingDate = $booking->booking_date ?? Carbon::now()->toDateString(); // e.g., 2025-06-06
+
+        $bookingTime = isset($booking->time_slot) && trim($booking->time_slot) !== ''
+            ? trim($booking->time_slot)
+            : Carbon::now()->format('H:i'); // e.g., 21:15
 
         if (!$bookingDate || !$bookingTime) {
             return redirect()->route('booking.index')->with('error', 'Invalid booking date or time.');
@@ -288,9 +308,5 @@ class BookingController extends Controller
 
 
 
-    public function showRescheduleForm(Request $request, $bookingId)
-    {
-
-    }
 
 }

@@ -55,6 +55,7 @@ Route::get('/our-vision', [HomeController::class, 'ourVision'])->name('our_visio
 Route::get('/core-values', [HomeController::class, 'coreValues'])->name('core_values');
 Route::post('/getBookedSlots/{userId}', [GoogleCalendarController::class, 'getBookedSlots'])->name('getBookedSlots');
 Route::post('/news-letter', [HomeController::class, 'newsLetter'])->name('newsLetter');
+Route::get('/shows', [HomeController::class, 'shows'])->name('shows');
 Route::get('/cancel-booking/{bookingId}/{eventId}', [BookingController::class, 'cancelEvent'])->name('bookingCancel');
 
 Route::get('/practitioner/detail/{slug}', [HomeController::class, 'practitionerDetail'])->name('practitioner_detail');
@@ -73,6 +74,7 @@ Route::get('/payment-failed', [PaymentController::class, 'failed'])->name('payme
 Route::get('/calendar/time-slots/{date}/{id}', [HomeController::class, 'getTimeSlots'])->name('get_time_slots');
 
 Route::post('/calender/Booking', [BookingController::class, 'calendarBooking'])->name('calendarBooking');
+Route::post('/show/booking', [HomeController::class, 'showBooking'])->name('showBooking');
 Route::post('/pre-checkout-register', [BookingController::class, 'preCheckoutRegister'])->name('preCheckout.register');
 Route::post('/pre-checkout', [BookingController::class, 'preCheckout'])->name('preCheckout');
 Route::get('/checkout', [BookingController::class, 'checkout'])->name('checkout');
@@ -148,6 +150,12 @@ Route::middleware(['auth', 'user-access:practitioner'])->group(function () {
     Route::post('/personal/information/update', [PractitionerController::class, 'membershipPersonalInformation'])->name('membershipPersonalInformation');
     Route::post('/professional/service/information/update', [PractitionerController::class, 'professionalServiceInformation'])->name('professionalServiceInformation');
     Route::post('/community/engagement/update', [PractitionerController::class, 'communityEngagement'])->name('communityEngagement');
+    Route::get('/practitioner-shows', [PractitionerController::class, 'practitionerShows'])->name('practitionerShows');
+    Route::get('/add-show', [PractitionerController::class, 'practitionerAddShow'])->name('practitionerAddShow');
+    Route::get('/edit-show/{id}', [PractitionerController::class, 'practitionerShowEdit'])->name('practitionerShowEdit');
+    Route::post('/show-store', [PractitionerController::class, 'practitionerShowStore'])->name('practitionerShowStore');
+    Route::put('/show-update/{id}', [PractitionerController::class, 'practitionerShowUpdate'])->name('practitionerShowUpdate');
+    Route::post('/show-delete/{id}', [PractitionerController::class, 'practitionerShowDelete'])->name('practitionerShowDelete');
 
     Route::get('/earning', [PractitionerController::class, 'earning'])->name('earning');
     Route::get('/refund/request', [PractitionerController::class, 'refundRequest'])->name('refund_request');

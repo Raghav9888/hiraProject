@@ -6,23 +6,19 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
+
         Schema::table('bookings', function (Blueprint $table) {
-            $table->string("tax_amount")->nullable()->after('total_amount');
+            $table->foreignId('shows_id')
+                ->constrained('shows')
+                ->onDelete('cascade');
         });
+
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::table('bookings', function (Blueprint $table) {
-            //
-        });
+
     }
 };

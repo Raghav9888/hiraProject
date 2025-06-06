@@ -8,6 +8,7 @@ use App\Models\Booking;
 use App\Models\Category;
 use App\Models\Certifications;
 use App\Models\Community;
+use App\Models\Country;
 use App\Models\Feedback;
 use App\Models\GoogleAccount;
 use App\Models\HowIHelp;
@@ -15,16 +16,17 @@ use App\Models\IHelpWith;
 use App\Models\Locations;
 use App\Models\Offering;
 use App\Models\PractitionerTag;
+use App\Models\Show;
 use App\Models\User;
 use App\Models\UserDetail;
 use App\Models\Waitlist;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use MailerLite\MailerLite;
-use Illuminate\Support\Facades\Http;
 
 class HomeController extends Controller
 {
@@ -756,6 +758,90 @@ class HomeController extends Controller
 
 
         return response()->json(['message' => 'Slugs updated successfully']);
+    }
+
+    public function shows()
+    {
+        $allowedEmails = [
+            'Info@jothi.ca',
+            'undrbrigitta@gmail.com',
+            'laurenwelchner@gmail.com',
+            'isabelnantaba@gmail.com',
+            'julie@balancelifewithjulie.com',
+            'revolution9wellness@gmail.com',
+            'welcome@soulful-connections.ca',
+            'hello@aiazucena.com',
+            'king.oils@hotmail.com',
+            'melissacharles@nubiandivinity.com',
+            'Daverinej@gmail.com',
+            'joshiraghav282@gmail.com'
+        ];
+       $users = User::all();
+
+        $practitionersWithShows = $users->filter(function ($user) use ($allowedEmails) {
+            return in_array($user->email, $allowedEmails);
+        });
+
+        $practitionersWithShows = $practitionersWithShows->map(function ($user) {
+            $user->shows = Show::where('user_id', $user->id)->get();
+            return $user;
+        });
+
+        $defaultLocations = Locations::where('status', 1)->pluck('name', 'id');
+
+        return view('user.shows', [
+            'practitionersWithShows' => $practitionersWithShows,
+            'defaultLocations' => $defaultLocations,
+        ]);
+    }
+
+    public function showBooking(Request $request)
+    {
+        $user = Auth::user() ?? null;
+        $request->validate([
+            'showId' => 'required',
+            'price' => 'required|string|numeric',
+            'currency' => 'required|string',
+            'currencySymbol' => 'required|string',
+            'timezone' => 'required|string',
+            'booking_user_timezone' => 'required|string',
+            'practitioner_id' => 'required|integer',
+        ]);
+        $todayDate = Carbon::now()->toDateString();
+        $todayTime = Carbon::now()->format('H:i');
+        session([
+            'booking' => [
+                'show_id' => $request->showId,
+                'price' => $request->price,
+                'currency' => $request->currency,
+                'currency_symbol' => $request->currencySymbol,
+                'booking_date' => $todayDate,
+                'booking_time' => $todayTime,
+                'isShow' => true,
+                'practitioner_id' => $request->practitioner_id,
+                'practitioner_timezone' => $request->timezone,
+                'booking_user_timezone' => $request->booking_user_timezone,
+                ]
+            ]);
+
+        $id = $request->get('showId');
+        $show = Show::findOrFail($id)->with(['user'])->first();
+
+        $defaultLocations = Locations::where('status', 1)->pluck('name', 'id');
+        $countries = Country::all();
+        return response()->json([
+            "success" => true,
+            "data" => "Booking saved in session!",
+            'html' => view('user.show-billing-popup', [
+                'user' => $user,
+                'show' => $show,
+                'defaultLocations' => $defaultLocations,
+                'countries' => $countries,
+                'currency' => $request->get('currency'),
+                'price' => $request->get('price'),
+                'currencySymbol' => $request->get('currencySymbol')
+            ])->render()
+        ]);
     }
 
 

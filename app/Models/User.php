@@ -93,5 +93,8 @@ class User extends Authenticatable
     {
         return $this->hasOne(Waitlist::class, 'user_id', 'id');
     }
-
+    public function shows()
+    {
+        return $this->hasMany(Show::class);
+    }
 }

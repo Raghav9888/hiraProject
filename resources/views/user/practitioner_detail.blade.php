@@ -263,7 +263,6 @@
                                                             {{--                                                    <a href="{{ route('practitionerOfferingDetail',$offering->id)}}" class="home-blog-btn">BOOK NOW</a>--}}
                                                         </div>
                                                     </div>
-
                                                 </div>
                                                 <ul class="practitioner-accordian-lists">
                                                     <li>{{ $offering->offering_event_type == 'event' ? $offering->event?->event_duration ?? 0:$offering->booking_duration}}</li>

@@ -340,7 +340,6 @@ function getClickedDayIndex(date) {
 }
 
 
-
 function showAvailableSlots(date) {
 
     const slotsContainer = document.getElementById('availableSlots');
@@ -378,7 +377,7 @@ function showAvailableSlots(date) {
             let fromTime = storeAvailability.every_day?.from;
             let toTime = storeAvailability.every_day?.to;
 
-            if (fromTime && toTime ) {
+            if (fromTime && toTime) {
                 allSlots = generateTimeSlots(fromTime, toTime, date);
             }
         } else {
@@ -393,7 +392,7 @@ function showAvailableSlots(date) {
                     const dayIndex = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"]
                         .indexOf(normalizedDay);
 
-                   console.log("Clicked index:" + clickedDayIndex +  "Store index:" + dayIndex);
+                    console.log("Clicked index:" + clickedDayIndex + "Store index:" + dayIndex);
 
                     if (clickedDayIndex === dayIndex && fromTime && toTime) {
                         allSlots = allSlots.concat(generateTimeSlots(fromTime, toTime, date));
@@ -425,18 +424,18 @@ function parseDuration(durationStr) {
         const unit = match[3].toLowerCase();
 
         if (unit === 'minutes' || unit === 'minute') {
-            return { minutes: hours + minutes };
+            return {minutes: hours + minutes};
         } else if (unit === 'hour' || unit === 'hours') {
-            return { minutes: (hours * 60) + minutes };  // Convert both hours and minutes to minutes
+            return {minutes: (hours * 60) + minutes};  // Convert both hours and minutes to minutes
         }
     }
-    return { minutes: 0 };
+    return {minutes: 0};
 }
 
 
 function generateTimeSlots(from = null, to = null, date = null, allDay = false) {
     const practitionerTimeZone = document.getElementById('practitioner_timezone')?.value || 'UTC';
-    const { DateTime, Duration, Interval } = luxon;
+    const {DateTime, Duration, Interval} = luxon;
     let durationTime = document.getElementById('duration_time')?.value || '15 minutes';
     let bufferTime = document.getElementById('buffer_time')?.value || '0 minutes';
 
@@ -448,16 +447,16 @@ function generateTimeSlots(from = null, to = null, date = null, allDay = false) 
     let startTime, endTime;
 
     if (allDay) {
-        startTime = DateTime.fromISO(`${date}T00:00:00`, { zone: practitionerTimeZone });
-        endTime = startTime.plus({ hours: 24 });
+        startTime = DateTime.fromISO(`${date}T00:00:00`, {zone: practitionerTimeZone});
+        endTime = startTime.plus({hours: 24});
     } else {
         if (!from || !to) return [];
 
-        startTime = DateTime.fromISO(`${date}T${from}`, { zone: practitionerTimeZone });
-        endTime = DateTime.fromISO(`${date}T${to}`, { zone: practitionerTimeZone });
+        startTime = DateTime.fromISO(`${date}T${from}`, {zone: practitionerTimeZone});
+        endTime = DateTime.fromISO(`${date}T${to}`, {zone: practitionerTimeZone});
 
         if (endTime <= startTime) {
-            endTime = endTime.plus({ days: 1 });
+            endTime = endTime.plus({days: 1});
         }
     }
 
@@ -468,7 +467,7 @@ function generateTimeSlots(from = null, to = null, date = null, allDay = false) 
     bookedSlots.forEach(slot => {
         if (slot.date === date) {
             const zone = slot.timezone || 'UTC';
-            const bookingStart = DateTime.fromFormat(slot.start_time, 'hh:mm a', { zone });
+            const bookingStart = DateTime.fromFormat(slot.start_time, 'hh:mm a', {zone});
             const bookingEnd = bookingStart.plus(duration);
             const blockedEnd = bookingEnd.plus(buffer); // only add buffer ONCE per booking
             blockedIntervals.push(Interval.fromDateTimes(bookingStart, blockedEnd));
@@ -494,7 +493,7 @@ function generateTimeSlots(from = null, to = null, date = null, allDay = false) 
 }
 
 function filterBookedSlots(date, availableSlots) {
-    const { DateTime, Duration } = luxon;
+    const {DateTime, Duration} = luxon;
 
     const bookedSlots = JSON.parse(document.getElementById('already_booked_slots').value || '[]');
     const bufferTime = document.getElementById('buffer_time')?.value || '0 minutes';
@@ -509,12 +508,12 @@ function filterBookedSlots(date, availableSlots) {
     bookedSlots.forEach(slot => {
         if (slot.date === date) {
             const zone = slot.timezone || 'UTC';
-            let start = DateTime.fromFormat(`${date} ${slot.start_time}`, 'yyyy-MM-dd hh:mm a', { zone });
-            let end = DateTime.fromFormat(`${date} ${slot.end_time}`, 'yyyy-MM-dd hh:mm a', { zone });
+            let start = DateTime.fromFormat(`${date} ${slot.start_time}`, 'yyyy-MM-dd hh:mm a', {zone});
+            let end = DateTime.fromFormat(`${date} ${slot.end_time}`, 'yyyy-MM-dd hh:mm a', {zone});
 
             // Fix overnight bookings
             if (end <= start) {
-                end = end.plus({ days: 1 });
+                end = end.plus({days: 1});
             }
 
             // Push booking interval
@@ -542,7 +541,7 @@ function filterBookedSlots(date, availableSlots) {
         const slotStart = DateTime.fromFormat(`${date} ${timeStr}`, 'yyyy-MM-dd hh:mm a', {
             zone: practitionerTimeZone
         });
-        const slotEnd = slotStart.plus({ minutes: 15 });
+        const slotEnd = slotStart.plus({minutes: 15});
 
         return !blockedIntervals.some(b => {
             return slotStart < b.end && slotEnd > b.start;
@@ -643,13 +642,6 @@ function renderSlots(date, availableSlotGroups) {
 }
 
 
-
-
-
-
-
-
-
 const prevBtn = document.getElementById('prevMonth');
 if (prevBtn) {
     prevBtn.addEventListener('click', () => {
@@ -683,9 +675,9 @@ $(document).on('click', '.proceed_to_checkout', function () {
     const price = $('#offering_price').val();
     const currency = $('#currency').val();
     const currencySymbol = $('#currency_symbol').val();
-    const bookingUserTimezone = $('#booking_time').attr('data-user-timezone') ||  Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const bookingUserTimezone = $('#booking_time').attr('data-user-timezone') || Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-    console.log(currencySymbol ,bookingUserTimezone)
+    console.log(currencySymbol, bookingUserTimezone)
     let bookingDate = '';
     let bookingTime = '';
 
@@ -746,5 +738,53 @@ function paymentAjax(offeringId, bookingDate, bookingTime, offeringEventType, pr
         //     console.error('Booking failed:', xhr.responseText || xhr);
         // }
     });
+
+}
+
+function openShowPopup(event) {
+    event.preventDefault();
+    window.loadingScreen.addPageLoading();
+    const showId = event.target.getAttribute('data-show-id');
+    const price   = event.target.getAttribute('data-show-price');
+    const currency = event.target.getAttribute('data-currency');
+    const currencySymbol = event.target.getAttribute('data-currency-symbol');
+    let timezone = event.target.getAttribute('data-timezone');
+    let practitionerId = event.target.getAttribute('data-practitioner-id');
+
+    $.ajax({
+        type: "POST",
+        url: `/show/booking`,
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        data: {
+            showId: showId,
+            price: price,
+            currency: currency,
+            currencySymbol: currencySymbol,
+            timezone: timezone,
+            booking_user_timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            practitioner_id: practitionerId,
+        },
+        beforeSend: function () {
+            window.loadingScreen.addPageLoading();
+        },
+        success: function (response) {
+            if (response.success) {
+                $('.billing-container').show().html(response.html);
+            } else {
+                alert("Something went wrong!");
+            }
+        },
+        error: function (xhr) {
+            console.error('Error fetching show booking:', xhr.responseText || xhr);
+            alert("Something went wrong!");
+        },
+        complete: function () {
+            window.loadingScreen.removeLoading();
+        }
+
+    })
+
 
 }

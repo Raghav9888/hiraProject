@@ -14,7 +14,6 @@ use App\Models\Payment;
 use App\Models\User;
 use App\Models\UserDetail;
 use App\Models\UserStripeSetting;
-use App\Models\Wallet;
 use Carbon\Carbon;
 use Google\Service\Exception;
 use Illuminate\Http\Request;
@@ -99,13 +98,8 @@ class PaymentController extends Controller
 
     public function storeCheckout(Request $request)
     {
-
-
         try {
-            $user = auth()->user();
-
             $booking = session('booking');
-
             $billing = session('billing');
 
             if (!$booking || !$billing) {
@@ -114,10 +108,55 @@ class PaymentController extends Controller
                     "data" => "Booking session expired.",
                 ], 404);
             }
-            // Save Booking
+
+            // Convert to array if needed
+            if (is_object($booking)) {
+                $booking = (array)$booking;
+            }
+            if (is_object($billing)) {
+                $billing = (array)$billing;
+            }
+
+            // Check if user already exists
+            $user = User::where('email', $billing['billing_email'])->first();
+
+            if (!$user) {
+                // Register new user
+                $user = User::create([
+                    'name' => $billing['first_name'] . ' ' . $billing['last_name'],
+                    'first_name' => $billing['first_name'],
+                    'last_name' => $billing['last_name'],
+                    'email' => $billing['billing_email'],
+                    'role' => 3,
+                    'status' => 1,
+                    'password' => Hash::make('12345678'),
+                ]);
+
+                UserDetail::create([
+                    'user_id' => $user->id,
+                    'slug' => Str::slug($user->first_name . ' ' . $user->last_name),
+                    'first_name' => $user->first_name,
+                    'last_name' => $user->last_name,
+                    'email' => $user->email,
+                    'phone' => $billing['billing_phone'],
+                    'address_line_1' => $billing['billing_address'] ?? null,
+                    'address_line_2' => $billing['billing_address2'] ?? null,
+                    'city' => $billing['billing_city'] ?? null,
+                    'state' => $billing['billing_state'] ?? null,
+                    'postcode' => $billing['billing_postcode'] ?? null,
+                    'country' => $billing['billing_country'] ?? null,
+                ]);
+
+                GoogleAccount::create([
+                    'user_id' => $user->id,
+                ]);
+            }
+
+            // Create Booking
             $order = Booking::create([
-                'user_id' => $user ? $user->id : null,
-                'offering_id' => $booking['offering_id'],
+                'user_id' => $user->id,
+                'offering_id' => $booking['offering_id'] ?? null,
+                'shows_id' => $booking['show_id'] ?? null,
                 'booking_date' => $booking['booking_date'],
                 'time_slot' => $booking['booking_time'],
                 'user_timezone' => $booking['booking_user_timezone'],
@@ -139,19 +178,25 @@ class PaymentController extends Controller
                 'billing_email' => $billing['billing_email'],
             ]);
 
+            // Clear session
             session()->forget('booking');
             session()->forget('billing');
+
+            // Redirect to Stripe
             $url = $this->processStripePayment($order->id);
+
             if (!$url) {
                 return response()->json([
                     "success" => false,
-                    "data" => "Practitioner does not link there stripe account",
+                    "data" => "Practitioner does not link their Stripe account",
                 ], 200);
             }
+
             return response()->json([
                 "success" => true,
                 "data" => $url,
             ], 200);
+
         } catch (\Throwable $th) {
             return response()->json([
                 "success" => false,
@@ -159,6 +204,7 @@ class PaymentController extends Controller
             ], 500);
         }
     }
+
 
     public function showPaymentPage($order_id)
     {
@@ -173,7 +219,8 @@ class PaymentController extends Controller
             Stripe::setApiKey(env('STRIPE_SECRET'));
 
             $order = Booking::findOrFail($orderId);
-            $vendorId = $order->offering->user_id;
+
+            $vendorId = $order->user_id;
             $vendorStripe = UserStripeSetting::where("user_id", $vendorId)->first();
             $isVendorConnected = $vendorStripe && $vendorStripe->stripe_user_id;
             $amountInCents = intval($order->total_amount * 100);
@@ -231,82 +278,84 @@ class PaymentController extends Controller
 //        try {
         // Fetch the order with related offerings and user
         $order = Booking::with('offering', 'offering.user')->findOrFail($request->order_id);
-        $offeringId = $order->offering->id;
-
         // Update the payment status
         $payment = Payment::where("order_id", $order->id)->firstOrFail();
         $payment->status = 'completed';
         $payment->save();
+        $isShow = (isset($order->shows_id) && $order->shows_id);
+        if (!$isShow) {
 
-        // Fetch offering and its related event
-        $offering = Offering::where('id', $offeringId)->with('event')->first();
-        if ($offering->offering_event_type === 'event') {
-            $event = Event::where('offering_id', $offeringId)->firstOrFail();
-            $totalSlots = $offering->event->sports > 0 ? $offering->event->sports - 1 : 0;
-            $event->sports = "$totalSlots";
-            $event->save();
-        }
+            $offeringId = $order->offering->id;
 
-        // Attempt to create a Google Calendar event
-        $practitionerEmailTemplate = $offering->email_template;
-        $intakeForms = $offering->intake_form;
 
-        $user = User::where('email', $order->billing_email)->first();
-        if (!$user) {
-            //       Booking user register and login here
-            $user = User::create([
-                'name' => $order->first_name . ' ' . $order->last_name,
-                'first_name' => $order->first_name,
-                'last_name' => $order->last_name,
-                'email' => $order->billing_email,
+            // Fetch offering and its related event
+            $offering = Offering::where('id', $offeringId)->with('event')->first();
+            if ($offering->offering_event_type === 'event') {
+                $event = Event::where('offering_id', $offeringId)->firstOrFail();
+                $totalSlots = $offering->event->sports > 0 ? $offering->event->sports - 1 : 0;
+                $event->sports = "$totalSlots";
+                $event->save();
+            }
+
+            // Attempt to create a Google Calendar event
+            $practitionerEmailTemplate = $offering->email_template;
+            $intakeForms = $offering->intake_form;
+
+            $user = User::where('email', $order->billing_email)->first();
+            if (!$user) {
+                //       Booking user register and login here
+                $user = User::create([
+                    'name' => $order->first_name . ' ' . $order->last_name,
+                    'first_name' => $order->first_name,
+                    'last_name' => $order->last_name,
+                    'email' => $order->billing_email,
 //            role 0 = pending, role 1 = practitioner, role 2 = Admin , role 3 = User
-                'role' => 3,
-                //  default status  0 = Inactive, status 1 = Active, status 2 = pending,
-                'status' => 1,
-                'password' => Hash::make('12345678'),
-            ]);
+                    'role' => 3,
+                    //  default status  0 = Inactive, status 1 = Active, status 2 = pending,
+                    'status' => 1,
+                    'password' => Hash::make('12345678'),
+                ]);
 
-            UserDetail::create([
-                'user_id' => $user->id,
-                'slug' => Str::slug($user->first_name . ' ' . $user->last_name),
-                'first_name' => $user->first_name,
-                'last_name' => $user->last_name,
-                'email' => $user->email,
-                'phone' => $order->billing_phone,
-                'address_line_1' => $order->billing_address ?? null,
-                'address_line_2' => $order->billing_address2 ?? null,
-                'city' => $order->billing_city ?? null,
-                'state' => $order->billing_state ?? null,
-                'postcode' => $order->billing_postcode ?? null,
-                'country' => $order->billing_country ?? null,
-            ]);
-
-            GoogleAccount::create([
+                UserDetail::create([
                     'user_id' => $user->id,
-                ]
-            );
+                    'slug' => Str::slug($user->first_name . ' ' . $user->last_name),
+                    'first_name' => $user->first_name,
+                    'last_name' => $user->last_name,
+                    'email' => $user->email,
+                    'phone' => $order->billing_phone,
+                    'address_line_1' => $order->billing_address ?? null,
+                    'address_line_2' => $order->billing_address2 ?? null,
+                    'city' => $order->billing_city ?? null,
+                    'state' => $order->billing_state ?? null,
+                    'postcode' => $order->billing_postcode ?? null,
+                    'country' => $order->billing_country ?? null,
+                ]);
+
+                GoogleAccount::create([
+                        'user_id' => $user->id,
+                    ]
+                );
+            }
+
+
+            $response = $this->createGoogleCalendarEvent($order);
+            $response['order'] = $order;
+            $response['bookingCancelUrl'] = (isset($offering->cancellation_time_slot) && $offering->cancellation_time_slot) ? route('bookingCancel', ['bookingId' => $order->id, 'eventId' => $response['google_event_id']]) : null;
+
+            $response['isPractitioner'] = false;
+
+            // Update order status
+            $order->update(['reschedule' => $offering->is_cancelled, 'reschedule_hour' => $offering->cancellation_time_slot, 'status' => 'paid', 'user_id' => $user->id, 'event_id' => $response['google_event_id']
+            ]);
+            Auth::login($user);
+            // Send confirmation email to the user
+            Mail::to($order->billing_email)->send(new BookingConfirmationMail($order, $practitionerEmailTemplate, $intakeForms, $response));
+
+            $response['isPractitioner'] = true;
+
+            // Send confirmation email to the practitioner
+            Mail::to($offering->user->email)->send(new BookingConfirmationMail($order, $practitionerEmailTemplate, $intakeForms, $response));
         }
-
-
-
-        $response = $this->createGoogleCalendarEvent($order);
-        $response['order'] = $order;
-        $response['bookingCancelUrl'] = (isset($offering->cancellation_time_slot) && $offering->cancellation_time_slot) ? route('bookingCancel', ['bookingId' => $order->id, 'eventId' => $response['google_event_id']]) : null;
-
-        $response['isPractitioner'] = false;
-
-        // Update order status
-        $order->update(['reschedule' => $offering->is_cancelled,'reschedule_hour' => $offering->cancellation_time_slot, 'status' => 'paid', 'user_id' => $user->id, 'event_id' => $response['google_event_id']
-        ]);
-        Auth::login($user);
-        // Send confirmation email to the user
-        Mail::to($order->billing_email)->send(new BookingConfirmationMail($order, $practitionerEmailTemplate, $intakeForms, $response));
-
-        $response['isPractitioner'] = true;
-
-        // Send confirmation email to the practitioner
-        Mail::to($offering->user->email)->send(new BookingConfirmationMail($order, $practitionerEmailTemplate, $intakeForms, $response));
-
         return redirect()->route('thankyou')->with('success', 'Payment successful!');
 
 //        } catch (\Exception $e) {
@@ -413,7 +462,6 @@ class PaymentController extends Controller
 
         return $response;
     }
-
 
 
     private function getStoreAvailability($availabilityKey, $storeAvailabilities): array

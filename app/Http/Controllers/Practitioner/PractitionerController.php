@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Practitioner;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Certifications;
 use App\Models\GoogleAccount;
 use App\Models\HowIHelp;
 use App\Models\IHelpWith;
@@ -11,12 +12,12 @@ use App\Models\Locations;
 use App\Models\Membership;
 use App\Models\MembershipModality;
 use App\Models\Offering;
+use App\Models\Plan;
 use App\Models\PractitionerTag;
+use App\Models\Show;
 use App\Models\User;
 use App\Models\UserDetail;
 use App\Models\UserStripeSetting;
-use App\Models\Certifications;
-use App\Models\Plan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -242,7 +243,8 @@ class PractitionerController extends Controller
     public function appointment()
     {
         $user = User::where('id', Auth::id())->with('offerings.bookings')->first();
-        $bookings = $user->offerings()->with('bookings')->get()->flatMap(function ($offering) {;
+        $bookings = $user->offerings()->with('bookings')->get()->flatMap(function ($offering) {
+            ;
             return $offering->bookings;
         });
 
@@ -368,7 +370,6 @@ class PractitionerController extends Controller
             'duplicates' => $duplicateTerms,
         ]);
     }
-
 
 
     public function deleteImage(Request $request)
@@ -557,8 +558,8 @@ class PractitionerController extends Controller
         // If user has specific membership, filter the plans accordingly
         if (!empty($allowedPlans)) {
             $plans = $plans->whereIn('name', $allowedPlans); // Filter based on membership type
-        }else if(!in_array($userEmail, $oldUsers)){
-            $allotedPlans = $user->plans ? json_decode($user->plans): [];
+        } else if (!in_array($userEmail, $oldUsers)) {
+            $allotedPlans = $user->plans ? json_decode($user->plans) : [];
             $plans = $plans->whereIn('id', $allotedPlans);
         }
         // dd($plans);
@@ -776,8 +777,8 @@ class PractitionerController extends Controller
 
     public function endorsementPractitioner(Request $request)
     {
-    $search = $request->input('search');
-     $endorsedUsers = User::where('role', 1)
+        $search = $request->input('search');
+        $endorsedUsers = User::where('role', 1)
             ->where('status', 1)
             ->where(function ($query) use ($search) {
                 $query->where('first_name', 'LIKE', "%{$search}%")
@@ -801,6 +802,7 @@ class PractitionerController extends Controller
             ])->render()
         ]);
     }
+
     public function removeEndorsement(Request $request, $id)
     {
         $user = Auth::user();
@@ -832,4 +834,75 @@ class PractitionerController extends Controller
         }
     }
 
+    public function practitionerShows()
+    {
+        $user = Auth::user();
+        $shows = Show::where('user_id', $user->id)->get();
+        return view('practitioner.shows', ['shows' => $shows, 'user' => $user]);
+    }
+
+    public function practitionerAddShow()
+    {
+        $user = Auth::user();
+        return view('practitioner.add_show', ['user' => $user]);
+    }
+
+    public function practitionerShowStore(Request $request)
+    {
+        $user = Auth::user();
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'duration' => 'required|string|max:100',
+            'price' => 'required|string',
+            'tax' => 'nullable|string',
+        ]);
+
+        Show::create([
+            'name' => $validated['name'],
+            'duration' => $validated['duration'],
+            'price' => $validated['price'],
+            'tax' => $validated['tax'] ?? 0,
+            'user_id' => $user->id,
+        ]);
+
+        return redirect()->route('practitionerShows')->with('success', 'Show created successfully.');
+    }
+
+    public function practitionerShowEdit($id)
+    {
+        $user = Auth::user();
+        $show = Show::findOrFail($id);
+        return view('practitioner.edit_show', ['show' => $show, 'user' => $user]);
+    }
+
+    public function practitionerShowUpdate(Request $request, $id)
+    {
+        $user = Auth::user();
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'duration' => 'required|string|max:100',
+            'price' => 'required|string',
+            'tax' => 'nullable|string',
+        ]);
+
+        $show = Show::findOrFail($id);
+        $show->update([
+            'name' => $validated['name'],
+            'duration' => $validated['duration'],
+            'price' => $validated['price'],
+            'tax' => $validated['tax'] ?? 0,
+        ]);
+
+        return redirect()->route('practitionerShows')->with('success', 'Show updated successfully.');
+    }
+
+    public function practitionerShowDelete($id)
+    {
+        $show = Show::findOrFail($id);
+        $show->delete();
+        return redirect()->route('practitionerShows')->with('success', 'Show deleted successfully.');
+    }
+
+
 }
+

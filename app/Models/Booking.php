@@ -14,6 +14,7 @@ class Booking extends Model
         'offering_id',
         'user_id',
         'event_id',
+        'shows_id',
         'currency',
         'currency_symbol',
         'total_amount',
@@ -56,6 +57,14 @@ class Booking extends Model
     public function offering()
     {
         return $this->belongsTo(Offering::class);
+    }
+
+    /**
+     * Get the offering associated with the booking.
+     */
+    public function shows()
+    {
+        return $this->belongsTo(Show::class);
     }
 
     /**

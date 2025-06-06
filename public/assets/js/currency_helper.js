@@ -59,33 +59,63 @@ function formatPrice(number) {
 // Update all offering prices
 function updatePrices(selectedCurrency) {
     const currencySymbol = selectedCurrency === 'usd' ? '$' : 'CA$';
+    if ($('.offering_process').length > 0) {
+        $('.offering_process').each(function () {
+            const $btn = $(this);
+            let cadPriceRaw = $btn.data('cad-price'); // e.g. "CA$4,500"
 
-    $('.offering_process').each(function () {
-        const $btn = $(this);
-        let cadPriceRaw = $btn.data('cad-price'); // e.g. "CA$4,500"
+            if (typeof cadPriceRaw === 'string') {
+                cadPriceRaw = cadPriceRaw.replace(/[^\d.]/g, ''); // Remove symbols and commas
+            }
 
-        if (typeof cadPriceRaw === 'string') {
-            cadPriceRaw = cadPriceRaw.replace(/[^\d.]/g, ''); // Remove symbols and commas
-        }
+            cadPriceRaw = parseFloat(cadPriceRaw);
 
-        cadPriceRaw = parseFloat(cadPriceRaw);
+            const convertedPrice = convertAmount(cadPriceRaw, 'cad', selectedCurrency);
 
-        const convertedPrice = convertAmount(cadPriceRaw, 'cad', selectedCurrency);
+            if (!isNaN(convertedPrice)) {
+                const roundedPrice = roundPrice(convertedPrice, 'whole'); // Change type if needed
+                const formattedPrice = formatPrice(roundedPrice);
 
-        if (!isNaN(convertedPrice)) {
-            const roundedPrice = roundPrice(convertedPrice, 'whole'); // Change type if needed
-            const formattedPrice = formatPrice(roundedPrice);
+                $btn.attr('data-price', roundedPrice);
+                $btn.attr('data-currency', selectedCurrency);
+                $btn.attr('data-currency-symbol', currencySymbol);
 
-            $btn.attr('data-price', roundedPrice);
-            $btn.attr('data-currency', selectedCurrency);
-            $btn.attr('data-currency-symbol', currencySymbol);
+                const $priceElement = $btn.closest('.d-flex').find('.offer-prize');
+                $priceElement.text(currencySymbol + formattedPrice);
+            } else {
+                console.warn('Invalid price conversion:', cadPriceRaw);
+            }
+        });
+    }
 
-            const $priceElement = $btn.closest('.d-flex').find('.offer-prize');
-            $priceElement.text(currencySymbol + formattedPrice);
-        } else {
-            console.warn('Invalid price conversion:', cadPriceRaw);
-        }
-    });
+    if ($('.show_process').length > 0) {
+        $('.show_process').each(function () {
+            const $btn = $(this);
+            let cadPriceRaw = $btn.data('cad-price'); // e.g. "CA$4,500"
+
+            if (typeof cadPriceRaw === 'string') {
+                cadPriceRaw = cadPriceRaw.replace(/[^\d.]/g, ''); // Remove symbols and commas
+            }
+
+            cadPriceRaw = parseFloat(cadPriceRaw);
+
+            const convertedPrice = convertAmount(cadPriceRaw, 'cad', selectedCurrency);
+
+            if (!isNaN(convertedPrice)) {
+                const roundedPrice = roundPrice(convertedPrice, 'whole'); // Change type if needed
+                const formattedPrice = formatPrice(roundedPrice);
+
+                $btn.attr('data-price', roundedPrice);
+                $btn.attr('data-currency', selectedCurrency);
+                $btn.attr('data-currency-symbol', currencySymbol);
+
+                const $priceElement = $(document).find('.show-prize');
+                $priceElement.text(currencySymbol + formattedPrice);
+            } else {
+                console.warn('Invalid price conversion:', cadPriceRaw);
+            }
+        });
+    }
 }
 
 // On currency dropdown change
