@@ -811,23 +811,23 @@ class HomeController extends Controller
             return isset($allowedName[$user->name]) && is_array($allowedName[$user->name]);
         });
 
-        foreach ($practitionersWithShows as $user) {
-            $existing = Show::where('user_id', $user->id)->exists();
-            if ($existing) {
-                continue;
-            }
-
-            foreach ($allowedName[$user->name] as $entry) {
-                Show::create([
-                    'user_id' => $user->id,
-                    'name' => $entry['name'],
-                    'duration' => $entry['duration'],
-                    'price' => $entry['price'],
-                    'description' => $entry['description'],
-                    'tax' => 13
-                ]);
-            }
-        }
+//        foreach ($practitionersWithShows as $user) {
+//            $existing = Show::where('user_id', $user->id)->exists();
+//            if ($existing) {
+//                continue;
+//            }
+//
+//            foreach ($allowedName[$user->name] as $entry) {
+//                Show::create([
+//                    'user_id' => $user->id,
+//                    'name' => $entry['name'],
+//                    'duration' => $entry['duration'],
+//                    'price' => $entry['price'],
+//                    'description' => $entry['description'],
+//                    'tax' => 13
+//                ]);
+//            }
+//        }
 
         $practitionersWithShows = $practitionersWithShows->map(function ($user) {
             $user->shows = Show::where('user_id', $user->id)->get();
