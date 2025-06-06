@@ -43,7 +43,9 @@
                 'king.oils@hotmail.com',
                 'melissacharles@nubiandivinity.com',
                 'Daverinej@gmail.com',
-                'joshiraghav282@gmail.com'
+                'joshiraghav282@gmail.com',
+                'reema@thehiracollective.com',
+                'mohitmaheshverma99@gmail.com'
             ];
         @endphp
 
