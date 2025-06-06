@@ -762,23 +762,26 @@ class HomeController extends Controller
 
     public function shows()
     {
-        $allowedEmails = [
-            'Info@jothi.ca',
-            'undrbrigitta@gmail.com',
-            'laurenwelchner@gmail.com',
-            'isabelnantaba@gmail.com',
-            'julie@balancelifewithjulie.com',
-            'revolution9wellness@gmail.com',
-            'welcome@soulful-connections.ca',
-            'hello@aiazucena.com',
-            'king.oils@hotmail.com',
-            'melissacharles@nubiandivinity.com',
-            'Daverinej@gmail.com',
+        $allowedName = [
+            'Lauren Welchner',
+            'Jothi',
+            'Brigitta Ziemba',
+            'Isabel Nantaba',
+            'Julie Brar',
+            'Maria Esposito',
+            'Janine Berridge-Paul',
+            'Anna Azucena',
+            'Shelley King',
+            'Melissa Charles',
+            'Malavika',
+            'Daverine',
+            'Biohacking',
+            'Intuitive',
         ];
        $users = User::all();
 
-        $practitionersWithShows = $users->filter(function ($user) use ($allowedEmails) {
-            return in_array($user->email, $allowedEmails);
+        $practitionersWithShows = $users->filter(function ($user) use ($allowedName) {
+            return in_array($user->name, $allowedName);
         });
 
         $practitionersWithShows = $practitionersWithShows->map(function ($user) {
