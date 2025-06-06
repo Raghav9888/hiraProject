@@ -11,6 +11,7 @@ return new class extends Migration
 
         Schema::table('bookings', function (Blueprint $table) {
             $table->foreignId('shows_id')
+                ->after('event_id')
                 ->constrained('shows')
                 ->onDelete('cascade');
         });
