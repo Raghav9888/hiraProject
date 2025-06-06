@@ -764,41 +764,41 @@ class HomeController extends Controller
     {
         $allowedName = [
             'Daverine' => [
-                ['name' => 'Inner Guidance Sessions and Oracle Readings', 'duration' => '30 minutes', 'price' => 40, 'description' => 'Mini Guidance Session (30min) - $40'],
-                ['name' => 'Inner Guidance Sessions and Oracle Readings', 'duration' => '60 minutes', 'price' => 80, 'description' => 'Mini Guidance Session w/ Energy Work (60min) - $80'],
-                ['name' => 'Inner Guidance Sessions and Oracle Readings', 'duration' => '20 minutes', 'price' => 25, 'description' => 'Mini Oracle Reading (10 - 20min) - $25'],
+                ['name' => 'Inner Guidance Sessions and Oracle Readings', 'duration' => '30 minutes', 'price' => 40, 'description' => 'Mini Guidance Session'],
+                ['name' => 'Inner Guidance Sessions and Oracle Readings', 'duration' => '60 minutes', 'price' => 80, 'description' => 'Mini Guidance Session w/ Energy Work'],
+                ['name' => 'Inner Guidance Sessions and Oracle Readings', 'duration' => '20 minutes', 'price' => 25, 'description' => 'Mini Oracle Reading'],
             ],
             'Brigitta Ziemba' => [
-                ['name' => 'Quantum Healing/CST', 'duration' => '30 minutes', 'price' => 60, 'description' => 'Mini CranioSacral Therap/Quantum Healing Sessions (nervous system resets) 30 mins @ $60'],
+                ['name' => 'Quantum Healing/CST', 'duration' => '30 minutes', 'price' => 60, 'description' => 'Mini CranioSacral Therap/Quantum Healing Sessions (nervous system resets)'],
             ],
             'Julie Brar' => null,
             'Maria Esposito' => [
-                ['name' => 'Intuitive numerology reading', 'duration' => '20 minutes', 'price' => 42, 'description' => '* 20 minutes - $42'],
-                ['name' => 'Intuitive numerology reading', 'duration' => '40 minutes', 'price' => 78, 'description' => '* 40 minutes - $78'],
-                ['name' => 'Intuitive Numerology readings', 'duration' => '60 minutes', 'price' => 117, 'description' => '* 60 minutes - $117'],
+                ['name' => 'Intuitive numerology reading', 'duration' => '20 minutes', 'price' => 42, 'description' => 'intuitive numerology reading'],
+                ['name' => 'Intuitive numerology reading', 'duration' => '40 minutes', 'price' => 78, 'description' => 'intuitive numerology reading'],
+                ['name' => 'Intuitive Numerology readings', 'duration' => '60 minutes', 'price' => 117, 'description' => 'intuitive numerology reading'],
             ],
             'Anna Azucena' => null,
             'Shelley King' => [
-                ['name' => 'Readings (Tarot, Lenormand, Crystal)', 'duration' => '20 minutes', 'price' => 40, 'description' => 'Reading -20 min. $40'],
+                ['name' => 'Readings (Tarot, Lenormand, Crystal)', 'duration' => '20 minutes', 'price' => 40, 'description' => 'Reading'],
             ],
             'Lauren Welchner' => [
-                ['name' => 'Mini tarot readings', 'duration' => '15 minutes', 'price' => 30, 'description' => 'Mini tarot readings * 15 minutes - $30'],
-                ['name' => 'Mini tarot readings', 'duration' => '30 minutes', 'price' => 55, 'description' => '* 30 minutes - $55'],
+                ['name' => 'Mini tarot readings', 'duration' => '15 minutes', 'price' => 30, 'description' => 'Mini tarot readings'],
+                ['name' => 'Mini tarot readings', 'duration' => '30 minutes', 'price' => 55, 'description' => 'Mini tarot readings'],
             ],
             'Jothi' => [
-                ['name' => 'Somatic wellness sessions', 'duration' => '15 minutes', 'price' => 30, 'description' => '15 minutes $30'],
+                ['name' => 'Somatic wellness sessions', 'duration' => '15 minutes', 'price' => 30, 'description' => 'Mini Somatic Touch, Movement, and Breathwork Session'],
             ],
             'Isabel Nantaba' => [
-                ['name' => 'Mini energy shift sessions', 'duration' => '20 minutes', 'price' => 55, 'description' => 'Energy Healing Session 20 minutes @ $55'],
+                ['name' => 'Mini energy shift sessions', 'duration' => '20 minutes', 'price' => 55, 'description' => 'Energy Healing Session'],
             ],
             'Janine Berridge-Paul' => [
-                ['name' => 'Mini reiki session (will include a crystal)', 'duration' => '20 minutes', 'price' => 55, 'description' => 'Mini reiki session - 20 minutes $55'],
+                ['name' => 'Mini reiki session (will include a crystal)', 'duration' => '20 minutes', 'price' => 55, 'description' => 'Mini reiki session'],
             ],
             'Melissa Charles' => [
-                ['name' => 'Mini Tarot Sessions and Bone Diviniation', 'duration' => '5 minutes', 'price' => 15, 'description' => 'Yes or no (5mins) - $15'],
-                ['name' => 'Mini Tarot Sessions and Bone Diviniation', 'duration' => null, 'price' => 50, 'description' => 'General or Specific Question - $50'],
-                ['name' => 'Mini Tarot Sessions and Bone Diviniation', 'duration' => null, 'price' => 80, 'description' => 'Deep-Dive - $80'],
-                ['name' => 'Mini Tarot Sessions and Bone Diviniation', 'duration' => '15 minutes', 'price' => 30, 'description' => 'Bone/Charm Divination - $30 (15 mins)'],
+                ['name' => 'Mini Tarot Sessions and Bone Diviniation', 'duration' => '5 minutes', 'price' => 15, 'description' => 'Mini Tarot Sessions and Bone Diviniation'],
+                ['name' => 'Mini Tarot Sessions and Bone Diviniation', 'duration' => '15 minutes', 'price' => 50, 'description' => 'General or Specific Question'],
+                ['name' => 'Mini Tarot Sessions and Bone Diviniation', 'duration' => '15 minutes', 'price' => 30, 'description' => 'Bone/Charm Divination '],
+                ['name' => 'Mini Tarot Sessions and Bone Diviniation', 'duration' => '1 hour', 'price' => 80, 'description' => 'Deep-Dive'],
             ],
             'Malavika' => null,
             'Biohacking' => null,
