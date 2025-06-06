@@ -774,7 +774,6 @@ class HomeController extends Controller
             'king.oils@hotmail.com',
             'melissacharles@nubiandivinity.com',
             'Daverinej@gmail.com',
-            'joshiraghav282@gmail.com'
         ];
        $users = User::all();
 
