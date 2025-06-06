@@ -215,7 +215,6 @@ class PaymentController extends Controller
     public function processStripePayment($orderId)
     {
         try {
-
             Stripe::setApiKey(env('STRIPE_SECRET'));
 
             $order = Booking::findOrFail($orderId);

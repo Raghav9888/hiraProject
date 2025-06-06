@@ -118,7 +118,7 @@ class BookingController extends Controller
         return response()->json([
             "success" => true,
             "data" => "Billing details saved in session!",
-            'html' => view('user.checkout-popup', compact('booking', 'product', 'price', 'currency', 'currencySymbol'))->render()
+            'html' => view('user.checkout-popup', compact('booking', 'product', 'price', 'currency', 'currencySymbol','isShow'))->render()
         ]);
     }
 

@@ -9,8 +9,12 @@
              : asset($localPath . '/images/no_image.png');
 
 
-
-         $taxPercentage = (float)($product->offering_event_type == 'event' ? $product->event->tax_amount : $product->tax_amount);
+         if(!$isShow)
+             {
+                $taxPercentage = (float)($product->offering_event_type == 'event' ? $product->event->tax_amount : $product->tax_amount);
+             }else{
+            $taxPercentage = $product->tax ?? 13; // Default tax percentage for shows
+             }
          $taxAmount = $taxPercentage ? ($price * ($taxPercentage / 100)) : 0;
          $totalAmount = $price + $taxAmount;
 @endphp
@@ -108,11 +112,11 @@
     });
 
 
-        $(document).ready(function (){
-            const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-            document.getElementById("user-timezone").textContent = "Time Zone: " + timezone;
-            console.log(timezone)
-        })
+    $(document).ready(function () {
+        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        document.getElementById("user-timezone").textContent = "Time Zone: " + timezone;
+        console.log(timezone)
+    })
     // Place this once in your main JS file or inline script
     $.ajaxSetup({
         headers: {
