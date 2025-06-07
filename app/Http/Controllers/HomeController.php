@@ -807,19 +807,16 @@ class HomeController extends Controller
 
         $users = User::all();
 
+        // Filter users who are in the allowedName list
         $practitionersWithShows = $users->filter(function ($user) use ($allowedName) {
             return array_key_exists($user->name, $allowedName);
-        });
+        })->values(); // Reset keys
 
-
+        // Create shows only if not already created
         foreach ($practitionersWithShows as $user) {
             $existing = Show::where('user_id', $user->id)->exists();
-            if ($existing) {
+            if ($existing || empty($allowedName[$user->name])) {
                 continue;
-            }
-
-            if(!isset($allowedName[$user->name]) || empty($allowedName[$user->name])) {
-                continue; // Skip if no shows are defined for this user
             }
 
             foreach ($allowedName[$user->name] as $entry) {
@@ -829,35 +826,34 @@ class HomeController extends Controller
                     'duration' => $entry['duration'],
                     'price' => $entry['price'],
                     'description' => $entry['description'],
-                    'tax' => 13
+                    'tax' => 13,
+                    'show_type' => 'offering', // <-- Important fix
                 ]);
             }
         }
 
-        $showsOffering = $practitionersWithShows->map(function ($user) {
+        // Now attach shows to each user
+        $practitionersWithShows = $practitionersWithShows->map(function ($user) {
             $user->shows_offering = Show::where('user_id', $user->id)
                 ->where('show_type', 'offering')
                 ->get();
-            return $user;
-        });
 
-        $showsProduct = $practitionersWithShows->map(function ($user) {
             $user->shows_product = Show::where('user_id', $user->id)
                 ->where('show_type', 'product')
                 ->get();
+
             return $user;
         });
-
-
 
         $defaultLocations = Locations::where('status', 1)->pluck('name', 'id');
 
         return view('user.shows', [
-            'showsOffering' => $showsOffering,
-            'showsProduct' => $showsProduct,
+            'showsOffering' => $practitionersWithShows,
+            'showsProduct' => $practitionersWithShows,
             'defaultLocations' => $defaultLocations,
         ]);
     }
+
 
 
 

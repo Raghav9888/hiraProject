@@ -150,59 +150,67 @@
                     </div>
                 </div>
 
-                <div class="offer-label mt-3">OFFERINGS</div>
-                @foreach($practitioner->shows as $index => $show)
-                    @php
-                        $cadOfferingPrice = round(floatval(str_replace(',', '', $show->price)));
-                    @endphp
-                    <div class="offering-item">
-                        <div class="fw-semibold">
-                            {{ $show->name }} <span class="text-muted show-prize">CA$ {{ $cadOfferingPrice }}</span>
+                {{-- OFFERINGS --}}
+                @if($user->shows_offering->isNotEmpty())
+                    <div class="offer-label mt-3">OFFERINGS</div>
+                    @foreach($user->shows_offering as $show)
+                        @php
+                            $cadPrice = round(floatval(str_replace(',', '', $show->price)));
+                        @endphp
+                        <div class="offering-item">
+                            <div class="fw-semibold">
+                                {{ $show->name }}
+                                <span class="text-muted show-prize">CA$ {{ $cadPrice }}</span>
+                            </div>
+                            <button class="btn book-btn show_process"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal"
+                                    onclick="openShowPopup(event)"
+                                    data-show-id="{{ $show->id }}"
+                                    data-show-name="{{ $show->name }}"
+                                    data-show-price="{{ $cadPrice }}"
+                                    data-currency-symbol="CA$"
+                                    data-currency="cad"
+                                    data-timezone="{{ $user->userDetail->timezone ?? 'UTC' }}"
+                                    data-cad-price="{{ $cadPrice }}"
+                                    data-practitioner-id="{{ $user->id }}"
+                            >BOOK</button>
                         </div>
-                        <button class="btn book-btn show_process"
-                                data-bs-toggle="modal"
-                                data-bs-target="#exampleModal"
-                                onclick="openShowPopup(event)"
-                                data-show-id="{{ $show->id }}"
-                                data-show-name="{{ $show->name }}"
-                                data-show-price="{{ $cadOfferingPrice}}"
-                                data-currency-symbol="CA$"
-                                data-currency="cad"
-                                data-timezone="{{$user->userDetail->timezone}}"
-                                data-cad-price="{{$cadOfferingPrice}}"
-                                data-practitioner-id="{{ $user->id }}"
-                        >BOOK
-                        </button>
-                    </div>
-                @endforeach
-                <hr>
-                <h2>Products</h2>
-                @foreach($practitioner->shows_product as $product)
-                    @php
-                        $cadProductPrice = round(floatval(str_replace(',', '', $product->price)));
-                    @endphp
-                    <div class="offering-item">
-                        <div class="fw-semibold">
-                            {{ $product->name }} <span class="text-muted show-prize">CA$ {{ $cadProductPrice }}</span>
+                    @endforeach
+                @endif
+
+                {{-- PRODUCTS --}}
+                @if($user->shows_product->isNotEmpty())
+                    <hr>
+                    <div class="offer-label mt-3">PRODUCTS</div>
+                    @foreach($user->shows_product as $product)
+                        @php
+                            $cadPrice = round(floatval(str_replace(',', '', $product->price)));
+                        @endphp
+                        <div class="offering-item">
+                            <div class="fw-semibold">
+                                {{ $product->name }}
+                                <span class="text-muted show-prize">CA$ {{ $cadPrice }}</span>
+                            </div>
+                            <button class="btn book-btn show_process"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal"
+                                    onclick="openShowPopup(event)"
+                                    data-show-id="{{ $product->id }}"
+                                    data-show-name="{{ $product->name }}"
+                                    data-show-price="{{ $cadPrice }}"
+                                    data-currency-symbol="CA$"
+                                    data-currency="cad"
+                                    data-timezone="{{ $user->userDetail->timezone ?? 'UTC' }}"
+                                    data-cad-price="{{ $cadPrice }}"
+                                    data-practitioner-id="{{ $user->id }}"
+                            >BOOK</button>
                         </div>
-                        <button class="btn book-btn show_process"
-                                data-bs-toggle="modal"
-                                data-bs-target="#exampleModal"
-                                onclick="openShowPopup(event)"
-                                data-show-id="{{ $product->id }}"
-                                data-show-name="{{ $product->name }}"
-                                data-show-price="{{ $cadProductPrice}}"
-                                data-currency-symbol="CA$"
-                                data-currency="cad"
-                                data-timezone="{{$user->userDetail->timezone}}"
-                                data-cad-price="{{$cadProductPrice}}"
-                                data-practitioner-id="{{ $user->id }}"
-                        >BOOK
-                        </button>
-                    </div>
-                @endforeach
+                    @endforeach
+                @endif
             </div>
         @endforeach
+
 
 
     </div>
