@@ -151,7 +151,6 @@
                 </div>
 
                 <div class="offer-label mt-3">OFFERINGS</div>
-                <p class="fw-semibold text-start">Mini Tarot Readings</p>
 
                 @foreach($practitioner->shows as $index => $show)
                     @php

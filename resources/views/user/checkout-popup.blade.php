@@ -9,12 +9,12 @@
              : asset($localPath . '/images/no_image.png');
 
 
-         if(!$isShow)
-             {
-                $taxPercentage = (float)($product->offering_event_type == 'event' ? $product->event->tax_amount : $product->tax_amount);
-             }else{
-            $taxPercentage = $product->tax ?? 13; // Default tax percentage for shows
-             }
+//         if(!$isShow)
+//             {
+               $taxPercentage = (float)($product->offering_event_type == 'event' ? $product->event->tax_amount : $product->tax_amount);
+//             }else{
+//            $taxPercentage = $product->tax ?? 13; // Default tax percentage for shows
+//             }
          $taxAmount = $taxPercentage ? ($price * ($taxPercentage / 100)) : 0;
          $totalAmount = $price + $taxAmount;
 @endphp

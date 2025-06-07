@@ -763,7 +763,7 @@ class HomeController extends Controller
     public function shows()
     {
         $allowedName = [
-            'Daverine' => [
+            'Daverine Jumu' => [
                 ['name' => 'Inner Guidance Sessions and Oracle Readings', 'duration' => '30 minutes', 'price' => 40, 'description' => 'Mini Guidance Session'],
                 ['name' => 'Inner Guidance Sessions and Oracle Readings', 'duration' => '60 minutes', 'price' => 80, 'description' => 'Mini Guidance Session w/ Energy Work'],
                 ['name' => 'Inner Guidance Sessions and Oracle Readings', 'duration' => '20 minutes', 'price' => 25, 'description' => 'Mini Oracle Reading'],
@@ -785,7 +785,7 @@ class HomeController extends Controller
                 ['name' => 'Mini tarot readings', 'duration' => '15 minutes', 'price' => 30, 'description' => 'Mini tarot readings'],
                 ['name' => 'Mini tarot readings', 'duration' => '30 minutes', 'price' => 55, 'description' => 'Mini tarot readings'],
             ],
-            'Jothi' => [
+            'Jothi Saldanha' => [
                 ['name' => 'Somatic wellness sessions', 'duration' => '15 minutes', 'price' => 30, 'description' => 'Mini Somatic Touch, Movement, and Breathwork Session'],
             ],
             'Isabel Nantaba' => [
@@ -808,26 +808,31 @@ class HomeController extends Controller
         $users = User::all();
 
         $practitionersWithShows = $users->filter(function ($user) use ($allowedName) {
-            return isset($allowedName[$user->name]) && is_array($allowedName[$user->name]);
+            return array_key_exists($user->name, $allowedName);
         });
 
-//        foreach ($practitionersWithShows as $user) {
-//            $existing = Show::where('user_id', $user->id)->exists();
-//            if ($existing) {
-//                continue;
-//            }
-//
-//            foreach ($allowedName[$user->name] as $entry) {
-//                Show::create([
-//                    'user_id' => $user->id,
-//                    'name' => $entry['name'],
-//                    'duration' => $entry['duration'],
-//                    'price' => $entry['price'],
-//                    'description' => $entry['description'],
-//                    'tax' => 13
-//                ]);
-//            }
-//        }
+
+        foreach ($practitionersWithShows as $user) {
+            $existing = Show::where('user_id', $user->id)->exists();
+            if ($existing) {
+                continue;
+            }
+
+            if(!isset($allowedName[$user->name]) || empty($allowedName[$user->name])) {
+                continue; // Skip if no shows are defined for this user
+            }
+
+            foreach ($allowedName[$user->name] as $entry) {
+                Show::create([
+                    'user_id' => $user->id,
+                    'name' => $entry['name'],
+                    'duration' => $entry['duration'],
+                    'price' => $entry['price'],
+                    'description' => $entry['description'],
+                    'tax' => 13
+                ]);
+            }
+        }
 
         $practitionersWithShows = $practitionersWithShows->map(function ($user) {
             $user->shows = Show::where('user_id', $user->id)->get();
@@ -874,7 +879,7 @@ class HomeController extends Controller
         ]);
 
         $id = $request->get('showId');
-        $show = Show::findOrFail($id)->with(['user'])->first();
+        $show = Show::where('id',$id)->with(['user'])->first();
 
         $defaultLocations = Locations::where('status', 1)->pluck('name', 'id');
         $countries = Country::all();
