@@ -11,6 +11,7 @@ use App\Models\Event;
 use App\Models\GoogleAccount;
 use App\Models\Offering;
 use App\Models\Payment;
+use App\Models\Show;
 use App\Models\User;
 use App\Models\UserDetail;
 use App\Models\UserStripeSetting;
@@ -218,8 +219,9 @@ class PaymentController extends Controller
             Stripe::setApiKey(env('STRIPE_SECRET'));
 
             $order = Booking::findOrFail($orderId);
+            $offering = Offering::findOrFail($order->offering_id);
 
-            $vendorId = $order->user_id;
+            $vendorId = $offering->user_id;
             $vendorStripe = UserStripeSetting::where("user_id", $vendorId)->first();
             $isVendorConnected = $vendorStripe && $vendorStripe->stripe_user_id;
             $amountInCents = intval($order->total_amount * 100);
