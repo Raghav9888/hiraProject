@@ -32,7 +32,7 @@
                 @if(isset($booking->shows_id) && $booking->shows_id)
                     <?php
                         $show = Show::find($booking->shows_id);
-                        
+
                         ?>
                     <li class="list-group-item d-flex justify-content-between">
                         <span>Therapy Session with {{ $show->user->first_name  }} {{ $show->user->last_name }}</span>

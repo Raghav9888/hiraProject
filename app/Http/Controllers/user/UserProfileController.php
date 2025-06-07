@@ -49,8 +49,7 @@ class UserProfileController extends Controller
     public function bookings()
     {
         $user = auth()->user();
-        $bookings = Booking::with('offering.user')
-            ->where('user_id', $user->id)
+        $bookings = Booking::where('user_id', $user->id)
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 
