@@ -105,26 +105,26 @@
 
         <!-- Group Image -->
         <img src="{{ url('/assets/images/about_us.jpg') }}" class="img-fluid" alt="Group Image">
-        <div class="container my-2">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="d-flex align-items-center mb-3" style="gap: 20px;">
-                        <p class="m-0">Select Currency</p>
-                        <div class="dropdown Currency-select">
-                            <div class="dropdown">
-                                <select class="form-select" aria-label="Default select example"
-                                        id="currencySelect"
-                                        style="border-radius: 30px !important;padding: 10px 36px 10px 10px;text-align: start;">
-                                    <option value="cad">CAD</option>
-                                    <option value="usd">USD</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
+{{--        <div class="container my-2">--}}
+{{--            <div class="row">--}}
+{{--                <div class="col-md-12">--}}
+{{--                    <div class="d-flex align-items-center mb-3" style="gap: 20px;">--}}
+{{--                        <p class="m-0">Select Currency</p>--}}
+{{--                        <div class="dropdown Currency-select">--}}
+{{--                            <div class="dropdown">--}}
+{{--                                <select class="form-select" aria-label="Default select example"--}}
+{{--                                        id="currencySelect"--}}
+{{--                                        style="border-radius: 30px !important;padding: 10px 36px 10px 10px;text-align: start;">--}}
+{{--                                    <option value="cad">CAD</option>--}}
+{{--                                    <option value="usd">USD</option>--}}
+{{--                                </select>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
 
-                </div>
-            </div>
-        </div>
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
         @foreach($practitionersWithShows as $practitioner)
             @php
                 $user = $practitioner;
