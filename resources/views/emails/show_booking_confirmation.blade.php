@@ -41,6 +41,10 @@
             <td style="padding: 8px; border: 1px solid #ccc;"><strong>Offering Name:</strong></td>
             <td style="padding: 8px; border: 1px solid #ccc;">{{ @$show->name }}</td>
         </tr>
+        <tr>
+            <td style="padding: 8px; border: 1px solid #ccc;"><strong>Offering Price:</strong></td>
+            <td style="padding: 8px; border: 1px solid #ccc;">{{ @$order->currency_symbol .  ' '.@$order->price }}</td>
+        </tr>
     </table>
 
     @else
@@ -52,6 +56,10 @@
         <tr>
             <td style="padding: 8px; border: 1px solid #ccc;"><strong>Offering Name:</strong></td>
             <td style="padding: 8px; border: 1px solid #ccc;">{{ @$show->name }}</td>
+        </tr>
+        <tr>
+            <td style="padding: 8px; border: 1px solid #ccc;"><strong>Offering Price:</strong></td>
+            <td style="padding: 8px; border: 1px solid #ccc;">{{ @$order->currency_symbol .  ' '.@$order->price }}</td>
         </tr>
     </table>
 @endif
