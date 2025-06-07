@@ -368,7 +368,7 @@ class PaymentController extends Controller
             $user = User::where('email', $order->billing_email)->first();
             $practitionerUser = User::where('id', $show->user_id)->first();
             $order = Booking::where('id', $order->id)->first();
-
+            $order->update([ 'status' => 'paid', 'user_id' => $user->id, ]);
             Auth::login($user);
 
             Mail::to($order->billing_email)->send(new ShowBookingConfirmationMail($user, $show, $order, false));
