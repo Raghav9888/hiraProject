@@ -1,3 +1,4 @@
+
 <div class="row">
     <div class="col-2 d-block d-lg-none">
         <button class="navbar-toggler collapsed fs-1" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar"
@@ -31,25 +32,55 @@
             </a>
         </li>
         @php
-            $allowedEmails = [
-                'Info@jothi.ca',
-                'undrbrigitta@gmail.com',
-                'laurenwelchner@gmail.com',
-                'isabelnantaba@gmail.com',
-                'julie@balancelifewithjulie.com',
-                'revolution9wellness@gmail.com',
-                'welcome@soulful-connections.ca',
-                'hello@aiazucena.com',
-                'king.oils@hotmail.com',
-                'melissacharles@nubiandivinity.com',
-                'Daverinej@gmail.com',
-                'joshiraghav282@gmail.com',
-                'reema@thehiracollective.com',
-                'mohitmaheshverma99@gmail.com'
-            ];
+            $allowedName = [
+            'Daverine Jumu' => [
+                ['name' => 'Inner Guidance Sessions and Oracle Readings', 'duration' => '30 minutes', 'price' => 40, 'description' => 'Mini Guidance Session'],
+                ['name' => 'Inner Guidance Sessions and Oracle Readings', 'duration' => '60 minutes', 'price' => 80, 'description' => 'Mini Guidance Session w/ Energy Work'],
+                ['name' => 'Inner Guidance Sessions and Oracle Readings', 'duration' => '20 minutes', 'price' => 25, 'description' => 'Mini Oracle Reading'],
+            ],
+            'Brigitta Ziemba' => [
+                ['name' => 'Quantum Healing/CST', 'duration' => '30 minutes', 'price' => 60, 'description' => 'Mini CranioSacral Therap/Quantum Healing Sessions (nervous system resets)'],
+            ],
+            'Julie Brar' => null,
+            'Maria Esposito' => [
+                ['name' => 'Intuitive numerology reading', 'duration' => '20 minutes', 'price' => 42, 'description' => 'intuitive numerology reading'],
+                ['name' => 'Intuitive numerology reading', 'duration' => '40 minutes', 'price' => 78, 'description' => 'intuitive numerology reading'],
+                ['name' => 'Intuitive Numerology readings', 'duration' => '60 minutes', 'price' => 117, 'description' => 'intuitive numerology reading'],
+            ],
+            'Anna i. Azucena' => null,
+            'Shelley King' => [
+                ['name' => 'Readings (Tarot, Lenormand, Crystal)', 'duration' => '20 minutes', 'price' => 40, 'description' => 'Reading'],
+            ],
+            'Lauren Welchner' => [
+                ['name' => 'Mini tarot readings', 'duration' => '15 minutes', 'price' => 30, 'description' => 'Mini tarot readings'],
+                ['name' => 'Mini tarot readings', 'duration' => '30 minutes', 'price' => 55, 'description' => 'Mini tarot readings'],
+            ],
+            'Jothi Saldanha' => [
+                ['name' => 'Somatic wellness sessions', 'duration' => '15 minutes', 'price' => 30, 'description' => 'Mini Somatic Touch, Movement, and Breathwork Session'],
+            ],
+            'Isabel Nantaba' => [
+                ['name' => 'Mini energy shift sessions', 'duration' => '20 minutes', 'price' => 55, 'description' => 'Energy Healing Session'],
+            ],
+            'Janine Berridge-Paul' => [
+                ['name' => 'Mini reiki session (will include a crystal)', 'duration' => '20 minutes', 'price' => 55, 'description' => 'Mini reiki session'],
+            ],
+            'Melissa Charles' => [
+                ['name' => 'Mini Tarot Sessions and Bone Diviniation', 'duration' => '5 minutes', 'price' => 15, 'description' => 'Mini Tarot Sessions and Bone Diviniation'],
+                ['name' => 'Mini Tarot Sessions and Bone Diviniation', 'duration' => '15 minutes', 'price' => 50, 'description' => 'General or Specific Question'],
+                ['name' => 'Mini Tarot Sessions and Bone Diviniation', 'duration' => '15 minutes', 'price' => 30, 'description' => 'Bone/Charm Divination '],
+                ['name' => 'Mini Tarot Sessions and Bone Diviniation', 'duration' => '1 hour', 'price' => 80, 'description' => 'Deep-Dive'],
+            ],
+            'Malavika' => null,
+            'Biohacking' => null,
+            'Intuitive' => null,
+            'TEST PRACTITIONER' => null,
+            'Mohit Verma' => null,
+
+        ];
+            $allowedNames = array_keys($allowedName);
         @endphp
 
-        @if (in_array($user->email, $allowedEmails))
+        @if (in_array($user->name, $allowedNames))
             <li class="{{ Route::currentRouteName() === 'practitionerShows' ? 'active' : '' }}">
                 <a href="{{ route('practitionerShows') }}">
                     Shows
