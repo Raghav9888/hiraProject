@@ -221,11 +221,10 @@ class PaymentController extends Controller
 
             $order = Booking::findOrFail($orderId);
             $isShow = (isset($order->shows_id) && $order->shows_id);
-            if($isShow)
-            {
+            if ($isShow) {
                 $show = Show::where('id', $order->shows_id)->first();
-                $userId= $show->user_id;
-            }else{
+                $userId = $show->user_id;
+            } else {
                 $offering = Offering::findOrFail($order->offering_id);
                 $userId = $offering->user_id;
             }
@@ -364,15 +363,16 @@ class PaymentController extends Controller
 
             // Send confirmation email to the practitioner
             Mail::to($offering->user->email)->send(new BookingConfirmationMail($order, $practitionerEmailTemplate, $intakeForms, $response));
-        }else{
+        } else {
             $show = Show::where('id', $order->shows_id)->first();
             $user = User::where('email', $order->billing_email)->first();
-            $practitionerUser = User::where('id',$show->user_id);
+            $practitionerUser = User::where('id', $show->user_id)->first();
+            $order = Booking::where('id', $order->id)->first();
 
             Auth::login($user);
 
-            Mail::to($order->billing_email)->send(new ShowBookingConfirmationMail($user,$show,$order,false));
-            Mail::to($practitionerUser->email)->send(new ShowBookingConfirmationMail($practitionerUser,$show,$order,true));
+            Mail::to($order->billing_email)->send(new ShowBookingConfirmationMail($user, $show, $order, false));
+            Mail::to($practitionerUser->email)->send(new ShowBookingConfirmationMail($practitionerUser, $show, $order, true));
         }
         return redirect()->route('thankyou')->with('success', 'Payment successful!');
 

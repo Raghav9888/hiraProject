@@ -31,7 +31,7 @@
 
 <h3>Here are your booking details:</h3>
 
-@if($isPractitioner)
+@if(isset($isPractitioner) && $isPractitioner)
     <table style="border-collapse: collapse; width: 100%; max-width: 600px;">
         <tr>
             <td style="padding: 8px; border: 1px solid #ccc;"><strong>User Name:</strong></td>
@@ -46,7 +46,6 @@
             <td style="padding: 8px; border: 1px solid #ccc;">{{ @$order->currency_symbol .  ' '.@$order->price }}</td>
         </tr>
     </table>
-
     @else
     <table style="border-collapse: collapse; width: 100%; max-width: 600px;">
         <tr>
