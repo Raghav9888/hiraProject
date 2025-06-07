@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Practitioner;
 use App\Http\Controllers\Calender\GoogleCalendarController;
 use App\Http\Controllers\Controller;
 use App\Mail\BookingConfirmationMail;
+use App\Mail\ShowBookingConfirmationMail;
 use App\Models\Blog;
 use App\Models\Booking;
 use App\Models\Event;
@@ -346,7 +347,6 @@ class PaymentController extends Controller
                 );
             }
 
-
             $response = $this->createGoogleCalendarEvent($order);
             $response['order'] = $order;
             $response['bookingCancelUrl'] = (isset($offering->cancellation_time_slot) && $offering->cancellation_time_slot) ? route('bookingCancel', ['bookingId' => $order->id, 'eventId' => $response['google_event_id']]) : null;
@@ -364,6 +364,15 @@ class PaymentController extends Controller
 
             // Send confirmation email to the practitioner
             Mail::to($offering->user->email)->send(new BookingConfirmationMail($order, $practitionerEmailTemplate, $intakeForms, $response));
+        }else{
+            $show = Show::where('id', $order->shows_id)->first();
+            $user = User::where('email', $order->billing_email)->first();
+            $practitionerUser = User::where('id',$show->user_id);
+
+            Auth::login($user);
+
+            Mail::to($order->billing_email)->send(new ShowBookingConfirmationMail($user,$show,$order,false));
+            Mail::to($practitionerUser->email)->send(new ShowBookingConfirmationMail($practitionerUser,$show,$order,true));
         }
         return redirect()->route('thankyou')->with('success', 'Payment successful!');
 
