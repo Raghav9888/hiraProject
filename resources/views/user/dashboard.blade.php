@@ -1,3 +1,4 @@
+@php use App\Models\Show; @endphp
 @extends('layouts.user_internal_base')
 
 @section('userContent')
@@ -28,10 +29,23 @@
         <h5 class="mb-3">📅 Recent Bookings</h5>
         <ul class="list-group list-group-flush">
             @foreach($recentBookings as $booking)
-                <li class="list-group-item d-flex justify-content-between">
-                    <span>Therapy Session with {{ $booking->offering->user->first_name }} {{ $booking->offering->user->last_name }}</span>
-                    <small class="text-muted">{{ \Carbon\Carbon::parse($booking->booking_date)->format('F j, Y') }}</small>
-                </li>
+                @if(isset($booking->shows_id) && $booking->shows_id)
+                    <?php
+                        $show = Show::find($booking->shows_id);
+                        
+                        ?>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Therapy Session with {{ $show->user->first_name  }} {{ $show->user->last_name }}</span>
+                        <small
+                            class="text-muted">{{ \Carbon\Carbon::parse($booking->booking_date)->format('F j, Y') }}</small>
+                    </li>
+                @else
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Therapy Session with {{ $booking->offering->user->first_name  }} {{ $booking->offering->user->last_name }}</span>
+                        <small
+                            class="text-muted">{{ \Carbon\Carbon::parse($booking->booking_date)->format('F j, Y') }}</small>
+                    </li>
+                @endif
             @endforeach
         </ul>
     </div>

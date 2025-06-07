@@ -31,11 +31,11 @@ class UserProfileController extends Controller
 
         $successBookings = Booking::where('user_id', $user->id)->whereIn('status', ['paid', 'confirmed'])->get();
         $pendingBookings = Booking::where(['user_id' => $user->id,'status' => 'pending'])->get();
-        $recentBookings = Booking::with('offering.user')
-            ->where(['user_id' => $user->id])
+        $recentBookings = Booking::where('user_id', $user->id)
             ->orderBy('created_at', 'desc')
             ->take(5)
             ->get();
+
         return view('user.dashboard', [
             'user' => $user,
             'successBookings' => $successBookings,
