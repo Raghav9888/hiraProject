@@ -219,9 +219,16 @@ class PaymentController extends Controller
             Stripe::setApiKey(env('STRIPE_SECRET'));
 
             $order = Booking::findOrFail($orderId);
-            $offering = Offering::findOrFail($order->offering_id);
-
-            $vendorId = $offering->user_id;
+            $isShow = (isset($order->shows_id) && $order->shows_id);
+            if($isShow)
+            {
+                $show = Show::where('id', $order->shows_id)->first();
+                $userId= $show->user_id;
+            }else{
+                $offering = Offering::findOrFail($order->offering_id);
+                $userId = $offering->user_id;
+            }
+            $vendorId = $userId;
             $vendorStripe = UserStripeSetting::where("user_id", $vendorId)->first();
             $isVendorConnected = $vendorStripe && $vendorStripe->stripe_user_id;
             $amountInCents = intval($order->total_amount * 100);
@@ -364,6 +371,7 @@ class PaymentController extends Controller
 //            return redirect()->route('thankyou')->with('error', 'Payment successful, but failed to create Google Calendar event.');
 //        }
     }
+
 
     /**
      * @throws Exception
