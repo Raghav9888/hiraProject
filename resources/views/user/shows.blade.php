@@ -125,7 +125,7 @@
 {{--                </div>--}}
 {{--            </div>--}}
 {{--        </div>--}}
-        @foreach($practitionersWithShows as $practitioner)
+        @foreach($showsOffering as $practitioner)
             @php
                 $user = $practitioner;
                 $mediaPath = config('app.media_path', 'uploads');
@@ -151,14 +151,13 @@
                 </div>
 
                 <div class="offer-label mt-3">OFFERINGS</div>
-
                 @foreach($practitioner->shows as $index => $show)
                     @php
-                        $cadPrice = round(floatval(str_replace(',', '', $show->price)));
+                        $cadOfferingPrice = round(floatval(str_replace(',', '', $show->price)));
                     @endphp
                     <div class="offering-item">
                         <div class="fw-semibold">
-                            {{ $show->name }} <span class="text-muted show-prize">CA$ {{ $cadPrice }}</span>
+                            {{ $show->name }} <span class="text-muted show-prize">CA$ {{ $cadOfferingPrice }}</span>
                         </div>
                         <button class="btn book-btn show_process"
                                 data-bs-toggle="modal"
@@ -166,11 +165,37 @@
                                 onclick="openShowPopup(event)"
                                 data-show-id="{{ $show->id }}"
                                 data-show-name="{{ $show->name }}"
-                                data-show-price="{{ $cadPrice}}"
+                                data-show-price="{{ $cadOfferingPrice}}"
                                 data-currency-symbol="CA$"
                                 data-currency="cad"
                                 data-timezone="{{$user->userDetail->timezone}}"
-                                data-cad-price="{{$cadPrice}}"
+                                data-cad-price="{{$cadOfferingPrice}}"
+                                data-practitioner-id="{{ $user->id }}"
+                        >BOOK
+                        </button>
+                    </div>
+                @endforeach
+                <hr>
+                <h2>Products</h2>
+                @foreach($practitioner->shows_product as $product)
+                    @php
+                        $cadProductPrice = round(floatval(str_replace(',', '', $product->price)));
+                    @endphp
+                    <div class="offering-item">
+                        <div class="fw-semibold">
+                            {{ $product->name }} <span class="text-muted show-prize">CA$ {{ $cadProductPrice }}</span>
+                        </div>
+                        <button class="btn book-btn show_process"
+                                data-bs-toggle="modal"
+                                data-bs-target="#exampleModal"
+                                onclick="openShowPopup(event)"
+                                data-show-id="{{ $product->id }}"
+                                data-show-name="{{ $product->name }}"
+                                data-show-price="{{ $cadProductPrice}}"
+                                data-currency-symbol="CA$"
+                                data-currency="cad"
+                                data-timezone="{{$user->userDetail->timezone}}"
+                                data-cad-price="{{$cadProductPrice}}"
                                 data-practitioner-id="{{ $user->id }}"
                         >BOOK
                         </button>

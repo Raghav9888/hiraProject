@@ -834,15 +834,27 @@ class HomeController extends Controller
             }
         }
 
-        $practitionersWithShows = $practitionersWithShows->map(function ($user) {
-            $user->shows = Show::where('user_id', $user->id)->get();
+        $showsOffering = $practitionersWithShows->map(function ($user) {
+            $user->shows_offering = Show::where('user_id', $user->id)
+                ->where('show_type', 'offering')
+                ->get();
             return $user;
         });
+
+        $showsProduct = $practitionersWithShows->map(function ($user) {
+            $user->shows_product = Show::where('user_id', $user->id)
+                ->where('show_type', 'product')
+                ->get();
+            return $user;
+        });
+
+
 
         $defaultLocations = Locations::where('status', 1)->pluck('name', 'id');
 
         return view('user.shows', [
-            'practitionersWithShows' => $practitionersWithShows,
+            'showsOffering' => $showsOffering,
+            'showsProduct' => $showsProduct,
             'defaultLocations' => $defaultLocations,
         ]);
     }
