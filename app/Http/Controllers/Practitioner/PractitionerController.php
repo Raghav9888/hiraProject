@@ -854,14 +854,15 @@ class PractitionerController extends Controller
             'name' => 'required|string|max:255',
             'duration' => 'required|string|max:100',
             'price' => 'required|string',
-            'tax' => 'nullable|string',
+            'show_type' => 'nullable|string',
         ]);
 
         Show::create([
+            'show_type' => $validated['show_type'] ?? 'offering',
             'name' => $validated['name'],
             'duration' => $validated['duration'],
             'price' => $validated['price'],
-            'tax' => $validated['tax'] ?? 0,
+            'tax' => 13,
             'user_id' => $user->id,
         ]);
 
@@ -882,15 +883,16 @@ class PractitionerController extends Controller
             'name' => 'required|string|max:255',
             'duration' => 'required|string|max:100',
             'price' => 'required|string',
-            'tax' => 'nullable|string',
+            'show_type' => 'nullable|string',
         ]);
 
         $show = Show::findOrFail($id);
         $show->update([
+            'show_type' => $validated['show_type'] ?? 'offering',
             'name' => $validated['name'],
             'duration' => $validated['duration'],
             'price' => $validated['price'],
-            'tax' => $validated['tax'] ?? 0,
+            'tax' => 13,
         ]);
 
         return redirect()->route('practitionerShows')->with('success', 'Show updated successfully.');

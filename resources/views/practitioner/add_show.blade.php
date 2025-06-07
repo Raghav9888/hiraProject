@@ -13,7 +13,26 @@
                     <div class="add-offering-dv">
                         <form action="{{ route('practitionerShowStore') }}" method="POST">
                             @csrf
+                            <div class="mb-3">
+                                <div class="form-group">
+                                    <label for="show_type">Show Type</label>
+                                    <select name="show_type" id="show_type" class="form-control">
+                                        <option value="">-- Select Show Type --</option>
+                                        <option
+                                            value="offering" {{ old('show_type', $show->show_type ?? '') == 'offering' ? 'selected' : '' }}>
+                                            Offering
+                                        </option>
+                                        <option
+                                            value="product" {{ old('show_type', $show->show_type ?? '') == 'product' ? 'selected' : '' }}>
+                                            Product
+                                        </option>
+                                    </select>
 
+                                    @error('show_type')
+                                    <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
                             <div class="mb-3">
                                 <label for="name" class="form-label">Name</label>
                                 <input type="text" name="name" class="form-control" id="name" required>
@@ -51,19 +70,19 @@
 
                             <div class="mb-3">
                                 <label for="price" class="form-label">Price</label>
-                                <input type="text"  name="price" class="form-control" id="price" required>
+                                <input type="text" name="price" class="form-control" id="price" required>
                                 @error('price')
                                 <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
 
-                            <div class="mb-3">
-                                <label for="tax" class="form-label">Tax</label>
-                                <input type="text" name="tax" class="form-control" id="tax">
-                                @error('tax')
-                                <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
+{{--                            <div class="mb-3">--}}
+{{--                                <label for="tax" class="form-label">Tax</label>--}}
+{{--                                <input type="text" name="tax" class="form-control" id="tax">--}}
+{{--                                @error('tax')--}}
+{{--                                <div class="text-danger">{{ $message }}</div>--}}
+{{--                                @enderror--}}
+{{--                            </div>--}}
 
                             <button type="submit" class="btn btn-green">Save</button>
                         </form>

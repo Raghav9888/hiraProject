@@ -14,6 +14,26 @@
                         <form action="{{ route('practitionerShowUpdate', ['id' => $show->id]) }}" method="POST">
                             @csrf
                             @method('PUT')
+                            <div class="mb-3">
+                                <div class="form-group">
+                                    <label for="show_type">Show Type</label>
+                                    <select name="show_type" id="show_type" class="form-control">
+                                        <option value="">-- Select Show Type --</option>
+                                        <option
+                                            value="offering" {{ old('show_type', $show->show_type ?? '') == 'offering' ? 'selected' : '' }}>
+                                            Offering
+                                        </option>
+                                        <option
+                                            value="product" {{ old('show_type', $show->show_type ?? '') == 'product' ? 'selected' : '' }}>
+                                            Product
+                                        </option>
+                                    </select>
+
+                                    @error('show_type')
+                                    <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
 
                             <div class="mb-3">
                                 <label for="name" class="form-label">Name</label>
@@ -42,7 +62,8 @@
                                         ];
                                     @endphp
                                     @foreach ($durations as $duration)
-                                        <option value="{{ $duration }}" {{ old('duration', $show->duration) === $duration ? 'selected' : '' }}>
+                                        <option
+                                            value="{{ $duration }}" {{ old('duration', $show->duration) === $duration ? 'selected' : '' }}>
                                             {{ $duration }}
                                         </option>
                                     @endforeach
@@ -66,18 +87,18 @@
                                 @enderror
                             </div>
 
-                            <div class="mb-3">
-                                <label for="tax" class="form-label">Tax</label>
-                                <input
-                                    type="text"
-                                    name="tax"
-                                    class="form-control"
-                                    id="tax"
-                                    value="{{ old('tax', $show->tax ?? 13) }}">
-                                @error('tax')
-                                <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
+{{--                            <div class="mb-3">--}}
+{{--                                <label for="tax" class="form-label">Tax</label>--}}
+{{--                                <input--}}
+{{--                                    type="text"--}}
+{{--                                    name="tax"--}}
+{{--                                    class="form-control"--}}
+{{--                                    id="tax"--}}
+{{--                                    value="{{ old('tax', $show->tax ?? 13) }}">--}}
+{{--                                @error('tax')--}}
+{{--                                <div class="text-danger">{{ $message }}</div>--}}
+{{--                                @enderror--}}
+{{--                            </div>--}}
 
                             <button type="submit" class="btn btn-green">Update</button>
                         </form>

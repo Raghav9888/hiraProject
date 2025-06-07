@@ -24,7 +24,7 @@ return new class extends Migration
         Schema::table('shows', function (Blueprint $table) {
             $table->dropColumn('show_type');
         });
-      
+
 
     }
 };
