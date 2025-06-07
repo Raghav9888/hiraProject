@@ -777,7 +777,7 @@ class HomeController extends Controller
                 ['name' => 'Intuitive numerology reading', 'duration' => '40 minutes', 'price' => 78, 'description' => 'intuitive numerology reading'],
                 ['name' => 'Intuitive Numerology readings', 'duration' => '60 minutes', 'price' => 117, 'description' => 'intuitive numerology reading'],
             ],
-            'Anna Azucena' => null,
+            'Anna i. Azucena' => null,
             'Shelley King' => [
                 ['name' => 'Readings (Tarot, Lenormand, Crystal)', 'duration' => '20 minutes', 'price' => 40, 'description' => 'Reading'],
             ],
