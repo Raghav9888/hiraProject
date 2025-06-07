@@ -228,6 +228,7 @@ class PaymentController extends Controller
                 $offering = Offering::findOrFail($order->offering_id);
                 $userId = $offering->user_id;
             }
+            // Practitioner User ID
             $vendorId = $userId;
             $vendorStripe = UserStripeSetting::where("user_id", $vendorId)->first();
             $isVendorConnected = $vendorStripe && $vendorStripe->stripe_user_id;
