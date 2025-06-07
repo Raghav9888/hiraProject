@@ -12,6 +12,7 @@ class Show extends Model
         'description',
         'price',
         'tax',
+        'show_type',
         'user_id',
     ];
 
