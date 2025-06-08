@@ -412,9 +412,9 @@ class PaymentController extends Controller
             $order = Booking::where('id', $order->id)->first();
             $order->update(['status' => 'paid', 'user_id' => $user->id,]);
             Auth::login($user);
-
-            Mail::to($order->billing_email)->send(new ShowBookingConfirmationMail($user, $show, $order, false));
-            Mail::to($practitionerUser->email)->send(new ShowBookingConfirmationMail($practitionerUser, $show, $order, true));
+            
+            Mail::to($_ENV['APP_ENV'] == 'local' ? 'testuser@yopmail.com' : $order->billing_email)->send(new ShowBookingConfirmationMail($user, $show, $order, false));
+            Mail::to($_ENV['APP_ENV'] == 'local' ? 'testuser@yopmail.com' : $practitionerUser->email)->send(new ShowBookingConfirmationMail($practitionerUser, $show, $order, true));
         }
         return redirect()->route('thankyou')->with('success', 'Payment successful!');
 
