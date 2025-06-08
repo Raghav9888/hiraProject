@@ -88,7 +88,8 @@
         $('.booking-container, .billing-container, .checkout-container, .login-container').hide();
     });
 
-    $(document).on('click', '.place-order', function () {
+    $(document).on('click', '.place-order', function (e) {
+        e.preventDefault();
         const total_amount = $('.total_amount').val();
         const tax_amount = $('.tax_amount').val();
 

@@ -64,13 +64,15 @@ class BookingController extends Controller
 
     public function preCheckout(Request $request)
     {
+        // Basic validation can be added here
 
+        // Save billing info to session
         session([
             'billing' => [
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
                 'billing_address' => $request->billing_address,
-                'billing_address2' => $request?->billing_address2 ?? '',
+                'billing_address2' => $request->billing_address2 ?? '',
                 'billing_country' => $request->billing_country,
                 'billing_city' => $request->billing_city,
                 'billing_state' => $request->billing_state,
@@ -82,45 +84,51 @@ class BookingController extends Controller
 
         $booking = session('booking');
 
-        $price = $booking['price'];
-        $currency = $booking['currency'];
-        $currencySymbol = $booking['currency_symbol'];
-
         if (!$booking) {
             return response()->json([
                 "success" => false,
                 "data" => "No booking details found.",
             ], 404);
         }
-        $isShow = isset($booking['isShow']) ? $booking['isShow'] : false;
 
-        if($isShow)
-        {
+        $price = $booking['price'] ?? null;
+        $currency = $booking['currency'] ?? null;
+        $currencySymbol = $booking['currency_symbol'] ?? null;
+
+        $isShow = $booking['isShow'] ?? false;
+
+        if ($isShow) {
             $product = Show::findOrFail($booking['show_id']);
-
-        }else{
-            $product = Offering::findOrFail($booking['offering_id'])->with('event')->first();
+        } else {
+            $product = Offering::with('event')->findOrFail($booking['offering_id']);
         }
 
         if ($request->subscribe == true) {
-            $mailerLite = new MailerLite(['api_key' => env("MAILERLITE_KEY")]);
-            $data = [
-                'email' => $request->billing_email,
-                "fields" => [
-                    "name" => $request->first_name,
-                ],
-                'groups' => [
-                    env('MAILERLITE_GROUP')
-                ]
-            ];
-            $mailerLite->subscribers->create($data);
+            try {
+                $mailerLite = new MailerLite(['api_key' => env("MAILERLITE_KEY")]);
+                $data = [
+                    'email' => $request->billing_email,
+                    "fields" => [
+                        "name" => $request->first_name,
+                    ],
+                    'groups' => [
+                        env('MAILERLITE_GROUP')
+                    ]
+                ];
+                $mailerLite->subscribers->create($data);
+            } catch (\Exception $e) {
+                // Log or ignore subscription errors
+                \Log::error('MailerLite subscription error: ' . $e->getMessage());
+            }
         }
+
         return response()->json([
             "success" => true,
             "data" => "Billing details saved in session!",
-            'html' => view('user.checkout-popup', compact('booking', 'product', 'price', 'currency', 'currencySymbol','isShow'))->render()
+            'html' => view('user.checkout-popup', compact('booking', 'product', 'price', 'currency', 'currencySymbol', 'isShow'))->render()
         ]);
     }
+
 
 
     public function preCheckoutRegister(Request $request)

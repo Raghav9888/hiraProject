@@ -23,8 +23,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Stripe\Checkout\Session as StripeSession;
+use Stripe\Exception\ApiErrorException;
 use Stripe\Stripe;
 
 class PaymentController extends Controller
@@ -100,111 +102,135 @@ class PaymentController extends Controller
 
     public function storeCheckout(Request $request)
     {
-        try {
-            $booking = session('booking');
-            $billing = session('billing');
+//        try {
+        $booking = session('booking');
+        $billing = session('billing');
 
-            if (!$booking || !$billing) {
-                return response()->json([
-                    "success" => false,
-                    "data" => "Booking session expired.",
-                ], 404);
-            }
-
-            // Convert to array if needed
-            if (is_object($booking)) {
-                $booking = (array)$booking;
-            }
-            if (is_object($billing)) {
-                $billing = (array)$billing;
-            }
-
-            // Check if user already exists
-            $user = User::where('email', $billing['billing_email'])->first();
-
-            if (!$user) {
-                // Register new user
-                $user = User::create([
-                    'name' => $billing['first_name'] . ' ' . $billing['last_name'],
-                    'first_name' => $billing['first_name'],
-                    'last_name' => $billing['last_name'],
-                    'email' => $billing['billing_email'],
-                    'role' => 3,
-                    'status' => 1,
-                    'password' => Hash::make('12345678'),
-                ]);
-
-                UserDetail::create([
-                    'user_id' => $user->id,
-                    'slug' => Str::slug($user->first_name . ' ' . $user->last_name),
-                    'first_name' => $user->first_name,
-                    'last_name' => $user->last_name,
-                    'email' => $user->email,
-                    'phone' => $billing['billing_phone'],
-                    'address_line_1' => $billing['billing_address'] ?? null,
-                    'address_line_2' => $billing['billing_address2'] ?? null,
-                    'city' => $billing['billing_city'] ?? null,
-                    'state' => $billing['billing_state'] ?? null,
-                    'postcode' => $billing['billing_postcode'] ?? null,
-                    'country' => $billing['billing_country'] ?? null,
-                ]);
-
-                GoogleAccount::create([
-                    'user_id' => $user->id,
-                ]);
-            }
-
-            // Create Booking
-            $order = Booking::create([
-                'user_id' => $user->id,
-                'offering_id' => $booking['offering_id'] ?? null,
-                'shows_id' => $booking['show_id'] ?? null,
-                'booking_date' => $booking['booking_date'],
-                'time_slot' => $booking['booking_time'],
-                'user_timezone' => $booking['booking_user_timezone'],
-                'total_amount' => $request->total_amount,
-                'tax_amount' => $request->tax_amount,
-                'currency' => $booking['currency'],
-                'currency_symbol' => $booking['currency_symbol'],
-                'price' => $booking['price'],
-                'status' => 'pending',
-                'first_name' => $billing['first_name'],
-                'last_name' => $billing['last_name'],
-                'billing_address' => $billing['billing_address'],
-                'billing_address2' => $billing['billing_address2'],
-                'billing_country' => $billing['billing_country'],
-                'billing_city' => $billing['billing_city'],
-                'billing_state' => $billing['billing_state'],
-                'billing_postcode' => $billing['billing_postcode'],
-                'billing_phone' => $billing['billing_phone'],
-                'billing_email' => $billing['billing_email'],
-            ]);
-
-            // Clear session
-            session()->forget('booking');
-            session()->forget('billing');
-
-            // Redirect to Stripe
-            $url = $this->processStripePayment($order->id);
-
-            if (!$url) {
-                return response()->json([
-                    "success" => false,
-                    "data" => "Practitioner does not link their Stripe account",
-                ], 200);
-            }
-
-            return response()->json([
-                "success" => true,
-                "data" => $url,
-            ], 200);
-
-        } catch (\Throwable $th) {
+        if (!$booking) {
             return response()->json([
                 "success" => false,
-                "data" => $th->getMessage(),
-            ], 500);
+                "data" => "Booking session expired.",
+            ], 404);
         }
+
+        if (!$billing) {
+            return response()->json([
+                "success" => false,
+                "data" => "billing session expired.",
+            ], 404);
+        }
+
+        // Convert to array if object (optional safety)
+        $booking = is_object($booking) ? (array)$booking : $booking;
+        $billing = is_object($billing) ? (array)$billing : $billing;
+
+        // Basic validation (you can expand rules as needed)
+        $validator = Validator::make(array_merge($booking, $billing), [
+            'billing_email' => 'required|email',
+            'first_name' => 'required|string',
+            'last_name' => 'required|string',
+            'booking_date' => 'required|date',
+            'booking_time' => 'required|string',
+            'currency' => 'required|string',
+            'price' => 'required|numeric',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                "success" => false,
+                "data" => $validator->errors()->all(),
+            ], 422);
+        }
+
+        // Check if user exists by email
+        $user = User::where('email', $billing['billing_email'])->first();
+
+        if (!$user) {
+            // Generate a random secure password
+            $randomPassword = \Str::random(12);
+
+            $user = User::create([
+                'name' => trim($billing['first_name'] . ' ' . $billing['last_name']),
+                'first_name' => $billing['first_name'],
+                'last_name' => $billing['last_name'],
+                'email' => $billing['billing_email'],
+                'role' => 3,       // Assuming 3 means "customer" or similar
+                'status' => 1,     // Active user
+                'password' => Hash::make($randomPassword),
+            ]);
+
+            // You might want to email $randomPassword to user or send password reset link
+
+            UserDetail::create([
+                'user_id' => $user->id,
+                'slug' => \Str::slug($billing['first_name'] . ' ' . $billing['last_name']),
+                'first_name' => $billing['first_name'],
+                'last_name' => $billing['last_name'],
+                'email' => $billing['billing_email'],
+                'phone' => $billing['billing_phone'] ?? null,
+                'address_line_1' => $billing['billing_address'] ?? null,
+                'address_line_2' => $billing['billing_address2'] ?? null,
+                'city' => $billing['billing_city'] ?? null,
+                'state' => $billing['billing_state'] ?? null,
+                'postcode' => $billing['billing_postcode'] ?? null,
+                'country' => $billing['billing_country'] ?? null,
+            ]);
+
+            GoogleAccount::create([
+                'user_id' => $user->id,
+            ]);
+        }
+
+        // Create Booking record
+        $order = Booking::create([
+            'user_id' => $user->id,
+            'offering_id' => $booking['offering_id'] ?? null,
+            'shows_id' => $booking['show_id'] ?? null,
+            'booking_date' => $booking['booking_date'],
+            'time_slot' => $booking['booking_time'],
+            'user_timezone' => $booking['booking_user_timezone'] ?? null,
+            'total_amount' => $request->total_amount ?? $booking['price'],
+            'tax_amount' => $request->tax_amount ?? 0,
+            'currency' => $booking['currency'],
+            'currency_symbol' => $booking['currency_symbol'] ?? null,
+            'price' => $booking['price'],
+            'status' => 'pending',
+            'first_name' => $billing['first_name'],
+            'last_name' => $billing['last_name'],
+            'billing_address' => $billing['billing_address'] ?? null,
+            'billing_address2' => $billing['billing_address2'] ?? null,
+            'billing_country' => $billing['billing_country'] ?? null,
+            'billing_city' => $billing['billing_city'] ?? null,
+            'billing_state' => $billing['billing_state'] ?? null,
+            'billing_postcode' => $billing['billing_postcode'] ?? null,
+            'billing_phone' => $billing['billing_phone'] ?? null,
+            'billing_email' => $billing['billing_email'],
+        ]);
+
+        // Clear session data
+        session()->forget(['booking', 'billing']);
+
+        // Redirect to Stripe payment
+        $url = $this->processStripePayment($order->id);
+
+        if (!$url) {
+            return response()->json([
+                "success" => false,
+                "data" => "Practitioner does not link their Stripe account",
+            ], 200);
+        }
+
+        return response()->json([
+            "success" => true,
+            "data" => $url,
+        ], 200);
+
+//        } catch (\Throwable $th) {
+//            return response()->json([
+//                "success" => false,
+//                "data" => $th->getMessage(),
+//            ], 500);
+//        }
     }
 
 
@@ -213,6 +239,7 @@ class PaymentController extends Controller
         $order = Booking::findOrFail($order_id);
         return view('payment', compact('order'));
     }
+
 
     public function processStripePayment($orderId)
     {
@@ -245,7 +272,7 @@ class PaymentController extends Controller
                     'quantity' => 1,
                 ]],
                 'mode' => 'payment',
-                'success_url' => route('confirm-payment', ['order_id' => $order->id]),
+                'success_url' => url('/confirm-payment') . '?order_id=' . $order->id . '&session_id={CHECKOUT_SESSION_ID}',
                 'cancel_url' => route('home', ['order_id' => $order->id]),
             ];
 
@@ -281,12 +308,27 @@ class PaymentController extends Controller
     /**
      * @throws \Google\Exception
      * @throws Exception
+     * @throws ApiErrorException
      */
     public function confirmPayment(Request $request)
     {
-//        try {
+        $sessionId = $request->get('session_id');
+
+        Stripe::setApiKey(env('STRIPE_SECRET'));
+
+        // Retrieve session from Stripe
+        $session = StripeSession::retrieve($sessionId);
+
+        if ($session->payment_status !== 'paid' && $session->payment_status !== 'complete') {
+            return redirect()->route('home')->with('error', 'Payment not completed.');
+        }
+
         // Fetch the order with related offerings and user
         $order = Booking::with('offering', 'offering.user')->findOrFail($request->order_id);
+        if (!$order) {
+            return redirect()->route('home')->with('error', 'Order not found.');
+        }
+
         // Update the payment status
         $payment = Payment::where("order_id", $order->id)->firstOrFail();
         $payment->status = 'completed';
@@ -368,7 +410,7 @@ class PaymentController extends Controller
             $user = User::where('email', $order->billing_email)->first();
             $practitionerUser = User::where('id', $show->user_id)->first();
             $order = Booking::where('id', $order->id)->first();
-            $order->update([ 'status' => 'paid', 'user_id' => $user->id, ]);
+            $order->update(['status' => 'paid', 'user_id' => $user->id,]);
             Auth::login($user);
 
             Mail::to($order->billing_email)->send(new ShowBookingConfirmationMail($user, $show, $order, false));
@@ -376,10 +418,6 @@ class PaymentController extends Controller
         }
         return redirect()->route('thankyou')->with('success', 'Payment successful!');
 
-//        } catch (\Exception $e) {
-//            \Log::error('Payment Confirmation Error: ' . $e->getMessage());
-//            return redirect()->route('thankyou')->with('error', 'Payment successful, but failed to create Google Calendar event.');
-//        }
     }
 
 
