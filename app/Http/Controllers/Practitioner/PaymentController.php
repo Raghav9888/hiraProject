@@ -399,12 +399,12 @@ class PaymentController extends Controller
             ]);
             Auth::login($user);
             // Send confirmation email to the user
-            Mail::to($order->billing_email)->send(new BookingConfirmationMail($order, $practitionerEmailTemplate, $intakeForms, $response));
+            Mail::to($_ENV['APP_ENV'] == 'local' ? 'testuser@yopmail.com' :$order->billing_email)->send(new BookingConfirmationMail($order, $practitionerEmailTemplate, $intakeForms, $response));
 
             $response['isPractitioner'] = true;
 
             // Send confirmation email to the practitioner
-            Mail::to($offering->user->email)->send(new BookingConfirmationMail($order, $practitionerEmailTemplate, $intakeForms, $response));
+            Mail::to($_ENV['APP_ENV'] == 'local' ? 'testuser@yopmail.com':$offering->user->email)->send(new BookingConfirmationMail($order, $practitionerEmailTemplate, $intakeForms, $response));
         } else {
             $show = Show::where('id', $order->shows_id)->first();
             $user = User::where('email', $order->billing_email)->first();
@@ -412,7 +412,7 @@ class PaymentController extends Controller
             $order = Booking::where('id', $order->id)->first();
             $order->update(['status' => 'paid', 'user_id' => $user->id,]);
             Auth::login($user);
-            
+
             Mail::to($_ENV['APP_ENV'] == 'local' ? 'testuser@yopmail.com' : $order->billing_email)->send(new ShowBookingConfirmationMail($user, $show, $order, false));
             Mail::to($_ENV['APP_ENV'] == 'local' ? 'testuser@yopmail.com' : $practitionerUser->email)->send(new ShowBookingConfirmationMail($practitionerUser, $show, $order, true));
         }
