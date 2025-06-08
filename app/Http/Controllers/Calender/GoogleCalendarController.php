@@ -85,7 +85,10 @@ class GoogleCalendarController extends Controller
 
         $googleAccount = GoogleAccount::where('user_id', $data['user_id'])->firstOrFail();
         $accessToken = json_decode($googleAccount->access_token, true);
-
+       if (!$accessToken)
+       {
+            throw new \Exception('Google access token is missing or invalid.');
+       }
         $client = new Google_Client();
         $client->setAuthConfig(storage_path('app/google/calendar/credential.json'));
         $client->setAccessToken($accessToken);
