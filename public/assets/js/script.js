@@ -74,6 +74,9 @@ $('.addterm').on('click', function (e) {
             _token: $('meta[name="csrf-token"]').attr('content')
         },
         dataType: 'json',
+        beforeSend: function () {
+            window.loadingScreen.addPageLoading();
+        },
         success: function (response) {
             if (response.success) {
                 $('#' + termType + '-container').html(response.inputField);
@@ -83,6 +86,9 @@ $('.addterm').on('click', function (e) {
         },
         error: function (xhr, status, error) {
             console.error('AJAX Error:', error);
+        },
+        complete: function () {
+            window.loadingScreen.removeLoading();
         }
     });
 });
@@ -101,6 +107,9 @@ $(document).on('click', '.save_term', function (e) {
             _token: $('meta[name="csrf-token"]').attr('content')
         },
         dataType: 'json',
+        beforeSend: function () {
+            window.loadingScreen.addPageLoading();
+        },
         success: function (response) {
             var selectElement = $("#" + termType);
 
@@ -130,6 +139,9 @@ $(document).on('click', '.save_term', function (e) {
         error: function (xhr, status, error) {
             console.error('AJAX Error:', error);
             alert('An unexpected error occurred.');
+        },
+        complete: function () {
+            window.loadingScreen.removeLoading();
         }
     });
 });
@@ -228,6 +240,9 @@ function removeImage(element) {
             user_id: userId,
             _token: $('meta[name="csrf-token"]').attr('content')
         },
+        beforeSend: function () {
+            window.loadingScreen.addPageLoading();
+        },
         success: function (response) {
             console.log('Image removed successfully', response);
 
@@ -253,6 +268,9 @@ function removeImage(element) {
         },
         error: function (xhr, status, error) {
             console.error('Error removing image:', error);
+        },
+        complete: function () {
+            window.loadingScreen.removeLoading();
         }
     });
 }
@@ -357,6 +375,9 @@ $('#waitlist-form').submit(function (e) {
         data: formData,
         processData: false,
         contentType: false,
+        beforeSend: function () {
+            window.loadingScreen.addPageLoading();
+        },
         success: function () {
             alert('Registration and waitlist added successfully!');
 
@@ -402,6 +423,9 @@ $('#waitlist-form').submit(function (e) {
                 alert('An error occurred while submitting the waitlist.');
             }
             console.error(xhr);
+        },
+        complete: function () {
+            window.loadingScreen.removeLoading();
         }
     });
 
