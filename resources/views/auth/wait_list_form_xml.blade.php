@@ -3,8 +3,6 @@
         <form method="POST" action="{{ route('waitList') }}" id="waitlist-form" enctype="multipart/form-data">
             @csrf
 
-
-
             {{-- Basic Info --}}
             <div class="row mb-3">
                 <div class="col-md-6">
@@ -139,12 +137,13 @@
                 </div>
                 <p class="text-white pt-2">Create a password that is a minimum of 8 characters</p>
             </div>
+            <div class="modal-footer">
+                <button class="btn btn-green rounded-pill" id="waitListRegister">Register</button>
+            </div>
         </form>
     </div>
 
-    <div class="modal-footer">
-        <button class="btn btn-green rounded-pill" id="waitListRegister">Register</button>
-    </div>
+
 </div>
 
 
