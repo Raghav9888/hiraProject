@@ -3298,3 +3298,22 @@ body.modal-open {
     padding-right: 0 !important;
 }
 
+.modal-content input,
+.modal-content textarea,
+.modal-content select {
+    position: relative;
+    z-index: 2;
+}
+
+/* Force repaint of autofilled fields */
+.modal-content input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+    background-color: white !important;
+    position: relative;
+    z-index: 2;
+}
+
+.modal-content label {
+    pointer-events: none;
+}
+
