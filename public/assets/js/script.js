@@ -468,6 +468,21 @@ $(document).ready(function() {
 });
 
 
+// Force blur/focus to "wake up" fields after autofill on iOS
+document.addEventListener('DOMContentLoaded', function () {
+    const waitlistModal = document.getElementById('registerModal');
+    waitlistModal.addEventListener('shown.bs.modal', () => {
+        const inputs = waitlistModal.querySelectorAll('input, textarea, select');
+        setTimeout(() => {
+            inputs.forEach((el) => {
+                el.style.display = 'none';
+                el.offsetHeight; // trigger reflow
+                el.style.display = '';
+            });
+        }, 100);
+    });
+});
+
 
 
 
