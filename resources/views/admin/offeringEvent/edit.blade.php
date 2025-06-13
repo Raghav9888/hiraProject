@@ -39,7 +39,7 @@
                                                    data-user-id="{{ $userDetails->id }}"
                                                    data-name="{{ $offering->featured_image }}"
                                                    data-offering-image="true"
-                                                   onclick="removeImage(this);" style="cursor: pointer;"></i>
+                                                   onclick="removeAdminImage(this);" style="cursor: pointer;"></i>
                                             </label>
                                         @else
                                             <label onclick="document.getElementById('fileInput').click();"

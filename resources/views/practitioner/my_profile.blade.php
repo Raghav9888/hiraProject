@@ -57,8 +57,8 @@
                                                             $localPath = config('app.local_path', 'assets');
                                                             $imageUrl = asset($mediaPath . '/practitioners/' . $userDetails->id . '/profile/' . $image);
                                                         @endphp
-                                                        <label class="image-preview rounded-5 " id="imagePreview"
-                                                               style=" background-image: url('{{$imageUrl}}'); background-size: cover; background-position: center center;">
+                                                        <label class="image-preview rounded-5" id="imagePreview"
+                                                               style="background-image: url('{{ $imageUrl }}'); background-size: cover; background-position: center center;">
                                                             <i class="fas fa-trash text-danger fs-3"
                                                                data-image-url="{{ $image }}"
                                                                data-user-id="{{ $userDetails->id }}"
@@ -67,6 +67,7 @@
                                                                onclick="removeImage(this);"
                                                                style="cursor: pointer;"></i>
                                                         </label>
+
                                                     @else
                                                         <label onclick="document.getElementById('fileInput').click();"
                                                                class="image-preview rounded-5" id="imagePreview"

@@ -218,14 +218,17 @@ if (document.getElementById('media-upload')) {
 }
 
 function removeImage(element) {
-    const imageUrl = $(element).data('image-url');
-    const userId = $(element).data('user-id');
-    const isProfileImage = $(element).data('profile-image') ?? false;
-    const isMediaImage = $(element).data('media-image') ?? false;
-    const isOfferImage = $(element).data('offering-image') ?? false;
-    const isCertificateImages = $(element).data('certificate-image') ?? false;
-    const $renderDiv = $(element).data('html-render') ?? false;
-    const imageName = $(element).data('name');
+    console.log(element);
+
+    const $el = $(element);
+    const imageUrl = $el.data('image-url');
+    const userId = $el.data('user-id');
+    const isProfileImage = $el.data('profile-image') ?? false;
+    const isOfferImage = $el.data('offering-image') ?? false;
+    const isCertificateImages = $el.data('certificate-image') ?? false;
+    const isMediaImage = $el.data('media-image') ?? false;
+    const renderDiv = $el.data('html-render') ?? false;
+    const imageName = $el.data('name');
 
     $.ajax({
         url: '/delete/image',
@@ -233,10 +236,10 @@ function removeImage(element) {
         data: {
             image: imageName,
             url: imageUrl,
-            isProfileImage: isProfileImage,
-            isMediaImage: isOfferImage,
-            isOfferImage: isOfferImage,
-            isCertificateImages: isCertificateImages,
+            isProfileImage,
+            isMediaImage,
+            isOfferImage,
+            isCertificateImages,
             user_id: userId,
             _token: $('meta[name="csrf-token"]').attr('content')
         },
@@ -247,23 +250,23 @@ function removeImage(element) {
             console.log('Image removed successfully', response);
 
             if (isProfileImage || isOfferImage) {
-                // Remove the existing image preview
+                // Remove existing image preview
                 $('#imagePreview').remove();
 
-                // Add the new label for image upload
+                // Add new clickable upload label
                 const uploadLabel = `
-                    <label onclick="document.getElementById('fileInput').click();" id="imagePreview" class="image-preview rounded-5">
+                    <label onclick="document.getElementById('fileInput').click();" id="imagePreview" class="image-preview rounded-5" style="border-radius: 50%;">
                         <span>+</span>
                     </label>
                 `;
-                if ($renderDiv) {
-                    $(`#{$renderDiv}`).append(uploadLabel);
+
+                if (renderDiv) {
+                    $(`#${renderDiv}`).append(uploadLabel);
                 } else {
                     $('#imageDiv').append(uploadLabel);
-
                 }
             } else {
-                $(element).parent().remove();
+                $el.parent().remove();
             }
         },
         error: function (xhr, status, error) {

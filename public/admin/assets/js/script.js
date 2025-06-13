@@ -140,7 +140,7 @@ $(document).ready(function () {
     });
 });
 
-function removeImage(element) {
+function removeAdminImage(element) {
     const imageUrl = $(element).data('image-url');
     const userId = $(element).data('user-id');
     const isProfileImage = $(element).data('profile-image') ?? false;

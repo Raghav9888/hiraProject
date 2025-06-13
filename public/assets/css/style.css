@@ -3285,9 +3285,9 @@ input:-webkit-autofill {
     z-index: 2;
 }
 
-label {
-    pointer-events: none;
-}
+/*label {*/
+/*    pointer-events: none;*/
+/*}*/
 
 input:-webkit-autofill ~ label {
     transform: translateY(-20px);
