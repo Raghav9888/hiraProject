@@ -33,7 +33,7 @@
             </div>
             <div class="col-md-6">
                 <label>Website</label>
-                <input type="url" name="website" class="form-control" required>
+                <input type="text" name="website" class="form-control" required>
             </div>
         </div>
 

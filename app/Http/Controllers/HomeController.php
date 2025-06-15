@@ -655,7 +655,7 @@ class HomeController extends Controller
             'password' => 'required|string|min:8|confirmed', // password + confirmation check
             'business_name' => 'nullable|string|max:255',
             'phone' => 'nullable|string|max:20',
-            'website' => 'nullable|url|max:255',
+            'website' => 'nullable|string|max:255',
             'current_practice' => 'nullable|string',
             'heard_from' => 'nullable|array',
             'referral_name' => 'nullable|string|max:255',

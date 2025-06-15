@@ -406,8 +406,8 @@ $('#waitlist-form').submit(function (e) {
 
             // (Optional) If you want to close modal after some time or redirect, you can uncomment below:
             setTimeout(function () {
-                window.location.href = '/';
-            }, 10000);
+                window.location.reload(); // or use window.location.href = '/'; to go to homepage
+            }, 2000);
         },
 
 
@@ -422,6 +422,9 @@ $('#waitlist-form').submit(function (e) {
 
                 const messages = Object.values(errors).flat().join('\n');
                 alert(messages);
+                setTimeout(function () {
+                    window.location.reload(); // or use window.location.href = '/'; to go to homepage
+                }, 2000);
             } else {
                 alert('An error occurred while submitting the waitlist.');
             }
