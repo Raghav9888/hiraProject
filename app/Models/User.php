@@ -11,6 +11,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Cashier\Billable;
 use Laravel\Cashier\Subscription;
+use Stripe\Stripe;
 
 class User extends Authenticatable
 {
@@ -97,4 +98,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Show::class);
     }
+
+    public function stripeAccount()
+    {
+        return $this->hasOne(UserStripeSetting::class, 'user_id', 'id');
+    }
+
 }

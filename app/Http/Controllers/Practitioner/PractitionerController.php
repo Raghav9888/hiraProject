@@ -579,49 +579,52 @@ class PractitionerController extends Controller
         $user = auth()->user();
         $planId = $request->plan_id;
         $plan = Plan::findOrFail($planId);
+
+        // Check if a session is already in progress
+        if (session()->has('active_checkout_session')) {
+            return redirect()->back()->with('error', 'A checkout session is already in progress. Please complete it first.');
+        }
+
         try {
+            // ❗ Block users without Stripe ID
             if (!$user->hasStripeId()) {
-                $user->createAsStripeCustomer();
+                return redirect()->route('my_profile')->with('error', 'Please connect your Stripe account before purchasing a plan.');
             }
-            // Set Stripe API Key
+
             Stripe::setApiKey(env('STRIPE_SECRET'));
 
-            // Prepare line items
             $lineItem = [
                 'price' => $plan->stripe_price_id,
                 'quantity' => 1,
             ];
 
-            // Only add tax_rates if it's set
             if (!empty($plan->stripe_tax_rate_id)) {
                 $lineItem['tax_rates'] = [$plan->stripe_tax_rate_id];
             }
 
-            // Create a Stripe Checkout session
             $session = Session::create([
                 'payment_method_types' => ['card'],
                 'mode' => 'subscription',
                 'allow_promotion_codes' => true,
-                'customer' => $user->stripe_id ?? null, // If user has a Stripe ID, use it
+                'customer' => $user->stripe_id,
                 'line_items' => [$lineItem],
                 'metadata' => [
-                    'user_id' => $user->id,  // Store user ID
-                    'plan_id' => $plan->id,  // Store plan ID
-                    'price_id' => $plan->stripe_price_id,  // Store price ID
+                    'user_id' => $user->id,
+                    'plan_id' => $plan->id,
+                    'price_id' => $plan->stripe_price_id,
                 ],
                 'success_url' => route('my_membership') . '?session_id={CHECKOUT_SESSION_ID}',
                 'cancel_url' => route('my_membership'),
             ]);
 
-            // Redirect to the Stripe checkout page
+            session(['active_checkout_session' => $session->id]);
+
             return redirect()->away($session->url);
         } catch (\Throwable $th) {
-            // dd($th->getMessage());
             return redirect()->back()->with('error', 'Something went wrong: ' . $th->getMessage());
-
         }
-
     }
+
 
     public
     function storeMembership(Request $request)

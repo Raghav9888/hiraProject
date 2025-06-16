@@ -3,6 +3,7 @@
 @section('content')
 
     @include('admin.layouts.nav')
+
     <!-- partial -->
     <div class="container-fluid page-body-wrapper">
         <!-- partial:partials/_sidebar.html -->
@@ -36,6 +37,7 @@
                                                 <th> Name</th>
                                                 <th> Email</th>
                                                 <th> Role</th>
+                                                <th> Has Strip account </th>
                                                 <th> Status</th>
                                                 <th> Action</th>
                                             </tr>
@@ -54,6 +56,15 @@
                                                                 default => '<span class="badge text-bg-primary rounded">User</span>',
                                                             };
                                                             ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php
+                                                        if ($user->stripe_id) {
+                                                            echo '<span class="badge text-bg-success rounded">Yes</span>';
+                                                        } else {
+                                                            echo '<span class="badge text-bg-danger rounded">No</span>';
+                                                        }
+                                                        ?>
                                                     </td>
                                                     <td>
                                                             <?php

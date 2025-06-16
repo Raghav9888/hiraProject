@@ -28,6 +28,15 @@ class UserController extends Controller
             default => User::where('status', 1)->where('role', 1)->latest()->paginate(10),
         };
 
+        foreach ($users as $user) {
+            if($user->stripeAccount) {
+                $user->stripe_id = $user->stripeAccount->stripe_user_id;
+            }else{
+                $user->stripe_id = null;
+            }
+            // update user settings
+            $user->save();
+        }
         $type = match ($userType) {
             'new' => '2',
             'delete' => '3',

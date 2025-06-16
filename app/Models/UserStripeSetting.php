@@ -16,4 +16,12 @@ class UserStripeSetting extends Model
         'stripe_refresh_token',
         'stripe_publishable_key',
     ];
+
+    /**
+     * Get the user that owns the Stripe settings.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
