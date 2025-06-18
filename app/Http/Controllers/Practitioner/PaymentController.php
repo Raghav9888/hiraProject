@@ -33,7 +33,7 @@ class PaymentController extends Controller
 {
     public function connectToStripe()
     {
-        $client_id = env('STRIPE_CLIENT_ID');
+        $client_id = env('STRIPE_CLIENT_ID') ?? 'ca_QXDGM5RQBCCj7rfgInY1BDuHRCU9PXg6';
         $redirect_uri = route('stripe_callback');
         $state = csrf_token();
 
@@ -43,7 +43,7 @@ class PaymentController extends Controller
             . "&redirect_uri={$redirect_uri}"
             . "&client_id={$client_id}"
             . "&response_type=code";
-
+dd($stripe_url);
         return redirect($stripe_url);
     }
 
