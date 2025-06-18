@@ -43,7 +43,7 @@ class PaymentController extends Controller
             . "&redirect_uri={$redirect_uri}"
             . "&client_id={$client_id}"
             . "&response_type=code";
-dd($stripe_url);
+
         return redirect($stripe_url);
     }
 
