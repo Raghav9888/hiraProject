@@ -140,11 +140,19 @@
 
     </div>
 
+    <div class="row align-items-center mt-4">
+        <div class="col-md-12 text-end mb-2">
+            <button type="submit" class="btn btn-green rounded-pill" id="waitListRegister">Register</button>
+            <hr>
+        </div>
+        <div class="col-md-12 text-center text-muted small">
+            <p class="mb-1">For any assistance, please contact us at:</p>
+            <a href="mailto:technicalsupport@thehiracollective.com" class="text-decoration-none text-muted">
+                technicalsupport@thehiracollective.com
+            </a>
+        </div>
+    </div>
 
-    </div>
-    <div class="modal-footer">
-        <button class="btn btn-green rounded-pill" id="waitListRegister">Register</button>
-    </div>
 </form>
 
 

@@ -16,7 +16,7 @@
             {{-- Book Now Overlay --}}
             <div class="book-now-overlay">
                 <a href="{{route('practitioner_detail', $user->slug)}}">
-                    <button class="book-now-btn">Book Now</button>
+                    <button class="book-now-btn">VIEW PROFILE</button>
                 </a>
             </div>
 

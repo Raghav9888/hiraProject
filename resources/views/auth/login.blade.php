@@ -8,7 +8,7 @@
                     <img src="{{ url('./assets/images/header_logo.png') }}" alt="" width="300px">
                 </div>
                 <div class="contact-us-right-dv">
-                    <h3 style="margin-bottom: 40px;">Login (For Practitioners)</h3>
+                    <h3 style="margin-bottom: 40px; min-width: 500px">Login</h3>
                     @if (session('error'))
                         <div class="alert alert-danger">
                             {{ session('error') }}
@@ -66,6 +66,13 @@
                         <a href="javascript:void(0)" data-bs-target="#registerModal" data-bs-toggle="modal"
                            class="login-link">Register Now</a>
                         <a href="{{ route('password.request') }}" class="login-link">Forgot Password</a>
+                    </div>
+                    <hr>
+                    <div class="col-md-12 text-center text-white small">
+                        <p class="mb-1">For any assistance, please contact us at:</p>
+                        <a href="mailto:technicalsupport@thehiracollective.com" class="text-decoration-none text-white">
+                            technicalsupport@thehiracollective.com
+                        </a>
                     </div>
                 </div>
             </div>
