@@ -41,6 +41,22 @@
     <script src="https://cdn.jsdelivr.net/npm/luxon@3/build/global/luxon.min.js"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    <!-- iOS Safari web app mode -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="YourAppName">
+
+    <!-- iOS Home Screen Icon -->
+    <link rel="apple-touch-icon" href="/icons/apple-icon.png">
+    <!-- Android home screen -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" sizes="192x192" href="/icons/android-icon.png">
+
+    <!-- Windows tiles -->
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/icons/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
     {{--    @vite(['resources/sass/app.scss', 'resources/js/app.js'])--}}
 
     <!-- Google Analytics -->
