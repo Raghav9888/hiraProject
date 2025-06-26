@@ -60,7 +60,7 @@
     {{--    @vite(['resources/sass/app.scss', 'resources/js/app.js'])--}}
 
     <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PSVXG54MC9"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
 
@@ -69,7 +69,7 @@
         }
 
         gtag('js', new Date());
-        gtag('config', 'G-XXXXXXXXXX');
+        gtag('config', 'G-PSVXG54MC9');
     </script>
 </head>
 <body>
