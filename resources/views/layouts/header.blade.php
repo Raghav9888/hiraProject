@@ -16,9 +16,9 @@
                             <a class="nav-link parentLinks {{ request()->routeIs('partitionerLists') ? 'active' : '' }}" href="{{ route('partitionerLists') }}">FIND PRACTITIONERS</a>
 
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link parentLinks {{ request()->routeIs('blog') ? 'active' : '' }}" href="{{route('blog')}}">ARTICLES & BLOGS</a>
-                        </li>
+{{--                        <li class="nav-item">--}}
+{{--                            <a class="nav-link parentLinks {{ request()->routeIs('blog') ? 'active' : '' }}" href="{{route('blog')}}">ARTICLES & BLOGS</a>--}}
+{{--                        </li>--}}
                         <li class="nav-item dropdown">
                             <a class="nav-link parentLinks dropdown-toggle" href="#" id="settingsDropdown" role="button"
                                data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
