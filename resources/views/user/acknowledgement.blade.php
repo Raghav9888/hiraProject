@@ -26,95 +26,97 @@
     </style>
 
 <section class="featured-section">
-    <div class="container text-center">
-        <div class="card">
-            <div class="card-body">
-                <h2>Our Land Acknowledgement</h2>
-                <div class="p-4">
-                    <p>
-                        The Hira Collective acknowledges that we are created, built, and operating on lands that have long
-                        been home to Indigenous Peoples, including the Anishinaabe, Haudenosaunee, Huron-Wendat, Métis, and
-                        many others whose stories, cultures, and stewardship have shaped these lands since time immemorial.
-                    </p>
 
-                    <p>
-                        We recognize that what is now called Canada exists on stolen land, and we carry a lifelong
-                        responsibility to listen, learn, and take meaningful action toward justice, truth, and
-                        reconciliation. <strong>Wellness is not separate from justice. Healing is not separate from truth. Growth is
-                            not separate from accountability.</strong> The Hira Collective stands in solidarity with Indigenous
-                        communities, honoring the past, transforming the present, and building a future that is deeply
-                        rooted in respect, reciprocity, and the right relationship with the land and all its peoples.
-                    </p>
+    <div class="container">
 
-                    <p>
-                        Honoring the roots of this land means committing to truth, reciprocity, and lifelong learning. It
-                        means showing up—imperfectly, humbly, and with a willingness to listen. <em>Colonialism thrives on the
-                            pursuit of ‘rightness’ and perfection, and we reject that.</em> We know we will not always get it right,
-                        but we believe that healing, justice, and reconciliation require action, even in the discomfort of
-                        not knowing the perfect way forward.
-                    </p>
+        <div class="bg-success bg-opacity-10 border-start border-success border-5 p-3 my-4">
+            <em class="fs-6">Wellness is not separate from justice. Healing is not separate from truth. Growth is not separate from accountability.</em>
+        </div>
 
-                    <p>
-                        As a collective dedicated to holistic healing, we recognize that wellness is inseparable from
-                        justice, and healing is inseparable from truth. We are committed to uplifting Indigenous voices,
-                        integrating cultural integrity into all that we do, and actively working toward a future that honors
-                        the wisdom, sovereignty, and rights of Indigenous Peoples.
-                    </p>
+        <div class="mt-5 mb-5">
+            <p>The Hira Collective acknowledges that we are created, built, and operating on lands that have long been home to Indigenous Peoples, including the Anishinaabe, Haudenosaunee, Huron-Wendat, Métis, and many others whose stories, cultures, and stewardship have shaped these lands since time immemorial.</p>
 
-                    <p>
-                        We invite our community to join us in this process—not just in words, but in action. We encourage
-                        continued reflection, learning, and engagement with Indigenous-led movements for land back, equity,
-                        and healing.
-                    </p>
+            <p>We recognize that what is now called Canada exists on stolen land, and we carry a lifelong responsibility to listen, learn, and take meaningful action toward justice, truth, and reconciliation. <strong>Wellness is not separate from justice. Healing is not separate from truth. Growth is not separate from accountability.</strong> The Hira Collective stands in solidarity with Indigenous communities, honoring the past, transforming the present, and building a future that is deeply rooted in respect, reciprocity, and the right relationship with the land and all its peoples.</p>
 
-                    <h5 style="text-decoration: underline; text-align: center">Ways To Take Action</h5>
-                    <p>Here are some Indigenous-led organizations and resources that you can support, learn from, and engage with:</p>
+            <p>Honoring the roots of this land means committing to truth, reciprocity, and lifelong learning. It means showing up—imperfectly, humbly, and with a willingness to listen. <em>Colonialism thrives on the pursuit of ‘rightness’ and perfection, and we reject that.</em> We know we will not always get it right, but we believe that healing, justice, and reconciliation require action, even in the discomfort of not knowing the perfect way forward.</p>
 
-                    <ul>
-                        <li>
-                            <strong>The National Centre for Truth and Reconciliation (NCTR)</strong> – Holds the history and truths of
-                            residential school survivors and supports education and reconciliation efforts.
-                            <a href="https://nctr.ca/" target="_blank">Visit NCTR</a>
-                        </li>
+            <p>As a collective dedicated to holistic healing, we recognize that wellness is inseparable from justice, and healing is inseparable from truth. We are committed to uplifting Indigenous voices, integrating cultural integrity into all that we do, and actively working toward a future that honors the wisdom, sovereignty, and rights of Indigenous Peoples.</p>
 
-                        <li>
-                            <strong>Indigenous Climate Action</strong> – An Indigenous-led organization advocating for climate justice and
-                            Indigenous sovereignty.
-                            <a href="https://www.indigenousclimateaction.com/" target="_blank">Visit Indigenous Climate Action</a>
-                        </li>
+            <p>We invite our community to join us in this process—not just in words, but in action. We encourage continued reflection, learning, and engagement with Indigenous-led movements for land back, equity, and healing.</p>
+        </div>
 
-                        <li>
-                            <strong>The Indian Residential School Survivors Society (IRSSS)</strong> – Provides support to residential school
-                            survivors and their families.
-                            <a href="https://www.irsss.ca/" target="_blank">Visit IRSSS</a>
-                        </li>
+    </div>
 
-                        <li>
-                            <strong>Native Women’s Association of Canada (NWAC)</strong> – Advocates for the rights and well-being of
-                            Indigenous women, girls, and gender-diverse people.
-                            <a href="https://www.nwac.ca/" target="_blank">Visit NWAC</a>
-                        </li>
+    <div class="container my-5">
+        <h3 class="fw-bold mb-4">Ways To Take Action</h3>
 
-                        <li>
-                            <strong>Land Back Movement</strong> – A grassroots movement advocating for Indigenous sovereignty and the return of
-                            Indigenous lands.
-                            <a href="https://landback.org/" target="_blank">Learn about Land Back</a>
-                        </li>
+        <div class="row g-4">
 
-                        <li>
-                            <strong>Your Local Indigenous Friendship Centre</strong> – Many cities have Indigenous Friendship Centres that
-                            provide cultural, social, and health programs. Find one near you and explore ways to engage.
-                        </li>
-                    </ul>
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">National Centre for Truth and Reconciliation (NCTR)</h5>
+                        <p class="card-text">Holds the history and truths of residential school survivors and supports education and reconciliation efforts. <a href="https://nctr.ca/" target="_blank">Visit NCTR</a></p>
+                    </div>
+                </div>
+            </div>
 
-                    <p>
-                        Healing and reconciliation are ongoing, collective efforts. We encourage you to take the time to listen, learn, and take meaningful action in ways that honor the spirit of this land and its original caretakers.
-                    </p>
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">Indigenous Climate Action</h5>
+                        <p class="card-text">An Indigenous-led organization advocating for climate justice and Indigenous sovereignty. <a href="https://www.indigenousclimateaction.com/" target="_blank">Visit ICA</a></p>
+                    </div>
+                </div>
+            </div>
 
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">Indian Residential School Survivors Society (IRSSS)</h5>
+                        <p class="card-text">Provides support to residential school survivors and their families. <a href="https://www.irsss.ca/" target="_blank">Visit IRSSS</a></p>
+                    </div>
+                </div>
+            </div>
 
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">Native Women’s Association of Canada (NWAC)</h5>
+                        <p class="card-text">Advocates for the rights and well-being of Indigenous women, girls, and gender-diverse people. <a href="https://www.nwac.ca/" target="_blank">Visit NWAC</a></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">Land Back Movement</h5>
+                        <p class="card-text">A grassroots movement advocating for Indigenous sovereignty and the return of Indigenous lands. <a href="https://landback.org/" target="_blank">Learn about Land Back</a></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">Local Indigenous Friendship Centre</h5>
+                        <p class="card-text">Indigenous Friendship Centres provide cultural, social, and health programs. <a href="#" target="_blank">Find one near you</a></p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="container mt-5">
+        <div class="card bg-success bg-opacity-10 text-center">
+            <div class="card-body">
+                <p class="card-text text-dark fw-bolder">
+                    Healing and reconciliation are ongoing. We encourage you to take the time to listen, learn, and take meaningful action in ways that honor the spirit of this land and its original caretakers.
+                </p>
+            </div>
+        </div>
+    </div>
+
 </section>
 @endsection
