@@ -2,7 +2,7 @@
 
 @section('content')
     <style>
-
+        .hero { background: #eef6f2; text-align: center; padding: 3rem 1rem; }
         .card {
             background: white;
             padding: 20px;
@@ -28,7 +28,10 @@
 <section class="featured-section">
 
     <div class="container">
-
+        <div class="hero">
+            <h1>Our Land Acknowledgement</h1>
+            <p>Honoring truth, healing, and justice through Indigenous wisdom</p>
+        </div>
         <div class="bg-success bg-opacity-10 border-start border-success border-5 p-3 my-4">
             <em class="fs-6">Wellness is not separate from justice. Healing is not separate from truth. Growth is not separate from accountability.</em>
         </div>
@@ -56,7 +59,7 @@
                 <div class="card h-100">
                     <div class="card-body">
                         <h5 class="card-title fw-bold">National Centre for Truth and Reconciliation (NCTR)</h5>
-                        <p class="card-text">Holds the history and truths of residential school survivors and supports education and reconciliation efforts. <a href="https://nctr.ca/" target="_blank">Visit NCTR</a></p>
+                        <p class="card-text">Holds the history and truths of residential school survivors and supports education and reconciliation efforts.</p>
                     </div>
                 </div>
             </div>
@@ -65,7 +68,7 @@
                 <div class="card h-100">
                     <div class="card-body">
                         <h5 class="card-title fw-bold">Indigenous Climate Action</h5>
-                        <p class="card-text">An Indigenous-led organization advocating for climate justice and Indigenous sovereignty. <a href="https://www.indigenousclimateaction.com/" target="_blank">Visit ICA</a></p>
+                        <p class="card-text">An Indigenous-led organization advocating for climate justice and Indigenous sovereignty.</p>
                     </div>
                 </div>
             </div>
@@ -74,7 +77,7 @@
                 <div class="card h-100">
                     <div class="card-body">
                         <h5 class="card-title fw-bold">Indian Residential School Survivors Society (IRSSS)</h5>
-                        <p class="card-text">Provides support to residential school survivors and their families. <a href="https://www.irsss.ca/" target="_blank">Visit IRSSS</a></p>
+                        <p class="card-text">Provides support to residential school survivors and their families.</p>
                     </div>
                 </div>
             </div>
@@ -83,7 +86,7 @@
                 <div class="card h-100">
                     <div class="card-body">
                         <h5 class="card-title fw-bold">Native Women’s Association of Canada (NWAC)</h5>
-                        <p class="card-text">Advocates for the rights and well-being of Indigenous women, girls, and gender-diverse people. <a href="https://www.nwac.ca/" target="_blank">Visit NWAC</a></p>
+                        <p class="card-text">Advocates for the rights and well-being of Indigenous women, girls, and gender-diverse people.</p>
                     </div>
                 </div>
             </div>
@@ -92,7 +95,7 @@
                 <div class="card h-100">
                     <div class="card-body">
                         <h5 class="card-title fw-bold">Land Back Movement</h5>
-                        <p class="card-text">A grassroots movement advocating for Indigenous sovereignty and the return of Indigenous lands. <a href="https://landback.org/" target="_blank">Learn about Land Back</a></p>
+                        <p class="card-text">A grassroots movement advocating for Indigenous sovereignty and the return of Indigenous lands.</p>
                     </div>
                 </div>
             </div>
@@ -101,7 +104,7 @@
                 <div class="card h-100">
                     <div class="card-body">
                         <h5 class="card-title fw-bold">Local Indigenous Friendship Centre</h5>
-                        <p class="card-text">Indigenous Friendship Centres provide cultural, social, and health programs. <a href="#" target="_blank">Find one near you</a></p>
+                        <p class="card-text">Indigenous Friendship Centres provide cultural, social, and health programs.</p>
                     </div>
                 </div>
             </div>

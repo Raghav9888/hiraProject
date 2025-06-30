@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <style>
+        .hero { background: #eef6f2; text-align: center; padding: 3rem 1rem; }
 
         .card {
             background: white;
@@ -25,11 +26,13 @@
     </style>
 
     <section class="py-5">
-        <div class="container my-5">
-            <p class="mb-4">
-                The Hira Collective exists to transform how we seek and receive healing. We believe wellness is not a luxury, trend, or transaction – it’s a birthright. That’s why we’ve built a platform centered around trust, transparency, and community care.
-            </p>
 
+        <div class="container my-5">
+            <div class="hero">
+                <h1>Our Vision</h1>
+                <p>
+                    To radically reimagine what wellness can be - rooted in integrity, guided by care, and accessible to all.</p>
+            </div>
             <div class="bg-light border-start border-success border-5 p-3 my-4">
                 <em>Our vision is a world where:</em>
             </div>
