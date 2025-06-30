@@ -693,9 +693,11 @@ $(document).on('click', '.proceed_to_checkout', function () {
 
 function paymentAjax(offeringId, bookingDate, bookingTime, offeringEventType, price, currency, currencySymbol, bookingUserTimezone) {
 
-    if (!offeringId || !bookingDate || !bookingTime) {
+    if (!offeringId || !bookingDate || !bookingTime || offeringEventType !== 'event') {
         alert("Please select slot!");
         return;
+    }else{
+        alert("Practitioner doesn't add date/time for this event.");
     }
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
