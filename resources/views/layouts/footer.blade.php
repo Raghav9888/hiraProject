@@ -71,18 +71,20 @@
                             The Hira Collective acknowledges that we are created, built, and operating on lands that
                             have long been home to Indigenous Peoples, including the Anishi...
                         </p>
+                        <div class="language-translator-dv">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <button class="mt-4"><i class="fa-solid fa-globe"></i>English</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="language-translator-dv">
-                <div class="row">
-                    <div class="col-sm-12 col-md-10 col-lg-10">
-                        <p>Use of this website, content, and products are for informational purposes only.
-                            TheHiraCollective does not provide medical advice, diagnosis, or treatment.</p>
-                    </div>
-                    <div class="col-sm-12 col-md-2 col-lg-2">
-                        <button class="mt-2"><i class="fa-solid fa-globe"></i>English</button>
-                    </div>
+            <div class="row">
+                <div class="col-sm-12 text-white">
+                    <p>Use of this website, content, and products are for informational purposes only.
+                        TheHiraCollective does not provide medical advice, diagnosis, or treatment.</p>
                 </div>
             </div>
         </div>
