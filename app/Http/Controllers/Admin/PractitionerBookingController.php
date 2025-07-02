@@ -45,6 +45,17 @@ class  PractitionerBookingController extends Controller
         ]);
     }
 
+    public function detail(Request $request,$bookingId ,$userType)
+    {
+        // Get booking details
+        $booking = Booking::with(['offering', 'user', 'shows'])->findOrFail($bookingId);
 
+        // Return view with booking details
+        return view('admin.booking.detail', [
+            'booking' => $booking,
+            'request' => $request,
+            'userType' => $userType,
+        ]);
+    }
 
 }

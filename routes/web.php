@@ -101,7 +101,8 @@ Route::middleware(['auth', 'user-access:admin'])->name('admin.')->prefix('admin'
     Route::resource('blogs', BlogController::class);
     Route::resource('offering', OfferingEventController::class);
     Route::resource('plans', PlanController::class);
-    Route::get('/bookings/{userId}/{userType}', [PractitionerBookingController::class, 'bookings'])->name('practitioner.bookings');
+    Route::get('/bookings/{userId}/{userType}', [PractitionerBookingController::class, 'bookings'])->name('bookings');
+    Route::get('/booking/detail/{bookingId}/{userType}', [PractitionerBookingController::class, 'detail'])->name('booking.detail');
     Route::get('/user/waitlist/{id}', [UserController::class, 'waitlist'])->name('user.waitlist');
 
     Route::get('/locations', [LocationController::class, 'locations'])->name('location.index');

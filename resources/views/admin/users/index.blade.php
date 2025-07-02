@@ -119,7 +119,7 @@
                                                                 @if(!in_array($user->status,['2','3']))
                                                                     <li>
                                                                         <a class="dropdown-item"
-                                                                           href="{{route('admin.practitioner.bookings', ['userId' => $user->id,'userType' =>$type])}}"
+                                                                           href="{{route('admin.bookings', ['userId' => $user->id,'userType' =>$type])}}"
                                                                            data-action="bootbox_form"
                                                                            data-title="Edit User"
                                                                            data-submit="Save Changes"

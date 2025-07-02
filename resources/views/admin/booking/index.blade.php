@@ -87,6 +87,11 @@
                                                                <span class="mdi mdi-dots-vertical"></span>
                                                            </a>
                                                            <ul class="dropdown-menu">
+                                                               <li>
+                                                                   <a class="dropdown-item"
+                                                                      href="{{route('admin.booking.detail', ['bookingId' => $booking->id,'userType' => $userType])}} "
+                                                                   >Booking detail</a>
+                                                               </li>
                                                            </ul>
                                                        </div>
                                                    </td>
