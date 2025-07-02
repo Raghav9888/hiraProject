@@ -14,7 +14,20 @@
                         <div class="col-md-12 grid-margin stretch-card">
                             <div class="card">
                                 <div class="card-body">
-                                    <h4 class="card-title">Edit User</h4>
+                                    <h4 class="card-title">
+                                        <?php
+                                        if (isset($type) && $type) {
+
+                                            echo match ($type) {
+                                                '4' =>  'Edit Delete User',
+                                                '3' => 'Edit User',
+                                                '2' => 'Edit New User',
+                                                default => 'Edit Practitioner User',
+                                            };
+                                        }
+
+                                        ?>
+                                    </h4>
                                     <p class="card-description"> User Information </p>
                                     <div class="form-group">
                                         <label for="name">Name</label>
@@ -36,7 +49,7 @@
                                             <option value="1" {{ $userData->role == 1 ? 'selected' : '' }}>
                                                 Practitioner
                                             </option>
-                                            
+
                                             <option value="3" {{ $userData->role == 3 ? 'selected' : '' }}>User </option>
                                         </select>
                                     </div>

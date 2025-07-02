@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\OfferingEventController;
 use App\Http\Controllers\Admin\FeedbackController;
 use App\Http\Controllers\Admin\LocationController;
 use App\Http\Controllers\Admin\PlanController;
+use App\Http\Controllers\Admin\PractitionerBookingController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\BookingController;
@@ -100,6 +101,7 @@ Route::middleware(['auth', 'user-access:admin'])->name('admin.')->prefix('admin'
     Route::resource('blogs', BlogController::class);
     Route::resource('offering', OfferingEventController::class);
     Route::resource('plans', PlanController::class);
+    Route::get('/bookings/{userId}/{userType}', [PractitionerBookingController::class, 'bookings'])->name('practitioner.bookings');
     Route::get('/user/waitlist/{id}', [UserController::class, 'waitlist'])->name('user.waitlist');
 
     Route::get('/locations', [LocationController::class, 'locations'])->name('location.index');

@@ -17,8 +17,8 @@
             <div class="collapse {{request()->routeIs('admin.user.*')? 'show': ''}}" id="ui-basic">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->route('userType') == 'all' ? 'active' : '' }}"
-                           href="{{ route('admin.user.index', ['userType' => 'all']) }}">Practitioner</a>
+                        <a class="nav-link {{ request()->route('userType') == 'practitioner' ? 'active' : '' }}"
+                           href="{{ route('admin.user.index', ['userType' => 'practitioner']) }}">Practitioner</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ request()->route('userType') == 'client' ? 'active' : '' }}"

@@ -20,6 +20,7 @@ class UserController extends Controller
      */
     public function index(Request $request, $userType)
     {
+
         $user = Auth::user();
         $users = match ($userType) {
             'client' => User::where('status', 1)->where('role', 3)->latest()->paginate(10),
@@ -38,8 +39,9 @@ class UserController extends Controller
             $user->save();
         }
         $type = match ($userType) {
+            'delete' => '4',
+            'client' => '3',
             'new' => '2',
-            'delete' => '3',
             default => '1',
         };
 
@@ -61,9 +63,10 @@ class UserController extends Controller
         $userData = User::find($id);
         $plans = Plan::latest()->get();
         $userType = match ($type) {
+            '4' => 'delete',
+            '3' => 'user',
             '2' => 'new',
-            '3' => 'delete',
-            default => 'all',
+            default => 'practitioner',
         };
 
         return view('admin.users.edit', compact('user', 'userData', 'userType', 'type', 'id', 'plans'));

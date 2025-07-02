@@ -18,10 +18,12 @@
                                 <h4 class="card-title">
                                     <?php
                                     if (isset($type) && $type) {
+
                                         echo match ($type) {
-                                            '1' => 'List of Users',
+                                            '4' => 'Delete Users',
+                                            '3' => 'List of Users',
                                             '2' => 'New Users',
-                                            default => 'Delete Users',
+                                            default => 'List of Practitioners',
                                         };
                                     }
 
@@ -37,7 +39,7 @@
                                                 <th> Name</th>
                                                 <th> Email</th>
                                                 <th> Role</th>
-                                                <th> Has Strip account </th>
+                                                <th> Has Strip account</th>
                                                 <th> Status</th>
                                                 <th> Action</th>
                                             </tr>
@@ -58,13 +60,13 @@
                                                             ?>
                                                     </td>
                                                     <td>
-                                                        <?php
-                                                        if ($user->stripe_id) {
-                                                            echo '<span class="badge text-bg-success rounded">Yes</span>';
-                                                        } else {
-                                                            echo '<span class="badge text-bg-danger rounded">No</span>';
-                                                        }
-                                                        ?>
+                                                            <?php
+                                                            if ($user->stripe_id) {
+                                                                echo '<span class="badge text-bg-success rounded">Yes</span>';
+                                                            } else {
+                                                                echo '<span class="badge text-bg-danger rounded">No</span>';
+                                                            }
+                                                            ?>
                                                     </td>
                                                     <td>
                                                             <?php
@@ -114,6 +116,17 @@
                                                                        data-size="large"
                                                                        data-table="usersTable">Edit</a>
                                                                 </li>
+                                                                @if(!in_array($user->status,['2','3']))
+                                                                    <li>
+                                                                        <a class="dropdown-item"
+                                                                           href="{{route('admin.practitioner.bookings', ['userId' => $user->id,'userType' =>$type])}}"
+                                                                           data-action="bootbox_form"
+                                                                           data-title="Edit User"
+                                                                           data-submit="Save Changes"
+                                                                           data-size="large"
+                                                                           data-table="usersTable">Bookings</a>
+                                                                    </li>
+                                                                @endif
                                                                 <li>
                                                                     <a class="dropdown-item login_as"
                                                                        data-id="{{$user->id}}"
