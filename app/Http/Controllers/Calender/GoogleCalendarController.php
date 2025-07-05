@@ -69,7 +69,12 @@ class GoogleCalendarController extends Controller
         ];
 
         try {
-            $this->createGoogleEvent($data);
+            $response = $this->createGoogleEvent($data);
+
+            if (!$response['success']) {
+                return redirect()->back()->with('error', $response['message']);
+            }
+
             return back()->with('success', 'Event added to Google Calendar!');
         } catch (\Exception $e) {
             return back()->with('error', 'Failed to add event: ' . $e->getMessage());
@@ -82,74 +87,107 @@ class GoogleCalendarController extends Controller
      */
     public function createGoogleEvent($data): array
     {
+        // Fetch Google Account
+        $googleAccount = GoogleAccount::where('user_id', $data['user_id'])->first();
 
-        $googleAccount = GoogleAccount::where('user_id', $data['user_id'])->firstOrFail();
+        if (!$googleAccount) {
+            return [
+                'success' => false,
+                'message' => 'Google account not found. Please connect your Google account first.',
+            ];
+        }
+
         $accessToken = json_decode($googleAccount->access_token, true);
-       if (!$accessToken)
-       {
-            throw new \Exception('Google access token is missing or invalid.');
-       }
+
+        if (!$accessToken) {
+            return [
+                'success' => false,
+                'message' => 'Your Google account token is invalid. Please re-connect your Google account.',
+            ];
+        }
+
+        // Initialize Google Client
         $client = new Google_Client();
         $client->setAuthConfig(storage_path('app/google/calendar/credential.json'));
         $client->setAccessToken($accessToken);
 
+        // Refresh token if expired
         if ($client->isAccessTokenExpired()) {
             if (!empty($googleAccount->refresh_token)) {
-                $client->fetchAccessTokenWithRefreshToken($googleAccount->refresh_token);
+                $newToken = $client->fetchAccessTokenWithRefreshToken($googleAccount->refresh_token);
                 $googleAccount->access_token = json_encode($client->getAccessToken());
                 $googleAccount->save();
             } else {
-                throw new \Exception('Google Token Expired. Please reauthorize.');
+                return [
+                    'success' => false,
+                    'message' => 'Google token expired. Please reauthorize your Google account.',
+                ];
             }
         }
 
-        $calendarService = new Google_Service_Calendar($client);
+        // Create Calendar Event
+        try {
+            $calendarService = new Google_Service_Calendar($client);
 
-        $createEvent = [
-            'summary' => $data['title'],
-            'description' => $data['description'],
-            'start' => [
-                'dateTime' => $data['start']['dateTime'],
-                'timeZone' => $data['start']['timeZone'],
-            ],
-            'end' => [
-                'dateTime' => $data['end']['dateTime'],
-                'timeZone' => $data['end']['timeZone'],
-            ],
-            'extendedProperties' => [
-                'private' => [
-                    'category' => $data['category'],
-                ]
-            ],
-        ];
-
-        if ( isset($data['offering_type']) && $data['offering_type'] === 'virtual') {
-
-            $createEvent['conferenceData'] = [
-                'createRequest' => [
-                    'conferenceSolutionKey' => ['type' => 'hangoutsMeet'],
-                    'requestId' => uniqid(),
+            $createEvent = [
+                'summary' => $data['title'],
+                'description' => $data['description'],
+                'start' => [
+                    'dateTime' => $data['start']['dateTime'],
+                    'timeZone' => $data['start']['timeZone'],
+                ],
+                'end' => [
+                    'dateTime' => $data['end']['dateTime'],
+                    'timeZone' => $data['end']['timeZone'],
+                ],
+                'extendedProperties' => [
+                    'private' => [
+                        'category' => $data['category'],
+                    ]
+                ],
+                'attendees' => [
+                    ['email' => $data['guest_email']],
                 ],
             ];
+
+            if (isset($data['offering_type']) && $data['offering_type'] === 'virtual') {
+                $createEvent['conferenceData'] = [
+                    'createRequest' => [
+                        'conferenceSolutionKey' => ['type' => 'hangoutsMeet'],
+                        'requestId' => uniqid(),
+                    ],
+                ];
+            }
+
+            $event = new Google_Service_Calendar_Event($createEvent);
+
+            $createdEvent = $calendarService->events->insert(
+                'primary',
+                $event,
+                [
+                    'conferenceDataVersion' => 1,
+                    'sendUpdates' => 'all'
+                ]
+            );
+
+            $meetLink = '';
+
+            if (isset($data['offering_type']) && $data['offering_type'] === 'virtual') {
+                $entryPoints = optional($createdEvent->getConferenceData())->getEntryPoints();
+                $meetLink = $entryPoints[0]->getUri() ?? '';
+            }
+
+            return [
+                'success' => true,
+                'meet_link' => $meetLink,
+                'google_event_id' => $createdEvent->getId(),
+            ];
+        } catch (\Exception $e) {
+            return [
+                'success' => false,
+                'message' => 'Failed to create Google event: ' . $e->getMessage(),
+            ];
         }
-
-        $createEvent['attendees'] = [
-            ['email' => $data['guest_email']],
-        ];
-
-        $event = new Google_Service_Calendar_Event($createEvent);
-
-        $createdEvent = $calendarService->events->insert('primary', $event, ['conferenceDataVersion' => 1, 'sendUpdates' => 'all']);
-        $meetLink = '';
-        if ( isset($data['offering_type']) && $data['offering_type'] === 'virtual') {
-            $meetLink = optional($createdEvent->getConferenceData())->getEntryPoints()[0]->getUri();
-        }
-
-        return [
-            'success' => true,
-            'meet_link' => $meetLink,
-            'google_event_id' => $createdEvent->getId(),
-        ];
     }
 
 

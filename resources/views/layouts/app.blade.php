@@ -71,6 +71,19 @@
         gtag('js', new Date());
         gtag('config', 'G-PSVXG54MC9');
     </script>
+
+
+    <!-- JavaScript -->
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/alertify.min.js"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/alertify.min.css"/>
+    <!-- Default theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/default.min.css"/>
+    <!-- Semantic UI theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/semantic.min.css"/>
+    <!-- Bootstrap theme -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/bootstrap.min.css"/>
 </head>
 <body>
 @include('layouts.header')
@@ -143,6 +156,14 @@
         </div>
     </div>
 </div>
+
+{{--This used for alertify messages --}}
+<div id="flash-data"
+     data-success="{{ session('success') }}"
+     data-error="{{ session('error') }}"
+     data-warning="{{ session('warning') }}">
+</div>
+
 
 <script>
     function getCookie(name) {
@@ -231,13 +252,15 @@
 <script>
     const togglePassword = document.getElementById("togglePassword");
     const passwordField = document.getElementById("exampleInputPassword1");
+    if(togglePassword){
+        togglePassword.addEventListener("click", function () {
+            const type = passwordField.type === "password" ? "text" : "password";
+            passwordField.type = type;
 
-    togglePassword.addEventListener("click", function () {
-        const type = passwordField.type === "password" ? "text" : "password";
-        passwordField.type = type;
+            this.innerHTML = type === "password" ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+        });
+    }
 
-        this.innerHTML = type === "password" ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
-    });
 
 
 </script>
@@ -345,6 +368,7 @@
 
 <script src="{{ asset('assets/js/loader.js') }}?v={{ time() }}"></script>
 <script src="{{ asset('assets/js/script.js') }}?v={{ time() }}"></script>
+<script src="{{ asset('assets/js/alertify.js') }}?v={{ time() }}"></script>
 <script src="{{ asset('assets/js/calendar.js') }}?v={{ time() }}"></script>
 <script src="{{ asset('assets/js/booking_calendar.js') }}?v={{ time() }}"></script>
 <script src="{{ asset('assets/js/search.js') }}?v={{ time() }}"></script>

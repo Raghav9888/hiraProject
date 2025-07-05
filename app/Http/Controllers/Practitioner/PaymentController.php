@@ -28,6 +28,7 @@ use Illuminate\Support\Str;
 use Stripe\Checkout\Session as StripeSession;
 use Stripe\Exception\ApiErrorException;
 use Stripe\Stripe;
+use Symfony\Component\HttpFoundation\Response;
 
 class PaymentController extends Controller
 {
@@ -389,6 +390,11 @@ class PaymentController extends Controller
             }
 
             $response = $this->createGoogleCalendarEvent($order);
+
+            if (!$response['success']) {
+                return redirect()->back()->with('error', $response['message']);
+            }
+
             $response['order'] = $order;
             $response['bookingCancelUrl'] = (isset($offering->cancellation_time_slot) && $offering->cancellation_time_slot) ? route('bookingCancel', ['bookingId' => $order->id, 'eventId' => $response['google_event_id']]) : null;
 
@@ -512,7 +518,7 @@ class PaymentController extends Controller
         $response = $googleCalendar->createGoogleEvent($eventData);
 
         if (!$response['success']) {
-            throw new \Exception($response['error']);
+            return $response;
         }
 
         $response['practitioner_date_time'] = $practitionerDateTime->format('l, F j, Y \a\t h:i A');

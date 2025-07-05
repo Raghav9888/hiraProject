@@ -148,12 +148,15 @@
 <script>
     const togglePassword = document.getElementById("togglePassword");
     const passwordField = document.getElementById("exampleInputPassword1");
+    if(togglePassword)
+    {
+        togglePassword.addEventListener("click", function() {
+            const type = passwordField.type === "password" ? "text" : "password";
+            passwordField.type = type;
 
-    togglePassword.addEventListener("click", function() {
-        const type = passwordField.type === "password" ? "text" : "password";
-        passwordField.type = type;
+            this.innerHTML = type === "password" ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+        });
+    }
 
-        this.innerHTML = type === "password" ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
-    });
 </script>
 @endsection
