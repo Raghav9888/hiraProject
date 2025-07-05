@@ -39,9 +39,8 @@
                                                 @else
                                                     <th>Users</th>
                                                 @endif
-                                                <th>
-                                                    Offering Type
-                                                </th>
+                                                <th>Offering Type</th>
+                                                <th>Payment Status</th>
                                                 <th> Date</th>
                                                 <th> Action</th>
                                             </tr>
@@ -82,7 +81,7 @@
                                                     @endif
                                                     <td>
                                                             <?php
-                                                                $offeringType = isset($booking->shows_id) && $booking->shows_id ? 'show':$booking->offering->offering_event_type ?? 'N/A';
+                                                            $offeringType = isset($booking->shows_id) && $booking->shows_id ? 'show' : $booking->offering->offering_event_type ?? 'N/A';
 
                                                             echo match ($offeringType) {
                                                                 'show' => '<span class="badge text-bg-warning rounded">Shows</span>',
@@ -91,6 +90,15 @@
                                                             };
                                                             ?>
 
+                                                    </td>
+                                                    <td>
+                                                            <?php
+                                                            echo match ($booking->status) {
+                                                                'paid' => '<span class="badge text-bg-success rounded">Paid</span>',
+                                                                'confirmed' => '<span class="badge text-bg-danger rounded">User not found</span>',
+                                                                default => '<span class="badge text-bg-warning rounded">Pending</span>',
+                                                            };
+                                                            ?>
                                                     </td>
                                                     <td>
                                                         {{ $booking->booking_date ? \Carbon\Carbon::parse($booking->booking_date)->format('d M Y') : 'N/A' }}

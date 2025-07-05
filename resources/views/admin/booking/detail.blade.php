@@ -74,6 +74,17 @@
                                                     <p>
                                                         <strong>Total:</strong> {{ $booking->currency_symbol }}{{ $booking->total_amount }}
                                                     </p>
+                                                    <p>
+                                                        <strong>Payment status:</strong>
+
+                                                        <?php
+                                                        echo match ($booking->status) {
+                                                            'paid' => '<span class="badge text-bg-success rounded">Paid</span>',
+                                                            'confirmed' => '<span class="badge text-bg-danger rounded">User not found</span>',
+                                                            default => '<span class="badge text-bg-warning rounded">Pending</span>',
+                                                        };
+                                                        ?>
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
