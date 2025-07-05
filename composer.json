@@ -19,6 +19,7 @@
         "php-http/curl-client": "^2.3",
         "php-http/message": "^1.16",
         "sendgrid/sendgrid": "^8.1",
+        "shasan-dev/laravel-klarna-payments": "^1.0",
         "socialiteproviders/google": "^4.1",
         "stripe/stripe-php": "*"
     },

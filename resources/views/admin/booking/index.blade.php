@@ -39,8 +39,11 @@
                                                 @else
                                                     <th>Users</th>
                                                 @endif
-                                                <th> Date </th>
-                                                <th> Action </th>
+                                                <th>
+                                                    Offering Type
+                                                </th>
+                                                <th> Date</th>
+                                                <th> Action</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -78,23 +81,35 @@
                                                         @endif
                                                     @endif
                                                     <td>
+                                                            <?php
+                                                                $offeringType = isset($booking->shows_id) && $booking->shows_id ? 'show':$booking->offering->offering_event_type ?? 'N/A';
+
+                                                            echo match ($offeringType) {
+                                                                'show' => '<span class="badge text-bg-warning rounded">Shows</span>',
+                                                                'event' => '<span class="badge text-bg-success rounded">Events</span>',
+                                                                default => '<span class="badge text-bg-primary rounded">Offerings</span>',
+                                                            };
+                                                            ?>
+
+                                                    </td>
+                                                    <td>
                                                         {{ $booking->booking_date ? \Carbon\Carbon::parse($booking->booking_date)->format('d M Y') : 'N/A' }}
                                                     </td>
-                                                   <td>
-                                                       <div class="dropdown">
-                                                           <a class="text-dark" type="button" data-bs-toggle="dropdown"
-                                                              aria-expanded="false">
-                                                               <span class="mdi mdi-dots-vertical"></span>
-                                                           </a>
-                                                           <ul class="dropdown-menu">
-                                                               <li>
-                                                                   <a class="dropdown-item"
-                                                                      href="{{route('admin.booking.detail', ['bookingId' => $booking->id,'userType' => $userType])}} "
-                                                                   >Booking detail</a>
-                                                               </li>
-                                                           </ul>
-                                                       </div>
-                                                   </td>
+                                                    <td>
+                                                        <div class="dropdown">
+                                                            <a class="text-dark" type="button" data-bs-toggle="dropdown"
+                                                               aria-expanded="false">
+                                                                <span class="mdi mdi-dots-vertical"></span>
+                                                            </a>
+                                                            <ul class="dropdown-menu">
+                                                                <li>
+                                                                    <a class="dropdown-item"
+                                                                       href="{{route('admin.booking.detail', ['bookingId' => $booking->id,'userType' => $userType])}} "
+                                                                    >Booking detail</a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </td>
 
                                                 </tr>
 
