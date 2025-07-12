@@ -104,8 +104,9 @@
                                         : asset("$localPath/images/no_image.png");
                                     $shortText = implode(' ', array_slice(explode(' ', strip_tags($offering->short_description)), 0, 10)) . '...';
                                 @endphp
+                            <div class="col-md-4">
                                 <div class="swiper-slide px-2">
-                                    <div class="card h-100 border-0"
+                                    <div class="card border-0"
                                          onclick="window.location.href='{{ route('practitioner_detail', $offering->user->slug) }}?#events'">
                                         <div class="card-body p-3">
                                             <div class="row align-items-center g-3">
@@ -129,6 +130,8 @@
                                         </div>
                                     </div>
                                 </div>
+
+                            </div>
                             @endforeach
                         @else
                             <div class="swiper-slide px-2">
