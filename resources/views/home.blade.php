@@ -97,7 +97,7 @@
                         @if(count($offerings) > 0)
                             @foreach($offerings as $date => $offering)
                                 @php
-                                    $mediaPath = config('app.media_path', 'uploads');
+                                    $mediaPath = config('app.media_path', 'Uploads');
                                     $localPath = config('app.local_path', 'assets');
                                     $imageUrl = $offering->featured_image
                                         ? asset("$mediaPath/practitioners/{$offering->user->id}/offering/{$offering->featured_image}")
@@ -108,8 +108,8 @@
                                     <div class="card h-100 border-0 shadow-sm"
                                          onclick="window.location.href='{{ route('practitioner_detail', $offering->user->slug) }}?#events'">
                                         <div class="card-body p-3">
-                                            <div class="row align-items-center">
-                                                <div class="col-md-4 col-12 mb-3 mb-md-0">
+                                            <div class="row align-items-center g-3">
+                                                <div class="col-md-4 col-12">
                                                     <img src="{{ $imageUrl }}"
                                                          alt="{{ $offering->name }}"
                                                          class="img-fluid rounded w-100 h-auto">
@@ -117,7 +117,7 @@
                                                 <div class="col-md-8 col-12">
                                                     <h5 class="card-title mb-2">{{ $offering->name }}</h5>
                                                     <p class="text-green mb-3">{{ $shortText }}</p>
-                                                    <div class="d-flex align-items-center justify-content-end">
+                                                    <div class="d-flex align-items-center">
                                                         <img src="{{ asset('assets/images/Clock.svg') }}"
                                                              alt="Time"
                                                              class="me-2"
@@ -132,7 +132,7 @@
                             @endforeach
                         @else
                             <div class="swiper-slide px-2">
-                                <div class="card h-100 border-0  text-center p-4">
+                                <div class="card h-100 border-0 shadow-sm text-center p-4">
                                     <p class="text-muted mb-0">No upcoming events available</p>
                                 </div>
                             </div>
