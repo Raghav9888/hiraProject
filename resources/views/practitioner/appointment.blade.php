@@ -31,7 +31,7 @@
                                     @if($appointment->status != 'pending')
                                         <div class="appointment-data p-3 mb-3 border rounded bg-light">
                                             <h6 class="mb-1">{{ $appointment?->first_name . ' ' . $appointment?->last_name ?? 'N/A' }}</h6>
-                                            <small class="text-muted">
+                                            <small class="text-muted px-2">
                                                 {{ $appointment?->booking_date . ' ' . $appointment?->time_slot }}
                                             </small>
                                         </div>
