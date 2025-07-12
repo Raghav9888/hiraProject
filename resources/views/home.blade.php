@@ -109,7 +109,7 @@
                                     <div class="card"
                                          onclick="window.location.href='{{ route('practitioner_detail', $offering->user->slug) }}?#events'">
                                         <div class="card-body p-3">
-                                            <div class="row align-items-center g-3 cursor-pointer">
+                                            <div class="row align-items-center g-3" style="cursor: pointer">
                                                 <div class="col-md-4 col-12">
                                                     <img src="{{ $imageUrl }}"
                                                          alt="{{ $offering->name }}"
