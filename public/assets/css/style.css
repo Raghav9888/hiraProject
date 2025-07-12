@@ -190,7 +190,6 @@ section {
     background-color: #424E3E;
     border: 2px solid #FFFFFF;
     border-radius: 33px;
-    padding: 0 30px;
 }
 
 
@@ -209,7 +208,7 @@ section {
 .search-input,
 .home-main-section .dropdown button,
 .home-main-section .location-input {
-    padding: 10px 15px 10px 40px;
+    padding: 10px 15px 10px 15px;
     font-size: 16px;
     outline: none;
     width: 100%;
