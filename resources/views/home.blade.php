@@ -104,7 +104,7 @@
                                         : asset("$localPath/images/no_image.png");
                                     $shortText = implode(' ', array_slice(explode(' ', strip_tags($offering->short_description)), 0, 10)) . '...';
                                 @endphp
-                            <div class="col-md-4">
+                            <div class="col-md-5">
                                 <div class="swiper-slide px-2">
                                     <div class="card"
                                          onclick="window.location.href='{{ route('practitioner_detail', $offering->user->slug) }}?#events'">
