@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Practitioner;
 
 use App\Http\Controllers\Controller;
+use App\Models\Booking;
 use App\Models\Category;
 use App\Models\Certifications;
 use App\Models\GoogleAccount;
@@ -241,20 +242,21 @@ class PractitionerController extends Controller
 
     public function appointment()
     {
-        $user = User::where('id', Auth::id())->with('offerings.bookings')->first();
-        $bookings = $user->offerings()->with('bookings')->get()->flatMap(function ($offering) {
-            ;
-            return $offering->bookings;
-        });
+        $user = Auth::user();
 
-        $userDetails = $user->userDetail;
+        // Get all offering IDs for the logged-in user
+        $offeringIds = Offering::where('user_id', $user->id)->pluck('id');
+
+        // Get all bookings for those offerings in a single query
+        $bookings = Booking::whereIn('offering_id', $offeringIds)->get();
 
         return view('practitioner.appointment', [
             'user' => $user,
-            'userDetails' => $userDetails,
+            'userDetails' => $user->userDetail,
             'appointments' => $bookings,
         ]);
     }
+
 
 
     public function earning()
