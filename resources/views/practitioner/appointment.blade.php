@@ -12,18 +12,6 @@
                     <div class="add-offering-dv">
                         <h2 class="home-title text-capitalize mb-4">Your Bookings</h2>
 
-                        {{-- Search Box --}}
-                        <div class="d-flex mb-5" style="gap: 20px;">
-                            <div class="search-container">
-                                <input type="text" class="search-input"
-                                       placeholder="">
-                                <button class="search-button">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                            </div>
-                            <button class="category-load-more">Search</button>
-                        </div>
-
                         <div class="earning-wrrpr my-5 py-5">
                             {{-- Appointments --}}
                             @if(count($appointments) > 0)
