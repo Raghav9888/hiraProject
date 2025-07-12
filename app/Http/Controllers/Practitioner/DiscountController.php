@@ -17,10 +17,12 @@ class DiscountController extends Controller
 
     public function index()
     {
+        $user = Auth::user();
+
         $discounts = Discount::with('user')->get();
         $offerings = Offering::with('user')->get();
 
-        return view('practitioner.discount', compact('discounts','offerings'));
+        return view('practitioner.discount', compact('discounts','offerings','user'));
     }
 
     public function add()
