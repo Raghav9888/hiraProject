@@ -152,9 +152,7 @@
 
 <h4>Community Support</h4>
 <p>Need help choosing a practitioner or navigating the platform?</p>
-<p>Connect with Rashida, Hira’s Community Director</p>
 <p>📧 Email <a href="mailto:community@thehiracollective.com">community@thehiracollective.com</a></p>
-<p>📞 Book a call with Rashida - join via video or phone, whichever you prefer!</p>
-
+<p>📞 Book a call - join via video or phone, whichever you prefer!</p>
 </body>
 </html>
