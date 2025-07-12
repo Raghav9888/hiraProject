@@ -94,7 +94,7 @@
             <div class="position-relative">
                 <h4 class="pb-2 fw-bold text-green">UPCOMING EVENTS</h4>
                 <div class="upcoming-event-inner upcoming-events-slider">
-                    <div class="swiper-wrapper">
+                    <div class="swiper-wrapper row">
                         @if(count($offerings) > 0)
                             @foreach($offerings as $date => $offering)
                                 @php
@@ -106,6 +106,7 @@
                                         : asset("$localPath/images/no_image.png");
 
                                 @endphp
+                            <div class="col-md-4">
                                 <div class="card swiper-slide"
                                      style="max-height: 200px; min-height: 200px; cursor:pointer;"
                                      onclick="window.location.href='{{ route('practitioner_detail', $offering->user->slug) }}?#events'">
@@ -141,9 +142,9 @@
                                     </div>
 
                                 </div>
+                            </div>
                             @endforeach
                         @endif
-
                     </div>
                 </div>
                 <div class="swiper-button-prev-event" style="position: absolute;top: 120px;"><i
