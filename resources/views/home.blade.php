@@ -110,12 +110,12 @@
                                          onclick="window.location.href='{{ route('practitioner_detail', $offering->user->slug) }}?#events'">
                                         <div class="card-body p-3">
                                             <div class="row align-items-center g-3" style="cursor: pointer">
-                                                <div class="col-md-4 col-12">
+                                                <div class="col-md-3 col-12">
                                                     <img src="{{ $imageUrl }}"
                                                          alt="{{ $offering->name }}"
                                                          class="img-fluid rounded" style="max-height: 150px; max-width: 200px">
                                                 </div>
-                                                <div class="col-md-8 col-12 d-flex flex-column justify-content-center">
+                                                <div class="col-md-9 col-12 d-flex flex-column justify-content-center">
                                                     <h5 class="card-title mb-2">{{ $offering->name }}</h5>
                                                     <p class="text-green mb-3">{{ $shortText }}</p>
                                                     <div class="d-flex align-items-center">
