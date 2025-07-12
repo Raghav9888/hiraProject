@@ -113,7 +113,7 @@
                                                 <div class="col-md-4 col-12">
                                                     <img src="{{ $imageUrl }}"
                                                          alt="{{ $offering->name }}"
-                                                         class="img-fluid rounded w-100 h-auto">
+                                                         class="img-fluid rounded" style="max-height: 150px; max-width: 200px">
                                                 </div>
                                                 <div class="col-md-8 col-12 d-flex flex-column justify-content-center">
                                                     <h5 class="card-title mb-2">{{ $offering->name }}</h5>
