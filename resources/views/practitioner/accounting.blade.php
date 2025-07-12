@@ -22,50 +22,50 @@
                                         <input type="date">
                                     </div>
                                 </div>
-                                <div class="col-sm-12 col-md-3 col-lg-3 mt-2">
-                                    <button class="export-btn">Export Earning</button>
-                                </div>
+{{--                                <div class="col-sm-12 col-md-3 col-lg-3 mt-2">--}}
+{{--                                    <button class="export-btn">Export Earning</button>--}}
+{{--                                </div>--}}
                             </div>
-                            <div class="d-lg-flex justify-content-between">
-                                <div class="earnings-section">
-                                    <h2>Earnings Due</h2>
-                                    <table>
-                                        <tbody>
-                                        <tr class="border-bottom">
-                                            <td>Offerings</td>
-                                            <td>$0.00</td>
-                                        </tr>
-                                        <tr class="border-bottom">
-                                            <td>Tax</td>
-                                            <td>$0.00</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="font-semibold">Totals</td>
-                                            <td>$0.00</td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="earnings-section">
-                                    <h2>Earnings paid</h2>
-                                    <table>
-                                        <tbody>
-                                        <tr class="border-bottom">
-                                            <td>Offerings</td>
-                                            <td>$0.00</td>
-                                        </tr>
-                                        <tr class="border-bottom">
-                                            <td>Tax</td>
-                                            <td>$0.00</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="font-semibold">Totals</td>
-                                            <td>$0.00</td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+{{--                            <div class="d-lg-flex justify-content-between">--}}
+{{--                                <div class="earnings-section">--}}
+{{--                                    <h2>Earnings Due</h2>--}}
+{{--                                    <table>--}}
+{{--                                        <tbody>--}}
+{{--                                        <tr class="border-bottom">--}}
+{{--                                            <td>Offerings</td>--}}
+{{--                                            <td>$0.00</td>--}}
+{{--                                        </tr>--}}
+{{--                                        <tr class="border-bottom">--}}
+{{--                                            <td>Tax</td>--}}
+{{--                                            <td>$0.00</td>--}}
+{{--                                        </tr>--}}
+{{--                                        <tr>--}}
+{{--                                            <td class="font-semibold">Totals</td>--}}
+{{--                                            <td>$0.00</td>--}}
+{{--                                        </tr>--}}
+{{--                                        </tbody>--}}
+{{--                                    </table>--}}
+{{--                                </div>--}}
+{{--                                <div class="earnings-section">--}}
+{{--                                    <h2>Earnings paid</h2>--}}
+{{--                                    <table>--}}
+{{--                                        <tbody>--}}
+{{--                                        <tr class="border-bottom">--}}
+{{--                                            <td>Offerings</td>--}}
+{{--                                            <td>$0.00</td>--}}
+{{--                                        </tr>--}}
+{{--                                        <tr class="border-bottom">--}}
+{{--                                            <td>Tax</td>--}}
+{{--                                            <td>$0.00</td>--}}
+{{--                                        </tr>--}}
+{{--                                        <tr>--}}
+{{--                                            <td class="font-semibold">Totals</td>--}}
+{{--                                            <td>$0.00</td>--}}
+{{--                                        </tr>--}}
+{{--                                        </tbody>--}}
+{{--                                    </table>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
                         </div>
                         <div class="earnings-section">
                             <h2>Gross Sales Report</h2>
@@ -79,18 +79,18 @@
                                     <td>Total Product Sold</td>
                                     <td>0</td>
                                 </tr>
-                                <tr class="border-bottom">
-                                    <td>Total Gross Sales</td>
-                                    <td>$0.00</td>
-                                </tr>
+{{--                                <tr class="border-bottom">--}}
+{{--                                    <td>Total Gross Sales</td>--}}
+{{--                                    <td>$0.00</td>--}}
+{{--                                </tr>--}}
                                 <tr class="border-bottom">
                                     <td>Total Earning</td>
                                     <td>$0.00</td>
                                 </tr>
-                                <tr>
-                                    <td>Net REvenue</td>
-                                    <td>$0.00</td>
-                                </tr>
+{{--                                <tr>--}}
+{{--                                    <td>Net REvenue</td>--}}
+{{--                                    <td>$0.00</td>--}}
+{{--                                </tr>--}}
                                 </tbody>
                             </table>
                         </div>

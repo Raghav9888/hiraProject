@@ -495,7 +495,7 @@
                                     <div class="tab-pane fade" id="availability" role="tabpanel"
                                          aria-labelledby="availability-tab">
                                         <div class="container-fluid calendar-integration practitioner-profil">
-                                            <div class="integration-wrrpr">
+                                            <div class="integration-wrrpr min-vh-100">
                                                 <h4 class="stripe-text m-2">Connect with Stripe</h4>
                                                 <h5 class="stripe-label m-2">{{($stripeAccount && $stripeAccount->stripe_access_token && $stripeAccount->stripe_refresh_token) ?'Successfully authenticated.': 'Your account is not yet connected
                                                 with Stripe.'}}</h5>
@@ -518,7 +518,7 @@
                                     <!-- Costs Tab Content -->
                                     <div class="tab-pane fade" id="costs" role="tabpanel" aria-labelledby="costs-tab">
                                         <div class="container-fluid calendar-integration practitioner-profil">
-                                            <div class="integration-wrrpr">
+                                            <div class="integration-wrrpr min-vh-100">
                                                 <h4 class="stripe-text m-2">Connect with Google Account</h4>
                                                 <h5 class="stripe-label m-2">{{($googleAccount && $googleAccount->access_token && $googleAccount->refresh_token) ? 'Successfully authenticated.': 'Your account is not yet connected
                                                 with Google.'}}</h5>
