@@ -97,7 +97,7 @@
                         @if(count($offerings) > 0)
                             @foreach($offerings as $date => $offering)
                                 @php
-                                    $mediaPath = config('app.media_path', 'Uploads');
+                                    $mediaPath = config('app.media_path', 'uploads');
                                     $localPath = config('app.local_path', 'assets');
                                     $imageUrl = $offering->featured_image
                                         ? asset("$mediaPath/practitioners/{$offering->user->id}/offering/{$offering->featured_image}")
@@ -105,7 +105,7 @@
                                     $shortText = implode(' ', array_slice(explode(' ', strip_tags($offering->short_description)), 0, 10)) . '...';
                                 @endphp
                                 <div class="swiper-slide px-2">
-                                    <div class="card h-100 border-0 shadow-sm"
+                                    <div class="card h-100 border-0"
                                          onclick="window.location.href='{{ route('practitioner_detail', $offering->user->slug) }}?#events'">
                                         <div class="card-body p-3">
                                             <div class="row align-items-center g-3">
@@ -114,7 +114,7 @@
                                                          alt="{{ $offering->name }}"
                                                          class="img-fluid rounded w-100 h-auto">
                                                 </div>
-                                                <div class="col-md-8 col-12">
+                                                <div class="col-md-8 col-12 d-flex flex-column justify-content-center">
                                                     <h5 class="card-title mb-2">{{ $offering->name }}</h5>
                                                     <p class="text-green mb-3">{{ $shortText }}</p>
                                                     <div class="d-flex align-items-center">
@@ -132,7 +132,7 @@
                             @endforeach
                         @else
                             <div class="swiper-slide px-2">
-                                <div class="card h-100 border-0 shadow-sm text-center p-4">
+                                <div class="card h-100 border-0 text-center p-4">
                                     <p class="text-muted mb-0">No upcoming events available</p>
                                 </div>
                             </div>
