@@ -90,7 +90,7 @@
 
     <section class="py-5">
         <div class="container">
-            <h4 class="pb-3 fw-bold text-green text-center">UPCOMING EVENTS</h4>
+            <h4 class="pb-2 fw-bold text-green text-center text-md-start">UPCOMING EVENTS</h4>
             <div class="position-relative">
                 <div class="upcoming-events-slider swiper">
                     <div class="swiper-wrapper">
@@ -106,7 +106,7 @@
                                 @endphp
                             <div class="col-md-4">
                                 <div class="swiper-slide px-2">
-                                    <div class="card border-0"
+                                    <div class="card"
                                          onclick="window.location.href='{{ route('practitioner_detail', $offering->user->slug) }}?#events'">
                                         <div class="card-body p-3">
                                             <div class="row align-items-center g-3">
