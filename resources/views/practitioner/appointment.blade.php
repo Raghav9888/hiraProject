@@ -26,7 +26,7 @@
                                     @endif
                                 @endforeach
                             @else
-                                <h6 class="no-request-text text-center">No Appointments</h6>
+                                <h6 class="no-request-text text-center min-vh-100">No Appointments</h6>
                             @endif
                         </div>
                     </div>
