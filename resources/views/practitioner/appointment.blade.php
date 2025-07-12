@@ -38,9 +38,7 @@
                                     @endif
                                 @endforeach
                             @else
-                                <div class="appointment-data my-5 py-5 border rounded bg-light text-center">
-                                    <h6 class="no-request-text text-center">No Appointments</h6>
-                                </div>
+                                <h6 class="no-request-text text-center">No Appointments</h6>
                             @endif
                         </div>
                     </div>
