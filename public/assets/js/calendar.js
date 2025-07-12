@@ -315,7 +315,7 @@ if ($('#customCalendar').length > 0) {
 
     document.getElementById("monthLabel").addEventListener("click", generateYearDropdown);
 
-    document.getElementById("prevMonth").addEventListener("click", function () {
+    document.getElementById("dashboardCalenderPrevMonth").addEventListener("click", function () {
         currentMonth--;
         if (currentMonth < 0) {
             currentMonth = 11;
@@ -326,7 +326,7 @@ if ($('#customCalendar').length > 0) {
         generateCalendar(currentMonth, currentYear);
     });
 
-    document.getElementById("nextMonth").addEventListener("click", function () {
+    document.getElementById("dashboardCalenderNextMonth").addEventListener("click", function () {
         currentMonth++;
         if (currentMonth > 11) {
             currentMonth = 0;
