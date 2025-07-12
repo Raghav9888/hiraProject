@@ -88,69 +88,59 @@
         </div>
     </section>
 
-    <section>
-        <!-- explore categories section end -->
+    <section class="py-5">
         <div class="container">
+            <h4 class="pb-3 fw-bold text-green text-center">UPCOMING EVENTS</h4>
             <div class="position-relative">
-                <h4 class="pb-2 fw-bold text-green">UPCOMING EVENTS</h4>
-                <div class="upcoming-event-inner upcoming-events-slider">
-                    <div class="swiper-wrapper row">
+                <div class="upcoming-events-slider swiper">
+                    <div class="swiper-wrapper">
                         @if(count($offerings) > 0)
                             @foreach($offerings as $date => $offering)
                                 @php
                                     $mediaPath = config('app.media_path', 'uploads');
                                     $localPath = config('app.local_path', 'assets');
-
                                     $imageUrl = $offering->featured_image
                                         ? asset("$mediaPath/practitioners/{$offering->user->id}/offering/{$offering->featured_image}")
                                         : asset("$localPath/images/no_image.png");
-
+                                    $shortText = implode(' ', array_slice(explode(' ', strip_tags($offering->short_description)), 0, 10)) . '...';
                                 @endphp
-                            <div class="col-md-4">
-                                <div class="card swiper-slide"
-                                     style="max-height: 200px; min-height: 200px; cursor:pointer;"
-                                     onclick="window.location.href='{{ route('practitioner_detail', $offering->user->slug) }}?#events'">
-
-
-                                    <div class="card-body">
-
-                                        <div class="row">
-                                            <div class="col-md-5 d-none d-md-block">
-                                                <img src="{{$imageUrl}}" alt="calm"
-                                                     style="max-height: 150px; max-width: 200px">
-                                            </div>
-                                            <div class="col-md-7 ">
-                                                <h5>{{$offering?->name}}</h5>
-                                                @php
-                                                    $shortText = implode(' ', array_slice(explode(' ', strip_tags($offering->short_description)), 0, 5)) . '...';
-                                                @endphp
-
-                                                    <!-- Large text -->
-                                                <p class="text-green fw-bold my-4">{{ $shortText }}</p>
-
-
-                                                <div class="d-flex justify-content-end align-items-center pt-42">
-                                                    <img src="{{url('./assets/images/Clock.svg')}}" alt="" class="me-2"
-                                                         style="width: 20px">
-                                                    <span>{{ \Carbon\Carbon::parse($date)->format('F j, Y g:i A') }}</span>
-
+                                <div class="swiper-slide px-2">
+                                    <div class="card h-100 border-0 shadow-sm"
+                                         onclick="window.location.href='{{ route('practitioner_detail', $offering->user->slug) }}?#events'">
+                                        <div class="card-body p-3">
+                                            <div class="row align-items-center">
+                                                <div class="col-md-4 col-12 mb-3 mb-md-0">
+                                                    <img src="{{ $imageUrl }}"
+                                                         alt="{{ $offering->name }}"
+                                                         class="img-fluid rounded w-100 h-auto">
                                                 </div>
-
+                                                <div class="col-md-8 col-12">
+                                                    <h5 class="card-title mb-2">{{ $offering->name }}</h5>
+                                                    <p class="text-green mb-3">{{ $shortText }}</p>
+                                                    <div class="d-flex align-items-center justify-content-end">
+                                                        <img src="{{ asset('assets/images/Clock.svg') }}"
+                                                             alt="Time"
+                                                             class="me-2"
+                                                             style="width: 20px;">
+                                                        <span>{{ \Carbon\Carbon::parse($date)->format('F j, Y g:i A') }}</span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-
                                     </div>
-
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="swiper-slide px-2">
+                                <div class="card h-100 border-0  text-center p-4">
+                                    <p class="text-muted mb-0">No upcoming events available</p>
                                 </div>
                             </div>
-                            @endforeach
                         @endif
                     </div>
+                    <div class="swiper-button-prev-event d-none d-md-block" style="left: -50px; top: 50%; transform: translateY(-50%);"></div>
+                    <div class="swiper-button-next-event d-none d-md-block" style="right: -50px; top: 50%; transform: translateY(-50%);"></div>
                 </div>
-                <div class="swiper-button-prev-event" style="position: absolute;top: 120px;"><i
-                        class="fa-solid fa-arrow-left-long"></i></div>
-                <div class="swiper-button-next-event" style="right: 0;position: absolute;top: 120px;"
-                ><i class="fa-solid fa-arrow-right-long"></i></div>
             </div>
         </div>
     </section>
