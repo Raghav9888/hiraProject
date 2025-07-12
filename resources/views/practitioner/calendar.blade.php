@@ -22,12 +22,12 @@
                                         <div id="customCalendar" class="d-none">
                                             <div class="bg-light p-3 rounded mb-4">
                                                 <div class="d-flex justify-content-center align-items-center">
-                                                    <button class="btn text-green" id="prevMonth">
+                                                    <button class="btn text-green" id="dashboardCalenderPrevMonth">
                                                         <i class="fas fa-chevron-left"></i>
                                                     </button>
                                                     <span class="mx-3 text-green fw-medium"
                                                           id="monthLabel">March 2025</span>
-                                                    <button class="btn text-green" id="nextMonth">
+                                                    <button class="btn text-green" id="dashboardCalenderNextMonth">
                                                         <i class="fas fa-chevron-right"></i>
                                                     </button>
                                                 </div>

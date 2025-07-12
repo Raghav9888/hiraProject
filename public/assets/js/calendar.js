@@ -314,28 +314,36 @@ if ($('#customCalendar').length > 0) {
     }
 
     document.getElementById("monthLabel").addEventListener("click", generateYearDropdown);
+    let prevMonth =  document.getElementById("dashboardCalenderPrevMonth");
+    let nextMonth =  document.getElementById("dashboardCalenderNextMonth");
+    if(prevMonth)
+    {
+        prevMonth.addEventListener("click", function () {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            selectedDate = null;
+            updateMonthLabel();
+            generateCalendar(currentMonth, currentYear);
+        });
+    }
 
-    document.getElementById("dashboardCalenderPrevMonth").addEventListener("click", function () {
-        currentMonth--;
-        if (currentMonth < 0) {
-            currentMonth = 11;
-            currentYear--;
-        }
-        selectedDate = null;
-        updateMonthLabel();
-        generateCalendar(currentMonth, currentYear);
-    });
+    if(nextMonth)
+    {
+        nextMonth.addEventListener("click", function () {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            selectedDate = null;
+            updateMonthLabel();
+            generateCalendar(currentMonth, currentYear);
+        });
+    }
 
-    document.getElementById("dashboardCalenderNextMonth").addEventListener("click", function () {
-        currentMonth++;
-        if (currentMonth > 11) {
-            currentMonth = 0;
-            currentYear++;
-        }
-        selectedDate = null;
-        updateMonthLabel();
-        generateCalendar(currentMonth, currentYear);
-    });
 
     updateMonthLabel();
     fetchEvents();
