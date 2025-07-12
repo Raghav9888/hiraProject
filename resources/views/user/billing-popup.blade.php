@@ -128,9 +128,9 @@
         </div>
         <div class="bottom-container">
             <div class="form-check ">
-                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" required value="privacy">
-                <label class="form-check-label" for="inlineCheckbox1">I agree to to The Hira Collective’s Terms of
-                    Service and Privacy Policy.</label>
+                <input class="form-check-input" type="checkbox" id="privacy" required value="privacy">
+                <label class="form-check-label" for="privacy">I agree to to The Hira Collective’s
+                   <a href="{{route('terms_conditions')}}">Terms of Service </a> and<a href="{{route('privacy_policy')}}">Privacy Policy.</a></label>
             </div>
             <div class="form-check ">
                 <input class="form-check-input" type="checkbox" id="inlineCheckbox2" name="subscribe" value="yes">

@@ -3312,7 +3312,7 @@ body.modal-open {
     z-index: 2;
 }
 
-.modal-content label {
-    pointer-events: none;
-}
+/*.modal-content label {*/
+/*    pointer-events: none;*/
+/*}*/
 
