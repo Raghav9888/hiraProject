@@ -127,7 +127,7 @@
                                 <div class="tab-pane fade" id="membershipDetail" role="tabpanel"
                                      aria-labelledby="profile-tab" tabindex="0">
 
-                                    <div class="container mt-5">
+                                    <div class="container mt-5 min-vh-100">
                                         @if($user->subscribed('default'))
                                             <form>
                                                 <div class="mb-4">
