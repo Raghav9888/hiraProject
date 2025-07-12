@@ -181,7 +181,7 @@
                 updateNotesDisplay(month, day);
                 closeModalFunc();
             } else {
-                alert("Please fill out both time and note.");
+                alertify.warning("Please fill out both time and note.");
             }
         }
 

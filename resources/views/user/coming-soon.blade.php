@@ -61,16 +61,16 @@
                 },
                 success: function(response) {
                     if(response.success){
-                        alert("Subscribed successfully!"); // Success message
+                        alertify.success("Subscribed successfully!"); // Success message
                         $("#coming-form")[0].reset(); // Reset form fields
                     }
                 },
                 error: function(xhr, status, error) {
-                    alert("Something went wrong. Please try again."); // Error message
+                    alertify.error("Something went wrong. Please try again."); // Error message
                 }
             });
         });
     });
 </script>
-    
+
 @endpush

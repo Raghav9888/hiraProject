@@ -15,22 +15,22 @@
         <span type="button" class="btn-white close-modal" aria-label="Close" data-bs-dismiss="modal">
             <i class="fa-solid fa-xmark"></i>
         </span>
-    </div>    
+    </div>
     <form id="loginForm" method="post">
-        @csrf                       
+        @csrf
         <div class="form-container">
             <div class="row">
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label mb-2">First Name</label>
                         <input type="text" class="form-control" required name="first_name" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter First Name">
-                    </div> 
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label mb-2">Last Name</label>
                         <input type="text" class="form-control" required name="last_name" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Last Name">
-                    </div> 
+                    </div>
                 </div>
                 <div class="col-md-4">
                     <div class="mb-3">
@@ -42,7 +42,7 @@
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label mb-2">Phone Number</label>
                         <input type="text" class="form-control" required name="billing_phone" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Phone Number">
-                    </div> 
+                    </div>
                 </div>
                 <div class="col-md-4">
                     <div class="mb-3">
@@ -54,34 +54,34 @@
                                 <a href="javascript:void(0);" onclick="increase()" class="bg-gray-100 justify-center rounded-full text-gray-600">+</a>
                             </div>
                         </div>
-                    </div> 
+                    </div>
                 </div>
                 <div class="col-md-12">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label mb-2">Street Address</label>
                         <input type="text" class="form-control" required name="billing_address" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter address line 1">
-                    </div> 
+                    </div>
                     <div class="mb-3">
                         <input type="text" class="form-control" required name="billing_address2" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter address line 2">
-                    </div> 
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label mb-2">City</label>
                         <input type="text" class="form-control" required name="billing_city" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter city">
-                    </div> 
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label mb-2">State</label>
                         <input type="text" class="form-control" required name="billing_state" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter state">
-                    </div> 
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label mb-2">Postcode</label>
                         <input type="text" class="form-control" required name="billing_postcode" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter postcode">
-                    </div> 
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
@@ -90,7 +90,7 @@
                             <option value="India">India</option>
                             <option value="Canada">Canada</option>
                         </select>
-                    </div> 
+                    </div>
                 </div>
                 <div class="col-md-12 bg-light p-3 rounded mb-4">
                     <p class="seeking_for">Seeking For <span>(Optional)</span></p>
@@ -133,7 +133,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div> 
+                    </div>
                 </div>
             </div>
         </div>
@@ -174,7 +174,7 @@
             data:formData,
             success:function(response){
                 if(!response.success){
-                    alert(response.data);
+                    alertify.error(response.data);
                 }
                 $('.booking-container').hide();
                 $('.billing-container').hide();
@@ -183,7 +183,7 @@
                 $('.checkout-container').html(response.html);
             },
             error:function(error){
-                alert("Something went wrong!")
+                alertify.error("Something went wrong!")
             }
         })
     })

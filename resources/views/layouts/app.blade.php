@@ -190,7 +190,7 @@
             document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/';
             document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;domain=.' + location.hostname;
         });
-        alert('All cookies cleared. Please refresh the page.');
+        alertify.success('All cookies cleared. Please refresh the page.');
     }
 
     document.addEventListener('DOMContentLoaded', function () {
@@ -294,7 +294,7 @@
     // Limit file uploads to 2 files
     document.getElementById('fileUpload').addEventListener('change', function () {
         if (this.files.length > 2) {
-            alert('You can upload a maximum of 2 files.');
+            alertify.warning('You can upload a maximum of 2 files.');
             this.value = '';
         }
     });

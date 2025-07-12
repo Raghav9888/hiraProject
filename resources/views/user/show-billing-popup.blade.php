@@ -159,7 +159,7 @@
             data: formData,
             success: function (response) {
                 if (!response.success) {
-                    alert(response.data);
+                    alertify.error(response.data);
                 }
                 $('.booking-container').hide();
                 $('.billing-container').hide();
@@ -167,7 +167,7 @@
                 $('.checkout-container').html(response.html);
             },
             error: function (error) {
-                alert("Something went wrong!")
+                alertify.error("Something went wrong!")
             }
         })
     })

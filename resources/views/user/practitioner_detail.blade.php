@@ -791,8 +791,8 @@
 
             if (navigator.clipboard && navigator.clipboard.writeText) {
                 navigator.clipboard.writeText(link)
-                    .then(() => alert("Link copied!"))
-                    .catch(err => alert("Failed to copy: " + err));
+                    .then(() => alertify.success("Link copied!"))
+                    .catch(err => alertify.error("Failed to copy: " + err));
             } else {
                 // Fallback method
                 const tempInput = document.createElement("input");
@@ -803,7 +803,7 @@
                     document.execCommand("copy");
                     // alert("Link copied using fallback!");
                 } catch (err) {
-                    alert("Fallback failed: " + err);
+                    alertify.error("Fallback failed: " + err);
                 }
                 document.body.removeChild(tempInput);
             }

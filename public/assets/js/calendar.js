@@ -14,10 +14,10 @@ function sendToServer(eventData) {
         success: function (response) {
 
             fetchEvents()
-            alert('Event created successfully');
+            alertify.success('Event created successfully');
         },
         error: function (xhr) {
-            alert('Error: ' + xhr.responseJSON.message);
+            alertify.error('Error: ' + xhr.responseJSON.message);
         }
     });
 }

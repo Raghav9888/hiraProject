@@ -695,7 +695,7 @@ $(document).on('click', '.proceed_to_checkout', function () {
 function paymentAjax(offeringId, bookingDate, bookingTime, offeringEventType, price, currency, currencySymbol, bookingUserTimezone) {
 
     if ((!offeringId || !bookingDate || !bookingTime ) && offeringEventType === 'offering') {
-        alert("Please select slot!");
+        alertify.warning("Please select slot!");
         return;
     }
 
@@ -722,7 +722,7 @@ function paymentAjax(offeringId, bookingDate, bookingTime, offeringEventType, pr
         },
         success: function (response) {
             if (!response.success) {
-                alert("Something went wrong!");
+                alertify.error("Something went wrong!");
                 return;
             }
             $('.booking-container').hide();
@@ -739,6 +739,13 @@ function paymentAjax(offeringId, bookingDate, bookingTime, offeringEventType, pr
         // error: function (xhr) {
         //     console.error('Booking failed:', xhr.responseText || xhr);
         // }
+        error: function (xhr) {
+            console.error('Error Booking failed:', xhr.responseText || xhr);
+            alertify.error("Something went wrong!");
+        },
+        complete: function () {
+            window.loadingScreen.removeLoading();
+        }
     });
 
 }
@@ -775,12 +782,12 @@ function openShowPopup(event) {
             if (response.success) {
                 $('.billing-container').show().html(response.html);
             } else {
-                alert("Something went wrong!");
+                alertify.error("Something went wrong!");
             }
         },
         error: function (xhr) {
             console.error('Error fetching show booking:', xhr.responseText || xhr);
-            alert("Something went wrong!");
+            alertify.error("Something went wrong!");
         },
         complete: function () {
             window.loadingScreen.removeLoading();

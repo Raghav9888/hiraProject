@@ -100,14 +100,14 @@
             data: {total_amount, tax_amount},
             success: function (response) {
                 if (!response.success) {
-                    alert(response.data);
+                    alertify.error(response.data);
                 } else {
                     console.log(response);
                     window.location.href = response.data;
                 }
             },
             error: function (xhr) {
-                alert("Something went wrong: " + xhr.responseJSON?.message || "Unknown error");
+                alertify.error("Something went wrong: " + xhr.responseJSON?.message || "Unknown error");
             }
         });
     });

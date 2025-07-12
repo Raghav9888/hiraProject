@@ -206,7 +206,7 @@
                     <div class="calendar-grid">
                     </div>
                   </div>
-                
+
                   <div id="noteModal" class="modal">
                     <div class="modal-content">
                       <span class="close">&times;</span>
@@ -389,14 +389,14 @@
       const resetBtn = document.getElementById("resetCalendar");
       const monthSelect = document.getElementById("monthSelect");
       let currentMonth = 0;
-      const notes = {}; 
+      const notes = {};
 
       function daysInMonth(month, year) {
         return new Date(year, month + 1, 0).getDate();
       }
 
       function renderCalendar(month) {
-        calendarGrid.innerHTML = ""; 
+        calendarGrid.innerHTML = "";
         const days = daysInMonth(month, 2025);
 
         for (let i = 1; i <= days; i++) {
@@ -443,7 +443,7 @@
           updateNotesDisplay(month, day);
           closeModalFunc();
         } else {
-          alert("Please fill out both time and note.");
+          alertify.warning("Please fill out both time and note.");
         }
       }
 

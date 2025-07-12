@@ -148,7 +148,7 @@
                 const csrfToken = $('meta[name="csrf-token"]').attr('content');
 
                 if (!bookingDate || !bookingTime) {
-                    alert('Please select both date and time');
+                    alertify.error('Please select both date and time');
                     return;
                 }
 
@@ -164,11 +164,11 @@
                         if (response.redirect_url) {
                             window.location.href = response.redirect_url;
                         } else {
-                            alert('Reschedule handled but no redirect.');
+                            alertify.warning('Reschedule handled but no redirect.');
                         }
                     },
                     error: function (xhr) {
-                        alert(xhr.responseJSON?.message || 'Something went wrong.');
+                        alertify.error(xhr.responseJSON?.message || 'Something went wrong.');
                     }
                 });
             });

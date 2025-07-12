@@ -297,11 +297,11 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function (response) {
-                    alert('Endorsement added successfully!');
+                    alertify.success('Endorsement added successfully!');
                 },
                 error: function (xhr) {
                     console.error('Error:', xhr.responseText);
-                    alert('Failed to add endorsement!');
+                    alertify.error('Failed to add endorsement!');
                 }
             });
         });
@@ -322,13 +322,13 @@
                 success: function (response) {
                     if (response.success) {
                         card.remove();
-                        alert(response.success);
+                        alertify.success(response.success);
                     } else {
-                        alert(response.error || 'Unable to remove endorsement.');
+                        alertify.error(response.error || 'Unable to remove endorsement.');
                     }
                 },
                 error: function () {
-                    alert('An error occurred. Please try again.');
+                    alertify.error('An error occurred. Please try again.');
                 }
             });
         });

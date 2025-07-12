@@ -81,7 +81,7 @@ $('.addterm').on('click', function (e) {
             if (response.success) {
                 $('#' + termType + '-container').html(response.inputField);
             } else {
-                alert('Error: ' + response.message);
+                alertify.error('Error: ' + response.message);
             }
         },
         error: function (xhr, status, error) {
@@ -125,20 +125,20 @@ $(document).on('click', '.save_term', function (e) {
                 });
 
                 selectElement.val([...new Set(selectedValues)]).trigger('change');
-                alert(response.message);
+                alertify.success(response.message);
 
                 if (response.duplicates && response.duplicates.length > 0) {
-                    alert('These terms already exist: ' + response.duplicates.join(', '));
+                    alertify.warning('These terms already exist: ' + response.duplicates.join(', '));
                 }
             } else {
-                alert(response.message);
+                alertify.error(response.message);
             }
 
             $('#' + termType + '-container').html('');
         },
         error: function (xhr, status, error) {
             console.error('AJAX Error:', error);
-            alert('An unexpected error occurred.');
+            alertify.error('An unexpected error occurred.');
         },
         complete: function () {
             window.loadingScreen.removeLoading();
@@ -170,7 +170,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const checkedCount = document.querySelectorAll(".amentities-checkbox:checked").length;
             if (checkedCount > 3) {
                 this.checked = false; // Prevent selecting more than 3
-                alert("You can select up to 3 amenities only.");
+                alertify.warning("You can select up to 3 amenities only.");
             }
         });
     });
@@ -182,7 +182,7 @@ if (document.getElementById('media-upload')) {
         const container = document.getElementById('media-container');
         const files = event.target.files;
         if (this.files.length > 7) {
-            alert('You can only upload up to 7 images.');
+            alertify.warning('You can only upload up to 7 images.');
             this.value = ''; // Clear the selected files
         }
         for (let file of files) {
@@ -309,7 +309,7 @@ $(document).on('change', '#fileUpload', function () {
 
     const files = this.files;
     if (files.length > 2) {
-        alert('You can only upload up to 2 files.');
+        alertify.warning('You can only upload up to 2 files.');
         $(this).val('');
         return;
     }
@@ -358,12 +358,12 @@ $('#waitlist-form').submit(function (e) {
     const passwordConfirmation = $('#password_confirmation').val();
 
     if (password.length < 8) {
-        alert('Password must be at least 8 characters.');
+        alertify.warning('Password must be at least 8 characters.');
         return;
     }
 
     if (password !== passwordConfirmation) {
-        alert('Passwords do not match.');
+        alertify.error('Passwords do not match.');
         return;
     }
 
@@ -382,7 +382,7 @@ $('#waitlist-form').submit(function (e) {
             window.loadingScreen.addPageLoading();
         },
         success: function () {
-            alert('Registration and waitlist added successfully!');
+            alertify.success('Registration and waitlist added successfully!');
 
             // Change modal size
             $('#registerModal .modal-dialog')
@@ -416,17 +416,17 @@ $('#waitlist-form').submit(function (e) {
                 const errors = xhr.responseJSON.errors;
 
                 if (errors.email && errors.email.includes('The email has already been taken.')) {
-                    alert('The email you entered is already registered. Please use a different one.');
+                    alertify.warning('The email you entered is already registered. Please use a different one.');
                     return;
                 }
 
                 const messages = Object.values(errors).flat().join('\n');
-                alert(messages);
+                alertify.error(messages);
                 setTimeout(function () {
                     window.location.reload(); // or use window.location.href = '/'; to go to homepage
                 }, 2000);
             } else {
-                alert('An error occurred while submitting the waitlist.');
+                alertify.error('An error occurred while submitting the waitlist.');
             }
             console.error(xhr);
         },
