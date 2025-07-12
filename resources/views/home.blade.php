@@ -134,11 +134,7 @@
                             </div>
                             @endforeach
                         @else
-                            <div class="swiper-slide px-2">
-                                <div class="card h-100 border-0 text-center p-4">
-                                    <p class="text-muted mb-0">No upcoming events available</p>
-                                </div>
-                            </div>
+                            <h6 class="text-muted my-3 w-100 text-center">No upcoming events available</h6>
                         @endif
                     </div>
                     <div class="swiper-button-prev-event d-none d-md-block" style="left: -50px; top: 50%; transform: translateY(-50%);"></div>
