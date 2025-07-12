@@ -40,47 +40,46 @@
             </div>
         </div>
     </section>
+    <!-- Offerings Slider -->
     <div class="container">
         <div class="upcoming-event-container position-relative">
             <h4>Offerings</h4>
-            <div class="upcoming-event-inner upcoming-events-slider">
+            <div class="upcoming-event-inner upcoming-events-slider-offerings">
                 <div class="swiper-wrapper">
                     @if(count($offerings) > 0)
                         @foreach($offerings as $offering)
                             @php
-                                $mediaPath = config('app.media_path', 'uploads');
+                                $mediaPath = config('app.media_path', 'Uploads');
                                 $localPath = config('app.local_path', 'assets');
-
                                 $imageUrl = $offering->featured_image
                                     ? asset("$mediaPath/practitioners/{$offering->user->id}/offering/{$offering->featured_image}")
                                     : asset("$localPath/images/no_image.png");
                             @endphp
-                            <div class="card swiper-slide"
-                                 style="max-height: 250px;min-height: 250px; cursor:pointer;"
-                                 onclick="window.location.href='{{ route('practitioner_detail', $offering->user->slug) }}?#offerings'">
-
-                                <div class="card-body">
-
-                                    <div class="row">
-                                        <div class="col-md-5">
-                                            <img src="{{$imageUrl}}" alt="calm"
-                                                 style="max-height: 150px; max-width: 200px">
-                                        </div>
-                                        <div class="col-md-7">
-                                            <h5>{{$offering?->name}}</h5>
-                                            @if($offering?->short_description)
-                                                <h6> {{ implode(' ', array_slice(explode(' ', strip_tags($offering->short_description)), 0, 20)) . '...' }}</h6>
-                                            @endif
-                                            <div>
-                                                <span>$</span> <span>{{$offering->client_price ?? 0}}</span>
+                            <div class="swiper-slide">
+                                <div class="card px-2"
+                                     style="max-height: 250px;min-height: 250px; cursor:pointer;"
+                                     onclick="window.location.href='{{ route('practitioner_detail', $offering->user->slug) }}?#offerings'">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                                <img src="{{$imageUrl}}" alt="calm"
+                                                     style="max-height: 150px; max-width: 200px">
                                             </div>
-                                            <div class="d-flex justify-content-end align-items-center">
-                                                <img src="{{url('./assets/images/Clock.svg')}}" alt=""
-                                                     class="me-2"
-                                                     style="width: 20px">
-                                                <span>{{ \Carbon\Carbon::parse($offering->from_date)->format('F j, Y') }}</span>
+                                            <div class="col-md-7">
+                                                <h5>{{$offering?->name}}</h5>
+                                                @if($offering?->short_description)
+                                                    <h6> {{ implode(' ', array_slice(explode(' ', strip_tags($offering->short_description)), 0, 20)) . '...' }}</h6>
+                                                @endif
+                                                <div>
+                                                    <span>$</span> <span>{{$offering->client_price ?? 0}}</span>
+                                                </div>
+                                                <div class="d-flex justify-content-end align-items-center">
+                                                    <img src="{{url('./assets/images/Clock.svg')}}" alt=""
+                                                         class="me-2"
+                                                         style="width: 20px">
+                                                    <span>{{ \Carbon\Carbon::parse($offering->from_date)->format('F j, Y') }}</span>
+                                                </div>
                                             </div>
-
                                         </div>
                                     </div>
 
@@ -97,64 +96,60 @@
                     @endif
 
                 </div>
-            </div>
-            <div class="swiper-button-prev-event"><i class="fa-solid fa-arrow-left-long"></i></div>
-            <div class="swiper-button-next-event"><i class="fa-solid fa-arrow-right-long"></i></div>
 
+                <div class="swiper-pagination-offerings d-none"></div>
+            </div>
+            <div class="swiper-button-prev-offerings swiper-button-prev-event"><i class="fa-solid fa-arrow-left-long"></i></div>
+            <div class="swiper-button-next-offerings swiper-button-next-event"><i class="fa-solid fa-arrow-right-long"></i></div>
         </div>
     </div>
+
+    <!-- Upcoming Events Slider -->
     <div class="container">
         <div class="upcoming-event-container position-relative">
             <h4>Upcoming Events</h4>
             @if(count($offeringEvents) > 0)
-                <div class="upcoming-event-inner upcoming-events-slider">
-
+                <div class="upcoming-event-inner upcoming-events-slider-events">
                     <div class="swiper-wrapper">
-
                         @foreach($offeringEvents as $date => $offering)
-
                             @php
-                                $mediaPath = config('app.media_path', 'uploads');
+                                $mediaPath = config('app.media_path', 'Uploads');
                                 $localPath = config('app.local_path', 'assets');
-
                                 $imageUrl = $offering->featured_image
                                     ? asset("$mediaPath/practitioners/{$offering->user->id}/offering/{$offering->featured_image}")
                                     : asset("$localPath/images/no_image.png");
-
                             @endphp
-
-                            <div class="card swiper-slide"
-                                 style="max-height: 250px;min-height: 250px; cursor:pointer;"
-                                 onclick="window.location.href='{{ route('practitioner_detail', $offering->user->slug) }}?#events'">
-
-                                <div class="card-body">
-
-                                    <div class="row">
-                                        <div class="col-md-5">
-                                            <img src="{{$imageUrl}}" alt="calm"
-                                                 style="max-height: 150px; max-width: 200px">
-                                        </div>
-                                        <div class="col-md-7">
-                                            <h5>{{$offering?->name}}</h5>
-                                            <h6>{{ implode(' ', array_slice(explode(' ', strip_tags($offering->short_description)), 0, 20)) . '...' }}</h6>
-                                            <div class="d-flex justify-content-end align-items-center">
-                                                <img src="{{url('./assets/images/Clock.svg')}}" alt=""
-                                                     class="me-2"
-                                                     style="width: 20px">
-                                                <span>{{ \Carbon\Carbon::parse($date)->format('F j, Y') }}</span>
+                        <div class="col-md-5">
+                            <div class="swiper-slide">
+                                <div class="card"
+                                     style="max-height: 250px;min-height: 250px; cursor:pointer;"
+                                     onclick="window.location.href='{{ route('practitioner_detail', $offering->user->slug) }}?#events'">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                                <img src="{{$imageUrl}}" alt="calm"
+                                                     style="max-height: 150px; max-width: 200px">
                                             </div>
-
+                                            <div class="col-md-7">
+                                                <h5>{{$offering?->name}}</h5>
+                                                <h6>{{ implode(' ', array_slice(explode(' ', strip_tags($offering->short_description)), 0, 20)) . '...' }}</h6>
+                                                <div class="d-flex justify-content-end align-items-center">
+                                                    <img src="{{url('./assets/images/Clock.svg')}}" alt=""
+                                                         class="me-2"
+                                                         style="width: 20px">
+                                                    <span>{{ \Carbon\Carbon::parse($date)->format('F j, Y') }}</span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-
                                 </div>
-
                             </div>
-
+                        </div>
                         @endforeach
                     </div>
-                    <div class="swiper-button-prev-event"><i class="fa-solid fa-arrow-left-long"></i></div>
-                    <div class="swiper-button-next-event"><i class="fa-solid fa-arrow-right-long"></i></div>
+                    <div class="swiper-button-prev-events"><i class="fa-solid fa-arrow-left-long"></i></div>
+                    <div class="swiper-button-next-events"><i class="fa-solid fa-arrow-right-long"></i></div>
+                    <div class="swiper-pagination-events"></div>
                 </div>
             @else
                 <div class="row">
@@ -163,7 +158,6 @@
                     </div>
                 </div>
             @endif
-
         </div>
     </div>
     <hr>
@@ -197,156 +191,132 @@
             @endif
         </div>
     </section>
-<hr>
-    <div class="container py-5">
-        <h1 class="home-title mb-3">Recent Resources</h1>
+    <hr>
+{{--    <div class="container py-5">--}}
+{{--        <h1 class="home-title mb-3">Recent Resources</h1>--}}
 
-        <div class="row">
-            <div class="col-md-12 text-center">
-                <h3>Coming soon...</h3>
-            </div>
-            {{--                    @if(!$blogs->isEmpty())--}}
-            {{--                        @foreach($blogs as $blog)--}}
+{{--        <div class="row">--}}
+{{--            <div class="col-md-12 text-center">--}}
+{{--                <h3>Coming soon...</h3>--}}
+{{--            </div>--}}
+{{--            --}}{{--                    @if(!$blogs->isEmpty())--}}
+{{--            --}}{{--                        @foreach($blogs as $blog)--}}
 
-            {{--                            <div class="col-sm-12 col-md-6 col-lg-6 mb-4">--}}
-            {{--                                <a href="{{route('blogDetail', $blog->slug)}}" style="text-decoration: none;"--}}
-            {{--                                   class="resources-body">--}}
-            {{--                                    <div class="row g-0">--}}
-            {{--                                        <div class="col-md-4 px-2">--}}
-            {{--                                            @php--}}
-            {{--                                                $mediaPath = config('app.media_path', 'uploads');--}}
-            {{--                                                $localPath = config('app.local_path', 'assets');--}}
+{{--            --}}{{--                            <div class="col-sm-12 col-md-6 col-lg-6 mb-4">--}}
+{{--            --}}{{--                                <a href="{{route('blogDetail', $blog->slug)}}" style="text-decoration: none;"--}}
+{{--            --}}{{--                                   class="resources-body">--}}
+{{--            --}}{{--                                    <div class="row g-0">--}}
+{{--            --}}{{--                                        <div class="col-md-4 px-2">--}}
+{{--            --}}{{--                                            @php--}}
+{{--            --}}{{--                                                $mediaPath = config('app.media_path', 'uploads');--}}
+{{--            --}}{{--                                                $localPath = config('app.local_path', 'assets');--}}
 
-            {{--                                                $imageUrl = $blog->image--}}
-            {{--                                                    ? asset("$mediaPath/admin/blog/{$blog->image}")--}}
-            {{--                                                    : asset("$localPath/images/no_image.png");--}}
+{{--            --}}{{--                                                $imageUrl = $blog->image--}}
+{{--            --}}{{--                                                    ? asset("$mediaPath/admin/blog/{$blog->image}")--}}
+{{--            --}}{{--                                                    : asset("$localPath/images/no_image.png");--}}
 
-            {{--                                            @endphp--}}
-
-
-
-            {{--                                            <img src="{{$imageUrl}}" alt="calm" height="160" width="160" class="rounded-4">--}}
-            {{--                                        </div>--}}
-            {{--                                        <div class="col-md-8">--}}
-            {{--                                            <div class="card-body">--}}
-            {{--                                                <h5>{{$blog->name}}</h5>--}}
-            {{--                                                <button>{{@$blog->category->name}}</button>--}}
-            {{--                                                <p>{{date('M d, Y', strtotime($blog->date))}}</p>--}}
-            {{--                                            </div>--}}
-            {{--                                        </div>--}}
-            {{--                                    </div>--}}
-
-            {{--                                </a>--}}
-            {{--                            </div>--}}
-            {{--                        @endforeach--}}
-            {{--                    @else--}}
-            {{--                        <div class="col-sm-12 col-md-6 col-lg-6 mb-4">--}}
-            {{--                            <p class="text-center">No Blogs found..</p>--}}
-            {{--                        </div>--}}
-            {{--                    @endif--}}
-            {{--                     <div class="d-flex justify-content-center">--}}
-            {{--                        <button class="home-blog-btn">Load More</button>--}}
-            {{--                    </div> --}}
-        </div>
-    </div>
+{{--            --}}{{--                                            @endphp--}}
 
 
+
+{{--            --}}{{--                                            <img src="{{$imageUrl}}" alt="calm" height="160" width="160" class="rounded-4">--}}
+{{--            --}}{{--                                        </div>--}}
+{{--            --}}{{--                                        <div class="col-md-8">--}}
+{{--            --}}{{--                                            <div class="card-body">--}}
+{{--            --}}{{--                                                <h5>{{$blog->name}}</h5>--}}
+{{--            --}}{{--                                                <button>{{@$blog->category->name}}</button>--}}
+{{--            --}}{{--                                                <p>{{date('M d, Y', strtotime($blog->date))}}</p>--}}
+{{--            --}}{{--                                            </div>--}}
+{{--            --}}{{--                                        </div>--}}
+{{--            --}}{{--                                    </div>--}}
+
+{{--            --}}{{--                                </a>--}}
+{{--            --}}{{--                            </div>--}}
+{{--            --}}{{--                        @endforeach--}}
+{{--            --}}{{--                    @else--}}
+{{--            --}}{{--                        <div class="col-sm-12 col-md-6 col-lg-6 mb-4">--}}
+{{--            --}}{{--                            <p class="text-center">No Blogs found..</p>--}}
+{{--            --}}{{--                        </div>--}}
+{{--            --}}{{--                    @endif--}}
+{{--            --}}{{--                     <div class="d-flex justify-content-center">--}}
+{{--            --}}{{--                        <button class="home-blog-btn">Load More</button>--}}
+{{--            --}}{{--                    </div> --}}
+{{--        </div>--}}
+{{--    </div>--}}
 
     <script>
-        var swiper = new Swiper(".mySwiper", {
-            spaceBetween: 30,
-            breakpoints: {
-                640: {
-                    slidesPerView: 1,
-                    spaceBetween: 20,
-                },
-                768: {
-                    slidesPerView: 2,
-                    spaceBetween: 40,
-                },
-                1024: {
-                    slidesPerView: 3,
-                    spaceBetween: 50,
-                },
-            },
-            pagination: {
-                el: ".swiper-pagination",
-                clickable: true,
-            },
-            navigation: {
-                nextEl: ".swiper-button-next",
-                prevEl: ".swiper-button-prev",
-            },
-        });
+        document.addEventListener("DOMContentLoaded", function () {
+            // Offerings Slider
+            const offeringSlides = document.querySelectorAll('.upcoming-events-slider-offerings .swiper-slide');
+            const offeringLoop = offeringSlides.length >= 3;
 
-    </script>
-    <script>
-        var swiper = new Swiper(".upcoming-events-slider", {
-            spaceBetween: 30,
-            slidesPerGroup: 1, // Moves 2 slides at a time
-            loop: true, // Enables infinite looping
-            autoplay: {
-                delay: 3000, // Auto slide every 3 seconds
-                disableOnInteraction: false, // Keep autoplay running after interaction
-            },
-            breakpoints: {
-                640: {
-                    slidesPerView: 1,
-                    spaceBetween: 20,
+            new Swiper(".upcoming-events-slider-offerings", {
+                spaceBetween: 30,
+                slidesPerGroup: 1,
+                loop: offeringLoop,
+                autoplay: offeringLoop ? {
+                    delay: 3000,
+                    disableOnInteraction: false,
+                } : false,
+                breakpoints: {
+                    640: {
+                        slidesPerView: 1,
+                        spaceBetween: 20,
+                    },
+                    768: {
+                        slidesPerView: 2,
+                        spaceBetween: 30,
+                    },
+                    1024: {
+                        slidesPerView: 2.5,
+                        spaceBetween: 30,
+                    },
                 },
-                768: {
-                    slidesPerView: 2,
-                    spaceBetween: 30,
+                navigation: {
+                    nextEl: ".swiper-button-next-offerings",
+                    prevEl: ".swiper-button-prev-offerings",
                 },
-                1024: {
-                    slidesPerView: 2.5,
-                    spaceBetween: 30,
+                pagination: {
+                    el: ".swiper-pagination-offerings",
+                    clickable: true,
                 },
-            },
-            pagination: {
-                el: ".swiper-pagination",
-                clickable: true,
-            },
-            navigation: {
-                nextEl: ".swiper-button-next-event",
-                prevEl: ".swiper-button-prev-event",
-            },
-        });
-        var swiper = new Swiper(".upcoming-events-slider", {
-            spaceBetween: 30,
-            slidesPerGroup: 1, // Moves 2 slides at a time
-            loop: true, // Enables infinite looping
-            // autoplay: {
-            //     delay: 3000, // Auto slide every 3 seconds
-            //     disableOnInteraction: false, // Keep autoplay running after interaction
-            // },
-            breakpoints: {
-                640: {
-                    slidesPerView: 1,
-                    spaceBetween: 20,
-                },
-                768: {
-                    slidesPerView: 2,
-                    spaceBetween: 30,
-                },
-                1024: {
-                    slidesPerView: 2.5,
-                    spaceBetween: 30,
-                },
-            },
-            pagination: {
-                el: ".swiper-pagination",
-                clickable: true,
-            },
-            navigation: {
-                nextEl: ".swiper-button-next",
-                prevEl: ".swiper-button-prev",
-            },
-        });
-    </script>
+            });
 
-    <script>
+            // Upcoming Events Slider
+            const eventSlides = document.querySelectorAll('.upcoming-events-slider-events .swiper-slide');
+            const eventLoop = eventSlides.length >= 3;
 
-        ;
+            new Swiper(".upcoming-events-slider-events", {
+                spaceBetween: 30,
+                slidesPerGroup: 1,
+                loop: eventLoop,
+                autoplay: eventLoop ? {
+                    delay: 3000,
+                    disableOnInteraction: false,
+                } : false,
+                breakpoints: {
+                    640: {
+                        slidesPerView: 1,
+                        spaceBetween: 20,
+                    },
+                    768: {
+                        slidesPerView: 2,
+                        spaceBetween: 30,
+                    },
+                    1024: {
+                        slidesPerView: 2.5,
+                        spaceBetween: 30,
+                    },
+                },
+                navigation: {
+                    nextEl: ".swiper-button-next-events",
+                    prevEl: ".swiper-button-prev-events",
+                },
+                pagination: {
+                    el: ".swiper-pagination-events",
+                    clickable: true,
+                },
+            });
+        });
     </script>
 @endsection
