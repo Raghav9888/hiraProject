@@ -167,11 +167,10 @@
                 </div>
             </div>
             <div class="swiper mySwiper mb-5" style="max-height: 250px">
-                <div class="{{count($mediaImages) > 0 ? 'swiper-wrapper' : 'images'}}">
+                <div class="swiper-wrapper">
                     @if(count($mediaImages) > 0)
                         @foreach ($mediaImages as $image)
                             @php
-
                                 $imageUrl = $image
                                     ? asset("$mediaPath/practitioners/$userDetail->id/media/$image")
                                     : asset("$localPath/images/no_image.png");
@@ -180,12 +179,14 @@
                                 <img src="{{ $imageUrl }}" alt="media image" class="img-fit">
                             </div>
                         @endforeach
-
                     @else
-                        <p>No images available</p>
+                        <!-- Fallback slide for no images -->
+                        <div class="swiper-slide">
+                            <p>No images available</p>
+                        </div>
                     @endif
                 </div>
-                <!-- <div class="swiper-pagination"></div> -->
+                <div class="swiper-pagination"></div>
             </div>
 
             <div class="d-flex align-items-center mb-3" style="gap: 20px;">
@@ -725,7 +726,7 @@
         <div class="endorsment-dv">
             <div class="container">
                 @if(count($endorsedUsers) > 0)
-                    <?php
+                        <?php
                         $practitioners = $endorsedUsers ?>
                     <div class="row">
                         <h4>Endorsements</h4>
@@ -812,27 +813,40 @@
     </script>
 
     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const swiperElement = document.querySelector(".mySwiper");
+            if (!swiperElement) {
+                console.error("Swiper element '.mySwiper' not found in the DOM.");
+                return;
+            }
 
-        var swiper = new Swiper(".mySwiper", {
-            spaceBetween: 30,
-            breakpoints: {
-                640: {
-                    slidesPerView: 1,
-                    spaceBetween: 20,
+            const swiperWrapper = swiperElement.querySelector(".swiper-wrapper");
+            if (!swiperWrapper || !swiperWrapper.querySelector(".swiper-slide")) {
+                console.warn("No valid slides found for Swiper. Disabling Swiper initialization.");
+                return;
+            }
+
+            var swiper = new Swiper(".mySwiper", {
+                spaceBetween: 30,
+                breakpoints: {
+                    640: {
+                        slidesPerView: 1,
+                        spaceBetween: 20,
+                    },
+                    768: {
+                        slidesPerView: 2,
+                        spaceBetween: 40,
+                    },
+                    1024: {
+                        slidesPerView: 4,
+                        spaceBetween: 50,
+                    },
                 },
-                768: {
-                    slidesPerView: 2,
-                    spaceBetween: 40,
+                pagination: {
+                    el: ".swiper-pagination",
+                    clickable: true,
                 },
-                1024: {
-                    slidesPerView: 4,
-                    spaceBetween: 50,
-                },
-            },
-            pagination: {
-                el: ".swiper-pagination",
-                clickable: true,
-            },
+            });
         });
     </script>
 
