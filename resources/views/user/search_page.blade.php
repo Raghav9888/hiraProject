@@ -113,7 +113,7 @@
                     <div class="swiper-wrapper">
                         @foreach($offeringEvents as $date => $offering)
                             @php
-                                $mediaPath = config('app.media_path', 'Uploads');
+                                $mediaPath = config('app.media_path', 'uploads');
                                 $localPath = config('app.local_path', 'assets');
                                 $imageUrl = $offering->featured_image
                                     ? asset("$mediaPath/practitioners/{$offering->user->id}/offering/{$offering->featured_image}")
