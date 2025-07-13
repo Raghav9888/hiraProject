@@ -85,6 +85,51 @@
 
                                             </div>
                                             <div class="row">
+                                                <div class="mb-4 mt-4" id="mediaDiv">
+                                                    <div class="d-flex">
+                                                        <label for="media" class="fw-bold">Galley of images</label>
+                                                        <div class="ms-3">
+                                                            <label class="add-media-btn" for="media-upload">
+                                                                <i class="fas fa-plus"></i>
+                                                                Add media
+                                                            </label>
+                                                            <input type="file" id="media-upload" name="media_images[]"
+                                                                   class="hidden"
+                                                                   accept="image/*" multiple>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="media-container" id="media-container">
+                                                        @if(count($mediaImages) > 0)
+                                                            @foreach ($mediaImages as $image)
+                                                                <div class="media-item">
+                                                                    @php
+                                                                        $mediaPath = config('app.media_path', 'uploads');
+                                                                        $localPath = config('app.local_path', 'assets');
+                                                                            $imageUrl = asset($mediaPath . '/practitioners/' . $userDetails->id . '/media/' . $image) ;
+                                                                    @endphp
+                                                                    <img
+                                                                        src="{{ $imageUrl }}"
+                                                                        alt="Practitioner Image"
+                                                                        style="width: 100px; height: 100px; object-fit: cover; display: block;">
+                                                                    <i class="fas fa-times text-danger"
+                                                                       style="cursor: pointer;"
+                                                                       data-image="{{ $image }}"
+                                                                       data-user-id="{{ $user->id }}"
+                                                                       data-image-url="{{ $imageUrl }}"
+                                                                       data-name="{{ $image }}"
+                                                                       data-media-image="true"
+                                                                       data-html-render="mediaDiv"
+                                                                       onclick="removeImage(this);"></i>
+                                                                </div>
+                                                            @endforeach
+                                                        @else
+                                                            <p>No images available</p>
+                                                        @endif
+                                                    </div>
+                                                </div>
+
                                                 <div class="col-sm-12 col-lg-6 mb-3">
                                                     <label for="first_name" class="fw-bold">First Name</label>
                                                     <input type="text" class="form-control" id="first_name"
@@ -184,50 +229,6 @@
 
                                             </div>
 
-                                            <div class="mb-4 mt-4" id="mediaDiv">
-                                                <div class="d-flex">
-                                                    <label for="media" class="fw-bold">Galley of images</label>
-                                                    <div class="ms-3">
-                                                        <label class="add-media-btn" for="media-upload">
-                                                            <i class="fas fa-plus"></i>
-                                                            Add media
-                                                        </label>
-                                                        <input type="file" id="media-upload" name="media_images[]"
-                                                               class="hidden"
-                                                               accept="image/*" multiple>
-                                                    </div>
-                                                </div>
-
-
-                                                <div class="media-container" id="media-container">
-                                                    @if(count($mediaImages) > 0)
-                                                        @foreach ($mediaImages as $image)
-                                                            <div class="media-item">
-                                                                @php
-                                                                    $mediaPath = config('app.media_path', 'uploads');
-                                                                    $localPath = config('app.local_path', 'assets');
-                                                                        $imageUrl = asset($mediaPath . '/practitioners/' . $userDetails->id . '/media/' . $image) ;
-                                                                @endphp
-                                                                <img
-                                                                    src="{{ $imageUrl }}"
-                                                                    alt="Practitioner Image"
-                                                                    style="width: 100px; height: 100px; object-fit: cover; display: block;">
-                                                                <i class="fas fa-times text-danger"
-                                                                   style="cursor: pointer;"
-                                                                   data-image="{{ $image }}"
-                                                                   data-user-id="{{ $user->id }}"
-                                                                   data-image-url="{{ $imageUrl }}"
-                                                                   data-name="{{ $image }}"
-                                                                   data-media-image="true"
-                                                                   data-html-render="mediaDiv"
-                                                                   onclick="removeImage(this);"></i>
-                                                            </div>
-                                                        @endforeach
-                                                    @else
-                                                        <p>No images available</p>
-                                                    @endif
-                                                </div>
-                                            </div>
                                             <div class="mb-4 pt-2">
                                                 <label for="IHelpWith" class="fw-bold">I help with
                                                     <span data-bs-toggle="tooltip"
