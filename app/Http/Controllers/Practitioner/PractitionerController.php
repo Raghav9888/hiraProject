@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\Category;
 use App\Models\Certifications;
+use App\Models\Event;
 use App\Models\GoogleAccount;
 use App\Models\HowIHelp;
 use App\Models\IHelpWith;
@@ -292,7 +293,95 @@ class PractitionerController extends Controller
     {
         $user = Auth::user();
         $userDetails = $user->userDetail;
-        return view('practitioner.accounting', compact('user', 'userDetails'));
+
+        // Get start and end dates from the request, or set defaults
+        $startDate = $request->input('start_date', now()->startOfMonth()->toDateString());
+        $endDate = $request->input('end_date', now()->endOfMonth()->toDateString());
+
+        // Get offering IDs owned by the practitioner
+        $offeringIds = Offering::where('user_id', $user->id)->pluck('id');
+
+
+
+        // Get show IDs owned by the practitioner
+        $showIds = Show::where('user_id', $user->id)->pluck('id');
+
+        // Fetch bookings where offering, event, or show is owned by the practitioner
+        $bookings = Booking::where(function ($query) use ($offeringIds, $showIds) {
+            $query->whereIn('offering_id', $offeringIds)
+                ->orWhereIn('shows_id', $showIds);
+        })
+            ->whereBetween('booking_date', [$startDate, $endDate])
+            ->with(['offering', 'user', 'shows'])
+            ->paginate(10);
+
+        // Calculate totals for the Gross Sales Report
+        $totalOrders = $bookings->total();
+        $totalProductsSold = $bookings->count(); // Adjust if multiple items per booking
+        $totalEarnings = $bookings->sum('total_amount');
+        $totalTax = $bookings->sum('tax_amount');
+
+        return view('practitioner.accounting', compact(
+            'user',
+            'userDetails',
+            'bookings',
+            'startDate',
+            'endDate',
+            'totalOrders',
+            'totalProductsSold',
+            'totalEarnings',
+            'totalTax'
+        ));
+    }
+
+    public function exportEarnings(Request $request)
+    {
+        $user = Auth::user();
+        $startDate = $request->input('start_date', now()->startOfMonth()->toDateString());
+        $endDate = $request->input('end_date', now()->endOfMonth()->toDateString());
+
+        // Get offering, event, and show IDs
+        $offeringIds = Offering::where('user_id', $user->id)->pluck('id');
+        $eventIds = Event::whereIn('offering_id', $offeringIds)->pluck('id');
+        $showIds = Show::where('user_id', $user->id)->pluck('id');
+
+        // Fetch bookings
+        $bookings = Booking::where(function ($query) use ($offeringIds, $eventIds, $showIds) {
+            $query->whereIn('offering_id', $offeringIds)
+                ->orWhereIn('event_id', $eventIds)
+                ->orWhereIn('shows_id', $showIds);
+        })
+            ->whereBetween('booking_date', [$startDate, $endDate])
+            ->with(['offering', 'user', 'shows', 'event', 'event.offering'])
+            ->get();
+
+        // Generate CSV
+        $csv = \League\Csv\Writer::createFromString();
+        $csv->insertOne(['Booking ID', 'Customer', 'Item', 'Type', 'Date', 'Time Slot', 'Amount', 'Tax', 'Status']);
+        foreach ($bookings as $booking) {
+            $item = $booking->offering_id ? ($booking->offering->name ?? 'N/A') :
+                ($booking->shows_id ? ($booking->shows->name ?? 'N/A') :
+                    ($booking->event_id ? ($booking->event->offering->name ?? 'N/A') : 'N/A'));
+            $type = $booking->offering_id ? 'Offering' :
+                ($booking->shows_id ? 'Show' :
+                    ($booking->event_id ? 'Event' : 'Unknown'));
+            $csv->insertOne([
+                $booking->id,
+                $booking->first_name . ' ' . $booking->last_name,
+                $item,
+                $type,
+                $booking->booking_date,
+                $booking->time_slot ?? 'N/A',
+                $booking->currency_symbol . number_format($booking->total_amount, 2),
+                $booking->currency_symbol . number_format($booking->tax_amount, 2),
+                $booking->status,
+            ]);
+        }
+
+        return response($csv->toString(), 200, [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="earnings_report.csv"',
+        ]);
     }
 
 
