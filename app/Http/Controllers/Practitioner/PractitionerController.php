@@ -317,7 +317,7 @@ class PractitionerController extends Controller
 
         // Calculate totals for the Gross Sales Report
         $totalOrders = $bookings->total();
-        $totalProductsSold = $bookings->count(); // Adjust if multiple items per booking
+        $totalProductsSold = $bookings->count(); 
         $totalEarnings = $bookings->sum('total_amount');
         $totalTax = $bookings->sum('tax_amount');
 
