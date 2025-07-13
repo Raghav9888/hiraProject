@@ -6,6 +6,7 @@ use App\Http\Controllers\Calender\GoogleCalendarController;
 use App\Mail\TemporaryPasswordMail;
 use App\Models\Booking;
 use App\Models\Country;
+use App\Models\Discount;
 use App\Models\GoogleAccount;
 use App\Models\Offering;
 use App\Models\Show;
@@ -96,11 +97,37 @@ class BookingController extends Controller
         $currencySymbol = $booking['currency_symbol'] ?? null;
 
         $isShow = $booking['isShow'] ?? false;
-
+        $discounts = [];
+        $discount = [];
         if ($isShow) {
             $product = Show::findOrFail($booking['show_id']);
         } else {
             $product = Offering::with('event')->findOrFail($booking['offering_id']);
+            $discounts = Discount::where('user_id',$product->user_id)->get();
+        }
+        if($discounts)
+        {
+            foreach ($discounts as $discountItem) {
+                if (is_array($discountItem->offerings) && in_array($product->id,$discountItem->offerings)) {
+                    $discount = [
+                        'id' => $discountItem->id,
+                        'discount_type' => $discountItem->discount_type,
+                        'amount' => $discountItem->coupon_amount,
+                        'apply_to' => $discountItem->apply_to,
+                    ];
+                    break;
+                }
+
+                if($discountItem->apply_to === 'all') {
+                    $discount = [
+                        'id' => $discountItem->id,
+                        'discount_type' => $discountItem->discount_type,
+                        'amount' => $discountItem->coupon_amount,
+                        'apply_to' => $discountItem->apply_to,
+                    ];
+                    break;
+                }
+            }
         }
 
         if ($request->subscribe == true) {
@@ -125,7 +152,7 @@ class BookingController extends Controller
         return response()->json([
             "success" => true,
             "data" => "Billing details saved in session!",
-            'html' => view('user.checkout-popup', compact('booking', 'product', 'price', 'currency', 'currencySymbol', 'isShow'))->render()
+            'html' => view('user.checkout-popup', compact('booking','discount', 'product', 'price', 'currency', 'currencySymbol', 'isShow'))->render()
         ]);
     }
 

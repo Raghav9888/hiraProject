@@ -1,22 +1,29 @@
 @php
     use Carbon\Carbon;
-          $mediaPath = config('app.media_path', 'uploads');
-          $localPath = config('app.local_path', 'assets');
-         $images = isset($offering->user->userDetail->images) ? json_decode($offering->user->userDetail->images, true) : null;
-         $image = isset($images['profile_image']) && $images['profile_image'] ? $images['profile_image'] : null;
-         $imageUrl = $image
-             ? asset($mediaPath. '/practitioners/' . @$offering->user->userDetail->id . '/profile/' . $image)
-             : asset($localPath . '/images/no_image.png');
+    $mediaPath = config('app.media_path', 'uploads');
+    $localPath = config('app.local_path', 'assets');
+    $images = isset($offering->user->userDetail->images) ? json_decode($offering->user->userDetail->images, true) : null;
+    $image = isset($images['profile_image']) && $images['profile_image'] ? $images['profile_image'] : null;
+    $imageUrl = $image
+        ? asset($mediaPath. '/practitioners/' . @$offering->user->userDetail->id . '/profile/' . $image)
+        : asset($localPath . '/images/no_image.png');
 
+    $taxPercentage = (float)($product->offering_event_type == 'event' ? $product->event->tax_amount : $product->tax_amount);
+    $taxAmount = $taxPercentage ? ($price * ($taxPercentage / 100)) : 0;
 
-//         if(!$isShow)
-//             {
-               $taxPercentage = (float)($product->offering_event_type == 'event' ? $product->event->tax_amount : $product->tax_amount);
-//             }else{
-//            $taxPercentage = $product->tax ?? 13; // Default tax percentage for shows
-//             }
-         $taxAmount = $taxPercentage ? ($price * ($taxPercentage / 100)) : 0;
-         $totalAmount = $price + $taxAmount;
+    // Calculate discount amount
+    $discountAmount = 0;
+    if (!empty($discount)) {
+        if ($discount['discount_type'] === 'fixed') {
+            $discountAmount = (float)$discount['amount'];
+            $discountDisplay = $currencySymbol . ' ' . number_format($discount['amount'], 2);
+        } else {
+            $discountAmount = ($price * ((float)$discount['amount'] / 100));
+            $discountDisplay = $discount['amount'] . '%';
+        }
+    }
+
+    $totalAmount = ($price + $taxAmount - $discountAmount);
 @endphp
 
 <div class="container my-3">
@@ -48,16 +55,15 @@
                                 <span>Booking Time:</span> {{ Carbon::parse($booking['booking_time'])->format('h:i A') }}
                             </p>
                             <p id="user-timezone" class="mb-0 text-muted small">Time Zone: </p>
-
                         </div>
                     </div>
                 </td>
-                <td class="text-end">{{$currencySymbol .' '. $price}}</td>
+                <td class="text-end">{{$currencySymbol .' '. number_format($price, 2)}}</td>
             </tr>
 
             <tr>
                 <td class="fw-bold">Subtotal</td>
-                <td class="text-end">{{$currencySymbol . ' '. $price }}</td>
+                <td class="text-end">{{$currencySymbol . ' '. number_format($price, 2) }}</td>
             </tr>
 
             @if($taxAmount > 0)
@@ -67,15 +73,25 @@
                 </tr>
             @endif
 
+            @if(!empty($discount))
+                <tr>
+                    <td class="fw-bold">Discount ({{ $discountDisplay }})</td>
+                    <td class="text-end">- {{$currencySymbol .' '. number_format($discountAmount, 2) }}</td>
+                </tr>
+            @endif
+
             <tr>
                 <td class="fw-bold">Total</td>
-                <td class="text-end">{{ $currencySymbol .' '.number_format($totalAmount, 2) }}</td>
+                <td class="text-end">{{ $currencySymbol .' '. number_format($totalAmount, 2) }}</td>
             </tr>
             </tbody>
         </table>
 
         <input type="hidden" name="total_amount" class="total_amount" value="{{ $totalAmount }}">
         <input type="hidden" name="tax_amount" value="{{ $taxAmount }}" class="tax_amount">
+        @if(!empty($discount))
+            <input type="hidden" name="discount_amount" value="{{ $discountAmount }}" class="discount_amount">
+        @endif
 
         <div class="d-flex justify-content-end mb-3">
             <button class="place-order btn btn-green">Place Order</button>

@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\Certifications;
 use App\Models\Community;
 use App\Models\Country;
+use App\Models\Discount;
 use App\Models\Feedback;
 use App\Models\GoogleAccount;
 use App\Models\HowIHelp;
@@ -308,7 +309,6 @@ class HomeController extends Controller
             'defaultLocations' => $locations,
             'page' => $page,
             'pendingResult' => ceil($endorsedUsers->count() / 8) > $page,
-
         ]);
     }
 
