@@ -52,6 +52,7 @@
     @php
         $mediaPath = config('app.media_path', 'uploads');
         $localPath = config('app.local_path', 'assets');
+        $amenities = json_decode($userDetail->amenities) ?? [];
     @endphp
     <div class="practitioner-detail-wrrpr">
         <div class="container">
@@ -144,10 +145,23 @@
                                             </div>
                                         </div>
                                     @endif
-
                                 @endforeach
                             </div>
 
+                        @endif
+                        @if(!empty($amenities))
+                            <hr>
+                            <div class="row">
+                                @foreach($amenities as $amenite)
+                                    <div class="col-md-3">
+                                        <div class="practitioner-location-dv mb-4">
+                                            <button>
+                                                <i class="fa-solid fa-location-dot me-2"></i>{{ $amenite }}
+                                            </button>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
                         @endif
                     </div>
                     <div class="col-sm-12 col-md-3 col-lg-3">
