@@ -148,8 +148,6 @@ class PaymentController extends Controller
 
         if (!$user) {
             // Generate a random secure password
-            $randomPassword = \Str::random(12);
-
             $user = User::create([
                 'name' => trim($billing['first_name'] . ' ' . $billing['last_name']),
                 'first_name' => $billing['first_name'],
@@ -157,10 +155,9 @@ class PaymentController extends Controller
                 'email' => $billing['billing_email'],
                 'role' => 3,       // Assuming 3 means "customer" or similar
                 'status' => 1,     // Active user
-                'password' => Hash::make($randomPassword),
+                'password' => Hash::make($billing['password']),
             ]);
 
-            // You might want to email $randomPassword to user or send password reset link
 
             UserDetail::create([
                 'user_id' => $user->id,
@@ -169,12 +166,6 @@ class PaymentController extends Controller
                 'last_name' => $billing['last_name'],
                 'email' => $billing['billing_email'],
                 'phone' => $billing['billing_phone'] ?? null,
-                'address_line_1' => $billing['billing_address'] ?? null,
-                'address_line_2' => $billing['billing_address2'] ?? null,
-                'city' => $billing['billing_city'] ?? null,
-                'state' => $billing['billing_state'] ?? null,
-                'postcode' => $billing['billing_postcode'] ?? null,
-                'country' => $billing['billing_country'] ?? null,
             ]);
 
             GoogleAccount::create([
@@ -198,13 +189,13 @@ class PaymentController extends Controller
             'status' => 'pending',
             'first_name' => $billing['first_name'],
             'last_name' => $billing['last_name'],
-            'billing_address' => $billing['billing_address'] ?? null,
-            'billing_address2' => $billing['billing_address2'] ?? null,
-            'billing_country' => $billing['billing_country'] ?? null,
-            'billing_city' => $billing['billing_city'] ?? null,
-            'billing_state' => $billing['billing_state'] ?? null,
-            'billing_postcode' => $billing['billing_postcode'] ?? null,
-            'billing_phone' => $billing['billing_phone'] ?? null,
+            'billing_address' => $billing['billing_address'] ?? '',
+            'billing_address2' => $billing['billing_address2'] ?? '',
+            'billing_country' => $billing['billing_country'] ?? '',
+            'billing_city' => $billing['billing_city'] ?? '',
+            'billing_state' => $billing['billing_state'] ?? '',
+            'billing_postcode' => $billing['billing_postcode'] ?? '',
+            'billing_phone' => $billing['billing_phone'] ?? '',
             'billing_email' => $billing['billing_email'],
         ]);
 

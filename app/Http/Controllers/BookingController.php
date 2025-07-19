@@ -65,14 +65,21 @@ class BookingController extends Controller
 
     public function preCheckout(Request $request)
     {
+        $user = Auth::user();
         // Basic validation can be added here
+        if (!$user && ($request->password !== $request->confirm_password)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Your password does not match.',
+            ], 422);
+        }
 
         // Save billing info to session
         session([
             'billing' => [
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
-                'billing_address' => $request->billing_address,
+                'billing_address' => $request->billing_address ?? '',
                 'billing_address2' => $request->billing_address2 ?? '',
                 'billing_country' => $request->billing_country,
                 'billing_city' => $request->billing_city,
@@ -80,6 +87,7 @@ class BookingController extends Controller
                 'billing_postcode' => $request->billing_postcode,
                 'billing_phone' => $request->billing_phone,
                 'billing_email' => $request->billing_email,
+                'password' => $request->password
             ]
         ]);
 

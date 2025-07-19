@@ -72,54 +72,72 @@
                         value="{{$user->userDetail->phone ?? ''}}">
                     </div>
                 </div>
-                <div class="col-md-12">
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label mb-2">Street Address</label>
-                        <input type="text" class="form-control" required name="billing_address" id="exampleInputEmail1"
-                               aria-describedby="emailHelp" placeholder="Enter address line 1"
-                               value="{{$user->userDetail->address_line_1 ?? ''}}">
+                @if(!$user)
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="password" class="form-label mb-2">Password</label>
+                            <input type="text" class="form-control" required name="password" id="password"
+                                   aria-describedby="emailHelp" placeholder="Enter your password"
+                            >
+                        </div>
                     </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="confirm_password" class="form-label mb-2">Confirm Password</label>
+                            <input type="text" class="form-control" required name="confirm_password" id="confirm_password"
+                                   aria-describedby="emailHelp" placeholder="Confirm your password">
+                        </div>
+                    </div>
+                @endif
+
+{{--                <div class="col-md-12">--}}
+{{--                    <div class="mb-3">--}}
+{{--                        <label for="exampleInputEmail1" class="form-label mb-2">Street Address</label>--}}
+{{--                        <input type="text" class="form-control" required name="billing_address" id="exampleInputEmail1"--}}
+{{--                               aria-describedby="emailHelp" placeholder="Enter address line 1"--}}
+{{--                               value="{{$user->userDetail->address_line_1 ?? ''}}">--}}
+{{--                    </div>--}}
 {{--                    <div class="mb-3">--}}
 {{--                        <input type="text" class="form-control" required name="billing_address2" id="exampleInputEmail1"--}}
 {{--                               aria-describedby="emailHelp" placeholder="Enter address line 2">--}}
 {{--                    </div>--}}
-                </div>
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label mb-2">City</label>
-                        <input type="text" class="form-control" required name="billing_city" id="exampleInputEmail1"
-                               aria-describedby="emailHelp" placeholder="Enter city"
-                               value="{{$user->userDetail->city ?? ''}}">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label mb-2">State</label>
-                        <input type="text" class="form-control" required name="billing_state" id="exampleInputEmail1"
-                               aria-describedby="emailHelp" placeholder="Enter state"
-                               value="{{$user->userDetail->state ?? ''}}">
-                    </div>
-                </div>
+{{--                </div>--}}
+{{--                <div class="col-md-6">--}}
+{{--                    <div class="mb-3">--}}
+{{--                        <label for="exampleInputEmail1" class="form-label mb-2">City</label>--}}
+{{--                        <input type="text" class="form-control" required name="billing_city" id="exampleInputEmail1"--}}
+{{--                               aria-describedby="emailHelp" placeholder="Enter city"--}}
+{{--                               value="{{$user->userDetail->city ?? ''}}">--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--                <div class="col-md-6">--}}
+{{--                    <div class="mb-3">--}}
+{{--                        <label for="exampleInputEmail1" class="form-label mb-2">State</label>--}}
+{{--                        <input type="text" class="form-control" required name="billing_state" id="exampleInputEmail1"--}}
+{{--                               aria-describedby="emailHelp" placeholder="Enter state"--}}
+{{--                               value="{{$user->userDetail->state ?? ''}}">--}}
+{{--                    </div>--}}
+{{--                </div>--}}
 
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label mb-2">Postcode</label>
-                        <input type="text" class="form-control" required name="billing_postcode" id="exampleInputEmail1"
-                               aria-describedby="emailHelp" placeholder="Enter postcode"
-                               value="{{$user->userDetail->postcode ?? ''}}">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label mb-2">Country</label>
-                        <select class="form-select" required name="billing_country" id="country">
-                            <option value="">Select Country</option>
-                            @foreach($countries as $country)
-                                <option value="{{$country->name}}" {{isset($user->userDetail->country) && $user->userDetail->country == $country->name ? 'selected': ''}}>{{$country->name}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
+{{--                <div class="col-md-6">--}}
+{{--                    <div class="mb-3">--}}
+{{--                        <label for="exampleInputEmail1" class="form-label mb-2">Postcode</label>--}}
+{{--                        <input type="text" class="form-control" required name="billing_postcode" id="exampleInputEmail1"--}}
+{{--                               aria-describedby="emailHelp" placeholder="Enter postcode"--}}
+{{--                               value="{{$user->userDetail->postcode ?? ''}}">--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--                <div class="col-md-6">--}}
+{{--                    <div class="mb-3">--}}
+{{--                        <label for="exampleInputEmail1" class="form-label mb-2">Country</label>--}}
+{{--                        <select class="form-select" required name="billing_country" id="country">--}}
+{{--                            <option value="">Select Country</option>--}}
+{{--                            @foreach($countries as $country)--}}
+{{--                                <option value="{{$country->name}}" {{isset($user->userDetail->country) && $user->userDetail->country == $country->name ? 'selected': ''}}>{{$country->name}}</option>--}}
+{{--                            @endforeach--}}
+{{--                        </select>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
             </div>
             {{--            <div class="or-container text-center mb-3">OR</div>--}}
             {{--            <div class="d-flex justify-content-center mb-3">--}}
