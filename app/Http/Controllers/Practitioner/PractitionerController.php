@@ -294,28 +294,32 @@ class PractitionerController extends Controller
         $user = Auth::user();
         $userDetails = $user->userDetail;
 
-        // Get start and end dates from the request, or set defaults
-        $startDate = $request->input('start_date', now()->startOfMonth()->toDateString());
-        $endDate = $request->input('end_date', now()->endOfMonth()->toDateString());
+        // Get start and end dates from the request
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
 
         // Get offering IDs owned by the practitioner
         $offeringIds = Offering::where('user_id', $user->id)->pluck('id');
 
-
-
         // Get show IDs owned by the practitioner
         $showIds = Show::where('user_id', $user->id)->pluck('id');
 
-        // Fetch bookings where offering, event, or show is owned by the practitioner
-        $bookings = Booking::where(function ($query) use ($offeringIds, $showIds) {
+        // Base query for bookings
+        $bookingsQuery = Booking::where(function ($query) use ($offeringIds, $showIds) {
             $query->whereIn('offering_id', $offeringIds)
                 ->orWhereIn('shows_id', $showIds);
         })
-            ->whereBetween('booking_date', [$startDate, $endDate])
-            ->with(['offering', 'user', 'shows'])
-            ->paginate(10);
+            ->with(['offering', 'user', 'shows']);
 
-        // Calculate totals for the Gross Sales Report
+        // Apply date filter only if both dates are provided
+        if ($startDate && $endDate) {
+            $bookingsQuery->whereBetween('booking_date', [$startDate, $endDate]);
+        }
+
+        // Get paginated results
+        $bookings = $bookingsQuery->paginate(10);
+
+        // Calculate totals for the entire result set
         $totalOrders = $bookings->total();
         $totalProductsSold = $bookings->count();
         $totalEarnings = $bookings->sum('total_amount');
