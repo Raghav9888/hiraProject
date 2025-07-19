@@ -33,9 +33,9 @@ class DashboardController extends Controller
         // Fetch paginated bookings with related models
         $bookings = Booking::with(['user', 'offering', 'offering.user'])
             ->select(['id', 'user_id', 'offering_id', 'event_id', 'total_amount', 'booking_date', 'status'])
-            ->latest()
+            ->orderBy('booking_date', 'desc')
             ->paginate(10);
-
+        
         // Prepare chart data for bookings count and amount by month
         $chartBookings = Booking::selectRaw('
         DATE_FORMAT(booking_date, "%Y-%m") as month,
