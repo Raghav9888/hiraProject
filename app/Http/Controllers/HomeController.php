@@ -648,11 +648,29 @@ class HomeController extends Controller
 
     public function waitList(Request $request)
     {
+        // Merge default empty strings for all nullable fields
+        $request->merge([
+            'first_name' => $request->input('first_name', ''),
+            'last_name' => $request->input('last_name', ''),
+            'business_name' => $request->input('business_name', ''),
+            'phone' => $request->input('phone', ''),
+            'website' => $request->input('website', ''),
+            'current_practice' => $request->input('current_practice', ''),
+            'heard_from' => $request->input('heard_from', []),
+            'referral_name' => $request->input('referral_name', ''),
+            'other_source' => $request->input('other_source', ''),
+            'called_to_join' => $request->input('called_to_join', ''),
+            'practice_values' => $request->input('practice_values', ''),
+            'excitement_about_hira' => $request->input('excitement_about_hira', ''),
+            'call_availability' => $request->input('call_availability', 'no'),
+            'newsletter' => $request->input('newsletter', 'no'),
+        ]);
+
         $validated = $request->validate([
             'first_name' => 'nullable|string|max:255',
             'last_name' => 'nullable|string|max:255',
-            'email' => 'required|email|max:255|unique:users,email', // unique check
-            'password' => 'required|string|min:8|confirmed', // password + confirmation check
+            'email' => 'required|email|max:255|unique:users,email',
+            'password' => 'required|string|min:8|confirmed',
             'business_name' => 'nullable|string|max:255',
             'phone' => 'nullable|string|max:20',
             'website' => 'nullable|string|max:255',
@@ -667,6 +685,7 @@ class HomeController extends Controller
             'newsletter' => 'nullable|string|in:yes,no',
             'uploads.*' => 'nullable|file|mimes:jpg,jpeg,png,mp4,mov,avi,doc,docx,pdf|max:20480',
         ]);
+
 
         $user = User::create([
             'name' => trim(($validated['first_name'] ?? '') . ' ' . ($validated['last_name'] ?? '')),
