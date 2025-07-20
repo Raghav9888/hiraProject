@@ -94,6 +94,7 @@ Route::middleware(['auth', 'user-access:admin'])->name('admin.')->prefix('admin'
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/{userType}/users', [UserController::class, 'index'])->name('user.index');
     Route::get('/user/edit/{id}', [UserController::class, 'edit'])->name('user.edit');
+    Route::post('/user/interview/send', [UserController::class, 'sendInterviewAjax'])->name('user.interview.send.ajax');
     Route::post('/user/update/{id}', [UserController::class, 'update'])->name('user.update');
     Route::get('/delete/user/', [UserController::class, 'delete'])->name('user.delete');
     Route::get('/approve/user/', [UserController::class, 'approve'])->name('user.approve');

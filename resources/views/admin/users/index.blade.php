@@ -95,6 +95,18 @@
                                                                             >Wait list detail</a>
                                                                         </li>
                                                                     @endif
+                                                                        <li>
+                                                                            <a href="#"
+                                                                               class="dropdown-item"
+                                                                               data-bs-toggle="modal"
+                                                                               data-bs-target="#interviewModal"
+                                                                               data-user-id="{{ $user->id }}"
+                                                                               data-user-email="{{ $user->email }}"
+                                                                               data-user-name="{{ $user->name }}">
+                                                                                Send Interview Link
+                                                                            </a>
+                                                                        </li>
+
                                                                     <li>
                                                                         <a class="dropdown-item"
                                                                            href="{{route('admin.user.approve', ['id' => $user->id])}} "
@@ -169,6 +181,46 @@
             </div>
         </div>
     </div>
+
+
+    <!-- Interview Modal -->
+    <div class="modal fade" id="interviewModal" tabindex="-1" aria-labelledby="interviewModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form id="interviewForm">
+                @csrf
+                <input type="hidden" name="user_id" id="modal_user_id">
+                <input type="hidden" name="user_email" id="modal_user_email">
+                <input type="hidden" name="user_name" id="modal_user_name">
+
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Schedule Interview</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label>Start Time</label>
+                            <input type="datetime-local" class="form-control" name="start_time" id="start_time" required>
+                        </div>
+                        <div class="mb-3">
+                            <label>End Time</label>
+                            <input type="datetime-local" class="form-control" name="end_time" id="end_time" required>
+                        </div>
+                        <div id="meetLinkBox" class="d-none">
+                            <label>Google Meet Link</label>
+                            <div class="form-control" id="generatedLink"></div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success" id="sendInviteBtn">Send Interview</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
 @endsection
 
 @push('custom_scripts')
@@ -203,6 +255,55 @@
                 }
             })
         })
+
+        // When modal opens, set user data
+        document.querySelectorAll('[data-bs-target="#interviewModal"]').forEach(el => {
+            el.addEventListener('click', function () {
+                selectedUserId = this.dataset.userId;
+                document.getElementById('modal_user_id').value = this.dataset.userId;
+                document.getElementById('modal_user_email').value = this.dataset.userEmail;
+                document.getElementById('modal_user_name').value = this.dataset.userName;
+            });
+        });
+
+        // On form submit
+        document.getElementById('interviewForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const btn = document.getElementById('sendInviteBtn');
+            btn.disabled = true;
+            btn.textContent = 'Sending...';
+
+            const formData = new FormData(this);
+
+            fetch("{{ route('admin.user.interview.send.ajax') }}", {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: formData
+            })
+                .then(res => res.json())
+                .then(data => {
+                    btn.disabled = false;
+                    btn.textContent = 'Send Interview';
+
+                    if (data.status === 'success') {
+                        document.getElementById('meetLinkBox').classList.remove('d-none');
+                        document.getElementById('generatedLink').textContent = data.link;
+                        toastr.success("Interview link sent!");
+                    } else {
+                        toastr.error(data.message || 'Something went wrong!');
+                    }
+                })
+                .catch(err => {
+                    btn.disabled = false;
+                    btn.textContent = 'Send Interview';
+                    toastr.error('Error occurred while sending invite.');
+                });
+        });
+
+
     </script>
 
 @endpush

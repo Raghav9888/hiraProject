@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\InterviewInviteMail;
+use App\Models\GoogleAccount;
 use App\Models\Plan;
 use App\Models\User;
 use App\Models\Waitlist;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -170,5 +174,79 @@ class UserController extends Controller
         ]);
 
     }
+
+    public function sendInterviewAjax(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'start_time' => 'required|date',
+            'end_time' => 'required|date|after:start_time',
+        ]);
+
+        $admin = Auth::user();
+        $practitioner = User::find($request->user_id);
+
+        $googleAccount = GoogleAccount::where('user_id', $admin->id)->first();
+        if (!$googleAccount || !$googleAccount->access_token) {
+            return response()->json(['status' => 'error', 'message' => 'Google account not connected']);
+        }
+
+        $client = new \Google_Client();
+        $client->setAuthConfig(storage_path('app/google/calendar/credential.json'));
+        $client->setAccessType('offline');
+        $client->setAccessToken([
+            'access_token' => $googleAccount->access_token,
+            'refresh_token' => $googleAccount->refresh_token,
+            'expires_in' => 3600,
+            'created' => strtotime($googleAccount->updated_at),
+        ]);
+
+        if ($client->isAccessTokenExpired()) {
+            $newToken = $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
+            $googleAccount->update([
+                'access_token' => $newToken['access_token'],
+                'refresh_token' => $newToken['refresh_token'] ?? $googleAccount->refresh_token,
+                'expires_at' => now()->addSeconds($newToken['expires_in']),
+            ]);
+            $client->setAccessToken($newToken);
+        }
+
+        $calendarService = new \Google_Service_Calendar($client);
+
+        $event = new \Google_Service_Calendar_Event([
+            'summary' => 'Interview with ' . $practitioner->name,
+            'start' => [
+                'dateTime' => Carbon::parse($request->start_time)->toRfc3339String(),
+                'timeZone' => 'Asia/Kolkata',
+            ],
+            'end' => [
+                'dateTime' => Carbon::parse($request->end_time)->toRfc3339String(),
+                'timeZone' => 'Asia/Kolkata',
+            ],
+            'attendees' => [
+                ['email' => $practitioner->email],
+                ['email' => $admin->email],
+            ],
+            'conferenceData' => [
+                'createRequest' => [
+                    'requestId' => uniqid(),
+                    'conferenceSolutionKey' => ['type' => 'hangoutsMeet'],
+                ],
+            ],
+        ]);
+
+        $event = $calendarService->events->insert('primary', $event, ['conferenceDataVersion' => 1]);
+        $meetLink = $event->getHangoutLink();
+
+        // Send email
+        Mail::to($practitioner->email)->send(new InterviewInviteMail($practitioner, $meetLink, $request->start_time));
+        Mail::to($admin->email)->send(new InterviewInviteMail($admin, $meetLink, $request->start_time));
+
+        return response()->json([
+            'status' => 'success',
+            'link' => $meetLink
+        ]);
+    }
+
 
 }
