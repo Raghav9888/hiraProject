@@ -30,6 +30,7 @@ class OfferingEventController extends Controller
             'practitionerTag' => $practitionerTag,
             'IHelpWith' => $IHelpWith,
             'HowIHelp' => $HowIHelp,
+            'user' => $user,
         ]);
 
     }

@@ -20,7 +20,7 @@ class FeedbackController extends Controller
 
         $users = User::where('status', 1)->where('role', 1)->get();
 
-        return view('admin.feedback.index', compact('feedbacks', 'users'));
+        return view('admin.feedback.index', compact('feedbacks', 'users','user'));
     }
 
     /**
