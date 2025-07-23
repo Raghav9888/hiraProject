@@ -155,12 +155,13 @@
                 <label class="form-check-label" for="inlineCheckbox2">Yes, I want to receive emails from The Hira
                     Collective!</label>
             </div>
+            <div class="form-check align-items-center">
+                <input class="form-check-input" type="checkbox" id="websiteUse" name="websiteUse" value="yes" style="width: 20px; height: 20px">
+                <label class="form-check-label" for="websiteUse">Use of this website, content, and products are for informational purposes only. TheHiraCollective does
+                    not provide medical advice, diagnosis, or treatment.</label>
+            </div>
             <div class="col-12 text-center">
                 <button class="confirm-booking" type="submit">Confirm Booking</button>
-            </div>
-            <div class="bottom-line">
-                Use of this website, content, and products are for informational purposes only. TheHiraCollective does
-                not provide medical advice, diagnosis, or treatment.
             </div>
         </div>
     </form>
