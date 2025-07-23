@@ -73,7 +73,7 @@
                                             <div class="col-7 col-md-12 col-lg-7">
                                                 <h5 class="mb-1">{{$offering?->name}}</h5>
                                                 @if($offering?->short_description)
-                                                    <p class="small mb-2"> {{ implode(' ', array_slice(explode(' ', strip_tags($offering->short_description)), 0, 10)) . '...' }}</p>
+                                                    <p class="small mb-2"> {{ implode(' ', array_slice(explode(' ', strip_tags($offering->short_description)), 0, 5)) . '...' }}</p>
                                                 @endif
                                                 <div class="mb-2">
                                                     <span>$</span> <span>{{$offering->client_price ?? 0}}</span>
