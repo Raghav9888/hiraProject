@@ -6,7 +6,7 @@
                 <img class="hira-collective" src="{{url('/assets/images/header_logo.png')}}" alt="hira-collective">
             </div>
             <div class="home-search-wrrpr">
-                <p class="mb-3 mb-md-4">Search for what you seek</p>
+                <p>Search for what you seek</p>
                 <form method="GET" id="searchform">
                     <div class="row g-2 align-items-center">
                         <div class="col-12 col-md-6 col-lg-5">
