@@ -8,7 +8,6 @@
             </div>
             <div class="home-search-wrrpr">
                 <p> Search for what you seek</p>
-                <form
                 @php
                     $routeParams = [];
                     if (request()->route('categoryType')) {
