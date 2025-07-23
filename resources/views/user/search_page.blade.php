@@ -6,7 +6,7 @@
                 <img class="hira-collective img-fluid" src="{{url('/assets/images/home_logo.png')}}" alt="hira-collective" style="max-width: 100%; height: auto;">
             </div>
             <div class="home-search-wrrpr">
-                <p class="text-center mb-3 mb-md-4">Search for what you seek</p>
+                <p class="mb-3 mb-md-4">Search for what you seek</p>
                 <form method="GET" id="searchform">
                     <div class="row g-2 align-items-center">
                         <div class="col-12 col-md-6 col-lg-5">
