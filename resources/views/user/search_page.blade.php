@@ -8,8 +8,8 @@
             <div class="home-search-wrrpr">
                 <p>Search for what you seek</p>
                 <form method="GET" id="searchform">
-                    <div class="row g-2 align-items-center">
-                        <div class="col-12 col-md-6 col-lg-5">
+                    <div class="row align-items-center">
+                        <div class="col-12 col-md-6 col-lg-5 my-2">
                             <div class="search-container d-flex align-items-center">
                                 <input type="text" class="search-input form-control" id="search" name="search"
                                        placeholder="Search by modality, ailment, symptom or practitioner">
@@ -18,7 +18,7 @@
                                 </button>
                             </div>
                         </div>
-                        <div class="col-12 col-md-6 col-lg-3">
+                        <div class="col-12 col-md-6 col-lg-3 my-2">
                             <select class="form-select w-100" id="practitionerType" name="practitionerType"
                                     style="border-radius: 30px; padding: 11px 37px 12px 20px; text-align: start; color: #838383;">
                                 <option value="">Select type</option>
@@ -27,7 +27,7 @@
                                 <option value="both">Both in personal and virtual</option>
                             </select>
                         </div>
-                        <div class="col-12 col-md-6 col-lg-3">
+                        <div class="col-12 col-md-6 col-lg-3 my-2">
                             <select class="form-select w-100" id="location" name="location"
                                     style="border-radius: 30px; padding: 11px 20px; color: #838383;">
                                 <option value="">Select location</option>
