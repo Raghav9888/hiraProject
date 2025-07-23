@@ -35,11 +35,14 @@ class OfferingEventController extends Controller
     }
     public function create()
     {
+        $user = Auth::user();
+
         $categories = Category::where('status', 1)->latest()->orderBy('created_at', 'desc')->paginate(10);
         $practitionerTag = PractitionerTag::get();
         return view('admin.offeringEvent.create',[
             'categories' => $categories,
             'practitionerTag' => $practitionerTag,
+            'user' => $user,
         ]);
     }
 

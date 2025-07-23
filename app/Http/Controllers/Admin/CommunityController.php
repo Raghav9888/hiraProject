@@ -5,21 +5,25 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Community;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CommunityController extends Controller
 {
     public function index()
     {
+        $user = Auth::user();
         $communities = Community::where('status',1)->with(['admin'])->paginate(10);
 
         return view('admin.community.index', [
-            'communities' => $communities
+            'communities' => $communities,
+            'user' =>$user,
         ]);
     }
 
     public function create()
     {
-        return view('admin.community.create');
+        $user = Auth::user();
+        return view('admin.community.create',['user' =>$user,]);
     }
 
     public function store(Request $request)
@@ -57,7 +61,9 @@ class CommunityController extends Controller
      */
     public function edit(Community $community)
     {
-        return view('admin.community.edit', compact('community'));
+        $user = Auth::user();
+
+        return view('admin.community.edit', compact('community','user'));
     }
 
     public function update(Request $request, Community $community)

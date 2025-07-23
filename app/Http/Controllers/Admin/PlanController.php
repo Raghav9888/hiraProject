@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Plan;
 use App\Services\StripeService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Stripe\Price;
 use Stripe\Product;
 
@@ -23,8 +24,9 @@ class PlanController extends Controller
      */
     public function index()
     {
+        $user = Auth::user();
         $plans = Plan::latest()->get();
-        return view('admin.plans.index', compact('plans'));
+        return view('admin.plans.index', compact('plans','user'));
     }
 
     /**
@@ -32,7 +34,11 @@ class PlanController extends Controller
      */
     public function create()
     {
-        return view('admin.plans.create');
+        $user = Auth::user();
+
+        return view('admin.plans.create',[
+            'user' =>$user
+        ]);
     }
 
     /**
@@ -62,7 +68,7 @@ class PlanController extends Controller
                     break;
                 }
             }
-    
+
             // If no existing tax rate found, create a new one
             if (!$stripeTax) {
                 $stripeTax = $this->stripeService->createTax(
@@ -96,8 +102,10 @@ class PlanController extends Controller
      */
     public function edit($id)
     {
+        $user = Auth::user();
+
         $plan = Plan::findOrFail($id);
-        return view('admin.plans.edit', compact('plan'));
+        return view('admin.plans.edit', compact('plan','user'));
     }
 
     /**
@@ -137,7 +145,7 @@ class PlanController extends Controller
             ],
             'product' => $product->id,
         ]);
-        
+
         $stripeTax = null;
         if($request->tax_percentage && $request->tax_percentage > 0){
             $stripeTax = $this->stripeService->createTax(
@@ -150,7 +158,7 @@ class PlanController extends Controller
             'active' => false,
         ]);
 
-        
+
         $plan->name = $request->name;
         $plan->price = $request->price;
         $plan->interval = $request->interval;
@@ -187,7 +195,7 @@ class PlanController extends Controller
         \Stripe\Product::update($product->id, [
             'active' => false,
         ]);
-        
+
         // Delete from Database
         $plan->delete();
 

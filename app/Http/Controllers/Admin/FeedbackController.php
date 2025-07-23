@@ -8,11 +8,14 @@ use App\Models\Feedback;
 use App\Models\User;
 use App\Models\Offering;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class FeedbackController extends Controller
 {
     public function index()
     {
+        $user = Auth::user();
+
         $feedbacks = Feedback::with(['admin', 'user', 'offering'])->paginate(10);
 
         $users = User::where('status', 1)->where('role', 1)->get();
@@ -25,9 +28,11 @@ class FeedbackController extends Controller
      */
     public function create()
     {
+        $user = Auth::user();
+
         $users = User::where('status', 1)->where('role', 1)->get();
 
-        return view('admin.feedback.create', compact('users'));
+        return view('admin.feedback.create', compact('users','user'));
     }
 
     /**
@@ -77,12 +82,13 @@ class FeedbackController extends Controller
      */
     public function edit(Feedback $feedback)
     {
+        $user = Auth::user();
 
         $users = User::where('status', 1)->where('role', 1)->get();
 
         $offerings = Offering::where('user_id', $feedback->practitioner_id)->get();
 
-        return view('admin.feedback.edit', compact('feedback', 'users', 'offerings'));
+        return view('admin.feedback.edit', compact('feedback', 'users', 'offerings','user'));
     }
 
     /**

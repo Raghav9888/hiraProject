@@ -46,6 +46,8 @@ class LocationController extends Controller
 
     public function editLocation(Request $request, $id)
     {
+        $user = Auth::user();
+
         $location = Locations::find($id);
         if (!$location) {
             return response()->json(['error' => 'Location not found'], 404);
@@ -53,6 +55,7 @@ class LocationController extends Controller
 
         return view('admin.location.edit', [
             'location' => $location,
+            'user' => $user,
         ]);
     }
 

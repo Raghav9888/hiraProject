@@ -7,12 +7,15 @@ use App\Models\Booking;
 use App\Models\Offering;
 use App\Models\Show;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class  PractitionerBookingController extends Controller
 {
 
     public function bookings(Request $request, $userId, $userType)
     {
+        $user = Auth::user();
+
         // we get booking of practitioner clients
         if($userType == '3')
         {
@@ -42,11 +45,14 @@ class  PractitionerBookingController extends Controller
             'userType' => $userType,
             'bookings' => $bookings,
             'request' => $request,
+            'user' => $user,
         ]);
     }
 
     public function detail(Request $request,$bookingId ,$userType)
     {
+        $user = Auth::user();
+
         // Get booking details
         $booking = Booking::with(['offering', 'user', 'shows'])->findOrFail($bookingId);
 
@@ -55,6 +61,7 @@ class  PractitionerBookingController extends Controller
             'booking' => $booking,
             'request' => $request,
             'userType' => $userType,
+            'user' => $user,
         ]);
     }
 
