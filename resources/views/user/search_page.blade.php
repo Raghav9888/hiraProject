@@ -7,34 +7,38 @@
             </div>
             <div class="home-search-wrrpr">
                 <p> Search for what you seek</p>
-                <form id="searchForm" method="GET">
-                    <div class="search-dv-body">
-                        <div class="search-container align-items-center">
-                            <input type="text" class="search-input" id="search" name="search"
-                                   placeholder="Search by modality, ailment, symptom or practitioner">
-                            <button type="submit" class="search-button">
-                                <i class="fas fa-search"></i>
-                            </button>
+                <form method="GET" id="searchform">
+                    <div class="row align-items-center">
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-5 my-2">
+                            <div class="search-container d-flex align-items-center">
+                                <input type="text" class="search-input form-control" id="search" name="search"
+                                       placeholder="Search by modality, ailment, symptom or practitioner">
+                                <button type="submit" class="search-button">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
                         </div>
-                        <div class="dropdown">
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 my-2">
                             <select class="form-select" id="practitionerType" name="practitionerType"
-                                    style="border-radius: 30px !important;padding:11px 37px 12px 20px;text-align: start;color: #838383;">
+                                    style="border-radius: 30px; padding: 11px 37px 12px 20px; text-align: start; color: #838383;">
                                 <option value="">Select type</option>
                                 <option value="in-person">In person Offering</option>
                                 <option value="virtual">Virtual Practitioners Only</option>
                                 <option value="both">Both in personal and virtual</option>
                             </select>
                         </div>
-                        <div class="search-container location-input align-items-center">
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 my-2">
                             <select class="form-select" id="location" name="location"
-                                    style="border-radius: 30px !important;padding:11px 37px 12px 20px;text-align: start;color: #838383;">
+                                    style="border-radius: 30px; padding: 11px 20px; color: #838383;">
                                 <option value="">Select location</option>
                                 @foreach($defaultLocations as $defaultLocationId => $defaultLocation)
                                     <option value="{{ $defaultLocation }}">{{ $defaultLocation }}</option>
                                 @endforeach
                             </select>
                         </div>
-                        <button type="submit" class="home-search-btn" id="searchFilter">Search</button>
+                        <div class="col-12 col-sm-6 col-md-12 col-lg-1 my-2 text-center">
+                            <button type="submit" class="btn btn-success home-search-btn w-100" id="searchFilter">Search</button>
+                        </div>
                     </div>
                 </form>
             </div>
