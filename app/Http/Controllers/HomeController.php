@@ -385,13 +385,14 @@ class HomeController extends Controller
         // 1. Search by name or userDetails (tags, help fields, etc.)
         if (!empty($search)) {
             // Search by name (first_name, last_name, full name)
-            $userByName = User::where('role', 1)
-                ->where('status', 1)
-                ->where(function ($q) use ($search) {
-                    $q->where('name', 'like', '%' . $search . '%')
-                        ->orWhere('first_name', 'like', '%' . $search . '%')
-                        ->orWhere('last_name', 'like', '%' . $search . '%');
-                })
+            $userByName = User::where('role', 1) // Practitioner
+            ->where('status', 1) // Active
+            ->where('status', '!=', 3) // Explicitly exclude deleted users
+            ->where(function ($q) use ($search) {
+                $q->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('first_name', 'like', '%' . $search . '%')
+                    ->orWhere('last_name', 'like', '%' . $search . '%');
+            })
                 ->pluck('id');
 
             $userIds = $userIds->merge($userByName);
@@ -413,7 +414,13 @@ class HomeController extends Controller
                     if ($certificationId) $q->orWhereJsonContains('certifications', (string)$certificationId);
                     if ($locationId) $q->orWhereJsonContains('location', (string)$locationId);
                     if ($categoryIdFromSearch) $q->orWhereJsonContains('specialities', (string)$categoryIdFromSearch);
-                })->pluck('user_id');
+                })
+                    ->whereHas('user', function ($q) {
+                        $q->where('role', 1) // Practitioner
+                        ->where('status', 1) // Active
+                        ->where('status', '!=', 3); // Exclude deleted
+                    })
+                    ->pluck('user_id');
 
                 $userIds = $userIds->merge($userByDetails);
             }
@@ -422,10 +429,11 @@ class HomeController extends Controller
         // Remove duplicates and re-index
         $userIds = $userIds->unique()->values();
 
-        // 2. Build the base query
-        $query = User::where('role', 1)
-            ->where('status', 1)
-            ->with('userDetail')
+        // 2. Build the base query (only active practitioners)
+        $query = User::where('role', 1) // Practitioner
+        ->where('status', 1) // Active
+        ->where('status', '!=', 3) // Explicitly exclude deleted users
+        ->with('userDetail')
             ->with('feedback');
 
         // If any users found by name or user details, apply filter
@@ -436,7 +444,10 @@ class HomeController extends Controller
         // 3. Category filter
         if (!empty($category)) {
             $formattedCategory = ucwords(str_replace('_', ' ', $category));
-            $categoryId = Category::where('name', $formattedCategory)->value('id');
+            $categoryId = Category::where('name', $formattedCategory)
+                ->where('status', 1) // Active categories
+                ->where('status', '!=', 3) // Exclude deleted categories
+                ->value('id');
 
             if ($categoryId) {
                 $query->whereHas('userDetail', function ($q) use ($categoryId) {
@@ -460,7 +471,10 @@ class HomeController extends Controller
 
         // 5. Location Filter
         if (!empty($locationName)) {
-            $locationId = Locations::where('name', $locationName)->value('id');
+            $locationId = Locations::where('name', $locationName)
+                ->where('status', 1) // Active locations
+                ->where('status', '!=', 3) // Exclude deleted locations
+                ->value('id');
             if ($locationId) {
                 $query->whereHas('userDetail', function ($q) use ($locationId) {
                     $q->whereJsonContains('location', (string)$locationId);
@@ -468,10 +482,21 @@ class HomeController extends Controller
             }
         }
 
-        // 6. Get Offerings and Events Data
+        // 6. Get Offerings and Events Data (ONLY for active practitioners)
         $offeringsData = Offering::where('offering_type', $offeringType)
-            ->with('event')
-            ->with('user')
+            ->whereHas('user', function ($q) {
+                $q->where('role', 1) // Practitioner
+                ->where('status', 1) // Active
+                ->where('status', '!=', 3); // Exclude deleted
+            })
+            ->with(['event' => function ($q) {
+                // No soft delete check needed
+            }])
+            ->with(['user' => function ($q) {
+                $q->where('role', 1) // Practitioner
+                ->where('status', 1) // Active
+                ->where('status', '!=', 3); // Exclude deleted
+            }])
             ->get();
 
         $events = [];
@@ -482,13 +507,10 @@ class HomeController extends Controller
             }
         }
 
-        // Filter only practitioners' offerings
-        $filterOfferingsData = $offeringsData->filter(function ($offeringData) {
-            return $offeringData->user->role == 1;
-        });
-
         // 7. Default Locations
-        $defaultLocations = Locations::where('status', 1)->pluck('name', 'id');
+        $defaultLocations = Locations::where('status', 1) // Active
+        ->where('status', '!=', 3) // Exclude deleted
+        ->pluck('name', 'id');
 
         // 8. Build the response parameters
         $params = [
@@ -497,9 +519,11 @@ class HomeController extends Controller
             'search' => $search,
             'category' => $category,
             'defaultLocations' => $defaultLocations,
-            'offerings' => $filterOfferingsData,
+            'offerings' => $offeringsData, // Already filtered for active practitioners
             'offeringEvents' => $events,
-            'categories' => Category::where('status', 1)->get(),
+            'categories' => Category::where('status', 1) // Active
+            ->where('status', '!=', 3) // Exclude deleted
+            ->get(),
             'page' => $page
         ];
 
@@ -515,7 +539,6 @@ class HomeController extends Controller
         // 10. Return the search page with results
         return view('user.search_page', $params);
     }
-
 
     public function acknowledgement()
     {
