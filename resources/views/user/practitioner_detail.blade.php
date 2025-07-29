@@ -149,20 +149,7 @@
                             </div>
 
                         @endif
-                        @if(!empty($amenities))
-                            <hr>
-                            <div class="row">
-                                @foreach($amenities as $amenite)
-                                    <div class="col-md-3">
-                                        <div class="practitioner-location-dv mb-4">
-                                            <button>
-                                                <i class="fa-solid fa-location-dot me-2"></i>{{ $amenite }}
-                                            </button>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                        @endif
+
                     </div>
                     <div class="col-sm-12 col-md-3 col-lg-3">
                         @php
@@ -399,15 +386,14 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="accordion-item">
-                            <h2 class="accordion-header" id="events">
+                            <h2 class="accordion-header" id="headingTwo">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#Events" aria-expanded="true" aria-controls="collapseOne">
+                                        data-bs-target="#Events" aria-expanded="false" aria-controls="collapseTwo">
                                     Events
                                 </button>
                             </h2>
-                            <div id="Events" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                            <div id="Events" class="accordion-collapse collapse show" aria-labelledby="headingTwo"
                                  data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
                                     @foreach($offerings as $offering)
@@ -567,7 +553,32 @@
                                 </div>
                             </div>
                         </div>
-
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingTwo">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#Amenities" aria-expanded="false" aria-controls="Amenities">
+                                    Amenities
+                                </button>
+                            </h2>
+                            <div id="Amenities" class="accordion-collapse collapse show" aria-labelledby="headingTwo"
+                                 data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    @if(!empty($amenities))
+                                        <div class="row">
+                                            @foreach($amenities as $amenite)
+                                                <div class="col-md-3">
+                                                    <div class="practitioner-location-dv mb-4">
+                                                        <button>
+                                                            <i class="fa-solid fa-location-dot me-2"></i>{{ $amenite }}
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="headingTwo">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
@@ -723,6 +734,8 @@
                                 data-bs-target="#collapseOne"><i class="fa-solid fa-circle me-3"></i>Offering</h5>
                             <h5 class="py-2" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#Events"><i class="fa-solid fa-circle me-3"></i>Event</h5>
+                            <h5 class="py-2" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#Amenities"><i class="fa-solid fa-circle me-3"></i>Amenities</h5>
                             <h5 class="py-2" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapseTwo"><i class="fa-solid fa-circle me-3"></i>
                                 I Help With</h5>
