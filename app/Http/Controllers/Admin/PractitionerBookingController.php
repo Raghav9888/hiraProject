@@ -39,7 +39,6 @@ class  PractitionerBookingController extends Controller
                 ->get();
         }
 
-
         return view('admin.booking.index', [
             'userId' => $userId,
             'userType' => $userType,

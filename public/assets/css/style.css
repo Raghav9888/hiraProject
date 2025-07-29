@@ -2558,7 +2558,7 @@ textarea, input[type="time"] {
     margin-bottom: 5px;
 }
 
-.earning-wrrpr input {
+.earning-wrrpr input ,.earning-wrrpr select {
     width: 100%;
     max-width: 500px;
     border-radius: 33px;

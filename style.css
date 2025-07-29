@@ -393,14 +393,14 @@ left: auto;
     display: none;
 }
 .swiper-button-prev::before{
-    content: "\f104"; 
+    content: "\f104";
   font-family: "Font Awesome 5 Free";
   font-weight: 900;
   color: #9F8B72;
 }
 
 .swiper-button-next:before {
-    content: "\f105"; 
+    content: "\f105";
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
     color: #9F8B72;
@@ -1484,7 +1484,7 @@ font-weight: 500;
     font-size: 16px;
     font-weight: 500;
         color: #565656;
-        margin: 0;  
+        margin: 0;
         text-decoration: underline;
 }
 .review-dv-data h6{
@@ -1520,7 +1520,7 @@ padding: 15px;
     font-family: "Montserrat-Medium";
     font-size: 18px;
     font-weight: 700;
-        color: #424E3E; 
+        color: #424E3E;
         margin-bottom: 10px;
 }
 .practitioner-detail-dv .video{
@@ -1537,7 +1537,7 @@ padding: 50px;
     font-family: "Montserrat-Regular";
     font-size: 24px;
     font-weight: 700;
-        color: #FFFFFF; 
+        color: #FFFFFF;
 }
 .welcome-text span{
 color: #ba9b8b;
@@ -1547,14 +1547,14 @@ color: #ba9b8b;
     font-family: "Montserrat-Medium";
     font-size: 32px;
     font-weight: 700;
-        color: #FFFFFF;    
+        color: #FFFFFF;
 }
 
 .practitioner-profile-text{
     font-family: "Montserrat-Medium";
     font-size: 26px;
     font-weight: 400;
-        color: #333;  
+        color: #333;
 }
 .practitioner-profile .event-name-dv{
     border: 2px solid #19474E36;
@@ -1567,7 +1567,7 @@ color: #ba9b8b;
     font-size: 20px;
     font-weight: 400;
         color: #424E3E;
-        margin-bottom: 10px; 
+        margin-bottom: 10px;
 }
 .practitioner-profile .event-name-dv h6{
     font-family: "Montserrat-Regular";
@@ -1575,14 +1575,14 @@ color: #ba9b8b;
     font-weight: 400;
     color: #424E3E;
     margin-bottom: 20px;
- 
+
 }
 .practitioner-profile .event-name-dv p{
     font-family: "Montserrat-Regular";
     font-size: 13px;
     font-weight: 400;
     color: #424E3E;
-    margin-bottom: 20px; 
+    margin-bottom: 20px;
         margin: 0;
 }
 .practitioner-profile .search-container{
@@ -1647,7 +1647,7 @@ padding: 0;
 .practitioner-profile-btns  li a{
     font-family: "Montserrat-Regular";
     font-size: 20px;
-    font-weight: 700; 
+    font-weight: 700;
     color: #FFFFFF ;
     text-decoration: none;
 }
@@ -1710,12 +1710,12 @@ padding: 0;
   #monthSelect {
     font-family: "Montserrat-Regular";
     font-size: 14px;
-    font-weight: 400; 
+    font-weight: 400;
     padding: 8px 12px;
     border-radius: 5px;
     border: 1px solid #ddd;
     background: #f7f9fc;
-    color: #333; 
+    color: #333;
     outline: none;
   }
 
@@ -1723,7 +1723,7 @@ padding: 0;
   .export-btn {
     font-family: "Montserrat-Regular";
     font-size: 18px;
-    font-weight: 700; 
+    font-weight: 700;
     background-color: #424E3E;
     color: #fff;
     border: none;
@@ -1849,15 +1849,15 @@ padding: 0;
    .positioned-dv ul li p{
     font-family: "Montserrat-Regular";
     font-size: 14px;
-    font-weight: 400; 
+    font-weight: 400;
     color: #E9DCCF;
 
    }
- 
+
 .featured-image-tag{
     font-family: "Montserrat-Medium";
     font-size: 22px;
-    font-weight: 400; 
+    font-weight: 400;
     color: #000;
 }
 
@@ -1894,19 +1894,19 @@ padding: 0;
 .earning-wrrpr .table th{
     font-family: "Montserrat-Medium";
     font-size: 18px;
-    font-weight: 600; 
+    font-weight: 600;
     color: #555;
 }
 .earning-wrrpr .table td{
     font-family: "Montserrat-Regular";
     font-size: 16px;
-    font-weight: 400; 
+    font-weight: 400;
     color: #666;
 }
 .earning-wrrpr .table td a{
     font-family: "Montserrat-Regular";
     font-size: 16px;
-    font-weight: 700; 
+    font-weight: 700;
     color: #000;
     text-decoration: none;
 }
@@ -1918,7 +1918,7 @@ font-weight: 400;
     margin-bottom: 5px;
 }
 
-.earning-wrrpr input{
+.earning-wrrpr input {
    width: 100%;
    max-width: 500px;
    border-radius: 33px;
@@ -1943,7 +1943,7 @@ font-weight: 400;
     font-family: "Montserrat-Medium";
 font-size: 22px;
 font-weight: 600;
-    color: #424E3E; 
+    color: #424E3E;
 }
 
 .add-offering-dv select{
@@ -1961,7 +1961,7 @@ font-weight: 600;
     font-family: "Montserrat-Regular";
     font-size: 18px;
     font-weight: 400;
-    color: #666  
+    color: #666
 }
 /* earning css end */
 
@@ -2143,13 +2143,13 @@ text-decoration: none;
     .searched-category{
         flex-wrap: wrap;
     }
-    
+
 }
 
 @media screen and (max-width:767px) {
     .about-dv{
         align-items: center;
-    } 
+    }
     .vision-and-about-dv p{
         text-align: center !important;
     }

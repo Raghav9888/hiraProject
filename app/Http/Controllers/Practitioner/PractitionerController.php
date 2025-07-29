@@ -20,6 +20,7 @@ use App\Models\Show;
 use App\Models\User;
 use App\Models\UserDetail;
 use App\Models\UserStripeSetting;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -291,12 +292,21 @@ class PractitionerController extends Controller
 
     public function accounting(Request $request)
     {
+        // Get authenticated user
         $user = Auth::user();
         $userDetails = $user->userDetail;
 
-        // Get start and end dates from the request
+        // Validate inputs (allow dates to be optional)
+        $request->validate([
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
+            'offering_type' => 'in:all,offering,event,shows',
+        ]);
+
+        // Get filter inputs
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
+        $offeringType = $request->input('offering_type', 'all');
 
         // Get offering IDs owned by the practitioner
         $offeringIds = Offering::where('user_id', $user->id)->pluck('id');
@@ -305,11 +315,25 @@ class PractitionerController extends Controller
         $showIds = Show::where('user_id', $user->id)->pluck('id');
 
         // Base query for bookings
-        $bookingsQuery = Booking::where(function ($query) use ($offeringIds, $showIds) {
-            $query->whereIn('offering_id', $offeringIds)
-                ->orWhereIn('shows_id', $showIds);
-        })
-            ->with(['offering', 'user', 'shows']);
+        $bookingsQuery = Booking::where(function ($query) use ($offeringIds, $showIds, $offeringType) {
+            if ($offeringType === 'shows') {
+                $query->whereIn('shows_id', $showIds);
+            } elseif ($offeringType === 'offering') {
+                $query->whereIn('offering_id', $offeringIds)
+                    ->whereHas('offering', function ($q) {
+                        $q->where('offering_event_type', 'offering');
+                    });
+            } elseif ($offeringType === 'event') {
+                $query->whereIn('offering_id', $offeringIds)
+                    ->whereHas('offering', function ($q) {
+                        $q->where('offering_event_type', 'event')->has('event');
+                    });
+            } else {
+                // For 'all', include both offerings and shows
+                $query->whereIn('offering_id', $offeringIds)
+                    ->orWhereIn('shows_id', $showIds);
+            }
+        })->with(['offering.event', 'shows', 'user']);
 
         // Apply date filter only if both dates are provided
         if ($startDate && $endDate) {
@@ -319,11 +343,23 @@ class PractitionerController extends Controller
         // Get paginated results
         $bookings = $bookingsQuery->paginate(10);
 
-        // Calculate totals for the entire result set
+        // Calculate totals
         $totalOrders = $bookings->total();
-        $totalProductsSold = $bookings->count();
+        $totalProductsSold = $bookings->count(); // Adjust if products sold differ from orders
         $totalEarnings = $bookings->sum('total_amount');
         $totalTax = $bookings->sum('tax_amount');
+
+        // Calculate additional totals based on the same filtered query
+        $allBookings = $bookingsQuery->get(); // Get all bookings for counting (not paginated)
+        $totalOfferings = $allBookings->filter(function ($booking) {
+            return $booking->offering_id && $booking->offering && $booking->offering->offering_event_type === 'offering';
+        })->count();
+        $totalEvents = $allBookings->filter(function ($booking) {
+            return $booking->offering_id && $booking->offering && $booking->offering->offering_event_type === 'event' && $booking->offering->event;
+        })->count();
+        $totalShows = $allBookings->filter(function ($booking) {
+            return $booking->shows_id && $booking->shows;
+        })->count();
 
         return view('practitioner.accounting', compact(
             'user',
@@ -334,7 +370,11 @@ class PractitionerController extends Controller
             'totalOrders',
             'totalProductsSold',
             'totalEarnings',
-            'totalTax'
+            'totalTax',
+            'totalOfferings',
+            'totalEvents',
+            'totalShows',
+            'offeringType'
         ));
     }
 
