@@ -222,7 +222,11 @@ class HomeController extends Controller
         $userDetail = $user->userDetail;
         //  $userDetails = UserDetail::where('user_id', $id)->first();
         $endorsements = $userDetail && $userDetail->endorsements ? json_decode($userDetail->endorsements, true) : [];
-        $endorsedUsers = User::whereIn('id', $endorsements)->get();
+        $endorsedUsers = User::where('role', 1)
+            ->where('status', 1)
+            ->whereIn('id', $endorsements)
+            ->get();
+       
         $selectedTerms = explode(',', $userDetail->IHelpWith ?? '');
         $IHelpWith = IHelpWith::whereIn('id', $selectedTerms)->pluck('name')->toArray();
         $defaultLocations = Locations::where('status', 1)->get();
