@@ -23,7 +23,7 @@
         </li>
         <li>
             <img src="{{url('./assets/images/business.svg')}}" alt="">
-            <p>Business<br/>Referals</p>
+            <p>Business Referals</p>
         </li>
         <li>
             <img src="{{url('./assets/images/calendar.svg')}}" alt="">
