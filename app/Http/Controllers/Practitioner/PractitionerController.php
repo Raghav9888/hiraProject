@@ -117,30 +117,44 @@ class PractitionerController extends Controller
     {
         $user = Auth::user();
         $userDetails = $user->userDetail;
+
+        // Get active default locations
         $defaultLocations = Locations::where('status', 1)->get();
+
+        // Get all users (consider filtering if this becomes too heavy)
         $users = User::get();
+
+        // Decode endorsements if available
         $endorsements = $userDetails && $userDetails->endorsements
             ? json_decode($userDetails->endorsements, true)
             : [];
 
-        $endorsedUsers = User::whereIn('id', $endorsements)->get();
+        // Get endorsed users (role = 1, status = 1, and in endorsements)
+        $endorsedUsers = User::where('role', 1)
+            ->where('status', 1)
+            ->whereIn('id', $endorsements)
+            ->get();
 
+        // Format locations as id => name
         $locations = [];
         foreach ($defaultLocations as $location) {
             $locations[$location->id] = $location->name;
         }
-        json_encode($locations);
 
+        // Get current user's offerings with future events
         $offeringsData = Offering::where('user_id', $user->id)->get();
+        $now = now();
 
         $offerings = [];
-        $now = now();
         foreach ($offeringsData as $offeringData) {
-            if (isset($offeringData->event) && $offeringData?->event && $offeringData?->event?->date_and_time > $now) {
-                $offerings[$offeringData->event->date_and_time] = $offeringData;
+            $event = $offeringData->event;
+
+            if ($event && $event->date_and_time > $now) {
+                $offerings[$event->date_and_time] = $offeringData;
             }
         }
 
+        ksort($offerings);
 
         return view('practitioner.dashboard', [
             'user' => $user,
@@ -151,6 +165,7 @@ class PractitionerController extends Controller
             'offerings' => $offerings
         ]);
     }
+
 
     public function updateProfile(Request $request)
     {
@@ -915,21 +930,29 @@ class PractitionerController extends Controller
     public function endorsementPractitioner(Request $request)
     {
         $search = $request->input('search');
-        $endorsedUsers = User::where('role', 1)
+
+        // Build query for endorsed practitioners
+        $query = User::where('role', 1)
             ->where('status', 1)
-            ->where(function ($query) use ($search) {
-                $query->where('first_name', 'LIKE', "%{$search}%")
+            ->with('userDetail');
+
+        // Apply search filters if search term is present
+        if (!empty($search)) {
+            $query->where(function ($q) use ($search) {
+                $q->where('first_name', 'LIKE', "%{$search}%")
                     ->orWhere('last_name', 'LIKE', "%{$search}%")
                     ->orWhere('email', 'LIKE', "%{$search}%");
-            })
-            ->with('userDetail')
-            ->get();
-        $defaultLocations = Locations::where('status', 1)->get();
-        $locations = [];
-        foreach ($defaultLocations as $location) {
-            $locations[$location->id] = $location->name;
+            });
         }
-        json_encode($locations);
+
+        $endorsedUsers = $query->get();
+
+        // Get active default locations
+        $defaultLocations = Locations::where('status', 1)->get();
+
+        // Convert to [id => name] array
+        $locations = $defaultLocations->pluck('name', 'id')->toArray();
+
         return response()->json([
             'success' => true,
             'practitioners' => $endorsedUsers,
@@ -939,6 +962,7 @@ class PractitionerController extends Controller
             ])->render()
         ]);
     }
+
 
     public function removeEndorsement(Request $request, $id)
     {
