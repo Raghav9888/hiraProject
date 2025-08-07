@@ -563,19 +563,17 @@
                             <div id="Amenities" class="accordion-collapse collapse show" aria-labelledby="headingTwo"
                                  data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
-                                    @if(!empty($amenities))
-                                        <div class="row">
-                                            @foreach($amenities as $amenite)
-                                                <div class="col-md-3">
-                                                    <div class="practitioner-location-dv mb-4">
-                                                        <button>
-                                                            <i class="fa-solid fa-location-dot me-2"></i>{{ $amenite }}
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                    @endif
+                                    <div class="help-you-dv">
+                                        @if(!empty($amenities))
+                                            <ul class="px-3" style="list-style: disc;">
+                                                @foreach($amenities as $amenite)
+                                                    <li class="text-green">
+                                                        <span>{{ $amenite }}</span>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
                         </div>
