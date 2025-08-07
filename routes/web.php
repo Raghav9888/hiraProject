@@ -37,7 +37,9 @@ Route::post('/stripe/webhook', [StripeWebhookController::class, 'handleWebhook']
 Route::get('/update-slugs', [HomeController::class, 'updateslug'])->name('update.slugs');
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::post('/waitList', [HomeController::class, 'waitList'])->name('waitList');
+Route::post('/waitList', [HomeController::class, 'waitList'])
+    ->name('waitList')
+    ->middleware('throttle:5,1');
 //Route::get('/', [HomeController::class, 'comingIndex'])->name('home');
 Route::post('/subscribe', [HomeController::class, 'subscribe'])->name('subscribe');
 Route::get('/pending/user', [HomeController::class, 'pendingUser'])->name('pendingUserRequest');
